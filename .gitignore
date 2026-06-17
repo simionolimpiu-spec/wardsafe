@@ -1,0 +1,10 @@
+.superpowers/
+docs/superpowers/specs/
+
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+*.log
