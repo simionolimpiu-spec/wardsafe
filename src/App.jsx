@@ -4,11 +4,13 @@ import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
+import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
 import { SafetyBanner } from './components/SafetyBanner.jsx';
 import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
+import { WorkspaceNav } from './components/WorkspaceNav.jsx';
 
 const tabs = [
   { id: 'board', label: 'Ward board' },
@@ -56,53 +58,57 @@ export default function App() {
 
   return (
     <main className="app-shell">
-      <header className="topbar">
-        <div>
-          <p className="eyebrow">Simulation prototype</p>
-          <h1>SafeFlow</h1>
+      <WorkspaceNav />
+      <div className="workspace-main">
+        <header className="topbar">
+          <div>
+            <p className="eyebrow">Simulation prototype</p>
+            <h1>SafeFlow</h1>
+          </div>
+          <span className="product-note">SafeFlow Nursing concept</span>
+        </header>
+        <SafetyBanner />
+        <nav className="tab-list" aria-label="Prototype journey">
+          {tabs.map((tab) => (
+            <button
+              aria-selected={activeTab === tab.id}
+              className={activeTab === tab.id ? 'active' : ''}
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              role="tab"
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+        <div className="dashboard-layout">
+          <div>
+            {activeTab === 'board' && (
+              <WardSafetyBoard
+                summary={wardSummary}
+                patients={simulatedPatients}
+                selectedPatientId={selectedPatient.id}
+                onSelectPatient={selectPatient}
+              />
+            )}
+            {activeTab === 'handover' && <HandoverDischargeView patient={selectedPatient} />}
+            {activeTab === 'potassium' && (
+              <PotassiumSafetyGapView
+                patient={selectedPatient}
+                flag={potassiumFlag}
+                draftText={draftText}
+                onDraftChange={setDraftText}
+                onSaveDraft={saveDraft}
+              />
+            )}
+            {activeTab === 'audit' && <AuditLearningView events={auditEvents} />}
+          </div>
+          <PatientSafetyPanel patient={selectedPatient} flag={potassiumFlag} />
         </div>
-        <span className="product-note">SafeFlow Nursing concept</span>
-      </header>
-      <SafetyBanner />
-      <nav className="tab-list" aria-label="Prototype journey">
-        {tabs.map((tab) => (
-          <button
-            aria-selected={activeTab === tab.id}
-            className={activeTab === tab.id ? 'active' : ''}
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            role="tab"
-            type="button"
-          >
-            {tab.label}
-          </button>
-        ))}
-      </nav>
-      <div className="dashboard-layout">
-        <div>
-          {activeTab === 'board' && (
-            <WardSafetyBoard
-              summary={wardSummary}
-              patients={simulatedPatients}
-              selectedPatientId={selectedPatient.id}
-              onSelectPatient={selectPatient}
-            />
-          )}
-          {activeTab === 'handover' && <HandoverDischargeView patient={selectedPatient} />}
-          {activeTab === 'potassium' && (
-            <PotassiumSafetyGapView
-              patient={selectedPatient}
-              flag={potassiumFlag}
-              draftText={draftText}
-              onDraftChange={setDraftText}
-              onSaveDraft={saveDraft}
-            />
-          )}
-          {activeTab === 'audit' && <AuditLearningView events={auditEvents} />}
-        </div>
-        <PatientSafetyPanel patient={selectedPatient} flag={potassiumFlag} />
+        <ArchitectureStrip />
+        {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
       </div>
-      {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
     </main>
   );
 }
