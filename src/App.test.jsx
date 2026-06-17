@@ -36,4 +36,23 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByText(/Handover 50% complete/i)).toBeInTheDocument();
     expect(screen.getByText(/Medical plan unclear/i)).toBeInTheDocument();
   });
+
+  it('explains the potassium safety gap and records edited SBAR draft activity', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('tab', { name: /potassium flag/i }));
+
+    expect(screen.getByRole('region', { name: /potassium electrolyte safety gap/i })).toBeInTheDocument();
+    expect(screen.getByText(/Potassium has fallen from 3.8 to 3.2 mmol\/L/i, { selector: 'li' })).toBeInTheDocument();
+    expect(screen.getByText(/Magnesium result not visible/i, { selector: 'li' })).toBeInTheDocument();
+    expect(screen.getByText(/does not prescribe/i)).toBeInTheDocument();
+
+    const draft = screen.getByLabelText(/editable SBAR draft/i);
+    await user.clear(draft);
+    await user.type(draft, 'Edited safe escalation note.');
+    await user.click(screen.getByRole('button', { name: /save SBAR draft/i }));
+
+    expect(screen.getByText(/SBAR draft edited and saved/i)).toBeInTheDocument();
+  });
 });
