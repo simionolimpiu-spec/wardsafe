@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import App from './App.jsx';
@@ -49,10 +49,20 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByText(/does not prescribe/i)).toBeInTheDocument();
 
     const draft = screen.getByLabelText(/editable SBAR draft/i);
-    await user.clear(draft);
-    await user.type(draft, 'Edited safe escalation note.');
+    fireEvent.change(draft, { target: { value: 'Edited safe escalation note.' } });
     await user.click(screen.getByRole('button', { name: /save SBAR draft/i }));
 
     expect(screen.getByText(/SBAR draft edited and saved/i)).toBeInTheDocument();
+  });
+
+  it('shows audit and learning timeline from simulated workflow events', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('tab', { name: /audit/i }));
+
+    expect(screen.getByRole('region', { name: /audit and learning/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/Imported from fictional scenario timeline/i)).toHaveLength(3);
+    expect(screen.getByText(/Documentation focus/i)).toBeInTheDocument();
   });
 });

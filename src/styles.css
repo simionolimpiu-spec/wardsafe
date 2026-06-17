@@ -378,6 +378,37 @@ textarea {
   padding: 12px 14px;
 }
 
+.audit-view {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.learning-card {
+  background: #eef8f7;
+  border: 1px solid #b9e2df;
+  border-radius: 8px;
+  margin: 18px 0;
+  padding: 14px;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.timeline li {
+  align-items: start;
+  border-bottom: 1px solid #e5edf6;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  padding: 10px 0;
+}
+
 @media (max-width: 1050px) {
   .dashboard-layout,
   .metric-grid,

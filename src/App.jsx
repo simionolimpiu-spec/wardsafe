@@ -3,6 +3,7 @@ import { simulatedPatients, wardSummary } from './data/simulatedPatients.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
+import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
@@ -97,7 +98,7 @@ export default function App() {
               onSaveDraft={saveDraft}
             />
           )}
-          {activeTab === 'audit' && <section className="workflow-view" aria-label="Audit and learning"><h2>Audit and learning</h2></section>}
+          {activeTab === 'audit' && <AuditLearningView events={auditEvents} />}
         </div>
         <PatientSafetyPanel patient={selectedPatient} flag={potassiumFlag} />
       </div>
