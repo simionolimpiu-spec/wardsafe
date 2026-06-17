@@ -33,7 +33,7 @@ describe('evaluatePotassiumSafetyGap', () => {
     expect(result.recommendedNursingActions.join(' ')).not.toMatch(/administer|prescribe|replace potassium/i);
   });
 
-  it('does not flag when potassium is stable and a clear plan is visible', () => {
+  it('does not flag when potassium falls slightly but remains above the concern threshold', () => {
     const result = evaluatePotassiumSafetyGap({
       ...basePatient,
       labs: {
@@ -48,6 +48,20 @@ describe('evaluatePotassiumSafetyGap', () => {
     });
 
     expect(result.level).toBe('none');
-    expect(result.reasons).toContain('No falling potassium trend detected.');
+    expect(result.reasons).toContain('No low falling potassium trend detected.');
+  });
+
+  it('does not throw when lab arrays are missing', () => {
+    const result = evaluatePotassiumSafetyGap({
+      id: 'DCU-099',
+      name: 'Patient 099',
+      medicines: [],
+      symptoms: [],
+      labs: {},
+      plan: 'Review complete.'
+    });
+
+    expect(result.level).toBe('none');
+    expect(result.reasons).toContain('No low falling potassium trend detected.');
   });
 });

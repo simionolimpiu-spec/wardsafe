@@ -37,7 +37,7 @@ export function evaluatePotassiumSafetyGap(patient) {
   if (potassiumFalling) {
     reasons.push(`Potassium has fallen from ${firstPotassium.value} to ${latestPotassium.value} mmol/L.`);
   } else {
-    reasons.push('No falling potassium trend detected.');
+    reasons.push('No low falling potassium trend detected.');
   }
 
   if (hasDiuretic(patient.medicines)) {
