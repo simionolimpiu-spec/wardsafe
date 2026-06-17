@@ -32,3 +32,7 @@ npm test
 npm run build
 npm run e2e
 ```
+
+## Public Demo Pack
+
+Reviewer materials are in `docs/public-demo-pack/`.
