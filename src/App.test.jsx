@@ -1,9 +1,13 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 
 describe('SafeFlow prototype', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it('opens on the ward safety board with simulation boundaries visible', () => {
     render(<App />);
 
@@ -93,6 +97,38 @@ describe('SafeFlow prototype', () => {
     await user.click(screen.getByRole('button', { name: /save SBAR draft/i }));
 
     expect(screen.getByText(/SBAR draft edited and saved/i)).toBeInTheDocument();
+  });
+
+  it('can request a server-side provider SBAR draft without exposing an API key', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        draft: {
+          provider: 'openai',
+          model: 'gpt-5.5',
+          isEditable: true,
+          evidenceLinks: ['labs.potassium'],
+          sections: {
+            situation: 'API situation',
+            background: 'API background',
+            assessment: 'API assessment',
+            recommendation: 'API recommendation'
+          },
+          boundary: 'Simulation boundary'
+        }
+      })
+    }));
+    render(<App />);
+
+    await user.click(screen.getByRole('tab', { name: /potassium flag/i }));
+    await user.click(screen.getByRole('button', { name: /generate draft/i }));
+
+    expect(screen.getByLabelText(/editable SBAR draft/i).value).toContain('RECOMMENDATION: API recommendation');
+    expect(screen.getByText(/OpenAI provider draft ready/i)).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledWith('/api/drafts/sbar', expect.objectContaining({
+      body: JSON.stringify({ patientId: 'DCU-031' })
+    }));
   });
 
   it('shows audit and learning timeline from simulated workflow events', async () => {

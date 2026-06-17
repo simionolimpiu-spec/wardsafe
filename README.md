@@ -25,6 +25,25 @@ npm run dev
 
 Then open the local Vite URL printed in the terminal.
 
+### Optional local API
+
+The prototype now has a server-side draft provider boundary for SBAR wording. It keeps OpenAI credentials out of the browser and falls back to the deterministic simulation provider when no API key is configured.
+
+In one terminal:
+
+```powershell
+$env:OPENAI_API_KEY="your_key_here"
+npm run api
+```
+
+In a second terminal:
+
+```powershell
+npm run dev
+```
+
+If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the deterministic provider. The Vite dev server proxies `/api` to `http://127.0.0.1:8787`.
+
 ## Verification
 
 ```powershell

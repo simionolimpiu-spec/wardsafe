@@ -57,6 +57,14 @@ Recommended first AI approach:
 - Keep a deterministic fallback provider.
 - Store prompt templates, model configuration and output metadata server-side.
 
+Prototype status:
+
+- The current repo includes a Node API route at `/api/drafts/sbar`.
+- `npm run api` starts the local API on `127.0.0.1:8787`.
+- When `OPENAI_API_KEY` is present, the server uses the OpenAI Responses API through the official JavaScript SDK.
+- When the key is absent or the provider fails, the server and browser client use the deterministic fallback draft.
+- The frontend never reads or stores an OpenAI API key.
+
 Required AI safeguards:
 
 - No browser-side API keys.

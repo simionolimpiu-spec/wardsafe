@@ -659,6 +659,18 @@ textarea {
   padding: 11px 14px;
 }
 
+.draft-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.draft-actions .primary-action {
+  margin-top: 0;
+}
+
 .status-message {
   background: #e8f5ee;
   border: 1px solid #b9dec8;

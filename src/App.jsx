@@ -3,6 +3,7 @@ import { simulatedPatients, wardSummary } from './data/simulatedPatients.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
+import { requestSbarDraft } from './services/draftClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
@@ -36,6 +37,7 @@ export default function App() {
   const [draftText, setDraftText] = useState(initialDraft);
   const [auditEvents, setAuditEvents] = useState(() => initialAuditEvents(selectedPatient));
   const [draftStatus, setDraftStatus] = useState('');
+  const [isGeneratingDraft, setIsGeneratingDraft] = useState(false);
 
   function selectPatient(patientId) {
     const nextPatient = simulatedPatients.find((patient) => patient.id === patientId) ?? simulatedPatients[0];
@@ -45,6 +47,15 @@ export default function App() {
     setDraftText(formatDraftSections(nextDraft));
     setAuditEvents(initialAuditEvents(nextPatient));
     setDraftStatus('');
+  }
+
+  async function generateProviderDraft() {
+    setIsGeneratingDraft(true);
+    setDraftStatus('');
+    const draft = await requestSbarDraft({ patient: selectedPatient, flag: potassiumFlag });
+    setDraftText(formatDraftSections(draft));
+    setDraftStatus(draft.provider === 'openai' ? 'OpenAI provider draft ready' : 'Deterministic fallback draft ready');
+    setIsGeneratingDraft(false);
   }
 
   function saveDraft() {
@@ -99,7 +110,9 @@ export default function App() {
                 flag={potassiumFlag}
                 draftText={draftText}
                 onDraftChange={setDraftText}
+                onGenerateDraft={generateProviderDraft}
                 onSaveDraft={saveDraft}
+                isGeneratingDraft={isGeneratingDraft}
               />
             )}
             {activeTab === 'audit' && <AuditLearningView events={auditEvents} />}

@@ -1,6 +1,14 @@
-import { AlertTriangle, ClipboardPenLine, FileWarning } from 'lucide-react';
+import { AlertTriangle, ClipboardPenLine, FileWarning, WandSparkles } from 'lucide-react';
 
-export function PotassiumSafetyGapView({ patient, flag, draftText, onDraftChange, onSaveDraft }) {
+export function PotassiumSafetyGapView({
+  patient,
+  flag,
+  draftText,
+  onDraftChange,
+  onGenerateDraft,
+  onSaveDraft,
+  isGeneratingDraft
+}) {
   return (
     <section className="potassium-view" aria-label="Potassium electrolyte safety gap">
       <div className="section-heading">
@@ -51,7 +59,13 @@ export function PotassiumSafetyGapView({ patient, flag, draftText, onDraftChange
         onChange={(event) => onDraftChange(event.target.value)}
         rows={8}
       />
-      <button className="primary-action" onClick={onSaveDraft} type="button">Save SBAR draft</button>
+      <div className="draft-actions">
+        <button className="primary-action" onClick={onSaveDraft} type="button">Save SBAR draft</button>
+        <button className="secondary-action" disabled={isGeneratingDraft} onClick={onGenerateDraft} type="button">
+          <WandSparkles aria-hidden="true" size={16} />
+          {isGeneratingDraft ? 'Generating draft' : 'Generate draft'}
+        </button>
+      </div>
     </section>
   );
 }
