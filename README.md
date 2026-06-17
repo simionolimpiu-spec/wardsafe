@@ -15,3 +15,20 @@ This public repository is being prepared as the build workspace for a simulation
 ## Repository Status
 
 This repo is a fresh scaffold. Confidential invention-pack notes and detailed design material should remain private until intentionally reviewed for public release.
+
+## Local Development
+
+```powershell
+npm install
+npm run dev
+```
+
+Then open the local Vite URL printed in the terminal.
+
+## Verification
+
+```powershell
+npm test
+npm run build
+npm run e2e
+```
