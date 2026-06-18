@@ -59,6 +59,17 @@ Call out:
 - Timeline events are imported from the fictional scenario.
 - Documentation focus: concern, background, assessment, recommendation, who was contacted, response and outcome.
 
+## 5. Discovery Scenarios
+
+Open the Scenarios tab.
+
+Call out:
+
+- Electrolyte / AKI documentation gap.
+- Sepsis escalation handover.
+- Discharge readiness blocker.
+- Initial hazard controls for a simulation-only review.
+
 ## Close
 
-Position the prototype as a focused workflow demonstration, not clinical software. The next review question is whether this nurse-led safety workflow is compelling enough to justify deeper stakeholder testing and private invention-pack development.
+Position the prototype as a focused workflow demonstration, not clinical software. The next review question is whether this nurse-led safety workflow is compelling enough to justify structured discovery sessions, deeper stakeholder testing and private invention-pack development.

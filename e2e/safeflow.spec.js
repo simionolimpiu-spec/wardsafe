@@ -26,6 +26,10 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await page.getByRole('button', { name: /Save SBAR draft/i }).click();
   await expect(page.getByText(/SBAR draft edited and saved/i)).toBeVisible();
 
+  await page.getByRole('tab', { name: /Scenarios/i }).click();
+  await expect(page.getByRole('region', { name: /Discovery scenario library/i })).toBeVisible();
+  await expect(page.getByText(/Initial hazard controls/i)).toBeVisible();
+
   const bodyText = await page.locator('body').innerText();
   expect(bodyText).not.toMatch(/administer potassium|give potassium|replace potassium|prescribe potassium|diagnose this patient/i);
 });

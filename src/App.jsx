@@ -10,6 +10,7 @@ import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
 import { SafetyBanner } from './components/SafetyBanner.jsx';
+import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
 import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
 import { WorkspaceNav } from './components/WorkspaceNav.jsx';
 
@@ -17,6 +18,7 @@ const tabs = [
   { id: 'board', label: 'Ward board' },
   { id: 'handover', label: 'Handover' },
   { id: 'potassium', label: 'Potassium flag' },
+  { id: 'scenarios', label: 'Scenarios' },
   { id: 'audit', label: 'Audit' }
 ];
 
@@ -115,6 +117,7 @@ export default function App() {
                 isGeneratingDraft={isGeneratingDraft}
               />
             )}
+            {activeTab === 'scenarios' && <ScenarioLibraryView />}
             {activeTab === 'audit' && <AuditLearningView events={auditEvents} />}
           </div>
           <PatientSafetyPanel patient={selectedPatient} flag={potassiumFlag} />

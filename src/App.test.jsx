@@ -131,6 +131,25 @@ describe('SafeFlow prototype', () => {
     }));
   });
 
+  it('shows a discovery scenario library with initial hazard controls', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('tab', { name: /scenarios/i }));
+
+    const scenarioRegion = screen.getByRole('region', { name: /discovery scenario library/i });
+    expect(scenarioRegion).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Electrolyte \/ AKI documentation gap/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Sepsis escalation handover/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Discharge readiness blocker/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Initial hazard controls/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/No live patient data/i)).toBeInTheDocument();
+
+    const scenarioText = scenarioRegion.textContent;
+    expect(scenarioText).not.toMatch(/administer potassium|give potassium|replace potassium|prescribe potassium|diagnose this patient/i);
+    expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
+  });
+
   it('shows audit and learning timeline from simulated workflow events', async () => {
     const user = userEvent.setup();
     render(<App />);
