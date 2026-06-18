@@ -1,0 +1,24 @@
+{
+  "approvalVersion": 1,
+  "product": "SafeFlow",
+  "simulationOnly": true,
+  "approved": true,
+  "approvedBy": "SafeFlow build steward",
+  "approvalReason": "Simulation-only database bootstrap approved for local review. This does not authorise live patient data or clinical deployment.",
+  "migrations": [
+    {
+      "path": "database/schema.sql",
+      "phase": "schema",
+      "simulationOnly": true,
+      "bytes": 10902,
+      "sha256": "d30650cfaf14a7b1999a9ec6fb9f8e9d4b76062b5f75fb41d660410472d1f632"
+    },
+    {
+      "path": "database/seed.sql",
+      "phase": "seed",
+      "simulationOnly": true,
+      "bytes": 9618,
+      "sha256": "e8a2ca3823558653dd1ca0b4e6acc11bcf92cf7a04132037fdff6300723a0ae4"
+    }
+  ]
+}

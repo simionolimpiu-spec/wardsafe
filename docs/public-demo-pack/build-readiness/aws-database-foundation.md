@@ -9,6 +9,8 @@ This is the first buildable AWS/database slice for SafeFlow. It is a local infra
 - `database/schema.sql` defines the PostgreSQL workflow schema.
 - `database/seed.sql` loads fictional SafeFlow discovery data.
 - `database/migrationManifest.js` builds deterministic migration-source checksums.
+- `database/migrationApproval.json` records the approved simulation-only SQL checksums.
+- `database/migrationRunner.js` validates approval gates and runs migrations transactionally.
 - `infra/aws/lambda/safeflowApi/index.mjs` defines a private Lambda handler scaffold.
 - `infra/**/*.test.js` and `database/**/*.test.js` check the safety boundaries.
 
@@ -49,22 +51,25 @@ The PostgreSQL schema starts with:
 
 The schema avoids direct patient identifiers and uses synthetic patient references such as `DCU-031`. It includes structured evidence fields for flags and draft notes, plus append-oriented audit events for clinically relevant workflow actions.
 
-The migration manifest command gives reviewers a deterministic list of SQL sources, file sizes and checksums. It is not a live migration runner yet.
+The migration manifest command gives reviewers a deterministic list of SQL sources, file sizes and checksums. The migration runner refuses to plan unless `SAFEFLOW_SIMULATION_ONLY=true` is set, and refuses execution unless `SAFEFLOW_MIGRATION_APPROVED=true` and `DATABASE_URL` are also set. The checked approval file only covers the current fictional schema and seed data.
 
 ## Local Commands
 
 ```powershell
 npm test -- infra/aws/safeflowFoundationStack.test.js database/schema.test.js
 npm run db:manifest
+$env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run infra:synth
 ```
 
 `npm run infra:synth` renders CloudFormation locally. It should be used for review only until an AWS account, deployment role, budget guardrail and environment policy are agreed.
 
+`npm run db:migrate:execute` is intentionally gated. It should only be used against an approved simulation database with `SAFEFLOW_SIMULATION_ONLY=true`, `SAFEFLOW_MIGRATION_APPROVED=true` and `DATABASE_URL` set.
+
 ## Next AWS Steps
 
 1. Add environment configuration for `dev`, `simulation` and `pilot`.
-2. Add a real migration runner with approval gates and rollback notes.
+2. Add rollback runbooks and backup/restore evidence for the migration path.
 3. Add Cognito or partner-approved identity provider integration.
 4. Add authenticated API ingress only after identity is ready.
 5. Add backup/restore runbook and retention decisions.

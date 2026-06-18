@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildMigrationManifest,
+  createMigrationEntry,
   migrationSources,
   readMigrationSource
 } from './migrationManifest.js';
@@ -50,5 +51,15 @@ describe('SafeFlow migration manifest', () => {
 
     expect(source).toContain('create table if not exists patient_summaries');
     expect(source).toContain('fictional_scenario boolean not null default true');
+  });
+
+  it('normalizes line endings before calculating checksums', () => {
+    const source = {
+      path: 'database/example.sql',
+      phase: 'schema',
+      simulationOnly: true
+    };
+
+    expect(createMigrationEntry(source, 'select 1;\r\n')).toEqual(createMigrationEntry(source, 'select 1;\n'));
   });
 });

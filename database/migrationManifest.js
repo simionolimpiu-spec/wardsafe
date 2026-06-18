@@ -19,6 +19,20 @@ export function readMigrationSource(path) {
   return readFileSync(resolve(process.cwd(), path), 'utf8');
 }
 
+function normalizeSqlSource(content) {
+  return content.replace(/\r\n/g, '\n');
+}
+
+export function createMigrationEntry(source, content) {
+  const normalizedContent = normalizeSqlSource(content);
+
+  return {
+    ...source,
+    bytes: Buffer.byteLength(normalizedContent, 'utf8'),
+    sha256: createHash('sha256').update(normalizedContent).digest('hex')
+  };
+}
+
 export function buildMigrationManifest() {
   return {
     manifestVersion: 1,
@@ -27,11 +41,7 @@ export function buildMigrationManifest() {
     migrations: migrationSources.map((source) => {
       const content = readMigrationSource(source.path);
 
-      return {
-        ...source,
-        bytes: Buffer.byteLength(content, 'utf8'),
-        sha256: createHash('sha256').update(content).digest('hex')
-      };
+      return createMigrationEntry(source, content);
     })
   };
 }

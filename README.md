@@ -51,6 +51,7 @@ npm test
 npm run build
 npm run infra:synth
 npm run db:manifest
+$env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run e2e
 ```
 
