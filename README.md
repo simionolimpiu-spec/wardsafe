@@ -49,6 +49,8 @@ If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the determin
 ```powershell
 npm test
 npm run build
+npm run infra:synth
+npm run db:manifest
 npm run e2e
 ```
 

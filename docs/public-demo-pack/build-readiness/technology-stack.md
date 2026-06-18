@@ -96,7 +96,8 @@ Prototype status:
 
 - The repo now includes a local AWS CDK v2 foundation stack in `infra/aws/`.
 - `npm run infra:synth` renders the CloudFormation template locally.
-- The current stack provisions a private encrypted PostgreSQL database, encrypted private S3 bucket, KMS key, Secrets Manager entries and CloudWatch log group.
+- The current stack provisions a private encrypted PostgreSQL database, encrypted private S3 bucket, KMS key, Secrets Manager entries, CloudWatch log group, private Lambda compute scaffold and private VPC endpoints for Secrets Manager/S3 access.
+- `npm run db:manifest` prints deterministic checksums for the SQL schema and seed sources.
 - No AWS deployment has been run from this repository.
 
 ### Integrations

@@ -1,7 +1,7 @@
 import { App } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { describe, expect, it } from 'vitest';
-import { SafeFlowFoundationStack } from './safeflowFoundationStack.js';
+import { SafeFlowFoundationStack, lambdaAssetExcludes } from './safeflowFoundationStack.js';
 
 function synthesizeTemplate() {
   const app = new App();
@@ -86,5 +86,106 @@ describe('SafeFlowFoundationStack', () => {
       ToPort: 5432,
       SourceSecurityGroupId: Match.anyValue()
     });
+  });
+
+  it('provisions private Lambda compute for the SafeFlow API without public ingress', () => {
+    const template = synthesizeTemplate();
+
+    template.hasResourceProperties('AWS::Lambda::Function', {
+      Runtime: 'nodejs22.x',
+      Handler: 'index.handler',
+      KmsKeyArn: Match.anyValue(),
+      VpcConfig: Match.objectLike({
+        SecurityGroupIds: Match.anyValue(),
+        SubnetIds: Match.anyValue()
+      }),
+      Environment: Match.objectLike({
+        Variables: Match.objectLike({
+          SAFEFLOW_ENVIRONMENT: 'simulation',
+          SAFEFLOW_SIMULATION_ONLY: 'true',
+          DATABASE_SECRET_ARN: Match.anyValue(),
+          PROVIDER_CONFIG_SECRET_ARN: Match.anyValue(),
+          DOCUMENT_BUCKET_NAME: Match.anyValue(),
+          MIGRATION_MANIFEST_PATH: 'database/migration-manifest.json'
+        })
+      })
+    });
+    template.resourceCountIs('AWS::ApiGateway::RestApi', 0);
+    template.resourceCountIs('AWS::ApiGatewayV2::Api', 0);
+  });
+
+  it('allows the private API function to read secrets and use document storage', () => {
+    const template = synthesizeTemplate();
+
+    template.hasResourceProperties('AWS::IAM::Policy', {
+      PolicyDocument: Match.objectLike({
+        Statement: Match.arrayWith([
+          Match.objectLike({
+            Action: Match.arrayWith(['secretsmanager:GetSecretValue'])
+          }),
+          Match.objectLike({
+            Action: Match.arrayWith(['s3:GetObject', 's3:PutObject'])
+          })
+        ])
+      })
+    });
+  });
+
+  it('does not grant delete or retention-control permissions on document storage', () => {
+    const template = synthesizeTemplate();
+    const policies = JSON.stringify(template.findResources('AWS::IAM::Policy'));
+
+    expect(policies).toContain('s3:GetObject');
+    expect(policies).toContain('s3:PutObject');
+    expect(policies).not.toContain('s3:DeleteObject');
+    expect(policies).not.toContain('s3:PutObjectLegalHold');
+    expect(policies).not.toContain('s3:PutObjectRetention');
+  });
+
+  it('pre-creates the Lambda log group with retention and KMS encryption', () => {
+    const template = synthesizeTemplate();
+    const functions = template.findResources('AWS::Lambda::Function');
+    const [functionLogicalId] = Object.keys(functions);
+
+    template.hasResourceProperties('AWS::Logs::LogGroup', {
+      LogGroupName: {
+        'Fn::Join': [
+          '',
+          [
+            '/aws/lambda/',
+            {
+              Ref: functionLogicalId
+            }
+          ]
+        ]
+      },
+      KmsKeyId: Match.anyValue(),
+      RetentionInDays: 30
+    });
+  });
+
+  it('excludes tests from the deployable Lambda asset', () => {
+    expect(lambdaAssetExcludes).toEqual(expect.arrayContaining(['*.test.js', '**/*.test.js']));
+  });
+
+  it('adds VPC endpoints for private service access from application subnets', () => {
+    const template = synthesizeTemplate();
+
+    template.hasResourceProperties('AWS::EC2::VPCEndpoint', {
+      VpcEndpointType: 'Interface',
+      ServiceName: Match.anyValue(),
+      PrivateDnsEnabled: true
+    });
+    template.hasResourceProperties('AWS::EC2::VPCEndpoint', {
+      VpcEndpointType: 'Gateway',
+      ServiceName: Match.anyValue()
+    });
+  });
+
+  it('does not open interface endpoints to the full VPC CIDR', () => {
+    const template = synthesizeTemplate();
+    const ingressRules = JSON.stringify(template.findResources('AWS::EC2::SecurityGroupIngress'));
+
+    expect(ingressRules).not.toContain('"CidrIp":"10.0.0.0/16"');
   });
 });
