@@ -13,6 +13,7 @@ The pack is public-safe. It avoids confidential invention details, avoids offici
 - `data-integration-map.md` - how SafeFlow could connect to clinical systems later.
 - `security-and-assurance.md` - safety, security and assurance work needed before clinical use.
 - `delivery-roadmap.md` - phased delivery milestones and evidence gates.
+- `aws-database-foundation.md` - first local AWS CDK and PostgreSQL scaffold.
 
 ## Templates
 

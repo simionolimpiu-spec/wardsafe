@@ -9,6 +9,7 @@ build/
 coverage/
 test-results/
 playwright-report/
+cdk.out/
 .env
 .env.*
 !.env.example

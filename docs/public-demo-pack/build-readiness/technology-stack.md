@@ -92,6 +92,13 @@ AWS-aligned pilot architecture:
 
 Cloud-agnostic equivalents can be used if a partner has a different hosting standard.
 
+Prototype status:
+
+- The repo now includes a local AWS CDK v2 foundation stack in `infra/aws/`.
+- `npm run infra:synth` renders the CloudFormation template locally.
+- The current stack provisions a private encrypted PostgreSQL database, encrypted private S3 bucket, KMS key, Secrets Manager entries and CloudWatch log group.
+- No AWS deployment has been run from this repository.
+
 ### Integrations
 
 Later integration candidates:
