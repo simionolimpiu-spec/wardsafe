@@ -12,6 +12,7 @@ import {
   aws_s3 as s3,
   aws_secretsmanager as secretsmanager
 } from 'aws-cdk-lib';
+import { resolveEnvironmentProfile } from './environmentProfiles.js';
 
 export const lambdaAssetExcludes = ['*.test.js', '**/*.test.js'];
 
@@ -19,12 +20,17 @@ export class SafeFlowFoundationStack extends Stack {
   constructor(scope, id, props = {}) {
     super(scope, id, props);
 
+    const profile = props.safeFlowProfile ?? resolveEnvironmentProfile(
+      props.safeFlowEnvironment ?? 'simulation',
+      { operation: 'synth' }
+    );
+
     const foundationKey = new kms.Key(this, 'SafeFlowFoundationKey', {
       description: 'Customer managed key for SafeFlow pilot foundation resources',
       enableKeyRotation: true,
       removalPolicy: RemovalPolicy.RETAIN
     });
-    foundationKey.addAlias('alias/safeflow-foundation');
+    foundationKey.addAlias(`alias/${profile.resourcePrefix}-foundation`);
 
     const vpc = new ec2.Vpc(this, 'SafeFlowVpc', {
       maxAzs: 2,
@@ -71,6 +77,13 @@ export class SafeFlowFoundationStack extends Stack {
       'Allow HTTPS from the SafeFlow application tier to private service endpoints'
     );
 
+    const databaseSecret = new rds.DatabaseSecret(this, 'SafeFlowDatabaseSecret', {
+      username: 'safeflow_admin',
+      secretName: `safeflow/${profile.name}/database/admin`,
+      encryptionKey: foundationKey
+    });
+    databaseSecret.applyRemovalPolicy(RemovalPolicy.RETAIN);
+
     const database = new rds.DatabaseInstance(this, 'SafeFlowPostgres', {
       vpc,
       vpcSubnets: {
@@ -80,22 +93,22 @@ export class SafeFlowFoundationStack extends Stack {
       engine: rds.DatabaseInstanceEngine.postgres({
         version: rds.PostgresEngineVersion.VER_16
       }),
-      credentials: rds.Credentials.fromGeneratedSecret('safeflow_admin', {
-        encryptionKey: foundationKey
-      }),
+      credentials: rds.Credentials.fromSecret(databaseSecret),
       databaseName: 'safeflow',
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
       allocatedStorage: 20,
       maxAllocatedStorage: 100,
-      backupRetention: Duration.days(7),
-      deletionProtection: true,
-      multiAz: false,
+      backupRetention: Duration.days(profile.database.backupRetentionDays),
+      copyTagsToSnapshot: true,
+      deleteAutomatedBackups: profile.database.deleteAutomatedBackups,
+      deletionProtection: profile.database.deletionProtection,
+      multiAz: profile.database.multiAz,
+      preferredBackupWindow: profile.database.preferredBackupWindow,
       publiclyAccessible: false,
       storageEncrypted: true,
       storageEncryptionKey: foundationKey,
       removalPolicy: RemovalPolicy.RETAIN
     });
-    database.secret?.applyRemovalPolicy(RemovalPolicy.RETAIN);
 
     const documentBucket = new s3.Bucket(this, 'SafeFlowDocumentBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -107,7 +120,7 @@ export class SafeFlowFoundationStack extends Stack {
     });
 
     const providerConfigSecret = new secretsmanager.Secret(this, 'SafeFlowProviderConfigSecret', {
-      secretName: 'safeflow/provider/openai',
+      secretName: `safeflow/${profile.name}/provider/openai`,
       description: 'Server-side provider configuration placeholder for SafeFlow draft generation',
       encryptionKey: foundationKey
     });
@@ -146,8 +159,9 @@ export class SafeFlowFoundationStack extends Stack {
       timeout: Duration.seconds(10),
       environmentEncryption: foundationKey,
       environment: {
-        SAFEFLOW_ENVIRONMENT: props.safeFlowEnvironment ?? 'simulation',
-        SAFEFLOW_SIMULATION_ONLY: 'true',
+        SAFEFLOW_ENVIRONMENT: profile.name,
+        SAFEFLOW_SIMULATION_ONLY: String(profile.simulationOnly),
+        SAFEFLOW_DATA_CLASSIFICATION: profile.dataClassification,
         DATABASE_SECRET_ARN: database.secret?.secretArn ?? 'unavailable',
         PROVIDER_CONFIG_SECRET_ARN: providerConfigSecret.secretArn,
         DOCUMENT_BUCKET_NAME: documentBucket.bucketName,
@@ -159,7 +173,7 @@ export class SafeFlowFoundationStack extends Stack {
       },
       securityGroups: [appSecurityGroup]
     });
-    database.secret?.grantRead(apiFunction);
+    databaseSecret.grantRead(apiFunction);
     providerConfigSecret.grantRead(apiFunction);
     apiFunction.addToRolePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject', 's3:PutObject', 's3:AbortMultipartUpload'],
@@ -188,7 +202,7 @@ export class SafeFlowFoundationStack extends Stack {
       description: 'Private SafeFlow PostgreSQL endpoint'
     });
     new CfnOutput(this, 'DatabaseSecretArn', {
-      value: database.secret?.secretArn ?? 'unavailable',
+      value: databaseSecret.secretArn,
       description: 'Generated database credential secret ARN'
     });
     new CfnOutput(this, 'DocumentBucketName', {

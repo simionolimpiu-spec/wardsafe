@@ -1,11 +1,17 @@
 import { App } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { describe, expect, it } from 'vitest';
+import { resolveEnvironmentProfile } from './environmentProfiles.js';
 import { SafeFlowFoundationStack, lambdaAssetExcludes } from './safeflowFoundationStack.js';
 
-function synthesizeTemplate() {
+function synthesizeTemplate(profileName = 'simulation') {
   const app = new App();
-  const stack = new SafeFlowFoundationStack(app, 'TestSafeFlowFoundationStack');
+  const stack = new SafeFlowFoundationStack(app, 'TestSafeFlowFoundationStack', {
+    safeFlowProfile: resolveEnvironmentProfile(profileName, {
+      operation: 'synth',
+      allowRestricted: true
+    })
+  });
   return Template.fromStack(stack);
 }
 
@@ -18,6 +24,37 @@ describe('SafeFlowFoundationStack', () => {
       PubliclyAccessible: false,
       StorageEncrypted: true,
       DeletionProtection: true
+    });
+  });
+
+  it('applies retained automated backup controls for simulation', () => {
+    const template = synthesizeTemplate();
+
+    template.hasResourceProperties('AWS::RDS::DBInstance', {
+      BackupRetentionPeriod: 7,
+      CopyTagsToSnapshot: true,
+      DeleteAutomatedBackups: false,
+      DeletionProtection: true,
+      PreferredBackupWindow: '02:00-03:00'
+    });
+  });
+
+  it('applies the selected dev profile to database and Lambda configuration', () => {
+    const template = synthesizeTemplate('dev');
+
+    template.hasResourceProperties('AWS::RDS::DBInstance', {
+      BackupRetentionPeriod: 1,
+      DeleteAutomatedBackups: false,
+      PreferredBackupWindow: '01:00-02:00'
+    });
+    template.hasResourceProperties('AWS::Lambda::Function', {
+      Environment: Match.objectLike({
+        Variables: Match.objectLike({
+          SAFEFLOW_ENVIRONMENT: 'dev',
+          SAFEFLOW_SIMULATION_ONLY: 'true',
+          SAFEFLOW_DATA_CLASSIFICATION: 'synthetic-only'
+        })
+      })
     });
   });
 
@@ -63,18 +100,31 @@ describe('SafeFlowFoundationStack', () => {
     const secrets = Object.values(template.findResources('AWS::SecretsManager::Secret'));
 
     expect(secrets).toHaveLength(2);
-    expect(secrets).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          DeletionPolicy: 'Retain',
-          UpdateReplacePolicy: 'Retain'
-        }),
-        expect.objectContaining({
-          DeletionPolicy: 'Retain',
-          UpdateReplacePolicy: 'Retain'
-        })
-      ])
-    );
+    for (const secret of secrets) {
+      expect(secret.DeletionPolicy).toBe('Retain');
+      expect(secret.UpdateReplacePolicy).toBe('Retain');
+    }
+  });
+
+  it('namespaces KMS aliases and secret names by environment', () => {
+    const simulation = synthesizeTemplate('simulation');
+    const dev = synthesizeTemplate('dev');
+
+    simulation.hasResourceProperties('AWS::KMS::Alias', {
+      AliasName: 'alias/safeflow-simulation-foundation'
+    });
+    simulation.hasResourceProperties('AWS::SecretsManager::Secret', {
+      Name: 'safeflow/simulation/database/admin'
+    });
+    simulation.hasResourceProperties('AWS::SecretsManager::Secret', {
+      Name: 'safeflow/simulation/provider/openai'
+    });
+    dev.hasResourceProperties('AWS::KMS::Alias', {
+      AliasName: 'alias/safeflow-dev-foundation'
+    });
+    dev.hasResourceProperties('AWS::SecretsManager::Secret', {
+      Name: 'safeflow/dev/database/admin'
+    });
   });
 
   it('restricts database ingress to the application security group on PostgreSQL', () => {

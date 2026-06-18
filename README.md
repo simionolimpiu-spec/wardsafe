@@ -50,6 +50,7 @@ If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the determin
 npm test
 npm run build
 npm run infra:synth
+npm run infra:synth:simulation
 npm run db:manifest
 $env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run e2e

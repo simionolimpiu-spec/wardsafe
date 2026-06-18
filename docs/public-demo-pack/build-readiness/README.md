@@ -14,6 +14,8 @@ The pack is public-safe. It avoids confidential invention details, avoids offici
 - `security-and-assurance.md` - safety, security and assurance work needed before clinical use.
 - `delivery-roadmap.md` - phased delivery milestones and evidence gates.
 - `aws-database-foundation.md` - first local AWS CDK and PostgreSQL scaffold.
+- `environment-profiles.md` - dev, simulation and restricted future-pilot settings.
+- `backup-restore-runbook.md` - simulation-only backup/restore drill and evidence process.
 
 ## Templates
 

@@ -68,7 +68,7 @@ Prototype status:
 Required AI safeguards:
 
 - No browser-side API keys.
-- No live patient data until approved.
+- No live patient data in the current SafeFlow environments.
 - Evidence-bound prompts only.
 - No autonomous diagnosis, prescribing or treatment instructions.
 - Human-editable output.

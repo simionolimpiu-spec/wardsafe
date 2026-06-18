@@ -6,6 +6,7 @@ This is the first buildable AWS/database slice for SafeFlow. It is a local infra
 
 - `infra/aws/app.js` defines the CDK entry point.
 - `infra/aws/safeflowFoundationStack.js` defines the first AWS foundation stack.
+- `infra/aws/environmentProfiles.js` defines dev, simulation and restricted pilot settings.
 - `database/schema.sql` defines the PostgreSQL workflow schema.
 - `database/seed.sql` loads fictional SafeFlow discovery data.
 - `database/migrationManifest.js` builds deterministic migration-source checksums.
@@ -57,6 +58,8 @@ The migration manifest command gives reviewers a deterministic list of SQL sourc
 
 ```powershell
 npm test -- infra/aws/safeflowFoundationStack.test.js database/schema.test.js
+npm run infra:synth:dev
+npm run infra:synth:simulation
 npm run db:manifest
 $env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run infra:synth
@@ -68,8 +71,8 @@ npm run infra:synth
 
 ## Next AWS Steps
 
-1. Add environment configuration for `dev`, `simulation` and `pilot`.
-2. Add rollback runbooks and backup/restore evidence for the migration path.
+1. Run and record the first simulation backup/restore drill in an approved AWS account.
+2. Add automated backup/restore evidence checks to CI/CD where appropriate.
 3. Add Cognito or partner-approved identity provider integration.
 4. Add authenticated API ingress only after identity is ready.
 5. Add backup/restore runbook and retention decisions.
