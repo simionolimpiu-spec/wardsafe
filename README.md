@@ -56,6 +56,8 @@ $env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run e2e
 ```
 
+The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentials or deployment permissions.
+
 ## Public Demo Pack
 
 Reviewer materials are in `docs/public-demo-pack/`.
