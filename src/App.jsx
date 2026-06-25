@@ -173,6 +173,7 @@ export default function App() {
         migrationLabel: report.migrations?.approved ? 'Migration approval current' : 'Migration approval needs review',
         draftProvider: report.providers?.draft ?? 'Unknown',
         workspaceProvider: report.providers?.workspace ?? 'Unknown',
+        auditProvider: report.providers?.audit ?? 'Unknown',
         databaseLabel: report.database?.configured ? 'Simulation database configured' : 'Fixture mode'
       });
       setDraftStatus('Build readiness check complete');

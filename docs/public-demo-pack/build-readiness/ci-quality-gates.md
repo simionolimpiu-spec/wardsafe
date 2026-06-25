@@ -8,7 +8,7 @@ SafeFlow uses `.github/workflows/safeflow-ci.yml` to verify the public simulatio
 - Runs all unit, contract and infrastructure tests.
 - Builds the production frontend bundle.
 - Fails on moderate-or-higher dependency advisories.
-- Runs the API safety smoke against health, workspace, readiness and SBAR draft routes.
+- Runs the API safety smoke against health, workspace, readiness, audit-event and SBAR draft routes.
 - Installs Chromium and runs the Playwright safety journey.
 - Uploads browser evidence only when the job fails.
 

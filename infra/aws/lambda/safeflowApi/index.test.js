@@ -91,4 +91,28 @@ describe('SafeFlow private API handler', () => {
     expect(serializedPayload).not.toContain('arn:aws');
     expect(serializedPayload).not.toContain('safeflow-private-documents');
   });
+
+  it('advertises the private audit-event append route without writing live data', async () => {
+    process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
+    process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
+
+    const response = await handler({
+      requestContext: { http: { method: 'POST', path: '/api/simulation/audit-events' } }
+    });
+    const payload = JSON.parse(response.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(response.statusCode).toBe(202);
+    expect(payload).toMatchObject({
+      product: 'SafeFlow',
+      simulationOnly: true,
+      route: '/api/simulation/audit-events',
+      source: 'private-lambda-audit-placeholder',
+      auditStore: {
+        appendOnly: true,
+        databaseWriteContract: 'database/queries/insertSimulationAuditEvent.sql'
+      }
+    });
+    expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email|arn:aws)\b/i);
+  });
 });

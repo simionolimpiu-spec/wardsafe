@@ -46,6 +46,7 @@ function providerId(provider, fallback) {
 export function createSimulationReadinessReport({
   draftProvider,
   workspaceProvider,
+  auditEventProvider,
   env = process.env
 } = {}) {
   return {
@@ -60,7 +61,8 @@ export function createSimulationReadinessReport({
     },
     providers: {
       draft: providerId(draftProvider, 'deterministic'),
-      workspace: providerId(workspaceProvider, 'local-fictional-fixture')
+      workspace: providerId(workspaceProvider, 'local-fictional-fixture'),
+      audit: providerId(auditEventProvider, 'local-audit-fixture')
     },
     database: {
       configured: Boolean(env.DATABASE_URL),

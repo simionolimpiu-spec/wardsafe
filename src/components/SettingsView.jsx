@@ -49,6 +49,7 @@ export function SettingsView({
             <div><dt>Migrations</dt><dd>{readinessReport.migrationLabel}</dd></div>
             <div><dt>Draft</dt><dd>{readinessReport.draftProvider}</dd></div>
             <div><dt>Workspace</dt><dd>{readinessReport.workspaceProvider}</dd></div>
+            <div><dt>Audit</dt><dd>{readinessReport.auditProvider}</dd></div>
             <div><dt>Database</dt><dd>{readinessReport.databaseLabel}</dd></div>
           </dl>
         )}

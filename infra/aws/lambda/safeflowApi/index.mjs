@@ -52,6 +52,27 @@ export async function handler(event = {}) {
     });
   }
 
+  if (method === 'POST' && path === '/api/simulation/audit-events') {
+    return jsonResponse(202, {
+      schemaVersion: 1,
+      product: 'SafeFlow',
+      route: '/api/simulation/audit-events',
+      environment: process.env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+      simulationOnly,
+      source: 'private-lambda-audit-placeholder',
+      safetyBoundary: {
+        noLivePatientData: true,
+        directCareIdentifiers: false,
+        humanReviewRequired: true
+      },
+      auditStore: {
+        appendOnly: true,
+        databaseWriteContract: 'database/queries/insertSimulationAuditEvent.sql'
+      },
+      publicIngress: false
+    });
+  }
+
   if (method !== 'GET' || path !== '/api/health') {
     return jsonResponse(404, { error: 'Not found' });
   }

@@ -6,6 +6,7 @@ describe('simulation readiness report', () => {
     const report = createSimulationReadinessReport({
       draftProvider: { id: 'deterministic' },
       workspaceProvider: { id: 'postgresql-simulation-read-model' },
+      auditEventProvider: { id: 'postgresql-simulation-audit-events' },
       env: {
         SAFEFLOW_ENVIRONMENT: 'simulation',
         SAFEFLOW_SIMULATION_ONLY: 'true',
@@ -25,7 +26,8 @@ describe('simulation readiness report', () => {
       },
       providers: {
         draft: 'deterministic',
-        workspace: 'postgresql-simulation-read-model'
+        workspace: 'postgresql-simulation-read-model',
+        audit: 'postgresql-simulation-audit-events'
       },
       database: {
         configured: true,

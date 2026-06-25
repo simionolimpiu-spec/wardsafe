@@ -33,9 +33,11 @@ describe('createApiHandler', () => {
       id: 'local-fictional-fixture',
       getSnapshot: vi.fn()
     };
+    const auditEventProvider = { id: 'local-audit-fixture', recordEvent: vi.fn() };
     const handler = createApiHandler({
       provider,
       workspaceProvider,
+      auditEventProvider,
       env: {
         SAFEFLOW_ENVIRONMENT: 'simulation',
         SAFEFLOW_SIMULATION_ONLY: 'true',
@@ -53,7 +55,8 @@ describe('createApiHandler', () => {
     expect(res.statusCode).toBe(200);
     expect(payload.providers).toEqual({
       draft: 'deterministic',
-      workspace: 'local-fictional-fixture'
+      workspace: 'local-fictional-fixture',
+      audit: 'local-audit-fixture'
     });
     expect(payload.migrations.approved).toBe(true);
     expect(serializedPayload).not.toContain('postgres://');
@@ -98,6 +101,80 @@ describe('createApiHandler', () => {
       expect.objectContaining({ syntheticPatientRef: 'DCU-031' })
     ]));
     expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
+  });
+
+  it('records a simulation audit event through the configured audit provider', async () => {
+    const auditEventProvider = {
+      recordEvent: vi.fn().mockResolvedValue({
+        product: 'SafeFlow',
+        simulationOnly: true,
+        source: 'local-audit-fixture',
+        id: 'audit-local-1',
+        syntheticPatientRef: 'DCU-031',
+        eventType: 'task.completed',
+        eventSummary: 'Fictional task completed',
+        occurredAt: '2026-06-10T09:15:00.000Z'
+      })
+    };
+    const handler = createApiHandler({ auditEventProvider });
+    const req = createJsonRequest({
+      method: 'POST',
+      path: '/api/simulation/audit-events',
+      body: {
+        patientId: 'DCU-031',
+        eventType: 'task.completed',
+        eventSummary: 'Fictional task completed',
+        actorRole: 'charge_nurse',
+        sourceTable: 'tasks',
+        metadata: { screen: 'tasks' }
+      }
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(res.statusCode).toBe(201);
+    expect(auditEventProvider.recordEvent).toHaveBeenCalledWith({
+      patientId: 'DCU-031',
+      eventType: 'task.completed',
+      eventSummary: 'Fictional task completed',
+      actorRole: 'charge_nurse',
+      sourceTable: 'tasks',
+      metadata: { screen: 'tasks' }
+    });
+    expect(payload.event).toMatchObject({
+      product: 'SafeFlow',
+      simulationOnly: true,
+      syntheticPatientRef: 'DCU-031'
+    });
+    expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
+  });
+
+  it('rejects unsafe simulation audit payloads without storing them', async () => {
+    const auditEventProvider = {
+      recordEvent: vi.fn()
+    };
+    const handler = createApiHandler({ auditEventProvider });
+    const req = createJsonRequest({
+      method: 'POST',
+      path: '/api/simulation/audit-events',
+      body: {
+        patientId: 'DCU-031',
+        eventType: 'task.completed',
+        eventSummary: 'Fictional task completed',
+        metadata: { nhs_number: '000 000 0000' }
+      }
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(400);
+    expect(payload.error).toMatch(/audit event rejected/i);
+    expect(auditEventProvider.recordEvent).not.toHaveBeenCalled();
   });
 
   it('creates an SBAR draft for a known fictional patient', async () => {

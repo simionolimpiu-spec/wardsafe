@@ -315,7 +315,8 @@ describe('SafeFlow prototype', () => {
         },
         providers: {
           draft: 'deterministic',
-          workspace: 'local-fictional-fixture'
+          workspace: 'local-fictional-fixture',
+          audit: 'local-audit-fixture'
         },
         database: {
           configured: false,
@@ -336,6 +337,7 @@ describe('SafeFlow prototype', () => {
 
     expect(await screen.findByText(/Migration approval current/i)).toBeInTheDocument();
     expect(screen.getByText('deterministic', { selector: 'dd' })).toBeInTheDocument();
+    expect(screen.getByText('local-audit-fixture', { selector: 'dd' })).toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent(/Build readiness check complete/i);
   });
 

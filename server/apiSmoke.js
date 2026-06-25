@@ -68,6 +68,24 @@ export async function runApiSmoke({ handler = createApiHandler(), log = console.
   assertSimulationSafe(readiness, '/api/simulation/readiness');
   log('/api/simulation/readiness approved');
 
+  const audit = await requestJson(handler, {
+    method: 'POST',
+    path: '/api/simulation/audit-events',
+    body: {
+      patientId: 'DCU-031',
+      eventType: 'task.completed',
+      eventSummary: 'Fictional API smoke task completed',
+      actorRole: 'charge_nurse',
+      sourceTable: 'tasks',
+      metadata: { smoke: true }
+    }
+  });
+  if (audit.event?.source !== 'local-audit-fixture' && audit.event?.source !== 'postgresql-simulation-audit-events') {
+    throw new Error('/api/simulation/audit-events did not return an approved audit source');
+  }
+  assertSimulationSafe(audit, '/api/simulation/audit-events');
+  log(`/api/simulation/audit-events ${audit.event.source}`);
+
   const draft = await requestJson(handler, {
     method: 'POST',
     path: '/api/drafts/sbar',
@@ -83,6 +101,7 @@ export async function runApiSmoke({ handler = createApiHandler(), log = console.
     health: health.status,
     workspace: workspace.source,
     readiness: readiness.migrations.approved ? 'approved' : 'needs-review',
+    audit: audit.event.source,
     draft: draft.draft.provider
   };
 }
