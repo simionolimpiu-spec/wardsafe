@@ -12,7 +12,8 @@ SafeFlow is the short product mark used inside the prototype UI. SafeFlow Nursin
 - `discovery-workshop-pack.md` - workshop agenda, scenario prompts, feedback form and initial hazard log.
 - `ui-target-spec.md` - screenshot-inspired UI target spec without official NHS branding.
 - `build-readiness/` - implementation blueprint, architecture, technology, hardware and roadmap.
-- `templates/` - reusable planning templates for scenarios, integrations, AI provider review and pilot readiness.
+- `templates/` - reusable planning templates for scenarios, discovery feedback and backlog decisions, integrations, AI provider review and pilot readiness.
+- `templates/discovery-feedback-backlog-template.md` - turns workshop feedback into prioritised backlog items and hazard follow-up.
 
 ## Current Prototype Scope
 

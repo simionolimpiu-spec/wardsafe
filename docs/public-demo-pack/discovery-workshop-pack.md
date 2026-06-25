@@ -92,3 +92,5 @@ Use one row per participant or group.
 - Highest-risk hazard and proposed mitigation.
 - One workflow step that feels missing.
 - Decision: stop, iterate prototype, or prepare a non-live simulation session.
+
+Use `templates/discovery-feedback-backlog-template.md` after the session to convert feedback into backlog decisions, hazard follow-up and integration questions.
