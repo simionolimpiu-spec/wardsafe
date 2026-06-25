@@ -27,6 +27,31 @@ function createJsonResponse() {
 }
 
 describe('createApiHandler', () => {
+  it('returns the fictional simulation workspace snapshot', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/workspace' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload).toMatchObject({
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: {
+        noLivePatientData: true,
+        directCareIdentifiers: false,
+        humanReviewRequired: true
+      }
+    });
+    expect(payload.workspace.patients).toEqual(expect.arrayContaining([
+      expect.objectContaining({ syntheticPatientRef: 'DCU-031' })
+    ]));
+    expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
+  });
+
   it('creates an SBAR draft for a known fictional patient', async () => {
     const provider = {
       createSbarDraft: vi.fn().mockResolvedValue({

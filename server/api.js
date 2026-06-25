@@ -1,6 +1,7 @@
 import { simulatedPatients } from '../src/data/simulatedPatients.js';
 import { deterministicDraftProvider } from '../src/domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
+import { createSimulationWorkspaceSnapshot } from './simulationWorkspaceSnapshot.js';
 
 export function createApiHandler({ provider = deterministicDraftProvider } = {}) {
   return async function apiHandler(req, res) {
@@ -15,6 +16,11 @@ export function createApiHandler({ provider = deterministicDraftProvider } = {})
 
     if (req.method === 'GET' && pathname === '/api/health') {
       writeJson(res, 200, { status: 'ok' });
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/simulation/workspace') {
+      writeJson(res, 200, createSimulationWorkspaceSnapshot());
       return;
     }
 

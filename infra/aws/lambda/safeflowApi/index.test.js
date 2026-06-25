@@ -37,4 +37,27 @@ describe('SafeFlow private API handler', () => {
     expect(serializedPayload).not.toContain('arn:aws');
     expect(serializedPayload).not.toContain('safeflow-private-documents');
   });
+
+  it('exposes a private simulation workspace route without live-data access', async () => {
+    process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
+    process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
+
+    const response = await handler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/workspace' } }
+    });
+    const payload = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(200);
+    expect(payload).toMatchObject({
+      product: 'SafeFlow',
+      simulationOnly: true,
+      route: '/api/simulation/workspace',
+      safetyBoundary: {
+        noLivePatientData: true,
+        directCareIdentifiers: false,
+        humanReviewRequired: true
+      }
+    });
+    expect(JSON.stringify(payload)).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email|arn:aws)\b/i);
+  });
 });

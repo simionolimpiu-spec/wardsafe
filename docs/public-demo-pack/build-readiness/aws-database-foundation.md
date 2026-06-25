@@ -12,6 +12,7 @@ This is the first buildable AWS/database slice for SafeFlow. It is a local infra
 - `database/migrationManifest.js` builds deterministic migration-source checksums.
 - `database/migrationApproval.json` records the approved simulation-only SQL checksums.
 - `database/migrationRunner.js` validates approval gates and runs migrations transactionally.
+- `database/queries/simulationWorkspace.sql` documents the read-only PostgreSQL projection for the SafeFlow workspace API.
 - `infra/aws/lambda/safeflowApi/index.mjs` defines a private Lambda handler scaffold.
 - `infra/**/*.test.js` and `database/**/*.test.js` check the safety boundaries.
 
@@ -54,6 +55,12 @@ The schema avoids direct patient identifiers and uses synthetic patient referenc
 
 The migration manifest command gives reviewers a deterministic list of SQL sources, file sizes and checksums. The migration runner refuses to plan unless `SAFEFLOW_SIMULATION_ONLY=true` is set, and refuses execution unless `SAFEFLOW_MIGRATION_APPROVED=true` and `DATABASE_URL` are also set. The checked approval file only covers the current fictional schema and seed data.
 
+## Simulation Workspace API Contract
+
+The local API exposes `GET /api/simulation/workspace` as a read-only fictional workspace snapshot for frontend and integration review. It returns SafeFlow metadata, explicit safety boundaries and synthetic patient references only.
+
+The private Lambda scaffold exposes the same route as a placeholder for AWS review, but it does not read from a live database yet. The intended approved-database projection is captured in `database/queries/simulationWorkspace.sql`, which filters on `fictional_scenario is true` and avoids direct patient identifiers.
+
 ## Local Commands
 
 ```powershell
@@ -63,6 +70,7 @@ npm run infra:synth:simulation
 npm run db:manifest
 $env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run infra:synth
+npm run api
 ```
 
 `npm run infra:synth` renders CloudFormation locally. It should be used for review only until an AWS account, deployment role, budget guardrail and environment policy are agreed.
