@@ -3,6 +3,7 @@ import { wardSummary } from './data/simulatedPatients.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
+import { requestReadinessReport } from './services/readinessClient.js';
 import { requestSbarDraft } from './services/draftClient.js';
 import { requestWorkspaceSnapshot } from './services/workspaceClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
@@ -59,7 +60,9 @@ export default function App() {
   const [draftStatus, setDraftStatus] = useState('');
   const [isGeneratingDraft, setIsGeneratingDraft] = useState(false);
   const [isCheckingBackend, setIsCheckingBackend] = useState(false);
+  const [isCheckingReadiness, setIsCheckingReadiness] = useState(false);
   const [backendWorkspace, setBackendWorkspace] = useState(null);
+  const [readinessReport, setReadinessReport] = useState(null);
   const [dialog, setDialog] = useState(null);
 
   function selectPatient(patientId) {
@@ -160,6 +163,24 @@ export default function App() {
       setDraftStatus('Backend workspace unavailable; using browser-local simulation');
     }
     setIsCheckingBackend(false);
+  }
+
+  async function checkBuildReadiness() {
+    setIsCheckingReadiness(true);
+    const report = await requestReadinessReport();
+    if (report) {
+      setReadinessReport({
+        migrationLabel: report.migrations?.approved ? 'Migration approval current' : 'Migration approval needs review',
+        draftProvider: report.providers?.draft ?? 'Unknown',
+        workspaceProvider: report.providers?.workspace ?? 'Unknown',
+        databaseLabel: report.database?.configured ? 'Simulation database configured' : 'Fixture mode'
+      });
+      setDraftStatus('Build readiness check complete');
+    } else {
+      setReadinessReport(null);
+      setDraftStatus('Build readiness unavailable; keep simulation-only defaults');
+    }
+    setIsCheckingReadiness(false);
   }
 
   function confirmReset() {
@@ -286,9 +307,12 @@ export default function App() {
               <SettingsView
                 backendWorkspace={backendWorkspace}
                 isCheckingBackend={isCheckingBackend}
+                isCheckingReadiness={isCheckingReadiness}
                 onCheckBackend={checkBackendWorkspace}
+                onCheckReadiness={checkBuildReadiness}
                 onRequestReset={() => setDialog({ type: 'reset' })}
                 onSave={saveSettings}
+                readinessReport={readinessReport}
                 settings={state.settings}
               />
             )}

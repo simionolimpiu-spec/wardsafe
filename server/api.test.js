@@ -27,6 +27,39 @@ function createJsonResponse() {
 }
 
 describe('createApiHandler', () => {
+  it('returns simulation readiness without exposing provider secrets', async () => {
+    const provider = { id: 'deterministic', createSbarDraft: vi.fn() };
+    const workspaceProvider = {
+      id: 'local-fictional-fixture',
+      getSnapshot: vi.fn()
+    };
+    const handler = createApiHandler({
+      provider,
+      workspaceProvider,
+      env: {
+        SAFEFLOW_ENVIRONMENT: 'simulation',
+        SAFEFLOW_SIMULATION_ONLY: 'true',
+        DATABASE_URL: 'postgres://secret@example/safeflow',
+        OPENAI_API_KEY: 'sk-secret'
+      }
+    });
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/readiness' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.providers).toEqual({
+      draft: 'deterministic',
+      workspace: 'local-fictional-fixture'
+    });
+    expect(payload.migrations.approved).toBe(true);
+    expect(serializedPayload).not.toContain('postgres://');
+    expect(serializedPayload).not.toContain('sk-secret');
+  });
+
   it('returns the fictional simulation workspace snapshot', async () => {
     const workspaceProvider = {
       getSnapshot: vi.fn().mockResolvedValue({

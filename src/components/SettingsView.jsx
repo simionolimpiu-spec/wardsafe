@@ -1,11 +1,14 @@
-import { DatabaseZap, RotateCcw, Save } from 'lucide-react';
+import { DatabaseZap, RotateCcw, Save, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function SettingsView({
   backendWorkspace,
   isCheckingBackend,
+  isCheckingReadiness,
+  readinessReport,
   settings,
   onCheckBackend,
+  onCheckReadiness,
   onSave,
   onRequestReset
 }) {
@@ -35,6 +38,18 @@ export function SettingsView({
             <div><dt>Patients</dt><dd>{backendWorkspace.patientCount} fictional patients</dd></div>
             <div><dt>Open tasks</dt><dd>{backendWorkspace.openTaskCount}</dd></div>
             <div><dt>Escalations</dt><dd>{backendWorkspace.activeEscalationCount}</dd></div>
+          </dl>
+        )}
+      </div>
+      <div className="integration-check">
+        <div><strong>Build readiness</strong><p>Review the server-side safety boundary, providers and migration approval state.</p></div>
+        <button className="secondary-action" disabled={isCheckingReadiness} onClick={onCheckReadiness} type="button"><ShieldCheck aria-hidden="true" size={16} /> {isCheckingReadiness ? 'Checking...' : 'Check build readiness'}</button>
+        {readinessReport && (
+          <dl className="source-summary">
+            <div><dt>Migrations</dt><dd>{readinessReport.migrationLabel}</dd></div>
+            <div><dt>Draft</dt><dd>{readinessReport.draftProvider}</dd></div>
+            <div><dt>Workspace</dt><dd>{readinessReport.workspaceProvider}</dd></div>
+            <div><dt>Database</dt><dd>{readinessReport.databaseLabel}</dd></div>
           </dl>
         )}
       </div>

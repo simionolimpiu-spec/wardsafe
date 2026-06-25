@@ -301,6 +301,44 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('status')).toHaveTextContent(/Backend workspace check complete/i);
   });
 
+  it('checks simulation build readiness from settings', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        product: 'SafeFlow',
+        simulationOnly: true,
+        safetyBoundary: {
+          noLivePatientData: true,
+          directCareIdentifiers: false,
+          humanReviewRequired: true
+        },
+        providers: {
+          draft: 'deterministic',
+          workspace: 'local-fictional-fixture'
+        },
+        database: {
+          configured: false,
+          guardedBySimulationOnly: true
+        },
+        migrations: {
+          approved: true,
+          count: 2,
+          simulationOnly: true
+        }
+      })
+    }));
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: 'Settings' }));
+    await user.click(screen.getByRole('button', { name: 'Check build readiness' }));
+
+    expect(await screen.findByText(/Migration approval current/i)).toBeInTheDocument();
+    expect(screen.getByText('deterministic', { selector: 'dd' })).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent(/Build readiness check complete/i);
+  });
+
   it.each([
     ['Ward Safety Board', 'Ward Safety Board'],
     ['My Patients', 'My Patients'],

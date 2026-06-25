@@ -1,11 +1,13 @@
 import { simulatedPatients } from '../src/data/simulatedPatients.js';
 import { deterministicDraftProvider } from '../src/domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
+import { createSimulationReadinessReport } from './readinessReport.js';
 import { createLocalWorkspaceProvider } from './workspaceProvider.js';
 
 export function createApiHandler({
   provider = deterministicDraftProvider,
-  workspaceProvider = createLocalWorkspaceProvider()
+  workspaceProvider = createLocalWorkspaceProvider(),
+  env = process.env
 } = {}) {
   return async function apiHandler(req, res) {
     const { pathname } = new URL(req.url ?? '/', 'http://localhost');
@@ -24,6 +26,15 @@ export function createApiHandler({
 
     if (req.method === 'GET' && pathname === '/api/simulation/workspace') {
       writeJson(res, 200, await workspaceProvider.getSnapshot());
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/simulation/readiness') {
+      writeJson(res, 200, createSimulationReadinessReport({
+        draftProvider: provider,
+        workspaceProvider,
+        env
+      }));
       return;
     }
 
