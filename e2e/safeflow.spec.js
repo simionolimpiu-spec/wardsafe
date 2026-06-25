@@ -48,6 +48,16 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   }
 
+  await page.getByRole('button', { name: 'Check backend workspace' }).click();
+  await expect(page.getByText(/local-fictional-fixture|postgresql-simulation-read-model/i)).toBeVisible();
+  await expect(page.getByText('5 fictional patients')).toBeVisible();
+  await expect(page.getByRole('status')).toContainText('Backend workspace check complete');
+
+  await page.getByRole('button', { name: 'Check build readiness' }).click();
+  await expect(page.getByText(/Migration approval current/i)).toBeVisible();
+  await expect(page.getByText('Fixture mode')).toBeVisible();
+  await expect(page.getByRole('status')).toContainText('Build readiness check complete');
+
   await page.getByRole('button', { name: 'Reset simulation' }).click();
   await expect(page.getByRole('dialog', { name: 'Reset simulation' })).toBeVisible();
   await page.getByRole('button', { name: 'Confirm reset' }).click();

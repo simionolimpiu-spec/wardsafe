@@ -62,6 +62,8 @@ $env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run e2e
 ```
 
+`npm run e2e` starts both the local API and Vite so the Settings backend/readiness checks exercise the server boundary.
+
 The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentials or deployment permissions.
 
 ## Public Demo Pack
