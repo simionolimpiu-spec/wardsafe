@@ -1,7 +1,14 @@
-import { RotateCcw, Save } from 'lucide-react';
+import { DatabaseZap, RotateCcw, Save } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export function SettingsView({ settings, onSave, onRequestReset }) {
+export function SettingsView({
+  backendWorkspace,
+  isCheckingBackend,
+  settings,
+  onCheckBackend,
+  onSave,
+  onRequestReset
+}) {
   const [draft, setDraft] = useState(settings);
 
   useEffect(() => setDraft(settings), [settings]);
@@ -18,6 +25,18 @@ export function SettingsView({ settings, onSave, onRequestReset }) {
       <div className="danger-zone">
         <div><strong>Reset simulation</strong><p>Restore the committed fictional patients, tasks, escalations and audit seed.</p></div>
         <button className="secondary-action" onClick={onRequestReset} type="button"><RotateCcw aria-hidden="true" size={16} /> Reset simulation</button>
+      </div>
+      <div className="integration-check">
+        <div><strong>Backend workspace source</strong><p>Check the server-side simulation contract without replacing browser-local edits.</p></div>
+        <button className="secondary-action" disabled={isCheckingBackend} onClick={onCheckBackend} type="button"><DatabaseZap aria-hidden="true" size={16} /> {isCheckingBackend ? 'Checking...' : 'Check backend workspace'}</button>
+        {backendWorkspace && (
+          <dl className="source-summary">
+            <div><dt>Source</dt><dd>{backendWorkspace.source}</dd></div>
+            <div><dt>Patients</dt><dd>{backendWorkspace.patientCount} fictional patients</dd></div>
+            <div><dt>Open tasks</dt><dd>{backendWorkspace.openTaskCount}</dd></div>
+            <div><dt>Escalations</dt><dd>{backendWorkspace.activeEscalationCount}</dd></div>
+          </dl>
+        )}
       </div>
     </section>
   );

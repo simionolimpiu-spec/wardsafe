@@ -4,6 +4,7 @@ import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
 import { requestSbarDraft } from './services/draftClient.js';
+import { requestWorkspaceSnapshot } from './services/workspaceClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
@@ -57,6 +58,8 @@ export default function App() {
   const [auditEvents, setAuditEvents] = useState(() => initialAuditEvents(selectedPatient));
   const [draftStatus, setDraftStatus] = useState('');
   const [isGeneratingDraft, setIsGeneratingDraft] = useState(false);
+  const [isCheckingBackend, setIsCheckingBackend] = useState(false);
+  const [backendWorkspace, setBackendWorkspace] = useState(null);
   const [dialog, setDialog] = useState(null);
 
   function selectPatient(patientId) {
@@ -139,6 +142,24 @@ export default function App() {
   function saveSettings(settings) {
     dispatch({ type: 'settings/changed', payload: settings });
     setDraftStatus('Simulation settings saved');
+  }
+
+  async function checkBackendWorkspace() {
+    setIsCheckingBackend(true);
+    const snapshot = await requestWorkspaceSnapshot();
+    if (snapshot) {
+      setBackendWorkspace({
+        source: snapshot.source ?? 'simulation endpoint',
+        patientCount: snapshot.workspace?.summary?.patientCount ?? 0,
+        openTaskCount: snapshot.workspace?.summary?.openTaskCount ?? 0,
+        activeEscalationCount: snapshot.workspace?.summary?.activeEscalationCount ?? 0
+      });
+      setDraftStatus('Backend workspace check complete');
+    } else {
+      setBackendWorkspace(null);
+      setDraftStatus('Backend workspace unavailable; using browser-local simulation');
+    }
+    setIsCheckingBackend(false);
   }
 
   function confirmReset() {
@@ -262,7 +283,14 @@ export default function App() {
             {state.selectedView === 'scenarios' && <ScenarioLibraryView />}
             {state.selectedView === 'audit' && <AuditLearningView events={state.auditEvents} />}
             {state.selectedView === 'settings' && (
-              <SettingsView onRequestReset={() => setDialog({ type: 'reset' })} onSave={saveSettings} settings={state.settings} />
+              <SettingsView
+                backendWorkspace={backendWorkspace}
+                isCheckingBackend={isCheckingBackend}
+                onCheckBackend={checkBackendWorkspace}
+                onRequestReset={() => setDialog({ type: 'reset' })}
+                onSave={saveSettings}
+                settings={state.settings}
+              />
             )}
           </div>
           {showPatientPanel && (

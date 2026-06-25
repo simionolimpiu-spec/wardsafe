@@ -268,6 +268,39 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('status')).toHaveTextContent(/Simulation reset/i);
   });
 
+  it('checks the backend workspace source from settings', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        product: 'SafeFlow',
+        source: 'postgresql-simulation-read-model',
+        simulationOnly: true,
+        safetyBoundary: {
+          noLivePatientData: true,
+          directCareIdentifiers: false,
+          humanReviewRequired: true
+        },
+        workspace: {
+          summary: {
+            patientCount: 5,
+            openTaskCount: 4,
+            activeEscalationCount: 2
+          }
+        }
+      })
+    }));
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: 'Settings' }));
+    await user.click(screen.getByRole('button', { name: 'Check backend workspace' }));
+
+    expect(await screen.findByText(/postgresql-simulation-read-model/i)).toBeInTheDocument();
+    expect(screen.getByText(/5 fictional patients/i)).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent(/Backend workspace check complete/i);
+  });
+
   it.each([
     ['Ward Safety Board', 'Ward Safety Board'],
     ['My Patients', 'My Patients'],

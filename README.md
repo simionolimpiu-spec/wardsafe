@@ -48,6 +48,8 @@ If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the determin
 
 The API also exposes `GET /api/simulation/workspace`. By default it serves the local fictional fixture. To point that route at an approved simulation PostgreSQL database, set both `SAFEFLOW_SIMULATION_ONLY=true` and `DATABASE_URL`; otherwise database-backed workspace mode is refused or falls back to the fixture.
 
+Inside the prototype, **Settings** includes **Check backend workspace** so reviewers can confirm which server-side simulation source is active without replacing browser-local edits.
+
 ## Verification
 
 ```powershell
