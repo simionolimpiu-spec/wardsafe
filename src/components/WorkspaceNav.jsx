@@ -12,19 +12,24 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { label: 'Ward Safety Board', icon: LayoutDashboard, active: true },
-  { label: 'My Patients', icon: UserRound },
-  { label: 'Observations', icon: Stethoscope },
-  { label: 'Tasks', icon: ClipboardList, count: 6 },
-  { label: 'Escalations', icon: AlertTriangle, count: 2 },
-  { label: 'Handover', icon: Waypoints },
-  { label: 'Discharges', icon: ClipboardPlus },
-  { label: 'Reports', icon: FileText },
-  { label: 'Audit Trail', icon: ListChecks },
-  { label: 'Settings', icon: Settings }
+  { id: 'board', label: 'Ward Safety Board', icon: LayoutDashboard },
+  { id: 'patients', label: 'My Patients', icon: UserRound },
+  { id: 'observations', label: 'Observations', icon: Stethoscope },
+  { id: 'tasks', label: 'Tasks', icon: ClipboardList },
+  { id: 'escalations', label: 'Escalations', icon: AlertTriangle },
+  { id: 'handover', label: 'Handover', icon: Waypoints },
+  { id: 'discharges', label: 'Discharges', icon: ClipboardPlus },
+  { id: 'reports', label: 'Reports', icon: FileText },
+  { id: 'audit', label: 'Audit Trail', icon: ListChecks },
+  { id: 'settings', label: 'Settings', icon: Settings }
 ];
 
-export function WorkspaceNav() {
+export function WorkspaceNav({
+  activeView = 'board',
+  taskCount = 6,
+  escalationCount = 2,
+  onNavigate = () => {}
+}) {
   return (
     <aside className="workspace-nav" aria-label="SafeFlow workspace">
       <div className="nav-brand">
@@ -38,11 +43,20 @@ export function WorkspaceNav() {
       <nav aria-label="SafeFlow workspace">
         {navItems.map((item) => {
           const Icon = item.icon;
+          const count = item.id === 'tasks'
+            ? taskCount
+            : item.id === 'escalations' ? escalationCount : null;
           return (
-            <button className={item.active ? 'active' : ''} key={item.label} type="button">
+            <button
+              aria-current={activeView === item.id ? 'page' : undefined}
+              className={activeView === item.id ? 'active' : ''}
+              key={item.id}
+              onClick={() => onNavigate(item.id)}
+              type="button"
+            >
               <Icon aria-hidden="true" size={17} />
               <span>{item.label}</span>
-              {item.count && <strong className="nav-count">{item.count}</strong>}
+              {count !== null && <strong className="nav-count">{count}</strong>}
             </button>
           );
         })}

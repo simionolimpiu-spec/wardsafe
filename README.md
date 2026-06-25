@@ -16,6 +16,8 @@ This public repository is being prepared as the build workspace for a simulation
 
 This repo is a fresh scaffold. Confidential invention-pack notes and detailed design material should remain private until intentionally reviewed for public release.
 
+The simulation workspace includes distinct patients, observations, tasks, escalations, handover, discharge, reports, audit and settings screens. Browser-local changes are fictional, versioned and reversible through **Reset simulation**.
+
 ## Local Development
 
 ```powershell

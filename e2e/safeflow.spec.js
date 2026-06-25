@@ -30,6 +30,35 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByRole('region', { name: /Discovery scenario library/i })).toBeVisible();
   await expect(page.getByText(/Initial hazard controls/i)).toBeVisible();
 
+  const destinations = [
+    ['Ward Safety Board', 'Ward Safety Board'],
+    ['My Patients', 'My Patients'],
+    ['Observations', 'Observations'],
+    [/^Tasks/, 'Tasks'],
+    [/^Escalations/, 'Escalations'],
+    ['Handover', 'Handover and Discharge Readiness'],
+    ['Discharges', 'Discharges'],
+    ['Reports', 'Reports'],
+    ['Audit Trail', 'Audit and Learning'],
+    ['Settings', 'Settings']
+  ];
+
+  for (const [button, heading] of destinations) {
+    await page.getByRole('button', { name: button, exact: typeof button === 'string' }).click();
+    await expect(page.getByRole('heading', { name: heading })).toBeVisible();
+  }
+
+  await page.getByRole('button', { name: 'Reset simulation' }).click();
+  await expect(page.getByRole('dialog', { name: 'Reset simulation' })).toBeVisible();
+  await page.getByRole('button', { name: 'Confirm reset' }).click();
+  await expect(page.getByRole('status')).toContainText('Simulation reset');
+
+  await page.getByRole('button', { name: 'Call team' }).click();
+  await expect(page.getByRole('dialog', { name: 'Record simulated team contact' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /call/i })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Record contact' }).click();
+  await expect(page.getByRole('status')).toContainText('Simulated team contact recorded');
+
   const bodyText = await page.locator('body').innerText();
   expect(bodyText).not.toMatch(/administer potassium|give potassium|replace potassium|prescribe potassium|diagnose this patient/i);
 });

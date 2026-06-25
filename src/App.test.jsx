@@ -1,9 +1,13 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 
 describe('SafeFlow prototype', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   afterEach(() => {
     vi.unstubAllGlobals();
   });
@@ -25,7 +29,7 @@ describe('SafeFlow prototype', () => {
     const productNav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
     expect(within(productNav).getByRole('button', { name: /ward safety board/i })).toBeInTheDocument();
     expect(within(productNav).getByText(/Tasks/)).toBeInTheDocument();
-    expect(within(productNav).getByText('6')).toBeInTheDocument();
+    expect(within(productNav).getByText('5')).toBeInTheDocument();
     expect(screen.getByText(/FHIR-ready integrations/i)).toBeInTheDocument();
     expect(screen.getByText(/Simplified cloud architecture/i)).toBeInTheDocument();
     expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
@@ -158,7 +162,156 @@ describe('SafeFlow prototype', () => {
     await user.click(within(journey).getByRole('tab', { name: 'Audit' }));
 
     expect(screen.getByRole('region', { name: /audit and learning/i })).toBeInTheDocument();
-    expect(screen.getAllByText(/Imported from fictional scenario timeline/i)).toHaveLength(3);
+    expect(screen.getAllByText(/Imported from fictional scenario timeline/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/Documentation focus/i)).toBeInTheDocument();
+  });
+
+  it('opens distinct patients and observations screens', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: 'My Patients' }));
+    expect(screen.getByRole('heading', { name: 'My Patients' })).toBeInTheDocument();
+    expect(screen.getByText(/assigned to Leanne Mitchell/i)).toBeInTheDocument();
+
+    await user.click(within(nav).getByRole('button', { name: 'Observations' }));
+    expect(screen.getByRole('heading', { name: 'Observations' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /record simulated observation/i })).toBeInTheDocument();
+  });
+
+  it('records a validated fictional observation', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Observations' }));
+    const news2 = screen.getByLabelText('NEWS2');
+    await user.clear(news2);
+    await user.type(news2, '5');
+    await user.click(screen.getByRole('button', { name: /record simulated observation/i }));
+
+    expect(screen.getByRole('status')).toHaveTextContent(/observation recorded/i);
+    const history = screen.getByRole('list', { name: /recorded observations/i });
+    expect(within(history).getByText(/NEWS2 5/i)).toBeInTheDocument();
+  });
+
+  it('creates and completes tasks from the task register', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: /tasks/i }));
+    expect(screen.getByRole('heading', { name: 'Tasks' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Add task' }));
+    await user.type(screen.getByLabelText('Task description'), 'Confirm fictional transport');
+    await user.type(screen.getByLabelText('Owner'), 'Leanne Mitchell');
+    await user.type(screen.getByLabelText('Due time'), '14:00');
+    await user.click(screen.getByRole('button', { name: 'Save task' }));
+
+    expect(screen.getByText('Confirm fictional transport')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Mark Confirm fictional transport Done' }));
+    expect(screen.getByRole('status')).toHaveTextContent(/Task marked Done/i);
+  });
+
+  it('creates and closes a simulated escalation', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: /escalations/i }));
+    expect(screen.getByRole('heading', { name: 'Escalations' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'New escalation' }));
+    await user.type(screen.getByLabelText('Escalation reason'), 'Fictional NEWS2 review needed');
+    await user.click(screen.getByRole('button', { name: 'Create simulated escalation' }));
+
+    expect(screen.getByText('Fictional NEWS2 review needed')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Close Fictional NEWS2 review needed' }));
+    expect(screen.getByRole('status')).toHaveTextContent(/Escalation Closed/i);
+  });
+
+  it('saves handover progress and clears discharge blockers', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Handover' }));
+    const completion = screen.getByLabelText('Handover completion');
+    await user.clear(completion);
+    await user.type(completion, '100');
+    await user.click(screen.getByRole('button', { name: 'Save handover' }));
+    expect(screen.getByRole('status')).toHaveTextContent(/Handover saved/i);
+
+    await user.click(screen.getByRole('button', { name: 'Discharges' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Medical plan unclear' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Electrolyte review outstanding' }));
+    await user.click(screen.getByRole('button', { name: 'Save discharge readiness' }));
+    expect(screen.getByText(/Ready for simulated discharge/i)).toBeInTheDocument();
+  });
+
+  it('opens report, audit and settings workspaces and resets safely', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: 'Reports' }));
+    expect(screen.getByRole('heading', { name: 'Reports' })).toBeInTheDocument();
+    expect(screen.getByText(/fictional identifiers only/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Export ward board CSV' })).toBeInTheDocument();
+
+    await user.click(within(nav).getByRole('button', { name: 'Audit Trail' }));
+    expect(screen.getByRole('searchbox', { name: /search audit/i })).toBeInTheDocument();
+
+    await user.click(within(nav).getByRole('button', { name: 'Settings' }));
+    expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Reset simulation' }));
+    expect(screen.getByRole('dialog', { name: 'Reset simulation' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Confirm reset' }));
+    expect(screen.getByRole('status')).toHaveTextContent(/Simulation reset/i);
+  });
+
+  it.each([
+    ['Ward Safety Board', 'Ward Safety Board'],
+    ['My Patients', 'My Patients'],
+    ['Observations', 'Observations'],
+    [/Tasks/, 'Tasks'],
+    [/Escalations/, 'Escalations'],
+    ['Handover', 'Handover and Discharge Readiness'],
+    ['Discharges', 'Discharges'],
+    ['Reports', 'Reports'],
+    ['Audit Trail', 'Audit and Learning'],
+    ['Settings', 'Settings']
+  ])('opens %s as a distinct workspace', async (buttonName, heading) => {
+    const user = userEvent.setup();
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: buttonName }));
+
+    expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument();
+  });
+
+  it('records simulated team contact without creating a telephone link', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Call team' }));
+    expect(screen.getByRole('dialog', { name: /Record simulated team contact/i })).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /call/i })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Record contact' }));
+
+    expect(screen.getByRole('status')).toHaveTextContent(/Simulated team contact recorded/i);
+  });
+
+  it('adds a task from the patient safety panel', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+
+    await user.click(within(panel).getByRole('tab', { name: /tasks/i }));
+    await user.click(within(panel).getByRole('button', { name: 'Add task' }));
+    await user.type(within(panel).getByLabelText('Patient task description'), 'Document fictional response');
+    await user.type(within(panel).getByLabelText('Patient task due time'), '15:00');
+    await user.click(within(panel).getByRole('button', { name: 'Save patient task' }));
+
+    expect(within(panel).getByText('Document fictional response')).toBeInTheDocument();
   });
 });

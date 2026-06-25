@@ -1,4 +1,4 @@
-import { AlertTriangle, ClipboardCheck, Home, Users } from 'lucide-react';
+import { AlertTriangle, ClipboardCheck, Download, Home, Users } from 'lucide-react';
 
 const metricIcons = [Users, AlertTriangle, AlertTriangle, ClipboardCheck, Home];
 
@@ -15,7 +15,7 @@ function HandoverProgress({ patient }) {
   );
 }
 
-export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelectPatient }) {
+export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelectPatient, onExport = () => {} }) {
   const metrics = [
     ['Patients', summary.metrics.patients, 'In unit'],
     ['Escalations', summary.metrics.activeEscalations, 'Active'],
@@ -99,7 +99,10 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
           </tbody>
         </table>
       </div>
-      <p className="last-updated">Last updated: {summary.lastUpdated}</p>
+      <div className="board-footer">
+        <p className="last-updated">Last updated: {summary.lastUpdated}</p>
+        <button aria-label="Export ward board CSV" className="secondary-action" onClick={onExport} type="button"><Download aria-hidden="true" size={16} /> Export board</button>
+      </div>
     </section>
   );
 }

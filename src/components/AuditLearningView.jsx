@@ -1,6 +1,15 @@
 import { BookOpenCheck, Clock3 } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 export function AuditLearningView({ events }) {
+  const [query, setQuery] = useState('');
+  const [actor, setActor] = useState('All');
+  const actors = [...new Set(events.map((event) => event.actor))].sort();
+  const visibleEvents = useMemo(() => events.filter((event) => {
+    const text = `${event.label} ${event.detail} ${event.patientId ?? ''}`.toLowerCase();
+    return (actor === 'All' || event.actor === actor) && text.includes(query.toLowerCase());
+  }), [actor, events, query]);
+
   return (
     <section className="audit-view" aria-label="Audit and learning">
       <div className="section-heading">
@@ -16,8 +25,13 @@ export function AuditLearningView({ events }) {
         <p>Concern, background, assessment, recommendation, who was contacted, response and outcome.</p>
       </div>
 
+      <div className="toolbar">
+        <label htmlFor="audit-search">Search audit<input id="audit-search" onChange={(event) => setQuery(event.target.value)} type="search" value={query} /></label>
+        <label htmlFor="audit-actor">Actor<select id="audit-actor" onChange={(event) => setActor(event.target.value)} value={actor}><option>All</option>{actors.map((name) => <option key={name}>{name}</option>)}</select></label>
+      </div>
+
       <ol className="timeline">
-        {events.map((event) => (
+        {visibleEvents.map((event) => (
           <li key={event.id}>
             <Clock3 aria-hidden="true" size={16} />
             <div>
@@ -28,6 +42,7 @@ export function AuditLearningView({ events }) {
           </li>
         ))}
       </ol>
+      {visibleEvents.length === 0 && <p className="empty-state">No audit events match these filters.</p>}
     </section>
   );
 }
