@@ -46,6 +46,8 @@ npm run dev
 
 If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the deterministic provider. The Vite dev server proxies `/api` to `http://127.0.0.1:8787`.
 
+The API also exposes `GET /api/simulation/workspace`. By default it serves the local fictional fixture. To point that route at an approved simulation PostgreSQL database, set both `SAFEFLOW_SIMULATION_ONLY=true` and `DATABASE_URL`; otherwise database-backed workspace mode is refused or falls back to the fixture.
+
 ## Verification
 
 ```powershell

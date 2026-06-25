@@ -28,7 +28,21 @@ function createJsonResponse() {
 
 describe('createApiHandler', () => {
   it('returns the fictional simulation workspace snapshot', async () => {
-    const handler = createApiHandler();
+    const workspaceProvider = {
+      getSnapshot: vi.fn().mockResolvedValue({
+        product: 'SafeFlow',
+        simulationOnly: true,
+        safetyBoundary: {
+          noLivePatientData: true,
+          directCareIdentifiers: false,
+          humanReviewRequired: true
+        },
+        workspace: {
+          patients: [{ syntheticPatientRef: 'DCU-031' }]
+        }
+      })
+    };
+    const handler = createApiHandler({ workspaceProvider });
     const req = createJsonRequest({ method: 'GET', path: '/api/simulation/workspace' });
     const res = createJsonResponse();
 
@@ -37,6 +51,7 @@ describe('createApiHandler', () => {
     const serializedPayload = JSON.stringify(payload);
 
     expect(res.statusCode).toBe(200);
+    expect(workspaceProvider.getSnapshot).toHaveBeenCalledTimes(1);
     expect(payload).toMatchObject({
       product: 'SafeFlow',
       simulationOnly: true,

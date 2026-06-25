@@ -57,7 +57,7 @@ The migration manifest command gives reviewers a deterministic list of SQL sourc
 
 ## Simulation Workspace API Contract
 
-The local API exposes `GET /api/simulation/workspace` as a read-only fictional workspace snapshot for frontend and integration review. It returns SafeFlow metadata, explicit safety boundaries and synthetic patient references only.
+The local API exposes `GET /api/simulation/workspace` as a read-only fictional workspace snapshot for frontend and integration review. It returns SafeFlow metadata, explicit safety boundaries and synthetic patient references only. By default it serves the local fictional fixture; database-backed mode requires both `SAFEFLOW_SIMULATION_ONLY=true` and `DATABASE_URL`.
 
 The private Lambda scaffold exposes the same route as a placeholder for AWS review, but it does not read from a live database yet. The intended approved-database projection is captured in `database/queries/simulationWorkspace.sql`, which filters on `fictional_scenario is true` and avoids direct patient identifiers.
 
