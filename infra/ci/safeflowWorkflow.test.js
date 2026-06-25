@@ -18,6 +18,7 @@ describe('SafeFlow GitHub CI workflow', () => {
     expect(workflow).toContain('npm ci');
     expect(workflow).toContain('npm test');
     expect(workflow).toContain('npm run build');
+    expect(workflow).toContain('npm run api:smoke');
     expect(workflow).toContain('playwright install --with-deps chromium');
     expect(workflow).toContain('npm run e2e');
     expect(workflow).toContain('npm audit --audit-level=moderate');

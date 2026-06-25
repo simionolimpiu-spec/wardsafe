@@ -16,6 +16,7 @@
     "db:migrate:plan": "node database/runMigrations.js --dry-run",
     "db:migrate:execute": "node database/runMigrations.js --execute",
     "preview": "vite preview --host 127.0.0.1",
+    "api:smoke": "node server/apiSmoke.js",
     "api": "node server/index.js"
   },
   "dependencies": {

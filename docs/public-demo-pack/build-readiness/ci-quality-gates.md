@@ -8,6 +8,7 @@ SafeFlow uses `.github/workflows/safeflow-ci.yml` to verify the public simulatio
 - Runs all unit, contract and infrastructure tests.
 - Builds the production frontend bundle.
 - Fails on moderate-or-higher dependency advisories.
+- Runs the API safety smoke against health, workspace, readiness and SBAR draft routes.
 - Installs Chromium and runs the Playwright safety journey.
 - Uploads browser evidence only when the job fails.
 
@@ -29,6 +30,7 @@ The workflow has repository read permission only. It does not configure AWS cred
 npm test
 npm run build
 npm audit --audit-level=moderate
+$env:SAFEFLOW_SIMULATION_ONLY="true"; npm run api:smoke
 npm run e2e
 npm run db:manifest
 $env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan

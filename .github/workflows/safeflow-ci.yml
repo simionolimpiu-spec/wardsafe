@@ -41,6 +41,11 @@ jobs:
       - name: Check moderate-or-higher dependency advisories
         run: npm audit --audit-level=moderate
 
+      - name: Run API safety smoke
+        env:
+          SAFEFLOW_SIMULATION_ONLY: 'true'
+        run: npm run api:smoke
+
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
