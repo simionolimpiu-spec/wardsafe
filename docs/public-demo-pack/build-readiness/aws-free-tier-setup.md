@@ -7,6 +7,8 @@ This guide is for a first SafeFlow simulation-only AWS account in the London reg
 - Use AWS Free Tier cautiously: free-tier and credit offers still need billing alerts and cleanup discipline.
 - Confirm the root account has MFA enabled.
 - Confirm no root access keys exist.
+- Do not use the root identity for SafeFlow CLI, CDK diff or deploy commands.
+- Configure a non-root IAM or IAM Identity Center profile for `AWS_PROFILE`.
 - Confirm an AWS Budget exists with alerts before resources are deployed.
 - Keep the account in `eu-west-2` for SafeFlow simulation work.
 - Use only fictional SafeFlow data. No live patient data, no NHS systems, no direct care identifiers.
@@ -38,7 +40,7 @@ npm run infra:deploy:preflight
 npm run infra:diff:simulation
 ```
 
-`infra:deploy:preflight` does not call AWS. It checks the local environment for simulation-only mode, London region, MFA confirmation, budget confirmation and explicit deployment approval.
+`infra:deploy:preflight` checks the local environment for simulation-only mode, London region, MFA confirmation, budget confirmation and explicit deployment approval. It also verifies the AWS caller identity and refuses root credentials.
 
 ## Deployment Command
 

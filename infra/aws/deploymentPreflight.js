@@ -1,4 +1,8 @@
 import { pathToFileURL } from 'node:url';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
 
 export const REQUIRED_DEPLOYMENT_CONFIRMATIONS = Object.freeze([
   'SAFEFLOW_SIMULATION_ONLY',
@@ -10,10 +14,22 @@ export const REQUIRED_DEPLOYMENT_CONFIRMATIONS = Object.freeze([
 export function createDeploymentPreflight({
   env = process.env,
   stdout = process.stdout,
-  stderr = process.stderr
+  stderr = process.stderr,
+  getCallerIdentity = () => getAwsCallerIdentity({ env })
 } = {}) {
   return async function deploymentPreflight() {
     const errors = validateDeploymentEnvironment(env);
+
+    if (errors.length === 0) {
+      try {
+        const identity = await getCallerIdentity();
+        if (isRootIdentity(identity?.Arn)) {
+          errors.push('root AWS credentials are not allowed for SafeFlow CDK diff or deploy. Configure a non-root IAM or IAM Identity Center profile.');
+        }
+      } catch (error) {
+        errors.push(`Unable to verify AWS caller identity: ${error.message}`);
+      }
+    }
 
     if (errors.length > 0) {
       for (const error of errors) {
@@ -53,6 +69,31 @@ export function validateDeploymentEnvironment(env = process.env) {
   }
 
   return errors;
+}
+
+export async function getAwsCallerIdentity({ env = process.env } = {}) {
+  const awsExecutable = env.AWS_CLI_PATH || 'aws';
+  const args = ['sts', 'get-caller-identity', '--output', 'json'];
+
+  if (env.AWS_PROFILE) {
+    args.push('--profile', env.AWS_PROFILE);
+  }
+
+  const region = env.CDK_DEFAULT_REGION || env.AWS_REGION;
+  if (region) {
+    args.push('--region', region);
+  }
+
+  const { stdout } = await execFileAsync(awsExecutable, args, {
+    env,
+    windowsHide: true
+  });
+
+  return JSON.parse(stdout);
+}
+
+function isRootIdentity(arn) {
+  return typeof arn === 'string' && /:root$/.test(arn);
 }
 
 function isCliEntryPoint(metaUrl, argvPath) {

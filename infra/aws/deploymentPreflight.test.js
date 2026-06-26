@@ -15,7 +15,14 @@ describe('SafeFlow AWS deployment preflight', () => {
   it('passes only when all simulation deployment confirmations are present', async () => {
     const stdout = { write: vi.fn() };
     const stderr = { write: vi.fn() };
-    const preflight = createDeploymentPreflight({ env: approvedEnv, stdout, stderr });
+    const preflight = createDeploymentPreflight({
+      env: approvedEnv,
+      stdout,
+      stderr,
+      getCallerIdentity: vi.fn().mockResolvedValue({
+        Arn: 'arn:aws:iam::123456789012:user/safeflow-deployer'
+      })
+    });
 
     await expect(preflight()).resolves.toBe(0);
     expect(stdout.write).toHaveBeenCalledWith(expect.stringContaining('SafeFlow AWS deployment preflight passed'));
@@ -38,6 +45,23 @@ describe('SafeFlow AWS deployment preflight', () => {
     await expect(preflight()).resolves.toBe(1);
     expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('CDK_DEFAULT_REGION must be eu-west-2'));
     expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('SAFEFLOW_BUDGET_CONFIRMED must be true'));
+  });
+
+  it('rejects root AWS credentials before diff or deploy can run', async () => {
+    const stdout = { write: vi.fn() };
+    const stderr = { write: vi.fn() };
+    const preflight = createDeploymentPreflight({
+      env: approvedEnv,
+      stdout,
+      stderr,
+      getCallerIdentity: vi.fn().mockResolvedValue({
+        Arn: 'arn:aws:iam::123456789012:root'
+      })
+    });
+
+    await expect(preflight()).resolves.toBe(1);
+    expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('root AWS credentials are not allowed'));
+    expect(stdout.write).not.toHaveBeenCalledWith(expect.stringContaining('preflight passed'));
   });
 
   it('documents the required deployment confirmations', () => {

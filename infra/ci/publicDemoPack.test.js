@@ -43,6 +43,8 @@ describe('SafeFlow public demo pack', () => {
     expect(setup).toContain('AWS Free Tier');
     expect(setup).toContain('MFA');
     expect(setup).toContain('AWS Budget');
+    expect(setup).toContain('Do not use the root identity');
+    expect(setup).toContain('refuses root credentials');
     expect(setup).toContain('No live patient data');
     expect(envTemplate).toContain('CDK_DEFAULT_REGION=eu-west-2');
     expect(envTemplate).toContain('SAFEFLOW_SIMULATION_ONLY=true');
