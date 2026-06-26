@@ -6,6 +6,7 @@ import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js
 import { requestReadinessReport } from './services/readinessClient.js';
 import { requestSbarDraft } from './services/draftClient.js';
 import { requestWorkspaceSnapshot } from './services/workspaceClient.js';
+import { requestSimulationAuditEvent } from './services/auditClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
@@ -63,6 +64,7 @@ export default function App() {
   const [isCheckingReadiness, setIsCheckingReadiness] = useState(false);
   const [backendWorkspace, setBackendWorkspace] = useState(null);
   const [readinessReport, setReadinessReport] = useState(null);
+  const [serverAuditStatus, setServerAuditStatus] = useState('');
   const [dialog, setDialog] = useState(null);
 
   function selectPatient(patientId) {
@@ -73,6 +75,7 @@ export default function App() {
     setDraftText(formatDraftSections(nextDraft));
     setAuditEvents(initialAuditEvents(nextPatient));
     setDraftStatus('');
+    setServerAuditStatus('');
   }
 
   async function generateProviderDraft() {
@@ -91,46 +94,119 @@ export default function App() {
       ...events
     ]);
     setDraftStatus(label);
+    mirrorServerAuditEvent({
+      patientId: selectedPatient.id,
+      eventType: 'draft.saved',
+      eventSummary: 'Fictional SBAR draft saved',
+      sourceTable: 'drafts',
+      metadata: { screen: 'potassium' }
+    });
   }
 
   function navigate(view) {
     dispatch({ type: 'navigation/changed', payload: { view } });
     setDraftStatus('');
+    setServerAuditStatus('');
+  }
+
+  function mirrorServerAuditEvent({ patientId, eventType, eventSummary, sourceTable, metadata = {} }) {
+    setServerAuditStatus('');
+    void requestSimulationAuditEvent({
+      patientId,
+      eventType,
+      eventSummary,
+      actorRole: 'charge_nurse',
+      sourceTable,
+      metadata
+    }).then((event) => {
+      if (event?.source) {
+        setServerAuditStatus(`Server audit mirrored to ${event.source}`);
+      }
+    });
   }
 
   function recordObservation(observation) {
     dispatch({ type: 'observation/added', payload: observation });
     setDraftStatus(`Observation recorded for ${observation.patientId}`);
+    mirrorServerAuditEvent({
+      patientId: observation.patientId,
+      eventType: 'observation.recorded',
+      eventSummary: 'Fictional observation recorded',
+      sourceTable: 'observations',
+      metadata: { screen: 'observations', news2: observation.news2 }
+    });
   }
 
   function addTask(task) {
     dispatch({ type: 'task/added', payload: task });
     setDraftStatus(`Task added for ${task.patientId}`);
+    mirrorServerAuditEvent({
+      patientId: task.patientId,
+      eventType: 'task.created',
+      eventSummary: 'Fictional task created',
+      sourceTable: 'tasks',
+      metadata: { screen: state.selectedView }
+    });
   }
 
   function changeTaskStatus(change) {
     dispatch({ type: 'task/statusChanged', payload: change });
     setDraftStatus(`Task marked ${change.status}`);
+    mirrorServerAuditEvent({
+      patientId: change.patientId,
+      eventType: change.status === 'Done' ? 'task.completed' : 'task.reopened',
+      eventSummary: `Fictional task marked ${change.status}`,
+      sourceTable: 'tasks',
+      metadata: { screen: 'tasks', taskId: change.taskId, status: change.status }
+    });
   }
 
   function createEscalation(escalation) {
     dispatch({ type: 'escalation/created', payload: escalation });
     setDraftStatus(`Escalation created for ${escalation.patientId}`);
+    mirrorServerAuditEvent({
+      patientId: escalation.patientId,
+      eventType: 'escalation.created',
+      eventSummary: 'Fictional escalation created',
+      sourceTable: 'escalations',
+      metadata: { screen: 'escalations' }
+    });
   }
 
   function changeEscalationStatus(change) {
     dispatch({ type: 'escalation/statusChanged', payload: change });
     setDraftStatus(`Escalation ${change.status}`);
+    mirrorServerAuditEvent({
+      patientId: change.patientId,
+      eventType: change.status === 'Closed' ? 'escalation.closed' : 'escalation.updated',
+      eventSummary: `Fictional escalation ${change.status}`,
+      sourceTable: 'escalations',
+      metadata: { screen: 'escalations', escalationId: change.escalationId, status: change.status }
+    });
   }
 
   function saveHandover(handover) {
     dispatch({ type: 'handover/saved', payload: handover });
     setDraftStatus(`Handover saved for ${handover.patientId}`);
+    mirrorServerAuditEvent({
+      patientId: handover.patientId,
+      eventType: 'handover.saved',
+      eventSummary: 'Fictional handover saved',
+      sourceTable: 'handover',
+      metadata: { screen: 'handover', completion: Number(handover.handoverComplete) }
+    });
   }
 
   function saveDischargeBlockers(discharge) {
     dispatch({ type: 'discharge/blockersChanged', payload: discharge });
     setDraftStatus(`Discharge readiness saved for ${discharge.patientId}`);
+    mirrorServerAuditEvent({
+      patientId: discharge.patientId,
+      eventType: 'discharge.updated',
+      eventSummary: 'Fictional discharge readiness updated',
+      sourceTable: 'discharges',
+      metadata: { screen: 'discharges', blockerCount: discharge.blockers.length }
+    });
   }
 
   function exportWardBoard() {
@@ -206,6 +282,13 @@ export default function App() {
     });
     setDialog(null);
     setDraftStatus(`Simulated team contact recorded for ${patientId}`);
+    mirrorServerAuditEvent({
+      patientId,
+      eventType: 'contact.recorded',
+      eventSummary: 'Fictional team contact recorded',
+      sourceTable: 'contacts',
+      metadata: { screen: 'patient_panel' }
+    });
   }
 
   return (
@@ -329,6 +412,7 @@ export default function App() {
         </div>
         <ArchitectureStrip />
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
+        {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
       </div>
       {dialog?.type === 'reset' && (
         <SimulationDialog confirmLabel="Confirm reset" onClose={() => setDialog(null)} onConfirm={confirmReset} title="Reset simulation">

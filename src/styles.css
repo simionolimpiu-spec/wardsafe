@@ -763,6 +763,12 @@ textarea {
   padding: 12px 14px;
 }
 
+.backend-note {
+  color: #53657a;
+  font-size: 0.9rem;
+  margin: 8px 0 0;
+}
+
 .audit-view {
   background: #fff;
   border: 1px solid #d7e3f4;

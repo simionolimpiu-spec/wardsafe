@@ -213,6 +213,38 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('status')).toHaveTextContent(/Task marked Done/i);
   });
 
+  it('mirrors completed tasks to the server-side simulation audit boundary', async () => {
+    const user = userEvent.setup();
+    const fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        event: {
+          product: 'SafeFlow',
+          simulationOnly: true,
+          source: 'local-audit-fixture',
+          syntheticPatientRef: 'DCU-031',
+          eventType: 'task.completed'
+        }
+      })
+    });
+    vi.stubGlobal('fetch', fetch);
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: /tasks/i }));
+    await user.click(screen.getByRole('button', { name: 'Mark Medical review Done' }));
+
+    expect(screen.getByRole('status')).toHaveTextContent(/Task marked Done/i);
+    expect(await screen.findByText(/Server audit mirrored to local-audit-fixture/i)).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledWith('/api/simulation/audit-events', expect.objectContaining({
+      method: 'POST',
+      body: expect.stringContaining('"eventType":"task.completed"')
+    }));
+    expect(fetch).toHaveBeenCalledWith('/api/simulation/audit-events', expect.objectContaining({
+      body: expect.not.stringMatching(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i)
+    }));
+  });
+
   it('creates and closes a simulated escalation', async () => {
     const user = userEvent.setup();
     render(<App />);
