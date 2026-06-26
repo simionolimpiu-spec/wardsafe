@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const workflowPath = resolve(process.cwd(), '.github/workflows/safeflow-ci.yml');
 const workflow = existsSync(workflowPath) ? readFileSync(workflowPath, 'utf8') : '';
+const packageJson = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf8'));
 
 describe('SafeFlow GitHub CI workflow', () => {
   it('runs on pull requests and protected branch pushes with read-only repository access', () => {
@@ -39,6 +40,17 @@ describe('SafeFlow GitHub CI workflow', () => {
     expect(workflow).not.toMatch(/configure-aws-credentials/i);
     expect(workflow).not.toMatch(/cdk deploy/i);
     expect(workflow).not.toMatch(/aws_secret_access_key|secrets\./i);
+  });
+
+  it('exposes local AWS simulation deploy-prep scripts without running deploy in CI', () => {
+    expect(packageJson.scripts).toMatchObject({
+      'infra:deploy:preflight': 'node infra/aws/deploymentPreflight.js',
+      'infra:diff:simulation': expect.stringContaining('infra:deploy:preflight'),
+      'infra:deploy:simulation': expect.stringContaining('infra:deploy:preflight')
+    });
+    expect(packageJson.scripts['infra:diff:simulation']).toContain('cdk diff');
+    expect(packageJson.scripts['infra:deploy:simulation']).toContain('cdk deploy');
+    expect(workflow).not.toMatch(/npm run infra:deploy:simulation/);
   });
 
   it('pins Node 22 and bounds each job runtime', () => {

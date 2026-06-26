@@ -30,7 +30,7 @@ npm run infra:synth -- -c safeflowEnvironment=pilot
 
 That gate exists for local template review. It is a process safeguard, not an IAM control, and it does not approve deployment, live integrations or live patient data. Do not use the gate with `cdk deploy`.
 
-The CDK app also requires context `safeFlowOperation=synth` or `safeFlowOperation=deploy`. Deploy operation rejects `dev` and `pilot`, and requires `SAFEFLOW_DEPLOYMENT_APPROVED=true` for the simulation profile. No deployment command or deployment role is included in this repository.
+The CDK app also requires context `safeFlowOperation=synth` or `safeFlowOperation=deploy`. Deploy operation rejects `dev` and `pilot`, and requires `SAFEFLOW_DEPLOYMENT_APPROVED=true` for the simulation profile. The repository includes local gated deploy-prep scripts for the simulation profile, but CI never configures AWS credentials or deploys resources.
 
 ## Shared Controls
 

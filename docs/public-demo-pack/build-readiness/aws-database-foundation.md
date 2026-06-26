@@ -14,6 +14,7 @@ This is the first buildable AWS/database slice for SafeFlow. It is a local infra
 - `database/migrationRunner.js` validates approval gates and runs migrations transactionally.
 - `database/queries/simulationWorkspace.sql` documents the read-only PostgreSQL projection for the SafeFlow workspace API.
 - `database/queries/insertSimulationAuditEvent.sql` documents the PostgreSQL append contract for simulation audit events.
+- `database/queries/listSimulationAuditEvents.sql` documents the PostgreSQL readback contract for simulation audit events.
 - `infra/aws/lambda/safeflowApi/index.mjs` defines a private Lambda handler scaffold.
 - `infra/**/*.test.js` and `database/**/*.test.js` check the safety boundaries.
 
@@ -62,7 +63,7 @@ The local API exposes `GET /api/simulation/workspace` as a read-only fictional w
 
 The local API also exposes `GET /api/simulation/readiness` to report provider modes, database guard state and migration approval status without exposing credentials, ARNs or direct patient identifiers. The Settings screen can call both endpoints for reviewer-facing checks.
 
-The local API also exposes `POST /api/simulation/audit-events` to validate and append public-safe simulation audit events. Local demo mode returns an in-memory fictional event; database-backed mode requires `SAFEFLOW_SIMULATION_ONLY=true`, `DATABASE_URL` and the query contract in `database/queries/insertSimulationAuditEvent.sql`, which resolves only `fictional_scenario is true` patient summaries.
+The local API also exposes `POST /api/simulation/audit-events` to validate and append public-safe simulation audit events. Local demo mode returns an in-memory fictional event; database-backed mode requires `SAFEFLOW_SIMULATION_ONLY=true`, `DATABASE_URL` and the query contract in `database/queries/insertSimulationAuditEvent.sql`, which resolves only `fictional_scenario is true` patient summaries. `GET /api/simulation/audit-events` reads back public-safe simulation audit events through `database/queries/listSimulationAuditEvents.sql`.
 
 The private Lambda scaffold exposes the same workspace, readiness and audit-event routes as placeholders for AWS review, but it does not read from or write to a live database yet. The intended approved-database projection is captured in `database/queries/simulationWorkspace.sql`, which filters on `fictional_scenario is true` and avoids direct patient identifiers.
 
@@ -72,6 +73,7 @@ The private Lambda scaffold exposes the same workspace, readiness and audit-even
 npm test -- infra/aws/safeflowFoundationStack.test.js database/schema.test.js
 npm run infra:synth:dev
 npm run infra:synth:simulation
+npm run infra:deploy:preflight
 npm run db:manifest
 $env:SAFEFLOW_SIMULATION_ONLY="true"; npm run db:migrate:plan
 npm run infra:synth
@@ -79,6 +81,8 @@ npm run api
 ```
 
 `npm run infra:synth` renders CloudFormation locally. It should be used for review only until an AWS account, deployment role, budget guardrail and environment policy are agreed.
+
+`npm run infra:deploy:preflight` checks the local deployment confirmations without contacting AWS. `npm run infra:diff:simulation` and `npm run infra:deploy:simulation` are intentionally chained through this preflight and require explicit London-region, MFA, budget, simulation-only and deployment-approval environment variables.
 
 `npm run db:migrate:execute` is intentionally gated. It should only be used against an approved simulation database with `SAFEFLOW_SIMULATION_ONLY=true`, `SAFEFLOW_MIGRATION_APPROVED=true` and `DATABASE_URL` set.
 

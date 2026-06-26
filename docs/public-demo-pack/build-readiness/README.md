@@ -15,6 +15,7 @@ The pack is public-safe. It avoids confidential invention details, avoids offici
 - `delivery-roadmap.md` - phased delivery milestones and evidence gates.
 - `aws-database-foundation.md` - first local AWS CDK and PostgreSQL scaffold.
 - `environment-profiles.md` - dev, simulation and restricted future-pilot settings.
+- `aws-free-tier-setup.md` - first-account checklist, London-region env template and gated deploy commands.
 - `backup-restore-runbook.md` - simulation-only backup/restore drill and evidence process.
 - `ci-quality-gates.md` - non-deploying GitHub checks for app, infrastructure and migrations.
 
