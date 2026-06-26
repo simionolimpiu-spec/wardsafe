@@ -9,6 +9,13 @@ describe('SafeFlow migration CLI', () => {
     )).toBe(true);
   });
 
+  it('detects the CLI entrypoint from a POSIX argv path on any host OS', () => {
+    expect(isCliEntryPoint(
+      'file:///home/runner/work/wardsafe/wardsafe/database/runMigrations.js',
+      '/home/runner/work/wardsafe/wardsafe/database/runMigrations.js'
+    )).toBe(true);
+  });
+
   it('plans before constructing or connecting a database client in execute mode', async () => {
     const clientFactory = vi.fn();
     const planMigrationRun = vi.fn(() => {

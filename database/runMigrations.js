@@ -11,11 +11,51 @@ function parseMode(argv) {
 }
 
 export function isCliEntryPoint(metaUrl, argvPath) {
-  return Boolean(argvPath) && metaUrl === pathToFileURL(argvPath).href;
+  if (!argvPath) return false;
+
+  return fileUrlCandidates(argvPath).has(metaUrl);
 }
 
 export function redactSensitiveText(text) {
   return String(text).replace(/\b(postgres(?:ql)?:\/\/)([^@\s/]+)@/gi, '$1[redacted]@');
+}
+
+function fileUrlCandidates(filePath) {
+  const candidates = new Set();
+
+  try {
+    candidates.add(pathToFileURL(filePath).href);
+  } catch {
+    // Fall back to portable path handling below.
+  }
+
+  const portableUrl = toPortableFileUrl(filePath);
+  if (portableUrl) candidates.add(portableUrl);
+
+  return candidates;
+}
+
+function toPortableFileUrl(filePath) {
+  const normalised = filePath.replace(/\\/g, '/');
+
+  if (/^[A-Za-z]:\//.test(normalised)) {
+    const drive = normalised.slice(0, 2);
+    const rest = normalised.slice(2);
+    return `file:///${drive}${encodePathSegments(rest)}`;
+  }
+
+  if (normalised.startsWith('/')) {
+    return `file://${encodePathSegments(normalised)}`;
+  }
+
+  return null;
+}
+
+function encodePathSegments(filePath) {
+  return filePath
+    .split('/')
+    .map((segment) => encodeURIComponent(segment))
+    .join('/');
 }
 
 export function createMigrationCli({
