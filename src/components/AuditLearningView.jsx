@@ -1,7 +1,13 @@
-import { BookOpenCheck, Clock3 } from 'lucide-react';
+import { BookOpenCheck, Clock3, RefreshCw } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-export function AuditLearningView({ events }) {
+export function AuditLearningView({
+  events,
+  backendEvents = [],
+  backendAuditStatus = '',
+  isLoadingBackendAudit = false,
+  onRefreshBackendAudit = () => {}
+}) {
   const [query, setQuery] = useState('');
   const [actor, setActor] = useState('All');
   const actors = [...new Set(events.map((event) => event.actor))].sort();
@@ -24,6 +30,38 @@ export function AuditLearningView({ events }) {
         <strong>Documentation focus</strong>
         <p>Concern, background, assessment, recommendation, who was contacted, response and outcome.</p>
       </div>
+
+      <div className="audit-backend-panel">
+        <div>
+          <strong>Backend audit mirror</strong>
+          {backendAuditStatus && <p>{backendAuditStatus}</p>}
+          {!backendAuditStatus && <p>Read server-side simulation audit events on demand.</p>}
+        </div>
+        <button
+          className="secondary-action"
+          disabled={isLoadingBackendAudit}
+          onClick={onRefreshBackendAudit}
+          type="button"
+        >
+          <RefreshCw aria-hidden="true" size={16} />
+          {isLoadingBackendAudit ? 'Refreshing audit' : 'Refresh backend audit'}
+        </button>
+      </div>
+
+      {backendEvents.length > 0 && (
+        <ol className="timeline backend-audit-list" aria-label="Backend audit events">
+          {backendEvents.map((event) => (
+            <li key={`${event.source}-${event.id}`}>
+              <Clock3 aria-hidden="true" size={16} />
+              <div>
+                <strong>{event.syntheticPatientRef} - {event.eventType}</strong>
+                <p>{event.eventSummary}</p>
+                <small>{event.source}</small>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
 
       <div className="toolbar">
         <label htmlFor="audit-search">Search audit<input id="audit-search" onChange={(event) => setQuery(event.target.value)} type="search" value={query} /></label>

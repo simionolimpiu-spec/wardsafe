@@ -152,6 +152,55 @@ describe('createApiHandler', () => {
     expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
   });
 
+  it('lists simulation audit events through the configured audit provider', async () => {
+    const auditEventProvider = {
+      id: 'local-audit-fixture',
+      listEvents: vi.fn().mockResolvedValue([
+        {
+          product: 'SafeFlow',
+          simulationOnly: true,
+          source: 'local-audit-fixture',
+          id: 'audit-local-1',
+          syntheticPatientRef: 'DCU-031',
+          eventType: 'task.completed',
+          eventSummary: 'Fictional task completed',
+          occurredAt: '2026-06-10T09:15:00.000Z',
+          metadata: { actorRole: 'charge_nurse', screen: 'tasks' }
+        }
+      ])
+    };
+    const handler = createApiHandler({ auditEventProvider });
+    const req = createJsonRequest({
+      method: 'GET',
+      path: '/api/simulation/audit-events'
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(res.statusCode).toBe(200);
+    expect(auditEventProvider.listEvents).toHaveBeenCalledWith({ limit: 25 });
+    expect(payload).toMatchObject({
+      product: 'SafeFlow',
+      simulationOnly: true,
+      source: 'local-audit-fixture',
+      safetyBoundary: {
+        noLivePatientData: true,
+        directCareIdentifiers: false,
+        humanReviewRequired: true
+      },
+      events: [
+        expect.objectContaining({
+          syntheticPatientRef: 'DCU-031',
+          eventType: 'task.completed'
+        })
+      ]
+    });
+    expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
+  });
+
   it('rejects unsafe simulation audit payloads without storing them', async () => {
     const auditEventProvider = {
       recordEvent: vi.fn()

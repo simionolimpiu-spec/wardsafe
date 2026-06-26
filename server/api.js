@@ -15,7 +15,7 @@ export function createApiHandler({
   env = process.env
 } = {}) {
   return async function apiHandler(req, res) {
-    const { pathname } = new URL(req.url ?? '/', 'http://localhost');
+    const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');
     setCorsHeaders(res);
 
     if (req.method === 'OPTIONS') {
@@ -44,6 +44,11 @@ export function createApiHandler({
       return;
     }
 
+    if (req.method === 'GET' && pathname === '/api/simulation/audit-events') {
+      await handleSimulationAuditEvents(req, res, auditEventProvider, searchParams);
+      return;
+    }
+
     if (req.method === 'POST' && pathname === '/api/simulation/audit-events') {
       await handleSimulationAuditEvent(req, res, auditEventProvider);
       return;
@@ -56,6 +61,26 @@ export function createApiHandler({
 
     writeJson(res, 404, { error: 'Not found' });
   };
+}
+
+async function handleSimulationAuditEvents(_req, res, auditEventProvider, searchParams) {
+  try {
+    const limit = normaliseAuditLimit(searchParams.get('limit'));
+    const events = await auditEventProvider.listEvents({ limit });
+    writeJson(res, 200, {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      source: auditEventProvider.id ?? 'simulation-audit-events',
+      safetyBoundary: {
+        noLivePatientData: true,
+        directCareIdentifiers: false,
+        humanReviewRequired: true
+      },
+      events
+    });
+  } catch {
+    writeJson(res, 503, { error: 'Simulation audit events unavailable' });
+  }
 }
 
 async function handleSimulationAuditEvent(req, res, auditEventProvider) {
@@ -95,6 +120,13 @@ async function handleSbarDraft(req, res, provider) {
       providerError: error.name ?? 'DraftProviderError'
     });
   }
+}
+
+function normaliseAuditLimit(value) {
+  if (value == null || value === '') return 25;
+  const limit = Number(value);
+  if (!Number.isFinite(limit)) return 25;
+  return Math.min(Math.max(Math.trunc(limit), 1), 100);
 }
 
 async function readJson(req) {

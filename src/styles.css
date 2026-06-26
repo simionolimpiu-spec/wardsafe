@@ -784,6 +784,28 @@ textarea {
   padding: 14px;
 }
 
+.audit-backend-panel {
+  align-items: center;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 18px 0;
+  padding: 14px;
+}
+
+.audit-backend-panel p {
+  color: #53657a;
+  margin: 4px 0 0;
+}
+
+.backend-audit-list {
+  border-bottom: 1px solid #e5edf6;
+  border-top: 1px solid #e5edf6;
+  margin: 0 0 18px;
+}
+
 .timeline {
   display: grid;
   gap: 10px;

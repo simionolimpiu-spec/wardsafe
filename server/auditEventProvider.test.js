@@ -52,6 +52,42 @@ describe('audit event provider', () => {
     expect(serialized).not.toMatch(/\bsk-[A-Za-z0-9_-]{8,}/);
   });
 
+  it('lists local audit events newest first without unsafe fields', async () => {
+    const provider = createLocalAuditEventProvider({
+      now: () => '2026-06-10T09:15:00.000Z'
+    });
+
+    await provider.recordEvent({
+      patientId: 'DCU-031',
+      eventType: 'task.created',
+      eventSummary: 'Fictional task created',
+      sourceTable: 'tasks',
+      metadata: { screen: 'tasks' }
+    });
+    await provider.recordEvent({
+      patientId: 'DCU-028',
+      eventType: 'task.completed',
+      eventSummary: 'Fictional task completed',
+      sourceTable: 'tasks',
+      metadata: { screen: 'tasks' }
+    });
+
+    const events = await provider.listEvents({ limit: 1 });
+    const serialized = JSON.stringify(events);
+
+    expect(events).toEqual([
+      expect.objectContaining({
+        product: 'SafeFlow',
+        simulationOnly: true,
+        source: 'local-audit-fixture',
+        syntheticPatientRef: 'DCU-028',
+        eventType: 'task.completed',
+        eventSummary: 'Fictional task completed'
+      })
+    ]);
+    expect(serialized).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
+  });
+
   it('rejects unknown patients and direct identifier fields before storage', async () => {
     const provider = createLocalAuditEventProvider();
 
@@ -136,5 +172,47 @@ describe('audit event provider', () => {
       eventSummary: 'Fictional task completed for ward review',
       occurredAt: '2026-06-10T09:15:00.000Z'
     });
+  });
+
+  it('lists database audit events through the fictional patient reference and closes the pool', async () => {
+    const { Pool, query, end } = createPoolFactory({
+      rows: [{
+        id: 'c4c2a276-302e-48f7-87a9-2891c01743b8',
+        event_type: 'handover.saved',
+        event_summary: 'Fictional handover saved',
+        synthetic_patient_ref: 'DCU-044',
+        occurred_at: new Date('2026-06-10T10:00:00.000Z'),
+        metadata: { actorRole: 'charge_nurse', screen: 'handover' }
+      }]
+    });
+    const provider = createDatabaseAuditEventProvider({
+      env: {
+        SAFEFLOW_SIMULATION_ONLY: 'true',
+        DATABASE_URL: 'postgres://example/safeflow'
+      },
+      Pool,
+      listQueryPath: 'database/queries/listSimulationAuditEvents.sql'
+    });
+
+    const events = await provider.listEvents({ limit: 5 });
+
+    expect(query).toHaveBeenCalledWith(
+      expect.stringContaining('fictional_scenario is true'),
+      [5]
+    );
+    expect(end).toHaveBeenCalledTimes(1);
+    expect(events).toEqual([
+      {
+        product: 'SafeFlow',
+        simulationOnly: true,
+        source: 'postgresql-simulation-audit-events',
+        id: 'c4c2a276-302e-48f7-87a9-2891c01743b8',
+        syntheticPatientRef: 'DCU-044',
+        eventType: 'handover.saved',
+        eventSummary: 'Fictional handover saved',
+        occurredAt: '2026-06-10T10:00:00.000Z',
+        metadata: { actorRole: 'charge_nurse', screen: 'handover' }
+      }
+    ]);
   });
 });

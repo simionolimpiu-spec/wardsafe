@@ -17,6 +17,7 @@ describe('runApiSmoke', () => {
       workspace: 'local-fictional-fixture',
       readiness: 'approved',
       audit: 'local-audit-fixture',
+      auditRead: 'local-audit-fixture',
       draft: 'deterministic'
     });
     expect(messages).toEqual(expect.arrayContaining([

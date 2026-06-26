@@ -86,6 +86,18 @@ export async function runApiSmoke({ handler = createApiHandler(), log = console.
   assertSimulationSafe(audit, '/api/simulation/audit-events');
   log(`/api/simulation/audit-events ${audit.event.source}`);
 
+  const auditRead = await requestJson(handler, { path: '/api/simulation/audit-events' });
+  if (
+    auditRead.product !== 'SafeFlow' ||
+    auditRead.simulationOnly !== true ||
+    !Array.isArray(auditRead.events) ||
+    auditRead.events.length < 1
+  ) {
+    throw new Error('/api/simulation/audit-events did not return simulation audit events');
+  }
+  assertSimulationSafe(auditRead, '/api/simulation/audit-events');
+  log(`/api/simulation/audit-events read ${auditRead.source}`);
+
   const draft = await requestJson(handler, {
     method: 'POST',
     path: '/api/drafts/sbar',
@@ -102,6 +114,7 @@ export async function runApiSmoke({ handler = createApiHandler(), log = console.
     workspace: workspace.source,
     readiness: readiness.migrations.approved ? 'approved' : 'needs-review',
     audit: audit.event.source,
+    auditRead: auditRead.source,
     draft: draft.draft.provider
   };
 }

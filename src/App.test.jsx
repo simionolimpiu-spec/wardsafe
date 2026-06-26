@@ -166,6 +166,47 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByText(/Documentation focus/i)).toBeInTheDocument();
   });
 
+  it('refreshes backend audit events from the simulation API', async () => {
+    const user = userEvent.setup();
+    const fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        product: 'SafeFlow',
+        simulationOnly: true,
+        source: 'local-audit-fixture',
+        safetyBoundary: {
+          noLivePatientData: true,
+          directCareIdentifiers: false,
+          humanReviewRequired: true
+        },
+        events: [
+          {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            source: 'local-audit-fixture',
+            syntheticPatientRef: 'DCU-031',
+            eventType: 'task.completed',
+            eventSummary: 'Fictional task completed',
+            occurredAt: '2026-06-10T09:15:00.000Z',
+            metadata: { actorRole: 'charge_nurse', screen: 'tasks' }
+          }
+        ]
+      })
+    });
+    vi.stubGlobal('fetch', fetch);
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: 'Audit Trail' }));
+    await user.click(screen.getByRole('button', { name: /refresh backend audit/i }));
+
+    expect(await screen.findByText(/Backend audit source: local-audit-fixture/i)).toBeInTheDocument();
+    expect(screen.getByText('DCU-031 - task.completed')).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledWith('/api/simulation/audit-events', {
+      headers: { Accept: 'application/json' }
+    });
+  });
+
   it('opens distinct patients and observations screens', async () => {
     const user = userEvent.setup();
     render(<App />);

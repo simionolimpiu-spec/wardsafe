@@ -48,6 +48,45 @@ export async function requestSimulationAuditEvent({
   }
 }
 
+export async function requestSimulationAuditEvents({ fetchImpl = globalThis.fetch } = {}) {
+  if (!fetchImpl) return null;
+
+  try {
+    const response = await fetchImpl('/api/simulation/audit-events', {
+      headers: { Accept: 'application/json' }
+    });
+    if (!response.ok) return null;
+
+    const payload = await response.json();
+    if (
+      !isPublicSafe(payload) ||
+      payload?.product !== 'SafeFlow' ||
+      payload.simulationOnly !== true ||
+      payload.safetyBoundary?.noLivePatientData !== true ||
+      payload.safetyBoundary?.directCareIdentifiers !== false ||
+      !Array.isArray(payload.events) ||
+      !payload.events.every(isSafeSimulationAuditEvent)
+    ) {
+      return null;
+    }
+
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+function isSafeSimulationAuditEvent(event) {
+  return (
+    isPublicSafe(event) &&
+    event?.product === 'SafeFlow' &&
+    event.simulationOnly === true &&
+    typeof event.syntheticPatientRef === 'string' &&
+    typeof event.eventType === 'string' &&
+    typeof event.eventSummary === 'string'
+  );
+}
+
 function isPublicSafe(value) {
   const serialized = JSON.stringify(value ?? {});
   return !SECRET_VALUE_PATTERN.test(serialized) && !hasDirectIdentifierField(value);

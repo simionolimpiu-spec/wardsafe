@@ -1,5 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-import { requestSimulationAuditEvent } from './auditClient.js';
+import {
+  requestSimulationAuditEvent,
+  requestSimulationAuditEvents
+} from './auditClient.js';
 
 describe('requestSimulationAuditEvent', () => {
   it('posts a public-safe simulation audit event and returns the server event', async () => {
@@ -63,5 +66,66 @@ describe('requestSimulationAuditEvent', () => {
       eventSummary: 'Fictional task completed',
       fetchImpl: unsafeResponse
     })).resolves.toBeNull();
+  });
+});
+
+describe('requestSimulationAuditEvents', () => {
+  it('returns public-safe simulation audit events from the API', async () => {
+    const apiPayload = {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      source: 'local-audit-fixture',
+      safetyBoundary: {
+        noLivePatientData: true,
+        directCareIdentifiers: false,
+        humanReviewRequired: true
+      },
+      events: [
+        {
+          product: 'SafeFlow',
+          simulationOnly: true,
+          source: 'local-audit-fixture',
+          syntheticPatientRef: 'DCU-031',
+          eventType: 'task.completed',
+          eventSummary: 'Fictional task completed',
+          occurredAt: '2026-06-10T09:15:00.000Z',
+          metadata: { actorRole: 'charge_nurse', screen: 'tasks' }
+        }
+      ]
+    };
+    const fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue(apiPayload)
+    });
+
+    await expect(requestSimulationAuditEvents({ fetchImpl: fetch })).resolves.toEqual(apiPayload);
+    expect(fetch).toHaveBeenCalledWith('/api/simulation/audit-events', {
+      headers: { Accept: 'application/json' }
+    });
+  });
+
+  it('returns null when the audit event response is unavailable or unsafe', async () => {
+    const unavailable = vi.fn().mockRejectedValue(new Error('offline'));
+    const unsafeEnvelope = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({ product: 'SafeFlow', simulationOnly: false })
+    });
+    const unsafeEvent = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        product: 'SafeFlow',
+        simulationOnly: true,
+        safetyBoundary: {
+          noLivePatientData: true,
+          directCareIdentifiers: false,
+          humanReviewRequired: true
+        },
+        events: [{ syntheticPatientRef: 'DCU-031', eventType: 'task.completed', metadata: { email: 'person@example.invalid' } }]
+      })
+    });
+
+    await expect(requestSimulationAuditEvents({ fetchImpl: unavailable })).resolves.toBeNull();
+    await expect(requestSimulationAuditEvents({ fetchImpl: unsafeEnvelope })).resolves.toBeNull();
+    await expect(requestSimulationAuditEvents({ fetchImpl: unsafeEvent })).resolves.toBeNull();
   });
 });

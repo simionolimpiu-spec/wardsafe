@@ -6,7 +6,10 @@ import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js
 import { requestReadinessReport } from './services/readinessClient.js';
 import { requestSbarDraft } from './services/draftClient.js';
 import { requestWorkspaceSnapshot } from './services/workspaceClient.js';
-import { requestSimulationAuditEvent } from './services/auditClient.js';
+import {
+  requestSimulationAuditEvent,
+  requestSimulationAuditEvents
+} from './services/auditClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
@@ -65,6 +68,9 @@ export default function App() {
   const [backendWorkspace, setBackendWorkspace] = useState(null);
   const [readinessReport, setReadinessReport] = useState(null);
   const [serverAuditStatus, setServerAuditStatus] = useState('');
+  const [backendAuditEvents, setBackendAuditEvents] = useState([]);
+  const [backendAuditStatus, setBackendAuditStatus] = useState('');
+  const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
   const [dialog, setDialog] = useState(null);
 
   function selectPatient(patientId) {
@@ -260,6 +266,23 @@ export default function App() {
     setIsCheckingReadiness(false);
   }
 
+  async function refreshBackendAuditEvents() {
+    setIsRefreshingBackendAudit(true);
+    const auditPayload = await requestSimulationAuditEvents();
+
+    if (auditPayload) {
+      setBackendAuditEvents(auditPayload.events);
+      setBackendAuditStatus(`Backend audit source: ${auditPayload.source}`);
+      setDraftStatus('Backend audit refresh complete');
+    } else {
+      setBackendAuditEvents([]);
+      setBackendAuditStatus('Backend audit unavailable; local audit retained');
+      setDraftStatus('Backend audit unavailable; local audit retained');
+    }
+
+    setIsRefreshingBackendAudit(false);
+  }
+
   function confirmReset() {
     reset();
     setDialog(null);
@@ -386,7 +409,15 @@ export default function App() {
               />
             )}
             {state.selectedView === 'scenarios' && <ScenarioLibraryView />}
-            {state.selectedView === 'audit' && <AuditLearningView events={state.auditEvents} />}
+            {state.selectedView === 'audit' && (
+              <AuditLearningView
+                backendAuditStatus={backendAuditStatus}
+                backendEvents={backendAuditEvents}
+                events={state.auditEvents}
+                isLoadingBackendAudit={isRefreshingBackendAudit}
+                onRefreshBackendAudit={refreshBackendAuditEvents}
+              />
+            )}
             {state.selectedView === 'settings' && (
               <SettingsView
                 backendWorkspace={backendWorkspace}

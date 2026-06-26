@@ -4,6 +4,7 @@ import { Pool as PgPool } from 'pg';
 import { simulatedPatients } from '../src/data/simulatedPatients.js';
 
 const AUDIT_INSERT_QUERY_PATH = 'database/queries/insertSimulationAuditEvent.sql';
+const AUDIT_LIST_QUERY_PATH = 'database/queries/listSimulationAuditEvents.sql';
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
 const SECRET_VALUE_PATTERN = /(postgres:\/\/|\bsk-[A-Za-z0-9_-]{8,})/;
 const EVENT_TYPE_PATTERN = /^[a-z][a-z0-9._-]{2,80}$/;
@@ -31,6 +32,7 @@ export function assertSimulationAuditPayloadIsSafe(payload) {
 
 export function createLocalAuditEventProvider({ now = () => new Date().toISOString() } = {}) {
   let sequence = 0;
+  const events = [];
 
   return {
     id: 'local-audit-fixture',
@@ -38,7 +40,7 @@ export function createLocalAuditEventProvider({ now = () => new Date().toISOStri
       const event = normaliseAuditEvent(input);
       sequence += 1;
 
-      return {
+      const storedEvent = {
         product: 'SafeFlow',
         simulationOnly: true,
         source: 'local-audit-fixture',
@@ -49,6 +51,12 @@ export function createLocalAuditEventProvider({ now = () => new Date().toISOStri
         occurredAt: now(),
         metadata: event.metadata
       };
+
+      events.unshift(storedEvent);
+      return storedEvent;
+    },
+    async listEvents({ limit = 25 } = {}) {
+      return events.slice(0, normaliseLimit(limit));
     }
   };
 }
@@ -56,7 +64,8 @@ export function createLocalAuditEventProvider({ now = () => new Date().toISOStri
 export function createDatabaseAuditEventProvider({
   env = process.env,
   Pool = PgPool,
-  queryPath = AUDIT_INSERT_QUERY_PATH
+  queryPath = AUDIT_INSERT_QUERY_PATH,
+  listQueryPath = AUDIT_LIST_QUERY_PATH
 } = {}) {
   if (env.SAFEFLOW_SIMULATION_ONLY !== 'true') {
     throw new Error('Database audit event mode requires SAFEFLOW_SIMULATION_ONLY=true');
@@ -100,6 +109,21 @@ export function createDatabaseAuditEventProvider({
           eventSummary: row.event_summary,
           occurredAt: normaliseTimestamp(row.occurred_at)
         };
+      } finally {
+        await pool.end();
+      }
+    },
+    async listEvents({ limit = 25 } = {}) {
+      const pool = new Pool({
+        connectionString: env.DATABASE_URL,
+        max: 1,
+        application_name: 'safeflow-simulation-audit-events'
+      });
+
+      try {
+        const query = readFileSync(resolve(process.cwd(), listQueryPath), 'utf8');
+        const result = await pool.query(query, [normaliseLimit(limit)]);
+        return result.rows.map((row) => normaliseStoredAuditEvent(row, 'postgresql-simulation-audit-events'));
       } finally {
         await pool.end();
       }
@@ -151,6 +175,29 @@ function normaliseAuditEvent(input) {
       ...(isPlainObject(input.metadata) ? input.metadata : {})
     }
   };
+}
+
+function normaliseStoredAuditEvent(row, source) {
+  const event = {
+    product: 'SafeFlow',
+    simulationOnly: true,
+    source,
+    id: String(row.id),
+    syntheticPatientRef: String(row.synthetic_patient_ref),
+    eventType: String(row.event_type),
+    eventSummary: String(row.event_summary),
+    occurredAt: normaliseTimestamp(row.occurred_at),
+    metadata: isPlainObject(row.metadata) ? row.metadata : {}
+  };
+
+  assertSimulationAuditPayloadIsSafe(event);
+  return event;
+}
+
+function normaliseLimit(value) {
+  const limit = Number(value);
+  if (!Number.isFinite(limit)) return 25;
+  return Math.min(Math.max(Math.trunc(limit), 1), 100);
 }
 
 function stringField(value, fieldName) {
