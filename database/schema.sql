@@ -133,6 +133,85 @@ create table if not exists audit_events (
   occurred_at timestamptz not null default now()
 );
 
+create table if not exists clinical_signals (
+  id uuid primary key default gen_random_uuid(),
+  patient_summary_id uuid not null references patient_summaries (id),
+  synthetic_patient_ref text not null check (synthetic_patient_ref ~ '^DCU-[0-9]{3}$'),
+  source_system text not null,
+  source_message_id text not null,
+  source_type text not null check (source_type in ('lab', 'observation', 'microbiology', 'workflow', 'medication', 'allergy', 'sensor', 'external_ai')),
+  signal_code text not null,
+  display_name text not null,
+  signal_value text,
+  unit text,
+  reference_range text,
+  status text not null check (status in ('preliminary', 'final', 'amended', 'cancelled', 'missing', 'unavailable')),
+  collected_at timestamptz,
+  resulted_at timestamptz,
+  received_at timestamptz not null,
+  effective_at timestamptz not null,
+  source_freshness text not null check (source_freshness in ('current', 'stale', 'unavailable')),
+  confidence numeric(4,3) not null default 1.000 check (confidence >= 0 and confidence <= 1),
+  provenance jsonb not null default '{}'::jsonb,
+  simulation_only boolean not null default true check (simulation_only is true),
+  created_at timestamptz not null default now(),
+  unique (source_system, source_message_id, signal_code, effective_at)
+);
+
+create table if not exists signal_acknowledgements (
+  id uuid primary key default gen_random_uuid(),
+  clinical_signal_id uuid not null references clinical_signals (id),
+  actor_user_id uuid references users (id),
+  acknowledgement_type text not null check (acknowledgement_type in ('reviewed', 'already_actioned', 'not_relevant')),
+  note text,
+  acknowledged_at timestamptz not null default now()
+);
+
+create table if not exists risk_predictions (
+  id uuid primary key default gen_random_uuid(),
+  seed_key text not null unique,
+  patient_summary_id uuid not null references patient_summaries (id),
+  risk_type text not null default 'missed_action' check (risk_type in ('missed_action')),
+  risk_score numeric(4,3) not null check (risk_score >= 0 and risk_score <= 1),
+  risk_tier text not null check (risk_tier in ('info', 'watch', 'urgent')),
+  model_version text not null,
+  feature_set_version text not null,
+  top_contributors jsonb not null default '[]'::jsonb,
+  uncertainty text not null check (uncertainty in ('low', 'medium', 'high')),
+  requires_human_review boolean not null default true check (requires_human_review is true),
+  simulation_only boolean not null default true check (simulation_only is true),
+  created_at timestamptz not null default now()
+);
+
+create table if not exists risk_suggestions (
+  id uuid primary key default gen_random_uuid(),
+  seed_key text not null unique,
+  prediction_id uuid not null references risk_predictions (id),
+  patient_summary_id uuid not null references patient_summaries (id),
+  title text not null,
+  suggested_flag text not null,
+  suggested_blocker text not null,
+  suggested_task text not null,
+  evidence jsonb not null default '[]'::jsonb,
+  missing_data jsonb not null default '[]'::jsonb,
+  status text not null default 'suggested' check (status in ('suggested', 'accepted', 'dismissed', 'snoozed', 'escalated', 'converted_to_task', 'converted_to_blocker', 'resolved', 'superseded')),
+  simulation_only boolean not null default true check (simulation_only is true),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists suggestion_actions (
+  id uuid primary key default gen_random_uuid(),
+  suggestion_id uuid not null references risk_suggestions (id),
+  actor_user_id uuid references users (id),
+  action_type text not null check (action_type in ('accepted', 'dismissed', 'snoozed', 'escalated', 'converted_to_task', 'converted_to_blocker', 'resolved')),
+  action_reason text not null,
+  created_task_id uuid references tasks (id),
+  created_blocker_id uuid references discharge_blockers (id),
+  metadata jsonb not null default '{}'::jsonb,
+  occurred_at timestamptz not null default now()
+);
+
 create table if not exists discovery_scenarios (
   id uuid primary key default gen_random_uuid(),
   scenario_code text not null unique,
@@ -164,6 +243,13 @@ create index if not exists idx_discharge_blockers_patient_summary_id on discharg
 create index if not exists idx_draft_notes_patient_summary_id on draft_notes (patient_summary_id);
 create index if not exists idx_audit_events_patient_summary_id on audit_events (patient_summary_id);
 create index if not exists idx_audit_events_event_type on audit_events (event_type);
+create index if not exists idx_clinical_signals_patient_summary_id on clinical_signals (patient_summary_id);
+create index if not exists idx_clinical_signals_source_type on clinical_signals (source_type);
+create index if not exists idx_clinical_signals_effective_at on clinical_signals (effective_at desc);
+create index if not exists idx_risk_predictions_patient_summary_id on risk_predictions (patient_summary_id);
+create index if not exists idx_risk_suggestions_patient_summary_id on risk_suggestions (patient_summary_id);
+create index if not exists idx_risk_suggestions_status on risk_suggestions (status);
+create index if not exists idx_suggestion_actions_suggestion_id on suggestion_actions (suggestion_id);
 create unique index if not exists idx_observations_seed_unique on observations (patient_summary_id, observation_type, observed_at, source_label);
 create unique index if not exists idx_safety_flags_seed_unique on safety_flags (patient_summary_id, title);
 create unique index if not exists idx_tasks_seed_unique on tasks (patient_summary_id, title);
@@ -219,6 +305,11 @@ for each row execute function set_updated_at();
 drop trigger if exists set_draft_notes_updated_at on draft_notes;
 create trigger set_draft_notes_updated_at
 before update on draft_notes
+for each row execute function set_updated_at();
+
+drop trigger if exists set_risk_suggestions_updated_at on risk_suggestions;
+create trigger set_risk_suggestions_updated_at
+before update on risk_suggestions
 for each row execute function set_updated_at();
 
 drop trigger if exists set_hazard_log_entries_updated_at on hazard_log_entries;

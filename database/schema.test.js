@@ -45,6 +45,25 @@ describe('SafeFlow PostgreSQL schema', () => {
     expect(schema).toMatch(/display_label text not null check/i);
   });
 
+  it('stores simulation clinical signals without direct identifiers', () => {
+    expect(schema).toMatch(/create table if not exists clinical_signals\b/i);
+    expect(schema).toContain("synthetic_patient_ref text not null check (synthetic_patient_ref ~ '^DCU-[0-9]{3}$')");
+    expect(schema).toContain("source_type text not null check (source_type in ('lab', 'observation', 'microbiology', 'workflow', 'medication', 'allergy', 'sensor', 'external_ai'))");
+    expect(schema).toMatch(/simulation_only boolean not null default true check \(simulation_only is true\)/i);
+    expect(schema).not.toMatch(/\bnhs_number\b|\bdate_of_birth\b|\bpostcode\b|\baddress\b/i);
+  });
+
+  it('stores risk suggestions as nurse-confirmed workflow proposals', () => {
+    const seedKeyCount = schema.match(/seed_key text not null unique/g)?.length ?? 0;
+
+    expect(schema).toMatch(/create table if not exists risk_predictions\b/i);
+    expect(schema).toMatch(/create table if not exists risk_suggestions\b/i);
+    expect(schema).toMatch(/create table if not exists suggestion_actions\b/i);
+    expect(schema).toContain("status text not null default 'suggested' check (status in ('suggested', 'accepted', 'dismissed', 'snoozed', 'escalated', 'converted_to_task', 'converted_to_blocker', 'resolved', 'superseded'))");
+    expect(schema).toMatch(/requires_human_review boolean not null default true check \(requires_human_review is true\)/i);
+    expect(seedKeyCount).toBeGreaterThanOrEqual(2);
+  });
+
   it('keeps trigger creation idempotent for repeated local setup runs', () => {
     const triggerCount = schema.match(/create trigger \w+/gi)?.length ?? 0;
     const dropTriggerCount = schema.match(/drop trigger if exists \w+/gi)?.length ?? 0;
