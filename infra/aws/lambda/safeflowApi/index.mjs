@@ -8,6 +8,8 @@ import {
   createDatabaseAuditEventProvider
 } from '../../../../server/auditEventProvider.js';
 import { createSimulationReadinessReport } from '../../../../server/readinessReport.js';
+import { createDatabaseSignalProvider } from '../../../../server/signalProvider.js';
+import { createDatabaseSuggestionProvider } from '../../../../server/suggestionProvider.js';
 import { createDatabaseWorkspaceProvider } from '../../../../server/workspaceProvider.js';
 
 export function createSafeFlowApiHandler({
@@ -33,7 +35,9 @@ export function createSafeFlowApiHandler({
 
     return {
       workspaceProvider: createDatabaseWorkspaceProvider({ env: providerEnv, Pool, poolConfig }),
-      auditEventProvider: createDatabaseAuditEventProvider({ env: providerEnv, Pool, poolConfig })
+      auditEventProvider: createDatabaseAuditEventProvider({ env: providerEnv, Pool, poolConfig }),
+      signalProvider: createDatabaseSignalProvider({ env: providerEnv, Pool, poolConfig }),
+      suggestionProvider: createDatabaseSuggestionProvider({ env: providerEnv, Pool, poolConfig })
     };
   }
 
@@ -58,16 +62,80 @@ export function createSafeFlowApiHandler({
           return jsonResponse(200, placeholderReadiness({ env, simulationOnly }));
         }
 
-        const { workspaceProvider, auditEventProvider } = await createDatabaseProviders();
+        const {
+          workspaceProvider,
+          auditEventProvider,
+          signalProvider,
+          suggestionProvider
+        } = await createDatabaseProviders();
         await workspaceProvider.getSnapshot();
         await auditEventProvider.listEvents({ limit: 1 });
+        await signalProvider.listPatientSignals();
+        await suggestionProvider.listRiskSuggestions();
 
         return jsonResponse(200, createSimulationReadinessReport({
           draftProvider: { id: 'server-side-provider-secret' },
           workspaceProvider,
           auditEventProvider,
+          signalProvider,
+          suggestionProvider,
           env
         }));
+      }
+
+      if (method === 'GET' && path === '/api/simulation/signals') {
+        if (!databaseMode) {
+          return jsonResponse(200, placeholderSignals({ env, simulationOnly }));
+        }
+
+        const { signalProvider } = await createDatabaseProviders();
+
+        return jsonResponse(200, {
+          product: 'SafeFlow',
+          simulationOnly: true,
+          source: signalProvider.id,
+          safetyBoundary: safetyBoundary(),
+          signals: await signalProvider.listPatientSignals({
+            patientId: event.queryStringParameters?.patientId ?? null
+          })
+        });
+      }
+
+      if (method === 'GET' && path === '/api/simulation/risk-suggestions') {
+        if (!databaseMode) {
+          return jsonResponse(200, placeholderRiskSuggestions({ env, simulationOnly }));
+        }
+
+        const { suggestionProvider } = await createDatabaseProviders();
+
+        return jsonResponse(200, {
+          product: 'SafeFlow',
+          simulationOnly: true,
+          source: suggestionProvider.id,
+          safetyBoundary: safetyBoundary(),
+          suggestions: await suggestionProvider.listRiskSuggestions({
+            patientId: event.queryStringParameters?.patientId ?? null
+          })
+        });
+      }
+
+      const suggestionActionMatch = path.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
+      if (method === 'POST' && suggestionActionMatch) {
+        if (!databaseMode) {
+          return jsonResponse(202, placeholderRiskSuggestionAction({ env, simulationOnly }));
+        }
+
+        const body = parseEventBody(event);
+        const { suggestionProvider } = await createDatabaseProviders();
+
+        return jsonResponse(201, {
+          action: await suggestionProvider.recordSuggestionAction({
+            suggestionId: decodeURIComponent(suggestionActionMatch[1]),
+            actionType: body.actionType,
+            actionReason: body.actionReason,
+            actorRef: body.actorRef
+          })
+        });
       }
 
       if (method === 'GET' && path === '/api/simulation/audit-events') {
@@ -235,7 +303,10 @@ function placeholderReadiness({ env, simulationOnly }) {
     safetyBoundary: safetyBoundary(),
     providers: {
       draft: 'server-side-provider-secret',
-      workspace: 'private-lambda-read-model-placeholder'
+      workspace: 'private-lambda-read-model-placeholder',
+      audit: 'private-lambda-audit-placeholder',
+      signals: 'private-lambda-signals-placeholder',
+      suggestions: 'private-lambda-risk-suggestions-placeholder'
     },
     database: {
       configured: Boolean(env.DATABASE_SECRET_ARN),
@@ -246,6 +317,49 @@ function placeholderReadiness({ env, simulationOnly }) {
       count: 2,
       simulationOnly: true,
       manifestPath: env.MIGRATION_MANIFEST_PATH ?? 'database/migration-manifest.json'
+    },
+    publicIngress: false
+  };
+}
+
+function placeholderSignals({ env, simulationOnly }) {
+  return {
+    schemaVersion: 1,
+    product: 'SafeFlow',
+    route: '/api/simulation/signals',
+    environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+    simulationOnly,
+    source: 'private-lambda-signals-placeholder',
+    safetyBoundary: safetyBoundary(),
+    signals: []
+  };
+}
+
+function placeholderRiskSuggestions({ env, simulationOnly }) {
+  return {
+    schemaVersion: 1,
+    product: 'SafeFlow',
+    route: '/api/simulation/risk-suggestions',
+    environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+    simulationOnly,
+    source: 'private-lambda-risk-suggestions-placeholder',
+    safetyBoundary: safetyBoundary(),
+    suggestions: []
+  };
+}
+
+function placeholderRiskSuggestionAction({ env, simulationOnly }) {
+  return {
+    schemaVersion: 1,
+    product: 'SafeFlow',
+    route: '/api/simulation/risk-suggestions/{suggestionId}/actions',
+    environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+    simulationOnly,
+    source: 'private-lambda-risk-suggestions-placeholder',
+    safetyBoundary: safetyBoundary(),
+    actionStore: {
+      appendOnly: true,
+      databaseWriteContract: 'database/queries/recordSimulationSuggestionAction.sql'
     },
     publicIngress: false
   };
