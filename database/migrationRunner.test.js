@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { buildMigrationManifest } from './migrationManifest.js';
 import {
@@ -14,6 +16,8 @@ function createApprovedFixture(manifest = buildMigrationManifest()) {
     approvalReason: 'Simulation-only database bootstrap approved for local review.'
   });
 }
+
+const seed = readFileSync(resolve(process.cwd(), 'database/seed.sql'), 'utf8');
 
 describe('SafeFlow migration runner', () => {
   it('loads the checked approval file for the current manifest', () => {
@@ -117,6 +121,28 @@ describe('SafeFlow migration runner', () => {
       'database/seed.sql'
     ]);
     expect(client.query).not.toHaveBeenCalled();
+  });
+
+  it('includes the approved simulation signal schema and seed content', () => {
+    const manifest = buildMigrationManifest();
+    const approval = createApprovedFixture(manifest);
+
+    expect(approval.migrations.map((migration) => migration.path)).toEqual([
+      'database/schema.sql',
+      'database/seed.sql'
+    ]);
+    expect(manifest.migrations.every((migration) => migration.simulationOnly)).toBe(true);
+    expect(JSON.stringify(manifest)).not.toMatch(/nhs_number|date_of_birth|postcode|address/i);
+  });
+
+  it('seeds fictional signal intelligence inputs with idempotent suggestion keys', () => {
+    expect(seed).toMatch(/insert into clinical_signals\b/i);
+    expect(seed).toMatch(/insert into risk_predictions\b/i);
+    expect(seed).toMatch(/insert into risk_suggestions\b/i);
+    expect(seed).toContain('simulation-ice');
+    expect(seed).toContain('simulation-microbiology');
+    expect(seed).toContain('on conflict (seed_key) do update');
+    expect(seed).not.toMatch(/\bnhs_number\b|\bdate_of_birth\b|\bpostcode\b|\baddress\b/i);
   });
 
   it('executes approved migrations in a transaction in manifest order', async () => {

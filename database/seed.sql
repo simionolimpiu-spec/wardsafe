@@ -162,6 +162,207 @@ on conflict (patient_summary_id, observation_type, observed_at, source_label) do
       score = excluded.score,
       observed_by_user_id = excluded.observed_by_user_id;
 
+insert into clinical_signals (
+  patient_summary_id,
+  synthetic_patient_ref,
+  source_system,
+  source_message_id,
+  source_type,
+  signal_code,
+  display_name,
+  signal_value,
+  unit,
+  reference_range,
+  status,
+  collected_at,
+  resulted_at,
+  received_at,
+  effective_at,
+  source_freshness,
+  confidence,
+  provenance
+)
+values
+  (
+    (select id from patient_summaries where synthetic_patient_ref = 'DCU-031' limit 1),
+    'DCU-031',
+    'simulation-ice',
+    'sim-ice-dcu-031-potassium-0910',
+    'lab',
+    'potassium',
+    'Potassium',
+    '3.1',
+    'mmol/L',
+    '3.5-5.3',
+    'final',
+    '2026-06-10 08:55:00+00'::timestamptz,
+    '2026-06-10 09:10:00+00'::timestamptz,
+    '2026-06-10 09:10:30+00'::timestamptz,
+    '2026-06-10 09:10:00+00'::timestamptz,
+    'current',
+    0.980,
+    '{"feed":"simulation","messageType":"ice_pathology_result","directCareIdentifiers":false}'::jsonb
+  ),
+  (
+    (select id from patient_summaries where synthetic_patient_ref = 'DCU-031' limit 1),
+    'DCU-031',
+    'simulation-ice',
+    'sim-ice-dcu-031-magnesium-missing-0910',
+    'lab',
+    'magnesium',
+    'Magnesium',
+    null,
+    'mmol/L',
+    '0.7-1.0',
+    'missing',
+    null,
+    null,
+    '2026-06-10 09:10:30+00'::timestamptz,
+    '2026-06-10 09:10:30+00'::timestamptz,
+    'current',
+    0.900,
+    '{"feed":"simulation","messageType":"expected_pathology_result","directCareIdentifiers":false}'::jsonb
+  ),
+  (
+    (select id from patient_summaries where synthetic_patient_ref = 'DCU-031' limit 1),
+    'DCU-031',
+    'simulation-observations',
+    'sim-obs-dcu-031-news2-0915',
+    'observation',
+    'NEWS2',
+    'NEWS2',
+    '7',
+    null,
+    null,
+    'final',
+    '2026-06-10 09:15:00+00'::timestamptz,
+    '2026-06-10 09:15:00+00'::timestamptz,
+    '2026-06-10 09:15:10+00'::timestamptz,
+    '2026-06-10 09:15:00+00'::timestamptz,
+    'current',
+    1.000,
+    '{"feed":"simulation","messageType":"news2_observation","directCareIdentifiers":false}'::jsonb
+  ),
+  (
+    (select id from patient_summaries where synthetic_patient_ref = 'DCU-031' limit 1),
+    'DCU-031',
+    'simulation-workflow',
+    'sim-workflow-dcu-031-plan-gap-0920',
+    'workflow',
+    'electrolyte_plan_gap',
+    'Electrolyte monitoring plan',
+    'unclear',
+    null,
+    null,
+    'final',
+    '2026-06-10 09:20:00+00'::timestamptz,
+    '2026-06-10 09:20:00+00'::timestamptz,
+    '2026-06-10 09:20:10+00'::timestamptz,
+    '2026-06-10 09:20:00+00'::timestamptz,
+    'current',
+    0.920,
+    '{"feed":"simulation","messageType":"workflow_gap","directCareIdentifiers":false}'::jsonb
+  ),
+  (
+    (select id from patient_summaries where synthetic_patient_ref = 'DCU-028' limit 1),
+    'DCU-028',
+    'simulation-microbiology',
+    'sim-micro-dcu-028-urine-prelim',
+    'microbiology',
+    'urine_culture',
+    'Urine culture',
+    'preliminary growth flagged',
+    null,
+    null,
+    'preliminary',
+    '2026-06-10 07:20:00+00'::timestamptz,
+    '2026-06-10 11:45:00+00'::timestamptz,
+    '2026-06-10 11:45:30+00'::timestamptz,
+    '2026-06-10 11:45:00+00'::timestamptz,
+    'current',
+    0.850,
+    '{"feed":"simulation","messageType":"microbiology_result","directCareIdentifiers":false}'::jsonb
+  )
+on conflict (source_system, source_message_id, signal_code, effective_at) do update
+  set display_name = excluded.display_name,
+      signal_value = excluded.signal_value,
+      unit = excluded.unit,
+      reference_range = excluded.reference_range,
+      status = excluded.status,
+      source_freshness = excluded.source_freshness,
+      confidence = excluded.confidence,
+      provenance = excluded.provenance;
+
+with seed_prediction as (
+  insert into risk_predictions (
+    seed_key,
+    patient_summary_id,
+    risk_type,
+    risk_score,
+    risk_tier,
+    model_version,
+    feature_set_version,
+    top_contributors,
+    uncertainty
+  )
+  values (
+    'prediction-dcu-031-electrolyte-review-v0',
+    (select id from patient_summaries where synthetic_patient_ref = 'DCU-031' limit 1),
+    'missed_action',
+    0.860,
+    'urgent',
+    'simulation-risk-v0',
+    'signal-features-v0',
+    '["potassium_low", "magnesium_missing", "news2_high", "plan_gap"]'::jsonb,
+    'medium'
+  )
+  on conflict (seed_key) do update
+    set patient_summary_id = excluded.patient_summary_id,
+        risk_score = excluded.risk_score,
+        risk_tier = excluded.risk_tier,
+        model_version = excluded.model_version,
+        feature_set_version = excluded.feature_set_version,
+        top_contributors = excluded.top_contributors,
+        uncertainty = excluded.uncertainty
+  returning id, patient_summary_id
+)
+insert into risk_suggestions (
+  seed_key,
+  prediction_id,
+  patient_summary_id,
+  title,
+  suggested_flag,
+  suggested_blocker,
+  suggested_task,
+  evidence,
+  missing_data
+)
+values (
+  'suggestion-dcu-031-electrolyte-review',
+  (select id from seed_prediction limit 1),
+  (select patient_summary_id from seed_prediction limit 1),
+  'Electrolyte result review may be needed',
+  'Electrolyte result review may be needed',
+  'Unresolved abnormal blood result',
+  'Review blood trend and document action',
+  '[
+    {"signalCode":"potassium","label":"Potassium 3.1 mmol/L final at 09:10"},
+    {"signalCode":"magnesium","label":"Magnesium result not visible"},
+    {"signalCode":"NEWS2","label":"NEWS2 7 at 09:15"},
+    {"signalCode":"electrolyte_plan_gap","label":"Monitoring plan unclear at 09:20"}
+  ]'::jsonb,
+  '["Magnesium result not visible"]'::jsonb
+)
+on conflict (seed_key) do update
+  set prediction_id = excluded.prediction_id,
+      patient_summary_id = excluded.patient_summary_id,
+      title = excluded.title,
+      suggested_flag = excluded.suggested_flag,
+      suggested_blocker = excluded.suggested_blocker,
+      suggested_task = excluded.suggested_task,
+      evidence = excluded.evidence,
+      missing_data = excluded.missing_data;
+
 insert into tasks (
   patient_summary_id,
   safety_flag_id,
