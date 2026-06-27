@@ -100,14 +100,14 @@ describe('SafeFlowFoundationStack', () => {
     template.hasResourceProperties('AWS::KMS::Key', {
       EnableKeyRotation: true
     });
-    template.resourceCountIs('AWS::SecretsManager::Secret', 2);
+    template.resourceCountIs('AWS::SecretsManager::Secret', 3);
   });
 
   it('retains secrets when retained database resources are removed from the stack', () => {
     const template = synthesizeTemplate();
     const secrets = Object.values(template.findResources('AWS::SecretsManager::Secret'));
 
-    expect(secrets).toHaveLength(2);
+    expect(secrets).toHaveLength(3);
     for (const secret of secrets) {
       expect(secret.DeletionPolicy).toBe('Retain');
       expect(secret.UpdateReplacePolicy).toBe('Retain');
@@ -123,6 +123,9 @@ describe('SafeFlowFoundationStack', () => {
     });
     simulation.hasResourceProperties('AWS::SecretsManager::Secret', {
       Name: 'safeflow/simulation/database/admin'
+    });
+    simulation.hasResourceProperties('AWS::SecretsManager::Secret', {
+      Name: 'safeflow/simulation/database/api'
     });
     simulation.hasResourceProperties('AWS::SecretsManager::Secret', {
       Name: 'safeflow/simulation/provider/openai'
@@ -161,6 +164,7 @@ describe('SafeFlowFoundationStack', () => {
         Variables: Match.objectLike({
           SAFEFLOW_ENVIRONMENT: 'simulation',
           SAFEFLOW_SIMULATION_ONLY: 'true',
+          SAFEFLOW_DATA_MODE: 'database',
           DATABASE_SECRET_ARN: Match.anyValue(),
           PROVIDER_CONFIG_SECRET_ARN: Match.anyValue(),
           DOCUMENT_BUCKET_NAME: Match.anyValue(),
@@ -190,7 +194,8 @@ describe('SafeFlowFoundationStack', () => {
           SAFEFLOW_ENVIRONMENT: 'simulation',
           SAFEFLOW_SIMULATION_ONLY: 'true',
           SAFEFLOW_DATA_CLASSIFICATION: 'synthetic-only',
-          DATABASE_SECRET_ARN: Match.anyValue()
+          DATABASE_SECRET_ARN: Match.anyValue(),
+          APP_DATABASE_SECRET_ARN: Match.anyValue()
         })
       })
     });
@@ -213,6 +218,27 @@ describe('SafeFlowFoundationStack', () => {
           })
         ])
       })
+    });
+  });
+
+  it('keeps the admin database secret migration-only and gives the API an app database secret', () => {
+    const template = synthesizeTemplate();
+    const resources = template.findResources('AWS::Lambda::Function');
+    const apiFunction = Object.values(resources).find((resource) => (
+      resource.Properties.Description === 'Private SafeFlow simulation API compute scaffold'
+    ));
+    const migrationFunction = Object.values(resources).find((resource) => (
+      resource.Properties.Description === 'Private SafeFlow simulation database migration runner'
+    ));
+
+    expect(apiFunction.Properties.Environment.Variables.DATABASE_SECRET_ARN).toEqual({
+      Ref: expect.stringMatching(/SafeFlowAppDatabaseSecret/)
+    });
+    expect(migrationFunction.Properties.Environment.Variables.DATABASE_SECRET_ARN).toEqual({
+      Ref: expect.stringMatching(/SafeFlowDatabaseSecret/)
+    });
+    expect(migrationFunction.Properties.Environment.Variables.APP_DATABASE_SECRET_ARN).toEqual({
+      Ref: expect.stringMatching(/SafeFlowAppDatabaseSecret/)
     });
   });
 

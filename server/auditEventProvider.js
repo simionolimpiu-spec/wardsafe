@@ -6,7 +6,8 @@ import { simulatedPatients } from '../src/data/simulatedPatients.js';
 const AUDIT_INSERT_QUERY_PATH = 'database/queries/insertSimulationAuditEvent.sql';
 const AUDIT_LIST_QUERY_PATH = 'database/queries/listSimulationAuditEvents.sql';
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
-const SECRET_VALUE_PATTERN = /(postgres:\/\/|\bsk-[A-Za-z0-9_-]{8,})/;
+const SECRET_FIELD_PATTERN = /\b(password|secret|token|api[_-]?key|access[_-]?key|session|authorization|cookie|arn)\b/i;
+const UNSAFE_VALUE_PATTERN = /(postgres(?:ql)?:\/\/|\bsk-[A-Za-z0-9_-]{8,}|\barn:aws:[^\s"'}]+|\b(?:AKIA|ASIA)[A-Z0-9]{16}\b|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i;
 const EVENT_TYPE_PATTERN = /^[a-z][a-z0-9._-]{2,80}$/;
 const SOURCE_TABLE_PATTERN = /^[a-z][a-z0-9_]{1,60}$/;
 
@@ -24,9 +25,9 @@ export function assertSimulationAuditPayloadIsSafe(payload) {
     throw new SimulationAuditEventValidationError(`Simulation audit event includes direct identifier field: ${unsafeField}`);
   }
 
-  const serialized = JSON.stringify(payload ?? {});
-  if (SECRET_VALUE_PATTERN.test(serialized)) {
-    throw new SimulationAuditEventValidationError('Simulation audit event includes a secret-like value');
+  const unsafeContent = findUnsafeContent(payload);
+  if (unsafeContent) {
+    throw new SimulationAuditEventValidationError(`Simulation audit event includes unsafe metadata content: ${unsafeContent}`);
   }
 }
 
@@ -64,13 +65,14 @@ export function createLocalAuditEventProvider({ now = () => new Date().toISOStri
 export function createDatabaseAuditEventProvider({
   env = process.env,
   Pool = PgPool,
+  poolConfig,
   queryPath = AUDIT_INSERT_QUERY_PATH,
   listQueryPath = AUDIT_LIST_QUERY_PATH
 } = {}) {
   if (env.SAFEFLOW_SIMULATION_ONLY !== 'true') {
     throw new Error('Database audit event mode requires SAFEFLOW_SIMULATION_ONLY=true');
   }
-  if (!env.DATABASE_URL) {
+  if (!env.DATABASE_URL && !poolConfig) {
     throw new Error('Database audit event mode requires DATABASE_URL');
   }
 
@@ -78,11 +80,11 @@ export function createDatabaseAuditEventProvider({
     id: 'postgresql-simulation-audit-events',
     async recordEvent(input) {
       const event = normaliseAuditEvent(input);
-      const pool = new Pool({
-        connectionString: env.DATABASE_URL,
-        max: 1,
-        application_name: 'safeflow-simulation-audit-events'
-      });
+      const pool = new Pool(createPoolConfig({
+        applicationName: 'safeflow-simulation-audit-events',
+        env,
+        poolConfig
+      }));
 
       try {
         const query = readFileSync(resolve(process.cwd(), queryPath), 'utf8');
@@ -114,11 +116,11 @@ export function createDatabaseAuditEventProvider({
       }
     },
     async listEvents({ limit = 25 } = {}) {
-      const pool = new Pool({
-        connectionString: env.DATABASE_URL,
-        max: 1,
-        application_name: 'safeflow-simulation-audit-events'
-      });
+      const pool = new Pool(createPoolConfig({
+        applicationName: 'safeflow-simulation-audit-events',
+        env,
+        poolConfig
+      }));
 
       try {
         const query = readFileSync(resolve(process.cwd(), listQueryPath), 'utf8');
@@ -133,13 +135,30 @@ export function createDatabaseAuditEventProvider({
 
 export function createConfiguredAuditEventProvider({
   env = process.env,
-  Pool = PgPool
+  Pool = PgPool,
+  poolConfig
 } = {}) {
-  if (!env.DATABASE_URL) {
+  if (!env.DATABASE_URL && !poolConfig) {
     return createLocalAuditEventProvider();
   }
 
-  return createDatabaseAuditEventProvider({ env, Pool });
+  return createDatabaseAuditEventProvider({ env, Pool, poolConfig });
+}
+
+function createPoolConfig({ applicationName, env, poolConfig }) {
+  if (poolConfig) {
+    return {
+      max: 1,
+      application_name: applicationName,
+      ...poolConfig
+    };
+  }
+
+  return {
+    connectionString: env.DATABASE_URL,
+    max: 1,
+    application_name: applicationName
+  };
 }
 
 function normaliseAuditEvent(input) {
@@ -225,6 +244,32 @@ function findUnsafeField(value) {
     if (DIRECT_IDENTIFIER_FIELD_PATTERN.test(key)) return key;
     const unsafe = findUnsafeField(nested);
     if (unsafe) return unsafe;
+  }
+
+  return null;
+}
+
+function findUnsafeContent(value) {
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const unsafe = findUnsafeContent(item);
+      if (unsafe) return unsafe;
+    }
+    return null;
+  }
+
+  if (typeof value === 'string') {
+    return UNSAFE_VALUE_PATTERN.test(value) ? 'value' : null;
+  }
+
+  if (!isPlainObject(value)) {
+    return null;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (SECRET_FIELD_PATTERN.test(key)) return key;
+    const unsafe = findUnsafeContent(nested);
+    if (unsafe) return key;
   }
 
   return null;

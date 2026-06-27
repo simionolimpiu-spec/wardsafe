@@ -65,7 +65,7 @@ export function createSimulationReadinessReport({
       audit: providerId(auditEventProvider, 'local-audit-fixture')
     },
     database: {
-      configured: Boolean(env.DATABASE_URL),
+      configured: Boolean(env.DATABASE_URL || env.DATABASE_SECRET_ARN),
       guardedBySimulationOnly: env.SAFEFLOW_SIMULATION_ONLY === 'true'
     },
     migrations: createMigrationStatus()

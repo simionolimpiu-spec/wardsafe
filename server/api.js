@@ -3,16 +3,16 @@ import { deterministicDraftProvider } from '../src/domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
 import {
   assertSimulationAuditPayloadIsSafe,
-  createLocalAuditEventProvider
+  createConfiguredAuditEventProvider
 } from './auditEventProvider.js';
 import { createSimulationReadinessReport } from './readinessReport.js';
-import { createLocalWorkspaceProvider } from './workspaceProvider.js';
+import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
 
 export function createApiHandler({
   provider = deterministicDraftProvider,
-  workspaceProvider = createLocalWorkspaceProvider(),
-  auditEventProvider = createLocalAuditEventProvider(),
-  env = process.env
+  env = process.env,
+  workspaceProvider = createConfiguredWorkspaceProvider({ env }),
+  auditEventProvider = createConfiguredAuditEventProvider({ env })
 } = {}) {
   return async function apiHandler(req, res) {
     const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');

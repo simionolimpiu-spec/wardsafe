@@ -105,6 +105,35 @@ describe('audit event provider', () => {
     })).rejects.toThrow(/direct identifier/i);
   });
 
+  it('rejects secret-like metadata keys and values before storage', async () => {
+    const provider = createLocalAuditEventProvider();
+    const safeBase = {
+      patientId: 'DCU-031',
+      eventType: 'task.completed',
+      eventSummary: 'Fictional task completed'
+    };
+
+    await expect(provider.recordEvent({
+      ...safeBase,
+      metadata: { password: 'plain-text-password' }
+    })).rejects.toThrow(/unsafe/i);
+
+    await expect(provider.recordEvent({
+      ...safeBase,
+      metadata: { note: 'person@example.invalid' }
+    })).rejects.toThrow(/unsafe/i);
+
+    await expect(provider.recordEvent({
+      ...safeBase,
+      metadata: { accessKey: 'AKIAIOSFODNN7EXAMPLE' }
+    })).rejects.toThrow(/unsafe/i);
+
+    await expect(provider.recordEvent({
+      ...safeBase,
+      metadata: { resource: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database' }
+    })).rejects.toThrow(/unsafe/i);
+  });
+
   it('refuses database audit mode unless simulation-only mode and database URL are explicit', () => {
     const { Pool } = createPoolFactory();
 

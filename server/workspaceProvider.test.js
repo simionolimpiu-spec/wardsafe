@@ -74,7 +74,7 @@ describe('workspace provider', () => {
     });
   });
 
-  it('falls back to the local fixture when the configured database read fails', async () => {
+  it('surfaces database read failures when database access is configured', async () => {
     const { Pool } = createPoolFactory({ error: new Error('database unavailable') });
     const provider = createConfiguredWorkspaceProvider({
       env: {
@@ -84,12 +84,7 @@ describe('workspace provider', () => {
       Pool
     });
 
-    const snapshot = await provider.getSnapshot();
-
     expect(provider.id).toBe('postgresql-simulation-read-model');
-    expect(snapshot.source).toBe('local-fictional-fixture');
-    expect(snapshot.workspace.patients).toEqual(expect.arrayContaining([
-      expect.objectContaining({ syntheticPatientRef: 'DCU-031' })
-    ]));
+    await expect(provider.getSnapshot()).rejects.toThrow(/database unavailable/);
   });
 });

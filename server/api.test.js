@@ -63,6 +63,35 @@ describe('createApiHandler', () => {
     expect(serializedPayload).not.toContain('sk-secret');
   });
 
+  it('uses configured database providers by default when simulation database mode is set', async () => {
+    const handler = createApiHandler({
+      provider: { id: 'deterministic', createSbarDraft: vi.fn() },
+      env: {
+        SAFEFLOW_ENVIRONMENT: 'simulation',
+        SAFEFLOW_SIMULATION_ONLY: 'true',
+        DATABASE_URL: 'postgres://secret-user:secret-pass@example/safeflow'
+      }
+    });
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/readiness' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.providers).toMatchObject({
+      workspace: 'postgresql-simulation-read-model',
+      audit: 'postgresql-simulation-audit-events'
+    });
+    expect(payload.database).toMatchObject({
+      configured: true,
+      guardedBySimulationOnly: true
+    });
+    expect(serializedPayload).not.toContain('secret-pass');
+    expect(serializedPayload).not.toContain('postgres://');
+  });
+
   it('returns the fictional simulation workspace snapshot', async () => {
     const workspaceProvider = {
       getSnapshot: vi.fn().mockResolvedValue({

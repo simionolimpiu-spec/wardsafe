@@ -150,6 +150,25 @@ export class SafeFlowFoundationStack extends Stack {
       removalPolicy: databaseRemovalPolicy
     });
 
+    const appDatabaseSecret = new secretsmanager.Secret(this, 'SafeFlowAppDatabaseSecret', {
+      secretName: `safeflow/${profile.name}/database/api`,
+      description: 'Least-privilege SafeFlow API PostgreSQL credential secret',
+      encryptionKey: foundationKey,
+      generateSecretString: {
+        secretStringTemplate: JSON.stringify({
+          username: 'safeflow_api',
+          engine: 'postgres',
+          host: database.dbInstanceEndpointAddress,
+          port: 5432,
+          dbname: 'safeflow'
+        }),
+        generateStringKey: 'password',
+        passwordLength: 32,
+        excludePunctuation: true
+      }
+    });
+    appDatabaseSecret.applyRemovalPolicy(RemovalPolicy.RETAIN);
+
     const documentBucket = new s3.Bucket(this, 'SafeFlowDocumentBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.KMS,
@@ -187,13 +206,29 @@ export class SafeFlowFoundationStack extends Stack {
       ]
     });
 
-    const apiFunction = new lambda.Function(this, 'SafeFlowApiFunction', {
+    const databaseLambdaBundling = {
+      bundleAwsSDK: true,
+      target: 'node22',
+      commandHooks: {
+        beforeBundling() {
+          return [];
+        },
+        beforeInstall() {
+          return [];
+        },
+        afterBundling(inputDir, outputDir) {
+          return [
+            `node "${join(inputDir, 'infra/aws/copyMigratorAssets.mjs')}" "${inputDir}" "${outputDir}"`
+          ];
+        }
+      }
+    };
+
+    const apiFunction = new nodejs.NodejsFunction(this, 'SafeFlowApiFunction', {
       runtime: lambda.Runtime.NODEJS_22_X,
       architecture: lambda.Architecture.ARM_64,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('infra/aws/lambda/safeflowApi', {
-        exclude: lambdaAssetExcludes
-      }),
+      entry: join(process.cwd(), 'infra/aws/lambda/safeflowApi/index.mjs'),
+      handler: 'handler',
       description: 'Private SafeFlow simulation API compute scaffold',
       memorySize: 512,
       timeout: Duration.seconds(10),
@@ -202,7 +237,8 @@ export class SafeFlowFoundationStack extends Stack {
         SAFEFLOW_ENVIRONMENT: profile.name,
         SAFEFLOW_SIMULATION_ONLY: String(profile.simulationOnly),
         SAFEFLOW_DATA_CLASSIFICATION: profile.dataClassification,
-        DATABASE_SECRET_ARN: database.secret?.secretArn ?? 'unavailable',
+        SAFEFLOW_DATA_MODE: 'database',
+        DATABASE_SECRET_ARN: appDatabaseSecret.secretArn,
         PROVIDER_CONFIG_SECRET_ARN: providerConfigSecret.secretArn,
         DOCUMENT_BUCKET_NAME: documentBucket.bucketName,
         MIGRATION_MANIFEST_PATH: 'database/migration-manifest.json'
@@ -211,9 +247,12 @@ export class SafeFlowFoundationStack extends Stack {
       vpcSubnets: {
         subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
       },
-      securityGroups: [appSecurityGroup]
+      securityGroups: [appSecurityGroup],
+      projectRoot: process.cwd(),
+      depsLockFilePath: join(process.cwd(), 'package-lock.json'),
+      bundling: databaseLambdaBundling
     });
-    databaseSecret.grantRead(apiFunction);
+    appDatabaseSecret.grantRead(apiFunction);
     providerConfigSecret.grantRead(apiFunction);
     apiFunction.addToRolePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject', 's3:PutObject', 's3:AbortMultipartUpload'],
@@ -243,7 +282,8 @@ export class SafeFlowFoundationStack extends Stack {
         SAFEFLOW_ENVIRONMENT: profile.name,
         SAFEFLOW_SIMULATION_ONLY: String(profile.simulationOnly),
         SAFEFLOW_DATA_CLASSIFICATION: profile.dataClassification,
-        DATABASE_SECRET_ARN: database.secret?.secretArn ?? 'unavailable'
+        DATABASE_SECRET_ARN: database.secret?.secretArn ?? 'unavailable',
+        APP_DATABASE_SECRET_ARN: appDatabaseSecret.secretArn
       },
       vpc,
       vpcSubnets: {
@@ -252,25 +292,10 @@ export class SafeFlowFoundationStack extends Stack {
       securityGroups: [appSecurityGroup],
       projectRoot: process.cwd(),
       depsLockFilePath: join(process.cwd(), 'package-lock.json'),
-      bundling: {
-        bundleAwsSDK: true,
-        target: 'node22',
-        commandHooks: {
-          beforeBundling() {
-            return [];
-          },
-          beforeInstall() {
-            return [];
-          },
-          afterBundling(inputDir, outputDir) {
-            return [
-              `node "${join(inputDir, 'infra/aws/copyMigratorAssets.mjs')}" "${inputDir}" "${outputDir}"`
-            ];
-          }
-        }
-      }
+      bundling: databaseLambdaBundling
     });
     databaseSecret.grantRead(migrationFunction);
+    appDatabaseSecret.grantRead(migrationFunction);
     foundationKey.grantEncryptDecrypt(migrationFunction);
 
     const apiLogGroup = new logs.LogGroup(this, 'SafeFlowApiLogGroup', {
@@ -287,6 +312,10 @@ export class SafeFlowFoundationStack extends Stack {
     new CfnOutput(this, 'DatabaseSecretArn', {
       value: databaseSecret.secretArn,
       description: 'Generated database credential secret ARN'
+    });
+    new CfnOutput(this, 'AppDatabaseSecretArn', {
+      value: appDatabaseSecret.secretArn,
+      description: 'Least-privilege SafeFlow API database credential secret ARN'
     });
     new CfnOutput(this, 'DocumentBucketName', {
       value: documentBucket.bucketName,

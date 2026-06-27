@@ -9,6 +9,14 @@ const fixtureSecret = JSON.stringify({
   dbname: 'safeflow'
 });
 
+const fixtureAppSecret = JSON.stringify({
+  username: 'safeflow_api',
+  password: 'api-secret-password',
+  host: 'safeflow-private.example',
+  port: 5432,
+  dbname: 'safeflow'
+});
+
 function createClient() {
   return {
     connect: vi.fn().mockResolvedValue(undefined),
@@ -73,7 +81,9 @@ describe('SafeFlow migration Lambda handler', () => {
 
   it('executes the approved simulation migration with the generated database secret', async () => {
     const client = createClient();
-    const readSecret = vi.fn().mockResolvedValue(fixtureSecret);
+    const readSecret = vi.fn(async (secretId) => (
+      secretId.includes('database/api') ? fixtureAppSecret : fixtureSecret
+    ));
     const clientFactory = vi.fn(() => client);
     const handler = createMigrationHandler({
       readSecret,
@@ -81,7 +91,8 @@ describe('SafeFlow migration Lambda handler', () => {
       env: {
         SAFEFLOW_ENVIRONMENT: 'simulation',
         SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database'
+        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database/admin',
+        APP_DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database/api'
       }
     });
 
@@ -98,7 +109,8 @@ describe('SafeFlow migration Lambda handler', () => {
       mode: 'execute',
       action: 'executed'
     });
-    expect(readSecret).toHaveBeenCalledWith('arn:aws:secretsmanager:eu-west-2:123456789012:secret:database');
+    expect(readSecret).toHaveBeenCalledWith('arn:aws:secretsmanager:eu-west-2:123456789012:secret:database/admin');
+    expect(readSecret).toHaveBeenCalledWith('arn:aws:secretsmanager:eu-west-2:123456789012:secret:database/api');
     expect(clientFactory).toHaveBeenCalledWith(expect.objectContaining({
       host: 'safeflow-private.example',
       database: 'safeflow',
@@ -108,10 +120,40 @@ describe('SafeFlow migration Lambda handler', () => {
       }
     }));
     expect(client.query).toHaveBeenNthCalledWith(1, 'begin');
-    expect(client.query).toHaveBeenLastCalledWith('commit');
+    expect(client.query).toHaveBeenCalledWith(expect.stringContaining('create role safeflow_api login'));
+    expect(client.query).toHaveBeenCalledWith(
+      expect.stringContaining("set_config('safeflow.api_password'"),
+      ['api-secret-password']
+    );
+    expect(client.query).toHaveBeenCalledWith(expect.stringContaining('grant select on users, wards, patient_summaries'));
+    expect(client.query).toHaveBeenCalledWith(expect.stringContaining('grant insert on audit_events'));
+    expect(client.query).toHaveBeenLastCalledWith(expect.stringContaining('grant insert on audit_events'));
     expect(client.end).toHaveBeenCalled();
     expect(JSON.stringify(payload)).not.toContain('secret-password');
+    expect(JSON.stringify(client.query.mock.calls.map(([sql]) => sql))).not.toContain('api-secret-password');
     expect(JSON.stringify(payload)).not.toContain('safeflow-private.example');
+  });
+
+  it('refuses to configure the application database role without the app database secret', async () => {
+    const client = createClient();
+    const handler = createMigrationHandler({
+      readSecret: vi.fn().mockResolvedValue(fixtureSecret),
+      clientFactory: vi.fn(() => client),
+      env: {
+        SAFEFLOW_ENVIRONMENT: 'simulation',
+        SAFEFLOW_SIMULATION_ONLY: 'true',
+        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database/admin'
+      }
+    });
+
+    const response = await handler({
+      action: 'execute-approved-simulation-migration',
+      approved: true
+    });
+    const payload = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(400);
+    expect(payload.error).toMatch(/APP_DATABASE_SECRET_ARN/);
   });
 
   it('redacts database credentials from execution errors', async () => {
@@ -121,12 +163,15 @@ describe('SafeFlow migration Lambda handler', () => {
       .mockRejectedValueOnce(new Error('failed postgresql://safeflow_admin:secret-password@safeflow-private.example/safeflow'))
       .mockResolvedValueOnce({});
     const handler = createMigrationHandler({
-      readSecret: vi.fn().mockResolvedValue(fixtureSecret),
+      readSecret: vi.fn(async (secretId) => (
+        secretId.includes('database/api') ? fixtureAppSecret : fixtureSecret
+      )),
       clientFactory: vi.fn(() => client),
       env: {
         SAFEFLOW_ENVIRONMENT: 'simulation',
         SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database'
+        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database/admin',
+        APP_DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database/api'
       }
     });
 

@@ -17,23 +17,24 @@ export function createLocalWorkspaceProvider() {
 export function createDatabaseWorkspaceProvider({
   env = process.env,
   Pool = PgPool,
+  poolConfig,
   queryPath = WORKSPACE_QUERY_PATH
 } = {}) {
   if (env.SAFEFLOW_SIMULATION_ONLY !== 'true') {
     throw new Error('Database workspace mode requires SAFEFLOW_SIMULATION_ONLY=true');
   }
-  if (!env.DATABASE_URL) {
+  if (!env.DATABASE_URL && !poolConfig) {
     throw new Error('Database workspace mode requires DATABASE_URL');
   }
 
   return {
     id: 'postgresql-simulation-read-model',
     async getSnapshot() {
-      const pool = new Pool({
-        connectionString: env.DATABASE_URL,
-        max: 1,
-        application_name: 'safeflow-simulation-workspace'
-      });
+      const pool = new Pool(createPoolConfig({
+        applicationName: 'safeflow-simulation-workspace',
+        env,
+        poolConfig
+      }));
 
       try {
         const query = readFileSync(resolve(process.cwd(), queryPath), 'utf8');
@@ -58,23 +59,28 @@ export function createDatabaseWorkspaceProvider({
 
 export function createConfiguredWorkspaceProvider({
   env = process.env,
-  Pool = PgPool
+  Pool = PgPool,
+  poolConfig
 } = {}) {
-  if (!env.DATABASE_URL) {
+  if (!env.DATABASE_URL && !poolConfig) {
     return createLocalWorkspaceProvider();
   }
 
-  const databaseProvider = createDatabaseWorkspaceProvider({ env, Pool });
-  const localProvider = createLocalWorkspaceProvider();
+  return createDatabaseWorkspaceProvider({ env, Pool, poolConfig });
+}
+
+function createPoolConfig({ applicationName, env, poolConfig }) {
+  if (poolConfig) {
+    return {
+      max: 1,
+      application_name: applicationName,
+      ...poolConfig
+    };
+  }
 
   return {
-    id: databaseProvider.id,
-    async getSnapshot() {
-      try {
-        return await databaseProvider.getSnapshot();
-      } catch {
-        return localProvider.getSnapshot();
-      }
-    }
+    connectionString: env.DATABASE_URL,
+    max: 1,
+    application_name: applicationName
   };
 }

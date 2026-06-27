@@ -14,6 +14,17 @@ for (const fileName of ['schema.sql', 'seed.sql', 'migrationApproval.json']) {
   cpSync(join(inputDir, 'database', fileName), join(outputDatabaseDir, fileName));
 }
 
+const outputQueriesDir = join(outputDatabaseDir, 'queries');
+mkdirSync(outputQueriesDir, { recursive: true });
+
+for (const fileName of [
+  'insertSimulationAuditEvent.sql',
+  'listSimulationAuditEvents.sql',
+  'simulationWorkspace.sql'
+]) {
+  cpSync(join(inputDir, 'database', 'queries', fileName), join(outputQueriesDir, fileName));
+}
+
 const outputCertsDir = join(outputDir, 'infra', 'aws', 'certs');
 mkdirSync(outputCertsDir, { recursive: true });
 cpSync(

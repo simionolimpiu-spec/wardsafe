@@ -8,6 +8,7 @@ import { runMigration } from '../../../../database/migrationRunner.js';
 
 const executeAction = 'execute-approved-simulation-migration';
 const planAction = 'plan-approved-simulation-migration';
+const applicationDatabaseUsername = 'safeflow_api';
 
 class SafeFlowMigrationRequestError extends Error {
   constructor(message) {
@@ -63,8 +64,12 @@ export function createMigrationHandler({
       if (!env.DATABASE_SECRET_ARN) {
         throw new SafeFlowMigrationRequestError('DATABASE_SECRET_ARN is required for SafeFlow migration execution.');
       }
+      if (!env.APP_DATABASE_SECRET_ARN) {
+        throw new SafeFlowMigrationRequestError('APP_DATABASE_SECRET_ARN is required for SafeFlow application database role configuration.');
+      }
 
       const secretString = await readSecret(env.DATABASE_SECRET_ARN);
+      const appSecretString = await readSecret(env.APP_DATABASE_SECRET_ARN);
       const client = clientFactory(createPostgresClientConfig(secretString, env));
 
       await client.connect();
@@ -77,6 +82,7 @@ export function createMigrationHandler({
           mode,
           readSource
         });
+        await configureApplicationDatabaseRole({ client, appSecretString });
 
         return jsonResponse(200, {
           ...result,
@@ -92,6 +98,51 @@ export function createMigrationHandler({
       });
     }
   };
+}
+
+export async function configureApplicationDatabaseRole({ client, appSecretString }) {
+  const appSecret = parseApplicationDatabaseSecret(appSecretString);
+
+  await client.query(`
+do $$
+begin
+  if not exists (select 1 from pg_roles where rolname = 'safeflow_api') then
+    create role safeflow_api login;
+  end if;
+end;
+$$;
+`);
+  await client.query("select set_config('safeflow.api_password', $1, false)", [appSecret.password]);
+  try {
+    await client.query(`
+do $$
+begin
+  execute 'alter role safeflow_api with login password ' || quote_literal(current_setting('safeflow.api_password'));
+end;
+$$;
+`);
+  } finally {
+    await client.query('reset safeflow.api_password');
+  }
+
+  await client.query(`
+grant usage on schema public to safeflow_api;
+grant select on users, wards, patient_summaries, observations, safety_flags, tasks, escalations, handover_items, discharge_blockers, audit_events to safeflow_api;
+grant insert on audit_events to safeflow_api;
+`);
+}
+
+function parseApplicationDatabaseSecret(secretString) {
+  const secret = typeof secretString === 'string' ? JSON.parse(secretString) : secretString;
+
+  if (secret.username !== applicationDatabaseUsername) {
+    throw new SafeFlowMigrationRequestError(`SafeFlow application database secret must use username ${applicationDatabaseUsername}.`);
+  }
+  if (!secret.password) {
+    throw new SafeFlowMigrationRequestError('SafeFlow application database secret is missing required field: password');
+  }
+
+  return secret;
 }
 
 export function buildBundledMigrationManifest({ readSource = readBundledMigrationSource } = {}) {
