@@ -98,6 +98,9 @@ export function createInitialSimulationState() {
     selectedPatientId: patients[0]?.id ?? null,
     patients,
     escalations,
+    intelligence: {
+      suggestionActions: []
+    },
     auditEvents,
     settings: { ...defaultSettings }
   };
@@ -292,6 +295,41 @@ export function simulationReducer(state, action) {
           action,
           'Simulated team contact recorded',
           action.payload.detail ?? 'Contact recorded in simulation.',
+          patientId
+        )
+      );
+    }
+
+    case 'intelligence/suggestionActioned': {
+      const { suggestionId, patientId, actionType, actionReason } = action.payload;
+      if (!findPatient(state, patientId)) return state;
+
+      const currentIntelligence = state.intelligence ?? { suggestionActions: [] };
+      const suggestionActions = currentIntelligence.suggestionActions ?? [];
+      const nextState = {
+        ...state,
+        intelligence: {
+          ...currentIntelligence,
+          suggestionActions: [
+            {
+              id: action.payload.id ?? `suggestion-action-${suggestionActions.length + 1}`,
+              suggestionId,
+              patientId,
+              actionType,
+              actionReason
+            },
+            ...suggestionActions
+          ]
+        }
+      };
+
+      return withAudit(
+        nextState,
+        createWorkspaceAuditEvent(
+          state,
+          action,
+          `Intelligence suggestion ${actionType}`,
+          actionReason,
           patientId
         )
       );

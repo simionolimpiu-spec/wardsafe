@@ -233,6 +233,28 @@ describe('simulationReducer', () => {
     });
   });
 
+  it('records nurse actions on intelligence suggestions', () => {
+    const state = reduce({
+      type: 'intelligence/suggestionActioned',
+      payload: {
+        suggestionId: 'suggestion-dcu-031-electrolyte-review',
+        patientId: 'DCU-031',
+        actionType: 'accepted',
+        actionReason: 'Reviewed fictional evidence'
+      }
+    });
+
+    expect(state.intelligence.suggestionActions[0]).toMatchObject({
+      suggestionId: 'suggestion-dcu-031-electrolyte-review',
+      patientId: 'DCU-031',
+      actionType: 'accepted'
+    });
+    expect(state.auditEvents[0]).toMatchObject({
+      label: 'Intelligence suggestion accepted',
+      patientId: 'DCU-031'
+    });
+  });
+
   it('merges settings and audits the change', () => {
     const state = reduce({
       type: 'settings/changed',
