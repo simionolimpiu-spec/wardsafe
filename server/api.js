@@ -6,16 +6,21 @@ import {
   createConfiguredAuditEventProvider
 } from './auditEventProvider.js';
 import { createSimulationReadinessReport } from './readinessReport.js';
+import { createConfiguredSignalProvider } from './signalProvider.js';
+import { createConfiguredSuggestionProvider } from './suggestionProvider.js';
 import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
 
 export function createApiHandler({
   provider = deterministicDraftProvider,
   env = process.env,
   workspaceProvider = createConfiguredWorkspaceProvider({ env }),
-  auditEventProvider = createConfiguredAuditEventProvider({ env })
+  auditEventProvider = createConfiguredAuditEventProvider({ env }),
+  signalProvider = createConfiguredSignalProvider({ env }),
+  suggestionProvider = createConfiguredSuggestionProvider({ env })
 } = {}) {
   return async function apiHandler(req, res) {
     const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');
+    const suggestionActionMatch = pathname.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
     setCorsHeaders(res);
 
     if (req.method === 'OPTIONS') {
@@ -39,8 +44,25 @@ export function createApiHandler({
         draftProvider: provider,
         workspaceProvider,
         auditEventProvider,
+        signalProvider,
+        suggestionProvider,
         env
       }));
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/simulation/signals') {
+      await handleSimulationSignals(res, signalProvider, searchParams);
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/simulation/risk-suggestions') {
+      await handleSimulationRiskSuggestions(res, suggestionProvider, searchParams);
+      return;
+    }
+
+    if (req.method === 'POST' && suggestionActionMatch) {
+      await handleSimulationSuggestionAction(req, res, suggestionProvider, decodeURIComponent(suggestionActionMatch[1]));
       return;
     }
 
@@ -63,6 +85,65 @@ export function createApiHandler({
   };
 }
 
+function simulationSafetyBoundary() {
+  return {
+    noLivePatientData: true,
+    directCareIdentifiers: false,
+    humanReviewRequired: true
+  };
+}
+
+async function handleSimulationSignals(res, signalProvider, searchParams) {
+  try {
+    const signals = await signalProvider.listPatientSignals({ patientId: searchParams.get('patientId') || null });
+    writeJson(res, 200, {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      source: signalProvider.id ?? 'simulation-signals',
+      safetyBoundary: simulationSafetyBoundary(),
+      signals
+    });
+  } catch {
+    writeJson(res, 503, { error: 'Simulation signals unavailable' });
+  }
+}
+
+async function handleSimulationRiskSuggestions(res, suggestionProvider, searchParams) {
+  try {
+    const suggestions = await suggestionProvider.listRiskSuggestions({ patientId: searchParams.get('patientId') || null });
+    writeJson(res, 200, {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      source: suggestionProvider.id ?? 'simulation-risk-suggestions',
+      safetyBoundary: simulationSafetyBoundary(),
+      suggestions
+    });
+  } catch {
+    writeJson(res, 503, { error: 'Simulation risk suggestions unavailable' });
+  }
+}
+
+async function handleSimulationSuggestionAction(req, res, suggestionProvider, suggestionId) {
+  const body = await readJson(req);
+
+  try {
+    const action = await suggestionProvider.recordSuggestionAction({
+      suggestionId,
+      actionType: body.actionType,
+      actionReason: body.actionReason,
+      actorRef: body.actorRef
+    });
+    writeJson(res, 201, { action });
+  } catch (error) {
+    if (/requires|not allowed|known fictional/i.test(error.message ?? '')) {
+      writeJson(res, 400, { error: 'Simulation suggestion action rejected' });
+      return;
+    }
+
+    writeJson(res, 503, { error: 'Simulation suggestion action store unavailable' });
+  }
+}
+
 async function handleSimulationAuditEvents(_req, res, auditEventProvider, searchParams) {
   try {
     const limit = normaliseAuditLimit(searchParams.get('limit'));
@@ -71,11 +152,7 @@ async function handleSimulationAuditEvents(_req, res, auditEventProvider, search
       product: 'SafeFlow',
       simulationOnly: true,
       source: auditEventProvider.id ?? 'simulation-audit-events',
-      safetyBoundary: {
-        noLivePatientData: true,
-        directCareIdentifiers: false,
-        humanReviewRequired: true
-      },
+      safetyBoundary: simulationSafetyBoundary(),
       events
     });
   } catch {

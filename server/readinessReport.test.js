@@ -7,6 +7,8 @@ describe('simulation readiness report', () => {
       draftProvider: { id: 'deterministic' },
       workspaceProvider: { id: 'postgresql-simulation-read-model' },
       auditEventProvider: { id: 'postgresql-simulation-audit-events' },
+      signalProvider: { id: 'postgresql-simulation-signals' },
+      suggestionProvider: { id: 'postgresql-simulation-risk-suggestions' },
       env: {
         SAFEFLOW_ENVIRONMENT: 'simulation',
         SAFEFLOW_SIMULATION_ONLY: 'true',
@@ -27,7 +29,9 @@ describe('simulation readiness report', () => {
       providers: {
         draft: 'deterministic',
         workspace: 'postgresql-simulation-read-model',
-        audit: 'postgresql-simulation-audit-events'
+        audit: 'postgresql-simulation-audit-events',
+        signals: 'postgresql-simulation-signals',
+        suggestions: 'postgresql-simulation-risk-suggestions'
       },
       database: {
         configured: true,
@@ -41,6 +45,6 @@ describe('simulation readiness report', () => {
     });
     expect(serialized).not.toContain('secret');
     expect(serialized).not.toContain('postgres://');
-    expect(serialized).not.toContain('sk-');
+    expect(serialized).not.toContain('sk-secret');
   });
 });

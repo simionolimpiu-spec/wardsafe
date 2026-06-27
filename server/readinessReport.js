@@ -47,6 +47,8 @@ export function createSimulationReadinessReport({
   draftProvider,
   workspaceProvider,
   auditEventProvider,
+  signalProvider,
+  suggestionProvider,
   env = process.env
 } = {}) {
   return {
@@ -62,7 +64,9 @@ export function createSimulationReadinessReport({
     providers: {
       draft: providerId(draftProvider, 'deterministic'),
       workspace: providerId(workspaceProvider, 'local-fictional-fixture'),
-      audit: providerId(auditEventProvider, 'local-audit-fixture')
+      audit: providerId(auditEventProvider, 'local-audit-fixture'),
+      signals: providerId(signalProvider, 'local-simulation-signals'),
+      suggestions: providerId(suggestionProvider, 'local-simulation-risk-suggestions')
     },
     database: {
       configured: Boolean(env.DATABASE_URL || env.DATABASE_SECRET_ARN),

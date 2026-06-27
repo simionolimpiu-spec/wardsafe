@@ -34,10 +34,14 @@ describe('createApiHandler', () => {
       getSnapshot: vi.fn()
     };
     const auditEventProvider = { id: 'local-audit-fixture', recordEvent: vi.fn() };
+    const signalProvider = { id: 'local-simulation-signals', listPatientSignals: vi.fn() };
+    const suggestionProvider = { id: 'local-simulation-risk-suggestions', listRiskSuggestions: vi.fn() };
     const handler = createApiHandler({
       provider,
       workspaceProvider,
       auditEventProvider,
+      signalProvider,
+      suggestionProvider,
       env: {
         SAFEFLOW_ENVIRONMENT: 'simulation',
         SAFEFLOW_SIMULATION_ONLY: 'true',
@@ -56,7 +60,9 @@ describe('createApiHandler', () => {
     expect(payload.providers).toEqual({
       draft: 'deterministic',
       workspace: 'local-fictional-fixture',
-      audit: 'local-audit-fixture'
+      audit: 'local-audit-fixture',
+      signals: 'local-simulation-signals',
+      suggestions: 'local-simulation-risk-suggestions'
     });
     expect(payload.migrations.approved).toBe(true);
     expect(serializedPayload).not.toContain('postgres://');
@@ -82,7 +88,9 @@ describe('createApiHandler', () => {
     expect(res.statusCode).toBe(200);
     expect(payload.providers).toMatchObject({
       workspace: 'postgresql-simulation-read-model',
-      audit: 'postgresql-simulation-audit-events'
+      audit: 'postgresql-simulation-audit-events',
+      signals: 'postgresql-simulation-signals',
+      suggestions: 'postgresql-simulation-risk-suggestions'
     });
     expect(payload.database).toMatchObject({
       configured: true,
@@ -228,6 +236,112 @@ describe('createApiHandler', () => {
       ]
     });
     expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
+  });
+
+  it('returns a simulation signal timeline through the configured signal provider', async () => {
+    const signalProvider = {
+      id: 'local-simulation-signals',
+      listPatientSignals: vi.fn().mockResolvedValue([
+        {
+          signalId: 'signal-dcu-031-potassium-0910',
+          syntheticPatientRef: 'DCU-031',
+          sourceType: 'lab',
+          simulationOnly: true
+        }
+      ])
+    };
+    const handler = createApiHandler({ signalProvider });
+    const req = createJsonRequest({
+      method: 'GET',
+      path: '/api/simulation/signals?patientId=DCU-031'
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(res.statusCode).toBe(200);
+    expect(signalProvider.listPatientSignals).toHaveBeenCalledWith({ patientId: 'DCU-031' });
+    expect(payload).toMatchObject({
+      product: 'SafeFlow',
+      simulationOnly: true,
+      source: 'local-simulation-signals',
+      signals: [expect.objectContaining({ syntheticPatientRef: 'DCU-031', simulationOnly: true })]
+    });
+    expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
+  });
+
+  it('returns nurse-reviewed risk suggestions through the configured suggestion provider', async () => {
+    const suggestionProvider = {
+      id: 'local-simulation-risk-suggestions',
+      listRiskSuggestions: vi.fn().mockResolvedValue([
+        {
+          suggestionId: 'suggestion-dcu-031-electrolyte-review',
+          syntheticPatientRef: 'DCU-031',
+          requiresHumanReview: true,
+          simulationOnly: true
+        }
+      ])
+    };
+    const handler = createApiHandler({ suggestionProvider });
+    const req = createJsonRequest({
+      method: 'GET',
+      path: '/api/simulation/risk-suggestions?patientId=DCU-031'
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(suggestionProvider.listRiskSuggestions).toHaveBeenCalledWith({ patientId: 'DCU-031' });
+    expect(payload).toMatchObject({
+      product: 'SafeFlow',
+      simulationOnly: true,
+      source: 'local-simulation-risk-suggestions',
+      suggestions: [expect.objectContaining({
+        suggestionId: 'suggestion-dcu-031-electrolyte-review',
+        requiresHumanReview: true
+      })]
+    });
+  });
+
+  it('records a nurse confirmation action for a risk suggestion', async () => {
+    const suggestionProvider = {
+      recordSuggestionAction: vi.fn().mockResolvedValue({
+        actionId: 'action-1',
+        suggestionId: 'suggestion-dcu-031-electrolyte-review',
+        status: 'accepted',
+        actionType: 'accepted'
+      })
+    };
+    const handler = createApiHandler({ suggestionProvider });
+    const req = createJsonRequest({
+      method: 'POST',
+      path: '/api/simulation/risk-suggestions/suggestion-dcu-031-electrolyte-review/actions',
+      body: {
+        actionType: 'accepted',
+        actionReason: 'Charge nurse reviewed fictional evidence',
+        actorRef: 'fictional-user-laura-bennett'
+      }
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(201);
+    expect(suggestionProvider.recordSuggestionAction).toHaveBeenCalledWith({
+      suggestionId: 'suggestion-dcu-031-electrolyte-review',
+      actionType: 'accepted',
+      actionReason: 'Charge nurse reviewed fictional evidence',
+      actorRef: 'fictional-user-laura-bennett'
+    });
+    expect(payload.action).toMatchObject({
+      suggestionId: 'suggestion-dcu-031-electrolyte-review',
+      status: 'accepted'
+    });
   });
 
   it('rejects unsafe simulation audit payloads without storing them', async () => {
