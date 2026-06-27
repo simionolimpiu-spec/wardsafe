@@ -62,6 +62,16 @@ describe('SafeFlow AWS environment profiles', () => {
     })).toEqual(environmentProfiles.simulation);
   });
 
+  it('keeps the simulation profile compatible with the AWS Free plan backup limit', () => {
+    expect(environmentProfiles.simulation.database.backupRetentionDays).toBe(1);
+  });
+
+  it('keeps the simulation database cleanup-friendly for failed Free Tier deployments', () => {
+    expect(environmentProfiles.simulation.database.deleteAutomatedBackups).toBe(true);
+    expect(environmentProfiles.simulation.database.deletionProtection).toBe(false);
+    expect(environmentProfiles.simulation.database.removalPolicy).toBe('destroy');
+  });
+
   it('returns an immutable profile to prevent runtime mutation', () => {
     const profile = resolveEnvironmentProfile('simulation', { operation: 'synth' });
 

@@ -24,8 +24,9 @@ export const environmentProfiles = Object.freeze({
     database: {
       backupRetentionDays: 1,
       preferredBackupWindow: '01:00-02:00',
-      deleteAutomatedBackups: false,
-      deletionProtection: true,
+      deleteAutomatedBackups: true,
+      deletionProtection: false,
+      removalPolicy: 'destroy',
       multiAz: false
     }
   }),
@@ -37,10 +38,11 @@ export const environmentProfiles = Object.freeze({
     deploymentApproved: true,
     restricted: false,
     database: {
-      backupRetentionDays: 7,
+      backupRetentionDays: 1,
       preferredBackupWindow: '02:00-03:00',
-      deleteAutomatedBackups: false,
-      deletionProtection: true,
+      deleteAutomatedBackups: true,
+      deletionProtection: false,
+      removalPolicy: 'destroy',
       multiAz: false
     }
   }),
@@ -62,6 +64,7 @@ export const environmentProfiles = Object.freeze({
       preferredBackupWindow: '03:00-04:00',
       deleteAutomatedBackups: false,
       deletionProtection: true,
+      removalPolicy: 'retain',
       multiAz: true
     }
   })

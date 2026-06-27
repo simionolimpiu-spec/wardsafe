@@ -1,4 +1,5 @@
 import {
+  ArnFormat,
   CfnOutput,
   Duration,
   RemovalPolicy,
@@ -14,6 +15,21 @@ import {
 } from 'aws-cdk-lib';
 import { resolveEnvironmentProfile } from './environmentProfiles.js';
 
+const removalPolicies = Object.freeze({
+  destroy: RemovalPolicy.DESTROY,
+  retain: RemovalPolicy.RETAIN
+});
+
+function resolveRemovalPolicy(policyName) {
+  const removalPolicy = removalPolicies[policyName];
+
+  if (!removalPolicy) {
+    throw new Error(`Unknown SafeFlow removal policy: ${policyName}`);
+  }
+
+  return removalPolicy;
+}
+
 export const lambdaAssetExcludes = ['*.test.js', '**/*.test.js'];
 
 export class SafeFlowFoundationStack extends Stack {
@@ -24,6 +40,7 @@ export class SafeFlowFoundationStack extends Stack {
       props.safeFlowEnvironment ?? 'simulation',
       { operation: 'synth' }
     );
+    const databaseRemovalPolicy = resolveRemovalPolicy(profile.database.removalPolicy);
 
     const foundationKey = new kms.Key(this, 'SafeFlowFoundationKey', {
       description: 'Customer managed key for SafeFlow pilot foundation resources',
@@ -31,6 +48,27 @@ export class SafeFlowFoundationStack extends Stack {
       removalPolicy: RemovalPolicy.RETAIN
     });
     foundationKey.addAlias(`alias/${profile.resourcePrefix}-foundation`);
+    foundationKey.addToResourcePolicy(new iam.PolicyStatement({
+      actions: [
+        'kms:Encrypt',
+        'kms:Decrypt',
+        'kms:ReEncrypt*',
+        'kms:GenerateDataKey*',
+        'kms:Describe*'
+      ],
+      conditions: {
+        ArnLike: {
+          'kms:EncryptionContext:aws:logs:arn': this.formatArn({
+            arnFormat: ArnFormat.COLON_RESOURCE_NAME,
+            service: 'logs',
+            resource: 'log-group',
+            resourceName: '/aws/lambda/*'
+          })
+        }
+      },
+      principals: [new iam.ServicePrincipal(`logs.${this.region}.amazonaws.com`)],
+      resources: ['*']
+    }));
 
     const vpc = new ec2.Vpc(this, 'SafeFlowVpc', {
       maxAzs: 2,
@@ -107,7 +145,7 @@ export class SafeFlowFoundationStack extends Stack {
       publiclyAccessible: false,
       storageEncrypted: true,
       storageEncryptionKey: foundationKey,
-      removalPolicy: RemovalPolicy.RETAIN
+      removalPolicy: databaseRemovalPolicy
     });
 
     const documentBucket = new s3.Bucket(this, 'SafeFlowDocumentBucket', {

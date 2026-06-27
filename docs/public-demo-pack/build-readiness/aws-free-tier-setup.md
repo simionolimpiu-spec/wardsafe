@@ -69,3 +69,5 @@ Use migration execution only against an approved simulation database. The reposi
 ## Cleanup Reminder
 
 RDS, KMS, logs and retained resources can create cost. Before leaving the AWS account idle, review the deployed stack, retained resources, CloudWatch logs, snapshots, budgets and billing dashboard.
+
+The simulation profile uses a one-day RDS backup retention period because the AWS Free plan rejected longer retention during first deployment testing. The simulation database is also configured without deletion protection and without DB retention so failed or abandoned synthetic deployments can be cleaned up without leaving paid network dependencies behind.

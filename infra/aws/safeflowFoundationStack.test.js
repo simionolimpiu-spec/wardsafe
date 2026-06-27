@@ -10,7 +10,11 @@ function synthesizeTemplate(profileName = 'simulation') {
     safeFlowProfile: resolveEnvironmentProfile(profileName, {
       operation: 'synth',
       allowRestricted: true
-    })
+    }),
+    env: {
+      account: '123456789012',
+      region: 'eu-west-2'
+    }
   });
   return Template.fromStack(stack);
 }
@@ -23,20 +27,24 @@ describe('SafeFlowFoundationStack', () => {
       Engine: 'postgres',
       PubliclyAccessible: false,
       StorageEncrypted: true,
-      DeletionProtection: true
+      DeletionProtection: false
     });
   });
 
-  it('applies retained automated backup controls for simulation', () => {
+  it('applies Free-plan compatible cleanup controls for simulation', () => {
     const template = synthesizeTemplate();
 
     template.hasResourceProperties('AWS::RDS::DBInstance', {
-      BackupRetentionPeriod: 7,
+      BackupRetentionPeriod: 1,
       CopyTagsToSnapshot: true,
-      DeleteAutomatedBackups: false,
-      DeletionProtection: true,
+      DeleteAutomatedBackups: true,
+      DeletionProtection: false,
       PreferredBackupWindow: '02:00-03:00'
     });
+    const resources = Object.values(template.findResources('AWS::RDS::DBInstance'));
+    expect(resources).toHaveLength(1);
+    expect(resources[0].DeletionPolicy).not.toBe('Retain');
+    expect(resources[0].UpdateReplacePolicy).not.toBe('Retain');
   });
 
   it('applies the selected dev profile to database and Lambda configuration', () => {
@@ -44,7 +52,7 @@ describe('SafeFlowFoundationStack', () => {
 
     template.hasResourceProperties('AWS::RDS::DBInstance', {
       BackupRetentionPeriod: 1,
-      DeleteAutomatedBackups: false,
+      DeleteAutomatedBackups: true,
       PreferredBackupWindow: '01:00-02:00'
     });
     template.hasResourceProperties('AWS::Lambda::Function', {
@@ -212,6 +220,34 @@ describe('SafeFlowFoundationStack', () => {
       KmsKeyId: Match.anyValue(),
       RetentionInDays: 30
     });
+  });
+
+  it('allows CloudWatch Logs to use the foundation KMS key for Lambda log encryption', () => {
+    const template = synthesizeTemplate();
+    const keyPolicyText = JSON.stringify(template.findResources('AWS::KMS::Key'));
+
+    template.hasResourceProperties('AWS::KMS::Key', {
+      KeyPolicy: Match.objectLike({
+        Statement: Match.arrayWith([
+          Match.objectLike({
+            Effect: 'Allow',
+            Principal: {
+              Service: 'logs.eu-west-2.amazonaws.com'
+            },
+            Action: Match.arrayWith([
+              'kms:Encrypt',
+              'kms:Decrypt',
+              'kms:GenerateDataKey*'
+            ]),
+            Condition: Match.objectLike({
+              ArnLike: Match.anyValue()
+            })
+          })
+        ])
+      })
+    });
+    expect(keyPolicyText).toContain('log-group:/aws/lambda/');
+    expect(keyPolicyText).not.toContain('log-group//aws/lambda/');
   });
 
   it('excludes tests from the deployable Lambda asset', () => {
