@@ -55,16 +55,26 @@ The first deployment target remains simulation-only. It creates private AWS foun
 
 ## Database Migration
 
-Database migration execution stays separate from CDK deployment:
+Database migration execution stays separate from CDK deployment. The deployed simulation stack includes a private migration Lambda because the RDS database is not publicly reachable.
 
 ```powershell
-$env:SAFEFLOW_SIMULATION_ONLY="true"
-$env:SAFEFLOW_MIGRATION_APPROVED="true"
-$env:DATABASE_URL="postgresql://..."
-npm run db:migrate:execute
+$migrationFunction = aws cloudformation describe-stacks `
+  --stack-name safeflow-simulation-foundation `
+  --profile safeflow-free-tier `
+  --region eu-west-2 `
+  --query "Stacks[0].Outputs[?OutputKey=='MigrationFunctionName'].OutputValue | [0]" `
+  --output text
+
+aws lambda invoke `
+  --function-name $migrationFunction `
+  --cli-binary-format raw-in-base64-out `
+  --payload '{"action":"execute-approved-simulation-migration","approved":true}' `
+  --profile safeflow-free-tier `
+  --region eu-west-2 `
+  .\safeflow-migration-result.json
 ```
 
-Use migration execution only against an approved simulation database. The repository deliberately keeps migration approval separate from infrastructure deployment approval.
+Use migration execution only against an approved simulation database. The repository deliberately keeps migration approval separate from infrastructure deployment approval, and the Lambda refuses execution unless the invoke payload includes `approved=true`.
 
 ## Cleanup Reminder
 

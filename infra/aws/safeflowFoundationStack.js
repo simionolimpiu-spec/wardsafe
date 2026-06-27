@@ -8,11 +8,13 @@ import {
   aws_iam as iam,
   aws_kms as kms,
   aws_lambda as lambda,
+  aws_lambda_nodejs as nodejs,
   aws_logs as logs,
   aws_rds as rds,
   aws_s3 as s3,
   aws_secretsmanager as secretsmanager
 } from 'aws-cdk-lib';
+import { join } from 'node:path';
 import { resolveEnvironmentProfile } from './environmentProfiles.js';
 
 const removalPolicies = Object.freeze({
@@ -228,6 +230,49 @@ export class SafeFlowFoundationStack extends Stack {
     }));
     foundationKey.grantEncryptDecrypt(apiFunction);
 
+    const migrationFunction = new nodejs.NodejsFunction(this, 'SafeFlowMigrationFunction', {
+      runtime: lambda.Runtime.NODEJS_22_X,
+      architecture: lambda.Architecture.ARM_64,
+      entry: join(process.cwd(), 'infra/aws/lambda/safeflowMigrator/index.mjs'),
+      handler: 'handler',
+      description: 'Private SafeFlow simulation database migration runner',
+      memorySize: 512,
+      timeout: Duration.seconds(120),
+      environmentEncryption: foundationKey,
+      environment: {
+        SAFEFLOW_ENVIRONMENT: profile.name,
+        SAFEFLOW_SIMULATION_ONLY: String(profile.simulationOnly),
+        SAFEFLOW_DATA_CLASSIFICATION: profile.dataClassification,
+        DATABASE_SECRET_ARN: database.secret?.secretArn ?? 'unavailable'
+      },
+      vpc,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
+      },
+      securityGroups: [appSecurityGroup],
+      projectRoot: process.cwd(),
+      depsLockFilePath: join(process.cwd(), 'package-lock.json'),
+      bundling: {
+        bundleAwsSDK: true,
+        target: 'node22',
+        commandHooks: {
+          beforeBundling() {
+            return [];
+          },
+          beforeInstall() {
+            return [];
+          },
+          afterBundling(inputDir, outputDir) {
+            return [
+              `node "${join(inputDir, 'infra/aws/copyMigratorAssets.mjs')}" "${inputDir}" "${outputDir}"`
+            ];
+          }
+        }
+      }
+    });
+    databaseSecret.grantRead(migrationFunction);
+    foundationKey.grantEncryptDecrypt(migrationFunction);
+
     const apiLogGroup = new logs.LogGroup(this, 'SafeFlowApiLogGroup', {
       logGroupName: `/aws/lambda/${apiFunction.functionName}`,
       retention: logs.RetentionDays.ONE_MONTH,
@@ -258,6 +303,10 @@ export class SafeFlowFoundationStack extends Stack {
     new CfnOutput(this, 'ApiFunctionName', {
       value: apiFunction.functionName,
       description: 'Private SafeFlow API Lambda function name'
+    });
+    new CfnOutput(this, 'MigrationFunctionName', {
+      value: migrationFunction.functionName,
+      description: 'Private SafeFlow migration runner Lambda function name'
     });
   }
 }

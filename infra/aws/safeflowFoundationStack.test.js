@@ -172,6 +172,33 @@ describe('SafeFlowFoundationStack', () => {
     template.resourceCountIs('AWS::ApiGatewayV2::Api', 0);
   });
 
+  it('provisions a private migration runner Lambda for approved simulation database bootstrap', () => {
+    const template = synthesizeTemplate();
+
+    template.resourceCountIs('AWS::Lambda::Function', 2);
+    template.hasResourceProperties('AWS::Lambda::Function', {
+      Runtime: 'nodejs22.x',
+      Handler: 'index.handler',
+      Description: 'Private SafeFlow simulation database migration runner',
+      Timeout: 120,
+      VpcConfig: Match.objectLike({
+        SecurityGroupIds: Match.anyValue(),
+        SubnetIds: Match.anyValue()
+      }),
+      Environment: Match.objectLike({
+        Variables: Match.objectLike({
+          SAFEFLOW_ENVIRONMENT: 'simulation',
+          SAFEFLOW_SIMULATION_ONLY: 'true',
+          SAFEFLOW_DATA_CLASSIFICATION: 'synthetic-only',
+          DATABASE_SECRET_ARN: Match.anyValue()
+        })
+      })
+    });
+    template.hasOutput('MigrationFunctionName', {
+      Description: 'Private SafeFlow migration runner Lambda function name'
+    });
+  });
+
   it('allows the private API function to read secrets and use document storage', () => {
     const template = synthesizeTemplate();
 
