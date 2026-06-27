@@ -20,7 +20,10 @@ mkdirSync(outputQueriesDir, { recursive: true });
 for (const fileName of [
   'insertSimulationAuditEvent.sql',
   'listSimulationAuditEvents.sql',
-  'simulationWorkspace.sql'
+  'simulationWorkspace.sql',
+  'simulationSignalTimeline.sql',
+  'simulationRiskSuggestions.sql',
+  'recordSimulationSuggestionAction.sql'
 ]) {
   cpSync(join(inputDir, 'database', 'queries', fileName), join(outputQueriesDir, fileName));
 }
