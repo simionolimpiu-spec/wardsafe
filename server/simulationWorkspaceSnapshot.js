@@ -3,6 +3,8 @@ import {
   selectActiveEscalationCount,
   selectAllTasks
 } from '../src/state/simulationWorkspace.js';
+import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
+import { buildSimulationRiskSupportContract } from '../src/domain/simulationRiskSupport.js';
 
 const SNAPSHOT_GENERATED_AT = '2026-06-10T09:32:00.000Z';
 
@@ -45,6 +47,19 @@ function projectPatient(patient) {
   };
 }
 
+function projectSelectedRiskSupport(state) {
+  const selectedPatient = state.patients.find((patient) => patient.id === state.selectedPatientId) ?? state.patients[0];
+
+  if (!selectedPatient) {
+    return null;
+  }
+
+  return buildSimulationRiskSupportContract({
+    patient: selectedPatient,
+    safetyFlag: evaluatePotassiumSafetyGap(selectedPatient)
+  });
+}
+
 export function createSimulationWorkspaceSnapshot({
   source = 'local-fictional-fixture',
   generatedAt = SNAPSHOT_GENERATED_AT
@@ -66,6 +81,7 @@ export function createSimulationWorkspaceSnapshot({
       selectedPatientId: state.selectedPatientId,
       summary: summarizeWorkspace(state),
       patients: state.patients.map(projectPatient),
+      riskSupport: projectSelectedRiskSupport(state),
       escalations: state.escalations,
       auditEvents: state.auditEvents
     }
