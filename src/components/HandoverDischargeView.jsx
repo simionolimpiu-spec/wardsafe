@@ -1,7 +1,7 @@
-import { ClipboardCheck, FileCheck2, Home, ListChecks } from 'lucide-react';
+import { ClipboardCheck, FileCheck2, Home, ListChecks, Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export function HandoverDischargeView({ patient, onSaveHandover = () => {} }) {
+export function HandoverDischargeView({ patient, riskSupport = null, onSaveHandover = () => {} }) {
   const completedTasks = patient.tasks.filter((task) => task.status === 'Done').length;
   const openTasks = patient.tasks.length - completedTasks;
   const [completion, setCompletion] = useState(String(patient.handoverComplete));
@@ -58,6 +58,44 @@ export function HandoverDischargeView({ patient, onSaveHandover = () => {} }) {
         </article>
       </div>
 
+      {riskSupport && (
+        <section className="risk-support-panel" aria-labelledby="risk-support-title">
+          <div className="section-heading">
+            <Sparkles aria-hidden="true" size={18} />
+            <div>
+              <p className="eyebrow">Simulation-only review</p>
+              <h3 id="risk-support-title">Simulation risk support</h3>
+            </div>
+          </div>
+
+          <div className="risk-support-summary">
+            <strong>{riskSupport.summary.category}</strong>
+            <span>{riskSupport.summary.score}% overall support score</span>
+            <small>{riskSupport.summary.reasons.join(' · ')}</small>
+          </div>
+
+          <div className="risk-support-grid" role="list" aria-label="Risk-support signals">
+            {riskSupport.signals.map((signal) => (
+              <article className={`risk-support-card ${slugify(signal.category)}`} key={signal.signalId} role="listitem">
+                <div className="risk-support-card-heading">
+                  <strong>{signal.label}</strong>
+                  <span>{signal.score}%</span>
+                </div>
+                <p>{signal.category}</p>
+                <ul>
+                  {signal.reasons.map((reason) => <li key={reason}>{reason}</li>)}
+                </ul>
+                {signal.blockers?.length > 0 && (
+                  <small>{signal.blockers.join(' · ')}</small>
+                )}
+              </article>
+            ))}
+          </div>
+
+          <p className="risk-support-boundary">{riskSupport.boundary}</p>
+        </section>
+      )}
+
       <form className="inline-form handover-form" onSubmit={save}>
         <label htmlFor="handover-completion">Handover completion<input id="handover-completion" inputMode="numeric" onChange={(event) => setCompletion(event.target.value)} value={completion} /></label>
         <label htmlFor="handover-recommendation">Recommendation<textarea id="handover-recommendation" onChange={(event) => setRecommendation(event.target.value)} rows={3} value={recommendation} /></label>
@@ -88,4 +126,11 @@ export function HandoverDischargeView({ patient, onSaveHandover = () => {} }) {
       </article>
     </section>
   );
+}
+
+function slugify(value) {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
