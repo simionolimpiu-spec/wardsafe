@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests --config ./vitest.config.js",
     "test:watch": "vitest",
     "e2e": "playwright test",
     "infra:synth": "cdk synth --quiet -c safeFlowOperation=synth",

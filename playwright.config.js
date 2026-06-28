@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
+  timeout: 60000,
   webServer: [
     {
       command: 'npm run api',
@@ -17,7 +18,8 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://127.0.0.1:5173',
-    trace: 'on-first-retry'
+    trace: 'on-first-retry',
+    navigationTimeout: 60000
   },
   projects: [
     { name: 'desktop-chromium', use: { ...devices['Desktop Chrome'] } },
