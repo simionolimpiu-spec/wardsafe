@@ -592,6 +592,115 @@ textarea {
   color: #845400;
 }
 
+.risk-support-panel {
+  border: 1px solid #e2ebf7;
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  margin: 18px 0;
+  padding: 14px;
+}
+
+.risk-support-summary {
+  display: grid;
+  gap: 4px;
+}
+
+.risk-support-summary strong {
+  color: #003087;
+  font-size: 1.02rem;
+}
+
+.risk-support-summary span {
+  color: #17436f;
+  font-weight: 800;
+}
+
+.risk-support-summary small {
+  color: #53657a;
+}
+
+.risk-support-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.risk-support-card {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-left: 4px solid #005eb8;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.risk-support-card.ready {
+  border-left-color: #006b3c;
+}
+
+.risk-support-card.review-suggested {
+  border-left-color: #005eb8;
+}
+
+.risk-support-card.documentation-gap {
+  border-left-color: #f59e0b;
+}
+
+.risk-support-card.handover-cue {
+  border-left-color: #00a3a3;
+}
+
+.risk-support-card.escalation-readiness {
+  border-left-color: #005eb8;
+}
+
+.risk-support-card.discharge-blocker {
+  border-left-color: #8a5a00;
+}
+
+.risk-support-card-heading {
+  align-items: start;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.risk-support-card-heading strong {
+  color: #003087;
+}
+
+.risk-support-card-heading span {
+  color: #005eb8;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.risk-support-card p {
+  color: #53657a;
+  font-weight: 800;
+  margin: 0;
+}
+
+.risk-support-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.risk-support-card li {
+  margin: 5px 0;
+}
+
+.risk-support-card small {
+  color: #617083;
+}
+
+.risk-support-boundary {
+  color: #53657a;
+  margin: 0;
+}
+
 .potassium-view {
   background: #fff;
   border: 1px solid #d7e3f4;

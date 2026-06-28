@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { wardSummary } from './data/simulatedPatients.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
+import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
 import { requestReadinessReport } from './services/readinessClient.js';
 import { requestSbarDraft } from './services/draftClient.js';
@@ -56,6 +57,9 @@ export default function App() {
   const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
   const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges', 'potassium'].includes(state.selectedView);
   const potassiumFlag = useMemo(() => evaluatePotassiumSafetyGap(selectedPatient), [selectedPatient]);
+  const riskSupport = useMemo(() => {
+    return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
+  }, [selectedPatient, potassiumFlag]);
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
   }, [selectedPatient, potassiumFlag]);
@@ -385,7 +389,13 @@ export default function App() {
                 simulationUser={state.settings.simulationUser}
               />
             )}
-            {state.selectedView === 'handover' && <HandoverDischargeView onSaveHandover={saveHandover} patient={selectedPatient} />}
+            {state.selectedView === 'handover' && (
+              <HandoverDischargeView
+                onSaveHandover={saveHandover}
+                patient={selectedPatient}
+                riskSupport={riskSupport}
+              />
+            )}
             {state.selectedView === 'discharges' && (
               <DischargesView
                 onSaveBlockers={saveDischargeBlockers}
