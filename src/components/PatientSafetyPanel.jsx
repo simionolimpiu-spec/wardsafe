@@ -1,8 +1,22 @@
 import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
 import { useState } from 'react';
+import { buildSimulationReviewCues } from '../domain/signalEngine.js';
 
-export function PatientSafetyPanel({ patient, flag, onAddTask = () => {}, onRequestContact = () => {} }) {
+export function PatientSafetyPanel({
+  patient,
+  flag,
+  onAddTask = () => {},
+  onRequestContact = () => {},
+  signalSnapshot = null
+}) {
   const [activeTab, setActiveTab] = useState('overview');
+  const reviewCues = signalSnapshot
+    ? sanitizeReviewCues(buildSimulationReviewCues({
+        patient,
+        signals: signalSnapshot.signalTimeline,
+        suggestions: signalSnapshot.riskSuggestions
+      }))
+    : [];
   const tabs = [
     ['overview', 'Safety Overview'],
     ['sbar', 'SBAR'],
@@ -46,6 +60,7 @@ export function PatientSafetyPanel({ patient, flag, onAddTask = () => {}, onRequ
               <button className="call-button" onClick={() => onRequestContact(patient)} type="button"><Phone aria-hidden="true" size={16} /> Call team</button>
             )}
           </div>
+          <ReviewCuesSection reviewCues={reviewCues} signalSnapshot={signalSnapshot} />
           <SbarSummary patient={patient} />
         </>
       )}
@@ -72,6 +87,113 @@ export function PatientSafetyPanel({ patient, flag, onAddTask = () => {}, onRequ
       </div>
     </aside>
   );
+}
+
+function sanitizeReviewCues(reviewCues) {
+  if (!Array.isArray(reviewCues)) {
+    return [];
+  }
+
+  return reviewCues.map((cue) => sanitizeReviewCue(cue));
+}
+
+function sanitizeReviewCue(cue) {
+  return {
+    ...cue,
+    title: sanitizeReviewText(cue?.title, 'Simulation review cue'),
+    explanation: sanitizeReviewText(cue?.explanation, 'Human review required: review the simulation evidence.'),
+    evidence: Array.isArray(cue?.evidence)
+      ? cue.evidence.map((item) => ({
+          ...item,
+          label: sanitizeReviewText(item?.label ?? item?.signalId, 'Simulation evidence')
+        }))
+      : [],
+    freshness: cue?.freshness
+      ? {
+          ...cue.freshness,
+          label: sanitizeReviewText(cue.freshness.label, 'Simulation freshness visible')
+        }
+      : cue?.freshness ?? null,
+    missingDataNotes: Array.isArray(cue?.missingDataNotes)
+      ? cue.missingDataNotes.map((note) => sanitizeReviewText(note, 'Simulation data gap noted.'))
+      : [],
+    suggestedHumanReviewAction: sanitizeReviewText(
+      cue?.suggestedHumanReviewAction,
+      'Human review required: confirm the simulation evidence and document the outcome.'
+    )
+  };
+}
+
+function sanitizeReviewText(value, fallback) {
+  if (typeof value !== 'string' || !value.trim()) {
+    return fallback;
+  }
+
+  return isUnsafeReviewText(value) ? fallback : value;
+}
+
+function isUnsafeReviewText(value) {
+  return /\b(diagnos(e|is|ing|ed|es|tic)?|prescrib(e|ed|ing|er|ers|tion|tions)?|administer(?:ed|ing|s|ion)?|AI decided|automatically treat|autonomous decision)\b/i.test(value);
+}
+
+function ReviewCuesSection({ reviewCues, signalSnapshot }) {
+  return (
+    <section aria-labelledby="patient-review-cues-heading">
+      <h3 id="patient-review-cues-heading">Review cues</h3>
+      <p>Simulation-only cues. Human review required.</p>
+      {signalSnapshot ? (
+        <ul className="review-cue-stack">
+          {reviewCues.map((cue) => (
+            <li key={cue.cueId}>
+              <ReviewCueCard cue={cue} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No signal snapshot available yet.</p>
+      )}
+    </section>
+  );
+}
+
+function ReviewCueCard({ cue }) {
+  return (
+    <article className="integration-card review-cue-card">
+      <Siren aria-hidden="true" size={18} />
+      <div>
+        <strong>{cue.title}</strong>
+        <p>{cue.explanation}</p>
+        {cue.evidence?.length > 0 && (
+          <ul className="review-cue-evidence">
+            {cue.evidence.map((item, index) => (
+              <li key={`${cue.cueId}-evidence-${index}`}>{item.label ?? item.signalId ?? 'Simulation signal'}</li>
+            ))}
+          </ul>
+        )}
+        {cue.freshness?.label && <p>{cue.freshness.label}</p>}
+        {cue.missingDataNotes?.length > 0 && (
+          <ul className="review-cue-notes">
+            {cue.missingDataNotes.map((note, index) => (
+              <li key={`${cue.cueId}-note-${index}`}>{formatReviewNote(note)}</li>
+            ))}
+          </ul>
+        )}
+        <p>{cue.suggestedHumanReviewAction}</p>
+      </div>
+    </article>
+  );
+}
+
+function formatReviewNote(note) {
+  if (typeof note !== 'string') {
+    return 'Simulation note: human review required.';
+  }
+
+  if (/medical plan unclear/i.test(note)) {
+    return 'Simulation note: plan still needs review.';
+  }
+
+  return note;
 }
 
 function SbarSummary({ patient }) {
