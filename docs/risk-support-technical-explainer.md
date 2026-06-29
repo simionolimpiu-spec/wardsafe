@@ -90,6 +90,12 @@ That harness is for simulation behaviour reporting, not for clinical validation.
 
 Instead, it checks whether deterministic rules behave consistently and whether the resulting language stays within the documented safety boundary.
 
+## Synthetic scenario coverage
+
+The synthetic scenario coverage helper maps fictional scenarios to deterministic rule paths and broad coverage domains such as documentation quality, handover completeness, escalation readiness and discharge readiness.
+
+It is not clinical validation and it does not measure model or clinical performance. It is a compact way to see where fictional scenario coverage is already exercised, where coverage is thin, and where additional fictional scenarios may improve prototype testing.
+
 ## Read-only report boundary
 
 The read-only report boundary exists so the current simulation behaviour can be reviewed without introducing a live workflow feature.
