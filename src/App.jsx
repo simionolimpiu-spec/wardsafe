@@ -31,7 +31,8 @@ import { SimulationDialog } from './components/SimulationDialog.jsx';
 import {
   selectActiveEscalationCount,
   selectAllTasks,
-  selectPatient as selectPatientFromState
+  selectPatient as selectPatientFromState,
+  selectPatientSimulationSignals
 } from './state/simulationWorkspace.js';
 import { useSimulationWorkspace } from './state/useSimulationWorkspace.js';
 import { buildWardReportRows, downloadSimulationCsv } from './domain/simulationExport.js';
@@ -163,6 +164,10 @@ function buildSignalSnapshot({ signals, suggestions } = {}) {
 export default function App() {
   const { state, dispatch, reset } = useSimulationWorkspace();
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
+  const reviewSignals = useMemo(
+    () => selectPatientSimulationSignals(state, selectedPatient?.id),
+    [selectedPatient?.id, state]
+  );
   const allTasks = selectAllTasks(state);
   const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
   const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges', 'potassium'].includes(state.selectedView);
@@ -586,6 +591,7 @@ export default function App() {
               onAddTask={addTask}
               onRequestContact={requestContact}
               patient={selectedPatient}
+              reviewSignals={reviewSignals}
               signalSnapshot={state.signalSnapshots?.[selectedPatient.id] ?? null}
             />
           )}

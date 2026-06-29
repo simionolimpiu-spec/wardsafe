@@ -1,517 +1,596 @@
 import { discoveryScenarios } from '../data/scenarioLibrary.js';
-
-const PRIORITY_ORDER = {
-  high: 0,
-  medium: 1,
-  low: 2
-};
+import { guardSimulationSignalOutputs } from './signalOutputGuard.js';
 
 const CATEGORY_ORDER = {
-  documentation_gap: 0,
-  escalation_readiness: 1,
-  risk_support_signal: 2,
-  handover_cue: 3,
-  discharge_readiness_blocker: 4,
-  scenario_learning: 5,
-  simulation_fallback: 6
+  documentation: 0,
+  'electrolyte-review': 1,
+  'infection-review': 2,
+  escalation: 3,
+  handover: 4,
+  discharge: 5,
+  learning: 6,
+  'simulation-fallback': 7
 };
 
-const UNSAFE_TEXT_PATTERN = /\b(diagnos\w*|prescrib\w*|give potassium|patient needs potassium|ai decided|autonomous(?: clinical)? decision|treatment recommendation)\b/i;
+const PRIORITY_ORDER = {
+  blocker: 0,
+  review: 1,
+  watch: 2,
+  learning: 3
+};
 
-export function buildSimulationReviewCues({ patient, signals, suggestions } = {}) {
+export function buildSimulationSignals({
+  patient,
+  signals,
+  suggestions,
+  snapshotMeta: rawSnapshotMeta
+} = {}) {
   const safePatient = isPlainObject(patient) ? patient : {};
-  const validSignals = normaliseRecords(signals).filter(isSimulationSignal);
-  const validSuggestions = normaliseRecords(suggestions).filter(isSimulationSuggestion);
-  const cues = [];
+  const patientId = safePatientId(safePatient);
+  const snapshotMeta = normaliseSnapshotMeta(rawSnapshotMeta);
+  const timelineSignals = normaliseSignals(signals, patientId);
+  const riskSuggestions = normaliseSuggestions(suggestions, patientId);
+  const signalIndex = indexSignals(timelineSignals);
 
-  const signalIndex = indexSignals(validSignals);
-  const latestRelevantSignal = latestSignal(validSignals, (signal) =>
-    isSignalCode(signal, 'potassium') ||
-    isSignalCode(signal, 'magnesium') ||
-    isSignalCode(signal, 'news2') ||
-    isWorkflowPlanGapSignal(signal)
-  );
+  if (snapshotIsUnavailable(snapshotMeta) && timelineSignals.length === 0 && riskSuggestions.length === 0) {
+    return guardSimulationSignalOutputs([buildFallbackSignal({ patient: safePatient, snapshotMeta })]);
+  }
 
-  const documentationCue = buildDocumentationGapCue({ patient: safePatient, signalIndex, latestRelevantSignal });
-  if (documentationCue) cues.push(documentationCue);
+  const builtSignals = [
+    buildDocumentationSignal({ patient: safePatient, signalIndex }),
+    buildElectrolyteReviewSignal({ patient: safePatient, signalIndex, suggestions: riskSuggestions }),
+    buildInfectionReviewSignal({ patient: safePatient, signalIndex, suggestions: riskSuggestions }),
+    buildEscalationSignal({ patient: safePatient, signalIndex, suggestions: riskSuggestions }),
+    buildHandoverSignal({ patient: safePatient }),
+    buildDischargeSignal({ patient: safePatient }),
+    buildLearningSignal({ patient: safePatient, signalIndex })
+  ].filter(Boolean);
 
-  const escalationCue = buildEscalationReadinessCue({
-    patient: safePatient,
-    signalIndex,
-    signals: validSignals,
-    latestRelevantSignal,
-    suggestions: validSuggestions
-  });
-  if (escalationCue) cues.push(escalationCue);
+  const dedupedSignals = dedupeSignals(builtSignals).sort(compareSignals);
+  const signalsToGuard = dedupedSignals.length > 0
+    ? dedupedSignals
+    : [buildFallbackSignal({ patient: safePatient })];
 
-  const riskSupportCues = validSuggestions
-    .sort(compareSuggestions)
-    .map((suggestion) => buildRiskSupportCue({ suggestion, patient: safePatient }));
-  cues.push(...riskSupportCues);
-
-  const handoverCue = buildHandoverCue({ patient: safePatient });
-  if (handoverCue) cues.push(handoverCue);
-
-  const dischargeCue = buildDischargeReadinessCue({ patient: safePatient });
-  if (dischargeCue) cues.push(dischargeCue);
-
-  const scenarioCue = buildScenarioLearningCue({
-    documentationCue,
-    escalationCue,
-    handoverCue,
-    dischargeCue
-  });
-  if (scenarioCue) cues.push(scenarioCue);
-
-  const deduped = dedupeCues(cues).sort(compareCues);
-  return deduped.length > 0 ? deduped : [buildFallbackCue({ patient: safePatient })];
+  return guardSimulationSignalOutputs(signalsToGuard);
 }
 
-function buildDocumentationGapCue({ patient, signalIndex, latestRelevantSignal }) {
-  const potassiumSignal = signalIndex.potassium;
-  const magnesiumSignal = signalIndex.magnesium;
-  const workflowPlanGapSignal = signalIndex.workflowPlanGap;
+export function buildSimulationReviewCues(input) {
+  return buildSimulationSignals(input);
+}
+
+function buildDocumentationSignal({ patient, signalIndex }) {
   const evidence = [];
   const missingDataNotes = [];
 
-  if (potassiumSignal && isSignalCode(potassiumSignal, 'potassium') && toNumber(potassiumSignal.value) != null) {
-    evidence.push(signalEvidence(potassiumSignal));
+  if (signalIndex.potassium) {
+    evidence.push(signalEvidence(signalIndex.potassium));
   }
-
-  if (magnesiumSignal && isMissingSignal(magnesiumSignal)) {
-    evidence.push(signalEvidence(magnesiumSignal, 'Magnesium result not visible'));
+  if (signalIndex.magnesiumMissing) {
+    evidence.push(signalEvidence(signalIndex.magnesiumMissing, 'Magnesium result not visible'));
     missingDataNotes.push('Magnesium result not visible.');
   }
-
-  if (workflowPlanGapSignal) {
-    evidence.push({
-      signalId: workflowPlanGapSignal.signalId,
-      label: workflowPlanGapLabel(workflowPlanGapSignal)
-    });
-    if (!safeText(patient.plan, '')) {
-      missingDataNotes.push('No clear electrolyte plan documented.');
-    }
+  if (signalIndex.planGap) {
+    evidence.push(signalEvidence(signalIndex.planGap, workflowSignalLabel(signalIndex.planGap)));
+  }
+  if (!safeText(patient.plan)) {
+    missingDataNotes.push('No clear electrolyte plan documented.');
   }
 
-  if (Array.isArray(patient.uncertainty)) {
-    for (const note of patient.uncertainty) {
-      const safeNote = safeText(note, null);
-      if (safeNote && /no clear electrolyte plan documented/i.test(safeNote)) {
-        missingDataNotes.push('No clear electrolyte plan documented.');
-        break;
-      }
-    }
+  const normalisedNotes = uniqueStrings(missingDataNotes);
+  if (evidence.length === 0 && normalisedNotes.length === 0) {
+    return null;
   }
 
-  const hasRelevantEvidence = evidence.length > 0 || missingDataNotes.length > 0;
-  if (!hasRelevantEvidence) return null;
-
-  const freshness = freshnessFromSignal(latestRelevantSignal, 'current', 'Latest signal received in the current simulation feed.');
-
-  return createCue({
+  return createSignal({
     patientId: safePatientId(patient),
-    category: 'documentation_gap',
-    priority: 'high',
+    category: 'documentation',
+    priority: 'review',
     title: 'Review suggested: documentation gap',
     explanation: joinSentences([
-      'Simulation-only evidence suggests a documentation gap around the current electrolyte review.',
-      evidence.some((item) => /potassium/i.test(item.label ?? '')) ? 'Potassium trend is part of the current evidence.' : null,
-      missingDataNotes.length > 0 ? 'Missing information is visible in the simulation record.' : null
+      'Simulation-only cue highlighting a documentation gap.',
+      evidence.length > 0 ? 'Evidence to check is visible in the fictional record.' : null,
+      normalisedNotes.length > 0 ? 'Missing information is also visible in the simulation workflow.' : null
     ]),
     evidence,
-    freshness,
-    missingDataNotes,
-    suggestedHumanReviewAction: 'Human review required: check the latest blood results, confirm the plan, and document the outcome.'
+    suggestedHumanReviewAction: 'Human review required: confirm the visible evidence and document the current review status.',
+    freshness: freshnessFromSignals([signalIndex.planGap, signalIndex.potassium, signalIndex.magnesiumMissing]),
+    missingDataNotes: normalisedNotes
   });
 }
 
-function buildEscalationReadinessCue({ patient, signalIndex, signals, latestRelevantSignal, suggestions }) {
-  const latestNews2Signal = signalIndex.news2 ?? latestSignal(signals, (signal) => isSignalCode(signal, 'news2'));
-  const latestUrgentSuggestion = suggestions.find((suggestion) => suggestion.riskTier === 'urgent' || suggestion.riskType === 'missed_action');
+function buildElectrolyteReviewSignal({ patient, signalIndex, suggestions }) {
+  const potassiumSignal = signalIndex.potassium;
+  const latestPotassium = latestLab(patient.labs?.potassium);
+  const firstPotassium = firstLab(patient.labs?.potassium);
+  const latestCreatinine = latestLab(patient.labs?.creatinine);
+  const firstCreatinine = firstLab(patient.labs?.creatinine);
+  const relatedSuggestion = suggestions.find((suggestion) => matchesReviewTheme(suggestion, ['electrolyte', 'potassium', 'magnesium']));
 
-  const latestNews2Value = toNumber(latestNews2Signal?.value);
-  const hasActiveEscalation = patient.escalation === 'Active';
-  const shouldFlag = latestNews2Value >= 7 || hasActiveEscalation || Boolean(latestUrgentSuggestion);
-  if (!shouldFlag) return null;
+  const potassiumLow = toNumber(potassiumSignal?.value) != null && toNumber(potassiumSignal?.value) <= 3.4;
+  const potassiumFalling = firstPotassium && latestPotassium && latestPotassium.value < firstPotassium.value;
+  const renalChange = firstCreatinine && latestCreatinine && latestCreatinine.value > firstCreatinine.value;
+  const needsReview = potassiumLow || potassiumFalling || renalChange || Boolean(relatedSuggestion);
+  if (!needsReview) {
+    return null;
+  }
 
   const evidence = [];
-  if (latestNews2Signal) {
-    evidence.push(signalEvidence(latestNews2Signal));
+  if (potassiumSignal) {
+    evidence.push(signalEvidence(potassiumSignal));
   }
-  if (hasActiveEscalation) {
-    evidence.push({ label: 'Active escalation is visible in the simulation workspace.' });
+  if (signalIndex.magnesiumMissing) {
+    evidence.push(signalEvidence(signalIndex.magnesiumMissing, 'Magnesium result not visible'));
   }
-  if (latestUrgentSuggestion) {
+  if (renalChange) {
     evidence.push({
-      label: safeText(latestUrgentSuggestion.title, 'Simulation risk-support signal requires review')
+      id: 'renal-function-change',
+      label: `Creatinine changed from ${firstCreatinine.value} to ${latestCreatinine.value}`
+    });
+  }
+  if (relatedSuggestion) {
+    const derivedSuggestionEvidence = suggestionEvidence(relatedSuggestion);
+    if (derivedSuggestionEvidence.length > 0) {
+      evidence.push(...derivedSuggestionEvidence);
+    } else {
+      evidence.push({
+        id: relatedSuggestion.suggestionId,
+        label: safeText(relatedSuggestion.title, 'Simulation risk-support signal requires review')
+      });
+    }
+  }
+
+  return createSignal({
+    patientId: safePatientId(patient),
+    category: 'electrolyte-review',
+    priority: 'review',
+    title: 'Review suggested: electrolyte review',
+    explanation: joinSentences([
+      'Simulation-only cue highlighting electrolyte evidence to check.',
+      potassiumLow ? 'A low potassium result is visible in the fictional signal feed.' : null,
+      renalChange ? 'Changing renal function is also visible in the fictional record.' : null,
+      signalIndex.magnesiumMissing ? 'A missing magnesium result remains visible.' : null
+    ]),
+    evidence,
+    suggestedHumanReviewAction: 'Human review required: review the visible blood trend, confirm ownership, and document the outcome.',
+    freshness: freshnessFromSignals([potassiumSignal, signalIndex.magnesiumMissing]),
+    missingDataNotes: signalIndex.magnesiumMissing ? ['Magnesium result not visible.'] : []
+  });
+}
+
+function buildInfectionReviewSignal({ patient, signalIndex, suggestions }) {
+  const hasSepsisFlag = Array.isArray(patient.riskFlags)
+    && patient.riskFlags.some((flag) => /sepsis concern/i.test(String(flag)));
+  const urineCultureSignal = signalIndex.urineCulture;
+  const news2Signal = signalIndex.news2;
+  const relatedSuggestion = suggestions.find((suggestion) => matchesReviewTheme(suggestion, ['sepsis', 'infection', 'culture']));
+  const shouldShow = hasSepsisFlag || Boolean(urineCultureSignal) || Boolean(relatedSuggestion);
+  if (!shouldShow) {
+    return null;
+  }
+
+  const evidence = [];
+  if (hasSepsisFlag) {
+    evidence.push({ id: 'risk-flag-sepsis-concern', label: 'Risk flag: Sepsis Concern' });
+  }
+  if (news2Signal) {
+    evidence.push(signalEvidence(news2Signal, observationSignalLabel(news2Signal)));
+  }
+  if (urineCultureSignal) {
+    evidence.push(signalEvidence(urineCultureSignal));
+  }
+  if (patient.escalation === 'Active') {
+    evidence.push({ id: 'active-escalation', label: 'Active escalation is visible in the simulation workspace.' });
+  }
+  if (relatedSuggestion) {
+    evidence.push({
+      id: relatedSuggestion.suggestionId,
+      label: safeText(relatedSuggestion.title, 'Simulation risk-support signal requires review')
     });
   }
 
-  return createCue({
+  return createSignal({
     patientId: safePatientId(patient),
-    category: 'escalation_readiness',
-    priority: 'high',
-    title: 'Review suggested: escalation readiness',
+    category: 'infection-review',
+    priority: 'review',
+    title: 'Review suggested: infection review',
     explanation: joinSentences([
-      latestNews2Value >= 7 ? `NEWS2 ${latestNews2Value} is visible in the simulation record.` : null,
-      hasActiveEscalation ? 'An active escalation is already present.' : null,
-      latestUrgentSuggestion ? 'A simulation risk suggestion also needs human review.' : null
+      'Simulation-only cue highlighting infection-related evidence to check.',
+      hasSepsisFlag ? 'A sepsis concern flag is visible in the fictional workflow.' : null,
+      urineCultureSignal ? 'A microbiology signal is also visible in the current simulation feed.' : null
     ]),
     evidence,
-    freshness: freshnessFromSignal(latestNews2Signal ?? latestRelevantSignal, 'current', 'Current simulation evidence is available.'),
-    missingDataNotes: [],
-    suggestedHumanReviewAction: 'Human review required: confirm escalation ownership and document the next step.'
+    suggestedHumanReviewAction: 'Human review required: confirm the visible escalation context and update the handover or documentation summary.',
+    freshness: freshnessFromSignals([news2Signal, urineCultureSignal]),
+    missingDataNotes: []
   });
 }
 
-function buildRiskSupportCue({ suggestion, patient }) {
-  const evidence = normaliseSuggestionEvidence(suggestion);
-  const freshness = suggestionFreshness(suggestion);
-  const title = safeText(
-    `Review suggested: ${suggestion.title}`,
-    'Review suggested: risk-support signal'
-  );
-  const explanation = joinSentences([
-    'Simulation-only risk-support signal.',
-    safeText(suggestion.suggestedFlag, null),
-    safeText(suggestion.suggestedBlocker, null)
-  ]);
-  const humanReviewAction = safeText(
-    suggestion.suggestedTask,
-    'Human review required: review the signal evidence and document the action.'
-  );
+function buildEscalationSignal({ patient, signalIndex, suggestions }) {
+  const news2Signal = signalIndex.news2;
+  const news2Value = toNumber(news2Signal?.value);
+  const urgentSuggestion = suggestions.find((suggestion) => suggestion.riskTier === 'urgent' || suggestion.riskType === 'missed_action');
+  const hasActiveEscalation = patient.escalation === 'Active';
+  if (!hasActiveEscalation && news2Value == null && !urgentSuggestion) {
+    return null;
+  }
 
-  return createCue({
+  const evidence = [];
+  if (news2Signal) {
+    evidence.push(signalEvidence(news2Signal, observationSignalLabel(news2Signal)));
+  }
+  if (hasActiveEscalation) {
+    evidence.push({ id: 'active-escalation', label: 'Active escalation is visible in the simulation workspace.' });
+  }
+  if (urgentSuggestion) {
+    evidence.push({
+      id: urgentSuggestion.suggestionId,
+      label: safeText(urgentSuggestion.title, 'Simulation risk-support signal requires review')
+    });
+  }
+
+  return createSignal({
     patientId: safePatientId(patient),
-    category: 'risk_support_signal',
-    priority: suggestion.riskTier === 'urgent' ? 'high' : suggestion.riskTier === 'watch' ? 'medium' : 'low',
-    title,
-    explanation,
+    category: 'escalation',
+    priority: 'watch',
+    title: 'Review suggested: escalation readiness',
+    explanation: joinSentences([
+      'Simulation-only cue highlighting escalation readiness.',
+      news2Value != null ? `NEWS2 ${news2Value} is visible in the fictional record.` : null,
+      hasActiveEscalation ? 'An active escalation is already present.' : null
+    ]),
     evidence,
-    freshness,
-    missingDataNotes: normaliseMissingData(suggestion.missingData),
-    suggestedHumanReviewAction: humanReviewAction.startsWith('Human review required')
-      ? humanReviewAction
-      : `Human review required: ${humanReviewAction}`
+    suggestedHumanReviewAction: 'Human review required: confirm escalation ownership and document the next review step.',
+    freshness: freshnessFromSignals([news2Signal]),
+    missingDataNotes: []
   });
 }
 
-function buildHandoverCue({ patient }) {
+function buildHandoverSignal({ patient }) {
   const handoverComplete = toNumber(patient.handoverComplete);
   const openTasks = Array.isArray(patient.tasks)
     ? patient.tasks.filter((task) => task && task.status !== 'Done')
     : [];
-
-  if ((handoverComplete == null || handoverComplete >= 100) && openTasks.length === 0) {
+  const needsHandoverReview = handoverComplete == null || handoverComplete < 100 || openTasks.length > 0 || patient.escalation === 'Active';
+  if (!needsHandoverReview) {
     return null;
   }
 
-  return createCue({
+  return createSignal({
     patientId: safePatientId(patient),
-    category: 'handover_cue',
-    priority: 'medium',
+    category: 'handover',
+    priority: 'watch',
     title: 'Review suggested: handover cue',
     explanation: joinSentences([
-      handoverComplete == null
-        ? 'Handover completion is not available in the simulation workspace.'
-        : `Handover is ${handoverComplete}% complete.`,
-      openTasks.length > 0 ? `${openTasks.length} open task${openTasks.length === 1 ? '' : 's'} remain.` : null,
-      patient.escalation === 'Active' ? 'An active escalation may need to be handed over clearly.' : null
+      handoverComplete == null ? 'Handover completion is not visible in the current simulation workspace.' : `Handover is ${handoverComplete}% complete.`,
+      openTasks.length > 0 ? `${openTasks.length} open task${openTasks.length === 1 ? '' : 's'} remain visible.` : null,
+      patient.escalation === 'Active' ? 'The active escalation may need clear handover ownership.' : null
     ]),
     evidence: [
-      ...(handoverComplete == null ? [] : [{ label: `Handover complete: ${handoverComplete}%` }]),
-      ...(openTasks.length > 0 ? [{ label: `Open tasks: ${openTasks.length}` }] : []),
-      ...(patient.escalation === 'Active' ? [{ label: 'Active escalation is visible.' }] : [])
+      ...(handoverComplete == null ? [] : [{ id: 'handover-complete', label: `Handover ${handoverComplete}% complete` }]),
+      ...openTasks.map((task) => ({
+        id: task.id,
+        label: `Open task: ${safeText(task.label, 'Visible task')}`
+      })),
+      ...(patient.escalation === 'Active' ? [{ id: 'handover-escalation', label: 'Active escalation is visible.' }] : [])
     ],
-    freshness: freshnessFromPatient('current', 'Derived from the current simulation workspace state.'),
-    missingDataNotes: openTasks.length > 0 ? ['Outstanding tasks remain visible.'] : [],
-    suggestedHumanReviewAction: 'Human review required: confirm ownership of outstanding tasks and update the handover summary.'
+    suggestedHumanReviewAction: 'Human review required: confirm task ownership and update the handover summary.',
+    freshness: {
+      state: 'current',
+      label: 'Derived from the current simulation workspace state'
+    },
+    missingDataNotes: []
   });
 }
 
-function buildDischargeReadinessCue({ patient }) {
+function buildDischargeSignal({ patient }) {
   const dischargeBlockers = Array.isArray(patient.dischargeBlockers)
-    ? patient.dischargeBlockers.map((blocker) => safeText(blocker, null)).filter(Boolean)
+    ? patient.dischargeBlockers.map((blocker, index) => ({
+        id: `blocker-${index + 1}`,
+        label: safeText(blocker)
+      })).filter((blocker) => blocker.label)
     : [];
-  const dischargeReady = patient.dischargeReady === true;
-  if (dischargeReady && dischargeBlockers.length === 0) {
+  if (patient.dischargeReady === true && dischargeBlockers.length === 0) {
     return null;
   }
 
-  return createCue({
+  return createSignal({
     patientId: safePatientId(patient),
-    category: 'discharge_readiness_blocker',
-    priority: 'medium',
+    category: 'discharge',
+    priority: 'blocker',
     title: 'Review suggested: discharge-readiness blocker',
     explanation: joinSentences([
-      dischargeReady ? 'Discharge is marked ready in the simulation workspace.' : 'Discharge is not ready in the simulation workspace.',
-      dischargeBlockers.length > 0 ? 'One or more blockers are still visible.' : null
+      patient.dischargeReady === true
+        ? 'The fictional patient is marked discharge ready, but a visible blocker still needs review.'
+        : 'The fictional patient is not yet ready for discharge in the current workspace.',
+      dischargeBlockers.length > 0 ? 'One or more discharge-readiness blockers remain visible.' : null
     ]),
     evidence: [
-      { label: `Discharge ready: ${dischargeReady ? 'Yes' : 'No'}` },
-      ...dischargeBlockers.map((blocker) => ({ label: `Blocker: ${blocker}` }))
+      { id: 'discharge-ready', label: `Discharge ready: ${patient.dischargeReady === true ? 'Yes' : 'No'}` },
+      ...dischargeBlockers.map((blocker) => ({
+        id: blocker.id,
+        label: `Blocker: ${blocker.label}`
+      }))
     ],
-    freshness: freshnessFromPatient('current', 'Derived from the current simulation workspace state.'),
-    missingDataNotes: dischargeBlockers.length > 0 ? dischargeBlockers.map((blocker) => `${blocker}.`) : [],
-    suggestedHumanReviewAction: 'Human review required: confirm which blocker remains and document the discharge plan.'
+    suggestedHumanReviewAction: 'Human review required: confirm which discharge blocker remains and document the current plan.',
+    freshness: {
+      state: 'current',
+      label: 'Derived from the current simulation workspace state'
+    },
+    missingDataNotes: dischargeBlockers.map((blocker) => `${blocker.label}.`)
   });
 }
 
-function buildScenarioLearningCue({ documentationCue, escalationCue, handoverCue, dischargeCue }) {
-  const scenario = pickScenario({
-    documentationCue,
-    escalationCue,
-    handoverCue,
-    dischargeCue
-  });
+function buildLearningSignal({ patient, signalIndex }) {
+  const scenario = pickScenario({ patient, signalIndex });
+  if (!scenario) {
+    return null;
+  }
 
-  if (!scenario) return null;
-
-  return createCue({
-    patientId: documentationCue?.patientId ?? escalationCue?.patientId ?? handoverCue?.patientId ?? dischargeCue?.patientId ?? 'unknown',
-    category: 'scenario_learning',
-    priority: 'low',
+  return createSignal({
+    patientId: safePatientId(patient),
+    category: 'learning',
+    priority: 'learning',
     title: `Scenario learning cue: ${scenario.title}`,
     explanation: joinSentences([
-      safeText(scenario.reviewPrompt, null),
-      'Use this simulation example to compare evidence, missing information, and review actions.'
+      'Simulation-only cue for learning and audit review.',
+      safeText(scenario.reviewPrompt),
+      'Use this structured review prompt to compare visible evidence, missing information, and the current workflow response.'
     ]),
     evidence: [
-      { label: scenario.wardContext },
-      ...(scenario.successSignals?.length > 0 ? [{ label: scenario.successSignals[0] }] : []),
-      ...(scenario.hazards?.length > 0 ? [{ label: scenario.hazards[0] }] : [])
-    ].filter((item) => safeText(item.label, null)),
-    freshness: freshnessFromPatient('current', 'Derived from the current simulation scenario library.'),
-    missingDataNotes: [],
-    suggestedHumanReviewAction: 'Human review required: compare the current cues with the scenario checklist and record any learning point.'
+      { id: `${scenario.id}-context`, label: safeText(scenario.wardContext, 'Simulation scenario context') },
+      ...(scenario.successSignals?.length ? [{ id: `${scenario.id}-success`, label: safeText(scenario.successSignals[0]) }] : []),
+      ...(scenario.hazards?.length ? [{ id: `${scenario.id}-hazard`, label: safeText(scenario.hazards[0]) }] : [])
+    ].filter((item) => item.label),
+    suggestedHumanReviewAction: 'Human review required: compare the current simulation cues with the scenario learning points and record any observation.',
+    freshness: {
+      state: 'current',
+      label: 'Derived from the current simulation scenario library'
+    },
+    missingDataNotes: []
   });
 }
 
-function buildFallbackCue({ patient }) {
-  return createCue({
+function buildFallbackSignal({ patient, snapshotMeta = null }) {
+  const missingDataNotes = Array.isArray(snapshotMeta?.missingDataNotes) && snapshotMeta.missingDataNotes.length > 0
+    ? snapshotMeta.missingDataNotes
+    : ['Signal timeline unavailable or malformed.'];
+
+  return createSignal({
     patientId: safePatientId(patient),
-    category: 'simulation_fallback',
-    priority: 'medium',
+    category: 'simulation-fallback',
+    priority: 'review',
     title: 'Review suggested: simulation data unavailable',
-    explanation: 'SafeFlow could not build review cues from the current simulation signal feed. Human review required.',
-    evidence: [{ label: 'Signal data missing or malformed in simulation.' }],
-    freshness: freshnessFromMissingData(),
-    missingDataNotes: ['Signal timeline unavailable or malformed.'],
-    suggestedHumanReviewAction: 'Human review required: confirm the simulation patient record and rerun the signal feed.'
+    explanation: 'Simulation-only cue. No usable signal snapshot is available for this fictional patient yet.',
+    evidence: [{ id: 'missing-snapshot', label: 'Signal timeline unavailable or malformed in simulation.' }],
+    suggestedHumanReviewAction: 'Human review required: confirm the fictional patient record and refresh the simulation signal feed.',
+    freshness: snapshotMeta?.sourceFreshness ?? {
+      state: 'unavailable',
+      label: 'No signal freshness available'
+    },
+    missingDataNotes
   });
 }
 
-function pickScenario({ documentationCue, escalationCue, handoverCue, dischargeCue }) {
-  if (documentationCue) {
-    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-electrolyte-aki') ?? null;
-  }
-  if (escalationCue || handoverCue) {
-    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-sepsis-handover') ?? null;
-  }
-  if (dischargeCue) {
-    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-discharge-blocker') ?? null;
-  }
-  return null;
-}
-
-function normaliseRecords(value) {
-  if (!Array.isArray(value)) return [];
-  return value.filter(isPlainObject).slice().sort((left, right) => timestamp(right) - timestamp(left) || stableId(right).localeCompare(stableId(left)));
-}
-
-function normaliseSuggestionEvidence(suggestion) {
-  return (Array.isArray(suggestion.evidence) ? suggestion.evidence : [])
-    .filter(isPlainObject)
-    .map((item) => ({
-      label: safeText(item.label, null),
-      signalCode: safeText(item.signalCode, null)
-    }))
-    .filter((item) => item.label)
-    .map((item) => ({ label: item.label, ...(item.signalCode ? { signalCode: item.signalCode } : {}) }));
-}
-
-function normaliseMissingData(items) {
-  return (Array.isArray(items) ? items : [])
-    .map((item) => safeText(item, null))
-    .filter(Boolean)
-    .map((item) => (item.endsWith('.') ? item : `${item}.`));
-}
-
-function buildEscalationCue({ patient, latestRelevantSignal, suggestions }) {
-  const latestNews2Signal = latestSignal([...(signalListFromPatient(patient)), ...latestRelevantSignal ? [latestRelevantSignal] : []], (signal) => isSignalCode(signal, 'news2'));
-  const latestNews2Value = toNumber(latestNews2Signal?.value);
-  const urgentSuggestion = suggestions.find((suggestion) => suggestion.riskTier === 'urgent' || suggestion.riskType === 'missed_action');
-  const hasActiveEscalation = patient.escalation === 'Active';
-  const shouldFlag = latestNews2Value >= 7 || hasActiveEscalation || Boolean(urgentSuggestion);
-  if (!shouldFlag) return null;
-
-  const evidence = [];
-  if (latestNews2Signal) {
-    evidence.push(signalEvidence(latestNews2Signal));
-  }
-  if (hasActiveEscalation) {
-    evidence.push({ label: 'Active escalation is visible in the simulation workspace.' });
-  }
-  if (urgentSuggestion) {
-    evidence.push({ label: safeText(urgentSuggestion.title, 'Simulation risk-support signal requires review') });
-  }
-
-  return createCue({
-    patientId: safePatientId(patient),
-    category: 'escalation_readiness',
-    priority: 'high',
-    title: 'Review suggested: escalation readiness',
-    explanation: joinSentences([
-      latestNews2Value >= 7 ? `NEWS2 ${latestNews2Value} is visible in the simulation record.` : null,
-      hasActiveEscalation ? 'An active escalation is already present.' : null,
-      urgentSuggestion ? 'A simulation risk suggestion also needs human review.' : null
-    ]),
-    evidence,
-    freshness: freshnessFromSignal(latestNews2Signal ?? latestRelevantSignal, 'current', 'Current simulation evidence is available.'),
-    missingDataNotes: [],
-    suggestedHumanReviewAction: 'Human review required: confirm escalation ownership and document the next step.'
-  });
-}
-
-function compareCues(left, right) {
-  const priorityDelta = priorityRank(left.priority) - priorityRank(right.priority);
-  if (priorityDelta !== 0) return priorityDelta;
-
-  const categoryDelta = categoryRank(left.category) - categoryRank(right.category);
-  if (categoryDelta !== 0) return categoryDelta;
-
-  return stableTitle(left.title).localeCompare(stableTitle(right.title));
-}
-
-function compareSuggestions(left, right) {
-  return timestamp(right) - timestamp(left) || stableId(left).localeCompare(stableId(right));
-}
-
-function createCue({
+function createSignal({
   patientId,
   category,
   priority,
   title,
   explanation,
   evidence,
+  suggestedHumanReviewAction,
   freshness,
-  missingDataNotes,
-  suggestedHumanReviewAction
+  missingDataNotes
 }) {
   return {
-    cueId: `cue-${safeIdSegment(patientId)}-${category}`,
-    type: 'review_suggested',
+    id: `simulation-signal-${safeIdSegment(patientId)}-${safeIdSegment(category)}`,
     category,
-    title: safeText(title, 'Review suggested: simulation review'),
-    explanation: safeText(explanation, 'Simulation-only review cue. Human review required.'),
-    evidence: Array.isArray(evidence) ? evidence.filter(isPlainObject).map((item) => ({
-      ...(item.signalId ? { signalId: item.signalId } : {}),
-      ...(item.suggestionId ? { suggestionId: item.suggestionId } : {}),
-      label: safeText(item.label, 'Simulation evidence available.')
-    })) : [],
-    freshness,
-    missingDataNotes: Array.isArray(missingDataNotes) ? missingDataNotes.filter(Boolean) : [],
-    suggestedHumanReviewAction: safeText(
-      suggestedHumanReviewAction,
-      'Human review required: review the simulation evidence and document the outcome.'
-    ),
     priority,
+    title,
+    explanation,
+    evidence: Array.isArray(evidence) ? evidence : [],
+    suggestedHumanReviewAction,
+    simulationOnly: true,
     humanReviewRequired: true,
-    simulationOnly: true
+    unsafeClinicalAdvice: false,
+    freshness: freshness ?? null,
+    missingDataNotes: Array.isArray(missingDataNotes) ? missingDataNotes : []
   };
+}
+
+function normaliseSignals(signals, patientId) {
+  return normaliseRecords(signals)
+    .filter(
+      (signal) =>
+        signal.simulationOnly === true &&
+        typeof signal.signalId === 'string' &&
+        typeof signal.syntheticPatientRef === 'string' &&
+        signal.syntheticPatientRef.trim() === patientId
+    )
+    .sort(compareByTime);
+}
+
+function normaliseSuggestions(suggestions, patientId) {
+  return normaliseRecords(suggestions)
+    .filter(
+      (suggestion) =>
+        suggestion.simulationOnly === true &&
+        suggestion.requiresHumanReview === true &&
+        typeof suggestion.suggestionId === 'string' &&
+        typeof suggestion.syntheticPatientRef === 'string' &&
+        suggestion.syntheticPatientRef.trim() === patientId
+    )
+    .sort(compareByTime);
+}
+
+function normaliseSnapshotMeta(snapshotMeta) {
+  if (!isPlainObject(snapshotMeta)) {
+    return null;
+  }
+
+  const sourceFreshness = isPlainObject(snapshotMeta.sourceFreshness)
+    ? {
+        state: safeText(snapshotMeta.sourceFreshness.state, 'unavailable'),
+        label: safeText(snapshotMeta.sourceFreshness.label, 'No signal freshness available')
+      }
+    : null;
+
+  return {
+    sourceFreshness,
+    missingDataNotes: Array.isArray(snapshotMeta.missingDataNotes)
+      ? snapshotMeta.missingDataNotes.filter(Boolean).map((note) => String(note).trim()).filter(Boolean)
+      : []
+  };
+}
+
+function snapshotIsUnavailable(snapshotMeta) {
+  return snapshotMeta?.sourceFreshness?.state === 'unavailable';
+}
+
+function indexSignals(signals) {
+  return {
+    potassium: findLatestSignal(signals, (signal) => isSignalCode(signal, 'potassium')),
+    magnesiumMissing: findLatestSignal(signals, (signal) => isSignalCode(signal, 'magnesium') && isMissingSignal(signal)),
+    news2: findLatestSignal(signals, (signal) => isSignalCode(signal, 'news2')),
+    planGap: findLatestSignal(signals, (signal) => isSignalCode(signal, 'electrolyte_plan_gap') || /unclear/i.test(String(signal.value ?? ''))),
+    urineCulture: findLatestSignal(signals, (signal) => isSignalCode(signal, 'urine_culture'))
+  };
+}
+
+function pickScenario({ patient, signalIndex }) {
+  if (signalIndex.potassium || signalIndex.magnesiumMissing || signalIndex.planGap) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-electrolyte-aki') ?? null;
+  }
+
+  if (Array.isArray(patient.riskFlags) && patient.riskFlags.some((flag) => /sepsis concern/i.test(String(flag)))) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-sepsis-handover') ?? null;
+  }
+
+  if (patient.dischargeReady === false || (Array.isArray(patient.dischargeBlockers) && patient.dischargeBlockers.length > 0)) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-discharge-blocker') ?? null;
+  }
+
+  return null;
 }
 
 function signalEvidence(signal, fallbackLabel) {
   return {
-    signalId: signal.signalId,
-    label: safeText(fallbackLabel ?? signalLabel(signal), 'Simulation signal available.')
+    id: signal.signalId,
+    label: fallbackLabel ?? signalLabel(signal)
   };
 }
 
 function signalLabel(signal) {
   const displayName = safeText(signal.displayName, 'Signal');
   const value = signal.value == null || signal.value === '' ? 'result not visible' : safeText(String(signal.value), 'result not visible');
-  const unit = signal.unit ? ` ${safeText(signal.unit, '')}` : '';
-  const status = signal.status ? ` ${safeText(signal.status, 'current')}` : '';
-  const time = signalTimeLabel(signal);
-  return `${displayName} ${value}${unit}${status} at ${time}`.replace(/\s+/g, ' ').trim();
+  const unit = signal.unit ? ` ${safeText(signal.unit)}` : '';
+  const status = signal.status ? ` ${safeText(signal.status)}` : '';
+  return `${displayName} ${value}${unit}${status} at ${signalTimeLabel(signal)}`.replace(/\s+/g, ' ').trim();
 }
 
-function workflowPlanGapLabel(signal) {
-  const displayName = safeText(signal.displayName, 'Monitoring plan');
-  const value = safeText(String(signal.value ?? 'unclear'), 'unclear');
+function workflowSignalLabel(signal) {
+  const displayName = safeText(signal?.displayName, 'Signal');
+  const value = signal?.value == null || signal.value === '' ? 'result not visible' : safeText(String(signal.value), 'result not visible');
   return `${displayName} ${value} at ${signalTimeLabel(signal)}`.replace(/\s+/g, ' ').trim();
 }
 
-function signalTimeLabel(signal) {
-  const value = signal.effectiveAt ?? signal.resultedAt ?? signal.receivedAt;
-  if (!value) return 'unknown time';
-  return String(value).slice(11, 16);
+function observationSignalLabel(signal) {
+  const displayName = safeText(signal?.displayName, 'Signal');
+  const value = signal?.value == null || signal.value === '' ? 'result not visible' : safeText(String(signal.value), 'result not visible');
+  return `${displayName} ${value} at ${signalTimeLabel(signal)}`.replace(/\s+/g, ' ').trim();
 }
 
-function freshnessFromSignal(signal, state, note) {
-  if (!signal) return freshnessFromMissingData();
+function suggestionEvidence(suggestion) {
+  if (!Array.isArray(suggestion?.evidence)) {
+    return [];
+  }
+
+  return suggestion.evidence
+    .map((item, index) => {
+      const label = safeText(item?.label);
+      if (!label) {
+        return null;
+      }
+
+      return {
+        id: typeof item?.signalCode === 'string' && item.signalCode.trim()
+          ? `suggestion-evidence-${item.signalCode.trim().toLowerCase()}`
+          : `${suggestion.suggestionId}-evidence-${index + 1}`,
+        label
+      };
+    })
+    .filter(Boolean);
+}
+
+function freshnessFromSignals(signals) {
+  const latestSignal = [...signals].filter(Boolean).sort(compareByTime)[0] ?? null;
+  if (!latestSignal) {
+    return {
+      state: 'current',
+      label: 'Derived from the current fictional workflow state'
+    };
+  }
+
   return {
-    state: safeText(signal.sourceFreshness, state ?? 'current'),
-    note: safeText(note ?? `Latest signal received at ${signalTimeLabel(signal)}.`, 'Latest signal received in the current simulation feed.')
+    state: safeText(latestSignal.sourceFreshness, 'current'),
+    label: `Latest simulated signal feed at ${signalTimeLabel(latestSignal)}`
   };
 }
 
-function freshnessFromPatient(state, note) {
-  return {
-    state: state ?? 'current',
-    note: note ?? 'Derived from the current simulation workspace state.'
-  };
+function normaliseRecords(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(isPlainObject).map((record) => clone(record));
 }
 
-function freshnessFromMissingData() {
-  return {
-    state: 'unavailable',
-    note: 'No usable signal timeline is available.'
-  };
+function dedupeSignals(signals) {
+  const seen = new Set();
+  const deduped = [];
+
+  for (const signal of signals) {
+    if (seen.has(signal.id)) {
+      continue;
+    }
+    seen.add(signal.id);
+    deduped.push(signal);
+  }
+
+  return deduped;
 }
 
-function latestSignal(signals, predicate) {
-  return signals.filter(predicate).sort((left, right) => timestamp(right) - timestamp(left) || stableId(right).localeCompare(stableId(left)))[0] ?? null;
+function compareSignals(left, right) {
+  const categoryDelta = categoryRank(left.category) - categoryRank(right.category);
+  if (categoryDelta !== 0) {
+    return categoryDelta;
+  }
+
+  const priorityDelta = priorityRank(left.priority) - priorityRank(right.priority);
+  if (priorityDelta !== 0) {
+    return priorityDelta;
+  }
+
+  return String(left.id).localeCompare(String(right.id));
 }
 
-function signalListFromPatient(patient) {
-  if (!isPlainObject(patient) || !Array.isArray(patient.observations)) return [];
-  return patient.observations.map((observation, index) => ({
-    signalId: observation.id ?? `observation-${index + 1}`,
-    syntheticPatientRef: patient.id,
-    sourceSystem: 'simulation-workspace',
-    sourceType: 'observation',
-    signalCode: 'news2',
-    displayName: 'NEWS2',
-    value: observation.news2,
-    status: 'final',
-    effectiveAt: observation.time ? `2026-06-10T${String(observation.time).slice(0, 5)}:00.000Z` : null,
-    sourceFreshness: 'current',
-    simulationOnly: true
-  }));
+function compareByTime(left, right) {
+  return timestamp(right) - timestamp(left) || stableId(left).localeCompare(stableId(right));
 }
 
-function indexSignals(signals) {
-  return {
-    potassium: latestSignal(signals, (signal) => isSignalCode(signal, 'potassium')),
-    magnesium: latestSignal(signals, (signal) => isSignalCode(signal, 'magnesium')),
-    news2: latestSignal(signals, (signal) => isSignalCode(signal, 'news2')),
-    workflowPlanGap: latestSignal(signals, (signal) => isWorkflowPlanGapSignal(signal))
-  };
+function findLatestSignal(signals, predicate) {
+  return signals.filter(predicate).sort(compareByTime)[0] ?? null;
 }
 
-function isSimulationSignal(signal) {
-  return isPlainObject(signal) && signal.simulationOnly === true && typeof signal.signalId === 'string' && typeof signal.syntheticPatientRef === 'string';
-}
+function matchesReviewTheme(suggestion, keywords) {
+  const haystack = [
+    suggestion?.title,
+    suggestion?.suggestedFlag,
+    suggestion?.suggestedBlocker,
+    suggestion?.riskType
+  ].map((value) => String(value ?? '').toLowerCase()).join(' ');
 
-function isSimulationSuggestion(suggestion) {
-  return isPlainObject(suggestion) && suggestion.simulationOnly === true && suggestion.requiresHumanReview === true && typeof suggestion.suggestionId === 'string';
-}
-
-function isWorkflowPlanGapSignal(signal) {
-  const value = String(signal?.value ?? '').trim();
-  return isSignalCode(signal, 'electrolyte_plan_gap') || /unclear/i.test(value);
+  return keywords.some((keyword) => haystack.includes(keyword.toLowerCase()));
 }
 
 function isSignalCode(signal, code) {
@@ -519,81 +598,85 @@ function isSignalCode(signal, code) {
 }
 
 function isMissingSignal(signal) {
-  return signal.status === 'missing' || signal.value == null || signal.value === '';
+  return signal?.status === 'missing' || signal?.value == null || signal?.value === '';
 }
 
-function safeText(value, fallback) {
-  if (value == null) return fallback;
-  const text = String(value).trim();
-  if (!text) return fallback;
-  return UNSAFE_TEXT_PATTERN.test(text) ? fallback : text;
+function signalTimeLabel(signal) {
+  const value = signal?.effectiveAt ?? signal?.resultedAt ?? signal?.receivedAt;
+  return typeof value === 'string' && value.length >= 16 ? value.slice(11, 16) : 'unknown time';
+}
+
+function firstLab(values) {
+  return Array.isArray(values) && values.length > 0 ? values[0] : null;
+}
+
+function latestLab(values) {
+  return Array.isArray(values) && values.length > 0 ? values[values.length - 1] : null;
+}
+
+function uniqueStrings(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function safeText(value, fallback = null) {
+  if (typeof value !== 'string' || !value.trim()) {
+    return fallback;
+  }
+
+  return value.trim();
 }
 
 function joinSentences(parts) {
-  return parts
+  const sentences = parts
     .filter(Boolean)
-    .map((part) => String(part).trim().replace(/\.$/, ''))
-    .join('. ')
-    .concat(parts.some(Boolean) ? '.' : '');
+    .map((part) => String(part).trim().replace(/\.$/, ''));
+
+  return sentences.length > 0 ? `${sentences.join('. ')}.` : '';
+}
+
+function toNumber(value) {
+  if (value == null || value === '') {
+    return null;
+  }
+
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function timestamp(record) {
+  return Date.parse(record?.effectiveAt ?? record?.resultedAt ?? record?.receivedAt ?? record?.createdAt ?? record?.updatedAt ?? '') || 0;
+}
+
+function stableId(record) {
+  return String(record?.signalId ?? record?.suggestionId ?? record?.id ?? '');
+}
+
+function categoryRank(category) {
+  return CATEGORY_ORDER[category] ?? CATEGORY_ORDER['simulation-fallback'];
+}
+
+function priorityRank(priority) {
+  return PRIORITY_ORDER[priority] ?? PRIORITY_ORDER.review;
+}
+
+function safePatientId(patient) {
+  return typeof patient?.id === 'string' && patient.id.trim() ? patient.id.trim() : 'unknown';
+}
+
+function safeIdSegment(value) {
+  const segment = String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return segment || 'unknown';
 }
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
 
-function toNumber(value) {
-  if (value == null || value === '') return null;
-  const number = Number(value);
-  return Number.isFinite(number) ? number : null;
-}
-
-function timestamp(item) {
-  return Date.parse(item?.effectiveAt ?? item?.resultedAt ?? item?.receivedAt ?? item?.createdAt ?? item?.updatedAt ?? '') || 0;
-}
-
-function stableId(item) {
-  return String(item?.signalId ?? item?.suggestionId ?? item?.cueId ?? '');
-}
-
-function stableTitle(value) {
-  return String(value ?? '');
-}
-
-function priorityRank(priority) {
-  return PRIORITY_ORDER[priority] ?? PRIORITY_ORDER.medium;
-}
-
-function categoryRank(category) {
-  return CATEGORY_ORDER[category] ?? CATEGORY_ORDER.simulation_fallback;
-}
-
-function safeIdSegment(value) {
-  const segment = String(value ?? 'unknown').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-  return segment || 'unknown';
-}
-
-function dedupeCues(cues) {
-  const seen = new Set();
-  const deduped = [];
-
-  for (const cue of cues) {
-    if (seen.has(cue.cueId)) continue;
-    seen.add(cue.cueId);
-    deduped.push(cue);
-  }
-
-  return deduped;
-}
-
-function safePatientId(patient) {
-  return isPlainObject(patient) && typeof patient.id === 'string' && patient.id.trim() ? patient.id : 'unknown';
-}
-
-function suggestionFreshness(suggestion) {
-  const stamp = suggestion.updatedAt ?? suggestion.createdAt;
-  if (!stamp) return freshnessFromMissingData();
-  return {
-    state: 'current',
-    note: `Suggestion created at ${String(stamp).slice(11, 16)}.`
-  };
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
 }

@@ -20,14 +20,32 @@ function renderPanel(overrides = {}) {
       onAddTask={overrides.onAddTask ?? (() => {})}
       onRequestContact={overrides.onRequestContact ?? (() => {})}
       patient={patient}
+      reviewSignals={overrides.reviewSignals ?? []}
       signalSnapshot={overrides.signalSnapshot ?? null}
     />
   );
 }
 
 describe('PatientSafetyPanel', () => {
-  it('renders the Review cues section when a signal snapshot is available', () => {
+  it('renders the Simulation Review Cues section when derived signals are available', () => {
     renderPanel({
+      reviewSignals: [
+        {
+          id: 'simulation-signal-dcu-031-documentation',
+          category: 'documentation',
+          priority: 'review',
+          title: 'Review suggested: documentation gap',
+          explanation: 'Simulation-only cue. Evidence to check is visible in the fictional record.',
+          evidence: [
+            { label: 'Potassium 3.1 mmol/L final at 09:10' },
+            { label: 'Magnesium result not visible' }
+          ],
+          suggestedHumanReviewAction: 'Human review required: confirm the visible evidence and document the outcome.',
+          simulationOnly: true,
+          humanReviewRequired: true,
+          unsafeClinicalAdvice: false
+        }
+      ],
       signalSnapshot: {
         signalTimeline: [
           {
@@ -70,22 +88,24 @@ describe('PatientSafetyPanel', () => {
     });
 
     const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
-    const reviewCues = within(panel).getByRole('region', { name: /review cues/i });
+    const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
 
     expect(within(reviewCues).getByText(/simulation-only cues/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/^Documentation$/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/^Review$/i)).toBeInTheDocument();
     expect(within(reviewCues).getAllByText(/human review required/i).length).toBeGreaterThan(1);
     expect(within(reviewCues).getAllByText(/review suggested/i).length).toBeGreaterThan(0);
-    expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision/i);
+    expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision|replace potassium|potassium replacement/i);
   });
 
   it('shows a quiet fallback message when no signal snapshot is available', () => {
     renderPanel();
 
     const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
-    const reviewCues = within(panel).getByRole('region', { name: /review cues/i });
+    const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
 
     expect(within(reviewCues).getByText(/no signal snapshot available yet/i)).toBeInTheDocument();
-    expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision/i);
+    expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision|replace potassium|potassium replacement/i);
   });
 
   it('keeps the existing tasks and audit tabs working', async () => {

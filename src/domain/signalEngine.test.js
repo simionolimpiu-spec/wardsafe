@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { simulatedPatients } from '../data/simulatedPatients.js';
-import { buildSimulationReviewCues } from './signalEngine.js';
+import { buildSimulationReviewCues, buildSimulationSignals } from './signalEngine.js';
 
 const patient = simulatedPatients.find((item) => item.id === 'DCU-031');
 
-const signals = [
+const timelineSignals = [
   {
     signalId: 'signal-dcu-031-plan-gap-0920',
     syntheticPatientRef: 'DCU-031',
@@ -101,91 +101,124 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
-describe('buildSimulationReviewCues', () => {
-  it('builds deterministic cues from the same simulation inputs', () => {
-    const first = buildSimulationReviewCues({
+describe('buildSimulationSignals', () => {
+  it('builds deterministic simulation signals from the same fictional inputs', () => {
+    const first = buildSimulationSignals({
       patient: clone(patient),
-      signals: clone(signals),
+      signals: clone(timelineSignals),
       suggestions: clone(suggestions)
     });
-    const second = buildSimulationReviewCues({
+    const second = buildSimulationSignals({
       patient: clone(patient),
-      signals: clone(signals),
+      signals: clone(timelineSignals),
       suggestions: clone(suggestions)
     });
 
     expect(first).toEqual(second);
-    expect(first.map((cue) => cue.category)).toEqual([
-      'documentation_gap',
-      'escalation_readiness',
-      'risk_support_signal',
-      'handover_cue',
-      'discharge_readiness_blocker',
-      'scenario_learning'
+    expect(buildSimulationReviewCues({
+      patient: clone(patient),
+      signals: clone(timelineSignals),
+      suggestions: clone(suggestions)
+    })).toEqual(first);
+    expect(first.map((signal) => signal.category)).toEqual([
+      'documentation',
+      'electrolyte-review',
+      'infection-review',
+      'escalation',
+      'handover',
+      'discharge',
+      'learning'
     ]);
 
-    const documentationCue = first.find((cue) => cue.category === 'documentation_gap');
-    const riskCue = first.find((cue) => cue.category === 'risk_support_signal');
+    const documentationSignal = first.find((signal) => signal.category === 'documentation');
+    const electrolyteSignal = first.find((signal) => signal.category === 'electrolyte-review');
+    const infectionSignal = first.find((signal) => signal.category === 'infection-review');
+    const dischargeSignal = first.find((signal) => signal.category === 'discharge');
 
-    expect(documentationCue).toMatchObject({
+    expect(documentationSignal).toMatchObject({
+      id: 'simulation-signal-dcu-031-documentation',
       title: 'Review suggested: documentation gap',
-      priority: 'high',
+      priority: 'review',
       humanReviewRequired: true,
-      simulationOnly: true
+      simulationOnly: true,
+      unsafeClinicalAdvice: false
     });
-    expect(documentationCue.evidence).toEqual(expect.arrayContaining([
+    expect(documentationSignal.evidence).toEqual(expect.arrayContaining([
       expect.objectContaining({ label: 'Potassium 3.1 mmol/L final at 09:10' }),
       expect.objectContaining({ label: 'Magnesium result not visible' }),
       expect.objectContaining({ label: 'Electrolyte monitoring plan unclear at 09:20' })
     ]));
-    expect(documentationCue.missingDataNotes).toContain('Magnesium result not visible.');
-    expect(documentationCue.suggestedHumanReviewAction).toMatch(/human review required/i);
+    expect(documentationSignal.suggestedHumanReviewAction).toMatch(/human review required/i);
 
-    expect(riskCue).toMatchObject({
-      category: 'risk_support_signal',
-      priority: 'high',
+    expect(electrolyteSignal).toMatchObject({
+      category: 'electrolyte-review',
+      priority: 'review',
       humanReviewRequired: true,
-      simulationOnly: true
+      simulationOnly: true,
+      unsafeClinicalAdvice: false
     });
-    expect(riskCue.evidence).toEqual(expect.arrayContaining([
+    expect(electrolyteSignal.evidence).toEqual(expect.arrayContaining([
       expect.objectContaining({ label: 'Potassium 3.1 mmol/L final at 09:10' }),
       expect.objectContaining({ label: 'NEWS2 7 at 09:15' })
     ]));
-    expect(riskCue.suggestedHumanReviewAction).toMatch(/human review required/i);
+    expect(electrolyteSignal.suggestedHumanReviewAction).toMatch(/human review required/i);
+
+    expect(infectionSignal).toMatchObject({
+      category: 'infection-review',
+      priority: 'review',
+      title: 'Review suggested: infection review',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      unsafeClinicalAdvice: false
+    });
+    expect(infectionSignal.explanation).toMatch(/simulation-only cue/i);
+    expect(infectionSignal.evidence).toEqual(expect.arrayContaining([
+      expect.objectContaining({ label: 'Risk flag: Sepsis Concern' }),
+      expect.objectContaining({ label: 'NEWS2 7 at 09:15' })
+    ]));
+
+    expect(dischargeSignal).toMatchObject({
+      category: 'discharge',
+      priority: 'blocker',
+      title: 'Review suggested: discharge-readiness blocker',
+      unsafeClinicalAdvice: false
+    });
   });
 
   it('handles missing signal data safely', () => {
-    const cues = buildSimulationReviewCues({
+    const derivedSignals = buildSimulationSignals({
       patient: clone(readyPatient),
       signals: null,
       suggestions: undefined
     });
 
-    expect(cues).toHaveLength(1);
-    expect(cues[0]).toMatchObject({
-      category: 'simulation_fallback',
+    expect(derivedSignals).toHaveLength(1);
+    expect(derivedSignals[0]).toMatchObject({
+      category: 'simulation-fallback',
       humanReviewRequired: true,
-      simulationOnly: true
+      simulationOnly: true,
+      unsafeClinicalAdvice: false
     });
-    expect(cues[0].freshness).toMatchObject({ state: 'unavailable' });
-    expect(cues[0].suggestedHumanReviewAction).toMatch(/human review required/i);
+    expect(derivedSignals[0].freshness).toMatchObject({ state: 'unavailable' });
+    expect(derivedSignals[0].suggestedHumanReviewAction).toMatch(/human review required/i);
   });
 
   it('includes human-review wording on every cue', () => {
-    const cues = buildSimulationReviewCues({
+    const derivedSignals = buildSimulationSignals({
       patient: clone(patient),
-      signals: clone(signals),
+      signals: clone(timelineSignals),
       suggestions: clone(suggestions)
     });
 
-    expect(cues.every((cue) => cue.humanReviewRequired === true)).toBe(true);
-    expect(cues.every((cue) => /human review required/i.test(cue.suggestedHumanReviewAction))).toBe(true);
+    expect(derivedSignals.every((signal) => signal.humanReviewRequired === true)).toBe(true);
+    expect(derivedSignals.every((signal) => /human review required/i.test(signal.suggestedHumanReviewAction))).toBe(true);
+    expect(derivedSignals.every((signal) => signal.simulationOnly === true)).toBe(true);
   });
 
   it('blocks diagnosis, prescribing and autonomous wording in cue text', () => {
-    const cues = buildSimulationReviewCues({
+    const derivedSignals = buildSimulationSignals({
       patient: clone(patient),
-      signals: clone(signals),
+      signals: clone(timelineSignals),
       suggestions: [{
         suggestionId: 'suggestion-malicious',
         syntheticPatientRef: 'DCU-031',
@@ -203,6 +236,87 @@ describe('buildSimulationReviewCues', () => {
       }]
     });
 
-    expect(JSON.stringify(cues)).not.toMatch(/diagnos|prescrib|autonomous clinical decision|AI decided|give potassium|treatment recommendation/i);
+    expect(JSON.stringify(derivedSignals)).not.toMatch(
+      /diagnos|prescrib|autonomous clinical decision|AI decided|give potassium|treatment recommendation|administer potassium|patient needs potassium|replace potassium|potassium replacement|clinical decision engine|live NHS use/i
+    );
+    expect(derivedSignals.every((signal) => signal.unsafeClinicalAdvice === false)).toBe(true);
+  });
+
+  it('ignores non-simulation signal and suggestion inputs when deriving cues', () => {
+    const derivedSignals = buildSimulationSignals({
+      patient: clone(readyPatient),
+      signals: [
+        {
+          signalId: 'signal-live-news2',
+          syntheticPatientRef: 'DCU-099',
+          signalCode: 'NEWS2',
+          displayName: 'NEWS2',
+          value: '9',
+          effectiveAt: '2026-06-10T09:15:00.000Z',
+          simulationOnly: false
+        }
+      ],
+      suggestions: [
+        {
+          suggestionId: 'suggestion-live-treatment',
+          syntheticPatientRef: 'DCU-099',
+          riskType: 'missed_action',
+          riskTier: 'urgent',
+          title: 'Replace potassium immediately',
+          requiresHumanReview: false,
+          simulationOnly: false,
+          createdAt: '2026-06-10T09:12:00.000Z'
+        }
+      ]
+    });
+
+    expect(derivedSignals).toEqual([
+      expect.objectContaining({
+        category: 'simulation-fallback',
+        simulationOnly: true,
+        humanReviewRequired: true,
+        unsafeClinicalAdvice: false
+      })
+    ]);
+    expect(JSON.stringify(derivedSignals)).not.toMatch(/replace potassium|live-treatment/i);
+  });
+
+  it('ignores simulation inputs that belong to a different fictional patient', () => {
+    const derivedSignals = buildSimulationSignals({
+      patient: clone(readyPatient),
+      signals: [
+        {
+          signalId: 'signal-dcu-028-urine-culture',
+          syntheticPatientRef: 'DCU-028',
+          signalCode: 'urine_culture',
+          displayName: 'Urine culture',
+          value: 'Positive',
+          effectiveAt: '2026-06-10T09:15:00.000Z',
+          simulationOnly: true
+        }
+      ],
+      suggestions: [
+        {
+          suggestionId: 'suggestion-dcu-028-sepsis-review',
+          syntheticPatientRef: 'DCU-028',
+          riskType: 'missed_action',
+          riskTier: 'urgent',
+          title: 'Review suggested: infection review',
+          requiresHumanReview: true,
+          simulationOnly: true,
+          createdAt: '2026-06-10T09:12:00.000Z'
+        }
+      ]
+    });
+
+    expect(derivedSignals).toEqual([
+      expect.objectContaining({
+        category: 'simulation-fallback',
+        simulationOnly: true,
+        humanReviewRequired: true,
+        unsafeClinicalAdvice: false
+      })
+    ]);
+    expect(JSON.stringify(derivedSignals)).not.toMatch(/urine culture|infection review/i);
   });
 });

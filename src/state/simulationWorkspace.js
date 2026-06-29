@@ -1,3 +1,4 @@
+import { buildSimulationSignals } from '../domain/signalEngine.js';
 import { simulatedPatients } from '../data/simulatedPatients.js';
 import { initialAuditEvents } from '../domain/workflowEvents.js';
 
@@ -479,4 +480,24 @@ export function selectActiveEscalationCount(state) {
 
 export function selectPatient(state, patientId = state.selectedPatientId) {
   return state.patients.find((patient) => patient.id === patientId);
+}
+
+export function selectPatientSimulationSignals(state, patientId = state.selectedPatientId) {
+  const patient = selectPatient(state, patientId);
+  if (!patient) return [];
+
+  const snapshots = isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {};
+  const snapshot = snapshots[patient.id];
+  if (!isPlainObject(snapshot)) return [];
+
+  return buildSimulationSignals({
+    patient,
+    signals: snapshot.signalTimeline,
+    suggestions: snapshot.riskSuggestions,
+    snapshotMeta: {
+      sourceFreshness: snapshot.sourceFreshness,
+      missingDataNotes: snapshot.missingDataNotes,
+      receivedAt: snapshot.receivedAt
+    }
+  });
 }
