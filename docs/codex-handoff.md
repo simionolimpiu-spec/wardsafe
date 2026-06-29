@@ -10,13 +10,14 @@ Confirmed from Mia's clone after GitHub auth was repaired and `git fetch origin 
 
 - `main` at `d5663c4`
 - `codex/safeflow-prototype` at `34e86a8`
+- `codex/signal-engine-ml-stack` at `278bd26`
 - `feature/simulation-signal-engine` at `ab0da3a`
 - `deployment/public-simulation-preview` at `893f98e`
 - `docs/codex-handoff-sync` at `8ffc173`
 - `ml/risk-support-readonly-report` at `12f1ba0`
 - `ml/synthetic-scenario-coverage` at `9c65167`
 - `docs/demo-readiness-pack` at `762c7a7`
-- `review/ml-foundation-merge-readiness` at `a04ae2f`
+- `review/ml-foundation-merge-readiness` at `32494d9`
 - `test/safety-language-regression-scan` at `e9ce7f7`
 
 ## Confirmed Open PRs
@@ -107,6 +108,42 @@ Interpretation:
 - a targeted rebase or merge-resolution pass will be needed in `src/App.jsx` and `src/App.test.jsx`
 - broader conflicts are not currently indicated by the file-level comparison
 
+## Integration Rehearsal
+
+Mia prepared and pushed an integrated rehearsal branch:
+
+- `codex/signal-engine-ml-stack` at `278bd26`
+
+This branch starts from `origin/feature/simulation-signal-engine` and replays Mia's ML/docs/review stack on top of it.
+
+Observed integration result:
+
+- initial cherry-pick conflict occurred in `src/App.test.jsx`
+- the conflict was resolved by keeping both:
+  - signal-engine handover risk-support expectations
+  - Mia's patient-specific handover/discharge expectations
+- no additional cherry-pick conflicts occurred
+- a follow-up assertion tweak was committed so the test targets the exact `Medical plan unclear` checklist item
+
+Validation on `codex/signal-engine-ml-stack`:
+
+- targeted integration test set: passed
+- `pnpm test`: passed
+- `pnpm run build`: passed
+- `pnpm audit --audit-level=moderate`: could not run exactly because there is no `pnpm-lock.yaml`
+- closest equivalent `pnpm dlx npm@10.9.2 audit --audit-level=moderate`: completed with `1 low` severity `esbuild` advisory only
+- `pnpm run e2e`: passed
+- `pnpm run db:manifest`: passed
+- `pnpm run infra:synth:dev`: passed
+- `pnpm run infra:synth:simulation`: passed
+- `SAFEFLOW_SIMULATION_ONLY=true pnpm run db:migrate:plan`: passed
+
+Interpretation:
+
+- the integration is already proven locally
+- after PR #2 merges, rebasing Mia's stack should be routine rather than exploratory
+- the known seam remains `src/App.jsx` and `src/App.test.jsx`, but it is now a solved seam
+
 ## Current Integration Rule
 
 - Treat `codex/safeflow-prototype` as the integration branch.
@@ -124,7 +161,8 @@ Interpretation:
    - `ml/synthetic-scenario-coverage`
    - `docs/demo-readiness-pack`
    - `review/ml-foundation-merge-readiness`
-5. Keep `deployment/public-simulation-preview` as a later separate PR.
+5. Use `codex/signal-engine-ml-stack` as the working reference if a ready-made integration comparison is helpful.
+6. Keep `deployment/public-simulation-preview` as a later separate PR.
 
 ## Remaining Follow-up
 
