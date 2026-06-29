@@ -48,6 +48,8 @@ If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the determin
 
 The API also exposes `GET /api/simulation/workspace`. By default it serves the local fictional fixture. To point that route at an approved simulation PostgreSQL database, set both `SAFEFLOW_SIMULATION_ONLY=true` and `DATABASE_URL`; otherwise database-backed workspace mode is refused or falls back to the fixture.
 
+The API also exposes `GET /api/simulation/risk-support-report`. It returns a read-only structured review support report built from fictional scenario fixtures with deterministic rules, no patient input, and no live clinical deployment claim. Nurses and clinicians remain responsible for judgement and escalation.
+
 Inside the prototype, **Settings** includes **Check backend workspace** and **Check build readiness** so reviewers can confirm which server-side simulation source is active, which provider boundaries are configured, and whether the migration approval manifest is current without replacing browser-local edits.
 
 ## Verification

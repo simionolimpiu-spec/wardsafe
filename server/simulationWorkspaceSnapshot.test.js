@@ -37,6 +37,25 @@ describe('simulation workspace snapshot', () => {
       }
     });
     expect(snapshot.workspace.riskSupport.signals).toHaveLength(4);
+    expect(snapshot.workspace.riskSupportReport).toMatchObject({
+      reportType: 'simulation-risk-support-read-only-report',
+      source: 'fictional scenario fixtures',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      generatedBy: 'deterministic rules',
+      clinicalUse: 'not for live clinical deployment',
+      totalScenarios: 7,
+      passedScenarios: 7,
+      failedScenarios: 0,
+      aggregateSummary: {
+        documentationGapCount: 3,
+        handoverCompletenessIssueCount: 3,
+        escalationReadinessCueCount: 4,
+        dischargeReadinessBlockerCount: 4,
+        scenariosWithMultipleGaps: 4
+      }
+    });
+    expect(snapshot.workspace.riskSupportReport.scenarioResults).toBeUndefined();
     expect(snapshot.workspace.auditEvents[0]).toEqual(expect.objectContaining({
       label: expect.any(String),
       patientId: expect.stringMatching(/^DCU-/)
