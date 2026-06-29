@@ -1,6 +1,6 @@
 # Codex Handoff
 
-Last updated: 2026-06-29 (post-PR-5 merge)
+Last updated: 2026-06-29 (post-main merge)
 Maintainer lane: shared
 
 This file is the shared handoff note for cross-thread coordination between Oli's Codex and Mia's Codex. Treat GitHub remote state as the source of truth when local clones disagree.
@@ -9,7 +9,7 @@ This file is the shared handoff note for cross-thread coordination between Oli's
 
 Confirmed from Mia's authenticated clone against `origin`:
 
-- `main` at `d5663c4`
+- `main` at `5c1f604`
 - `codex/safeflow-prototype` at `d50cff5`
 - `codex/ml-foundation-rebase` at `8eb555e`
 - `codex/public-simulation-preview-rebase` at `b82b9b6`
@@ -27,7 +27,8 @@ Confirmed from GitHub API using Mia's repaired repo auth:
    - Title: `[codex] Build SafeFlow focused demo prototype`
    - Base: `main`
    - Head: `codex/safeflow-prototype`
-   - State: open draft
+   - State: merged
+   - Merged commit on base: `5c1f604`
 
 2. PR #5
    - Title: `Prepare public simulation preview on top of prototype`
@@ -70,6 +71,8 @@ The current integrated prototype branch is:
 
 `codex/safeflow-prototype` at `d50cff5`
 
+`main` now includes that prototype branch through merge commit `5c1f604`.
+
 Relationship summary:
 
 - `codex/ml-foundation-rebase` has already been merged into `codex/safeflow-prototype`
@@ -105,11 +108,23 @@ Validated on `codex/public-simulation-preview-rebase` at `b82b9b6`:
 - `node infra/aws/runSynth.js --environment=simulation`: passed
 - `node infra/aws/runSynth.js --environment=dev`: passed
 
+Validated on `codex/safeflow-prototype` at `d50cff5` before merge to `main`:
+
+- `vitest`: `48` files passed, `279` tests passed
+- `vite build`: passed
+- `playwright`: `2` tests passed
+- `node infra/aws/runSynth.js --environment=simulation`: passed
+- `node infra/aws/runSynth.js --environment=dev`: passed
+- `node database/printMigrationManifest.js`: passed
+- `SAFEFLOW_SIMULATION_ONLY=true node database/runMigrations.js --dry-run`: passed
+- `SAFEFLOW_SIMULATION_ONLY=true node server/apiSmoke.js`: passed
+
 ## Current Integration Rule
 
-- Treat `codex/safeflow-prototype` as the integration branch.
-- PR #2, PR #4, and PR #5 are merged into `codex/safeflow-prototype`.
-- PR #1 is now the only open PR.
+- `main` now contains the integrated SafeFlow prototype.
+- `codex/safeflow-prototype` remains the historical integration branch that fed `main`.
+- PR #1, PR #2, PR #4, and PR #5 are merged.
+- There are currently no open PRs.
 - Keep actual AWS deployment execution manual and separate from code review.
 - Do not start AWS deployment execution yet.
 
@@ -117,6 +132,6 @@ Validated on `codex/public-simulation-preview-rebase` at `b82b9b6`:
 
 Shared next sequence:
 
-1. decide whether PR #1 should stay draft or be advanced toward `main`
-2. keep actual AWS preview rollout manual after code review, env setup, password protection, and smoke testing
-3. use the merged prototype branch as the base for any further docs or release-prep work
+1. keep actual AWS preview rollout manual after env setup, password protection, and smoke testing
+2. use `main` as the base for any further docs, deployment, or release-prep work
+3. keep Mia's parked local branch untouched until those local-only changes are intentionally revisited
