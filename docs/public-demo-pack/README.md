@@ -7,6 +7,8 @@ SafeFlow is the short product mark used inside the prototype UI. SafeFlow Nursin
 ## Contents
 
 - `demo-script.md` - a short walkthrough for showing the prototype.
+- `../demo-readiness-pack.md` - concise reviewer talking points, demo flow and safe answers for common questions.
+- `../demo-screenshot-checklist.md` - manual checklist for capturing reviewer-safe screenshots.
 - `review-checklist.md` - public-safe review prompts for safety, workflow and product fit.
 - `safety-boundary.md` - the explicit boundaries used by the current prototype.
 - `../risk-support-technical-explainer.md` - plain-language technical explainer for the simulation-only risk-support layer.
