@@ -1,0 +1,121 @@
+name: SafeFlow CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'codex/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: safeflow-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Application quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit and contract tests
+        run: npm test
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Check moderate-or-higher dependency advisories
+        run: npm audit --audit-level=moderate
+
+      - name: Run API safety smoke
+        env:
+          SAFEFLOW_SIMULATION_ONLY: 'true'
+        run: npm run api:smoke
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser safety journey
+        run: npm run e2e
+
+      - name: Upload Playwright evidence on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: safeflow-playwright-evidence
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  foundation:
+    name: AWS and database foundation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SAFEFLOW_SIMULATION_ONLY: 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify migration manifest
+        run: npm run db:manifest
+
+      - name: Validate approved migration plan
+        run: npm run db:migrate:plan
+
+      - name: Synthesize dev foundation
+        run: npm run infra:synth:dev
+
+      - name: Synthesize simulation foundation
+        run: npm run infra:synth:simulation
+
+      - name: Prove pilot remains blocked
+        shell: bash
+        run: |
+          set +e
+          output=$(npm run infra:synth -- -c safeflowEnvironment=pilot 2>&1)
+          status=$?
+          set -e
+          printf '%s\n' "$output"
+          if [ "$status" -eq 0 ]; then
+            echo "Pilot synthesis unexpectedly succeeded"
+            exit 1
+          fi
+          if [[ "$output" != *"restricted and not approved for synthesis or deployment"* ]]; then
+            echo "Pilot synthesis failed for an unexpected reason"
+            exit 1
+          fi
+          echo "Pilot profile remains blocked by default"
+
+      - name: Upload synthesized templates
+        uses: actions/upload-artifact@v4
+        with:
+          name: safeflow-cloudformation-templates
+          path: cdk.out/*.template.json
+          if-no-files-found: error
+          retention-days: 7

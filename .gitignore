@@ -7,6 +7,11 @@ node_modules/
 dist/
 build/
 coverage/
+test-results/
+playwright-report/
+cdk.out/
 .env
 .env.*
+!.env.example
+!.env.aws.example
 *.log
