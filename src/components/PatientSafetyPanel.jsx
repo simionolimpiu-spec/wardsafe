@@ -1,7 +1,14 @@
 import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
 import { useState } from 'react';
 
-export function PatientSafetyPanel({ patient, flag, onAddTask = () => {}, onRequestContact = () => {} }) {
+export function PatientSafetyPanel({
+  patient,
+  flag,
+  onAddTask = () => {},
+  onRequestContact = () => {},
+  reviewSignals = [],
+  signalSnapshot = null
+}) {
   const [activeTab, setActiveTab] = useState('overview');
   const tabs = [
     ['overview', 'Safety Overview'],
@@ -46,6 +53,7 @@ export function PatientSafetyPanel({ patient, flag, onAddTask = () => {}, onRequ
               <button className="call-button" onClick={() => onRequestContact(patient)} type="button"><Phone aria-hidden="true" size={16} /> Call team</button>
             )}
           </div>
+          <ReviewCuesSection reviewSignals={reviewSignals} signalSnapshot={signalSnapshot} />
           <SbarSummary patient={patient} />
         </>
       )}
@@ -72,6 +80,88 @@ export function PatientSafetyPanel({ patient, flag, onAddTask = () => {}, onRequ
       </div>
     </aside>
   );
+}
+
+function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
+  const hasSignalSnapshot = Boolean(signalSnapshot);
+
+  return (
+    <section aria-labelledby="patient-review-cues-heading">
+      <h3 id="patient-review-cues-heading">Simulation Review Cues</h3>
+      <p>Simulation-only cues. Human review required.</p>
+      {!hasSignalSnapshot ? (
+        <p>No signal snapshot available yet.</p>
+      ) : reviewSignals.length > 0 ? (
+        <ul className="review-cue-stack">
+          {reviewSignals.map((signal) => (
+            <li key={signal.id}>
+              <ReviewSignalCard signal={signal} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No current simulation review cues for this patient.</p>
+      )}
+    </section>
+  );
+}
+
+function ReviewSignalCard({ signal }) {
+  return (
+    <article className="integration-card review-cue-card">
+      <Siren aria-hidden="true" size={18} />
+      <div>
+        <p className="review-cue-meta">
+          <span>{formatSignalCategory(signal.category)}</span>
+          <span>{formatSignalPriority(signal.priority)}</span>
+        </p>
+        <strong>{signal.title}</strong>
+        <p>{signal.explanation}</p>
+        {signal.evidence?.length > 0 && (
+          <ul className="review-cue-evidence">
+            {signal.evidence.map((item, index) => (
+              <li key={`${signal.id}-evidence-${index}`}>{item.label ?? 'Simulation signal'}</li>
+            ))}
+          </ul>
+        )}
+        {signal.freshness?.label && <p>{signal.freshness.label}</p>}
+        {signal.missingDataNotes?.length > 0 && (
+          <ul className="review-cue-notes">
+            {signal.missingDataNotes.map((note, index) => (
+              <li key={`${signal.id}-note-${index}`}>{note}</li>
+            ))}
+          </ul>
+        )}
+        <p>{signal.suggestedHumanReviewAction}</p>
+      </div>
+    </article>
+  );
+}
+
+function formatSignalCategory(category) {
+  const labels = {
+    documentation: 'Documentation',
+    'electrolyte-review': 'Electrolyte review',
+    'infection-review': 'Infection review',
+    escalation: 'Escalation',
+    handover: 'Handover',
+    discharge: 'Discharge',
+    learning: 'Learning',
+    'simulation-fallback': 'Fallback'
+  };
+
+  return labels[category] ?? 'Simulation cue';
+}
+
+function formatSignalPriority(priority) {
+  const labels = {
+    blocker: 'Blocker',
+    review: 'Review',
+    watch: 'Watch',
+    learning: 'Learning'
+  };
+
+  return labels[priority] ?? 'Review';
 }
 
 function SbarSummary({ patient }) {

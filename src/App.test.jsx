@@ -80,9 +80,11 @@ describe('SafeFlow prototype', () => {
 
     await user.click(screen.getByRole('tab', { name: /handover/i }));
 
-    expect(screen.getByRole('region', { name: /handover and discharge readiness/i })).toBeInTheDocument();
-    expect(screen.getByText(/Handover 50% complete/i)).toBeInTheDocument();
-    expect(screen.getByText(/Medical plan unclear/i)).toBeInTheDocument();
+    const handoverReadinessRegion = screen.getByRole('region', { name: /handover and discharge readiness/i });
+
+    expect(handoverReadinessRegion).toBeInTheDocument();
+    expect(within(handoverReadinessRegion).getByText(/Handover 50% complete for DCU-031/i)).toBeInTheDocument();
+    expect(within(handoverReadinessRegion).getByText(/Medical plan unclear/i)).toBeInTheDocument();
   });
 
   it('explains the potassium safety gap and records edited SBAR draft activity', async () => {
@@ -133,6 +135,81 @@ describe('SafeFlow prototype', () => {
     expect(fetch).toHaveBeenCalledWith('/api/drafts/sbar', expect.objectContaining({
       body: JSON.stringify({ patientId: 'DCU-031' })
     }));
+  });
+
+  it('sanitizes unsafe replacement wording before simulation review cues reach the patient panel', async () => {
+    const user = userEvent.setup();
+    const fetch = vi.fn((input) => {
+      if (typeof input === 'string' && input.startsWith('/api/simulation/signals?patientId=DCU-031')) {
+        return Promise.resolve({
+          ok: true,
+          json: vi.fn().mockResolvedValue({
+            product: 'SafeFlow',
+            simulationOnly: true,
+            signals: [
+              {
+                signalId: 'signal-dcu-031-potassium-0910',
+                syntheticPatientRef: 'DCU-031',
+                sourceSystem: 'simulation-ice',
+                sourceType: 'lab',
+                signalCode: 'potassium',
+                displayName: 'Potassium',
+                value: '3.1',
+                unit: 'mmol/L',
+                status: 'final',
+                effectiveAt: '2026-06-10T09:10:00.000Z',
+                sourceFreshness: 'current',
+                simulationOnly: true
+              }
+            ]
+          })
+        });
+      }
+
+      if (typeof input === 'string' && input.startsWith('/api/simulation/risk-suggestions?patientId=DCU-031')) {
+        return Promise.resolve({
+          ok: true,
+          json: vi.fn().mockResolvedValue({
+            product: 'SafeFlow',
+            simulationOnly: true,
+            suggestions: [
+              {
+                suggestionId: 'suggestion-dcu-031-replacement-risk',
+                syntheticPatientRef: 'DCU-031',
+                riskType: 'missed_action',
+                riskTier: 'urgent',
+                title: 'Replace potassium immediately',
+                suggestedFlag: 'Potassium replacement pathway',
+                suggestedBlocker: 'Autonomous clinical decision',
+                suggestedTask: 'Replace potassium now',
+                evidence: [{ label: 'Potassium replacement pathway' }],
+                missingData: ['Need diagnosis'],
+                requiresHumanReview: true,
+                simulationOnly: true,
+                createdAt: '2026-06-10T09:12:00.000Z'
+              }
+            ]
+          })
+        });
+      }
+
+      return Promise.resolve({
+        ok: false,
+        json: vi.fn().mockResolvedValue({})
+      });
+    });
+    vi.stubGlobal('fetch', fetch);
+
+    render(<App />);
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
+
+    await user.click(screen.getByRole('button', { name: /open Patient 031/i }));
+
+    await within(reviewCues).findByText(/^Electrolyte review$/i);
+    expect(reviewCues.textContent).toMatch(/human review required/i);
+    expect(reviewCues.textContent).not.toMatch(/replace potassium|potassium replacement|diagnos|prescrib|administer|AI decided|autonomous decision/i);
   });
 
   it('shows a discovery scenario library with initial hazard controls', async () => {

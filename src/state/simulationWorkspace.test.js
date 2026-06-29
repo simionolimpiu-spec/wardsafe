@@ -5,6 +5,7 @@ import {
   selectActiveEscalationCount,
   selectAllTasks,
   selectPatient,
+  selectPatientSimulationSignals,
   simulationReducer
 } from './simulationWorkspace.js';
 
@@ -26,6 +27,7 @@ describe('createInitialSimulationState', () => {
       version: 1,
       selectedView: 'board',
       selectedPatientId: simulatedPatients[0].id,
+      signalSnapshots: {},
       settings: {
         compactMode: false,
         draftProvider: 'auto',
@@ -253,6 +255,255 @@ describe('simulationReducer', () => {
       label: 'Intelligence suggestion accepted',
       patientId: 'DCU-031'
     });
+  });
+
+  it('stores a signal snapshot for a valid patient', () => {
+    const state = reduce({
+      type: 'signal/snapshotStored',
+      payload: {
+        patientId: 'DCU-031',
+        snapshot: {
+          signalTimeline: [
+            {
+              signalId: 'signal-dcu-031-1',
+              code: 'news2',
+              value: 7,
+              recordedAt: '08:40'
+            }
+          ],
+          riskSuggestions: [
+            {
+              suggestionId: 'suggestion-dcu-031-electrolyte-review',
+              title: 'Review suggested: electrolyte review',
+              riskTier: 'watch'
+            }
+          ],
+          sourceFreshness: {
+            state: 'current',
+            label: 'Latest simulated signal feed'
+          },
+          missingDataNotes: ['Magnesium result not visible.'],
+          receivedAt: '09:10'
+        }
+      }
+    });
+
+    expect(state.signalSnapshots['DCU-031']).toEqual({
+      signalTimeline: [
+        {
+          signalId: 'signal-dcu-031-1',
+          code: 'news2',
+          value: 7,
+          recordedAt: '08:40'
+        }
+      ],
+      riskSuggestions: [
+        {
+          suggestionId: 'suggestion-dcu-031-electrolyte-review',
+          title: 'Review suggested: electrolyte review',
+          riskTier: 'watch'
+        }
+      ],
+      sourceFreshness: {
+        state: 'current',
+        label: 'Latest simulated signal feed'
+      },
+      missingDataNotes: ['Magnesium result not visible.'],
+      receivedAt: '09:10'
+    });
+  });
+
+  it('derives deterministic patient simulation signals from stored snapshots and current patient workflow state', () => {
+    const state = reduce({
+      type: 'signal/snapshotStored',
+      payload: {
+        patientId: 'DCU-031',
+        snapshot: {
+          signalTimeline: [
+            {
+              signalId: 'signal-dcu-031-news2-0915',
+              syntheticPatientRef: 'DCU-031',
+              simulationOnly: true,
+              signalCode: 'NEWS2',
+              displayName: 'NEWS2',
+              value: '7',
+              status: 'final',
+              effectiveAt: '2026-06-10T09:15:00.000Z',
+              sourceFreshness: 'current'
+            }
+          ],
+          riskSuggestions: [
+            {
+              suggestionId: 'suggestion-dcu-031-electrolyte-review',
+              syntheticPatientRef: 'DCU-031',
+              simulationOnly: true,
+              requiresHumanReview: true,
+              riskTier: 'urgent',
+              title: 'Electrolyte result review may be needed',
+              suggestedTask: 'Review blood trend and document action'
+            }
+          ],
+          sourceFreshness: {
+            state: 'current',
+            label: 'Latest simulated signal feed'
+          },
+          missingDataNotes: ['Magnesium result not visible.'],
+          receivedAt: '2026-06-10T09:15:00.000Z'
+        }
+      }
+    });
+
+    const first = selectPatientSimulationSignals(state, 'DCU-031');
+    const second = selectPatientSimulationSignals(state, 'DCU-031');
+
+    expect(first).toEqual(second);
+    expect(first).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'simulation-signal-dcu-031-discharge',
+        category: 'discharge',
+        simulationOnly: true,
+        humanReviewRequired: true,
+        unsafeClinicalAdvice: false
+      }),
+      expect.objectContaining({
+        category: 'electrolyte-review',
+        priority: 'review'
+      })
+    ]));
+  });
+
+  it('does not derive foreign-patient cues from mismatched snapshot records', () => {
+    const state = reduce({
+      type: 'signal/snapshotStored',
+      payload: {
+        patientId: 'DCU-017',
+        snapshot: {
+          signalTimeline: [
+            {
+              signalId: 'signal-dcu-028-urine-culture',
+              syntheticPatientRef: 'DCU-028',
+              simulationOnly: true,
+              signalCode: 'urine_culture',
+              displayName: 'Urine culture',
+              value: 'Positive',
+              status: 'final',
+              effectiveAt: '2026-06-10T09:15:00.000Z',
+              sourceFreshness: 'current'
+            }
+          ],
+          riskSuggestions: [
+            {
+              suggestionId: 'suggestion-dcu-028-infection-review',
+              syntheticPatientRef: 'DCU-028',
+              simulationOnly: true,
+              requiresHumanReview: true,
+              riskTier: 'urgent',
+              title: 'Review suggested: infection review'
+            }
+          ],
+          sourceFreshness: {
+            state: 'current',
+            label: 'Latest simulated signal feed'
+          },
+          missingDataNotes: [],
+          receivedAt: '2026-06-10T09:15:00.000Z'
+        }
+      }
+    });
+
+    const signals = selectPatientSimulationSignals(state, 'DCU-017');
+
+    expect(signals.some((signal) => signal.category === 'infection-review')).toBe(false);
+    expect(JSON.stringify(signals)).not.toMatch(/urine culture/i);
+  });
+
+  it('ignores invalid patient ids for signal snapshots', () => {
+    const state = createInitialSimulationState();
+    const result = simulationReducer(state, {
+      type: 'signal/snapshotStored',
+      payload: {
+        patientId: 'DCU-999',
+        snapshot: {
+          signalTimeline: [],
+          riskSuggestions: [],
+          sourceFreshness: { state: 'current', label: 'Current' },
+          missingDataNotes: [],
+          receivedAt: '09:10'
+        }
+      },
+      meta
+    });
+
+    expect(result).toBe(state);
+  });
+
+  it('stores a safe fallback snapshot shape when the payload is partial or malformed', () => {
+    const state = reduce({
+      type: 'signal/snapshotStored',
+      payload: {
+        patientId: 'DCU-031',
+        snapshot: {
+          signalTimeline: [
+            null,
+            {
+              signalId: 'signal-dcu-031-2',
+              code: 'potassium',
+              value: 3.8
+            }
+          ],
+          riskSuggestions: 'not-an-array',
+          sourceFreshness: null,
+          missingDataNotes: ['Needs review', null, 7],
+          receivedAt: 12345
+        }
+      }
+    });
+
+    expect(state.signalSnapshots['DCU-031']).toEqual({
+      signalTimeline: [
+        {
+          signalId: 'signal-dcu-031-2',
+          code: 'potassium',
+          value: 3.8
+        }
+      ],
+      riskSuggestions: [],
+      sourceFreshness: {
+        state: 'unavailable',
+        label: 'No signal freshness available.'
+      },
+      missingDataNotes: ['Needs review', '7'],
+      receivedAt: null
+    });
+  });
+
+  it('returns an unavailable fallback cue when the stored snapshot has no usable signal data', () => {
+    const state = reduce({
+      type: 'signal/snapshotStored',
+      payload: {
+        patientId: 'DCU-031',
+        snapshot: {
+          signalTimeline: [],
+          riskSuggestions: [],
+          sourceFreshness: {
+            state: 'unavailable',
+            label: 'No signal freshness available.'
+          },
+          missingDataNotes: ['No signal snapshot available yet.'],
+          receivedAt: null
+        }
+      }
+    });
+
+    expect(selectPatientSimulationSignals(state, 'DCU-031')).toEqual([
+      expect.objectContaining({
+        category: 'simulation-fallback',
+        simulationOnly: true,
+        humanReviewRequired: true,
+        unsafeClinicalAdvice: false,
+        freshness: expect.objectContaining({ state: 'unavailable' })
+      })
+    ]);
   });
 
   it('merges settings and audits the change', () => {
@@ -505,5 +756,11 @@ describe('selectors', () => {
     });
     expect(selectPatient(state).id).toBe(initial.selectedPatientId);
     expect(selectPatient(state, 'missing-patient')).toBeUndefined();
+  });
+
+  it('returns an empty signal list when no snapshot is available for the selected patient', () => {
+    const state = createInitialSimulationState();
+
+    expect(selectPatientSimulationSignals(state)).toEqual([]);
   });
 });

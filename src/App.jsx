@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { wardSummary } from './data/simulatedPatients.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
 import { requestReadinessReport } from './services/readinessClient.js';
 import { requestSbarDraft } from './services/draftClient.js';
+import { requestRiskSuggestions, requestSignalTimeline } from './services/signalClient.js';
 import { requestWorkspaceSnapshot } from './services/workspaceClient.js';
 import {
   requestSimulationAuditEvent,
@@ -30,7 +31,8 @@ import { SimulationDialog } from './components/SimulationDialog.jsx';
 import {
   selectActiveEscalationCount,
   selectAllTasks,
-  selectPatient as selectPatientFromState
+  selectPatient as selectPatientFromState,
+  selectPatientSimulationSignals
 } from './state/simulationWorkspace.js';
 import { useSimulationWorkspace } from './state/useSimulationWorkspace.js';
 import { buildWardReportRows, downloadSimulationCsv } from './domain/simulationExport.js';
@@ -49,9 +51,123 @@ function formatDraftSections(draft) {
     .join('\n\n');
 }
 
+function cloneSnapshotEntry(entry) {
+  return entry && typeof entry === 'object' && !Array.isArray(entry) ? { ...entry } : null;
+}
+
+function coerceFreshness(value, hasData) {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return {
+      ...value,
+      state:
+        typeof value.state === 'string' && value.state.trim()
+          ? value.state.trim()
+          : hasData
+            ? 'current'
+            : 'unavailable',
+      label:
+        typeof value.label === 'string' && value.label.trim()
+          ? value.label.trim()
+          : hasData
+            ? 'Latest simulated signal feed'
+            : 'No signal freshness available.'
+    };
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    return {
+      state: value.trim(),
+      label: 'Latest simulated signal feed'
+    };
+  }
+
+  return hasData
+    ? {
+        state: 'current',
+        label: 'Latest simulated signal feed'
+      }
+    : {
+        state: 'unavailable',
+        label: 'No signal freshness available.'
+      };
+}
+
+function collectMissingDataNotes(signalTimeline, riskSuggestions, hasData) {
+  const notes = [];
+
+  for (const signal of signalTimeline) {
+    if (!signal || typeof signal !== 'object') continue;
+    const sourceNotes = Array.isArray(signal.missingData) ? signal.missingData : signal.missingDataNotes;
+    if (!Array.isArray(sourceNotes)) continue;
+    for (const note of sourceNotes) {
+      const text = typeof note === 'string' ? note.trim() : String(note ?? '').trim();
+      if (text) notes.push(text);
+    }
+  }
+
+  for (const suggestion of riskSuggestions) {
+    if (!suggestion || typeof suggestion !== 'object') continue;
+    const sourceNotes = Array.isArray(suggestion.missingData) ? suggestion.missingData : suggestion.missingDataNotes;
+    if (!Array.isArray(sourceNotes)) continue;
+    for (const note of sourceNotes) {
+      const text = typeof note === 'string' ? note.trim() : String(note ?? '').trim();
+      if (text) notes.push(text);
+    }
+  }
+
+  if (!hasData && notes.length === 0) {
+    notes.push('No signal snapshot available yet.');
+  }
+
+  return notes;
+}
+
+function receivedAtFromEntries(signalTimeline, riskSuggestions) {
+  const candidateFields = [
+    ['receivedAt', 'effectiveAt', 'recordedAt'],
+    ['receivedAt', 'createdAt', 'updatedAt']
+  ];
+
+  const entries = [signalTimeline, riskSuggestions];
+  for (let index = 0; index < entries.length; index += 1) {
+    for (const entry of entries[index]) {
+      if (!entry || typeof entry !== 'object') continue;
+      for (const field of candidateFields[index]) {
+        const value = entry[field];
+        if (typeof value === 'string' && value.trim()) {
+          return value.trim();
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function buildSignalSnapshot({ signals, suggestions } = {}) {
+  const signalTimeline = Array.isArray(signals) ? signals.map(cloneSnapshotEntry).filter(Boolean) : [];
+  const riskSuggestions = Array.isArray(suggestions) ? suggestions.map(cloneSnapshotEntry).filter(Boolean) : [];
+  const hasData = signalTimeline.length > 0 || riskSuggestions.length > 0;
+  const sourceFreshnessCandidate =
+    signalTimeline.find((signal) => signal && signal.sourceFreshness != null)?.sourceFreshness ??
+    riskSuggestions.find((suggestion) => suggestion && suggestion.sourceFreshness != null)?.sourceFreshness;
+
+  return {
+    signalTimeline,
+    riskSuggestions,
+    sourceFreshness: coerceFreshness(sourceFreshnessCandidate, hasData),
+    missingDataNotes: collectMissingDataNotes(signalTimeline, riskSuggestions, hasData),
+    receivedAt: receivedAtFromEntries(signalTimeline, riskSuggestions)
+  };
+}
+
 export default function App() {
   const { state, dispatch, reset } = useSimulationWorkspace();
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
+  const reviewSignals = useMemo(
+    () => selectPatientSimulationSignals(state, selectedPatient?.id),
+    [selectedPatient?.id, state]
+  );
   const allTasks = selectAllTasks(state);
   const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
   const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges', 'potassium'].includes(state.selectedView);
@@ -72,6 +188,43 @@ export default function App() {
   const [backendAuditStatus, setBackendAuditStatus] = useState('');
   const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
   const [dialog, setDialog] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSignalSnapshot() {
+      const patientId = selectedPatient?.id;
+      if (!patientId) return;
+
+      let signals = null;
+      let suggestions = null;
+      try {
+        [signals, suggestions] = await Promise.all([
+          requestSignalTimeline({ patientId }),
+          requestRiskSuggestions({ patientId })
+        ]);
+      } catch {
+        signals = null;
+        suggestions = null;
+      }
+
+      if (cancelled) return;
+
+      dispatch({
+        type: 'signal/snapshotStored',
+        payload: {
+          patientId,
+          snapshot: buildSignalSnapshot({ signals, suggestions })
+        }
+      });
+    }
+
+    void loadSignalSnapshot();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dispatch, selectedPatient?.id]);
 
   function selectPatient(patientId) {
     const nextPatient = selectPatientFromState(state, patientId) ?? state.patients[0];
@@ -438,6 +591,8 @@ export default function App() {
               onAddTask={addTask}
               onRequestContact={requestContact}
               patient={selectedPatient}
+              reviewSignals={reviewSignals}
+              signalSnapshot={state.signalSnapshots?.[selectedPatient.id] ?? null}
             />
           )}
         </div>

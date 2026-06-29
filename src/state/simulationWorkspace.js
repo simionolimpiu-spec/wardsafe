@@ -1,3 +1,4 @@
+import { buildSimulationSignals } from '../domain/signalEngine.js';
 import { simulatedPatients } from '../data/simulatedPatients.js';
 import { initialAuditEvents } from '../domain/workflowEvents.js';
 
@@ -71,6 +72,78 @@ function patientEscalationStatus(escalations, patientId) {
   return 'None';
 }
 
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function safeClone(value) {
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch {
+    return undefined;
+  }
+}
+
+function normaliseTextList(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => (typeof entry === 'string' ? entry.trim() : String(entry ?? '').trim()))
+    .filter(Boolean);
+}
+
+function normaliseSnapshotEntry(entry) {
+  if (!isPlainObject(entry)) return null;
+  const cloned = safeClone(entry);
+  return isPlainObject(cloned) ? cloned : null;
+}
+
+function normaliseSignalSnapshot(snapshot) {
+  const fallback = {
+    signalTimeline: [],
+    riskSuggestions: [],
+    sourceFreshness: {
+      state: 'unavailable',
+      label: 'No signal freshness available.'
+    },
+    missingDataNotes: [],
+    receivedAt: null
+  };
+
+  if (!isPlainObject(snapshot)) {
+    return fallback;
+  }
+
+  const sourceFreshnessClone = safeClone(snapshot.sourceFreshness);
+  const sourceFreshness = isPlainObject(sourceFreshnessClone)
+    ? {
+        ...sourceFreshnessClone,
+        state:
+          typeof sourceFreshnessClone.state === 'string' && sourceFreshnessClone.state.trim()
+            ? sourceFreshnessClone.state.trim()
+            : fallback.sourceFreshness.state,
+        label:
+          typeof sourceFreshnessClone.label === 'string' && sourceFreshnessClone.label.trim()
+            ? sourceFreshnessClone.label.trim()
+            : fallback.sourceFreshness.label
+      }
+    : { ...fallback.sourceFreshness };
+
+  return {
+    signalTimeline: Array.isArray(snapshot.signalTimeline)
+      ? snapshot.signalTimeline.map(normaliseSnapshotEntry).filter(Boolean)
+      : [],
+    riskSuggestions: Array.isArray(snapshot.riskSuggestions)
+      ? snapshot.riskSuggestions.map(normaliseSnapshotEntry).filter(Boolean)
+      : [],
+    sourceFreshness,
+    missingDataNotes: normaliseTextList(snapshot.missingDataNotes),
+    receivedAt:
+      typeof snapshot.receivedAt === 'string' && snapshot.receivedAt.trim()
+        ? snapshot.receivedAt.trim()
+        : null
+  };
+}
+
 export function createInitialSimulationState() {
   const patients = clone(simulatedPatients).map((patient) => ({
     ...patient,
@@ -98,6 +171,7 @@ export function createInitialSimulationState() {
     selectedPatientId: patients[0]?.id ?? null,
     patients,
     escalations,
+    signalSnapshots: {},
     intelligence: {
       suggestionActions: []
     },
@@ -107,6 +181,12 @@ export function createInitialSimulationState() {
 }
 
 export function simulationReducer(state, action) {
+  const currentState = {
+    ...state,
+    intelligence: state.intelligence ?? { suggestionActions: [] },
+    signalSnapshots: isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {}
+  };
+
   switch (action.type) {
     case 'navigation/changed':
       return { ...state, selectedView: action.payload.view };
@@ -300,14 +380,27 @@ export function simulationReducer(state, action) {
       );
     }
 
+    case 'signal/snapshotStored': {
+      const { patientId, snapshot } = action.payload ?? {};
+      if (typeof patientId !== 'string' || !findPatient(state, patientId)) return state;
+
+      return {
+        ...currentState,
+        signalSnapshots: {
+          ...currentState.signalSnapshots,
+          [patientId]: normaliseSignalSnapshot(snapshot)
+        }
+      };
+    }
+
     case 'intelligence/suggestionActioned': {
       const { suggestionId, patientId, actionType, actionReason } = action.payload;
-      if (!findPatient(state, patientId)) return state;
+      if (!findPatient(currentState, patientId)) return state;
 
-      const currentIntelligence = state.intelligence ?? { suggestionActions: [] };
-      const suggestionActions = currentIntelligence.suggestionActions ?? [];
+      const currentIntelligence = currentState.intelligence;
+      const suggestionActions = currentIntelligence.suggestionActions;
       const nextState = {
-        ...state,
+        ...currentState,
         intelligence: {
           ...currentIntelligence,
           suggestionActions: [
@@ -326,7 +419,7 @@ export function simulationReducer(state, action) {
       return withAudit(
         nextState,
         createWorkspaceAuditEvent(
-          state,
+          currentState,
           action,
           `Intelligence suggestion ${actionType}`,
           actionReason,
@@ -387,4 +480,24 @@ export function selectActiveEscalationCount(state) {
 
 export function selectPatient(state, patientId = state.selectedPatientId) {
   return state.patients.find((patient) => patient.id === patientId);
+}
+
+export function selectPatientSimulationSignals(state, patientId = state.selectedPatientId) {
+  const patient = selectPatient(state, patientId);
+  if (!patient) return [];
+
+  const snapshots = isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {};
+  const snapshot = snapshots[patient.id];
+  if (!isPlainObject(snapshot)) return [];
+
+  return buildSimulationSignals({
+    patient,
+    signals: snapshot.signalTimeline,
+    suggestions: snapshot.riskSuggestions,
+    snapshotMeta: {
+      sourceFreshness: snapshot.sourceFreshness,
+      missingDataNotes: snapshot.missingDataNotes,
+      receivedAt: snapshot.receivedAt
+    }
+  });
 }
