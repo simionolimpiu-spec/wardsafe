@@ -1,6 +1,6 @@
 # Codex Handoff
 
-Last updated: 2026-06-29 (post-reconciliation)
+Last updated: 2026-06-29 (post-PR-2 merge)
 Maintainer lane: Oli Codex
 
 This file is the shared handoff note for cross-thread coordination between Oli's Codex and Mia's Codex. Treat GitHub remote state as the source of truth when local clones disagree.
@@ -9,10 +9,9 @@ This file is the shared handoff note for cross-thread coordination between Oli's
 
 Confirmed from Oli's authenticated clone against `origin`:
 
-- `codex/safeflow-prototype` at `34e86a8`
-- `feature/simulation-signal-engine` at `ab0da3a`
+- `codex/safeflow-prototype` at `2271d5e`
 - `deployment/public-simulation-preview` at `893f98e`
-- `docs/codex-handoff-sync` at `8ffc173`
+- `docs/codex-handoff-sync` (shared handoff branch)
 - `ml/synthetic-scenario-coverage` at `9c65167`
 - `docs/demo-readiness-pack` at `762c7a7`
 - `review/ml-foundation-merge-readiness` at `32494d9`
@@ -31,9 +30,8 @@ Confirmed from GitHub on Oli's side:
    - Title: `Add simulation signal engine foundation`
    - Base: `codex/safeflow-prototype`
    - Head: `feature/simulation-signal-engine`
-   - State: open
-   - Merge state: clean
-   - Checks: green
+   - State: merged
+   - Merged commit on base: `2271d5e`
 
 ## Mia Lane Status
 
@@ -63,45 +61,43 @@ Confirmed by Mia's Codex as one linear stack on top of `codex/safeflow-prototype
 
 ## Branch Relationship
 
-Both the signal-engine lane and Mia's ML/docs/review lane branch from the same merge base:
+Before PR #2 merged, both the signal-engine lane and Mia's ML/docs/review lane branched from the same merge base:
 
 - merge base: `34e86a8` (`codex/safeflow-prototype`)
-- `feature/simulation-signal-engine` is a sibling branch
 - Mia's ML/docs/review stack is a separate sibling stack
 - neither stack is an ancestor of the other
 
 ## Confirmed File Overlap
 
-The branches are mostly independent. Confirmed direct overlap between:
-
-- `feature/simulation-signal-engine`
-- `review/ml-foundation-merge-readiness`
-
-is limited to:
+The branches are mostly independent. Confirmed direct overlap between the former signal-engine branch and Mia's stack was limited to:
 
 - `src/App.jsx`
 - `src/App.test.jsx`
+
+After PR #2 merged, Mia's top branch still differs from the updated `codex/safeflow-prototype` in many files, but the known signal-engine integration seam remains those two App files. Current post-merge diff for that seam is:
+
+- `src/App.jsx`: `12` insertions, `1` deletion
+- `src/App.test.jsx`: `4` insertions, `1` deletion
 
 ## Current Integration Rule
 
 - Treat `codex/safeflow-prototype` as the integration branch.
 - Keep `deployment/public-simulation-preview` separate until the feature and ML/documentation foundation work is reconciled.
 - Do not start AWS deployment execution yet.
-- Prefer merging PR #2 first, then rebase or retarget the ML/docs/review stack onto the updated `codex/safeflow-prototype`.
-- The expected post-merge integration seam is now known and narrow: `src/App.jsx` and `src/App.test.jsx`
+- PR #2 is now merged into `codex/safeflow-prototype`.
+- The next required integration step is rebasing or retargeting the ML/docs/review stack onto the updated `codex/safeflow-prototype`.
+- The expected post-merge integration seam is known: `src/App.jsx` and `src/App.test.jsx`
 
 ## Next Action
 
 Shared next sequence:
 
-1. merge PR #2:
-   - `feature/simulation-signal-engine` -> `codex/safeflow-prototype`
-2. rebase Mia's linear ML/docs/review stack onto the updated `codex/safeflow-prototype`
-3. resolve the known overlap in:
+1. rebase Mia's linear ML/docs/review stack onto the updated `codex/safeflow-prototype`
+2. resolve the known overlap in:
    - `src/App.jsx`
    - `src/App.test.jsx`
-4. open or update clean PRs for:
+3. open or update clean PRs for:
    - `ml/synthetic-scenario-coverage`
    - `docs/demo-readiness-pack`
    - `review/ml-foundation-merge-readiness`
-5. keep `deployment/public-simulation-preview` separate until the foundation branches are integrated
+4. keep `deployment/public-simulation-preview` separate until the foundation branches are integrated
