@@ -16,6 +16,7 @@ import {
 const DOCUMENTATION_FILES = [
   'README.md',
   'AGENTS.md',
+  'docs/codex-handoff.md',
   'docs/demo-readiness-pack.md',
   'docs/demo-screenshot-checklist.md',
   'docs/ml-foundation-pr-summary.md',
