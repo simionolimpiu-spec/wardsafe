@@ -17,6 +17,9 @@ describe('SafeFlow prototype', () => {
 
     expect(screen.getByRole('heading', { name: 'SafeFlow' })).toBeInTheDocument();
     expect(screen.getByText(/simulation only/i)).toBeInTheDocument();
+    expect(screen.getByText(/fictional patient data only/i)).toBeInTheDocument();
+    expect(screen.getByText(/not clinical advice/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/human review required/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
     expect(wardList).toBeInTheDocument();
@@ -42,6 +45,21 @@ describe('SafeFlow prototype', () => {
     expect(within(wardList).getByText('DCU-052')).toBeInTheDocument();
     expect(within(wardList).getByText(/Anticoagulant/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/handover progress 100 percent for Patient 052/i)).toBeInTheDocument();
+  });
+
+  it('keeps the public preview boundary explicit and avoids unsafe clinical wording', () => {
+    render(<App />);
+
+    const boundary = screen.getByRole('region', { name: /simulation safety boundary/i });
+    const boundaryText = boundary.textContent;
+
+    expect(boundaryText).toMatch(/fictional patient data only/i);
+    expect(boundaryText).toMatch(/not clinical advice/i);
+    expect(boundaryText).toMatch(/not diagnosis/i);
+    expect(boundaryText).toMatch(/not prescribing/i);
+    expect(boundaryText).toMatch(/not live nhs deployment/i);
+    expect(boundaryText).toMatch(/human review required/i);
+    expect(boundaryText).not.toMatch(/diagnose this patient|prescribe potassium|administer potassium|give potassium|replace potassium/i);
   });
 
   it('keeps the ward table inside a scrollable board region', () => {

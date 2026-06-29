@@ -1,3 +1,5 @@
+import { buildApiUrl } from './apiBaseUrl.js';
+
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
 const SECRET_VALUE_PATTERN = /(postgres:\/\/|\bsk-[A-Za-z0-9_-]{8,})/i;
 
@@ -8,7 +10,8 @@ export async function requestSimulationAuditEvent({
   actorRole = 'simulation_user',
   sourceTable,
   metadata = {},
-  fetchImpl = globalThis.fetch
+  fetchImpl = globalThis.fetch,
+  env = import.meta.env
 } = {}) {
   const payload = {
     patientId,
@@ -22,7 +25,7 @@ export async function requestSimulationAuditEvent({
   if (!fetchImpl || !isPublicSafe(payload)) return null;
 
   try {
-    const response = await fetchImpl('/api/simulation/audit-events', {
+    const response = await fetchImpl(buildApiUrl('/api/simulation/audit-events', { env }), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -48,11 +51,14 @@ export async function requestSimulationAuditEvent({
   }
 }
 
-export async function requestSimulationAuditEvents({ fetchImpl = globalThis.fetch } = {}) {
+export async function requestSimulationAuditEvents({
+  fetchImpl = globalThis.fetch,
+  env = import.meta.env
+} = {}) {
   if (!fetchImpl) return null;
 
   try {
-    const response = await fetchImpl('/api/simulation/audit-events', {
+    const response = await fetchImpl(buildApiUrl('/api/simulation/audit-events', { env }), {
       headers: { Accept: 'application/json' }
     });
     if (!response.ok) return null;

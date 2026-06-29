@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createSafeFlowApiHandler, handler } from './index.mjs';
+import { createSafeFlowApiHandler } from './index.mjs';
 
 const originalEnv = { ...process.env };
 
@@ -8,6 +8,24 @@ afterEach(() => {
 });
 
 describe('SafeFlow private API handler', () => {
+  it('sets preview-safe CORS headers for a configured frontend origin', async () => {
+    const apiHandler = createSafeFlowApiHandler({
+      env: {
+        SAFEFLOW_SIMULATION_ONLY: 'true',
+        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/'
+      }
+    });
+
+    const response = await apiHandler();
+
+    expect(response.headers).toMatchObject({
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': 'https://preview.example.com',
+      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    });
+  });
+
   it('returns simulation metadata without exposing configured resource identifiers', async () => {
     process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
@@ -15,8 +33,9 @@ describe('SafeFlow private API handler', () => {
     process.env.PROVIDER_CONFIG_SECRET_ARN = 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:provider';
     process.env.DOCUMENT_BUCKET_NAME = 'safeflow-private-documents';
     process.env.MIGRATION_MANIFEST_PATH = 'database/migration-manifest.json';
+    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await handler();
+    const response = await apiHandler();
     const payload = JSON.parse(response.body);
     const serializedPayload = JSON.stringify(payload);
 
@@ -41,8 +60,9 @@ describe('SafeFlow private API handler', () => {
   it('exposes a private simulation workspace route without live-data access', async () => {
     process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
+    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await handler({
+    const response = await apiHandler({
       requestContext: { http: { method: 'GET', path: '/api/simulation/workspace' } }
     });
     const payload = JSON.parse(response.body);
@@ -121,8 +141,9 @@ describe('SafeFlow private API handler', () => {
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
     process.env.DATABASE_SECRET_ARN = 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database';
     process.env.DOCUMENT_BUCKET_NAME = 'safeflow-private-documents';
+    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await handler({
+    const response = await apiHandler({
       requestContext: { http: { method: 'GET', path: '/api/simulation/readiness' } }
     });
     const payload = JSON.parse(response.body);
@@ -419,8 +440,9 @@ describe('SafeFlow private API handler', () => {
   it('advertises the private audit-event append route without writing live data', async () => {
     process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
+    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await handler({
+    const response = await apiHandler({
       requestContext: { http: { method: 'POST', path: '/api/simulation/audit-events' } }
     });
     const payload = JSON.parse(response.body);

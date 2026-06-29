@@ -48,6 +48,8 @@ npm run dev
 
 If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the deterministic provider. The Vite dev server proxies `/api` to `http://127.0.0.1:8787`.
 
+To test a production-like frontend build against a hosted simulation API, set `VITE_SAFEFLOW_API_BASE_URL` to a public non-secret API origin. If it is not set, the frontend keeps using the relative `/api` path so local Vite proxying still works.
+
 The API also exposes `GET /api/simulation/workspace`. By default it serves the local fictional fixture. To point that route at an approved simulation PostgreSQL database, set both `SAFEFLOW_SIMULATION_ONLY=true` and `DATABASE_URL`; otherwise database-backed workspace mode is refused or falls back to the fixture.
 
 The API also exposes `GET /api/simulation/risk-support-report`. It returns a read-only structured review support report built from fictional scenario fixtures with deterministic rules, no patient input, and no live clinical deployment claim. Nurses and clinicians remain responsible for judgement and escalation.
@@ -76,3 +78,4 @@ The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentia
 Reviewer materials are in `docs/public-demo-pack/`.
 
 For concise reviewer-safe demo notes, see [docs/demo-readiness-pack.md](docs/demo-readiness-pack.md) and [docs/demo-screenshot-checklist.md](docs/demo-screenshot-checklist.md).
+For a shareable AWS-hosted preview path, see [docs/public-demo-pack/build-readiness/public-simulation-preview.md](docs/public-demo-pack/build-readiness/public-simulation-preview.md).
