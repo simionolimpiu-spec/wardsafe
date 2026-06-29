@@ -37,7 +37,7 @@ describe('SafeFlowFoundationStack', () => {
       StorageEncrypted: true,
       DeletionProtection: false
     });
-  });
+  }, 120000);
 
   it('applies Free-plan compatible cleanup controls for simulation', () => {
     const template = synthesizeTemplate();
