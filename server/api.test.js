@@ -140,6 +140,79 @@ describe('createApiHandler', () => {
     expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
   });
 
+  it('returns the read-only simulation risk-support report without accepting patient input', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({
+      method: 'GET',
+      path: '/api/simulation/risk-support-report'
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+    const serializedPayload = JSON.stringify(payload);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload).toMatchObject({
+      product: 'SafeFlow',
+      reportType: 'simulation-risk-support-read-only-report',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      generatedBy: 'deterministic rules',
+      clinicalUse: 'not for live clinical deployment',
+      source: 'fictional scenario fixtures',
+      accessMode: 'read-only',
+      reviewPurpose: expect.stringContaining('Structured review support only'),
+      totalScenarios: 7,
+      passedScenarios: 7,
+      failedScenarios: 0,
+      aggregateSummary: {
+        documentationGapCount: 3,
+        handoverCompletenessIssueCount: 3,
+        escalationReadinessCueCount: 4,
+        dischargeReadinessBlockerCount: 4,
+        scenariosWithMultipleGaps: 4
+      }
+    });
+    expect(payload.flaggedDomainSummary).toEqual([
+      { signalType: 'documentation_quality', label: 'documentation gap', count: 3 },
+      { signalType: 'handover_completeness', label: 'handover completeness issue', count: 3 },
+      { signalType: 'escalation_readiness', label: 'escalation readiness cue', count: 4 },
+      { signalType: 'discharge_readiness', label: 'discharge-readiness blocker', count: 4 }
+    ]);
+    expect(payload.scenarioResults).toHaveLength(7);
+    expect(payload.scenarioResults[0]).toEqual(expect.objectContaining({
+      scenarioId: 'scenario-low-signal-ready',
+      patientId: 'DCU-052',
+      journeyId: 'scenario-low-signal-ready',
+      pass: true
+    }));
+    expect(payload.safetyLanguageCheck).toEqual({
+      passed: true,
+      matches: []
+    });
+    expect(serializedPayload).not.toMatch(/\bdiagnosis\b|\bdiagnose\b|\bdiagnostic\b/i);
+    expect(serializedPayload).not.toMatch(/\bprescribe\b|\bprescribing\b|\bprescription\b/i);
+    expect(serializedPayload).not.toMatch(/\btreatment recommendation\b|\bAI decision\b|\bclinical decision engine\b|\bautonomous care\b|\blive NHS deployment\b/i);
+    expect(serializedPayload).not.toMatch(/\bgive potassium\b|\bpatient needs potassium\b|\badminister potassium\b|\bpotassium recommendation\b/i);
+  });
+
+  it('rejects patient input for the read-only simulation risk-support report route', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({
+      method: 'GET',
+      path: '/api/simulation/risk-support-report?patientId=DCU-031'
+    });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res.body)).toEqual({
+      error: 'Simulation risk-support report accepts no input'
+    });
+  });
+
   it('records a simulation audit event through the configured audit provider', async () => {
     const auditEventProvider = {
       recordEvent: vi.fn().mockResolvedValue({
