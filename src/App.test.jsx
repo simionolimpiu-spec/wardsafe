@@ -19,7 +19,7 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByText(/simulation only/i)).toBeInTheDocument();
     expect(screen.getByText(/fictional patient data only/i)).toBeInTheDocument();
     expect(screen.getByText(/not clinical advice/i)).toBeInTheDocument();
-    expect(screen.getByText(/human review required/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/human review required/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
     expect(wardList).toBeInTheDocument();
