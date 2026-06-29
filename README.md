@@ -18,6 +18,8 @@ This repo is a fresh scaffold. Confidential invention-pack notes and detailed de
 
 The simulation workspace includes distinct patients, observations, tasks, escalations, handover, discharge, reports, audit and settings screens. Browser-local changes are fictional, versioned and reversible through **Reset simulation**.
 
+Contributor and agent guardrails live in [AGENTS.md](AGENTS.md) and [.github/pull_request_template.md](.github/pull_request_template.md).
+
 ## Local Development
 
 ```powershell
