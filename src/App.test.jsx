@@ -84,7 +84,7 @@ describe('SafeFlow prototype', () => {
 
     expect(handoverReadinessRegion).toBeInTheDocument();
     expect(within(handoverReadinessRegion).getByText(/Handover 50% complete/i)).toBeInTheDocument();
-    expect(within(handoverReadinessRegion).getByText(/Medical plan unclear/i)).toBeInTheDocument();
+    expect(within(handoverReadinessRegion).getByText(/^Medical plan unclear$/i)).toBeInTheDocument();
     expect(within(handoverReadinessRegion).getByText(/Simulation risk support/i)).toBeInTheDocument();
     const riskSupportSignals = within(handoverReadinessRegion).getByRole('list', { name: /risk-support signals/i });
     expect(riskSupportSignals).toBeInTheDocument();
