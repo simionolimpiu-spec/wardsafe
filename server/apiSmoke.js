@@ -68,6 +68,21 @@ export async function runApiSmoke({ handler = createApiHandler(), log = console.
   assertSimulationSafe(readiness, '/api/simulation/readiness');
   log('/api/simulation/readiness approved');
 
+  const riskSupportReport = await requestJson(handler, {
+    path: '/api/simulation/risk-support-report'
+  });
+  if (
+    riskSupportReport.product !== 'SafeFlow' ||
+    riskSupportReport.simulationOnly !== true ||
+    riskSupportReport.humanReviewRequired !== true ||
+    riskSupportReport.source !== 'fictional scenario fixtures' ||
+    riskSupportReport.reportType !== 'simulation-risk-support-read-only-report'
+  ) {
+    throw new Error('/api/simulation/risk-support-report did not return the read-only simulation report');
+  }
+  assertSimulationSafe(riskSupportReport, '/api/simulation/risk-support-report');
+  log(`/api/simulation/risk-support-report ${riskSupportReport.reportType}`);
+
   const audit = await requestJson(handler, {
     method: 'POST',
     path: '/api/simulation/audit-events',
@@ -113,6 +128,7 @@ export async function runApiSmoke({ handler = createApiHandler(), log = console.
     health: health.status,
     workspace: workspace.source,
     readiness: readiness.migrations.approved ? 'approved' : 'needs-review',
+    riskSupportReport: riskSupportReport.reportType,
     audit: audit.event.source,
     auditRead: auditRead.source,
     draft: draft.draft.provider
