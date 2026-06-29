@@ -40,6 +40,34 @@ describe('requestSbarDraft', () => {
     expect(draft).toEqual(apiDraft);
   });
 
+  it('uses the configured preview API base URL when provided', async () => {
+    const patient = simulatedPatients[0];
+    const flag = evaluatePotassiumSafetyGap(patient);
+    const fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({
+        draft: {
+          provider: 'deterministic',
+          sections: {
+            situation: 'Preview API',
+            background: 'Preview background',
+            assessment: 'Preview assessment',
+            recommendation: 'Preview recommendation'
+          }
+        }
+      })
+    });
+
+    await requestSbarDraft({
+      patient,
+      flag,
+      fetchImpl: fetch,
+      env: { VITE_SAFEFLOW_API_BASE_URL: 'https://preview-api.example.com/' }
+    });
+
+    expect(fetch).toHaveBeenCalledWith('https://preview-api.example.com/api/drafts/sbar', expect.any(Object));
+  });
+
   it('falls back to the deterministic draft when the API is unavailable', async () => {
     const patient = simulatedPatients[0];
     const flag = evaluatePotassiumSafetyGap(patient);

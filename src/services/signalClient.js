@@ -1,13 +1,22 @@
+import { buildApiUrl } from './apiBaseUrl.js';
+
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
 const SECRET_VALUE_PATTERN = /(postgres:\/\/|\bsk-[A-Za-z0-9_-]{8,}|\barn:aws:[^\s"'}]+)/i;
 
-export async function requestSignalTimeline({ patientId, fetchImpl = globalThis.fetch } = {}) {
+export async function requestSignalTimeline({
+  patientId,
+  fetchImpl = globalThis.fetch,
+  env = import.meta.env
+} = {}) {
   if (!fetchImpl || !patientId) return null;
 
   try {
-    const response = await fetchImpl(`/api/simulation/signals?patientId=${encodeURIComponent(patientId)}`, {
-      headers: { Accept: 'application/json' }
-    });
+    const response = await fetchImpl(
+      buildApiUrl(`/api/simulation/signals?patientId=${encodeURIComponent(patientId)}`, { env }),
+      {
+        headers: { Accept: 'application/json' }
+      }
+    );
     if (!response.ok) return null;
 
     const payload = await response.json();
@@ -27,13 +36,20 @@ export async function requestSignalTimeline({ patientId, fetchImpl = globalThis.
   }
 }
 
-export async function requestRiskSuggestions({ patientId, fetchImpl = globalThis.fetch } = {}) {
+export async function requestRiskSuggestions({
+  patientId,
+  fetchImpl = globalThis.fetch,
+  env = import.meta.env
+} = {}) {
   if (!fetchImpl || !patientId) return null;
 
   try {
-    const response = await fetchImpl(`/api/simulation/risk-suggestions?patientId=${encodeURIComponent(patientId)}`, {
-      headers: { Accept: 'application/json' }
-    });
+    const response = await fetchImpl(
+      buildApiUrl(`/api/simulation/risk-suggestions?patientId=${encodeURIComponent(patientId)}`, { env }),
+      {
+        headers: { Accept: 'application/json' }
+      }
+    );
     if (!response.ok) return null;
 
     const payload = await response.json();
@@ -58,7 +74,8 @@ export async function recordRiskSuggestionAction({
   actionType,
   actionReason,
   actorRef = 'fictional-user-laura-bennett',
-  fetchImpl = globalThis.fetch
+  fetchImpl = globalThis.fetch,
+  env = import.meta.env
 } = {}) {
   if (!fetchImpl || !suggestionId || !actionType || !actionReason) return null;
 
@@ -67,7 +84,7 @@ export async function recordRiskSuggestionAction({
 
   try {
     const response = await fetchImpl(
-      `/api/simulation/risk-suggestions/${encodeURIComponent(suggestionId)}/actions`,
+      buildApiUrl(`/api/simulation/risk-suggestions/${encodeURIComponent(suggestionId)}/actions`, { env }),
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

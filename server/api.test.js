@@ -69,6 +69,22 @@ describe('createApiHandler', () => {
     expect(serializedPayload).not.toContain('sk-secret');
   });
 
+  it('sets preview-safe CORS for the configured frontend origin', async () => {
+    const handler = createApiHandler({
+      env: {
+        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/'
+      }
+    });
+    const req = createJsonRequest({ method: 'GET', path: '/api/health' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+
+    expect(res.headers['Access-Control-Allow-Origin']).toBe('https://preview.example.com');
+    expect(res.headers['Access-Control-Allow-Methods']).toBe('GET,POST,OPTIONS');
+    expect(res.headers['Access-Control-Allow-Headers']).toBe('Content-Type');
+  });
+
   it('uses configured database providers by default when simulation database mode is set', async () => {
     const handler = createApiHandler({
       provider: { id: 'deterministic', createSbarDraft: vi.fn() },

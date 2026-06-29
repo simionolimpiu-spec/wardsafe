@@ -7,6 +7,7 @@ import {
   assertSimulationAuditPayloadIsSafe,
   createDatabaseAuditEventProvider
 } from '../../../../server/auditEventProvider.js';
+import { createCorsHeaders } from '../../../../server/corsConfig.js';
 import { createSimulationReadinessReport } from '../../../../server/readinessReport.js';
 import { createDatabaseSignalProvider } from '../../../../server/signalProvider.js';
 import { createDatabaseSuggestionProvider } from '../../../../server/suggestionProvider.js';
@@ -46,20 +47,21 @@ export function createSafeFlowApiHandler({
     const path = event.requestContext?.http?.path ?? event.path ?? '/api/health';
     const simulationOnly = env.SAFEFLOW_SIMULATION_ONLY === 'true';
     const databaseMode = shouldUseDatabaseMode(env);
+    const respond = (statusCode, payload) => jsonResponse(statusCode, payload, env);
 
     try {
       if (method === 'GET' && path === '/api/simulation/workspace') {
         if (!databaseMode) {
-          return jsonResponse(200, placeholderWorkspace({ env, simulationOnly }));
+          return respond(200, placeholderWorkspace({ env, simulationOnly }));
         }
 
         const { workspaceProvider } = await createDatabaseProviders();
-        return jsonResponse(200, await workspaceProvider.getSnapshot());
+        return respond(200, await workspaceProvider.getSnapshot());
       }
 
       if (method === 'GET' && path === '/api/simulation/readiness') {
         if (!databaseMode) {
-          return jsonResponse(200, placeholderReadiness({ env, simulationOnly }));
+          return respond(200, placeholderReadiness({ env, simulationOnly }));
         }
 
         const {
@@ -73,7 +75,7 @@ export function createSafeFlowApiHandler({
         await signalProvider.listPatientSignals();
         await suggestionProvider.listRiskSuggestions();
 
-        return jsonResponse(200, createSimulationReadinessReport({
+        return respond(200, createSimulationReadinessReport({
           draftProvider: { id: 'server-side-provider-secret' },
           workspaceProvider,
           auditEventProvider,
@@ -85,12 +87,12 @@ export function createSafeFlowApiHandler({
 
       if (method === 'GET' && path === '/api/simulation/signals') {
         if (!databaseMode) {
-          return jsonResponse(200, placeholderSignals({ env, simulationOnly }));
+          return respond(200, placeholderSignals({ env, simulationOnly }));
         }
 
         const { signalProvider } = await createDatabaseProviders();
 
-        return jsonResponse(200, {
+        return respond(200, {
           product: 'SafeFlow',
           simulationOnly: true,
           source: signalProvider.id,
@@ -103,12 +105,12 @@ export function createSafeFlowApiHandler({
 
       if (method === 'GET' && path === '/api/simulation/risk-suggestions') {
         if (!databaseMode) {
-          return jsonResponse(200, placeholderRiskSuggestions({ env, simulationOnly }));
+          return respond(200, placeholderRiskSuggestions({ env, simulationOnly }));
         }
 
         const { suggestionProvider } = await createDatabaseProviders();
 
-        return jsonResponse(200, {
+        return respond(200, {
           product: 'SafeFlow',
           simulationOnly: true,
           source: suggestionProvider.id,
@@ -122,13 +124,13 @@ export function createSafeFlowApiHandler({
       const suggestionActionMatch = path.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
       if (method === 'POST' && suggestionActionMatch) {
         if (!databaseMode) {
-          return jsonResponse(202, placeholderRiskSuggestionAction({ env, simulationOnly }));
+          return respond(202, placeholderRiskSuggestionAction({ env, simulationOnly }));
         }
 
         const body = parseEventBody(event);
         const { suggestionProvider } = await createDatabaseProviders();
 
-        return jsonResponse(201, {
+        return respond(201, {
           action: await suggestionProvider.recordSuggestionAction({
             suggestionId: decodeURIComponent(suggestionActionMatch[1]),
             actionType: body.actionType,
@@ -140,13 +142,13 @@ export function createSafeFlowApiHandler({
 
       if (method === 'GET' && path === '/api/simulation/audit-events') {
         if (!databaseMode) {
-          return jsonResponse(200, placeholderAuditEvents({ env, simulationOnly }));
+          return respond(200, placeholderAuditEvents({ env, simulationOnly }));
         }
 
         const { auditEventProvider } = await createDatabaseProviders();
         const limit = Number(event.queryStringParameters?.limit ?? 25);
 
-        return jsonResponse(200, {
+        return respond(200, {
           product: 'SafeFlow',
           simulationOnly: true,
           source: auditEventProvider.id,
@@ -159,22 +161,22 @@ export function createSafeFlowApiHandler({
         const body = parseEventBody(event);
 
         if (!databaseMode) {
-          return jsonResponse(202, placeholderAuditWrite({ env, simulationOnly }));
+          return respond(202, placeholderAuditWrite({ env, simulationOnly }));
         }
 
         assertSimulationAuditPayloadIsSafe(body);
         const { auditEventProvider } = await createDatabaseProviders();
 
-        return jsonResponse(201, {
+        return respond(201, {
           event: await auditEventProvider.recordEvent(body)
         });
       }
 
       if (method !== 'GET' || path !== '/api/health') {
-        return jsonResponse(404, { error: 'Not found' });
+        return respond(404, { error: 'Not found' });
       }
 
-      return jsonResponse(200, {
+      return respond(200, {
         service: 'SafeFlow API',
         environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
         simulationOnly,
@@ -194,12 +196,12 @@ export function createSafeFlowApiHandler({
       });
 
       if (error instanceof SimulationAuditEventValidationError || error.statusCode === 400) {
-        return jsonResponse(400, {
+        return respond(400, {
           error: 'Invalid simulation audit event.'
         });
       }
 
-      return jsonResponse(503, {
+      return respond(503, {
         error: 'SafeFlow database route unavailable.'
       });
     }
@@ -403,10 +405,11 @@ function safetyBoundary() {
   };
 }
 
-function jsonResponse(statusCode, payload) {
+function jsonResponse(statusCode, payload, env = process.env) {
   return {
     statusCode,
     headers: {
+      ...createCorsHeaders(env),
       'content-type': 'application/json'
     },
     body: JSON.stringify(payload)

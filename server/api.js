@@ -5,6 +5,7 @@ import {
   assertSimulationAuditPayloadIsSafe,
   createConfiguredAuditEventProvider
 } from './auditEventProvider.js';
+import { createCorsHeaders } from './corsConfig.js';
 import { createSimulationReadinessReport } from './readinessReport.js';
 import { createSimulationRiskSupportReadOnlyReport } from './simulationRiskSupportReport.js';
 import { createConfiguredSignalProvider } from './signalProvider.js';
@@ -22,7 +23,7 @@ export function createApiHandler({
   return async function apiHandler(req, res) {
     const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');
     const suggestionActionMatch = pathname.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
-    setCorsHeaders(res);
+    setCorsHeaders(res, env);
 
     if (req.method === 'OPTIONS') {
       res.statusCode = 204;
@@ -240,8 +241,8 @@ function writeJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
-function setCorsHeaders(res) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+function setCorsHeaders(res, env) {
+  for (const [name, value] of Object.entries(createCorsHeaders(env))) {
+    res.setHeader(name, value);
+  }
 }
