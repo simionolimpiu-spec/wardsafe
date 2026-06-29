@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { simulationRiskSupportContractExample } from '../data/simulationRiskSupportContractExample.js';
+import { simulationScenarioCoverageExample } from '../data/simulationScenarioCoverageExample.js';
 import { simulationRiskSupportEvaluationExample } from '../data/simulationRiskSupportEvaluationExample.js';
 import { createApiHandler } from '../../server/api.js';
 import { createSimulationRiskSupportReadOnlyReport } from '../../server/simulationRiskSupportReport.js';
@@ -99,6 +100,7 @@ describe('safety language regression scan', () => {
   it('passes strict scans for current generated examples and reports', () => {
     const generatedOutputs = [
       ['simulation risk-support contract example', simulationRiskSupportContractExample],
+      ['simulation scenario coverage example', simulationScenarioCoverageExample],
       ['simulation risk-support evaluation example', simulationRiskSupportEvaluationExample],
       ['simulation risk-support read-only report', createSimulationRiskSupportReadOnlyReport()],
       ['simulation workspace snapshot', createSimulationWorkspaceSnapshot()]
