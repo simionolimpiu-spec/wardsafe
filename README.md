@@ -74,3 +74,5 @@ The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentia
 ## Public Demo Pack
 
 Reviewer materials are in `docs/public-demo-pack/`.
+
+For concise reviewer-safe demo notes, see [docs/demo-readiness-pack.md](docs/demo-readiness-pack.md) and [docs/demo-screenshot-checklist.md](docs/demo-screenshot-checklist.md).
