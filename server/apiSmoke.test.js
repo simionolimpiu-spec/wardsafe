@@ -16,6 +16,7 @@ describe('runApiSmoke', () => {
       health: 'ok',
       workspace: 'local-fictional-fixture',
       readiness: 'approved',
+      riskSupportReport: 'simulation-risk-support-read-only-report',
       audit: 'local-audit-fixture',
       auditRead: 'local-audit-fixture',
       draft: 'deterministic'
@@ -24,6 +25,7 @@ describe('runApiSmoke', () => {
       expect.stringContaining('/api/health'),
       expect.stringContaining('/api/simulation/workspace'),
       expect.stringContaining('/api/simulation/readiness'),
+      expect.stringContaining('/api/simulation/risk-support-report'),
       expect.stringContaining('/api/simulation/audit-events'),
       expect.stringContaining('/api/drafts/sbar')
     ]));

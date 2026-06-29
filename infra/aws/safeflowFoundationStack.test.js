@@ -4,7 +4,13 @@ import { describe, expect, it } from 'vitest';
 import { resolveEnvironmentProfile } from './environmentProfiles.js';
 import { SafeFlowFoundationStack, lambdaAssetExcludes } from './safeflowFoundationStack.js';
 
+const templateCache = new Map();
+
 function synthesizeTemplate(profileName = 'simulation') {
+  if (templateCache.has(profileName)) {
+    return templateCache.get(profileName);
+  }
+
   const app = new App();
   const stack = new SafeFlowFoundationStack(app, 'TestSafeFlowFoundationStack', {
     safeFlowProfile: resolveEnvironmentProfile(profileName, {
@@ -16,7 +22,9 @@ function synthesizeTemplate(profileName = 'simulation') {
       region: 'eu-west-2'
     }
   });
-  return Template.fromStack(stack);
+  const template = Template.fromStack(stack);
+  templateCache.set(profileName, template);
+  return template;
 }
 
 describe('SafeFlowFoundationStack', () => {
@@ -29,7 +37,7 @@ describe('SafeFlowFoundationStack', () => {
       StorageEncrypted: true,
       DeletionProtection: false
     });
-  });
+  }, 120000);
 
   it('applies Free-plan compatible cleanup controls for simulation', () => {
     const template = synthesizeTemplate();

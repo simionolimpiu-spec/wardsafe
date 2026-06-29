@@ -18,6 +18,8 @@ This repo is a fresh scaffold. Confidential invention-pack notes and detailed de
 
 The simulation workspace includes distinct patients, observations, tasks, escalations, handover, discharge, reports, audit and settings screens. Browser-local changes are fictional, versioned and reversible through **Reset simulation**.
 
+Contributor and agent guardrails live in [AGENTS.md](AGENTS.md) and [.github/pull_request_template.md](.github/pull_request_template.md). A public technical explainer for the current simulation-only risk-support layer is in [docs/risk-support-technical-explainer.md](docs/risk-support-technical-explainer.md).
+
 ## Local Development
 
 ```powershell
@@ -48,6 +50,8 @@ If `OPENAI_API_KEY` is not set, `npm run api` still starts and uses the determin
 
 The API also exposes `GET /api/simulation/workspace`. By default it serves the local fictional fixture. To point that route at an approved simulation PostgreSQL database, set both `SAFEFLOW_SIMULATION_ONLY=true` and `DATABASE_URL`; otherwise database-backed workspace mode is refused or falls back to the fixture.
 
+The API also exposes `GET /api/simulation/risk-support-report`. It returns a read-only structured review support report built from fictional scenario fixtures with deterministic rules, no patient input, and no live clinical deployment claim. Nurses and clinicians remain responsible for judgement and escalation.
+
 Inside the prototype, **Settings** includes **Check backend workspace** and **Check build readiness** so reviewers can confirm which server-side simulation source is active, which provider boundaries are configured, and whether the migration approval manifest is current without replacing browser-local edits.
 
 ## Verification
@@ -70,3 +74,5 @@ The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentia
 ## Public Demo Pack
 
 Reviewer materials are in `docs/public-demo-pack/`.
+
+For concise reviewer-safe demo notes, see [docs/demo-readiness-pack.md](docs/demo-readiness-pack.md) and [docs/demo-screenshot-checklist.md](docs/demo-screenshot-checklist.md).

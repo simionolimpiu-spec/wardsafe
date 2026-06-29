@@ -6,6 +6,7 @@ import {
   createConfiguredAuditEventProvider
 } from './auditEventProvider.js';
 import { createSimulationReadinessReport } from './readinessReport.js';
+import { createSimulationRiskSupportReadOnlyReport } from './simulationRiskSupportReport.js';
 import { createConfiguredSignalProvider } from './signalProvider.js';
 import { createConfiguredSuggestionProvider } from './suggestionProvider.js';
 import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
@@ -48,6 +49,11 @@ export function createApiHandler({
         suggestionProvider,
         env
       }));
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/simulation/risk-support-report') {
+      await handleSimulationRiskSupportReport(res, searchParams);
       return;
     }
 
@@ -106,6 +112,15 @@ async function handleSimulationSignals(res, signalProvider, searchParams) {
   } catch {
     writeJson(res, 503, { error: 'Simulation signals unavailable' });
   }
+}
+
+async function handleSimulationRiskSupportReport(res, searchParams) {
+  if (searchParams.toString() !== '') {
+    writeJson(res, 400, { error: 'Simulation risk-support report accepts no input' });
+    return;
+  }
+
+  writeJson(res, 200, createSimulationRiskSupportReadOnlyReport());
 }
 
 async function handleSimulationRiskSuggestions(res, suggestionProvider, searchParams) {

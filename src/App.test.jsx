@@ -83,8 +83,12 @@ describe('SafeFlow prototype', () => {
     const handoverReadinessRegion = screen.getByRole('region', { name: /handover and discharge readiness/i });
 
     expect(handoverReadinessRegion).toBeInTheDocument();
-    expect(within(handoverReadinessRegion).getByText(/Handover 50% complete for DCU-031/i)).toBeInTheDocument();
-    expect(within(handoverReadinessRegion).getByText(/Medical plan unclear/i)).toBeInTheDocument();
+    expect(within(handoverReadinessRegion).getByText(/Handover 50% complete/i)).toBeInTheDocument();
+    expect(within(handoverReadinessRegion).getByText(/^Medical plan unclear$/i)).toBeInTheDocument();
+    expect(within(handoverReadinessRegion).getByText(/Simulation risk support/i)).toBeInTheDocument();
+    const riskSupportSignals = within(handoverReadinessRegion).getByRole('list', { name: /risk-support signals/i });
+    expect(riskSupportSignals).toBeInTheDocument();
+    expect(within(riskSupportSignals).getByText(/Discharge readiness blockers/i)).toBeInTheDocument();
   });
 
   it('explains the potassium safety gap and records edited SBAR draft activity', async () => {

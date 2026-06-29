@@ -25,6 +25,37 @@ describe('simulation workspace snapshot', () => {
     expect(snapshot.workspace.patients).toHaveLength(5);
     expect(snapshot.workspace.summary.openTaskCount).toBeGreaterThan(0);
     expect(snapshot.workspace.summary.activeEscalationCount).toBeGreaterThan(0);
+    expect(snapshot.workspace.riskSupport).toMatchObject({
+      contractType: 'simulation-risk-support-contract',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      source: 'fictional scenario fixture',
+      patientId: 'DCU-031',
+      journeyId: 'DCU-031',
+      summary: {
+        category: 'review suggested'
+      }
+    });
+    expect(snapshot.workspace.riskSupport.signals).toHaveLength(4);
+    expect(snapshot.workspace.riskSupportReport).toMatchObject({
+      reportType: 'simulation-risk-support-read-only-report',
+      source: 'fictional scenario fixtures',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      generatedBy: 'deterministic rules',
+      clinicalUse: 'not for live clinical deployment',
+      totalScenarios: 7,
+      passedScenarios: 7,
+      failedScenarios: 0,
+      aggregateSummary: {
+        documentationGapCount: 3,
+        handoverCompletenessIssueCount: 3,
+        escalationReadinessCueCount: 4,
+        dischargeReadinessBlockerCount: 4,
+        scenariosWithMultipleGaps: 4
+      }
+    });
+    expect(snapshot.workspace.riskSupportReport.scenarioResults).toBeUndefined();
     expect(snapshot.workspace.auditEvents[0]).toEqual(expect.objectContaining({
       label: expect.any(String),
       patientId: expect.stringMatching(/^DCU-/)
@@ -37,6 +68,7 @@ describe('simulation workspace snapshot', () => {
     expect(serialized).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
     expect(serialized).toContain('DCU-031');
     expect(serialized).toContain('fictional');
+    expect(serialized).toContain('simulation-risk-support-contract');
   });
 
   it('documents the PostgreSQL read model as fictional-only', () => {
