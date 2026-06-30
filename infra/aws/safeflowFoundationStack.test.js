@@ -6,9 +6,11 @@ import { SafeFlowFoundationStack, lambdaAssetExcludes } from './safeflowFoundati
 
 const templateCache = new Map();
 
-function synthesizeTemplate(profileName = 'simulation') {
-  if (templateCache.has(profileName)) {
-    return templateCache.get(profileName);
+function synthesizeTemplate(profileName = 'simulation', stackProps = {}) {
+  const cacheKey = `${profileName}|${stackProps.publicPreviewOrigin ?? ''}`;
+
+  if (templateCache.has(cacheKey)) {
+    return templateCache.get(cacheKey);
   }
 
   const app = new App();
@@ -17,13 +19,14 @@ function synthesizeTemplate(profileName = 'simulation') {
       operation: 'synth',
       allowRestricted: true
     }),
+    ...stackProps,
     env: {
       account: '123456789012',
       region: 'eu-west-2'
     }
   });
   const template = Template.fromStack(stack);
-  templateCache.set(profileName, template);
+  templateCache.set(cacheKey, template);
   return template;
 }
 
@@ -157,7 +160,7 @@ describe('SafeFlowFoundationStack', () => {
     });
   });
 
-  it('provisions private Lambda compute for the SafeFlow API without public ingress', () => {
+  it('provisions private Lambda compute for the SafeFlow API', () => {
     const template = synthesizeTemplate();
 
     template.hasResourceProperties('AWS::Lambda::Function', {
@@ -182,6 +185,33 @@ describe('SafeFlowFoundationStack', () => {
     });
     template.resourceCountIs('AWS::ApiGateway::RestApi', 0);
     template.resourceCountIs('AWS::ApiGatewayV2::Api', 0);
+  });
+
+  it('exposes a public function URL for the simulation preview with origin-aware CORS', () => {
+    const template = synthesizeTemplate('simulation', {
+      publicPreviewOrigin: 'https://preview.example.com',
+      previewAccessToken: 'safe-preview-token-for-review-12345'
+    });
+
+    template.hasResourceProperties('AWS::Lambda::Url', {
+      AuthType: 'NONE',
+      Cors: Match.objectLike({
+        AllowCredentials: false,
+        AllowHeaders: ['Content-Type', 'X-SafeFlow-Preview-Token'],
+        AllowMethods: ['GET', 'POST'],
+        AllowOrigins: ['https://preview.example.com']
+      })
+    });
+    template.hasResourceProperties('AWS::Lambda::Function', {
+      Environment: Match.objectLike({
+        Variables: Match.objectLike({
+          SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
+        })
+      })
+    });
+    template.hasOutput('PublicApiUrl', {
+      Description: 'Public SafeFlow simulation API function URL'
+    });
   });
 
   it('provisions a private migration runner Lambda for approved simulation database bootstrap', () => {

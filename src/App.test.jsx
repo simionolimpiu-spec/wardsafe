@@ -272,6 +272,7 @@ describe('SafeFlow prototype', () => {
     expect(within(handoverReadinessRegion).getByText(/Handover 50% complete/i)).toBeInTheDocument();
     expect(within(handoverReadinessRegion).getByText(/^Medical plan unclear$/i)).toBeInTheDocument();
     expect(within(handoverReadinessRegion).getByText(/Simulation risk support/i)).toBeInTheDocument();
+    expect(within(handoverReadinessRegion).getByText(/not clinically validated and not for clinical decision-making/i)).toBeInTheDocument();
     const riskSupportSignals = within(handoverReadinessRegion).getByRole('list', { name: /risk-support signals/i });
     expect(riskSupportSignals).toBeInTheDocument();
     expect(within(riskSupportSignals).getByText(/Discharge readiness blockers/i)).toBeInTheDocument();
@@ -335,7 +336,13 @@ describe('SafeFlow prototype', () => {
           ok: true,
           json: vi.fn().mockResolvedValue({
             product: 'SafeFlow',
+            source: 'private-lambda-signals-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
             simulationOnly: true,
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
             signals: [
               {
                 signalId: 'signal-dcu-031-potassium-0910',
@@ -361,7 +368,13 @@ describe('SafeFlow prototype', () => {
           ok: true,
           json: vi.fn().mockResolvedValue({
             product: 'SafeFlow',
+            source: 'private-lambda-risk-suggestions-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
             simulationOnly: true,
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
             suggestions: [
               {
                 suggestionId: 'suggestion-dcu-031-replacement-risk',
@@ -398,6 +411,9 @@ describe('SafeFlow prototype', () => {
     await user.click(screen.getByRole('button', { name: /open Patient 031/i }));
 
     await within(reviewCues).findByText(/^Electrolyte review$/i);
+    expect(reviewCues.textContent).toMatch(/Signals: private-lambda-signals-placeholder/i);
+    expect(reviewCues.textContent).toMatch(/Risk suggestions: private-lambda-risk-suggestions-placeholder/i);
+    expect(reviewCues.textContent).toMatch(/not clinically validated and not for clinical decision-making/i);
     expect(reviewCues.textContent).toMatch(/human review required/i);
     expect(reviewCues.textContent).not.toMatch(/replace potassium|potassium replacement|diagnos|prescrib|administer|AI decided|autonomous decision/i);
   });
@@ -647,7 +663,11 @@ describe('SafeFlow prototype', () => {
       ok: true,
       json: vi.fn().mockResolvedValue({
         product: 'SafeFlow',
+        mode: 'simulation',
         simulationOnly: true,
+        clinicalUse: false,
+        validationStatus: 'not-clinically-validated',
+        explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
         safetyBoundary: {
           noLivePatientData: true,
           directCareIdentifiers: false,
@@ -656,7 +676,13 @@ describe('SafeFlow prototype', () => {
         providers: {
           draft: 'deterministic',
           workspace: 'local-fictional-fixture',
-          audit: 'local-audit-fixture'
+          audit: 'local-audit-fixture',
+          signals: 'private-lambda-signals-placeholder',
+          suggestions: 'private-lambda-risk-suggestions-placeholder'
+        },
+        providerMetadata: {
+          signals: { providerId: 'private-lambda-signals-placeholder', provider: 'placeholder' },
+          suggestions: { providerId: 'private-lambda-risk-suggestions-placeholder', provider: 'placeholder' }
         },
         database: {
           configured: false,
@@ -678,6 +704,9 @@ describe('SafeFlow prototype', () => {
     expect(await screen.findByText(/Migration approval current/i)).toBeInTheDocument();
     expect(screen.getByText('deterministic', { selector: 'dd' })).toBeInTheDocument();
     expect(screen.getByText('local-audit-fixture', { selector: 'dd' })).toBeInTheDocument();
+    expect(screen.getByText(/private-lambda-signals-placeholder \(placeholder preview provider\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/private-lambda-risk-suggestions-placeholder \(placeholder preview provider\)/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/not clinically validated and not for clinical decision-making/i).length).toBeGreaterThan(0);
     expect(screen.getByRole('status')).toHaveTextContent(/Build readiness check complete/i);
   });
 

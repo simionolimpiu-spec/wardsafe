@@ -1,5 +1,18 @@
 # SafeFlow Delivery Roadmap
 
+## Active Follow-up Backlog
+
+### Replace placeholder signal and risk providers with ML-backed DB read models
+
+Acceptance criteria:
+
+- Database read model is available in the preview stack.
+- Placeholder fallback is used only when explicitly configured for preview or simulation mode.
+- API responses expose source and provider metadata for both signal and risk-suggestion routes.
+- Tests cover both DB-backed and placeholder-backed modes.
+- The simulation safety disclaimer remains visible in the public preview UI.
+- No silent placeholder fallback is allowed in production-intent environments.
+
 ## Phase 0: Public Simulation Prototype
 
 Status: current PR.

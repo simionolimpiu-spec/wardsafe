@@ -20,7 +20,11 @@ describe('simulation readiness report', () => {
 
     expect(report).toMatchObject({
       product: 'SafeFlow',
+      mode: 'simulation',
       simulationOnly: true,
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: expect.stringContaining('Not clinically validated'),
       safetyBoundary: {
         noLivePatientData: true,
         directCareIdentifiers: false,
@@ -32,6 +36,20 @@ describe('simulation readiness report', () => {
         audit: 'postgresql-simulation-audit-events',
         signals: 'postgresql-simulation-signals',
         suggestions: 'postgresql-simulation-risk-suggestions'
+      },
+      providerMetadata: {
+        signals: {
+          providerId: 'postgresql-simulation-signals',
+          provider: 'database-read-model',
+          mode: 'simulation',
+          clinicalUse: false
+        },
+        suggestions: {
+          providerId: 'postgresql-simulation-risk-suggestions',
+          provider: 'database-read-model',
+          mode: 'simulation',
+          clinicalUse: false
+        }
       },
       database: {
         configured: true,
