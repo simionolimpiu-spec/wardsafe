@@ -6,16 +6,21 @@ This file is the shared handoff note for cross-thread coordination between Oli's
 
 ## Confirmed Remote State
 
-Confirmed from Mia's clean working clone at `/private/tmp/safeflow-next` after `git fetch origin --prune`:
+Confirmed from Mia's working clone at `/private/tmp/safeflow-next` after `git fetch origin --prune`:
 
 - `main` at `5c1f604`
 - `codex/safeflow-prototype` at `d50cff5`
-- `deployment/public-simulation-preview` at `557426d`
+- `deployment/public-simulation-preview` at `1696d98`
 - `feature/simulation-signal-engine` at `ab0da3a`
+- `ml/risk-support-readonly-report` at `12f1ba0`
 - `ml/synthetic-scenario-coverage` at `9c65167`
 - `docs/demo-readiness-pack` at `762c7a7`
 - `review/ml-foundation-merge-readiness` at `331caea`
 - `docs/codex-handoff-sync` at `693a790`
+- `codex/ml-foundation-rebase` at `8eb555e`
+- `codex/public-simulation-preview-rebase` at `b82b9b6`
+- `codex/signal-engine-ml-stack` at `278bd26`
+- `test/safety-language-regression-scan` at `e9ce7f7`
 
 ## Confirmed Open PRs
 
@@ -26,6 +31,7 @@ Confirmed from the GitHub API with Mia's local Git credential:
    - Base: `codex/safeflow-prototype`
    - Head: `deployment/public-simulation-preview`
    - State: open draft
+   - URL: `https://github.com/simionolimpiu-spec/wardsafe/pull/6`
 
 Earlier prototype, signal-engine, ML-foundation and deployment-prep PRs have already been merged or superseded. PR #6 is now the active review surface.
 
@@ -39,6 +45,7 @@ The public simulation preview has been deployed.
 - Amplify branch: `preview`
 - Amplify branch stage: `DEVELOPMENT`
 - Amplify Basic Auth: enabled
+- Deployment branch head: `1696d98`
 - Backend stack: `safeflow-simulation-foundation`
 - Backend stack status: `UPDATE_COMPLETE`
 - Backend public API output: `https://nlork7u5ziyhwbjmoplexuw4rq0tnwah.lambda-url.eu-west-2.on.aws/`
@@ -74,10 +81,11 @@ Do not commit or post the Basic Auth password, AWS access keys, or `SAFEFLOW_PRE
 - Keep public-preview credentials out of repo history and PR comments.
 - Do not merge PR #6 until the deployed preview has been reviewed with named collaborators.
 - Do not treat this preview as a clinical deployment, live NHS system, or approval to use real patient data.
+- Treat the hosted preview URL and GitHub PR #6 as the current reviewer entry points.
 
 ## Remaining Follow-up
 
-1. Review PR #6 against the live preview.
+1. Review PR #6 against the live preview using `docs/public-demo-pack/review-checklist.md`.
 2. Confirm the Basic Auth password and preview token are shared only through a private channel.
 3. Decide whether to keep the preview live, rotate credentials, or tear it down after review.
 4. If the preview remains live, monitor AWS budget alerts and retained resources.
