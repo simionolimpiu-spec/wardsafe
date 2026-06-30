@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url';
 
 if (isCliEntryPoint(import.meta.url, process.argv[1])) {
   const environment = resolveEnvironment(process.argv.slice(2));
-  const outputDir = join(tmpdir(), 'safeflow-cdk', environment ?? 'default');
+  const outputDir = join(resolveOutputRoot(process.env), 'safeflow-cdk', environment ?? 'default');
   const cdkCli = join(process.cwd(), 'node_modules', 'aws-cdk', 'bin', 'cdk');
 
   rmSync(outputDir, { recursive: true, force: true });
@@ -59,4 +59,8 @@ export function isCliEntryPoint(metaUrl, argvPath) {
   if (!argvPath) return false;
 
   return pathToFileURL(argvPath).href === metaUrl;
+}
+
+export function resolveOutputRoot(env = process.env) {
+  return env.RUNNER_TEMP ?? tmpdir();
 }
