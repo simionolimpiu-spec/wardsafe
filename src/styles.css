@@ -112,6 +112,83 @@ textarea {
   line-height: 1.35;
 }
 
+.presentation-banner {
+  background: linear-gradient(135deg, #eef5ff 0%, #f8fbff 100%);
+  border: 1px solid #cfe0f6;
+  border-radius: 12px;
+  display: grid;
+  gap: 16px;
+  margin: 18px 0;
+  padding: 18px;
+}
+
+.presentation-banner-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.presentation-banner-copy h2 {
+  color: #003087;
+  margin: 0;
+}
+
+.presentation-banner-scenario,
+.presentation-banner-description,
+.presentation-banner-note {
+  margin: 0;
+}
+
+.presentation-banner-scenario strong {
+  color: #102033;
+}
+
+.presentation-banner-description {
+  color: #17436f;
+  font-weight: 700;
+}
+
+.presentation-banner-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.presentation-flow {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.presentation-flow li {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 10px;
+  display: grid;
+  gap: 4px;
+  min-height: 72px;
+  padding: 12px;
+}
+
+.presentation-flow span {
+  color: #617083;
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.presentation-flow strong {
+  color: #17436f;
+  font-size: 1rem;
+}
+
+.presentation-banner-note {
+  color: #53657a;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 .safety-banner,
 .ward-board,
 .patient-panel {
@@ -526,6 +603,60 @@ textarea {
 .architecture-strip p {
   font-size: 0.78rem;
   margin: 0;
+}
+
+.app-shell.presentation-mode .workspace-main {
+  padding: 30px;
+}
+
+.app-shell.presentation-mode .topbar {
+  gap: 20px;
+}
+
+.app-shell.presentation-mode .topbar h1 {
+  font-size: 2.3rem;
+  letter-spacing: -0.03em;
+}
+
+.app-shell.presentation-mode .topbar-actions {
+  gap: 14px;
+}
+
+.app-shell.presentation-mode .secondary-action,
+.app-shell.presentation-mode .demo-scenario-control select {
+  min-height: 46px;
+  font-size: 0.98rem;
+}
+
+.app-shell.presentation-mode .tab-list button {
+  font-size: 1rem;
+  padding: 14px 12px;
+}
+
+.app-shell.presentation-mode .ward-board h2,
+.app-shell.presentation-mode .patient-panel h2 {
+  font-size: 1.42rem;
+}
+
+.app-shell.presentation-mode .safety-banner {
+  font-size: 1rem;
+  padding: 16px 18px;
+}
+
+.app-shell.presentation-mode .dashboard-layout {
+  gap: 22px;
+}
+
+.app-shell.presentation-mode .architecture-strip,
+.app-shell.presentation-mode .status-message,
+.app-shell.presentation-mode .backend-note {
+  display: none;
+}
+
+@media (max-width: 920px) {
+  .presentation-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .hospital-insights-overlay {

@@ -1,11 +1,10 @@
-#!/usr/bin/env node
 import { rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
-if (isCliEntryPoint(import.meta.url, process.argv[1])) {
+if (!process.env.VITEST && isCliEntryPoint(import.meta.url, process.argv[1])) {
   const environment = resolveEnvironment(process.argv.slice(2));
   const outputDir = join(resolveOutputRoot(process.env), 'safeflow-cdk', environment ?? 'default');
   const cdkCli = join(process.cwd(), 'node_modules', 'aws-cdk', 'bin', 'cdk');

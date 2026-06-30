@@ -38,12 +38,40 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('button', { name: /review report/i })).toBeInTheDocument();
   });
 
+  it('renders a presentation mode toggle in the main header', () => {
+    render(<App />);
+
+    expect(screen.getByRole('button', { name: /presentation mode/i })).toBeInTheDocument();
+  });
+
   it('renders a demo scenario selector in the main header', () => {
     render(<App />);
 
     const selector = screen.getByRole('combobox', { name: /demo scenario/i });
     expect(selector).toBeInTheDocument();
     expect(within(selector).getByRole('option', { name: /day care treatment pathway review/i })).toBeInTheDocument();
+  });
+
+  it('enables and disables presentation mode with simulation-only flow cues', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: /presentation mode/i }));
+
+    const banner = screen.getByRole('region', { name: /presentation mode/i });
+    expect(within(banner).getByRole('heading', { name: /simulation-only safeFlow demo/i })).toBeInTheDocument();
+    expect(within(banner).getByText(/selected scenario:/i)).toBeInTheDocument();
+    expect(within(banner).getByRole('list', { name: /presentation flow/i })).toBeInTheDocument();
+    expect(within(banner).getByText(/^Scenario$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Review cues$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Hospital Insights$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Review Report$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/future nhs\/aws roadmap note/i)).toBeInTheDocument();
+    expect(within(banner).getByRole('button', { name: /exit presentation mode/i })).toBeInTheDocument();
+
+    await user.click(within(banner).getByRole('button', { name: /exit presentation mode/i }));
+
+    expect(screen.queryByRole('region', { name: /presentation mode/i })).not.toBeInTheDocument();
   });
 
   it('opens and closes the hospital insights drawer with comparison cues', async () => {

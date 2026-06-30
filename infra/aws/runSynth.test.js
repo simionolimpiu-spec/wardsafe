@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { tmpdir } from 'node:os';
+import os from 'node:os';
 import { resolveEnvironment, resolveOutputRoot } from './runSynth.js';
 
 describe('SafeFlow CDK synth wrapper', () => {
@@ -13,6 +13,6 @@ describe('SafeFlow CDK synth wrapper', () => {
   });
 
   it('falls back to the local temp root when runner temp is absent', () => {
-    expect(resolveOutputRoot({})).toBe(tmpdir());
+    expect(resolveOutputRoot({})).toBe(os.tmpdir());
   });
 });

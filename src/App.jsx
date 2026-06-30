@@ -51,6 +51,9 @@ const tabs = [
   { id: 'audit', label: 'Audit' }
 ];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
+const PRESENTATION_FLOW_STEPS = ['Scenario', 'Review cues', 'Hospital Insights', 'Review Report'];
+const PRESENTATION_ROADMAP_NOTE =
+  'Future NHS/AWS roadmap note: approved service boundaries, governed integrations, and human-led review only.';
 
 function formatDraftSections(draft) {
   return Object.entries(draft.sections)
@@ -214,6 +217,10 @@ export default function App() {
   const { state, dispatch, reset } = useSimulationWorkspace();
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
   const demoScenarioOptions = useMemo(() => getDemoScenarioOptions(), []);
+  const selectedScenario = useMemo(
+    () => demoScenarioOptions.find((option) => option.id === state.selectedScenarioId) ?? demoScenarioOptions[0] ?? null,
+    [demoScenarioOptions, state.selectedScenarioId]
+  );
   const reviewSignals = useMemo(
     () => selectPatientSimulationSignals(state, selectedPatient?.id),
     [selectedPatient?.id, state]
@@ -252,6 +259,7 @@ export default function App() {
   const [isGeneratingDraft, setIsGeneratingDraft] = useState(false);
   const [isCheckingBackend, setIsCheckingBackend] = useState(false);
   const [isCheckingReadiness, setIsCheckingReadiness] = useState(false);
+  const [isPresentationMode, setIsPresentationMode] = useState(false);
   const [backendWorkspace, setBackendWorkspace] = useState(null);
   const [readinessReport, setReadinessReport] = useState(null);
   const [serverAuditStatus, setServerAuditStatus] = useState('');
@@ -355,6 +363,10 @@ export default function App() {
     setDialog(null);
     setDraftStatus('');
     setServerAuditStatus('');
+  }
+
+  function togglePresentationMode() {
+    setIsPresentationMode((current) => !current);
   }
 
   function mirrorServerAuditEvent({ patientId, eventType, eventSummary, sourceTable, metadata = {} }) {
@@ -566,7 +578,7 @@ export default function App() {
   }
 
   return (
-    <main className={`app-shell ${state.settings.compactMode ? 'compact-mode' : ''}`}>
+    <main className={`app-shell ${state.settings.compactMode ? 'compact-mode' : ''} ${isPresentationMode ? 'presentation-mode' : ''}`}>
       <WorkspaceNav
         activeView={state.selectedView}
         escalationCount={selectActiveEscalationCount(state)}
@@ -587,6 +599,14 @@ export default function App() {
               value={state.selectedScenarioId}
             />
             <span className="product-note">SafeFlow Nursing concept</span>
+            <button
+              aria-pressed={isPresentationMode}
+              className="secondary-action presentation-mode-trigger"
+              onClick={togglePresentationMode}
+              type="button"
+            >
+              {isPresentationMode ? 'Exit presentation mode' : 'Presentation mode'}
+            </button>
             <SimulationReviewReportButton
               isOpen={isReviewReportOpen}
               onClick={() => {
@@ -603,6 +623,34 @@ export default function App() {
             />
           </div>
         </header>
+        {isPresentationMode && (
+          <section className="presentation-banner" aria-label="Presentation mode">
+            <div className="presentation-banner-copy">
+              <p className="eyebrow">Presentation mode</p>
+              <h2>Simulation-only SafeFlow demo</h2>
+              <p className="presentation-banner-scenario">
+                Selected scenario: <strong>{selectedScenario?.label ?? 'Demo scenario'}</strong>
+              </p>
+              <p className="presentation-banner-description">
+                {selectedScenario?.description ?? 'Fictional patient and ward context for demonstration and human-led review only.'}
+              </p>
+            </div>
+            <div className="presentation-banner-actions">
+              <button className="secondary-action presentation-exit-trigger" onClick={togglePresentationMode} type="button">
+                Exit presentation mode
+              </button>
+            </div>
+            <ol className="presentation-flow" aria-label="Presentation flow">
+              {PRESENTATION_FLOW_STEPS.map((step, index) => (
+                <li key={step}>
+                  <span>Step {index + 1}</span>
+                  <strong>{step}</strong>
+                </li>
+              ))}
+            </ol>
+            <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
+          </section>
+        )}
         <SafetyBanner />
         <nav className="tab-list" aria-label="Prototype journey">
           {tabs.map((tab) => (
@@ -722,7 +770,7 @@ export default function App() {
             />
           )}
         </div>
-        <ArchitectureStrip />
+        {!isPresentationMode && <ArchitectureStrip />}
         <HospitalInsightsDrawer
           isOpen={isHospitalInsightsOpen}
           onClose={() => setIsHospitalInsightsOpen(false)}
