@@ -83,15 +83,25 @@ export function createSafeFlowApiHandler({
         } = await createDatabaseProviders();
         await workspaceProvider.getSnapshot();
         await auditEventProvider.listEvents({ limit: 1 });
-        await signalProvider.listPatientSignals();
-        await suggestionProvider.listRiskSuggestions();
+        const verifiedSignalProvider = await verifyOptionalPreviewProvider({
+          provider: signalProvider,
+          verify: () => signalProvider.listPatientSignals(),
+          fallbackId: 'private-lambda-signals-placeholder',
+          route: '/api/simulation/signals'
+        });
+        const verifiedSuggestionProvider = await verifyOptionalPreviewProvider({
+          provider: suggestionProvider,
+          verify: () => suggestionProvider.listRiskSuggestions(),
+          fallbackId: 'private-lambda-risk-suggestions-placeholder',
+          route: '/api/simulation/risk-suggestions'
+        });
 
         return respond(200, createSimulationReadinessReport({
           draftProvider: { id: 'server-side-provider-secret' },
           workspaceProvider,
           auditEventProvider,
-          signalProvider,
-          suggestionProvider,
+          signalProvider: verifiedSignalProvider,
+          suggestionProvider: verifiedSuggestionProvider,
           env
         }));
       }
@@ -103,15 +113,20 @@ export function createSafeFlowApiHandler({
 
         const { signalProvider } = await createDatabaseProviders();
 
-        return respond(200, {
-          product: 'SafeFlow',
-          simulationOnly: true,
-          source: signalProvider.id,
-          safetyBoundary: safetyBoundary(),
-          signals: await signalProvider.listPatientSignals({
-            patientId: event.queryStringParameters?.patientId ?? null
-          })
-        });
+        try {
+          return respond(200, {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            source: signalProvider.id,
+            safetyBoundary: safetyBoundary(),
+            signals: await signalProvider.listPatientSignals({
+              patientId: event.queryStringParameters?.patientId ?? null
+            })
+          });
+        } catch (error) {
+          logPreviewFallback('/api/simulation/signals', error);
+          return respond(200, placeholderSignals({ env, simulationOnly }));
+        }
       }
 
       if (method === 'GET' && path === '/api/simulation/risk-suggestions') {
@@ -121,15 +136,20 @@ export function createSafeFlowApiHandler({
 
         const { suggestionProvider } = await createDatabaseProviders();
 
-        return respond(200, {
-          product: 'SafeFlow',
-          simulationOnly: true,
-          source: suggestionProvider.id,
-          safetyBoundary: safetyBoundary(),
-          suggestions: await suggestionProvider.listRiskSuggestions({
-            patientId: event.queryStringParameters?.patientId ?? null
-          })
-        });
+        try {
+          return respond(200, {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            source: suggestionProvider.id,
+            safetyBoundary: safetyBoundary(),
+            suggestions: await suggestionProvider.listRiskSuggestions({
+              patientId: event.queryStringParameters?.patientId ?? null
+            })
+          });
+        } catch (error) {
+          logPreviewFallback('/api/simulation/risk-suggestions', error);
+          return respond(200, placeholderRiskSuggestions({ env, simulationOnly }));
+        }
       }
 
       const suggestionActionMatch = path.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
@@ -141,14 +161,19 @@ export function createSafeFlowApiHandler({
         const body = parseEventBody(event);
         const { suggestionProvider } = await createDatabaseProviders();
 
-        return respond(201, {
-          action: await suggestionProvider.recordSuggestionAction({
-            suggestionId: decodeURIComponent(suggestionActionMatch[1]),
-            actionType: body.actionType,
-            actionReason: body.actionReason,
-            actorRef: body.actorRef
-          })
-        });
+        try {
+          return respond(201, {
+            action: await suggestionProvider.recordSuggestionAction({
+              suggestionId: decodeURIComponent(suggestionActionMatch[1]),
+              actionType: body.actionType,
+              actionReason: body.actionReason,
+              actorRef: body.actorRef
+            })
+          });
+        } catch (error) {
+          logPreviewFallback('/api/simulation/risk-suggestions/{suggestionId}/actions', error);
+          return respond(202, placeholderRiskSuggestionAction({ env, simulationOnly }));
+        }
       }
 
       if (method === 'GET' && path === '/api/simulation/audit-events') {
@@ -470,6 +495,24 @@ function redactSensitiveText(text) {
   return String(text)
     .replace(/\b(postgres(?:ql)?:\/\/)([^@\s/]+)@/gi, '$1[redacted]@')
     .replace(/"password"\s*:\s*"[^"]+"/gi, '"password":"[redacted]"');
+}
+
+async function verifyOptionalPreviewProvider({ provider, verify, fallbackId, route }) {
+  try {
+    await verify();
+    return provider;
+  } catch (error) {
+    logPreviewFallback(route, error);
+    return { id: fallbackId };
+  }
+}
+
+function logPreviewFallback(route, error) {
+  console.warn('SafeFlow API route fallback', {
+    route,
+    message: redactSensitiveText(error?.message),
+    name: error?.name
+  });
 }
 
 export const handler = createSafeFlowApiHandler();

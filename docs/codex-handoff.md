@@ -74,6 +74,8 @@ Do not commit or post the Basic Auth password, AWS access keys, or `SAFEFLOW_PRE
   - direct API call without preview token returns `401`
   - tokened `/api/health` returns simulation metadata
   - tokened `/api/simulation/workspace` returns fictional database-backed SafeFlow data
+- Repo recheck path now exists: set `SAFEFLOW_PREVIEW_API_URL` plus `SAFEFLOW_PREVIEW_ACCESS_TOKEN`, then run `npm run api:smoke:preview`.
+- Hosted preview API smoke now passes against the deployed `PublicApiUrl`; readiness returns `approved`, while signals and risk suggestions safely fall back to placeholder providers on this preview stack until their database read models are deployed.
 
 ## Current Integration Rule
 
@@ -88,7 +90,7 @@ Do not commit or post the Basic Auth password, AWS access keys, or `SAFEFLOW_PRE
 1. Review PR #6 against the live preview using `docs/public-demo-pack/review-checklist.md`.
 2. Confirm the Basic Auth password and preview token are shared only through a private channel.
 3. Decide whether to keep the preview live, rotate credentials, or tear it down after review.
-4. If the preview remains live, monitor AWS budget alerts and retained resources.
+4. If the preview remains live, monitor AWS budget alerts and retained resources and rerun `npm run api:smoke:preview` after any redeploy or credential rotation.
 5. After PR #6 review, either merge into `codex/safeflow-prototype` or keep it draft while follow-up hardening lands.
 
 ## Local Notes

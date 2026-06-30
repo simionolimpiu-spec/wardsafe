@@ -22,6 +22,23 @@ The current deployed preview is:
 
 Amplify Basic Auth is enabled, and the API requires `X-SafeFlow-Preview-Token`. Do not commit or post the Basic Auth password or preview access token; share them only through a private channel with named reviewers.
 
+## Hosted Preview API Smoke
+
+Use the repo smoke command after redeploys, token rotation or pre-review checks:
+
+- Set `SAFEFLOW_PREVIEW_API_URL` to the deployed `PublicApiUrl`.
+- Set `SAFEFLOW_PREVIEW_ACCESS_TOKEN` to the shared preview token.
+- Run `npm run api:smoke:preview`.
+
+The hosted smoke checks:
+
+- the preview token gate returns `401` when the token is missing
+- `Access-Control-Allow-Origin` is not wildcarded
+- the hosted health, workspace, readiness, signals, suggestions and audit routes stay simulation-only
+- no direct patient identifiers or secret-like values appear in the returned payloads
+
+If a temporary internal diagnostic preview is intentionally ungated, set `SAFEFLOW_EXPECT_PREVIEW_ACCESS_GATE=false` for that smoke run only.
+
 ## Why Localhost Links Do Not Work For Other People
 
 `http://127.0.0.1:5173` and `http://localhost:5173` point to the computer currently running Vite. Other people cannot open that address unless they are on the same machine. The local dev server also stops when:
