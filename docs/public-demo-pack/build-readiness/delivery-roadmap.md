@@ -34,6 +34,14 @@ Acceptance criteria:
 - Define human-in-the-loop boundaries.
 - Define intended-use statement and exclusions.
 
+Feedback-linked priorities:
+
+- Clarify handover ownership and next-action cues before any wider external demo.
+- Keep provenance labels visible wherever placeholder-backed outputs are shown.
+- Keep the exact safety statement unchanged in demo script, preview docs, and review notes.
+- Treat terminology like `risk suggestion` as a copy-review item before pilot design.
+- Keep integration, governance, and validation planning separate from the public simulation preview.
+
 ## Phase 0: Public Simulation Prototype
 
 Status: current PR.

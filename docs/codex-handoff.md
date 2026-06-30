@@ -141,3 +141,12 @@ Local-only untracked files remain from local tooling and deployment runs and sho
 - Stakeholder demo script, public review checklist, feedback prompts, and feedback template live in [public-demo-pack/stakeholder-demo-script.md](public-demo-pack/stakeholder-demo-script.md).
 - The exact safety statement must remain unchanged: `This preview is not clinically validated decision support and must not be used for clinical decision-making.`
 - Signals and risk suggestions remain placeholder-backed in the deployed preview, and the script should keep that limitation explicit.
+
+## Preview Feedback Synthesis
+
+- Branch: `preview-feedback-synthesis`.
+- Stakeholder feedback synthesis now lives in [public-demo-pack/stakeholder-feedback-synthesis.md](public-demo-pack/stakeholder-feedback-synthesis.md).
+- Main themes: workflow fit, nursing usability, clearer handover ownership, provenance clarity, audit trail value, integration expectations, governance concerns, copy risks, visual/demo clarity, and future ML/read-model expectations.
+- Top follow-up priorities: clarify handover ownership, keep provenance labels visible, preserve the exact safety statement, and keep integration/governance/validation work separate from the simulation preview.
+- Out of scope: clinical validation claims, pilot-readiness claims, ML-backed risk modelling in this branch, and any implication that the public preview is production or NHS deployment ready.
+- Unchanged safety boundary: signals and risk suggestions remain placeholder-backed, and the preview is not clinically validated decision support.
