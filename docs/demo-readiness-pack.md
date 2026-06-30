@@ -86,6 +86,47 @@ The demo shows:
 - It should not be treated as diagnosis, treatment advice, or automated escalation.
 - Future live data sources may require extra governance, access control, and UI review.
 
+## SafeFlow architecture readiness note
+
+### Current prototype state
+
+- SafeFlow is a simulation-only prototype built around fictional patient journeys.
+- The current data model uses deterministic mock data for the patient panel, review cues, Hospital Insights, and the Simulation Review Report.
+- The app is designed for human-led review, documentation quality, ward comparison, and educational demos.
+
+### Service boundaries already present
+
+- Patient-level review cues are separated from ward-level comparison logic.
+- Hospital Insights is already isolated as a simulation layer with deterministic benchmark data.
+- The Simulation Review Report reuses the current simulation state instead of introducing live data sources.
+- These boundaries are intended to make future integration work easier to govern and review.
+
+### Future NHS/AWS architecture possibility
+
+- Future work could place SafeFlow behind an approved data service boundary for NHS Digital or local trust systems.
+- That boundary could feed governed AWS/Aurora storage and Step Functions workflow orchestration.
+- The same pattern could support audited dashboarding, report generation, and controlled data access once approved.
+- Current:
+  Simulation patient panel -> review cues -> Hospital Insights -> Simulation Review Report
+- Future:
+  Approved data service boundary -> NHS/local trust integration -> AWS/Aurora storage -> Step Functions workflow orchestration -> governed dashboard/reporting -> human-led review
+
+### Information governance and safety requirements
+
+- Any real integration would need information governance approval.
+- Any real integration would need a clinical safety case, including DCB0129 and DCB0160-style work where applicable.
+- A DPIA, role-based access control, and audit logging would be expected before live use.
+- Approved NHS and local trust pathways would also be required before any operational deployment.
+
+### Why real integrations are not included yet
+
+- The current product stage is intentionally simulation-only.
+- No real NHS data is used now.
+- No live NHS systems are connected now.
+- No patient-identifiable information is used now.
+- The deterministic mock data is deliberate so the demo stays stable, reviewable, and safe for presentations.
+- Live integrations are deferred until governance, clinical safety, and technical approval are in place.
+
 ## What the demo does not show
 
 The demo stays inside explicit safety boundaries:
