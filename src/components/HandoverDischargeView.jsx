@@ -92,6 +92,7 @@ export function HandoverDischargeView({ patient, riskSupport = null, onSaveHando
             ))}
           </div>
 
+          <p className="risk-support-boundary">Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p>
           <p className="risk-support-boundary">{riskSupport.boundary}</p>
         </section>
       )}

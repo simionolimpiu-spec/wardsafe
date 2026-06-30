@@ -10,6 +10,13 @@ import {
 } from '../../../../server/auditEventProvider.js';
 import { createCorsHeaders, isOriginAllowed } from '../../../../server/corsConfig.js';
 import { createSimulationReadinessReport } from '../../../../server/readinessReport.js';
+import {
+  allowsSimulationPreviewFallback,
+  buildSimulationOutputEnvelope,
+  createSimulationProviderMetadata,
+  SIMULATION_OUTPUT_EXPLANATION,
+  SIMULATION_OUTPUT_VALIDATION_STATUS
+} from '../../../../server/simulationOutputMetadata.js';
 import { createDatabaseSignalProvider } from '../../../../server/signalProvider.js';
 import { createDatabaseSuggestionProvider } from '../../../../server/suggestionProvider.js';
 import { createDatabaseWorkspaceProvider } from '../../../../server/workspaceProvider.js';
@@ -90,12 +97,14 @@ export function createSafeFlowApiHandler({
         await workspaceProvider.getSnapshot();
         await auditEventProvider.listEvents({ limit: 1 });
         const verifiedSignalProvider = await verifyOptionalPreviewProvider({
+          env,
           provider: signalProvider,
           verify: () => signalProvider.listPatientSignals(),
           fallbackId: 'private-lambda-signals-placeholder',
           route: '/api/simulation/signals'
         });
         const verifiedSuggestionProvider = await verifyOptionalPreviewProvider({
+          env,
           provider: suggestionProvider,
           verify: () => suggestionProvider.listRiskSuggestions(),
           fallbackId: 'private-lambda-risk-suggestions-placeholder',
@@ -120,16 +129,21 @@ export function createSafeFlowApiHandler({
         const { signalProvider } = await createDatabaseProviders();
 
         try {
-          return respond(200, {
-            product: 'SafeFlow',
-            simulationOnly: true,
+          return respond(200, buildSimulationOutputEnvelope({
             source: signalProvider.id,
-            safetyBoundary: safetyBoundary(),
-            signals: await signalProvider.listPatientSignals({
-              patientId: event.queryStringParameters?.patientId ?? null
-            })
-          });
+            payload: {
+              product: 'SafeFlow',
+              simulationOnly: true,
+              safetyBoundary: safetyBoundary(),
+              signals: await signalProvider.listPatientSignals({
+                patientId: event.queryStringParameters?.patientId ?? null
+              })
+            }
+          }));
         } catch (error) {
+          if (!allowsSimulationPreviewFallback(env)) {
+            throw error;
+          }
           logPreviewFallback('/api/simulation/signals', error);
           return respond(200, placeholderSignals({ env, simulationOnly }));
         }
@@ -143,16 +157,21 @@ export function createSafeFlowApiHandler({
         const { suggestionProvider } = await createDatabaseProviders();
 
         try {
-          return respond(200, {
-            product: 'SafeFlow',
-            simulationOnly: true,
+          return respond(200, buildSimulationOutputEnvelope({
             source: suggestionProvider.id,
-            safetyBoundary: safetyBoundary(),
-            suggestions: await suggestionProvider.listRiskSuggestions({
-              patientId: event.queryStringParameters?.patientId ?? null
-            })
-          });
+            payload: {
+              product: 'SafeFlow',
+              simulationOnly: true,
+              safetyBoundary: safetyBoundary(),
+              suggestions: await suggestionProvider.listRiskSuggestions({
+                patientId: event.queryStringParameters?.patientId ?? null
+              })
+            }
+          }));
         } catch (error) {
+          if (!allowsSimulationPreviewFallback(env)) {
+            throw error;
+          }
           logPreviewFallback('/api/simulation/risk-suggestions', error);
           return respond(200, placeholderRiskSuggestions({ env, simulationOnly }));
         }
@@ -177,6 +196,9 @@ export function createSafeFlowApiHandler({
             })
           });
         } catch (error) {
+          if (!allowsSimulationPreviewFallback(env)) {
+            throw error;
+          }
           logPreviewFallback('/api/simulation/risk-suggestions/{suggestionId}/actions', error);
           return respond(202, placeholderRiskSuggestionAction({ env, simulationOnly }));
         }
@@ -385,7 +407,11 @@ function placeholderReadiness({ env, simulationOnly }) {
     schemaVersion: 1,
     product: 'SafeFlow',
     environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+    mode: 'simulation',
     simulationOnly,
+    clinicalUse: false,
+    validationStatus: SIMULATION_OUTPUT_VALIDATION_STATUS,
+    explanation: SIMULATION_OUTPUT_EXPLANATION,
     safetyBoundary: safetyBoundary(),
     publicIngress: true,
     providers: {
@@ -394,6 +420,14 @@ function placeholderReadiness({ env, simulationOnly }) {
       audit: 'private-lambda-audit-placeholder',
       signals: 'private-lambda-signals-placeholder',
       suggestions: 'private-lambda-risk-suggestions-placeholder'
+    },
+    providerMetadata: {
+      signals: createSimulationProviderMetadata({
+        id: 'private-lambda-signals-placeholder'
+      }),
+      suggestions: createSimulationProviderMetadata({
+        id: 'private-lambda-risk-suggestions-placeholder'
+      })
     },
     database: {
       configured: Boolean(env.DATABASE_SECRET_ARN),
@@ -409,31 +443,35 @@ function placeholderReadiness({ env, simulationOnly }) {
 }
 
 function placeholderSignals({ env, simulationOnly }) {
-  return {
-    schemaVersion: 1,
-    product: 'SafeFlow',
-    route: '/api/simulation/signals',
-    environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
-    simulationOnly,
+  return buildSimulationOutputEnvelope({
     source: 'private-lambda-signals-placeholder',
-    safetyBoundary: safetyBoundary(),
-    publicIngress: true,
-    signals: []
-  };
+    payload: {
+      schemaVersion: 1,
+      product: 'SafeFlow',
+      route: '/api/simulation/signals',
+      environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+      simulationOnly,
+      safetyBoundary: safetyBoundary(),
+      publicIngress: true,
+      signals: []
+    }
+  });
 }
 
 function placeholderRiskSuggestions({ env, simulationOnly }) {
-  return {
-    schemaVersion: 1,
-    product: 'SafeFlow',
-    route: '/api/simulation/risk-suggestions',
-    environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
-    simulationOnly,
+  return buildSimulationOutputEnvelope({
     source: 'private-lambda-risk-suggestions-placeholder',
-    safetyBoundary: safetyBoundary(),
-    publicIngress: true,
-    suggestions: []
-  };
+    payload: {
+      schemaVersion: 1,
+      product: 'SafeFlow',
+      route: '/api/simulation/risk-suggestions',
+      environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+      simulationOnly,
+      safetyBoundary: safetyBoundary(),
+      publicIngress: true,
+      suggestions: []
+    }
+  });
 }
 
 function placeholderRiskSuggestionAction({ env, simulationOnly }) {
@@ -517,11 +555,14 @@ function redactSensitiveText(text) {
     .replace(/"password"\s*:\s*"[^"]+"/gi, '"password":"[redacted]"');
 }
 
-async function verifyOptionalPreviewProvider({ provider, verify, fallbackId, route }) {
+async function verifyOptionalPreviewProvider({ env, provider, verify, fallbackId, route }) {
   try {
     await verify();
     return provider;
   } catch (error) {
+    if (!allowsSimulationPreviewFallback(env)) {
+      throw error;
+    }
     logPreviewFallback(route, error);
     return { id: fallbackId };
   }

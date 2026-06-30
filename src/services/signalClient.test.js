@@ -12,7 +12,13 @@ describe('signalClient', () => {
         ok: true,
         json: vi.fn().mockResolvedValue({
           product: 'SafeFlow',
+          source: 'local-simulation-signals',
+          provider: 'fixture',
+          mode: 'simulation',
           simulationOnly: true,
+          clinicalUse: false,
+          validationStatus: 'not-clinically-validated',
+          explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
           signals: [{ signalId: 'signal-1', syntheticPatientRef: 'DCU-031', simulationOnly: true }]
         })
       })
@@ -20,7 +26,13 @@ describe('signalClient', () => {
         ok: true,
         json: vi.fn().mockResolvedValue({
           product: 'SafeFlow',
+          source: 'local-simulation-risk-suggestions',
+          provider: 'fixture',
+          mode: 'simulation',
           simulationOnly: true,
+          clinicalUse: false,
+          validationStatus: 'not-clinically-validated',
+          explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
           suggestions: [{
             suggestionId: 'suggestion-1',
             syntheticPatientRef: 'DCU-031',
@@ -40,6 +52,30 @@ describe('signalClient', () => {
     });
   });
 
+  it('returns provider metadata when explicitly requested', async () => {
+    const payload = {
+      product: 'SafeFlow',
+      source: 'private-lambda-signals-placeholder',
+      provider: 'placeholder',
+      mode: 'simulation',
+      simulationOnly: true,
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
+      signals: [{ signalId: 'signal-1', syntheticPatientRef: 'DCU-031', simulationOnly: true }]
+    };
+    const fetchImpl = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue(payload)
+    });
+
+    await expect(requestSignalTimeline({
+      patientId: 'DCU-031',
+      includeMetadata: true,
+      fetchImpl
+    })).resolves.toEqual(payload);
+  });
+
   it('returns null for unsafe or unavailable responses', async () => {
     const unsafeEnvelope = vi.fn().mockResolvedValue({
       ok: true,
@@ -49,7 +85,13 @@ describe('signalClient', () => {
       ok: true,
       json: vi.fn().mockResolvedValue({
         product: 'SafeFlow',
+        source: 'local-simulation-signals',
+        provider: 'fixture',
+        mode: 'simulation',
         simulationOnly: true,
+        clinicalUse: false,
+        validationStatus: 'not-clinically-validated',
+        explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
         signals: [{ signalId: 'signal-1', simulationOnly: false }]
       })
     });

@@ -2,9 +2,11 @@ import { buildApiUrl, createApiHeaders } from './apiBaseUrl.js';
 
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
 const SECRET_VALUE_PATTERN = /(postgres:\/\/|\bsk-[A-Za-z0-9_-]{8,}|\barn:aws:[^\s"'}]+)/i;
+const PREVIEW_VALIDATION_STATUS = 'not-clinically-validated';
 
 export async function requestSignalTimeline({
   patientId,
+  includeMetadata = false,
   fetchImpl = globalThis.fetch,
   env = import.meta.env
 } = {}) {
@@ -20,17 +22,11 @@ export async function requestSignalTimeline({
     if (!response.ok) return null;
 
     const payload = await response.json();
-    if (
-      !isPublicSafe(payload) ||
-      payload?.product !== 'SafeFlow' ||
-      payload.simulationOnly !== true ||
-      !Array.isArray(payload.signals) ||
-      !payload.signals.every(isSafeSignal)
-    ) {
+    if (!isSafeSimulationEnvelope(payload, 'signals', isSafeSignal)) {
       return null;
     }
 
-    return payload.signals;
+    return includeMetadata ? payload : payload.signals;
   } catch {
     return null;
   }
@@ -38,6 +34,7 @@ export async function requestSignalTimeline({
 
 export async function requestRiskSuggestions({
   patientId,
+  includeMetadata = false,
   fetchImpl = globalThis.fetch,
   env = import.meta.env
 } = {}) {
@@ -53,17 +50,11 @@ export async function requestRiskSuggestions({
     if (!response.ok) return null;
 
     const payload = await response.json();
-    if (
-      !isPublicSafe(payload) ||
-      payload?.product !== 'SafeFlow' ||
-      payload.simulationOnly !== true ||
-      !Array.isArray(payload.suggestions) ||
-      !payload.suggestions.every(isSafeSuggestion)
-    ) {
+    if (!isSafeSimulationEnvelope(payload, 'suggestions', isSafeSuggestion)) {
       return null;
     }
 
-    return payload.suggestions;
+    return includeMetadata ? payload : payload.suggestions;
   } catch {
     return null;
   }
@@ -124,9 +115,32 @@ function isSafeSuggestion(suggestion) {
   );
 }
 
+function isSafeSimulationEnvelope(payload, itemsKey, itemValidator) {
+  return (
+    isPublicSafe(payload) &&
+    payload?.product === 'SafeFlow' &&
+    payload?.mode === 'simulation' &&
+    payload?.simulationOnly === true &&
+    payload?.clinicalUse === false &&
+    payload?.validationStatus === PREVIEW_VALIDATION_STATUS &&
+    hasPreviewExplanation(payload?.explanation) &&
+    typeof payload?.provider === 'string' &&
+    typeof payload?.source === 'string' &&
+    Array.isArray(payload?.[itemsKey]) &&
+    payload[itemsKey].every(itemValidator)
+  );
+}
+
 function isPublicSafe(value) {
   const serialized = JSON.stringify(value ?? {});
   return !SECRET_VALUE_PATTERN.test(serialized) && !hasDirectIdentifierField(value);
+}
+
+function hasPreviewExplanation(value) {
+  return typeof value === 'string' &&
+    /preview only/i.test(value) &&
+    /not clinically validated/i.test(value) &&
+    /not for clinical decision-making/i.test(value);
 }
 
 function hasDirectIdentifierField(value) {

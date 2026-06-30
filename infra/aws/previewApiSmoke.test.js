@@ -47,11 +47,25 @@ describe('runPreviewApiSmoke', () => {
           return jsonResponse(200, {
             product: 'SafeFlow',
             environment: 'simulation',
+            mode: 'simulation',
             simulationOnly: true,
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
             safetyBoundary: {
               noLivePatientData: true,
               directCareIdentifiers: false,
               humanReviewRequired: true
+            },
+            providerMetadata: {
+              signals: {
+                providerId: 'private-lambda-signals-placeholder',
+                provider: 'placeholder'
+              },
+              suggestions: {
+                providerId: 'private-lambda-risk-suggestions-placeholder',
+                provider: 'placeholder'
+              }
             },
             database: {
               configured: true,
@@ -64,7 +78,13 @@ describe('runPreviewApiSmoke', () => {
         case 5:
           return jsonResponse(200, {
             product: 'SafeFlow',
+            source: 'private-lambda-signals-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
             simulationOnly: true,
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
             safetyBoundary: {
               noLivePatientData: true,
               directCareIdentifiers: false,
@@ -75,7 +95,13 @@ describe('runPreviewApiSmoke', () => {
         case 6:
           return jsonResponse(200, {
             product: 'SafeFlow',
+            source: 'private-lambda-risk-suggestions-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
             simulationOnly: true,
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
             safetyBoundary: {
               noLivePatientData: true,
               directCareIdentifiers: false,
@@ -125,9 +151,12 @@ describe('runPreviewApiSmoke', () => {
       workspace: 'postgresql-simulation-read-model',
       readiness: 'approved',
       signals: 1,
+      signalProvider: 'placeholder',
       suggestions: 1,
+      suggestionProvider: 'placeholder',
       auditRead: 'postgresql-simulation-audit-events',
-      auditWrite: 201
+      auditWrite: 201,
+      smokeScope: 'availability-and-schema-only'
     });
     expect(calls[0].options.headers['X-SafeFlow-Preview-Token']).toBeUndefined();
     expect(calls[1].options.headers['X-SafeFlow-Preview-Token']).toBe('safe-preview-token-for-review-12345');
@@ -135,8 +164,8 @@ describe('runPreviewApiSmoke', () => {
       expect.stringContaining('/api/health preview gate rejects missing token'),
       expect.stringContaining('/api/simulation/workspace'),
       expect.stringContaining('/api/simulation/readiness'),
-      expect.stringContaining('/api/simulation/signals'),
-      expect.stringContaining('/api/simulation/risk-suggestions'),
+      expect.stringContaining('/api/simulation/signals placeholder'),
+      expect.stringContaining('/api/simulation/risk-suggestions placeholder'),
       expect.stringContaining('/api/simulation/audit-events')
     ]));
   });

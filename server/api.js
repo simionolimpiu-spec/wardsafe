@@ -8,6 +8,7 @@ import {
 import { createCorsHeaders } from './corsConfig.js';
 import { createSimulationReadinessReport } from './readinessReport.js';
 import { createSimulationRiskSupportReadOnlyReport } from './simulationRiskSupportReport.js';
+import { buildSimulationOutputEnvelope } from './simulationOutputMetadata.js';
 import { createConfiguredSignalProvider } from './signalProvider.js';
 import { createConfiguredSuggestionProvider } from './suggestionProvider.js';
 import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
@@ -103,13 +104,15 @@ function simulationSafetyBoundary() {
 async function handleSimulationSignals(res, signalProvider, searchParams) {
   try {
     const signals = await signalProvider.listPatientSignals({ patientId: searchParams.get('patientId') || null });
-    writeJson(res, 200, {
+    writeJson(res, 200, buildSimulationOutputEnvelope({
+      source: signalProvider.id ?? 'simulation-signals',
+      payload: {
       product: 'SafeFlow',
       simulationOnly: true,
-      source: signalProvider.id ?? 'simulation-signals',
       safetyBoundary: simulationSafetyBoundary(),
       signals
-    });
+      }
+    }));
   } catch {
     writeJson(res, 503, { error: 'Simulation signals unavailable' });
   }
@@ -127,13 +130,15 @@ async function handleSimulationRiskSupportReport(res, searchParams) {
 async function handleSimulationRiskSuggestions(res, suggestionProvider, searchParams) {
   try {
     const suggestions = await suggestionProvider.listRiskSuggestions({ patientId: searchParams.get('patientId') || null });
-    writeJson(res, 200, {
+    writeJson(res, 200, buildSimulationOutputEnvelope({
+      source: suggestionProvider.id ?? 'simulation-risk-suggestions',
+      payload: {
       product: 'SafeFlow',
       simulationOnly: true,
-      source: suggestionProvider.id ?? 'simulation-risk-suggestions',
       safetyBoundary: simulationSafetyBoundary(),
       suggestions
-    });
+      }
+    }));
   } catch {
     writeJson(res, 503, { error: 'Simulation risk suggestions unavailable' });
   }

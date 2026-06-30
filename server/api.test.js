@@ -64,6 +64,22 @@ describe('createApiHandler', () => {
       signals: 'local-simulation-signals',
       suggestions: 'local-simulation-risk-suggestions'
     });
+    expect(payload).toMatchObject({
+      mode: 'simulation',
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: expect.stringContaining('Not clinically validated'),
+      providerMetadata: {
+        signals: {
+          providerId: 'local-simulation-signals',
+          provider: 'fixture'
+        },
+        suggestions: {
+          providerId: 'local-simulation-risk-suggestions',
+          provider: 'fixture'
+        }
+      }
+    });
     expect(payload.migrations.approved).toBe(true);
     expect(serializedPayload).not.toContain('postgres://');
     expect(serializedPayload).not.toContain('sk-secret');
@@ -107,6 +123,10 @@ describe('createApiHandler', () => {
       audit: 'postgresql-simulation-audit-events',
       signals: 'postgresql-simulation-signals',
       suggestions: 'postgresql-simulation-risk-suggestions'
+    });
+    expect(payload.providerMetadata).toMatchObject({
+      signals: { providerId: 'postgresql-simulation-signals', provider: 'database-read-model' },
+      suggestions: { providerId: 'postgresql-simulation-risk-suggestions', provider: 'database-read-model' }
     });
     expect(payload.database).toMatchObject({
       configured: true,
@@ -354,8 +374,13 @@ describe('createApiHandler', () => {
     expect(signalProvider.listPatientSignals).toHaveBeenCalledWith({ patientId: 'DCU-031' });
     expect(payload).toMatchObject({
       product: 'SafeFlow',
+      mode: 'simulation',
       simulationOnly: true,
       source: 'local-simulation-signals',
+      provider: 'fixture',
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: expect.stringContaining('Not clinically validated'),
       signals: [expect.objectContaining({ syntheticPatientRef: 'DCU-031', simulationOnly: true })]
     });
     expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
@@ -387,8 +412,13 @@ describe('createApiHandler', () => {
     expect(suggestionProvider.listRiskSuggestions).toHaveBeenCalledWith({ patientId: 'DCU-031' });
     expect(payload).toMatchObject({
       product: 'SafeFlow',
+      mode: 'simulation',
       simulationOnly: true,
       source: 'local-simulation-risk-suggestions',
+      provider: 'fixture',
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: expect.stringContaining('Not clinically validated'),
       suggestions: [expect.objectContaining({
         suggestionId: 'suggestion-dcu-031-electrolyte-review',
         requiresHumanReview: true

@@ -101,6 +101,8 @@ function normaliseSignalSnapshot(snapshot) {
   const fallback = {
     signalTimeline: [],
     riskSuggestions: [],
+    signalSourceMetadata: null,
+    suggestionSourceMetadata: null,
     sourceFreshness: {
       state: 'unavailable',
       label: 'No signal freshness available.'
@@ -135,12 +137,54 @@ function normaliseSignalSnapshot(snapshot) {
     riskSuggestions: Array.isArray(snapshot.riskSuggestions)
       ? snapshot.riskSuggestions.map(normaliseSnapshotEntry).filter(Boolean)
       : [],
+    signalSourceMetadata: normaliseSourceMetadata(snapshot.signalSourceMetadata),
+    suggestionSourceMetadata: normaliseSourceMetadata(snapshot.suggestionSourceMetadata),
     sourceFreshness,
     missingDataNotes: normaliseTextList(snapshot.missingDataNotes),
     receivedAt:
       typeof snapshot.receivedAt === 'string' && snapshot.receivedAt.trim()
         ? snapshot.receivedAt.trim()
         : null
+  };
+}
+
+function normaliseSourceMetadata(value) {
+  if (!isPlainObject(value)) {
+    return null;
+  }
+
+  const cloned = safeClone(value);
+  if (!isPlainObject(cloned)) {
+    return null;
+  }
+
+  const source = typeof cloned.source === 'string' && cloned.source.trim()
+    ? cloned.source.trim()
+    : null;
+  const provider = typeof cloned.provider === 'string' && cloned.provider.trim()
+    ? cloned.provider.trim()
+    : null;
+  const mode = typeof cloned.mode === 'string' && cloned.mode.trim()
+    ? cloned.mode.trim()
+    : 'simulation';
+  const explanation = typeof cloned.explanation === 'string' && cloned.explanation.trim()
+    ? cloned.explanation.trim()
+    : null;
+
+  if (!source || !provider || !explanation) {
+    return null;
+  }
+
+  return {
+    source,
+    provider,
+    mode,
+    clinicalUse: cloned.clinicalUse === false ? false : null,
+    validationStatus:
+      typeof cloned.validationStatus === 'string' && cloned.validationStatus.trim()
+        ? cloned.validationStatus.trim()
+        : 'not-clinically-validated',
+    explanation
   };
 }
 

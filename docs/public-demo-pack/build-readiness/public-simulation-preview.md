@@ -34,10 +34,25 @@ The hosted smoke checks:
 
 - the preview token gate returns `401` when the token is missing
 - `Access-Control-Allow-Origin` is not wildcarded
-- the hosted health, workspace, readiness, signals, suggestions and audit routes stay simulation-only
+- the hosted health, workspace, readiness, signals, suggestions and audit routes stay simulation-only and available
+- readiness, signals and risk-suggestion responses keep their preview metadata stable
 - no direct patient identifiers or secret-like values appear in the returned payloads
+- simulation audit read/write remains reachable for the preview workflow
+
+The hosted smoke is a deployment-contract check. It does not validate clinical correctness, model quality, or real-world decision support behavior.
 
 If a temporary internal diagnostic preview is intentionally ungated, set `SAFEFLOW_EXPECT_PREVIEW_ACCESS_GATE=false` for that smoke run only.
+
+## Current Deployed Behavior
+
+The current deployed preview stack is intentionally safe but limited:
+
+- `/api/simulation/signals` currently serves a placeholder provider on the live preview stack
+- `/api/simulation/risk-suggestions` currently serves a placeholder provider on the live preview stack
+- those responses now need to stay explicit about `simulation` mode, `clinicalUse: false`, and their placeholder provider/source
+- this keeps the preview honest and usable for demos without implying validated clinical decision support
+
+Follow-up integration remains required before any preview should claim ML-backed signal or suggestion retrieval.
 
 ## Why Localhost Links Do Not Work For Other People
 
@@ -102,6 +117,9 @@ The public preview must keep the following visible:
 
 - fictional patient data only
 - not clinical advice
+- simulation output for preview only
+- not clinically validated
+- not for clinical decision-making
 - not diagnosis
 - not prescribing
 - not live NHS deployment
@@ -148,3 +166,14 @@ See also:
 4. Apply password protection before sharing the URL.
 5. Run manual reviewer checks against the hosted preview.
 6. Keep deployment approval as a human decision after synth and review.
+
+## Follow-up Integration Note
+
+The current hosted preview must not be described as clinically validated decision support.
+
+Before any stronger claim is made:
+
+- replace placeholder signal and risk-suggestion providers with ML-backed database read models
+- keep the API response source/provider explicit
+- keep the simulation disclaimer visible in the UI
+- prevent silent fallback to placeholder providers outside explicitly configured preview/simulation environments

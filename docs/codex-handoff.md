@@ -45,7 +45,7 @@ The public simulation preview has been deployed.
 - Amplify branch: `preview`
 - Amplify branch stage: `DEVELOPMENT`
 - Amplify Basic Auth: enabled
-- Deployment branch head: `1696d98`
+- Live preview smoke was last re-verified after the provider-metadata hardening deploy on `deployment/public-simulation-preview`
 - Backend stack: `safeflow-simulation-foundation`
 - Backend stack status: `UPDATE_COMPLETE`
 - Backend public API output: `https://nlork7u5ziyhwbjmoplexuw4rq0tnwah.lambda-url.eu-west-2.on.aws/`
@@ -75,7 +75,10 @@ Do not commit or post the Basic Auth password, AWS access keys, or `SAFEFLOW_PRE
   - tokened `/api/health` returns simulation metadata
   - tokened `/api/simulation/workspace` returns fictional database-backed SafeFlow data
 - Repo recheck path now exists: set `SAFEFLOW_PREVIEW_API_URL` plus `SAFEFLOW_PREVIEW_ACCESS_TOKEN`, then run `npm run api:smoke:preview`.
-- Hosted preview API smoke now passes against the deployed `PublicApiUrl`; readiness returns `approved`, while signals and risk suggestions safely fall back to placeholder providers on this preview stack until their database read models are deployed.
+- Hosted preview API smoke now passes against the deployed `PublicApiUrl`; it verifies route availability, token gating, schema stability, and simulation audit read/write behavior.
+- Hosted preview API smoke does not validate clinical correctness or clinical decision quality.
+- On the deployed preview stack, signals and risk suggestions currently return simulation-safe placeholder providers rather than ML-backed database read models.
+- The preview must not be described as clinically validated decision support.
 
 ## Current Integration Rule
 
@@ -91,7 +94,8 @@ Do not commit or post the Basic Auth password, AWS access keys, or `SAFEFLOW_PRE
 2. Confirm the Basic Auth password and preview token are shared only through a private channel.
 3. Decide whether to keep the preview live, rotate credentials, or tear it down after review.
 4. If the preview remains live, monitor AWS budget alerts and retained resources and rerun `npm run api:smoke:preview` after any redeploy or credential rotation.
-5. After PR #6 review, either merge into `codex/safeflow-prototype` or keep it draft while follow-up hardening lands.
+5. Replace placeholder signal and risk providers with ML-backed DB read models, keeping explicit provider metadata and no silent fallback outside preview/simulation mode.
+6. After PR #6 review, either merge into `codex/safeflow-prototype` or keep it draft while follow-up hardening lands.
 
 ## Local Notes
 

@@ -4,6 +4,7 @@ import { PREVIEW_ACCESS_TOKEN_HEADER } from '../../server/corsConfig.js';
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
 const SECRET_VALUE_PATTERN = /(postgres(?:ql)?:\/\/|\bsk-[A-Za-z0-9_-]{8,}|\barn:aws:[^\s"'}]+|\b(?:AKIA|ASIA)[A-Z0-9]{16}\b|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i;
 const DEFAULT_PREVIEW_GATE_EXPECTATION = true;
+const PREVIEW_VALIDATION_STATUS = 'not-clinically-validated';
 
 export async function runPreviewApiSmoke({
   baseUrl = resolvePreviewApiUrl(process.env),
@@ -57,7 +58,7 @@ export async function runPreviewApiSmoke({
     headers: previewHeaders,
     fetchImpl
   });
-  assertSimulationContract(workspace.payload, '/api/simulation/workspace');
+  assertSimulationAvailabilityContract(workspace.payload, '/api/simulation/workspace');
   if (!workspace.payload.workspace || typeof workspace.payload.workspace !== 'object') {
     throw new Error('/api/simulation/workspace did not return a workspace object.');
   }
@@ -70,7 +71,8 @@ export async function runPreviewApiSmoke({
     headers: previewHeaders,
     fetchImpl
   });
-  assertSimulationContract(readiness.payload, '/api/simulation/readiness');
+  assertReadinessContract(readiness.payload, '/api/simulation/readiness');
+  assertReadinessProviderMetadata(readiness.payload);
   if (readiness.payload.migrations?.approved !== true) {
     throw new Error('/api/simulation/readiness did not report approved simulation migrations.');
   }
@@ -86,12 +88,12 @@ export async function runPreviewApiSmoke({
     headers: previewHeaders,
     fetchImpl
   });
-  assertSimulationContract(signals.payload, '/api/simulation/signals');
+  assertSimulationOutputContract(signals.payload, '/api/simulation/signals');
   if (!Array.isArray(signals.payload.signals)) {
     throw new Error('/api/simulation/signals did not return a signal array.');
   }
   assertSimulationSafe(signals.payload, '/api/simulation/signals');
-  log(`/api/simulation/signals ${signals.payload.signals.length}`);
+  log(`/api/simulation/signals ${signals.payload.provider} ${signals.payload.signals.length}`);
 
   const suggestions = await requestJson({
     baseUrl: normalizedBaseUrl,
@@ -99,12 +101,12 @@ export async function runPreviewApiSmoke({
     headers: previewHeaders,
     fetchImpl
   });
-  assertSimulationContract(suggestions.payload, '/api/simulation/risk-suggestions');
+  assertSimulationOutputContract(suggestions.payload, '/api/simulation/risk-suggestions');
   if (!Array.isArray(suggestions.payload.suggestions)) {
     throw new Error('/api/simulation/risk-suggestions did not return a suggestion array.');
   }
   assertSimulationSafe(suggestions.payload, '/api/simulation/risk-suggestions');
-  log(`/api/simulation/risk-suggestions ${suggestions.payload.suggestions.length}`);
+  log(`/api/simulation/risk-suggestions ${suggestions.payload.provider} ${suggestions.payload.suggestions.length}`);
 
   const auditRead = await requestJson({
     baseUrl: normalizedBaseUrl,
@@ -112,7 +114,7 @@ export async function runPreviewApiSmoke({
     headers: previewHeaders,
     fetchImpl
   });
-  assertSimulationContract(auditRead.payload, '/api/simulation/audit-events');
+  assertSimulationAvailabilityContract(auditRead.payload, '/api/simulation/audit-events');
   if (!Array.isArray(auditRead.payload.events)) {
     throw new Error('/api/simulation/audit-events did not return an event array.');
   }
@@ -145,9 +147,12 @@ export async function runPreviewApiSmoke({
     workspace: workspace.payload.source ?? 'unknown-source',
     readiness: readiness.payload.migrations?.approved ? 'approved' : 'needs-review',
     signals: signals.payload.signals.length,
+    signalProvider: signals.payload.provider,
     suggestions: suggestions.payload.suggestions.length,
+    suggestionProvider: suggestions.payload.provider,
     auditRead: auditRead.payload.source ?? 'unknown-source',
-    auditWrite: auditWrite.statusCode
+    auditWrite: auditWrite.statusCode,
+    smokeScope: 'availability-and-schema-only'
   };
 }
 
@@ -243,14 +248,53 @@ function assertHostedHealth(payload) {
   }
 }
 
-function assertSimulationContract(payload, path) {
+function assertSimulationAvailabilityContract(payload, path) {
   if (
     payload?.product !== 'SafeFlow' ||
     payload?.simulationOnly !== true ||
     payload?.safetyBoundary?.noLivePatientData !== true ||
     payload?.safetyBoundary?.humanReviewRequired !== true
   ) {
+    throw new Error(`${path} did not return the SafeFlow simulation availability contract.`);
+  }
+}
+
+function assertReadinessContract(payload, path) {
+  if (
+    payload?.mode !== 'simulation' ||
+    payload?.clinicalUse !== false ||
+    payload?.validationStatus !== PREVIEW_VALIDATION_STATUS ||
+    !hasPreviewExplanation(payload?.explanation)
+  ) {
     throw new Error(`${path} did not return the SafeFlow simulation safety contract.`);
+  }
+
+  assertSimulationAvailabilityContract(payload, path);
+}
+
+function assertSimulationOutputContract(payload, path) {
+  if (
+    payload?.mode !== 'simulation' ||
+    payload?.clinicalUse !== false ||
+    payload?.validationStatus !== PREVIEW_VALIDATION_STATUS ||
+    !hasPreviewExplanation(payload?.explanation) ||
+    typeof payload?.provider !== 'string' ||
+    typeof payload?.source !== 'string'
+  ) {
+    throw new Error(`${path} did not return the SafeFlow simulation safety contract.`);
+  }
+
+  assertSimulationAvailabilityContract(payload, path);
+}
+
+function assertReadinessProviderMetadata(payload) {
+  if (
+    typeof payload?.providerMetadata?.signals?.provider !== 'string' ||
+    typeof payload?.providerMetadata?.signals?.providerId !== 'string' ||
+    typeof payload?.providerMetadata?.suggestions?.provider !== 'string' ||
+    typeof payload?.providerMetadata?.suggestions?.providerId !== 'string'
+  ) {
+    throw new Error('/api/simulation/readiness did not return signal and suggestion provider metadata.');
   }
 }
 
@@ -280,6 +324,13 @@ function assertSimulationSafe(payload, path) {
   if (SECRET_VALUE_PATTERN.test(serialized)) {
     throw new Error(`${path} exposed a secret-like value.`);
   }
+}
+
+function hasPreviewExplanation(value) {
+  return typeof value === 'string' &&
+    /preview only/i.test(value) &&
+    /not clinically validated/i.test(value) &&
+    /not for clinical decision-making/i.test(value);
 }
 
 function isCliEntryPoint(metaUrl, argvPath) {

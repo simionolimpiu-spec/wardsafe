@@ -396,6 +396,56 @@ describe('SafeFlow private API handler', () => {
     warning.mockRestore();
   });
 
+  it('does not silently fall back to placeholder readiness providers outside preview simulation mode', async () => {
+    const workspaceSnapshot = {
+      schemaVersion: 1,
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: {
+        noLivePatientData: true,
+        directCareIdentifiers: false,
+        humanReviewRequired: true
+      },
+      workspace: {
+        summary: { wardName: 'Day Care Unit', patientCount: 2 },
+        patients: []
+      }
+    };
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const { Pool } = createSequencedPoolFactory([
+      [{ workspace_snapshot: workspaceSnapshot }],
+      [],
+      { error: new Error('missing relation clinical_signals') }
+    ]);
+    const apiHandler = createSafeFlowApiHandler({
+      Pool,
+      readSecret: async () => JSON.stringify({
+        username: 'safeflow_api',
+        password: 'secret-password',
+        host: 'private-rds.example',
+        port: 5432,
+        dbname: 'safeflow'
+      }),
+      env: {
+        SAFEFLOW_ENVIRONMENT: 'pilot',
+        SAFEFLOW_SIMULATION_ONLY: 'true',
+        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
+        SAFEFLOW_DATA_MODE: 'database'
+      }
+    });
+
+    const response = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/readiness' } }
+    });
+
+    expect(response.statusCode).toBe(503);
+    expect(JSON.parse(response.body)).toEqual({
+      error: 'SafeFlow database route unavailable.'
+    });
+    expect(warning).not.toHaveBeenCalled();
+    warning.mockRestore();
+  });
+
   it('loads private simulation signals from PostgreSQL when database mode is configured', async () => {
     const { Pool, query } = createPoolFactory({
       rows: [{
@@ -487,6 +537,40 @@ describe('SafeFlow private API handler', () => {
       signals: []
     });
     expect(warning).toHaveBeenCalledTimes(1);
+    warning.mockRestore();
+  });
+
+  it('does not silently fall back to placeholder signals outside preview simulation mode', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const { Pool } = createPoolFactory({
+      error: new Error('missing relation clinical_signals')
+    });
+    const apiHandler = createSafeFlowApiHandler({
+      Pool,
+      readSecret: async () => JSON.stringify({
+        username: 'safeflow_api',
+        password: 'secret-password',
+        host: 'private-rds.example',
+        dbname: 'safeflow'
+      }),
+      env: {
+        SAFEFLOW_ENVIRONMENT: 'pilot',
+        SAFEFLOW_SIMULATION_ONLY: 'true',
+        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
+        SAFEFLOW_DATA_MODE: 'database'
+      }
+    });
+
+    const response = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/signals' } },
+      queryStringParameters: { patientId: 'DCU-031' }
+    });
+
+    expect(response.statusCode).toBe(503);
+    expect(JSON.parse(response.body)).toEqual({
+      error: 'SafeFlow database route unavailable.'
+    });
+    expect(warning).not.toHaveBeenCalled();
     warning.mockRestore();
   });
 
