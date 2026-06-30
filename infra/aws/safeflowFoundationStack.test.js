@@ -189,16 +189,24 @@ describe('SafeFlowFoundationStack', () => {
 
   it('exposes a public function URL for the simulation preview with origin-aware CORS', () => {
     const template = synthesizeTemplate('simulation', {
-      publicPreviewOrigin: 'https://preview.example.com'
+      publicPreviewOrigin: 'https://preview.example.com',
+      previewAccessToken: 'safe-preview-token-for-review-12345'
     });
 
     template.hasResourceProperties('AWS::Lambda::Url', {
       AuthType: 'NONE',
       Cors: Match.objectLike({
         AllowCredentials: false,
-        AllowHeaders: ['Content-Type'],
+        AllowHeaders: ['Content-Type', 'X-SafeFlow-Preview-Token'],
         AllowMethods: ['GET', 'POST', 'OPTIONS'],
         AllowOrigins: ['https://preview.example.com']
+      })
+    });
+    template.hasResourceProperties('AWS::Lambda::Function', {
+      Environment: Match.objectLike({
+        Variables: Match.objectLike({
+          SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
+        })
       })
     });
     template.hasOutput('PublicApiUrl', {

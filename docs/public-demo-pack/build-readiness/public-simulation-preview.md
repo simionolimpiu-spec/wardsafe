@@ -41,14 +41,16 @@ A shareable preview needs publicly reachable hosting for both the frontend and t
 ### Frontend build
 
 - `VITE_SAFEFLOW_API_BASE_URL=https://preview-api.example.com`
+- `VITE_SAFEFLOW_PREVIEW_ACCESS_TOKEN=replace-with-shared-preview-token`
 
-This is a public, non-secret URL. Do not place `OPENAI_API_KEY` or any other secret in Vite client env.
+The API URL is public and non-secret. The preview access token is bundled into the browser app, so treat it as a shared preview gate rather than strong authentication. Keep Amplify password protection enabled before sharing the frontend URL. Do not place `OPENAI_API_KEY` or any other backend secret in Vite client env.
 
 ### API runtime
 
 - `SAFEFLOW_ENVIRONMENT=simulation`
 - `SAFEFLOW_SIMULATION_ONLY=true`
 - `SAFEFLOW_ALLOWED_ORIGIN=https://preview.example.com`
+- `SAFEFLOW_PREVIEW_ACCESS_TOKEN=replace-with-the-same-long-random-preview-token`
 
 Optional backend-only variables:
 
@@ -60,6 +62,8 @@ Optional backend-only variables:
 
 - Set `SAFEFLOW_ALLOWED_ORIGIN` to the exact preview frontend origin.
 - Avoid `*` for the shared preview unless it is a temporary internal-only diagnostic step.
+- Set `SAFEFLOW_PREVIEW_ACCESS_TOKEN` for the Lambda and `VITE_SAFEFLOW_PREVIEW_ACCESS_TOKEN` for the frontend to the same long random value.
+- The Lambda rejects public preview API calls that do not include `X-SafeFlow-Preview-Token`.
 - The current backend defaults to local development origin when no preview origin is configured.
 
 ## Visible Safety Boundary
@@ -78,6 +82,7 @@ The public preview must keep the following visible:
 For the first external preview:
 
 - use Amplify Hosting preview protection or an equivalent managed access gate
+- use the preview access token gate for direct API calls
 - share only with named collaborators
 - avoid building custom authentication until the preview workflow itself is stable
 

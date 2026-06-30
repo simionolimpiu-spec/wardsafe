@@ -3,6 +3,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
+const MIN_PREVIEW_ACCESS_TOKEN_LENGTH = 24;
 
 export const REQUIRED_DEPLOYMENT_CONFIRMATIONS = Object.freeze([
   'SAFEFLOW_SIMULATION_ONLY',
@@ -66,6 +67,17 @@ export function validateDeploymentEnvironment(env = process.env) {
 
   if (!env.AWS_PROFILE && !env.AWS_ACCESS_KEY_ID) {
     errors.push('AWS_PROFILE or AWS_ACCESS_KEY_ID must be set for local AWS CLI/CDK authentication.');
+  }
+
+  const previewAccessToken = typeof env.SAFEFLOW_PREVIEW_ACCESS_TOKEN === 'string'
+    ? env.SAFEFLOW_PREVIEW_ACCESS_TOKEN.trim()
+    : '';
+
+  if (
+    previewAccessToken.length < MIN_PREVIEW_ACCESS_TOKEN_LENGTH ||
+    /^(changeme|placeholder|example|test|token|replace(?:-.+)?)$/i.test(previewAccessToken)
+  ) {
+    errors.push(`SAFEFLOW_PREVIEW_ACCESS_TOKEN must be set to a non-placeholder value at least ${MIN_PREVIEW_ACCESS_TOKEN_LENGTH} characters long before public preview deploy.`);
   }
 
   return errors;

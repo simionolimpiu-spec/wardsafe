@@ -1,4 +1,4 @@
-import { buildApiUrl } from './apiBaseUrl.js';
+import { buildApiUrl, createApiHeaders } from './apiBaseUrl.js';
 
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
 const SECRET_VALUE_PATTERN = /(postgres:\/\/|\bsk-[A-Za-z0-9_-]{8,}|\barn:aws:[^\s"'}]+)/i;
@@ -14,7 +14,7 @@ export async function requestSignalTimeline({
     const response = await fetchImpl(
       buildApiUrl(`/api/simulation/signals?patientId=${encodeURIComponent(patientId)}`, { env }),
       {
-        headers: { Accept: 'application/json' }
+        headers: createApiHeaders({ Accept: 'application/json' }, { env })
       }
     );
     if (!response.ok) return null;
@@ -47,7 +47,7 @@ export async function requestRiskSuggestions({
     const response = await fetchImpl(
       buildApiUrl(`/api/simulation/risk-suggestions?patientId=${encodeURIComponent(patientId)}`, { env }),
       {
-        headers: { Accept: 'application/json' }
+        headers: createApiHeaders({ Accept: 'application/json' }, { env })
       }
     );
     if (!response.ok) return null;
@@ -87,7 +87,7 @@ export async function recordRiskSuggestionAction({
       buildApiUrl(`/api/simulation/risk-suggestions/${encodeURIComponent(suggestionId)}/actions`, { env }),
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: createApiHeaders({ 'Content-Type': 'application/json' }, { env }),
         body: JSON.stringify(payload)
       }
     );

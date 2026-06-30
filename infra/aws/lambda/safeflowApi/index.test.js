@@ -22,8 +22,44 @@ describe('SafeFlow private API handler', () => {
       'content-type': 'application/json',
       'Access-Control-Allow-Origin': 'https://preview.example.com',
       'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type,X-SafeFlow-Preview-Token'
     });
+  });
+
+  it('allows CORS preflight without exposing route data', async () => {
+    const apiHandler = createSafeFlowApiHandler({
+      env: {
+        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
+      }
+    });
+
+    const response = await apiHandler({
+      requestContext: { http: { method: 'OPTIONS', path: '/api/simulation/workspace' } }
+    });
+
+    expect(response.statusCode).toBe(204);
+    expect(response.body).toBe('');
+  });
+
+  it('requires the preview token when the public preview gate is configured', async () => {
+    const apiHandler = createSafeFlowApiHandler({
+      env: {
+        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
+      }
+    });
+
+    const missingToken = await apiHandler();
+    const validToken = await apiHandler({
+      headers: {
+        'X-SafeFlow-Preview-Token': 'safe-preview-token-for-review-12345'
+      }
+    });
+
+    expect(missingToken.statusCode).toBe(401);
+    expect(JSON.parse(missingToken.body)).toEqual({
+      error: 'Preview access token required.'
+    });
+    expect(validToken.statusCode).toBe(200);
   });
 
   it('returns simulation metadata without exposing configured resource identifiers', async () => {

@@ -1,4 +1,4 @@
-import { buildApiUrl } from './apiBaseUrl.js';
+import { buildApiUrl, createApiHeaders } from './apiBaseUrl.js';
 
 export async function requestReadinessReport({
   fetchImpl = globalThis.fetch,
@@ -8,7 +8,7 @@ export async function requestReadinessReport({
 
   try {
     const response = await fetchImpl(buildApiUrl('/api/simulation/readiness', { env }), {
-      headers: { Accept: 'application/json' }
+      headers: createApiHeaders({ Accept: 'application/json' }, { env })
     });
     if (!response.ok) return null;
 

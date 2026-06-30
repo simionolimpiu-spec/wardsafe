@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { timingSafeEqual } from 'node:crypto';
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import { Pool as PgPool } from 'pg';
 import {
@@ -50,6 +51,16 @@ export function createSafeFlowApiHandler({
     const respond = (statusCode, payload) => jsonResponse(statusCode, payload, env);
 
     try {
+      if (method === 'OPTIONS') {
+        return noContentResponse(env);
+      }
+
+      if (!isPreviewAccessAuthorized(event, env)) {
+        return respond(401, {
+          error: 'Preview access token required.'
+        });
+      }
+
       if (method === 'GET' && path === '/api/simulation/workspace') {
         if (!databaseMode) {
           return respond(200, placeholderWorkspace({ env, simulationOnly }));
@@ -210,6 +221,33 @@ export function createSafeFlowApiHandler({
 
 function shouldUseDatabaseMode(env) {
   return env.SAFEFLOW_DATA_MODE === 'database';
+}
+
+function isPreviewAccessAuthorized(event, env) {
+  const expectedToken = typeof env.SAFEFLOW_PREVIEW_ACCESS_TOKEN === 'string'
+    ? env.SAFEFLOW_PREVIEW_ACCESS_TOKEN.trim()
+    : '';
+
+  if (!expectedToken) {
+    return true;
+  }
+
+  const providedToken = getHeaderValue(event, 'x-safeflow-preview-token')?.trim() ?? '';
+  if (!providedToken) {
+    return false;
+  }
+
+  const expected = Buffer.from(expectedToken);
+  const provided = Buffer.from(providedToken);
+
+  return expected.length === provided.length && timingSafeEqual(expected, provided);
+}
+
+function getHeaderValue(event, headerName) {
+  const headers = event.headers ?? {};
+  const match = Object.entries(headers).find(([name]) => name.toLowerCase() === headerName);
+
+  return typeof match?.[1] === 'string' ? match[1] : null;
 }
 
 async function createPoolConfigFromSecret({ env, readSecret }) {
@@ -417,6 +455,14 @@ function jsonResponse(statusCode, payload, env = process.env) {
       'content-type': 'application/json'
     },
     body: JSON.stringify(payload)
+  };
+}
+
+function noContentResponse(env = process.env) {
+  return {
+    statusCode: 204,
+    headers: createCorsHeaders(env),
+    body: ''
   };
 }
 

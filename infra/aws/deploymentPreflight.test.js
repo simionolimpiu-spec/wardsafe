@@ -9,7 +9,8 @@ describe('SafeFlow AWS deployment preflight', () => {
     SAFEFLOW_SIMULATION_ONLY: 'true',
     SAFEFLOW_ACCOUNT_MFA_CONFIRMED: 'true',
     SAFEFLOW_BUDGET_CONFIRMED: 'true',
-    SAFEFLOW_DEPLOYMENT_APPROVED: 'true'
+    SAFEFLOW_DEPLOYMENT_APPROVED: 'true',
+    SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
   };
 
   it('passes only when all simulation deployment confirmations are present', async () => {
@@ -45,6 +46,21 @@ describe('SafeFlow AWS deployment preflight', () => {
     await expect(preflight()).resolves.toBe(1);
     expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('CDK_DEFAULT_REGION must be eu-west-2'));
     expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('SAFEFLOW_BUDGET_CONFIRMED must be true'));
+  });
+
+  it('requires a non-placeholder preview access token before public preview deploy', async () => {
+    const stderr = { write: vi.fn() };
+    const preflight = createDeploymentPreflight({
+      env: {
+        ...approvedEnv,
+        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'changeme'
+      },
+      stdout: { write: vi.fn() },
+      stderr
+    });
+
+    await expect(preflight()).resolves.toBe(1);
+    expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('SAFEFLOW_PREVIEW_ACCESS_TOKEN must be set'));
   });
 
   it('rejects root AWS credentials before diff or deploy can run', async () => {

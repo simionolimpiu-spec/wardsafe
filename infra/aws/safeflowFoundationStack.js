@@ -48,6 +48,11 @@ export class SafeFlowFoundationStack extends Stack {
         ? process.env.SAFEFLOW_ALLOWED_ORIGIN.trim()
         : 'http://127.0.0.1:5173'
     ).replace(/\/+$/, '');
+    const previewAccessToken = typeof props.previewAccessToken === 'string' && props.previewAccessToken.trim()
+      ? props.previewAccessToken.trim()
+      : typeof process.env.SAFEFLOW_PREVIEW_ACCESS_TOKEN === 'string' && process.env.SAFEFLOW_PREVIEW_ACCESS_TOKEN.trim()
+        ? process.env.SAFEFLOW_PREVIEW_ACCESS_TOKEN.trim()
+        : '';
     const databaseRemovalPolicy = resolveRemovalPolicy(profile.database.removalPolicy);
 
     const foundationKey = new kms.Key(this, 'SafeFlowFoundationKey', {
@@ -245,6 +250,7 @@ export class SafeFlowFoundationStack extends Stack {
         SAFEFLOW_DATA_CLASSIFICATION: profile.dataClassification,
         SAFEFLOW_DATA_MODE: 'database',
         SAFEFLOW_ALLOWED_ORIGIN: publicPreviewOrigin,
+        ...(previewAccessToken ? { SAFEFLOW_PREVIEW_ACCESS_TOKEN: previewAccessToken } : {}),
         DATABASE_SECRET_ARN: appDatabaseSecret.secretArn,
         PROVIDER_CONFIG_SECRET_ARN: providerConfigSecret.secretArn,
         DOCUMENT_BUCKET_NAME: documentBucket.bucketName,
@@ -280,7 +286,7 @@ export class SafeFlowFoundationStack extends Stack {
       authType: lambda.FunctionUrlAuthType.NONE,
       cors: {
         allowCredentials: false,
-        allowedHeaders: ['Content-Type'],
+        allowedHeaders: ['Content-Type', 'X-SafeFlow-Preview-Token'],
         allowedMethods: [lambda.HttpMethod.GET, lambda.HttpMethod.POST, lambda.HttpMethod.OPTIONS],
         allowedOrigins: [publicPreviewOrigin]
       }

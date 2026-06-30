@@ -82,7 +82,7 @@ describe('createApiHandler', () => {
 
     expect(res.headers['Access-Control-Allow-Origin']).toBe('https://preview.example.com');
     expect(res.headers['Access-Control-Allow-Methods']).toBe('GET,POST,OPTIONS');
-    expect(res.headers['Access-Control-Allow-Headers']).toBe('Content-Type');
+    expect(res.headers['Access-Control-Allow-Headers']).toBe('Content-Type,X-SafeFlow-Preview-Token');
   });
 
   it('uses configured database providers by default when simulation database mode is set', async () => {
