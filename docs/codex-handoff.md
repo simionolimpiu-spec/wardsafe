@@ -134,3 +134,10 @@ Local-only untracked files remain from local tooling and deployment runs and sho
 - Branch: `public-demo-polish`.
 - The public preview now includes explicit `What this preview shows` / `What this preview does not show` callouts and clearer provenance labels on simulated output.
 - Safety boundaries remain unchanged: simulation-only preview, placeholder providers still in use for signals and risk suggestions, and no clinical validation claim.
+
+## Preview Demo Script
+
+- Branch: `preview-demo-script`.
+- Stakeholder demo script, public review checklist, feedback prompts, and feedback template live in [public-demo-pack/stakeholder-demo-script.md](public-demo-pack/stakeholder-demo-script.md).
+- The exact safety statement must remain unchanged: `This preview is not clinically validated decision support and must not be used for clinical decision-making.`
+- Signals and risk suggestions remain placeholder-backed in the deployed preview, and the script should keep that limitation explicit.

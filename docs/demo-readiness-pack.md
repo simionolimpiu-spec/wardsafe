@@ -25,6 +25,8 @@ It demonstrates handover and discharge flow, simulated patient-safety signals, s
 
 It does not demonstrate clinical validation, live NHS integration, real ML-backed risk modelling, real patient-data processing, or deployment-ready clinical decision support.
 
+For the reusable stakeholder demo script, review checklist, feedback prompts, and feedback template, see [docs/public-demo-pack/stakeholder-demo-script.md](docs/public-demo-pack/stakeholder-demo-script.md).
+
 ## Hospital Insights simulation layer
 
 ### Feature summary
