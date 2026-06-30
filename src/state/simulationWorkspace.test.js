@@ -24,9 +24,11 @@ describe('createInitialSimulationState', () => {
     const state = createInitialSimulationState();
 
     expect(state).toMatchObject({
-      version: 1,
+      version: 2,
       selectedView: 'board',
       selectedPatientId: simulatedPatients[0].id,
+      selectedScenarioId: 'day-care-treatment-pathway',
+      currentWardName: 'Day Care Unit',
       signalSnapshots: {},
       settings: {
         compactMode: false,
@@ -73,6 +75,19 @@ describe('simulationReducer', () => {
 
     expect(selected.selectedView).toBe('handover');
     expect(selected.selectedPatientId).toBe('DCU-017');
+  });
+
+  it('switches demo scenarios without losing the active workspace view', () => {
+    const navigated = reduce({ type: 'navigation/changed', payload: { view: 'handover' } });
+    const selected = reduce(
+      { type: 'scenario/selected', payload: { scenarioId: 'amu-discharge-readiness-review' } },
+      navigated
+    );
+
+    expect(selected.selectedView).toBe('handover');
+    expect(selected.selectedScenarioId).toBe('amu-discharge-readiness-review');
+    expect(selected.selectedPatientId).toBe('DCU-044');
+    expect(selectPatient(selected).id).toBe('DCU-044');
   });
 
   it('adds and completes a task with audit labels', () => {

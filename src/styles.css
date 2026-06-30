@@ -73,12 +73,43 @@ textarea {
 .topbar-actions {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-left: auto;
 }
 
 .hospital-insights-trigger {
   white-space: nowrap;
+}
+
+.demo-scenario-control {
+  color: #17436f;
+  display: grid;
+  gap: 4px;
+  min-width: 220px;
+}
+
+.demo-scenario-control span {
+  color: #617083;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.demo-scenario-control select {
+  background: #fff;
+  border: 1px solid #b5cce8;
+  border-radius: 8px;
+  color: #17436f;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
+.demo-scenario-control small {
+  color: #617083;
+  font-size: 0.77rem;
+  line-height: 1.35;
 }
 
 .safety-banner,
@@ -786,6 +817,13 @@ textarea {
   color: #005eb8;
   font-size: 0.84rem;
   font-weight: 800;
+  margin: 6px 0 0;
+}
+
+.insights-ward {
+  color: #17436f;
+  font-size: 0.84rem;
+  font-weight: 700;
   margin: 6px 0 0;
 }
 

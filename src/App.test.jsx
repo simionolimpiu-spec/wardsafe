@@ -38,6 +38,14 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('button', { name: /review report/i })).toBeInTheDocument();
   });
 
+  it('renders a demo scenario selector in the main header', () => {
+    render(<App />);
+
+    const selector = screen.getByRole('combobox', { name: /demo scenario/i });
+    expect(selector).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: /day care treatment pathway review/i })).toBeInTheDocument();
+  });
+
   it('opens and closes the hospital insights drawer with comparison cues', async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -106,6 +114,84 @@ describe('SafeFlow prototype', () => {
     await user.click(within(report).getByRole('button', { name: /close report/i }));
 
     expect(screen.queryByRole('dialog', { name: /safeFlow simulation review report/i })).not.toBeInTheDocument();
+  });
+
+  it('switches demo scenarios and updates the selected patient and report context', async () => {
+    const user = userEvent.setup();
+    const fetch = vi.fn((input) => {
+      if (typeof input === 'string' && input.startsWith('/api/simulation/signals?patientId=DCU-031')) {
+        return Promise.resolve({
+          ok: true,
+          json: vi.fn().mockResolvedValue({
+            product: 'SafeFlow',
+            simulationOnly: true,
+            signals: [
+              {
+                signalId: 'signal-dcu-031-potassium-0910',
+                syntheticPatientRef: 'DCU-031',
+                simulationOnly: true
+              }
+            ]
+          })
+        });
+      }
+
+      if (typeof input === 'string' && input.startsWith('/api/simulation/risk-suggestions?patientId=DCU-031')) {
+        return Promise.resolve({
+          ok: true,
+          json: vi.fn().mockResolvedValue({
+            product: 'SafeFlow',
+            simulationOnly: true,
+            suggestions: []
+          })
+        });
+      }
+
+      if (typeof input === 'string' && input.startsWith('/api/simulation/signals?patientId=DCU-044')) {
+        return Promise.resolve({
+          ok: true,
+          json: vi.fn().mockResolvedValue({
+            product: 'SafeFlow',
+            simulationOnly: true,
+            signals: [
+              {
+                signalId: 'signal-dcu-044-discharge-1130',
+                syntheticPatientRef: 'DCU-044',
+                simulationOnly: true
+              }
+            ]
+          })
+        });
+      }
+
+      if (typeof input === 'string' && input.startsWith('/api/simulation/risk-suggestions?patientId=DCU-044')) {
+        return Promise.resolve({
+          ok: true,
+          json: vi.fn().mockResolvedValue({
+            product: 'SafeFlow',
+            simulationOnly: true,
+            suggestions: []
+          })
+        });
+      }
+
+      return Promise.resolve({
+        ok: false,
+        json: vi.fn().mockResolvedValue({})
+      });
+    });
+    vi.stubGlobal('fetch', fetch);
+    render(<App />);
+
+    await user.selectOptions(screen.getByRole('combobox', { name: /demo scenario/i }), 'amu-discharge-readiness-review');
+
+    expect(await screen.findByRole('heading', { name: 'DCU-044' })).toBeInTheDocument();
+    expect(screen.getByText(/Acute Medical Unit/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /review report/i }));
+
+    const report = screen.getByRole('dialog', { name: /safeFlow simulation review report/i });
+    expect(within(report).getByText(/DCU-044/i)).toBeInTheDocument();
   });
 
   it('shows the fuller clinical workspace shell without official branding', () => {

@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { wardSummary } from './data/simulatedPatients.js';
 import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
 import { getSimulationReviewReportSnapshot } from './services/simulationReviewReportService.js';
 import { createSbarDraft } from './domain/draftProvider.js';
@@ -15,6 +14,7 @@ import {
   requestSimulationAuditEvents
 } from './services/auditClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
+import { DemoScenarioSelector } from './components/DemoScenarioSelector.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
@@ -33,6 +33,7 @@ import { DischargesView } from './components/DischargesView.jsx';
 import { ReportsView } from './components/ReportsView.jsx';
 import { SettingsView } from './components/SettingsView.jsx';
 import { SimulationDialog } from './components/SimulationDialog.jsx';
+import { getDemoScenarioOptions } from './data/demoScenarios.js';
 import {
   selectActiveEscalationCount,
   selectAllTasks,
@@ -169,6 +170,7 @@ function buildSignalSnapshot({ signals, suggestions } = {}) {
 export default function App() {
   const { state, dispatch, reset } = useSimulationWorkspace();
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
+  const demoScenarioOptions = useMemo(() => getDemoScenarioOptions(), []);
   const reviewSignals = useMemo(
     () => selectPatientSimulationSignals(state, selectedPatient?.id),
     [selectedPatient?.id, state]
@@ -181,8 +183,11 @@ export default function App() {
     return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
   }, [selectedPatient, potassiumFlag]);
   const hospitalInsights = useMemo(
-    () => getHospitalInsightsSnapshot({ currentWardName: wardSummary.unitName }),
-    [wardSummary.unitName]
+    () => getHospitalInsightsSnapshot({
+      currentWardName: state.currentWardName,
+      hospitalName: state.hospitalName
+    }),
+    [state.currentWardName, state.hospitalName]
   );
   const selectedSignalSnapshot = state.signalSnapshots?.[selectedPatient?.id] ?? null;
   const simulationReviewReport = useMemo(
@@ -213,6 +218,13 @@ export default function App() {
   const [isHospitalInsightsOpen, setIsHospitalInsightsOpen] = useState(false);
   const [isReviewReportOpen, setIsReviewReportOpen] = useState(false);
   const [dialog, setDialog] = useState(null);
+
+  useEffect(() => {
+    setDraftText(formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag })));
+    setAuditEvents(initialAuditEvents(selectedPatient));
+    setDraftStatus('');
+    setServerAuditStatus('');
+  }, [selectedPatient?.id]);
 
   useEffect(() => {
     let cancelled = false;
@@ -289,6 +301,15 @@ export default function App() {
 
   function navigate(view) {
     dispatch({ type: 'navigation/changed', payload: { view } });
+    setDraftStatus('');
+    setServerAuditStatus('');
+  }
+
+  function changeDemoScenario(scenarioId) {
+    dispatch({ type: 'scenario/selected', payload: { scenarioId } });
+    setIsHospitalInsightsOpen(false);
+    setIsReviewReportOpen(false);
+    setDialog(null);
     setDraftStatus('');
     setServerAuditStatus('');
   }
@@ -507,6 +528,12 @@ export default function App() {
             <h1>SafeFlow</h1>
           </div>
           <div className="topbar-actions">
+            <DemoScenarioSelector
+              description={state.scenarioDescription}
+              onChange={changeDemoScenario}
+              options={demoScenarioOptions}
+              value={state.selectedScenarioId}
+            />
             <span className="product-note">SafeFlow Nursing concept</span>
             <SimulationReviewReportButton
               isOpen={isReviewReportOpen}
@@ -543,7 +570,7 @@ export default function App() {
           <div>
             {state.selectedView === 'board' && (
               <WardSafetyBoard
-                summary={wardSummary}
+                summary={state.wardSummary}
                 patients={state.patients}
                 selectedPatientId={selectedPatient.id}
                 onSelectPatient={selectPatient}

@@ -1,5 +1,5 @@
 import { buildSimulationSignals } from '../domain/signalEngine.js';
-import { simulatedPatients } from '../data/simulatedPatients.js';
+import { getDemoScenarioById, getDefaultDemoScenario } from '../data/demoScenarios.js';
 import { initialAuditEvents } from '../domain/workflowEvents.js';
 
 const defaultSettings = {
@@ -7,6 +7,7 @@ const defaultSettings = {
   draftProvider: 'auto',
   simulationUser: 'Leanne Mitchell'
 };
+const SIMULATION_WORKSPACE_VERSION = 2;
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -144,40 +145,8 @@ function normaliseSignalSnapshot(snapshot) {
   };
 }
 
-export function createInitialSimulationState() {
-  const patients = clone(simulatedPatients).map((patient) => ({
-    ...patient,
-    observations: []
-  }));
-  const escalations = patients
-    .filter((patient) => patient.escalation !== 'None')
-    .map((patient, index) => ({
-      id: `escalation-${index + 1}`,
-      patientId: patient.id,
-      reason: patient.nextAction,
-      owner: patient.responsibleNurse,
-      status: patient.escalation === 'Active' ? 'Active' : 'Monitoring'
-    }));
-  const auditEvents = patients.flatMap((patient) =>
-    initialAuditEvents(patient).map((event) => ({
-      ...event,
-      patientId: patient.id
-    }))
-  ).reverse();
-
-  return {
-    version: 1,
-    selectedView: 'board',
-    selectedPatientId: patients[0]?.id ?? null,
-    patients,
-    escalations,
-    signalSnapshots: {},
-    intelligence: {
-      suggestionActions: []
-    },
-    auditEvents,
-    settings: { ...defaultSettings }
-  };
+export function createInitialSimulationState(scenarioId = getDefaultDemoScenario().id) {
+  return buildSimulationState(getDemoScenarioById(scenarioId));
 }
 
 export function simulationReducer(state, action) {
@@ -193,6 +162,13 @@ export function simulationReducer(state, action) {
 
     case 'patient/selected':
       return { ...state, selectedPatientId: action.payload.patientId };
+
+    case 'scenario/selected':
+      return {
+        ...buildSimulationState(getDemoScenarioById(action.payload.scenarioId)),
+        settings: { ...state.settings },
+        selectedView: state.selectedView
+      };
 
     case 'task/added': {
       const { patientId, label, owner, due } = action.payload;
@@ -500,4 +476,45 @@ export function selectPatientSimulationSignals(state, patientId = state.selected
       receivedAt: snapshot.receivedAt
     }
   });
+}
+
+function buildSimulationState(scenario) {
+  const patients = clone(scenario.patients).map((patient) => ({
+    ...patient,
+    observations: Array.isArray(patient.observations) ? patient.observations : []
+  }));
+  const escalations = patients
+    .filter((patient) => patient.escalation !== 'None')
+    .map((patient, index) => ({
+      id: `escalation-${index + 1}`,
+      patientId: patient.id,
+      reason: patient.nextAction,
+      owner: patient.responsibleNurse,
+      status: patient.escalation === 'Active' ? 'Active' : 'Monitoring'
+    }));
+  const auditEvents = patients.flatMap((patient) =>
+    initialAuditEvents(patient).map((event) => ({
+      ...event,
+      patientId: patient.id
+    }))
+  ).reverse();
+
+  return {
+    version: SIMULATION_WORKSPACE_VERSION,
+    selectedScenarioId: scenario.id,
+    selectedView: 'board',
+    selectedPatientId: scenario.selectedPatientId,
+    scenarioDescription: scenario.description,
+    currentWardName: scenario.currentWardName,
+    hospitalName: scenario.hospitalName,
+    wardSummary: clone(scenario.wardSummary),
+    patients,
+    escalations,
+    signalSnapshots: {},
+    intelligence: {
+      suggestionActions: []
+    },
+    auditEvents,
+    settings: { ...defaultSettings }
+  };
 }

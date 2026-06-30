@@ -69,6 +69,7 @@ export function HospitalInsightsDrawer({ isOpen = false, onClose = () => {}, sna
             <p className="insights-lede">{snapshot.introLine}</p>
             <p className="insights-roadmap">{snapshot.roadmapLine}</p>
             <p className="insights-hospital">Hospital benchmark: {snapshot.hospitalName}</p>
+            <p className="insights-ward">Current ward: {snapshot.currentWardName}</p>
             {snapshot.sourceStatus && (
               <div className="insights-source-note" role="note" aria-label="Simulation data source status">
                 <span className="insights-source-pill">
