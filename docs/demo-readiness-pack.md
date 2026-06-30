@@ -142,15 +142,53 @@ The demo stays inside explicit safety boundaries:
 
 Clinical judgement remains central, and outputs remain human-editable, explainable and reviewable.
 
-## Suggested demo flow
+## Live demo walkthrough
 
-1. Start with the simulation-only boundary and confirm that the prototype uses fictional patient journeys only.
-2. Open the fictional ward safety board and show how the board is organised for review.
-3. Review one fictional patient journey and call out the structured documentation fields.
-4. Show documentation gaps and explainable safety cues without presenting treatment or prescribing advice.
-5. Show handover completeness support and discharge-readiness blockers for the same fictional journey.
-6. Open the simulation report and fictional scenario coverage summary to show deterministic rule traceability.
-7. Close with the governance position: human review required, clinical judgement remains central, and the prototype is not for live clinical deployment.
+Use this flow when presenting SafeFlow in Presentation Mode to NHS nursing leadership, ward managers, clinical educators, digital safety leads, or innovation and transformation teams.
+
+SafeFlow is simulation-only at this stage. No real patient data is used. No live NHS systems are connected. The prototype does not provide diagnosis, treatment advice, risk prediction, or automated escalation. SafeFlow demonstrates how structured documentation, review cues, ward comparison, and learning summaries could support human-led review.
+
+1. Enable Presentation Mode
+   - Open the prototype in Presentation Mode before the audience arrives so the experience feels guided, calm, and focused.
+   - Speaker note: "This is a simulation-only review surface designed for demonstration and discussion."
+
+2. Select a Demo Scenario
+   - Choose a fictional ward and patient scenario that makes documentation gaps, handover issues, or discharge blockers easy to understand.
+   - Speaker note: "We are using a fictional scenario so we can review workflow quality without using real patient data."
+
+3. Review the simulated patient context
+   - Walk through the patient summary, the current ward context, and the simulated care story.
+   - Speaker note: "Nothing here is connected to live NHS systems; it is a controlled review example."
+
+4. Review patient-level cues
+   - Show the review cues that explain why a patient needs attention, such as documentation gaps, handover completeness issues, escalation readiness cues, or discharge-readiness blockers.
+   - Speaker note: "These cues are prompts for human review, not diagnosis, treatment advice, or automated escalation."
+
+5. Open Hospital Insights
+   - Open the Hospital Insights view to show the ward-level context behind the selected patient.
+   - Speaker note: "This helps the team understand the ward at a glance without exposing real patients or operational data."
+
+6. Compare the ward against simulated hospital benchmarks
+   - Compare the ward against the simulated hospital benchmarks to show how review quality, workload patterns, and readiness signals are framed in the prototype.
+   - Speaker note: "These are fictional benchmarks for learning and discussion, not performance claims or clinical predictions."
+
+7. Open the Simulation Review Report
+   - Open the report to bring together the simulated patient context, the patient-level cues, and the ward comparison in one review summary.
+   - Speaker note: "The report is a structured learning aid that keeps the human review boundary visible."
+
+8. Explain the future NHS/AWS roadmap
+   - Close by explaining that future NHS/AWS work would require governance, integration approval, safety review, and deployment controls before anything moved beyond simulation.
+   - Speaker note: "Today we are demonstrating a prototype pathway; any real-world future use would need separate approval, connectivity, and safety assurance."
+
+### Short close
+
+Reinforce the key boundary at the end of the walkthrough:
+
+- SafeFlow is simulation-only today.
+- No real patient data is used.
+- No live NHS systems are connected.
+- Human review remains central.
+- The prototype shows how structured documentation, review cues, ward comparison, and learning summaries could support safer team discussion.
 
 ## Reviewer talking points
 
