@@ -1,695 +1,164 @@
-import { useEffect, useMemo, useState } from 'react';
-import { wardSummary } from './data/simulatedPatients.js';
-import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
-import { createSbarDraft } from './domain/draftProvider.js';
-import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
-import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
-import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
-import { requestReadinessReport } from './services/readinessClient.js';
-import { requestSbarDraft } from './services/draftClient.js';
-import { requestRiskSuggestions, requestSignalTimeline } from './services/signalClient.js';
-import { requestWorkspaceSnapshot } from './services/workspaceClient.js';
-import {
-  requestSimulationAuditEvent,
-  requestSimulationAuditEvents
-} from './services/auditClient.js';
-import { AuditLearningView } from './components/AuditLearningView.jsx';
-import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
-import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
-import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
-import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
-import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
-import { SafetyBanner } from './components/SafetyBanner.jsx';
-import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
-import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
-import { WorkspaceNav } from './components/WorkspaceNav.jsx';
-import { MyPatientsView } from './components/MyPatientsView.jsx';
-import { ObservationsView } from './components/ObservationsView.jsx';
-import { TasksView } from './components/TasksView.jsx';
-import { EscalationsView } from './components/EscalationsView.jsx';
-import { DischargesView } from './components/DischargesView.jsx';
-import { ReportsView } from './components/ReportsView.jsx';
-import { SettingsView } from './components/SettingsView.jsx';
-import { SimulationDialog } from './components/SimulationDialog.jsx';
-import {
-  selectActiveEscalationCount,
-  selectAllTasks,
-  selectPatient as selectPatientFromState,
-  selectPatientSimulationSignals
-} from './state/simulationWorkspace.js';
-import { useSimulationWorkspace } from './state/useSimulationWorkspace.js';
-import { buildWardReportRows, downloadSimulationCsv } from './domain/simulationExport.js';
+import { ArrowRight, CircleAlert, FileText, ShieldCheck, Waypoints } from 'lucide-react';
+import { CepBrief } from './components/CepBrief.jsx';
+import { ClinicalPathwayVisual } from './components/ClinicalPathwayVisual.jsx';
+import { InteractiveDashboard } from './components/InteractiveDashboard.jsx';
+import { ProductHeroVisual } from './components/ProductHeroVisual.jsx';
 
-const tabs = [
-  { id: 'board', label: 'Ward board' },
-  { id: 'handover', label: 'Handover' },
-  { id: 'potassium', label: 'Potassium flag' },
-  { id: 'scenarios', label: 'Scenarios' },
-  { id: 'audit', label: 'Audit' }
+const governancePoints = [
+  'Simulation-first workflow with no patient data shown',
+  'Prepared for governance review before any pilot pathway',
+  'Designed to support clinical judgement, not replace it'
 ];
-const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
 
-function formatDraftSections(draft) {
-  return Object.entries(draft.sections)
-    .map(([key, value]) => `${key.toUpperCase()}: ${value}`)
-    .join('\n\n');
-}
-
-function cloneSnapshotEntry(entry) {
-  return entry && typeof entry === 'object' && !Array.isArray(entry) ? { ...entry } : null;
-}
-
-function isSignalEnvelope(value) {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value) && Array.isArray(value.signals);
-}
-
-function isSuggestionEnvelope(value) {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value) && Array.isArray(value.suggestions);
-}
-
-function coerceFreshness(value, hasData) {
-  if (value && typeof value === 'object' && !Array.isArray(value)) {
-    return {
-      ...value,
-      state:
-        typeof value.state === 'string' && value.state.trim()
-          ? value.state.trim()
-          : hasData
-            ? 'current'
-            : 'unavailable',
-      label:
-        typeof value.label === 'string' && value.label.trim()
-          ? value.label.trim()
-          : hasData
-            ? 'Latest simulated signal feed'
-            : 'No signal freshness available.'
-    };
-  }
-
-  if (typeof value === 'string' && value.trim()) {
-    return {
-      state: value.trim(),
-      label: 'Latest simulated signal feed'
-    };
-  }
-
-  return hasData
-    ? {
-        state: 'current',
-        label: 'Latest simulated signal feed'
-      }
-    : {
-        state: 'unavailable',
-        label: 'No signal freshness available.'
-      };
-}
-
-function collectMissingDataNotes(signalTimeline, riskSuggestions, hasData) {
-  const notes = [];
-
-  for (const signal of signalTimeline) {
-    if (!signal || typeof signal !== 'object') continue;
-    const sourceNotes = Array.isArray(signal.missingData) ? signal.missingData : signal.missingDataNotes;
-    if (!Array.isArray(sourceNotes)) continue;
-    for (const note of sourceNotes) {
-      const text = typeof note === 'string' ? note.trim() : String(note ?? '').trim();
-      if (text) notes.push(text);
-    }
-  }
-
-  for (const suggestion of riskSuggestions) {
-    if (!suggestion || typeof suggestion !== 'object') continue;
-    const sourceNotes = Array.isArray(suggestion.missingData) ? suggestion.missingData : suggestion.missingDataNotes;
-    if (!Array.isArray(sourceNotes)) continue;
-    for (const note of sourceNotes) {
-      const text = typeof note === 'string' ? note.trim() : String(note ?? '').trim();
-      if (text) notes.push(text);
-    }
-  }
-
-  if (!hasData && notes.length === 0) {
-    notes.push('No signal snapshot available yet.');
-  }
-
-  return notes;
-}
-
-function receivedAtFromEntries(signalTimeline, riskSuggestions) {
-  const candidateFields = [
-    ['receivedAt', 'effectiveAt', 'recordedAt'],
-    ['receivedAt', 'createdAt', 'updatedAt']
-  ];
-
-  const entries = [signalTimeline, riskSuggestions];
-  for (let index = 0; index < entries.length; index += 1) {
-    for (const entry of entries[index]) {
-      if (!entry || typeof entry !== 'object') continue;
-      for (const field of candidateFields[index]) {
-        const value = entry[field];
-        if (typeof value === 'string' && value.trim()) {
-          return value.trim();
-        }
-      }
-    }
-  }
-
-  return null;
-}
-
-function extractSignalSourceMetadata(envelope) {
-  if (!isSignalEnvelope(envelope) && !isSuggestionEnvelope(envelope)) {
-    return null;
-  }
-
-  return {
-    source: typeof envelope.source === 'string' ? envelope.source : 'unknown-simulation-provider',
-    provider: typeof envelope.provider === 'string' ? envelope.provider : 'simulation-provider',
-    mode: typeof envelope.mode === 'string' ? envelope.mode : 'simulation',
-    clinicalUse: envelope.clinicalUse === false ? false : null,
-    validationStatus: typeof envelope.validationStatus === 'string'
-      ? envelope.validationStatus
-      : 'not-clinically-validated',
-    explanation: typeof envelope.explanation === 'string'
-      ? envelope.explanation
-      : PREVIEW_BOUNDARY_COPY
-  };
-}
-
-function formatProviderLabel(providerId, providerType) {
-  const labels = {
-    placeholder: 'placeholder preview provider',
-    'database-read-model': 'database read model',
-    fixture: 'fictional fixture provider',
-    'simulation-provider': 'simulation provider'
-  };
-
-  return `${providerId} (${labels[providerType] ?? 'simulation provider'})`;
-}
-
-function buildSignalSnapshot({ signals, suggestions } = {}) {
-  const signalTimelineSource = isSignalEnvelope(signals) ? signals.signals : signals;
-  const riskSuggestionSource = isSuggestionEnvelope(suggestions) ? suggestions.suggestions : suggestions;
-  const signalTimeline = Array.isArray(signalTimelineSource) ? signalTimelineSource.map(cloneSnapshotEntry).filter(Boolean) : [];
-  const riskSuggestions = Array.isArray(riskSuggestionSource) ? riskSuggestionSource.map(cloneSnapshotEntry).filter(Boolean) : [];
-  const hasData = signalTimeline.length > 0 || riskSuggestions.length > 0;
-  const sourceFreshnessCandidate =
-    signalTimeline.find((signal) => signal && signal.sourceFreshness != null)?.sourceFreshness ??
-    riskSuggestions.find((suggestion) => suggestion && suggestion.sourceFreshness != null)?.sourceFreshness;
-
-  return {
-    signalTimeline,
-    riskSuggestions,
-    signalSourceMetadata: extractSignalSourceMetadata(signals),
-    suggestionSourceMetadata: extractSignalSourceMetadata(suggestions),
-    sourceFreshness: coerceFreshness(sourceFreshnessCandidate, hasData),
-    missingDataNotes: collectMissingDataNotes(signalTimeline, riskSuggestions, hasData),
-    receivedAt: receivedAtFromEntries(signalTimeline, riskSuggestions)
-  };
-}
+const previewPoints = [
+  'Readiness checks',
+  'Risk signal review',
+  'Escalation prompts',
+  'Audit learning'
+];
 
 export default function App() {
-  const { state, dispatch, reset } = useSimulationWorkspace();
-  const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
-  const reviewSignals = useMemo(
-    () => selectPatientSimulationSignals(state, selectedPatient?.id),
-    [selectedPatient?.id, state]
-  );
-  const allTasks = selectAllTasks(state);
-  const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
-  const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges', 'potassium'].includes(state.selectedView);
-  const potassiumFlag = useMemo(() => evaluatePotassiumSafetyGap(selectedPatient), [selectedPatient]);
-  const riskSupport = useMemo(() => {
-    return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
-  }, [selectedPatient, potassiumFlag]);
-  const hospitalInsights = useMemo(
-    () => getHospitalInsightsSnapshot({ currentWardName: wardSummary.unitName }),
-    [wardSummary.unitName]
-  );
-  const initialDraft = useMemo(() => {
-    return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
-  }, [selectedPatient, potassiumFlag]);
-  const [draftText, setDraftText] = useState(initialDraft);
-  const [auditEvents, setAuditEvents] = useState(() => initialAuditEvents(selectedPatient));
-  const [draftStatus, setDraftStatus] = useState('');
-  const [isGeneratingDraft, setIsGeneratingDraft] = useState(false);
-  const [isCheckingBackend, setIsCheckingBackend] = useState(false);
-  const [isCheckingReadiness, setIsCheckingReadiness] = useState(false);
-  const [backendWorkspace, setBackendWorkspace] = useState(null);
-  const [readinessReport, setReadinessReport] = useState(null);
-  const [serverAuditStatus, setServerAuditStatus] = useState('');
-  const [backendAuditEvents, setBackendAuditEvents] = useState([]);
-  const [backendAuditStatus, setBackendAuditStatus] = useState('');
-  const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
-  const [isHospitalInsightsOpen, setIsHospitalInsightsOpen] = useState(false);
-  const [dialog, setDialog] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadSignalSnapshot() {
-      const patientId = selectedPatient?.id;
-      if (!patientId) return;
-
-      let signals = null;
-      let suggestions = null;
-      try {
-        [signals, suggestions] = await Promise.all([
-          requestSignalTimeline({ patientId, includeMetadata: true }),
-          requestRiskSuggestions({ patientId, includeMetadata: true })
-        ]);
-      } catch {
-        signals = null;
-        suggestions = null;
-      }
-
-      if (cancelled) return;
-
-      dispatch({
-        type: 'signal/snapshotStored',
-        payload: {
-          patientId,
-          snapshot: buildSignalSnapshot({ signals, suggestions })
-        }
-      });
-    }
-
-    void loadSignalSnapshot();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [dispatch, selectedPatient?.id]);
-
-  function selectPatient(patientId) {
-    const nextPatient = selectPatientFromState(state, patientId) ?? state.patients[0];
-    const nextFlag = evaluatePotassiumSafetyGap(nextPatient);
-    const nextDraft = createSbarDraft({ patient: nextPatient, flag: nextFlag });
-    dispatch({ type: 'patient/selected', payload: { patientId: nextPatient.id } });
-    setDraftText(formatDraftSections(nextDraft));
-    setAuditEvents(initialAuditEvents(nextPatient));
-    setDraftStatus('');
-    setServerAuditStatus('');
-  }
-
-  async function generateProviderDraft() {
-    setIsGeneratingDraft(true);
-    setDraftStatus('');
-    const draft = await requestSbarDraft({ patient: selectedPatient, flag: potassiumFlag });
-    setDraftText(formatDraftSections(draft));
-    setDraftStatus(draft.provider === 'openai' ? 'OpenAI provider draft ready' : 'Deterministic fallback draft ready');
-    setIsGeneratingDraft(false);
-  }
-
-  function saveDraft() {
-    const label = 'SBAR draft edited and saved';
-    setAuditEvents((events) => [
-      createAuditEvent({ label, detail: draftText }),
-      ...events
-    ]);
-    setDraftStatus(label);
-    mirrorServerAuditEvent({
-      patientId: selectedPatient.id,
-      eventType: 'draft.saved',
-      eventSummary: 'Fictional SBAR draft saved',
-      sourceTable: 'drafts',
-      metadata: { screen: 'potassium' }
-    });
-  }
-
-  function navigate(view) {
-    dispatch({ type: 'navigation/changed', payload: { view } });
-    setDraftStatus('');
-    setServerAuditStatus('');
-  }
-
-  function mirrorServerAuditEvent({ patientId, eventType, eventSummary, sourceTable, metadata = {} }) {
-    setServerAuditStatus('');
-    void requestSimulationAuditEvent({
-      patientId,
-      eventType,
-      eventSummary,
-      actorRole: 'charge_nurse',
-      sourceTable,
-      metadata
-    }).then((event) => {
-      if (event?.source) {
-        setServerAuditStatus(`Server audit mirrored to ${event.source}`);
-      }
-    });
-  }
-
-  function recordObservation(observation) {
-    dispatch({ type: 'observation/added', payload: observation });
-    setDraftStatus(`Observation recorded for ${observation.patientId}`);
-    mirrorServerAuditEvent({
-      patientId: observation.patientId,
-      eventType: 'observation.recorded',
-      eventSummary: 'Fictional observation recorded',
-      sourceTable: 'observations',
-      metadata: { screen: 'observations', news2: observation.news2 }
-    });
-  }
-
-  function addTask(task) {
-    dispatch({ type: 'task/added', payload: task });
-    setDraftStatus(`Task added for ${task.patientId}`);
-    mirrorServerAuditEvent({
-      patientId: task.patientId,
-      eventType: 'task.created',
-      eventSummary: 'Fictional task created',
-      sourceTable: 'tasks',
-      metadata: { screen: state.selectedView }
-    });
-  }
-
-  function changeTaskStatus(change) {
-    dispatch({ type: 'task/statusChanged', payload: change });
-    setDraftStatus(`Task marked ${change.status}`);
-    mirrorServerAuditEvent({
-      patientId: change.patientId,
-      eventType: change.status === 'Done' ? 'task.completed' : 'task.reopened',
-      eventSummary: `Fictional task marked ${change.status}`,
-      sourceTable: 'tasks',
-      metadata: { screen: 'tasks', taskId: change.taskId, status: change.status }
-    });
-  }
-
-  function createEscalation(escalation) {
-    dispatch({ type: 'escalation/created', payload: escalation });
-    setDraftStatus(`Escalation created for ${escalation.patientId}`);
-    mirrorServerAuditEvent({
-      patientId: escalation.patientId,
-      eventType: 'escalation.created',
-      eventSummary: 'Fictional escalation created',
-      sourceTable: 'escalations',
-      metadata: { screen: 'escalations' }
-    });
-  }
-
-  function changeEscalationStatus(change) {
-    dispatch({ type: 'escalation/statusChanged', payload: change });
-    setDraftStatus(`Escalation ${change.status}`);
-    mirrorServerAuditEvent({
-      patientId: change.patientId,
-      eventType: change.status === 'Closed' ? 'escalation.closed' : 'escalation.updated',
-      eventSummary: `Fictional escalation ${change.status}`,
-      sourceTable: 'escalations',
-      metadata: { screen: 'escalations', escalationId: change.escalationId, status: change.status }
-    });
-  }
-
-  function saveHandover(handover) {
-    dispatch({ type: 'handover/saved', payload: handover });
-    setDraftStatus(`Handover saved for ${handover.patientId}`);
-    mirrorServerAuditEvent({
-      patientId: handover.patientId,
-      eventType: 'handover.saved',
-      eventSummary: 'Fictional handover saved',
-      sourceTable: 'handover',
-      metadata: { screen: 'handover', completion: Number(handover.handoverComplete) }
-    });
-  }
-
-  function saveDischargeBlockers(discharge) {
-    dispatch({ type: 'discharge/blockersChanged', payload: discharge });
-    setDraftStatus(`Discharge readiness saved for ${discharge.patientId}`);
-    mirrorServerAuditEvent({
-      patientId: discharge.patientId,
-      eventType: 'discharge.updated',
-      eventSummary: 'Fictional discharge readiness updated',
-      sourceTable: 'discharges',
-      metadata: { screen: 'discharges', blockerCount: discharge.blockers.length }
-    });
-  }
-
-  function exportWardBoard() {
-    try {
-      downloadSimulationCsv('safeflow-fictional-ward-board.csv', buildWardReportRows(state.patients));
-      setDraftStatus('Fictional ward board exported');
-    } catch {
-      setDraftStatus('Ward board export could not be created');
-    }
-  }
-
-  function saveSettings(settings) {
-    dispatch({ type: 'settings/changed', payload: settings });
-    setDraftStatus('Simulation settings saved');
-  }
-
-  async function checkBackendWorkspace() {
-    setIsCheckingBackend(true);
-    const snapshot = await requestWorkspaceSnapshot();
-    if (snapshot) {
-      setBackendWorkspace({
-        source: snapshot.source ?? 'simulation endpoint',
-        patientCount: snapshot.workspace?.summary?.patientCount ?? 0,
-        openTaskCount: snapshot.workspace?.summary?.openTaskCount ?? 0,
-        activeEscalationCount: snapshot.workspace?.summary?.activeEscalationCount ?? 0
-      });
-      setDraftStatus('Backend workspace check complete');
-    } else {
-      setBackendWorkspace(null);
-      setDraftStatus('Backend workspace unavailable; using browser-local simulation');
-    }
-    setIsCheckingBackend(false);
-  }
-
-  async function checkBuildReadiness() {
-    setIsCheckingReadiness(true);
-    const report = await requestReadinessReport();
-    if (report) {
-      setReadinessReport({
-        migrationLabel: report.migrations?.approved ? 'Migration approval current' : 'Migration approval needs review',
-        draftProvider: report.providers?.draft ?? 'Unknown',
-        workspaceProvider: report.providers?.workspace ?? 'Unknown',
-        auditProvider: report.providers?.audit ?? 'Unknown',
-        signalProvider: formatProviderLabel(
-          report.providerMetadata?.signals?.providerId ?? report.providers?.signals ?? 'unknown-signal-provider',
-          report.providerMetadata?.signals?.provider ?? 'simulation-provider'
-        ),
-        suggestionProvider: formatProviderLabel(
-          report.providerMetadata?.suggestions?.providerId ?? report.providers?.suggestions ?? 'unknown-suggestion-provider',
-          report.providerMetadata?.suggestions?.provider ?? 'simulation-provider'
-        ),
-        databaseLabel: report.database?.configured ? 'Simulation database configured' : 'Fixture mode',
-        boundaryNote: report.explanation ?? PREVIEW_BOUNDARY_COPY
-      });
-      setDraftStatus('Build readiness check complete');
-    } else {
-      setReadinessReport(null);
-      setDraftStatus('Build readiness unavailable; keep simulation-only defaults');
-    }
-    setIsCheckingReadiness(false);
-  }
-
-  async function refreshBackendAuditEvents() {
-    setIsRefreshingBackendAudit(true);
-    const auditPayload = await requestSimulationAuditEvents();
-
-    if (auditPayload) {
-      setBackendAuditEvents(auditPayload.events);
-      setBackendAuditStatus(`Backend audit source: ${auditPayload.source}`);
-      setDraftStatus('Backend audit refresh complete');
-    } else {
-      setBackendAuditEvents([]);
-      setBackendAuditStatus('Backend audit unavailable; local audit retained');
-      setDraftStatus('Backend audit unavailable; local audit retained');
-    }
-
-    setIsRefreshingBackendAudit(false);
-  }
-
-  function confirmReset() {
-    reset();
-    setDialog(null);
-    setDraftStatus('Simulation reset to fictional defaults');
-  }
-
-  function requestContact(patient) {
-    setDialog({ type: 'contact', patientId: patient.id });
-  }
-
-  function confirmContact() {
-    const patientId = dialog?.patientId;
-    if (!patientId) return;
-    dispatch({
-      type: 'contact/recorded',
-      payload: {
-        patientId,
-        detail: `Medical team contact documented for ${patientId} in simulation.`
-      }
-    });
-    setDialog(null);
-    setDraftStatus(`Simulated team contact recorded for ${patientId}`);
-    mirrorServerAuditEvent({
-      patientId,
-      eventType: 'contact.recorded',
-      eventSummary: 'Fictional team contact recorded',
-      sourceTable: 'contacts',
-      metadata: { screen: 'patient_panel' }
-    });
-  }
-
   return (
-    <main className={`app-shell ${state.settings.compactMode ? 'compact-mode' : ''}`}>
-      <WorkspaceNav
-        activeView={state.selectedView}
-        escalationCount={selectActiveEscalationCount(state)}
-        onNavigate={navigate}
-        taskCount={openTaskCount}
-      />
-      <div className="workspace-main">
-        <header className="topbar">
-          <div>
-            <p className="eyebrow">Simulation prototype</p>
-            <h1>SafeFlow</h1>
-          </div>
-          <div className="topbar-actions">
-            <span className="product-note">SafeFlow Nursing concept</span>
-            <HospitalInsightsButton
-              isOpen={isHospitalInsightsOpen}
-              onClick={() => setIsHospitalInsightsOpen((current) => !current)}
-            />
-          </div>
+    <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <div className="site-shell">
+        <header className="site-header">
+          <a className="site-brand" href="#top">
+            <span aria-hidden="true" className="brand-mark">SF</span>
+            <span className="brand-copy">
+              <span className="brand-name">SafeFlow</span>
+              <span className="brand-tag">Simulation-first ward safety workflow</span>
+            </span>
+          </a>
+          <nav aria-label="Primary" className="site-nav">
+            <a href="#product-preview">Product preview</a>
+            <a href="#pilot-pathway">Pilot pathway</a>
+            <a href="#cep-brief">CEP brief</a>
+          </nav>
         </header>
-        <SafetyBanner />
-        <nav className="tab-list" aria-label="Prototype journey">
-          {tabs.map((tab) => (
-            <button
-              aria-selected={state.selectedView === tab.id}
-              className={state.selectedView === tab.id ? 'active' : ''}
-              key={tab.id}
-              onClick={() => navigate(tab.id)}
-              role="tab"
-              type="button"
-            >
-              {tab.label}
-            </button>
-          ))}
-        </nav>
-        <div className={`dashboard-layout ${showPatientPanel ? '' : 'full-width'}`}>
+
+        <main id="main-content">
+          <section className="hero-band" id="top">
+            <div className="hero-layout">
+              <div className="hero-copy">
+                <p className="eyebrow">Nurse-led ward safety workflow</p>
+                <h1>Make ward risk visible before escalation is missed.</h1>
+                <p className="hero-intro">
+                  SafeFlow is an early-stage digital safety platform for ward teams. It brings readiness
+                  checks, risk signals, escalation prompts, and audit learning into one simulation-first
+                  workflow so clinical teams can test safety processes before moving anywhere near live deployment.
+                </p>
+                <div className="hero-actions">
+                  <a className="primary-link" href="#cep-brief">
+                    Open CEP brief
+                    <ArrowRight aria-hidden="true" size={18} />
+                  </a>
+                  <a className="secondary-link" href="#pilot-pathway">View pilot pathway</a>
+                </div>
+                <div className="hero-meta" role="list" aria-label="SafeFlow overview">
+                  {governancePoints.map((item) => (
+                    <div className="hero-meta-item" key={item} role="listitem">
+                      <ShieldCheck aria-hidden="true" size={18} />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <ProductHeroVisual />
+            </div>
+          </section>
+
+          <section aria-label="Simulation safety boundary" className="boundary-band">
+            <div className="boundary-grid">
+              <div className="boundary-callout">
+                <div className="boundary-heading">
+                  <ShieldCheck aria-hidden="true" size={20} />
+                  <strong>Simulation boundary</strong>
+                </div>
+                <p>
+                  Fictional workflow only. No patient data shown. Not clinically validated.
+                  Not for clinical decision-making.
+                </p>
+              </div>
+              <div className="boundary-callout">
+                <div className="boundary-heading">
+                  <Waypoints aria-hidden="true" size={20} />
+                  <strong>Pilot pathway</strong>
+                </div>
+                <p>
+                  Prepared for governance review, mapped against escalation and audit needs, and intended
+                  for simulation-first workflow validation before any live deployment discussion.
+                </p>
+              </div>
+              <div className="boundary-callout">
+                <div className="boundary-heading">
+                  <CircleAlert aria-hidden="true" size={20} />
+                  <strong>Claims boundary</strong>
+                </div>
+                <p>
+                  SafeFlow does not claim NHS approval, clinical validation, diagnosis, prescribing,
+                  or automation that replaces clinicians.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section className="site-section" id="product-preview">
+            <div className="section-intro">
+              <p className="eyebrow">Interactive product preview</p>
+              <h2>One calm workspace for readiness, signals, escalation, and learning.</h2>
+              <p>
+                The preview below uses fictional, simulation-only content to show how SafeFlow could make
+                ward pressure visible without leaning on alarm-heavy dashboards or overclaiming clinical capability.
+              </p>
+              <div className="inline-list" role="list" aria-label="Preview features">
+                {previewPoints.map((item) => (
+                  <span className="inline-pill" key={item} role="listitem">{item}</span>
+                ))}
+              </div>
+            </div>
+            <InteractiveDashboard />
+          </section>
+
+          <section className="site-section site-section-alt" id="pilot-pathway">
+            <div className="section-intro">
+              <p className="eyebrow">Pilot pathway</p>
+              <h2>Trace the route from bedside observation to audit learning.</h2>
+              <p>
+                This pathway is designed for governance review and simulation walk-throughs. Each step shows
+                what the workflow captures, what it avoids, and how SafeFlow keeps the clinician in charge.
+              </p>
+            </div>
+            <ClinicalPathwayVisual />
+          </section>
+
+          <section className="site-section" id="cep-brief">
+            <div className="section-intro">
+              <p className="eyebrow">CEP brief</p>
+              <h2>Summarise the early-stage product case without overstating readiness.</h2>
+              <p>
+                This brief keeps the language governance-safe: early-stage, simulation-first, mapped against
+                ward workflow needs, and prepared for review before any live deployment decision.
+              </p>
+            </div>
+            <CepBrief />
+          </section>
+        </main>
+
+        <footer className="site-footer">
           <div>
-            {state.selectedView === 'board' && (
-              <WardSafetyBoard
-                summary={wardSummary}
-                patients={state.patients}
-                selectedPatientId={selectedPatient.id}
-                onSelectPatient={selectPatient}
-                onExport={exportWardBoard}
-              />
-            )}
-            {state.selectedView === 'patients' && (
-              <MyPatientsView
-                patients={state.patients}
-                simulationUser={state.settings.simulationUser}
-                onSelectPatient={selectPatient}
-              />
-            )}
-            {state.selectedView === 'observations' && (
-              <ObservationsView patient={selectedPatient} onRecord={recordObservation} />
-            )}
-            {state.selectedView === 'tasks' && (
-              <TasksView
-                onAddTask={addTask}
-                onChangeStatus={changeTaskStatus}
-                patients={state.patients}
-                selectedPatientId={selectedPatient.id}
-                tasks={allTasks}
-              />
-            )}
-            {state.selectedView === 'escalations' && (
-              <EscalationsView
-                escalations={state.escalations}
-                onChangeStatus={changeEscalationStatus}
-                onCreate={createEscalation}
-                patients={state.patients}
-                selectedPatientId={selectedPatient.id}
-                simulationUser={state.settings.simulationUser}
-              />
-            )}
-            {state.selectedView === 'handover' && (
-              <HandoverDischargeView
-                onSaveHandover={saveHandover}
-                patient={selectedPatient}
-                riskSupport={riskSupport}
-              />
-            )}
-            {state.selectedView === 'discharges' && (
-              <DischargesView
-                onSaveBlockers={saveDischargeBlockers}
-                onSelectPatient={selectPatient}
-                patients={state.patients}
-                selectedPatientId={selectedPatient.id}
-              />
-            )}
-            {state.selectedView === 'reports' && (
-              <ReportsView auditEvents={state.auditEvents} onExportWard={exportWardBoard} patients={state.patients} />
-            )}
-            {state.selectedView === 'potassium' && (
-              <PotassiumSafetyGapView
-                patient={selectedPatient}
-                flag={potassiumFlag}
-                draftText={draftText}
-                onDraftChange={setDraftText}
-                onGenerateDraft={generateProviderDraft}
-                onSaveDraft={saveDraft}
-                isGeneratingDraft={isGeneratingDraft}
-              />
-            )}
-            {state.selectedView === 'scenarios' && <ScenarioLibraryView />}
-            {state.selectedView === 'audit' && (
-              <AuditLearningView
-                backendAuditStatus={backendAuditStatus}
-                backendEvents={backendAuditEvents}
-                events={state.auditEvents}
-                isLoadingBackendAudit={isRefreshingBackendAudit}
-                onRefreshBackendAudit={refreshBackendAuditEvents}
-              />
-            )}
-            {state.selectedView === 'settings' && (
-              <SettingsView
-                backendWorkspace={backendWorkspace}
-                isCheckingBackend={isCheckingBackend}
-                isCheckingReadiness={isCheckingReadiness}
-                onCheckBackend={checkBackendWorkspace}
-                onCheckReadiness={checkBuildReadiness}
-                onRequestReset={() => setDialog({ type: 'reset' })}
-                onSave={saveSettings}
-                readinessReport={readinessReport}
-                settings={state.settings}
-              />
-            )}
+            <strong>SafeFlow</strong>
+            <p>
+              Early-stage digital health product preview for simulation, governance review,
+              and workflow validation.
+            </p>
           </div>
-          {showPatientPanel && (
-            <PatientSafetyPanel
-              flag={potassiumFlag}
-              onAddTask={addTask}
-              onRequestContact={requestContact}
-              patient={selectedPatient}
-              reviewSignals={reviewSignals}
-              signalSnapshot={state.signalSnapshots?.[selectedPatient.id] ?? null}
-            />
-          )}
-        </div>
-        <ArchitectureStrip />
-        <HospitalInsightsDrawer
-          isOpen={isHospitalInsightsOpen}
-          onClose={() => setIsHospitalInsightsOpen(false)}
-          snapshot={hospitalInsights}
-        />
-        {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
-        {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
+          <div className="footer-note">
+            <FileText aria-hidden="true" size={18} />
+            <p>No patient data shown. No NHS endorsement claimed. Human review remains essential.</p>
+          </div>
+        </footer>
       </div>
-      {dialog?.type === 'reset' && (
-        <SimulationDialog confirmLabel="Confirm reset" onClose={() => setDialog(null)} onConfirm={confirmReset} title="Reset simulation">
-          <p>This clears browser-local changes and restores the original fictional scenario.</p>
-        </SimulationDialog>
-      )}
-      {dialog?.type === 'contact' && (
-        <SimulationDialog confirmLabel="Record contact" onClose={() => setDialog(null)} onConfirm={confirmContact} title="Record simulated team contact">
-          <p>No call will be placed. This records a fictional contact event for {dialog.patientId}.</p>
-        </SimulationDialog>
-      )}
-    </main>
+    </>
   );
 }

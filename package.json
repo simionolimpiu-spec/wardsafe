@@ -9,6 +9,7 @@
     "test": "vitest run --passWithNoTests --config ./vitest.config.js",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "a11y": "playwright test e2e/accessibility.spec.js",
     "infra:synth": "node infra/aws/runSynth.js",
     "infra:synth:dev": "node infra/aws/runSynth.js --environment=dev",
     "infra:synth:simulation": "node infra/aws/runSynth.js --environment=simulation",

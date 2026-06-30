@@ -1,112 +1,40 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-
-const appWiringMocks = vi.hoisted(() => ({
-  dispatch: vi.fn(),
-  requestRiskSuggestions: vi.fn(),
-  requestSignalTimeline: vi.fn()
-}));
-
-vi.mock('./state/useSimulationWorkspace.js', async () => {
-  const actual = await vi.importActual('./state/useSimulationWorkspace.js');
-  const workspace = await vi.importActual('./state/simulationWorkspace.js');
-
-  return {
-    ...actual,
-    useSimulationWorkspace: () => ({
-      state: workspace.createInitialSimulationState(),
-      dispatch: appWiringMocks.dispatch,
-      reset: vi.fn()
-    })
-  };
-});
-
-vi.mock('./services/signalClient.js', () => ({
-  requestRiskSuggestions: appWiringMocks.requestRiskSuggestions,
-  requestSignalTimeline: appWiringMocks.requestSignalTimeline
-}));
-
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it } from 'vitest';
 import App from './App.jsx';
 
-describe('App signal wiring', () => {
-  beforeEach(() => {
-    appWiringMocks.dispatch.mockReset();
-    appWiringMocks.requestRiskSuggestions.mockReset();
-    appWiringMocks.requestSignalTimeline.mockReset();
-  });
-
-  it('dispatches a safe signal snapshot for the selected fictional patient', async () => {
-    appWiringMocks.requestSignalTimeline.mockResolvedValue([
-      {
-        signalId: 'signal-dcu-031-news2-0915',
-        syntheticPatientRef: 'DCU-031',
-        simulationOnly: true,
-        sourceFreshness: 'current',
-        effectiveAt: '2026-06-10T09:15:00.000Z'
-      }
-    ]);
-    appWiringMocks.requestRiskSuggestions.mockResolvedValue([
-      {
-        suggestionId: 'suggestion-dcu-031-electrolyte-review',
-        syntheticPatientRef: 'DCU-031',
-        simulationOnly: true,
-        requiresHumanReview: true,
-        title: 'Review suggested: electrolyte review'
-      }
-    ]);
-
+describe('SafeFlow interactive controls', () => {
+  it('supports keyboard navigation across the hero workflow tabs', async () => {
+    const user = userEvent.setup();
     render(<App />);
 
-    await waitFor(() => {
-      expect(appWiringMocks.dispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'signal/snapshotStored',
-          payload: expect.objectContaining({
-            patientId: 'DCU-031',
-            snapshot: expect.objectContaining({
-              signalTimeline: expect.arrayContaining([
-                expect.objectContaining({
-                  signalId: 'signal-dcu-031-news2-0915'
-                })
-              ]),
-              riskSuggestions: expect.arrayContaining([
-                expect.objectContaining({
-                  suggestionId: 'suggestion-dcu-031-electrolyte-review'
-                })
-              ]),
-              sourceFreshness: expect.objectContaining({ state: 'current' }),
-              receivedAt: '2026-06-10T09:15:00.000Z'
-            })
-          })
-        })
-      );
-    });
+    const workflowTabs = screen.getByRole('tablist', { name: /safeflow workflow steps/i });
+    const readinessTab = within(workflowTabs).getByRole('tab', { name: /readiness/i });
+    readinessTab.focus();
 
-    expect(screen.getByRole('complementary', { name: /patient safety panel/i })).toBeInTheDocument();
+    await user.keyboard('{ArrowRight}');
+    expect(within(workflowTabs).getByRole('tab', { name: /signals/i })).toHaveFocus();
+    expect(screen.getByRole('heading', { level: 3, name: /risk signal review/i })).toBeInTheDocument();
+
+    await user.keyboard('{End}');
+    expect(within(workflowTabs).getByRole('tab', { name: /audit/i })).toHaveFocus();
+    expect(screen.getByRole('heading', { level: 3, name: /audit learning loop/i })).toBeInTheDocument();
   });
 
-  it('dispatches a fallback snapshot when signal reads are unavailable', async () => {
-    appWiringMocks.requestSignalTimeline.mockResolvedValue(null);
-    appWiringMocks.requestRiskSuggestions.mockResolvedValue(null);
-
+  it('supports keyboard navigation across the dashboard tabs', async () => {
+    const user = userEvent.setup();
     render(<App />);
 
-    await waitFor(() => {
-      expect(appWiringMocks.dispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'signal/snapshotStored',
-          payload: expect.objectContaining({
-            patientId: 'DCU-031',
-            snapshot: expect.objectContaining({
-              signalTimeline: [],
-              riskSuggestions: [],
-              sourceFreshness: expect.objectContaining({ state: 'unavailable' }),
-              missingDataNotes: expect.arrayContaining(['No signal snapshot available yet.']),
-              receivedAt: null
-            })
-          })
-        })
-      );
-    });
+    const dashboardTabs = screen.getByRole('tablist', { name: /dashboard sections/i });
+    const readinessTab = within(dashboardTabs).getByRole('tab', { name: /readiness/i });
+    readinessTab.focus();
+
+    await user.keyboard('{ArrowRight}');
+    expect(within(dashboardTabs).getByRole('tab', { name: /signals/i })).toHaveFocus();
+    expect(screen.getByText(/documentation gap cluster/i)).toBeInTheDocument();
+
+    await user.keyboard('{ArrowRight}');
+    expect(within(dashboardTabs).getByRole('tab', { name: /escalation/i })).toHaveFocus();
+    expect(screen.getByText(/observe -> review/i)).toBeInTheDocument();
   });
 });
