@@ -43,7 +43,7 @@ Local development must continue to work with the relative `/api` proxy flow when
 **Files:**
 - Modify: `docs/public-demo-pack/build-readiness/public-simulation-preview.md`
 
-- [ ] **Step 1: Add the exact preview contract**
+- [x] **Step 1: Add the exact preview contract**
 
 Write the missing deployment-ready sections so the doc clearly states:
 
@@ -55,7 +55,7 @@ Write the missing deployment-ready sections so the doc clearly states:
 
 Keep the wording simulation-only and explicitly non-clinical.
 
-- [ ] **Step 2: Pin the required environment variables**
+- [x] **Step 2: Pin the required environment variables**
 
 Make sure the doc lists:
 
@@ -65,11 +65,11 @@ Make sure the doc lists:
 
 State that `OPENAI_API_KEY` must not be added to frontend env.
 
-- [ ] **Step 3: Record the current public API output**
+- [x] **Step 3: Record the current public API output**
 
 Document that the deployment branch exposes the `PublicApiUrl` stack output and that it is the base URL the preview frontend should use.
 
-- [ ] **Step 4: Review the doc for safety wording**
+- [x] **Step 4: Review the doc for safety wording**
 
 Confirm the document still says:
 
@@ -79,7 +79,7 @@ Confirm the document still says:
 - not live NHS deployment
 - human review required
 
-- [ ] **Step 5: Stop and review the doc**
+- [x] **Step 5: Stop and review the doc**
 
 Read the final markdown once before touching infra or tests.
 
@@ -102,7 +102,7 @@ Expected: the doc is explicit about the public preview host, environment variabl
 - Modify: `infra/aws/lambda/safeflowApi/index.mjs`
 - Modify: `infra/aws/lambda/safeflowApi/index.test.js`
 
-- [ ] **Step 1: Resolve the preview origin once**
+- [x] **Step 1: Resolve the preview origin once**
 
 Use the same origin resolution pattern everywhere:
 
@@ -117,7 +117,7 @@ const publicPreviewOrigin =
 
 Keep local development as the fallback.
 
-- [ ] **Step 2: Expose the public function URL**
+- [x] **Step 2: Expose the public function URL**
 
 Add or keep the Lambda Function URL with:
 
@@ -135,11 +135,11 @@ apiFunction.addFunctionUrl({
 
 Also export a `PublicApiUrl` stack output so the hosted frontend has a stable public base URL.
 
-- [ ] **Step 3: Make the backend health payload truthfully show public ingress**
+- [x] **Step 3: Make the backend health payload truthfully show public ingress**
 
 Ensure the API health / placeholder responses expose `publicIngress: true` or equivalent metadata that matches the preview reality.
 
-- [ ] **Step 4: Keep the tests exact**
+- [x] **Step 4: Keep the tests exact**
 
 Update the stack and Lambda tests so they assert:
 
@@ -149,7 +149,7 @@ Update the stack and Lambda tests so they assert:
 - `PublicApiUrl` is emitted
 - the health metadata still reflects simulation-only mode
 
-- [ ] **Step 5: Run the focused infra tests**
+- [x] **Step 5: Run the focused infra tests**
 
 Run:
 
@@ -167,7 +167,7 @@ Expected: pass with the preview origin and public URL assertions.
 - Modify only if the preview contract needs a guardrail: `src/App.test.jsx`
 - Modify only if the visible boundary text needs to be restated: `src/components/SafetyBanner.jsx`
 
-- [ ] **Step 1: Keep public preview and local dev on the same contract**
+- [x] **Step 1: Keep public preview and local dev on the same contract**
 
 The client should continue to use:
 
@@ -181,11 +181,11 @@ export function buildApiUrl(path, { env = import.meta.env ?? {} } = {}) {
 
 Do not add frontend access to `OPENAI_API_KEY`.
 
-- [ ] **Step 2: Keep the fallback path safe**
+- [x] **Step 2: Keep the fallback path safe**
 
 If the preview URL is missing, malformed, or trimmed to empty, the app should keep using relative `/api` routes for local development and same-origin preview.
 
-- [ ] **Step 3: Keep the boundary wording visible**
+- [x] **Step 3: Keep the boundary wording visible**
 
 Preserve assertions for:
 
@@ -196,7 +196,7 @@ Preserve assertions for:
 - not live NHS deployment
 - human review required
 
-- [ ] **Step 4: Run the focused client tests**
+- [x] **Step 4: Run the focused client tests**
 
 Run:
 
@@ -211,7 +211,7 @@ Expected: pass, with the public preview URL contract and safety wording intact.
 **Files:**
 - None expected unless a validation failure exposes a real regression in the files above.
 
-- [ ] **Step 1: Run the full validation set**
+- [x] **Step 1: Run the full validation set**
 
 Run:
 
@@ -226,15 +226,15 @@ npm run infra:synth:dev
 npm run infra:synth:simulation
 ```
 
-- [ ] **Step 2: Fix only slice-caused failures**
+- [x] **Step 2: Fix only slice-caused failures**
 
 If a command fails, fix only issues caused by this deployment preview slice. Do not widen scope into unrelated feature work.
 
-- [ ] **Step 3: Commit and push the deployment branch**
+- [x] **Step 3: Commit and push the deployment branch**
 
 Commit only the preview deployment work, then push `deployment/public-simulation-preview`.
 
-- [ ] **Step 4: Refresh the PR summary**
+- [x] **Step 4: Refresh the PR summary**
 
 Update the PR body with:
 
@@ -243,6 +243,6 @@ Update the PR body with:
 - the exact preview origin CORS rule
 - the validation results
 
-- [ ] **Step 5: Stop at the branch handoff**
+- [x] **Step 5: Stop at the branch handoff**
 
 After the branch is pushed and the PR is updated, stop and hand the preview branch back for review.
