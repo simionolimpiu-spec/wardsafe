@@ -114,6 +114,7 @@ For the first external preview:
 - use Amplify Hosting preview protection or an equivalent managed access gate
 - use the preview access token gate for direct API calls
 - share only with named collaborators
+- do not share the URL with family members or other non-clinical viewers
 - avoid building custom authentication until the preview workflow itself is stable
 
 ## AWS Safety Prerequisites
