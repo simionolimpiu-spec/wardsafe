@@ -198,7 +198,7 @@ describe('SafeFlowFoundationStack', () => {
       Cors: Match.objectLike({
         AllowCredentials: false,
         AllowHeaders: ['Content-Type', 'X-SafeFlow-Preview-Token'],
-        AllowMethods: ['GET', 'POST', 'OPTIONS'],
+        AllowMethods: ['GET', 'POST'],
         AllowOrigins: ['https://preview.example.com']
       })
     });

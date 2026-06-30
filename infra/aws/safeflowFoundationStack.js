@@ -287,7 +287,7 @@ export class SafeFlowFoundationStack extends Stack {
       cors: {
         allowCredentials: false,
         allowedHeaders: ['Content-Type', 'X-SafeFlow-Preview-Token'],
-        allowedMethods: [lambda.HttpMethod.GET, lambda.HttpMethod.POST, lambda.HttpMethod.OPTIONS],
+        allowedMethods: [lambda.HttpMethod.GET, lambda.HttpMethod.POST],
         allowedOrigins: [publicPreviewOrigin]
       }
     });
