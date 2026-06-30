@@ -154,8 +154,17 @@ Local-only untracked files remain from local tooling and deployment runs and sho
 ## Public Simulation Preview Release Pack — PARKED FOR NOW
 
 - The public simulation preview release pack is parked for now.
-- IP / founder ownership pack: [docs/company/ip-founder-ownership-pack.md](company/ip-founder-ownership-pack.md)
+- IP / founder ownership pack remains parked for professional review: [docs/company/ip-founder-ownership-pack.md](company/ip-founder-ownership-pack.md)
 - Invention log: [docs/company/safeflow-invention-log.md](company/safeflow-invention-log.md)
+- Public claims register: [docs/company/public-claims-register.md](company/public-claims-register.md)
 - Key unresolved decisions: legal ownership, contributor IP assignment, confidentiality boundaries, external sharing rules, and whether SafeFlow sits under Aurora Nursing Services Ltd or a separate structure.
 - Reminder: this is internal preparation only and is not legal or accounting advice.
-- Next recommended workstream: public claims register
+- Key claim boundaries: simulation-only preview, placeholder-backed signals and risk suggestions, no real patient data, and no clinical validation or NHS readiness claim.
+- Next recommended branch: `nhs-cep-one-page-brief`
+
+## Public Claims Register
+
+- Branch: `public-claims-register`.
+- The public claims register controls approved wording and red-flag phrases before external sharing.
+- Keep the exact safety statement unchanged: `This preview is not clinically validated decision support and must not be used for clinical decision-making.`
+- Keep the exact product limitation unchanged: `Signals and risk suggestions remain placeholder-backed.`
