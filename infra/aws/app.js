@@ -17,6 +17,7 @@ const safeFlowProfile = resolveEnvironmentProfile(profileName, {
 new SafeFlowFoundationStack(app, safeFlowProfile.stackId, {
   stackName: safeFlowProfile.stackName,
   safeFlowProfile,
+  publicPreviewOrigin: process.env.SAFEFLOW_ALLOWED_ORIGIN,
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION ?? safeFlowProfile.region

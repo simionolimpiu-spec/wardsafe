@@ -45,7 +45,7 @@ describe('SafeFlow private API handler', () => {
       environment: 'simulation',
       simulationOnly: true,
       noLivePatientData: true,
-      publicIngress: false,
+      publicIngress: true,
       migrationManifestPath: 'database/migration-manifest.json',
       configuredResources: {
         hasDatabaseSecret: true,

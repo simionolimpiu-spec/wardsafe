@@ -34,6 +34,7 @@ A shareable preview needs publicly reachable hosting for both the frontend and t
 - Keep `SAFEFLOW_SIMULATION_ONLY=true` for all preview API environments.
 - Keep deterministic fallback behavior when `OPENAI_API_KEY` is absent.
 - Keep fictional data only and no live integration claims.
+- The current deployment branch exposes a public Lambda Function URL output named `PublicApiUrl`; use that as the public API base when you connect the hosted frontend.
 
 ## Required Environment Variables
 

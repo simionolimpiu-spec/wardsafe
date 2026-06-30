@@ -176,17 +176,17 @@ export function createSafeFlowApiHandler({
         return respond(404, { error: 'Not found' });
       }
 
-      return respond(200, {
-        service: 'SafeFlow API',
-        environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
-        simulationOnly,
-        noLivePatientData: true,
-        publicIngress: false,
-        migrationManifestPath: env.MIGRATION_MANIFEST_PATH,
-        configuredResources: {
-          hasDatabaseSecret: Boolean(env.DATABASE_SECRET_ARN),
-          hasProviderConfigSecret: Boolean(env.PROVIDER_CONFIG_SECRET_ARN),
-          hasDocumentBucket: Boolean(env.DOCUMENT_BUCKET_NAME)
+        return respond(200, {
+          service: 'SafeFlow API',
+          environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
+          simulationOnly,
+          noLivePatientData: true,
+          publicIngress: true,
+          migrationManifestPath: env.MIGRATION_MANIFEST_PATH,
+          configuredResources: {
+            hasDatabaseSecret: Boolean(env.DATABASE_SECRET_ARN),
+            hasProviderConfigSecret: Boolean(env.PROVIDER_CONFIG_SECRET_ARN),
+            hasDocumentBucket: Boolean(env.DOCUMENT_BUCKET_NAME)
         }
       });
     } catch (error) {
@@ -289,6 +289,7 @@ function placeholderWorkspace({ env, simulationOnly }) {
     simulationOnly,
     source: 'private-lambda-read-model-placeholder',
     safetyBoundary: safetyBoundary(),
+    publicIngress: true,
     workspace: {
       status: 'ready-for-approved-simulation-database',
       databaseReadModel: 'database/queries/simulationWorkspace.sql'
@@ -303,6 +304,7 @@ function placeholderReadiness({ env, simulationOnly }) {
     environment: env.SAFEFLOW_ENVIRONMENT ?? 'simulation',
     simulationOnly,
     safetyBoundary: safetyBoundary(),
+    publicIngress: true,
     providers: {
       draft: 'server-side-provider-secret',
       workspace: 'private-lambda-read-model-placeholder',
@@ -320,7 +322,6 @@ function placeholderReadiness({ env, simulationOnly }) {
       simulationOnly: true,
       manifestPath: env.MIGRATION_MANIFEST_PATH ?? 'database/migration-manifest.json'
     },
-    publicIngress: false
   };
 }
 
@@ -333,6 +334,7 @@ function placeholderSignals({ env, simulationOnly }) {
     simulationOnly,
     source: 'private-lambda-signals-placeholder',
     safetyBoundary: safetyBoundary(),
+    publicIngress: true,
     signals: []
   };
 }
@@ -346,6 +348,7 @@ function placeholderRiskSuggestions({ env, simulationOnly }) {
     simulationOnly,
     source: 'private-lambda-risk-suggestions-placeholder',
     safetyBoundary: safetyBoundary(),
+    publicIngress: true,
     suggestions: []
   };
 }
@@ -363,7 +366,7 @@ function placeholderRiskSuggestionAction({ env, simulationOnly }) {
       appendOnly: true,
       databaseWriteContract: 'database/queries/recordSimulationSuggestionAction.sql'
     },
-    publicIngress: false
+    publicIngress: true
   };
 }
 
@@ -380,7 +383,7 @@ function placeholderAuditWrite({ env, simulationOnly }) {
       appendOnly: true,
       databaseWriteContract: 'database/queries/insertSimulationAuditEvent.sql'
     },
-    publicIngress: false
+    publicIngress: true
   };
 }
 
@@ -393,6 +396,7 @@ function placeholderAuditEvents({ env, simulationOnly }) {
     simulationOnly,
     source: 'private-lambda-audit-placeholder',
     safetyBoundary: safetyBoundary(),
+    publicIngress: true,
     events: []
   };
 }

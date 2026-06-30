@@ -42,6 +42,12 @@ export class SafeFlowFoundationStack extends Stack {
       props.safeFlowEnvironment ?? 'simulation',
       { operation: 'synth' }
     );
+    const publicPreviewOrigin = (typeof props.publicPreviewOrigin === 'string' && props.publicPreviewOrigin.trim()
+      ? props.publicPreviewOrigin.trim()
+      : typeof process.env.SAFEFLOW_ALLOWED_ORIGIN === 'string' && process.env.SAFEFLOW_ALLOWED_ORIGIN.trim()
+        ? process.env.SAFEFLOW_ALLOWED_ORIGIN.trim()
+        : 'http://127.0.0.1:5173'
+    ).replace(/\/+$/, '');
     const databaseRemovalPolicy = resolveRemovalPolicy(profile.database.removalPolicy);
 
     const foundationKey = new kms.Key(this, 'SafeFlowFoundationKey', {
@@ -238,6 +244,7 @@ export class SafeFlowFoundationStack extends Stack {
         SAFEFLOW_SIMULATION_ONLY: String(profile.simulationOnly),
         SAFEFLOW_DATA_CLASSIFICATION: profile.dataClassification,
         SAFEFLOW_DATA_MODE: 'database',
+        SAFEFLOW_ALLOWED_ORIGIN: publicPreviewOrigin,
         DATABASE_SECRET_ARN: appDatabaseSecret.secretArn,
         PROVIDER_CONFIG_SECRET_ARN: providerConfigSecret.secretArn,
         DOCUMENT_BUCKET_NAME: documentBucket.bucketName,
@@ -268,6 +275,16 @@ export class SafeFlowFoundationStack extends Stack {
       }
     }));
     foundationKey.grantEncryptDecrypt(apiFunction);
+
+    const publicApiUrl = apiFunction.addFunctionUrl({
+      authType: lambda.FunctionUrlAuthType.NONE,
+      cors: {
+        allowCredentials: false,
+        allowedHeaders: ['Content-Type'],
+        allowedMethods: [lambda.HttpMethod.GET, lambda.HttpMethod.POST, lambda.HttpMethod.OPTIONS],
+        allowedOrigins: [publicPreviewOrigin]
+      }
+    });
 
     const migrationFunction = new nodejs.NodejsFunction(this, 'SafeFlowMigrationFunction', {
       runtime: lambda.Runtime.NODEJS_22_X,
@@ -332,6 +349,10 @@ export class SafeFlowFoundationStack extends Stack {
     new CfnOutput(this, 'ApiFunctionName', {
       value: apiFunction.functionName,
       description: 'Private SafeFlow API Lambda function name'
+    });
+    new CfnOutput(this, 'PublicApiUrl', {
+      value: publicApiUrl.url,
+      description: 'Public SafeFlow simulation API function URL'
     });
     new CfnOutput(this, 'MigrationFunctionName', {
       value: migrationFunction.functionName,
