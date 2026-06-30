@@ -8,7 +8,7 @@ import {
   assertSimulationAuditPayloadIsSafe,
   createDatabaseAuditEventProvider
 } from '../../../../server/auditEventProvider.js';
-import { createCorsHeaders } from '../../../../server/corsConfig.js';
+import { createCorsHeaders, isOriginAllowed } from '../../../../server/corsConfig.js';
 import { createSimulationReadinessReport } from '../../../../server/readinessReport.js';
 import { createDatabaseSignalProvider } from '../../../../server/signalProvider.js';
 import { createDatabaseSuggestionProvider } from '../../../../server/suggestionProvider.js';
@@ -58,6 +58,12 @@ export function createSafeFlowApiHandler({
       if (!isPreviewAccessAuthorized(event, env)) {
         return respond(401, {
           error: 'Preview access token required.'
+        });
+      }
+
+      if (!isPreviewOriginAuthorized(event, env)) {
+        return respond(403, {
+          error: 'Preview origin not allowed.'
         });
       }
 
@@ -266,6 +272,20 @@ function isPreviewAccessAuthorized(event, env) {
   const provided = Buffer.from(providedToken);
 
   return expected.length === provided.length && timingSafeEqual(expected, provided);
+}
+
+function isPreviewOriginAuthorized(event, env) {
+  const configuredOrigin = typeof env.SAFEFLOW_ALLOWED_ORIGIN === 'string'
+    ? env.SAFEFLOW_ALLOWED_ORIGIN.trim()
+    : '';
+
+  if (!configuredOrigin || configuredOrigin === '*') {
+    return true;
+  }
+
+  const requestOrigin = getHeaderValue(event, 'origin');
+
+  return isOriginAllowed(requestOrigin, env);
 }
 
 function getHeaderValue(event, headerName) {

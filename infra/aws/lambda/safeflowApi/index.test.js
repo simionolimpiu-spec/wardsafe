@@ -62,6 +62,47 @@ describe('SafeFlow private API handler', () => {
     expect(validToken.statusCode).toBe(200);
   });
 
+  it('rejects non-OPTIONS preview requests from the wrong configured origin even when the token is valid', async () => {
+    const apiHandler = createSafeFlowApiHandler({
+      env: {
+        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/',
+        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
+      }
+    });
+
+    const response = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/workspace' } },
+      headers: {
+        Origin: 'https://wrong-preview.example.com',
+        'X-SafeFlow-Preview-Token': 'safe-preview-token-for-review-12345'
+      }
+    });
+
+    expect(response.statusCode).toBe(403);
+    expect(JSON.parse(response.body)).toEqual({
+      error: 'Preview origin not allowed.'
+    });
+  });
+
+  it('allows matching-origin preview requests when the configured token is valid', async () => {
+    const apiHandler = createSafeFlowApiHandler({
+      env: {
+        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/',
+        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
+      }
+    });
+
+    const response = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/workspace' } },
+      headers: {
+        Origin: 'https://preview.example.com',
+        'X-SafeFlow-Preview-Token': 'safe-preview-token-for-review-12345'
+      }
+    });
+
+    expect(response.statusCode).toBe(200);
+  });
+
   it('returns simulation metadata without exposing configured resource identifiers', async () => {
     process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';

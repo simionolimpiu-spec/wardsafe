@@ -80,6 +80,11 @@ export function validateDeploymentEnvironment(env = process.env) {
     errors.push(`SAFEFLOW_PREVIEW_ACCESS_TOKEN must be set to a non-placeholder value at least ${MIN_PREVIEW_ACCESS_TOKEN_LENGTH} characters long before public preview deploy.`);
   }
 
+  const previewOriginError = validatePreviewOrigin(env.SAFEFLOW_ALLOWED_ORIGIN);
+  if (previewOriginError) {
+    errors.push(previewOriginError);
+  }
+
   return errors;
 }
 
@@ -110,6 +115,29 @@ function isRootIdentity(arn) {
 
 function isCliEntryPoint(metaUrl, argvPath) {
   return argvPath ? pathToFileURL(argvPath).href === metaUrl : false;
+}
+
+function validatePreviewOrigin(allowedOrigin) {
+  const configuredOrigin = typeof allowedOrigin === 'string'
+    ? allowedOrigin.trim()
+    : '';
+
+  if (!configuredOrigin) {
+    return 'SAFEFLOW_ALLOWED_ORIGIN must be set to a hosted preview origin before public preview deploy.';
+  }
+
+  try {
+    const url = new URL(configuredOrigin);
+    const normalizedHost = url.hostname.toLowerCase();
+
+    if (normalizedHost === 'localhost' || normalizedHost === '127.0.0.1') {
+      return 'SAFEFLOW_ALLOWED_ORIGIN must point to a hosted preview origin, not localhost or 127.0.0.1.';
+    }
+  } catch {
+    return 'SAFEFLOW_ALLOWED_ORIGIN must be a valid hosted preview origin URL before public preview deploy.';
+  }
+
+  return null;
 }
 
 if (isCliEntryPoint(import.meta.url, process.argv[1])) {

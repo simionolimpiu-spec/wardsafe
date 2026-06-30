@@ -92,4 +92,49 @@ describe('signalClient', () => {
       })
     });
   });
+
+  it('includes the preview access token header for hosted preview signal requests', async () => {
+    const fetchImpl = vi.fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: vi.fn().mockResolvedValue({
+          product: 'SafeFlow',
+          simulationOnly: true,
+          signals: [{ signalId: 'signal-1', syntheticPatientRef: 'DCU-031', simulationOnly: true }]
+        })
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: vi.fn().mockResolvedValue({
+          product: 'SafeFlow',
+          simulationOnly: true,
+          suggestions: [{
+            suggestionId: 'suggestion-1',
+            syntheticPatientRef: 'DCU-031',
+            requiresHumanReview: true,
+            simulationOnly: true
+          }]
+        })
+      });
+    const env = {
+      VITE_SAFEFLOW_API_BASE_URL: 'https://preview-api.example.com/',
+      VITE_SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'preview-token-12345'
+    };
+
+    await requestSignalTimeline({ patientId: 'DCU-031', fetchImpl, env });
+    await requestRiskSuggestions({ patientId: 'DCU-031', fetchImpl, env });
+
+    expect(fetchImpl).toHaveBeenNthCalledWith(1, 'https://preview-api.example.com/api/simulation/signals?patientId=DCU-031', {
+      headers: {
+        Accept: 'application/json',
+        'X-SafeFlow-Preview-Token': 'preview-token-12345'
+      }
+    });
+    expect(fetchImpl).toHaveBeenNthCalledWith(2, 'https://preview-api.example.com/api/simulation/risk-suggestions?patientId=DCU-031', {
+      headers: {
+        Accept: 'application/json',
+        'X-SafeFlow-Preview-Token': 'preview-token-12345'
+      }
+    });
+  });
 });

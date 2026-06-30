@@ -10,6 +10,7 @@ describe('SafeFlow AWS deployment preflight', () => {
     SAFEFLOW_ACCOUNT_MFA_CONFIRMED: 'true',
     SAFEFLOW_BUDGET_CONFIRMED: 'true',
     SAFEFLOW_DEPLOYMENT_APPROVED: 'true',
+    SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com',
     SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
   };
 
@@ -61,6 +62,36 @@ describe('SafeFlow AWS deployment preflight', () => {
 
     await expect(preflight()).resolves.toBe(1);
     expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('SAFEFLOW_PREVIEW_ACCESS_TOKEN must be set'));
+  });
+
+  it('requires a hosted SAFEFLOW_ALLOWED_ORIGIN before public preview deploy', async () => {
+    const stderr = { write: vi.fn() };
+    const preflight = createDeploymentPreflight({
+      env: {
+        ...approvedEnv,
+        SAFEFLOW_ALLOWED_ORIGIN: ''
+      },
+      stdout: { write: vi.fn() },
+      stderr
+    });
+
+    await expect(preflight()).resolves.toBe(1);
+    expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('SAFEFLOW_ALLOWED_ORIGIN must be set'));
+  });
+
+  it('rejects localhost SAFEFLOW_ALLOWED_ORIGIN values before public preview deploy', async () => {
+    const stderr = { write: vi.fn() };
+    const preflight = createDeploymentPreflight({
+      env: {
+        ...approvedEnv,
+        SAFEFLOW_ALLOWED_ORIGIN: 'http://127.0.0.1:4173/'
+      },
+      stdout: { write: vi.fn() },
+      stderr
+    });
+
+    await expect(preflight()).resolves.toBe(1);
+    expect(stderr.write).toHaveBeenCalledWith(expect.stringContaining('SAFEFLOW_ALLOWED_ORIGIN must point to a hosted preview origin'));
   });
 
   it('rejects root AWS credentials before diff or deploy can run', async () => {
