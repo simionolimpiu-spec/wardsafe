@@ -71,7 +71,18 @@ npm run e2e
 
 `npm run e2e` starts both the local API and Vite so the Settings backend/readiness checks exercise the server boundary.
 
+To re-check a deployed hosted preview API after redeploys or preview-token rotation, set `SAFEFLOW_PREVIEW_API_URL` to the deployed `PublicApiUrl`, set `SAFEFLOW_PREVIEW_ACCESS_TOKEN` to the shared preview token, and run `npm run api:smoke:preview`. On macOS or Linux, use `export` instead of PowerShell environment syntax.
+
 The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentials or deployment permissions.
+
+## Hosted Simulation Preview
+
+The AWS-hosted SafeFlow preview is a simulation-safe demo surface, not clinically validated decision support.
+
+- Hosted smoke covers route availability, preview-token gating, schema stability, CORS safety, and simulation audit read/write behavior.
+- Hosted smoke does not validate clinical correctness, clinical safety, or real-world decision quality.
+- On the currently deployed preview stack, `/api/simulation/signals` and `/api/simulation/risk-suggestions` are expected to expose simulation metadata and currently use placeholder providers rather than ML-backed database read models.
+- The frontend must keep the boundary visible: simulation output for preview only, not clinically validated, and not for clinical decision-making.
 
 ## Public Demo Pack
 

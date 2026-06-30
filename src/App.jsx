@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { wardSummary } from './data/simulatedPatients.js';
+import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
@@ -14,6 +15,7 @@ import {
 } from './services/auditClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
+import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
@@ -45,6 +47,7 @@ const tabs = [
   { id: 'scenarios', label: 'Scenarios' },
   { id: 'audit', label: 'Audit' }
 ];
+const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
 
 function formatDraftSections(draft) {
   return Object.entries(draft.sections)
@@ -54,6 +57,14 @@ function formatDraftSections(draft) {
 
 function cloneSnapshotEntry(entry) {
   return entry && typeof entry === 'object' && !Array.isArray(entry) ? { ...entry } : null;
+}
+
+function isSignalEnvelope(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value) && Array.isArray(value.signals);
+}
+
+function isSuggestionEnvelope(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value) && Array.isArray(value.suggestions);
 }
 
 function coerceFreshness(value, hasData) {
@@ -145,9 +156,41 @@ function receivedAtFromEntries(signalTimeline, riskSuggestions) {
   return null;
 }
 
+function extractSignalSourceMetadata(envelope) {
+  if (!isSignalEnvelope(envelope) && !isSuggestionEnvelope(envelope)) {
+    return null;
+  }
+
+  return {
+    source: typeof envelope.source === 'string' ? envelope.source : 'unknown-simulation-provider',
+    provider: typeof envelope.provider === 'string' ? envelope.provider : 'simulation-provider',
+    mode: typeof envelope.mode === 'string' ? envelope.mode : 'simulation',
+    clinicalUse: envelope.clinicalUse === false ? false : null,
+    validationStatus: typeof envelope.validationStatus === 'string'
+      ? envelope.validationStatus
+      : 'not-clinically-validated',
+    explanation: typeof envelope.explanation === 'string'
+      ? envelope.explanation
+      : PREVIEW_BOUNDARY_COPY
+  };
+}
+
+function formatProviderLabel(providerId, providerType) {
+  const labels = {
+    placeholder: 'placeholder preview provider',
+    'database-read-model': 'database read model',
+    fixture: 'fictional fixture provider',
+    'simulation-provider': 'simulation provider'
+  };
+
+  return `${providerId} (${labels[providerType] ?? 'simulation provider'})`;
+}
+
 function buildSignalSnapshot({ signals, suggestions } = {}) {
-  const signalTimeline = Array.isArray(signals) ? signals.map(cloneSnapshotEntry).filter(Boolean) : [];
-  const riskSuggestions = Array.isArray(suggestions) ? suggestions.map(cloneSnapshotEntry).filter(Boolean) : [];
+  const signalTimelineSource = isSignalEnvelope(signals) ? signals.signals : signals;
+  const riskSuggestionSource = isSuggestionEnvelope(suggestions) ? suggestions.suggestions : suggestions;
+  const signalTimeline = Array.isArray(signalTimelineSource) ? signalTimelineSource.map(cloneSnapshotEntry).filter(Boolean) : [];
+  const riskSuggestions = Array.isArray(riskSuggestionSource) ? riskSuggestionSource.map(cloneSnapshotEntry).filter(Boolean) : [];
   const hasData = signalTimeline.length > 0 || riskSuggestions.length > 0;
   const sourceFreshnessCandidate =
     signalTimeline.find((signal) => signal && signal.sourceFreshness != null)?.sourceFreshness ??
@@ -156,6 +199,8 @@ function buildSignalSnapshot({ signals, suggestions } = {}) {
   return {
     signalTimeline,
     riskSuggestions,
+    signalSourceMetadata: extractSignalSourceMetadata(signals),
+    suggestionSourceMetadata: extractSignalSourceMetadata(suggestions),
     sourceFreshness: coerceFreshness(sourceFreshnessCandidate, hasData),
     missingDataNotes: collectMissingDataNotes(signalTimeline, riskSuggestions, hasData),
     receivedAt: receivedAtFromEntries(signalTimeline, riskSuggestions)
@@ -176,6 +221,10 @@ export default function App() {
   const riskSupport = useMemo(() => {
     return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
   }, [selectedPatient, potassiumFlag]);
+  const hospitalInsights = useMemo(
+    () => getHospitalInsightsSnapshot({ currentWardName: wardSummary.unitName }),
+    [wardSummary.unitName]
+  );
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
   }, [selectedPatient, potassiumFlag]);
@@ -191,6 +240,7 @@ export default function App() {
   const [backendAuditEvents, setBackendAuditEvents] = useState([]);
   const [backendAuditStatus, setBackendAuditStatus] = useState('');
   const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
+  const [isHospitalInsightsOpen, setIsHospitalInsightsOpen] = useState(false);
   const [dialog, setDialog] = useState(null);
 
   useEffect(() => {
@@ -204,8 +254,8 @@ export default function App() {
       let suggestions = null;
       try {
         [signals, suggestions] = await Promise.all([
-          requestSignalTimeline({ patientId }),
-          requestRiskSuggestions({ patientId })
+          requestSignalTimeline({ patientId, includeMetadata: true }),
+          requestRiskSuggestions({ patientId, includeMetadata: true })
         ]);
       } catch {
         signals = null;
@@ -413,7 +463,16 @@ export default function App() {
         draftProvider: report.providers?.draft ?? 'Unknown',
         workspaceProvider: report.providers?.workspace ?? 'Unknown',
         auditProvider: report.providers?.audit ?? 'Unknown',
-        databaseLabel: report.database?.configured ? 'Simulation database configured' : 'Fixture mode'
+        signalProvider: formatProviderLabel(
+          report.providerMetadata?.signals?.providerId ?? report.providers?.signals ?? 'unknown-signal-provider',
+          report.providerMetadata?.signals?.provider ?? 'simulation-provider'
+        ),
+        suggestionProvider: formatProviderLabel(
+          report.providerMetadata?.suggestions?.providerId ?? report.providers?.suggestions ?? 'unknown-suggestion-provider',
+          report.providerMetadata?.suggestions?.provider ?? 'simulation-provider'
+        ),
+        databaseLabel: report.database?.configured ? 'Simulation database configured' : 'Fixture mode',
+        boundaryNote: report.explanation ?? PREVIEW_BOUNDARY_COPY
       });
       setDraftStatus('Build readiness check complete');
     } else {
@@ -485,7 +544,13 @@ export default function App() {
             <p className="eyebrow">Simulation prototype</p>
             <h1>SafeFlow</h1>
           </div>
-          <span className="product-note">SafeFlow Nursing concept</span>
+          <div className="topbar-actions">
+            <span className="product-note">SafeFlow Nursing concept</span>
+            <HospitalInsightsButton
+              isOpen={isHospitalInsightsOpen}
+              onClick={() => setIsHospitalInsightsOpen((current) => !current)}
+            />
+          </div>
         </header>
         <SafetyBanner />
         <nav className="tab-list" aria-label="Prototype journey">
@@ -607,6 +672,11 @@ export default function App() {
           )}
         </div>
         <ArchitectureStrip />
+        <HospitalInsightsDrawer
+          isOpen={isHospitalInsightsOpen}
+          onClose={() => setIsHospitalInsightsOpen(false)}
+          snapshot={hospitalInsights}
+        />
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
         {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
       </div>

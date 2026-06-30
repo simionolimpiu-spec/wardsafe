@@ -1,4 +1,4 @@
-import { buildApiUrl } from './apiBaseUrl.js';
+import { buildApiUrl, createApiHeaders } from './apiBaseUrl.js';
 
 const DIRECT_IDENTIFIER_FIELD_PATTERN = /\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i;
 const SECRET_VALUE_PATTERN = /(postgres:\/\/|\bsk-[A-Za-z0-9_-]{8,})/i;
@@ -27,7 +27,7 @@ export async function requestSimulationAuditEvent({
   try {
     const response = await fetchImpl(buildApiUrl('/api/simulation/audit-events', { env }), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: createApiHeaders({ 'Content-Type': 'application/json' }, { env }),
       body: JSON.stringify(payload)
     });
 
@@ -59,7 +59,7 @@ export async function requestSimulationAuditEvents({
 
   try {
     const response = await fetchImpl(buildApiUrl('/api/simulation/audit-events', { env }), {
-      headers: { Accept: 'application/json' }
+      headers: createApiHeaders({ Accept: 'application/json' }, { env })
     });
     if (!response.ok) return null;
 

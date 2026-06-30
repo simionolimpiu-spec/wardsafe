@@ -82,6 +82,22 @@ describe('PatientSafetyPanel', () => {
           state: 'current',
           label: 'Latest simulated signal feed'
         },
+        signalSourceMetadata: {
+          source: 'private-lambda-signals-placeholder',
+          provider: 'placeholder',
+          mode: 'simulation',
+          clinicalUse: false,
+          validationStatus: 'not-clinically-validated',
+          explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+        },
+        suggestionSourceMetadata: {
+          source: 'private-lambda-risk-suggestions-placeholder',
+          provider: 'placeholder',
+          mode: 'simulation',
+          clinicalUse: false,
+          validationStatus: 'not-clinically-validated',
+          explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+        },
         missingDataNotes: ['Magnesium result not visible.'],
         receivedAt: '2026-06-10T09:15:00.000Z'
       }
@@ -91,6 +107,9 @@ describe('PatientSafetyPanel', () => {
     const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
 
     expect(within(reviewCues).getByText(/simulation-only cues/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/not clinically validated and not for clinical decision-making/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/Signals: private-lambda-signals-placeholder/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/Risk suggestions: private-lambda-risk-suggestions-placeholder/i)).toBeInTheDocument();
     expect(within(reviewCues).getByText(/^Documentation$/i)).toBeInTheDocument();
     expect(within(reviewCues).getByText(/^Review$/i)).toBeInTheDocument();
     expect(within(reviewCues).getAllByText(/human review required/i).length).toBeGreaterThan(1);

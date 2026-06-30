@@ -1,4 +1,9 @@
 export const DEFAULT_ALLOWED_ORIGIN = 'http://127.0.0.1:5173';
+export const PREVIEW_ACCESS_TOKEN_HEADER = 'X-SafeFlow-Preview-Token';
+export const CORS_ALLOWED_HEADERS = Object.freeze([
+  'Content-Type',
+  PREVIEW_ACCESS_TOKEN_HEADER
+]);
 
 export function getAllowedOrigin(env = process.env) {
   const configuredOrigin = typeof env?.SAFEFLOW_ALLOWED_ORIGIN === 'string'
@@ -24,6 +29,6 @@ export function createCorsHeaders(env = process.env) {
   return {
     'Access-Control-Allow-Origin': getAllowedOrigin(env),
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
+    'Access-Control-Allow-Headers': CORS_ALLOWED_HEADERS.join(',')
   };
 }

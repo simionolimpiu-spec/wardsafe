@@ -26,6 +26,7 @@ SafeFlow is the short product mark used inside the prototype UI. SafeFlow Nursin
 - Discovery scenario library for structured review.
 - Editable SBAR draft with audit cue.
 - Audit and learning timeline from simulated workflow events.
+- Hospital Insights simulation drawer for ward-versus-hospital comparison cues.
 
 ## Out Of Scope
 

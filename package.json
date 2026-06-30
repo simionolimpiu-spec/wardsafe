@@ -20,6 +20,7 @@
     "db:migrate:execute": "node database/runMigrations.js --execute",
     "preview": "vite preview --host 127.0.0.1",
     "api:smoke": "node server/apiSmoke.js",
+    "api:smoke:preview": "node infra/aws/previewApiSmoke.js",
     "api": "node server/index.js"
   },
   "dependencies": {

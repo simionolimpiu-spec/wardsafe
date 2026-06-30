@@ -116,6 +116,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: safeflow-cloudformation-templates
-          path: cdk.out/*.template.json
+          path: ${{ runner.temp }}/safeflow-cdk/**/*.template.json
           if-no-files-found: error
           retention-days: 7

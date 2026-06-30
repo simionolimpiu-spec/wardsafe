@@ -84,11 +84,19 @@ export function PatientSafetyPanel({
 
 function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
   const hasSignalSnapshot = Boolean(signalSnapshot);
+  const signalProviderNote = formatPreviewSourceNote(signalSnapshot?.signalSourceMetadata, 'Signals');
+  const suggestionProviderNote = formatPreviewSourceNote(signalSnapshot?.suggestionSourceMetadata, 'Risk suggestions');
 
   return (
     <section aria-labelledby="patient-review-cues-heading">
       <h3 id="patient-review-cues-heading">Simulation Review Cues</h3>
       <p>Simulation-only cues. Human review required.</p>
+      <p className="risk-support-boundary">Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p>
+      {(signalProviderNote || suggestionProviderNote) && (
+        <p className="risk-support-boundary">
+          {[signalProviderNote, suggestionProviderNote].filter(Boolean).join(' ')}
+        </p>
+      )}
       {!hasSignalSnapshot ? (
         <p>No signal snapshot available yet.</p>
       ) : reviewSignals.length > 0 ? (
@@ -162,6 +170,21 @@ function formatSignalPriority(priority) {
   };
 
   return labels[priority] ?? 'Review';
+}
+
+function formatPreviewSourceNote(metadata, label) {
+  if (!metadata || metadata.clinicalUse !== false) {
+    return null;
+  }
+
+  const providerLabels = {
+    placeholder: 'placeholder preview provider',
+    'database-read-model': 'database read model',
+    fixture: 'fictional fixture provider',
+    'simulation-provider': 'simulation provider'
+  };
+
+  return `${label}: ${metadata.source} (${providerLabels[metadata.provider] ?? 'simulation provider'}).`;
 }
 
 function SbarSummary({ patient }) {

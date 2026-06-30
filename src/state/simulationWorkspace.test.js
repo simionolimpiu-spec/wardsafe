@@ -282,6 +282,22 @@ describe('simulationReducer', () => {
             state: 'current',
             label: 'Latest simulated signal feed'
           },
+          signalSourceMetadata: {
+            source: 'private-lambda-signals-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+          },
+          suggestionSourceMetadata: {
+            source: 'private-lambda-risk-suggestions-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+          },
           missingDataNotes: ['Magnesium result not visible.'],
           receivedAt: '09:10'
         }
@@ -304,6 +320,22 @@ describe('simulationReducer', () => {
           riskTier: 'watch'
         }
       ],
+      signalSourceMetadata: {
+        source: 'private-lambda-signals-placeholder',
+        provider: 'placeholder',
+        mode: 'simulation',
+        clinicalUse: false,
+        validationStatus: 'not-clinically-validated',
+        explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+      },
+      suggestionSourceMetadata: {
+        source: 'private-lambda-risk-suggestions-placeholder',
+        provider: 'placeholder',
+        mode: 'simulation',
+        clinicalUse: false,
+        validationStatus: 'not-clinically-validated',
+        explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+      },
       sourceFreshness: {
         state: 'current',
         label: 'Latest simulated signal feed'
@@ -468,6 +500,8 @@ describe('simulationReducer', () => {
         }
       ],
       riskSuggestions: [],
+      signalSourceMetadata: null,
+      suggestionSourceMetadata: null,
       sourceFreshness: {
         state: 'unavailable',
         label: 'No signal freshness available.'
@@ -485,6 +519,8 @@ describe('simulationReducer', () => {
         snapshot: {
           signalTimeline: [],
           riskSuggestions: [],
+          signalSourceMetadata: null,
+          suggestionSourceMetadata: null,
           sourceFreshness: {
             state: 'unavailable',
             label: 'No signal freshness available.'
