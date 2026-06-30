@@ -82,6 +82,7 @@ describe('simulation review report service', () => {
       'This report does not provide diagnosis, treatment advice, risk prediction, or automated escalation.'
     );
     expect(exportText).toContain('All review cues and comparison signals require human review.');
+    expect(exportText).toContain('Prepared for ward managers, clinical educators, digital safety leads, and innovation teams.');
     expect(exportText).toContain('Selected demo scenario');
     expect(exportText).toContain('Day Care treatment pathway review');
     expect(exportText).toContain('Simulated patient context');
@@ -95,5 +96,22 @@ describe('simulation review report service', () => {
     expect(
       getSimulationReviewReportSnapshot({ patient, reviewSignals, hospitalInsights, selectedScenario })
     ).toEqual(snapshot);
+  });
+
+  it('includes an active cue fallback when no review cues are present', () => {
+    const patient = simulatedPatients.find((entry) => entry.id === 'DCU-031');
+    const hospitalInsights = getHospitalInsightsSnapshot({ currentWardName: 'Day Care Unit' });
+    const selectedScenario = getDemoScenarioById('day-care-treatment-pathway');
+    const snapshot = getSimulationReviewReportSnapshot({
+      patient,
+      reviewSignals: [],
+      hospitalInsights,
+      selectedScenario
+    });
+
+    const exportText = buildSimulationReviewReportExportText(snapshot);
+
+    expect(exportText).toContain('Active patient-level review cues');
+    expect(exportText).toContain('No active patient-level review cues in this simulation snapshot.');
   });
 });

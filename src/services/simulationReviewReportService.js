@@ -272,10 +272,11 @@ export function buildSimulationReviewReportExportText(snapshot) {
   blocks.push(title, '');
 
   appendExportSection(blocks, 'Simulation boundary statement', [
-    cleanExportText(snapshot.disclaimer),
     'Simulation data only. Not connected to live NHS systems. Not for patient care.',
     'This report does not provide diagnosis, treatment advice, risk prediction, or automated escalation.',
     'All review cues and comparison signals require human review.',
+    'Prepared for ward managers, clinical educators, digital safety leads, and innovation teams.',
+    cleanExportText(snapshot.disclaimer),
     cleanExportText(snapshot.boundaryDetail),
     cleanExportText(snapshot.prototypeNote)
   ]);
@@ -297,7 +298,9 @@ export function buildSimulationReviewReportExportText(snapshot) {
   appendExportSection(
     blocks,
     'Active patient-level review cues',
-    Array.isArray(snapshot.activeReviewCues) ? snapshot.activeReviewCues.map(formatCueExportBlock) : []
+    Array.isArray(snapshot.activeReviewCues) && snapshot.activeReviewCues.length > 0
+      ? snapshot.activeReviewCues.map(formatCueExportBlock)
+      : ['No active patient-level review cues in this simulation snapshot.']
   );
 
   appendExportSection(blocks, 'Ward comparison / Hospital Insights summary', [

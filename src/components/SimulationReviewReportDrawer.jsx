@@ -224,7 +224,7 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
             <ChevronRight aria-hidden="true" size={18} />
             <div>
               <h3>Learning / reflection points</h3>
-              <p>Useful for ward managers, clinical educators, nurses, and digital safety leads.</p>
+              <p>Useful for ward managers, clinical educators, nurses, digital safety leads, and innovation teams.</p>
             </div>
           </div>
           <ul className="review-report-learning-list">
