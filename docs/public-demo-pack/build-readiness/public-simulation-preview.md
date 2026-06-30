@@ -42,12 +42,12 @@ A shareable preview needs publicly reachable hosting for both the frontend and t
 
 ### API
 
-- Preferred preview route: API Gateway + Lambda using `infra/aws/lambda/safeflowApi/index.mjs`.
-- Acceptable lightweight alternative: Lambda Function URL if API Gateway is unnecessary for the first preview.
+- Current preview route: Lambda Function URL using `infra/aws/lambda/safeflowApi/index.mjs`.
+- The deployment branch exposes the public Lambda Function URL stack output `PublicApiUrl`; the hosted preview should use that as its backend base URL.
+- If a later follow-on ever adds API Gateway, it must keep the same simulation-only and origin-locked contract.
 - Keep `SAFEFLOW_SIMULATION_ONLY=true` for all preview API environments.
 - Keep deterministic fallback behavior when `OPENAI_API_KEY` is absent.
 - Keep fictional data only and no live integration claims.
-- The current deployment branch exposes a public Lambda Function URL output named `PublicApiUrl`; use that as the public API base when you connect the hosted frontend.
 
 ## Required Environment Variables
 
@@ -69,7 +69,7 @@ Optional backend-only variables:
 
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL`
-- database configuration already approved for fictional simulation use
+- backend configuration already approved for fictional simulation use
 
 ## CORS Boundary
 
@@ -77,7 +77,7 @@ Optional backend-only variables:
 - Avoid `*` for the shared preview unless it is a temporary internal-only diagnostic step.
 - Set `SAFEFLOW_PREVIEW_ACCESS_TOKEN` for the Lambda and `VITE_SAFEFLOW_PREVIEW_ACCESS_TOKEN` for the frontend to the same long random value.
 - The Lambda rejects public preview API calls that do not include `X-SafeFlow-Preview-Token`.
-- The current backend defaults to local development origin when no preview origin is configured.
+- In dev-only runs, the current backend fallback still uses the local development origin when no preview origin is configured.
 
 ## Visible Safety Boundary
 
@@ -126,7 +126,7 @@ See also:
 
 1. Choose the frontend origin and API origin.
 2. Set Amplify environment variables for the frontend build.
-3. Set Lambda or API Gateway environment variables for simulation-only backend mode.
+3. Set backend environment variables for simulation-only mode.
 4. Apply password protection before sharing the URL.
 5. Run manual reviewer checks against the hosted preview.
 6. Keep deployment approval as a human decision after synth and review.
