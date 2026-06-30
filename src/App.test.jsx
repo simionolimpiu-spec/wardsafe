@@ -32,6 +32,12 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('button', { name: /hospital insights/i })).toBeInTheDocument();
   });
 
+  it('renders a review report button in the main header', () => {
+    render(<App />);
+
+    expect(screen.getByRole('button', { name: /review report/i })).toBeInTheDocument();
+  });
+
   it('opens and closes the hospital insights drawer with comparison cues', async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -63,6 +69,43 @@ describe('SafeFlow prototype', () => {
     await user.click(within(drawer).getByRole('button', { name: /close insights/i }));
 
     expect(screen.queryByRole('dialog', { name: /hospital insights/i })).not.toBeInTheDocument();
+  });
+
+  it('opens and closes the simulation review report with patient and ward comparison cues', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: /review report/i }));
+
+    const report = screen.getByRole('dialog', { name: /safeFlow simulation review report/i });
+    expect(within(report).getByText(/^SafeFlow Simulation Review Report$/i)).toBeInTheDocument();
+    expect(
+      within(report).getByText(
+        /^Simulation data only\. This report is not connected to live NHS systems and must not be used for patient care\.$/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(report).getByText(
+        /^No real NHS data is used\. No live NHS systems are connected\. No patient-identifiable information is used\.$/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(report).getByText(
+        /^Patient view -> review cues -> ward comparison -> hospital insights -> learning summary$/i
+      )
+    ).toBeInTheDocument();
+    expect(within(report).getByText(/Patient review snapshot/i)).toBeInTheDocument();
+    expect(within(report).getByRole('heading', { name: /Active review cues/i })).toBeInTheDocument();
+    expect(within(report).getByRole('heading', { name: /Ward comparison snapshot/i })).toBeInTheDocument();
+    expect(within(report).getAllByText(/human review required/i).length).toBeGreaterThan(0);
+    expect(
+      within(report).getByText(/^Comparison summary for education, quality improvement, and human-led review\.$/i)
+    ).toBeInTheDocument();
+    expect(report.textContent).not.toMatch(/automated escalation|diagnos|treatment advice|risk prediction/i);
+
+    await user.click(within(report).getByRole('button', { name: /close report/i }));
+
+    expect(screen.queryByRole('dialog', { name: /safeFlow simulation review report/i })).not.toBeInTheDocument();
   });
 
   it('shows the fuller clinical workspace shell without official branding', () => {

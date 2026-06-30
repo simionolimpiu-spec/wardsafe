@@ -52,6 +52,40 @@ The demo shows:
 - The feature should not be treated as a clinical risk engine or decision support system.
 - Future connected data sources may require UI changes once governance and integration constraints are known.
 
+## Simulation Review Report
+
+### Feature summary
+
+- The Review report button opens a short in-app simulation summary.
+- It pulls together the current simulated patient view, active review cues, and the ward-level Hospital Insights comparison.
+- The report is useful for education, ward review, quality improvement discussion, and digital safety demonstrations.
+
+### Safety boundary
+
+- No real patient data is used.
+- No live NHS systems are connected.
+- No patient-identifiable information is used.
+- The report is for prototype demonstration only.
+- The wording is comparison-based and requires human review.
+
+### Demo talking points
+
+- Show the flow from patient view to review cues, then into ward comparison and the structured review summary.
+- Use the report to explain how documentation, handover, NEWS2 review cues, and ward-level comparison fit together in one simulation view.
+- Emphasize that the report is a learning aid, not a clinical recommendation tool.
+- Keep the human review note visible so the audience sees the boundary clearly.
+
+### Future integration notes
+
+- SafeFlow currently demonstrates a simulation pathway from patient-level review cues to ward-level comparison and a structured review summary. Future work could place this behind approved NHS/AWS service boundaries, subject to information governance, clinical safety case development, and integration approval.
+- Later integration could reuse the same report layout once a governed NHS or AWS service boundary exists.
+
+### Risks / limitations
+
+- The report summarizes deterministic mock data, so it is stable for demos but not suitable for patient care.
+- It should not be treated as diagnosis, treatment advice, or automated escalation.
+- Future live data sources may require extra governance, access control, and UI review.
+
 ## What the demo does not show
 
 The demo stays inside explicit safety boundaries:

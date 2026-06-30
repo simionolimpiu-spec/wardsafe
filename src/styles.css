@@ -523,6 +523,241 @@ textarea {
   z-index: 1;
 }
 
+.review-report-overlay {
+  display: grid;
+  inset: 0;
+  justify-items: end;
+  position: fixed;
+  z-index: 41;
+}
+
+.review-report-backdrop {
+  background: rgba(8, 26, 53, 0.36);
+  inset: 0;
+  position: absolute;
+}
+
+.review-report-drawer {
+  background: #fff;
+  border-left: 1px solid #d7e3f4;
+  box-shadow: -18px 0 40px rgba(8, 26, 53, 0.18);
+  height: 100vh;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+  width: min(680px, 100%);
+  z-index: 1;
+}
+
+.review-report-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.review-report-disclaimer {
+  color: #17436f;
+  font-weight: 800;
+  margin: 10px 0 0;
+}
+
+.review-report-roadmap {
+  color: #617083;
+  font-size: 0.88rem;
+  margin: 6px 0 0;
+}
+
+.review-report-prototype-note {
+  color: #005eb8;
+  font-size: 0.88rem;
+  font-weight: 800;
+  margin: 8px 0 0;
+}
+
+.review-report-source-note {
+  margin-top: 12px;
+}
+
+.review-report-section {
+  border-top: 1px solid #e5edf6;
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.review-report-section .section-heading {
+  align-items: flex-start;
+}
+
+.review-report-section .section-heading h3 {
+  color: #003087;
+  margin: 0;
+}
+
+.review-report-section .section-heading p {
+  color: #53657a;
+  margin: 4px 0 0;
+}
+
+.review-report-boundary {
+  color: #17436f;
+  font-weight: 700;
+  margin: 0;
+}
+
+.review-report-summary-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.review-report-summary-card {
+  background: #f5f8fc;
+  border: 1px solid #d7e3f4;
+  border-left: 4px solid #005eb8;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+}
+
+.review-report-summary-card span {
+  color: #617083;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.review-report-summary-card strong {
+  color: #003087;
+  display: block;
+  font-size: 1rem;
+}
+
+.review-report-summary-card small {
+  color: #53657a;
+  display: block;
+}
+
+.review-report-cue-list {
+  display: grid;
+  gap: 10px;
+}
+
+.review-report-cue-card {
+  background: #f5f8fc;
+  border: 1px solid #d7e3f4;
+  border-left: 4px solid #00a3a3;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.review-report-cue-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 6px;
+}
+
+.review-report-cue-meta span {
+  background: #eef5ff;
+  border-radius: 999px;
+  color: #005eb8;
+  font-size: 0.74rem;
+  font-weight: 900;
+  padding: 4px 8px;
+  text-transform: uppercase;
+}
+
+.review-report-cue-card strong {
+  color: #003087;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.review-report-cue-card p {
+  color: #17436f;
+  margin: 0;
+}
+
+.review-report-evidence {
+  color: #53657a;
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.review-report-evidence li {
+  margin: 4px 0;
+}
+
+.review-report-cue-freshness,
+.review-report-cue-action {
+  color: #53657a;
+  margin-top: 8px;
+}
+
+.review-report-table {
+  border-collapse: collapse;
+  min-width: 100%;
+  width: 100%;
+}
+
+.review-report-table th,
+.review-report-table td {
+  border-bottom: 1px solid #e5edf6;
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.review-report-table thead th {
+  color: #003087;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.review-report-table tbody th {
+  color: #17436f;
+  font-weight: 900;
+}
+
+.review-report-table tbody th small {
+  color: #617083;
+  display: block;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.review-report-table tbody td:nth-child(4) {
+  color: #17436f;
+  font-weight: 800;
+}
+
+.review-report-interpretation-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.review-report-interpretation-list p {
+  background: #eef8f7;
+  border: 1px solid #b9e2df;
+  border-radius: 8px;
+  color: #17436f;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.review-report-learning-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.review-report-learning-list li {
+  color: #17436f;
+  margin: 8px 0;
+}
+
 .insights-header {
   align-items: flex-start;
   display: flex;
@@ -1680,7 +1915,15 @@ textarea {
     width: 100%;
   }
 
+  .review-report-drawer {
+    width: 100%;
+  }
+
   .insights-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-report-summary-grid {
     grid-template-columns: 1fr;
   }
 

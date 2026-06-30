@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { wardSummary } from './data/simulatedPatients.js';
 import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
+import { getSimulationReviewReportSnapshot } from './services/simulationReviewReportService.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
@@ -18,6 +19,7 @@ import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
+import { SimulationReviewReportButton, SimulationReviewReportDrawer } from './components/SimulationReviewReportDrawer.jsx';
 import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
 import { SafetyBanner } from './components/SafetyBanner.jsx';
 import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
@@ -182,6 +184,17 @@ export default function App() {
     () => getHospitalInsightsSnapshot({ currentWardName: wardSummary.unitName }),
     [wardSummary.unitName]
   );
+  const selectedSignalSnapshot = state.signalSnapshots?.[selectedPatient?.id] ?? null;
+  const simulationReviewReport = useMemo(
+    () =>
+      getSimulationReviewReportSnapshot({
+        patient: selectedPatient,
+        reviewSignals,
+        hospitalInsights,
+        signalSnapshot: selectedSignalSnapshot
+      }),
+    [hospitalInsights, reviewSignals, selectedPatient, selectedSignalSnapshot]
+  );
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
   }, [selectedPatient, potassiumFlag]);
@@ -198,6 +211,7 @@ export default function App() {
   const [backendAuditStatus, setBackendAuditStatus] = useState('');
   const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
   const [isHospitalInsightsOpen, setIsHospitalInsightsOpen] = useState(false);
+  const [isReviewReportOpen, setIsReviewReportOpen] = useState(false);
   const [dialog, setDialog] = useState(null);
 
   useEffect(() => {
@@ -494,9 +508,19 @@ export default function App() {
           </div>
           <div className="topbar-actions">
             <span className="product-note">SafeFlow Nursing concept</span>
+            <SimulationReviewReportButton
+              isOpen={isReviewReportOpen}
+              onClick={() => {
+                setIsReviewReportOpen((current) => !current);
+                setIsHospitalInsightsOpen(false);
+              }}
+            />
             <HospitalInsightsButton
               isOpen={isHospitalInsightsOpen}
-              onClick={() => setIsHospitalInsightsOpen((current) => !current)}
+              onClick={() => {
+                setIsHospitalInsightsOpen((current) => !current);
+                setIsReviewReportOpen(false);
+              }}
             />
           </div>
         </header>
@@ -624,6 +648,11 @@ export default function App() {
           isOpen={isHospitalInsightsOpen}
           onClose={() => setIsHospitalInsightsOpen(false)}
           snapshot={hospitalInsights}
+        />
+        <SimulationReviewReportDrawer
+          isOpen={isReviewReportOpen}
+          onClose={() => setIsReviewReportOpen(false)}
+          snapshot={simulationReviewReport}
         />
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
         {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
