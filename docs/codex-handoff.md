@@ -97,6 +97,28 @@ Do not commit or post the Basic Auth password, AWS access keys, or `SAFEFLOW_PRE
 5. Replace placeholder signal and risk providers with ML-backed DB read models, keeping explicit provider metadata and no silent fallback outside preview/simulation mode.
 6. After PR #6 review, either merge into `codex/safeflow-prototype` or keep it draft while follow-up hardening lands.
 
+## Final Preview Hardening Summary
+
+- Branch/commit: `deployment/public-simulation-preview` at `bd0dba4`.
+- Stack: `safeflow-simulation-foundation` previously redeployed for the public preview; this pass is documentation and frontend hardening only.
+- Checks: `npm test`, `npm run build`, `CI=1 npm run e2e`, `CI=1 npm run a11y`, `node infra/aws/deploymentPreflight.js`, and `pnpm audit --audit-level=moderate --prod` all passed in this pass.
+- Safe to demo: yes, as a simulation-safe public preview for workflow demonstration and stakeholder discovery.
+- Still simulated: placeholder providers remain in use for `/api/simulation/signals` and `/api/simulation/risk-suggestions`.
+- Not appropriate to claim: clinical validation, clinical decision support, live NHS integration, or deployment-ready safety assurance.
+- Merge recommendation: ready for final review and merge once the PR comment is posted and the reviewer agrees the release language is acceptable.
+
+## PR #6 Comment Draft
+
+Final preview hardening summary
+
+- Branch/commit: `deployment/public-simulation-preview` at `bd0dba4`.
+- Stack: `safeflow-simulation-foundation` redeployed; hosted smoke re-verified against the live Lambda URL.
+- Checks: `npm test`, `npm run build`, `CI=1 npm run e2e`, `CI=1 npm run a11y`, `node infra/aws/deploymentPreflight.js`, and `pnpm audit --audit-level=moderate --prod` passed, and hosted smoke confirmed route availability, token gating, schema stability, and audit read/write.
+- Safe to demo: yes, as a simulation-safe public preview for workflow demonstration and stakeholder discovery.
+- Still simulated: `/api/simulation/signals` and `/api/simulation/risk-suggestions` still use placeholder providers, with explicit simulation/provider metadata.
+- Not appropriate to claim: clinical validation, clinical decision support, live NHS integration, or deployment-ready safety assurance.
+- Merge recommendation: ready for final review and merge once the release wording is accepted.
+
 ## Local Notes
 
 The active working clone is `/private/tmp/safeflow-next`.

@@ -77,7 +77,7 @@ The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentia
 
 ## Hosted Simulation Preview
 
-The AWS-hosted SafeFlow preview is a simulation-safe demo surface, not clinically validated decision support.
+The AWS-hosted SafeFlow preview is a simulation-safe public preview for workflow demonstration and stakeholder discovery. Outputs are not clinically validated and are not for clinical decision-making.
 
 - Hosted smoke covers route availability, preview-token gating, schema stability, CORS safety, and simulation audit read/write behavior.
 - Hosted smoke does not validate clinical correctness, clinical safety, or real-world decision quality.

@@ -17,6 +17,14 @@ The demo shows:
 - an audit and learning timeline
 - a simulation report and fictional scenario coverage summary
 
+## Stakeholder Demo Note
+
+This is a simulation-safe public preview for workflow demonstration and stakeholder discovery. It is useful for CEP, community and investor conversations because it shows the shape of the workflow without implying clinical validation.
+
+It demonstrates handover and discharge flow, simulated patient-safety signals, simulated readiness and risk-suggestion surfaces, audit trail behaviour, and the preview authentication/token gate.
+
+It does not demonstrate clinical validation, live NHS integration, real ML-backed risk modelling, real patient-data processing, or deployment-ready clinical decision support.
+
 ## Hospital Insights simulation layer
 
 ### Feature summary

@@ -13,6 +13,27 @@ Acceptance criteria:
 - The simulation safety disclaimer remains visible in the public preview UI.
 - No silent placeholder fallback is allowed in production-intent environments.
 
+### Preview observability and diagnostics
+
+Acceptance criteria:
+
+- Smoke failures identify the endpoint and failure mode.
+- Provider mode is logged safely.
+- No patient-identifiable data is logged.
+- Preview failures are diagnosable without exposing sensitive data.
+- Hosted smoke output is suitable for CI/PR review.
+
+### Pilot governance and clinical safety track
+
+Acceptance criteria:
+
+- Define requirements before real clinical data use.
+- Define DPIA and information-governance requirements.
+- Define clinical safety case requirements.
+- Define validation plan for ML-backed outputs.
+- Define human-in-the-loop boundaries.
+- Define intended-use statement and exclusions.
+
 ## Phase 0: Public Simulation Prototype
 
 Status: current PR.

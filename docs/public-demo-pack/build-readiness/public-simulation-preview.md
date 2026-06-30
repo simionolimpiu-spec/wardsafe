@@ -1,6 +1,6 @@
 # SafeFlow Public Simulation Preview
 
-This note prepares SafeFlow for a shareable, password-protected, simulation-only preview on AWS. It is not a clinical deployment, not a live NHS system, and not intended for real patient data.
+This note prepares SafeFlow for a shareable, password-protected, simulation-only preview on AWS. It is a simulation-safe public preview for workflow demonstration and stakeholder discovery. Outputs are not clinically validated and are not for clinical decision-making.
 
 ## Preview Goal
 
@@ -51,6 +51,8 @@ The current deployed preview stack is intentionally safe but limited:
 - `/api/simulation/risk-suggestions` currently serves a placeholder provider on the live preview stack
 - those responses now need to stay explicit about `simulation` mode, `clinicalUse: false`, and their placeholder provider/source
 - this keeps the preview honest and usable for demos without implying validated clinical decision support
+
+The preview is not clinically validated decision support and must not be used for clinical decision-making.
 
 Follow-up integration remains required before any preview should claim ML-backed signal or suggestion retrieval.
 
@@ -125,6 +127,23 @@ The public preview must keep the following visible:
 - not live NHS deployment
 - human review required
 
+## PR #6 Release Checklist
+
+- Hosted smoke passed against the live Lambda URL.
+- Token gate verified.
+- Health endpoint verified.
+- Workspace endpoint verified.
+- Readiness endpoint verified.
+- Signals endpoint verified.
+- Risk suggestions endpoint verified.
+- Audit read/write verified.
+- Provider metadata visible.
+- Placeholder-provider status confirmed.
+- UI clinical safety boundary visible.
+- Documentation states smoke does not validate clinical correctness.
+- Follow-up backlog includes ML-backed DB read models.
+- No clinical validation claims remain in public-facing copy.
+
 ## Password Protection Recommendation
 
 For the first external preview:
@@ -166,6 +185,12 @@ See also:
 4. Apply password protection before sharing the URL.
 5. Run manual reviewer checks against the hosted preview.
 6. Keep deployment approval as a human decision after synth and review.
+
+## Stakeholder Demo Note
+
+This preview demonstrates the handover and discharge workflow, simulated patient-safety signals, simulated readiness and risk-suggestion surfaces, audit trail behaviour, and the preview authentication/token gate.
+
+It does not demonstrate clinical validation, live NHS integration, real ML-backed risk modelling, real patient-data processing, or deployment-ready clinical decision support.
 
 ## Follow-up Integration Note
 
