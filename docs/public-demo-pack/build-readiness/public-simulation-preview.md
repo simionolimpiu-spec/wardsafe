@@ -188,7 +188,7 @@ See also:
 
 ## Stakeholder Demo Note
 
-This preview demonstrates the handover and discharge workflow, simulated patient-safety signals, simulated readiness and risk-suggestion surfaces, audit trail behaviour, and the preview authentication/token gate.
+This preview demonstrates the handover and discharge workflow, simulated patient-safety signals, simulated readiness and risk-suggestion surfaces, audit trail behaviour, the preview authentication/token gate, and explicit `What this preview shows` / `What this preview does not show` guidance.
 
 It does not demonstrate clinical validation, live NHS integration, real ML-backed risk modelling, real patient-data processing, or deployment-ready clinical decision support.
 

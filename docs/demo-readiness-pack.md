@@ -21,7 +21,7 @@ The demo shows:
 
 This is a simulation-safe public preview for workflow demonstration and stakeholder discovery. It is useful for CEP, community and investor conversations because it shows the shape of the workflow without implying clinical validation.
 
-It demonstrates handover and discharge flow, simulated patient-safety signals, simulated readiness and risk-suggestion surfaces, audit trail behaviour, and the preview authentication/token gate.
+It demonstrates handover and discharge flow, simulated patient-safety signals, simulated readiness and risk-suggestion surfaces, audit trail behaviour, the preview authentication/token gate, and explicit `What this preview shows` / `What this preview does not show` guidance.
 
 It does not demonstrate clinical validation, live NHS integration, real ML-backed risk modelling, real patient-data processing, or deployment-ready clinical decision support.
 

@@ -28,6 +28,13 @@ const dashboardTabs = [
   }
 ];
 
+const dashboardProvenance = {
+  readiness: 'Source: simulation readiness report',
+  signals: 'Source: placeholder provider',
+  escalation: 'Source: simulation workflow trace',
+  audit: 'Source: simulation audit trail'
+};
+
 const dashboardPanels = {
   readiness: {
     heading: 'Shift readiness',
@@ -54,6 +61,7 @@ const dashboardPanels = {
     ],
     railTitle: 'Signal handling',
     railItems: [
+      'Source: placeholder provider · mode: simulation · clinical use: false.',
       'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
       'Signals identify workflow pressure, not patient diagnosis.',
       'Human review remains the decision point for every action.'
@@ -137,7 +145,10 @@ export function InteractiveDashboard() {
           <p className="eyebrow">Workspace preview</p>
           <h3 id="interactive-dashboard-title">SafeFlow operational preview</h3>
         </div>
-        <span className="simulation-label">Simulation view · no patient data</span>
+        <div className="dashboard-provenance" aria-label="Preview provenance">
+          <span className="simulation-label">Simulation view · no patient data</span>
+          <span className="simulation-label">{dashboardProvenance[selectedTab.id]}</span>
+        </div>
       </div>
 
       <div aria-label="Dashboard sections" className="dashboard-tabs" role="tablist">

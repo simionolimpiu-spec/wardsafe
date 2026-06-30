@@ -9,11 +9,14 @@ describe('SafeFlow website', () => {
 
     expect(screen.getByRole('link', { name: /skip to main content/i })).toBeInTheDocument();
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
+    expect(screen.getByText(/simulation preview · stakeholder discovery/i)).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: /make ward risk visible before escalation is missed/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /open cep brief/i })).toHaveAttribute('href', '#cep-brief');
     expect(screen.getByRole('link', { name: /view pilot pathway/i })).toHaveAttribute('href', '#pilot-pathway');
     expect(screen.getAllByText(/no patient data shown/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/NHS approved|clinically validated decision support|AI diagnosis/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: /what this preview shows/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: /what this preview does not show/i })).toBeInTheDocument();
   });
 
   it('updates the hero workflow detail panel when a workflow step is selected', async () => {
@@ -37,6 +40,7 @@ describe('SafeFlow website', () => {
 
     expect(screen.getByRole('heading', { level: 4, name: /risk signal review/i })).toBeInTheDocument();
     expect(screen.getByText(/delayed senior review marker/i)).toBeInTheDocument();
+    expect(screen.getByText(/^source: placeholder provider$/i)).toBeInTheDocument();
     expect(screen.getByText(/simulation output for preview only\. not clinically validated and not for clinical decision-making\./i)).toBeInTheDocument();
 
     await user.click(within(dashboardTabs).getByRole('tab', { name: /audit/i }));

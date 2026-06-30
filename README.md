@@ -79,6 +79,7 @@ The same checks run in `.github/workflows/safeflow-ci.yml` without AWS credentia
 
 The AWS-hosted SafeFlow preview is a simulation-safe public preview for workflow demonstration and stakeholder discovery. Outputs are not clinically validated and are not for clinical decision-making.
 
+- The preview includes explicit `What this preview shows` and `What this preview does not show` guidance, plus visible provenance labels on simulated output.
 - Hosted smoke covers route availability, preview-token gating, schema stability, CORS safety, and simulation audit read/write behavior.
 - Hosted smoke does not validate clinical correctness, clinical safety, or real-world decision quality.
 - On the currently deployed preview stack, `/api/simulation/signals` and `/api/simulation/risk-suggestions` are expected to expose simulation metadata and currently use placeholder providers rather than ML-backed database read models.

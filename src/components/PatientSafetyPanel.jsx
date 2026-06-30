@@ -93,9 +93,18 @@ function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
       <p>Simulation-only cues. Human review required.</p>
       <p className="risk-support-boundary">Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p>
       {(signalProviderNote || suggestionProviderNote) && (
-        <p className="risk-support-boundary">
-          {[signalProviderNote, suggestionProviderNote].filter(Boolean).join(' ')}
-        </p>
+        <div className="inline-list" role="list" aria-label="Simulation provenance">
+          {signalProviderNote && (
+            <span className="inline-pill" role="listitem">
+              {signalProviderNote}
+            </span>
+          )}
+          {suggestionProviderNote && (
+            <span className="inline-pill" role="listitem">
+              {suggestionProviderNote}
+            </span>
+          )}
+        </div>
       )}
       {!hasSignalSnapshot ? (
         <p>No signal snapshot available yet.</p>

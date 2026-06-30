@@ -42,7 +42,7 @@ export function SettingsView({
         )}
       </div>
       <div className="integration-check">
-        <div><strong>Build readiness</strong><p>Review the server-side safety boundary, providers and migration approval state. Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p></div>
+        <div><strong>Build readiness</strong><p>Review the server-side safety boundary, provider/source metadata and migration approval state. Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p></div>
         <button className="secondary-action" disabled={isCheckingReadiness} onClick={onCheckReadiness} type="button"><ShieldCheck aria-hidden="true" size={16} /> {isCheckingReadiness ? 'Checking...' : 'Check build readiness'}</button>
         {readinessReport && (
           <>

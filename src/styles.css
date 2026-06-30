@@ -228,6 +228,10 @@ summary:focus-visible {
   text-transform: uppercase;
 }
 
+.hero-badge {
+  margin-bottom: var(--space-4);
+}
+
 h1,
 h2,
 h3,
@@ -377,10 +381,16 @@ dd {
   gap: var(--space-3);
 }
 
-.boundary-heading strong,
+.boundary-heading h3,
 .selected-action-header strong,
 .rail-header strong {
   color: var(--color-text);
+}
+
+.boundary-heading h3 {
+  margin-bottom: 0;
+  font-size: 1rem;
+  line-height: 1.25;
 }
 
 .section-intro {
@@ -467,6 +477,14 @@ dd {
 .visual-heading > div,
 .dashboard-surface-header > div {
   min-width: 0;
+}
+
+.dashboard-provenance {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  max-width: 100%;
 }
 
 .hero-track-shell,
@@ -950,6 +968,10 @@ dd {
 
   .dashboard-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-provenance {
+    justify-content: flex-start;
   }
 
   .dashboard-card-grid,

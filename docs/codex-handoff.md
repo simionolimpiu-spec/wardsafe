@@ -128,3 +128,9 @@ Local-only untracked files remain from local tooling and deployment runs and sho
 - `cdk.context.json`
 - `pnpm-lock.yaml`
 - `pnpm-workspace.yaml`
+
+## Public Demo Polish
+
+- Branch: `public-demo-polish`.
+- The public preview now includes explicit `What this preview shows` / `What this preview does not show` callouts and clearer provenance labels on simulated output.
+- Safety boundaries remain unchanged: simulation-only preview, placeholder providers still in use for signals and risk suggestions, and no clinical validation claim.

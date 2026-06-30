@@ -42,6 +42,7 @@ export default function App() {
             <div className="hero-layout">
               <div className="hero-copy">
                 <p className="eyebrow">Nurse-led ward safety workflow</p>
+                <span className="simulation-label hero-badge">Simulation preview · stakeholder discovery</span>
                 <h1>Make ward risk visible before escalation is missed.</h1>
                 <p className="hero-intro">
                   SafeFlow is an early-stage digital safety platform for ward teams. It brings readiness
@@ -73,7 +74,7 @@ export default function App() {
               <div className="boundary-callout">
                 <div className="boundary-heading">
                   <ShieldCheck aria-hidden="true" size={20} />
-                  <strong>Simulation boundary</strong>
+                  <h3>Simulation preview</h3>
                 </div>
                 <p>
                   Fictional workflow only. No patient data shown. Not clinically validated.
@@ -83,21 +84,21 @@ export default function App() {
               <div className="boundary-callout">
                 <div className="boundary-heading">
                   <Waypoints aria-hidden="true" size={20} />
-                  <strong>Pilot pathway</strong>
+                  <h3>What this preview shows</h3>
                 </div>
                 <p>
-                  Prepared for governance review, mapped against escalation and audit needs, and intended
-                  for simulation-first workflow validation before any live deployment discussion.
+                  Structured handover, discharge readiness, patient-safety signals, escalation prompts,
+                  and audit learning for workflow discovery conversations.
                 </p>
               </div>
               <div className="boundary-callout">
                 <div className="boundary-heading">
                   <CircleAlert aria-hidden="true" size={20} />
-                  <strong>Claims boundary</strong>
+                  <h3>What this preview does not show</h3>
                 </div>
                 <p>
-                  SafeFlow does not claim NHS approval, clinical validation, diagnosis, prescribing,
-                  or automation that replaces clinicians.
+                  Clinical validation, live NHS integration, real ML-backed risk modelling, or
+                  deployment-ready clinical decision support.
                 </p>
               </div>
             </div>
