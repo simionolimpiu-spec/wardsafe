@@ -150,3 +150,12 @@ Local-only untracked files remain from local tooling and deployment runs and sho
 - Top follow-up priorities: clarify handover ownership, keep provenance labels visible, preserve the exact safety statement, and keep integration/governance/validation work separate from the simulation preview.
 - Out of scope: clinical validation claims, pilot-readiness claims, ML-backed risk modelling in this branch, and any implication that the public preview is production or NHS deployment ready.
 - Unchanged safety boundary: signals and risk suggestions remain placeholder-backed, and the preview is not clinically validated decision support.
+
+## Public Simulation Preview Release Pack — PARKED FOR NOW
+
+- The public simulation preview release pack is parked for now.
+- IP / founder ownership pack: [docs/company/ip-founder-ownership-pack.md](company/ip-founder-ownership-pack.md)
+- Invention log: [docs/company/safeflow-invention-log.md](company/safeflow-invention-log.md)
+- Key unresolved decisions: legal ownership, contributor IP assignment, confidentiality boundaries, external sharing rules, and whether SafeFlow sits under Aurora Nursing Services Ltd or a separate structure.
+- Reminder: this is internal preparation only and is not legal or accounting advice.
+- Next recommended workstream: public claims register
