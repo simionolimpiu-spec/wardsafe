@@ -736,6 +736,19 @@ textarea {
   justify-content: space-between;
 }
 
+.review-report-header-actions {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.review-report-copy-trigger,
+.review-report-print-trigger {
+  min-height: 38px;
+}
+
 .review-report-disclaimer {
   color: #17436f;
   font-weight: 800;
@@ -936,6 +949,47 @@ textarea {
 .review-report-learning-list li {
   color: #17436f;
   margin: 8px 0;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .review-report-overlay,
+  .review-report-overlay * {
+    visibility: visible;
+  }
+
+  .review-report-overlay {
+    display: block;
+    inset: auto;
+    position: static;
+    z-index: auto;
+  }
+
+  .review-report-backdrop,
+  .review-report-header-actions {
+    display: none !important;
+  }
+
+  .review-report-drawer {
+    border: 0;
+    box-shadow: none;
+    height: auto;
+    overflow: visible;
+    padding: 0;
+    position: static;
+    width: 100%;
+  }
+
+  .review-report-section {
+    break-inside: avoid;
+  }
 }
 
 .insights-header {

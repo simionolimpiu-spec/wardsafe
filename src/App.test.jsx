@@ -146,11 +146,35 @@ describe('SafeFlow prototype', () => {
     expect(
       within(report).getByText(/^Comparison summary for education, quality improvement, and human-led review\.$/i)
     ).toBeInTheDocument();
+    expect(within(report).getByRole('button', { name: /copy report/i })).toBeInTheDocument();
+    expect(within(report).getByRole('button', { name: /print report/i })).toBeInTheDocument();
     expect(report.textContent).not.toMatch(/automated escalation|diagnos|treatment advice|risk prediction/i);
 
     await user.click(within(report).getByRole('button', { name: /close report/i }));
 
     expect(screen.queryByRole('dialog', { name: /safeFlow simulation review report/i })).not.toBeInTheDocument();
+  });
+
+  it('copies and prints the simulation review report export', async () => {
+    const user = userEvent.setup();
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    vi.stubGlobal('navigator', { clipboard: { writeText } });
+    const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: /review report/i }));
+
+    const report = screen.getByRole('dialog', { name: /safeFlow simulation review report/i });
+    await user.click(within(report).getByRole('button', { name: /copy report/i }));
+    await user.click(within(report).getByRole('button', { name: /print report/i }));
+
+    expect(writeText).toHaveBeenCalledTimes(1);
+    expect(writeText.mock.calls[0][0]).toContain('SafeFlow Simulation Review Report');
+    expect(writeText.mock.calls[0][0]).toContain('Simulation data only. Not connected to live NHS systems. Not for patient care.');
+    expect(writeText.mock.calls[0][0]).toContain('Day Care treatment pathway review');
+    expect(writeText.mock.calls[0][0]).toContain('All review cues and comparison signals require human review.');
+    expect(writeText.mock.calls[0][0]).toContain('Ward comparison / Hospital Insights summary');
+    expect(printSpy).toHaveBeenCalledTimes(1);
   });
 
   it('switches demo scenarios and updates the selected patient and report context', async () => {

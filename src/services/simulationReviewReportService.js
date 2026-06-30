@@ -137,11 +137,87 @@ function buildInterpretationCues(reviewSignals, hospitalInsights) {
   ];
 }
 
+function cleanExportText(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function formatSummaryCard(card) {
+  const label = cleanExportText(card?.label);
+  const value = cleanExportText(card?.value);
+  const detail = cleanExportText(card?.detail);
+
+  if (label && value && detail) {
+    return `${label}: ${value} (${detail})`;
+  }
+
+  if (label && value) {
+    return `${label}: ${value}`;
+  }
+
+  if (label && detail) {
+    return `${label}: ${detail}`;
+  }
+
+  return value || detail || label;
+}
+
+function formatCueExportBlock(cue, index) {
+  const category = cleanExportText(cue?.categoryLabel);
+  const priority = cleanExportText(cue?.priorityLabel);
+  const title = cleanExportText(cue?.title) || 'Simulation cue';
+  const headerParts = [category, priority].filter(Boolean);
+  const lines = [`${index + 1}. ${headerParts.length > 0 ? headerParts.join(' / ') : 'Cue'}: ${title}`];
+
+  const explanation = cleanExportText(cue?.explanation);
+  if (explanation) {
+    lines.push(`  ${explanation}`);
+  }
+
+  const evidenceLabels = Array.isArray(cue?.evidenceLabels) ? cue.evidenceLabels.map(cleanExportText).filter(Boolean) : [];
+  if (evidenceLabels.length > 0) {
+    lines.push(`  Evidence: ${evidenceLabels.join('; ')}`);
+  }
+
+  const freshnessLabel = cleanExportText(cue?.freshnessLabel);
+  if (freshnessLabel) {
+    lines.push(`  Freshness: ${freshnessLabel}`);
+  }
+
+  const missingDataNotes = Array.isArray(cue?.missingDataNotes) ? cue.missingDataNotes.map(cleanExportText).filter(Boolean) : [];
+  if (missingDataNotes.length > 0) {
+    lines.push(`  Missing data: ${missingDataNotes.join('; ')}`);
+  }
+
+  const humanReviewAction = cleanExportText(cue?.humanReviewAction);
+  if (humanReviewAction) {
+    lines.push(`  Human review required: ${humanReviewAction}`);
+  }
+
+  return lines.join('\n');
+}
+
+function appendExportSection(blocks, title, entries) {
+  const lines = Array.isArray(entries) ? entries.map(cleanExportText).filter(Boolean) : [];
+
+  if (lines.length === 0) {
+    return;
+  }
+
+  blocks.push(title);
+
+  for (const line of lines) {
+    blocks.push(`- ${line}`);
+  }
+
+  blocks.push('');
+}
+
 export function getSimulationReviewReportSnapshot({
   patient,
   reviewSignals = [],
   hospitalInsights = getHospitalInsightsSnapshot(),
-  signalSnapshot = null
+  signalSnapshot = null,
+  selectedScenario = null
 } = {}) {
   if (!patient) {
     return null;
@@ -174,6 +250,77 @@ export function getSimulationReviewReportSnapshot({
     interpretationCues,
     learningPoints,
     humanReviewNote:
-      'Human review required. Clinical judgement remains central. This report is for simulation-only review and must not be used for patient care.'
+      'Human review required. Clinical judgement remains central. This report is for simulation-only review and must not be used for patient care.',
+    selectedScenario: selectedScenario
+      ? {
+          id: cleanExportText(selectedScenario.id),
+          label: cleanExportText(selectedScenario.label),
+          description: cleanExportText(selectedScenario.description),
+          currentWardName: cleanExportText(selectedScenario.currentWardName)
+        }
+      : null
   };
+}
+
+export function buildSimulationReviewReportExportText(snapshot) {
+  if (!snapshot) {
+    return '';
+  }
+
+  const blocks = [];
+  const title = cleanExportText(snapshot.title) || 'SafeFlow Simulation Review Report';
+  blocks.push(title, '');
+
+  appendExportSection(blocks, 'Simulation boundary statement', [
+    cleanExportText(snapshot.disclaimer),
+    'Simulation data only. Not connected to live NHS systems. Not for patient care.',
+    'This report does not provide diagnosis, treatment advice, risk prediction, or automated escalation.',
+    'All review cues and comparison signals require human review.',
+    cleanExportText(snapshot.boundaryDetail),
+    cleanExportText(snapshot.prototypeNote)
+  ]);
+
+  appendExportSection(blocks, 'Selected demo scenario', [
+    cleanExportText(snapshot.selectedScenario?.label) || 'Demo scenario',
+    cleanExportText(snapshot.selectedScenario?.description),
+    cleanExportText(snapshot.selectedScenario?.currentWardName)
+      ? `Ward context: ${cleanExportText(snapshot.selectedScenario.currentWardName)}`
+      : ''
+  ]);
+
+  appendExportSection(
+    blocks,
+    'Simulated patient context',
+    Array.isArray(snapshot.patientSummaryCards) ? snapshot.patientSummaryCards.map(formatSummaryCard) : []
+  );
+
+  appendExportSection(
+    blocks,
+    'Active patient-level review cues',
+    Array.isArray(snapshot.activeReviewCues) ? snapshot.activeReviewCues.map(formatCueExportBlock) : []
+  );
+
+  appendExportSection(blocks, 'Ward comparison / Hospital Insights summary', [
+    ...(Array.isArray(snapshot.wardComparisonSummaryCards) ? snapshot.wardComparisonSummaryCards.map(formatSummaryCard) : []),
+    ...(Array.isArray(snapshot.wardComparisonRows)
+      ? snapshot.wardComparisonRows.map((row) =>
+          `${cleanExportText(row?.label)}: current ward ${cleanExportText(row?.currentLabel)}; hospital average ${cleanExportText(row?.hospitalAverageLabel)}; comparison signal ${cleanExportText(row?.comparisonSignal)}`
+        )
+      : [])
+  ]);
+
+  appendExportSection(
+    blocks,
+    'Learning and reflection points',
+    Array.isArray(snapshot.learningPoints) ? snapshot.learningPoints : []
+  );
+
+  appendExportSection(blocks, 'Human review note', [
+    cleanExportText(snapshot.humanReviewNote),
+    'All review cues and comparison signals require human review.'
+  ]);
+
+  appendExportSection(blocks, 'Future roadmap note', [cleanExportText(snapshot.roadmapLine)]);
+
+  return blocks.join('\n').trim();
 }

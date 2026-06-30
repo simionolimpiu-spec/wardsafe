@@ -248,9 +248,10 @@ export default function App() {
         patient: selectedPatient,
         reviewSignals,
         hospitalInsights,
-        signalSnapshot: selectedSignalSnapshot
+        signalSnapshot: selectedSignalSnapshot,
+        selectedScenario
       }),
-    [hospitalInsights, reviewSignals, selectedPatient, selectedSignalSnapshot]
+    [hospitalInsights, reviewSignals, selectedPatient, selectedSignalSnapshot, selectedScenario]
   );
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));

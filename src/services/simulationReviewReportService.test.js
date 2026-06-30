@@ -1,12 +1,17 @@
 import { describe, expect, it } from 'vitest';
+import { getDemoScenarioById } from '../data/demoScenarios.js';
 import { simulatedPatients } from '../data/simulatedPatients.js';
 import { getHospitalInsightsSnapshot } from './hospitalInsightsService.js';
-import { getSimulationReviewReportSnapshot } from './simulationReviewReportService.js';
+import {
+  buildSimulationReviewReportExportText,
+  getSimulationReviewReportSnapshot
+} from './simulationReviewReportService.js';
 
 describe('simulation review report service', () => {
   it('returns deterministic simulation-only report data', () => {
     const patient = simulatedPatients.find((entry) => entry.id === 'DCU-031');
     const hospitalInsights = getHospitalInsightsSnapshot({ currentWardName: 'Day Care Unit' });
+    const selectedScenario = getDemoScenarioById('day-care-treatment-pathway');
     const reviewSignals = [
       {
         id: 'signal-1',
@@ -32,7 +37,13 @@ describe('simulation review report service', () => {
       }
     ];
 
-    const snapshot = getSimulationReviewReportSnapshot({ patient, reviewSignals, hospitalInsights });
+    const snapshot = getSimulationReviewReportSnapshot({
+      patient,
+      reviewSignals,
+      hospitalInsights,
+      selectedScenario
+    });
+    const exportText = buildSimulationReviewReportExportText(snapshot);
 
     expect(snapshot.title).toBe('SafeFlow Simulation Review Report');
     expect(snapshot.disclaimer).toBe(
@@ -52,12 +63,37 @@ describe('simulation review report service', () => {
       'This prototype demonstrates how structured digital documentation and ward-level comparison could support learning, quality improvement, and human-led review.'
     );
     expect(snapshot.humanReviewNote).toMatch(/human review required/i);
+    expect(snapshot.selectedScenario).toMatchObject({
+      id: 'day-care-treatment-pathway',
+      label: 'Day Care treatment pathway review',
+      description: 'Current day care treatment pathway with documentation and review cues for the same fictional ward.',
+      currentWardName: 'Day Care Unit'
+    });
     expect(snapshot.sourceStatus).toEqual({
       sourceType: 'simulation',
       connectedToLiveSystems: false,
       containsPatientData: false,
       lastUpdatedLabel: 'Static prototype data'
     });
-    expect(getSimulationReviewReportSnapshot({ patient, reviewSignals, hospitalInsights })).toEqual(snapshot);
+    expect(exportText).toContain('SafeFlow Simulation Review Report');
+    expect(exportText).toContain('Simulation boundary statement');
+    expect(exportText).toContain('Simulation data only. Not connected to live NHS systems. Not for patient care.');
+    expect(exportText).toContain(
+      'This report does not provide diagnosis, treatment advice, risk prediction, or automated escalation.'
+    );
+    expect(exportText).toContain('All review cues and comparison signals require human review.');
+    expect(exportText).toContain('Selected demo scenario');
+    expect(exportText).toContain('Day Care treatment pathway review');
+    expect(exportText).toContain('Simulated patient context');
+    expect(exportText).toContain('Active patient-level review cues');
+    expect(exportText).toContain('Ward comparison / Hospital Insights summary');
+    expect(exportText).toContain('Learning and reflection points');
+    expect(exportText).toContain('Human review note');
+    expect(exportText).toContain('Future roadmap note');
+    expect(exportText).toContain('Patient view -> review cues -> ward comparison -> hospital insights -> learning summary');
+    expect(exportText).toContain('Documentation completeness');
+    expect(
+      getSimulationReviewReportSnapshot({ patient, reviewSignals, hospitalInsights, selectedScenario })
+    ).toEqual(snapshot);
   });
 });

@@ -1,5 +1,6 @@
 import { ChevronRight, FileText, X } from 'lucide-react';
 import { useEffect } from 'react';
+import { buildSimulationReviewReportExportText } from '../services/simulationReviewReportService.js';
 
 export function SimulationReviewReportButton({ isOpen = false, onClick = () => {} }) {
   return (
@@ -17,6 +18,23 @@ export function SimulationReviewReportButton({ isOpen = false, onClick = () => {
 }
 
 export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {}, snapshot }) {
+  async function handleCopyReport() {
+    const exportText = buildSimulationReviewReportExportText(snapshot);
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(exportText);
+      } catch {
+        // Simulation-only export: clipboard failures should not block the demo.
+      }
+    }
+  }
+
+  function handlePrintReport() {
+    if (typeof window !== 'undefined' && typeof window.print === 'function') {
+      window.print();
+    }
+  }
+
   useEffect(() => {
     if (!isOpen) return undefined;
 
@@ -71,9 +89,17 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
               </div>
             )}
           </div>
-          <button aria-label="Close report" className="icon-action" onClick={onClose} type="button">
-            <X aria-hidden="true" size={18} />
-          </button>
+          <div className="review-report-header-actions">
+            <button className="secondary-action review-report-copy-trigger" onClick={handleCopyReport} type="button">
+              Copy report
+            </button>
+            <button className="secondary-action review-report-print-trigger" onClick={handlePrintReport} type="button">
+              Print report
+            </button>
+            <button aria-label="Close report" className="icon-action" onClick={onClose} type="button">
+              <X aria-hidden="true" size={18} />
+            </button>
+          </div>
         </header>
 
         <section className="review-report-section">
