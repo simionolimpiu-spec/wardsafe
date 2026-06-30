@@ -9,6 +9,19 @@ This note prepares SafeFlow for a shareable, password-protected, simulation-only
 - Keep all preview data fictional and simulation-only.
 - Keep human review explicit throughout the UI and API.
 
+## Current Preview Deployment
+
+The current deployed preview is:
+
+- Frontend: `https://preview.d3etfd425b4rlk.amplifyapp.com/`
+- Backend API: `https://nlork7u5ziyhwbjmoplexuw4rq0tnwah.lambda-url.eu-west-2.on.aws/`
+- AWS region: `eu-west-2`
+- CloudFormation stack: `safeflow-simulation-foundation`
+- Amplify app id: `d3etfd425b4rlk`
+- Amplify branch: `preview`
+
+Amplify Basic Auth is enabled, and the API requires `X-SafeFlow-Preview-Token`. Do not commit or post the Basic Auth password or preview access token; share them only through a private channel with named reviewers.
+
 ## Why Localhost Links Do Not Work For Other People
 
 `http://127.0.0.1:5173` and `http://localhost:5173` point to the computer currently running Vite. Other people cannot open that address unless they are on the same machine. The local dev server also stops when:
