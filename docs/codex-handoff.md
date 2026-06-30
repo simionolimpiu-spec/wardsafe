@@ -50,8 +50,12 @@ Do not commit or post the Basic Auth password, AWS access keys, or `SAFEFLOW_PRE
 
 ## Validation Completed
 
-- Targeted infra/API/client tests passed: 48 files, 285 tests.
+- Full unit test suite passed: 48 files, 285 tests.
 - Frontend production build passed.
+- `pnpm audit --audit-level=moderate` found no known vulnerabilities.
+- E2E suite passed: 2 tests across desktop and mobile Chromium.
+- Migration manifest and simulation migration dry-run passed.
+- Infra synth passed for `dev` and `simulation`.
 - CDK deploy preflight passed with the non-root IAM user.
 - CloudFormation update completed successfully.
 - Amplify manual deployment job `1` completed with `SUCCEED`.
