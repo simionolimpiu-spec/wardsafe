@@ -51,9 +51,11 @@ const tabs = [
   { id: 'audit', label: 'Audit' }
 ];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
-const PRESENTATION_FLOW_STEPS = ['Scenario', 'Review cues', 'Hospital Insights', 'Review Report'];
+const PRESENTATION_FLOW_STEPS = ['Demo Scenario', 'Patient Review Cues', 'Hospital Insights', 'Simulation Review Report'];
 const PRESENTATION_ROADMAP_NOTE =
-  'Future NHS/AWS roadmap note: approved service boundaries, governed integrations, and human-led review only.';
+  'Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS/AWS integration.';
+const PRESENTATION_BOUNDARY_NOTE =
+  'Simulation-only. Human review required. Designed for NHS leadership, ward managers, clinical educators, and digital safety leads.';
 
 function formatDraftSections(draft) {
   return Object.entries(draft.sections)
@@ -628,6 +630,7 @@ export default function App() {
             <div className="presentation-banner-copy">
               <p className="eyebrow">Presentation mode</p>
               <h2>Simulation-only SafeFlow demo</h2>
+              <p className="presentation-banner-boundary">{PRESENTATION_BOUNDARY_NOTE}</p>
               <p className="presentation-banner-scenario">
                 Selected scenario: <strong>{selectedScenario?.label ?? 'Demo scenario'}</strong>
               </p>

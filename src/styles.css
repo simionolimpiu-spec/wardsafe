@@ -132,6 +132,19 @@ textarea {
   margin: 0;
 }
 
+.presentation-banner-boundary {
+  background: #edf5ff;
+  border: 1px solid #cfe0f6;
+  border-left: 4px solid #003087;
+  border-radius: 10px;
+  color: #0b3760;
+  font-size: 0.93rem;
+  font-weight: 800;
+  line-height: 1.45;
+  margin: 2px 0 0;
+  padding: 10px 12px;
+}
+
 .presentation-banner-scenario,
 .presentation-banner-description,
 .presentation-banner-note {
@@ -180,7 +193,8 @@ textarea {
 
 .presentation-flow strong {
   color: #17436f;
-  font-size: 1rem;
+  font-size: 1.04rem;
+  line-height: 1.25;
 }
 
 .presentation-banner-note {
@@ -631,6 +645,10 @@ textarea {
 .app-shell.presentation-mode .tab-list button {
   font-size: 1rem;
   padding: 14px 12px;
+}
+
+.app-shell.presentation-mode .presentation-banner-boundary {
+  font-size: 0.98rem;
 }
 
 .app-shell.presentation-mode .ward-board h2,

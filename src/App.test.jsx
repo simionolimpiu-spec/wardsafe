@@ -60,13 +60,22 @@ describe('SafeFlow prototype', () => {
 
     const banner = screen.getByRole('region', { name: /presentation mode/i });
     expect(within(banner).getByRole('heading', { name: /simulation-only safeFlow demo/i })).toBeInTheDocument();
+    expect(
+      within(banner).getByText(
+        /^Simulation-only\. Human review required\. Designed for NHS leadership, ward managers, clinical educators, and digital safety leads\.$/i
+      )
+    ).toBeInTheDocument();
     expect(within(banner).getByText(/selected scenario:/i)).toBeInTheDocument();
     expect(within(banner).getByRole('list', { name: /presentation flow/i })).toBeInTheDocument();
-    expect(within(banner).getByText(/^Scenario$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Review cues$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Demo Scenario$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Patient Review Cues$/i)).toBeInTheDocument();
     expect(within(banner).getByText(/^Hospital Insights$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Review Report$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/future nhs\/aws roadmap note/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Simulation Review Report$/i)).toBeInTheDocument();
+    expect(
+      within(banner).getByText(
+        /^Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS\/AWS integration\.$/i
+      )
+    ).toBeInTheDocument();
     expect(within(banner).getByRole('button', { name: /exit presentation mode/i })).toBeInTheDocument();
 
     await user.click(within(banner).getByRole('button', { name: /exit presentation mode/i }));
