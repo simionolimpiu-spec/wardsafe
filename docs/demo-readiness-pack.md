@@ -52,33 +52,38 @@ The demo shows:
 - The feature should not be treated as a clinical risk engine or decision support system.
 - Future connected data sources may require UI changes once governance and integration constraints are known.
 
-## Simulation Review Report
+## Exportable simulation report
 
 ### Feature summary
 
-- The Review report button opens a short in-app simulation summary.
-- It pulls together the current simulated patient view, active review cues, and the ward-level Hospital Insights comparison.
-- The report is useful for education, ward review, quality improvement discussion, and digital safety demonstrations.
+- The Review report button opens a short in-app simulation summary that can be copied or printed.
+- It pulls together the selected demo scenario, the current simulated patient view, active review cues, the ward-level Hospital Insights comparison, and the learning summary.
+- The export is useful for live demos, education, ward review, quality improvement discussion, stakeholder presentations, and digital safety demonstrations.
+- It is designed as a safe prototype output, not as a clinical report.
 
 ### Safety boundary
 
+- Simulation data only. Not connected to live NHS systems. Not for patient care.
 - No real patient data is used.
 - No live NHS systems are connected.
 - No patient-identifiable information is used.
-- The report is for prototype demonstration only.
+- The report is not for clinical use.
+- It does not provide diagnosis, treatment advice, risk prediction, or automated escalation.
+- All cues require human review.
 - The wording is comparison-based and requires human review.
 
 ### Demo talking points
 
-- Show the flow from patient view to review cues, then into ward comparison and the structured review summary.
-- Use the report to explain how documentation, handover, NEWS2 review cues, and ward-level comparison fit together in one simulation view.
-- Emphasize that the report is a learning aid, not a clinical recommendation tool.
+- Show the flow from the selected scenario to patient review cues, then into Hospital Insights and the structured review summary.
+- Use the export to explain how documentation, handover, NEWS2 review cues, ward comparison, and learning points fit together in one simulation view.
+- Emphasize that the export is a learning aid for stakeholder discussion, not a clinical recommendation tool.
 - Keep the human review note visible so the audience sees the boundary clearly.
+- Use copy or print during the demo when you want to hand the output to the room or print it for discussion.
 
 ### Future integration notes
 
 - SafeFlow currently demonstrates a simulation pathway from patient-level review cues to ward-level comparison and a structured review summary. Future work could place this behind approved NHS/AWS service boundaries, subject to information governance, clinical safety case development, and integration approval.
-- Later integration could reuse the same report layout once a governed NHS or AWS service boundary exists.
+- Later integration could reuse the same report layout once a governed NHS or AWS service boundary exists, turning the export into an approved reporting output rather than a prototype artifact.
 
 ### Risks / limitations
 
@@ -146,7 +151,9 @@ Clinical judgement remains central, and outputs remain human-editable, explainab
 
 Use this flow when presenting SafeFlow in Presentation Mode to NHS nursing leadership, ward managers, clinical educators, digital safety leads, or innovation and transformation teams.
 
-SafeFlow is simulation-only at this stage. No real patient data is used. No live NHS systems are connected. The prototype does not provide diagnosis, treatment advice, risk prediction, or automated escalation. SafeFlow demonstrates how structured documentation, review cues, ward comparison, and learning summaries could support human-led review.
+SafeFlow is simulation-only at this stage. No real patient data is used. No live NHS systems are connected. The prototype does not provide diagnosis, treatment advice, risk prediction, or automated escalation. SafeFlow demonstrates how structured documentation, review cues, ward comparison, learning summaries, and exportable reporting could support human-led review.
+
+Recommended flow: Enable Presentation Mode -> choose Demo Scenario -> review patient cues -> open Hospital Insights -> generate Review Report -> copy or print export.
 
 1. Enable Presentation Mode
    - Open the prototype in Presentation Mode before the audience arrives so the experience feels guided, calm, and focused.
@@ -172,11 +179,15 @@ SafeFlow is simulation-only at this stage. No real patient data is used. No live
    - Compare the ward against the simulated hospital benchmarks to show how review quality, workload patterns, and readiness signals are framed in the prototype.
    - Speaker note: "These are fictional benchmarks for learning and discussion, not performance claims or clinical predictions."
 
-7. Open the Simulation Review Report
+7. Generate the Simulation Review Report
    - Open the report to bring together the simulated patient context, the patient-level cues, and the ward comparison in one review summary.
    - Speaker note: "The report is a structured learning aid that keeps the human review boundary visible."
 
-8. Explain the future NHS/AWS roadmap
+8. Copy or print the export
+   - Use the export actions to create a shareable or printable version for discussion.
+   - Speaker note: "The export remains simulation-only and is not for clinical use."
+
+9. Explain the future NHS/AWS roadmap
    - Close by explaining that future NHS/AWS work would require governance, integration approval, safety review, and deployment controls before anything moved beyond simulation.
    - Speaker note: "Today we are demonstrating a prototype pathway; any real-world future use would need separate approval, connectivity, and safety assurance."
 
