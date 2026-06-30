@@ -26,6 +26,45 @@ describe('SafeFlow prototype', () => {
     expect(within(wardList).getByText('DCU-031')).toBeInTheDocument();
   });
 
+  it('renders a hospital insights button in the main header', () => {
+    render(<App />);
+
+    expect(screen.getByRole('button', { name: /hospital insights/i })).toBeInTheDocument();
+  });
+
+  it('opens and closes the hospital insights drawer with comparison cues', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: /hospital insights/i }));
+
+    const drawer = screen.getByRole('dialog', { name: /hospital insights/i });
+    expect(within(drawer).getByText(/^Simulation insight$/i)).toBeInTheDocument();
+    expect(
+      within(drawer).getByText(
+        /^Simulation comparison cues for ward-level review\. This prototype uses mock data only and is not connected to live NHS systems\.$/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(drawer).getByText(/^Patient view -> review cues -> ward comparison -> hospital insights -> future NHS\/AWS integration$/i)
+    ).toBeInTheDocument();
+    expect(within(drawer).getByText(/Hospital benchmark: Cityview Community Hospital/i)).toBeInTheDocument();
+    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Simulation source/i);
+    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Static prototype data/i);
+    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Live systems: not connected/i);
+    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Patient data: not present/i);
+    expect(within(drawer).getByRole('img', { name: /ward versus hospital comparison chart/i })).toBeInTheDocument();
+    expect(within(drawer).getByRole('table', { name: /ward comparison/i })).toBeInTheDocument();
+    expect(within(drawer).getByText(/Documentation completeness/i, { selector: 'th span' })).toBeInTheDocument();
+    expect(
+      within(drawer).getByText(/^Simulation only\. Fictional ward benchmark data\. Human review required\.$/i)
+    ).toBeInTheDocument();
+
+    await user.click(within(drawer).getByRole('button', { name: /close insights/i }));
+
+    expect(screen.queryByRole('dialog', { name: /hospital insights/i })).not.toBeInTheDocument();
+  });
+
   it('shows the fuller clinical workspace shell without official branding', () => {
     render(<App />);
 

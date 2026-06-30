@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { wardSummary } from './data/simulatedPatients.js';
+import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
@@ -14,6 +15,7 @@ import {
 } from './services/auditClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
+import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
@@ -176,6 +178,10 @@ export default function App() {
   const riskSupport = useMemo(() => {
     return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
   }, [selectedPatient, potassiumFlag]);
+  const hospitalInsights = useMemo(
+    () => getHospitalInsightsSnapshot({ currentWardName: wardSummary.unitName }),
+    [wardSummary.unitName]
+  );
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
   }, [selectedPatient, potassiumFlag]);
@@ -191,6 +197,7 @@ export default function App() {
   const [backendAuditEvents, setBackendAuditEvents] = useState([]);
   const [backendAuditStatus, setBackendAuditStatus] = useState('');
   const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
+  const [isHospitalInsightsOpen, setIsHospitalInsightsOpen] = useState(false);
   const [dialog, setDialog] = useState(null);
 
   useEffect(() => {
@@ -485,7 +492,13 @@ export default function App() {
             <p className="eyebrow">Simulation prototype</p>
             <h1>SafeFlow</h1>
           </div>
-          <span className="product-note">SafeFlow Nursing concept</span>
+          <div className="topbar-actions">
+            <span className="product-note">SafeFlow Nursing concept</span>
+            <HospitalInsightsButton
+              isOpen={isHospitalInsightsOpen}
+              onClick={() => setIsHospitalInsightsOpen((current) => !current)}
+            />
+          </div>
         </header>
         <SafetyBanner />
         <nav className="tab-list" aria-label="Prototype journey">
@@ -607,6 +620,11 @@ export default function App() {
           )}
         </div>
         <ArchitectureStrip />
+        <HospitalInsightsDrawer
+          isOpen={isHospitalInsightsOpen}
+          onClose={() => setIsHospitalInsightsOpen(false)}
+          snapshot={hospitalInsights}
+        />
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
         {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
       </div>

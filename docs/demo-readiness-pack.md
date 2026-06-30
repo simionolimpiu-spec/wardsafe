@@ -17,6 +17,41 @@ The demo shows:
 - an audit and learning timeline
 - a simulation report and fictional scenario coverage summary
 
+## Hospital Insights simulation layer
+
+### Feature summary
+
+- A button in the main app opens a compact right-side Hospital insights drawer.
+- The drawer compares one ward against the hospital simulation average and fictional peer wards.
+- It shows summary cards, compact comparison charts, a ward comparison table and short review cues.
+- It is useful for ward nurses, ward managers, clinical educators and digital safety leads who want a fast simulation review view.
+
+### Safety boundary
+
+- Simulation-only mock data is used.
+- No real NHS systems are connected.
+- No patient-identifiable information is used.
+- No diagnosis, prediction, automated escalation or clinical decision-making is shown.
+- The drawer is explicitly framed as comparison signals, review cues and human review required.
+
+### Demo talking points
+
+- The roadmap can be described as patient view -> review cues -> ward comparison -> hospital insights -> future NHS/AWS integration.
+- Show how the comparison helps explain documentation completeness, handover completeness, NEWS2 escalation documentation, medication review cue completion and discharge readiness documentation.
+- Emphasize that the charts and table are only comparison cues for review, not clinical advice.
+- Use the source badge to show that the data is static prototype data.
+
+### Future integration notes
+
+- The service boundary is ready for a future swap to NHS Digital, hospital dashboard or AWS/Aurora sources.
+- Any later integration would need separate governance, access control, safety review and audit review.
+
+### Risks / limitations
+
+- The benchmark values are deterministic and fictional, so they are stable for demos but not suitable for live operational decisions.
+- The feature should not be treated as a clinical risk engine or decision support system.
+- Future connected data sources may require UI changes once governance and integration constraints are known.
+
 ## What the demo does not show
 
 The demo stays inside explicit safety boundaries:
