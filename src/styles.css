@@ -70,6 +70,16 @@ textarea {
   padding: 8px 12px;
 }
 
+.role-pill {
+  background: #edf5ff;
+  border: 1px solid #cfe0f6;
+  border-radius: 999px;
+  color: #17436f;
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 8px 12px;
+}
+
 .topbar-actions {
   align-items: center;
   display: flex;
@@ -201,6 +211,14 @@ textarea {
   color: #53657a;
   font-size: 0.88rem;
   font-weight: 700;
+}
+
+.family-safe-banner .presentation-banner-copy {
+  max-width: 780px;
+}
+
+.family-safe-banner .presentation-banner-boundary {
+  background: #f3f8ff;
 }
 
 .safety-banner,
@@ -382,6 +400,10 @@ textarea {
   width: 100%;
 }
 
+.family-safe-table {
+  min-width: 860px;
+}
+
 .table-scroll {
   overflow-x: auto;
 }
@@ -474,6 +496,96 @@ textarea {
   border-radius: 8px;
   margin: 8px 0;
   padding: 10px;
+}
+
+.journey-twin,
+.family-safe-summary {
+  background: #f8fbff;
+  border: 1px solid #d8e6f4;
+  border-radius: 8px;
+  margin: 16px 0;
+  padding: 14px;
+}
+
+.journey-twin-heading {
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+.journey-twin-heading p {
+  margin: 4px 0 0;
+}
+
+.journey-twin-grid,
+.family-safe-summary-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.journey-tile,
+.family-safe-summary-grid article {
+  background: #fff;
+  border: 1px solid #d8e6f4;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.journey-tile-copy {
+  align-items: baseline;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.journey-tile-copy span,
+.family-safe-summary-grid span {
+  color: #617083;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.journey-tile-copy strong,
+.family-safe-summary-grid strong {
+  color: #003087;
+  font-size: 1rem;
+}
+
+.journey-bar {
+  background: #dce7f3;
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.journey-bar span {
+  background: linear-gradient(90deg, #005eb8 0%, #2f83d8 100%);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+}
+
+.journey-tile p,
+.family-safe-summary p,
+.family-safe-summary li {
+  color: #425369;
+  margin: 0;
+}
+
+.family-safe-list {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+
+.family-safe-responsibility {
+  color: #17436f;
+  font-weight: 700;
+  margin-top: 12px;
 }
 
 .call-button {
@@ -1983,6 +2095,45 @@ textarea {
 
 .settings-form {
   max-width: 680px;
+}
+
+.settings-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.settings-choice-group {
+  display: grid;
+  gap: 10px;
+  padding: 2px 0 4px;
+}
+
+.settings-choice-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.settings-choice-copy span {
+  color: #08285b;
+  font-weight: 900;
+}
+
+.settings-choice-copy small {
+  color: #617083;
+  line-height: 1.4;
+}
+
+.settings-segmented {
+  margin: 0;
+}
+
+.settings-segmented button {
+  min-height: 38px;
+}
+
+.settings-save {
+  justify-self: start;
 }
 
 .danger-zone {

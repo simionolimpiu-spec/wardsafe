@@ -51,11 +51,26 @@ const tabs = [
   { id: 'audit', label: 'Audit' }
 ];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
-const PRESENTATION_FLOW_STEPS = ['Demo Scenario', 'Patient Review Cues', 'Hospital Insights', 'Simulation Review Report'];
+const PRESENTATION_FLOW_STEPS = [
+  'Enable Presentation Mode',
+  'Select a Demo Scenario',
+  'Review the simulated patient context',
+  'Review patient-level cues',
+  'Open Hospital Insights',
+  'Compare the ward against simulated hospital benchmarks',
+  'Open the Simulation Review Report',
+  'Explain the future NHS/AWS roadmap'
+];
 const PRESENTATION_ROADMAP_NOTE =
-  'Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS/AWS integration.';
+  'Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS/AWS roadmap.';
 const PRESENTATION_BOUNDARY_NOTE =
   'Simulation-only. Human review required. Designed for NHS leadership, ward managers, clinical educators, and digital safety leads.';
+const ROLE_MODE_LABELS = {
+  'clinical-staff': 'Clinical staff view',
+  'educator-simulation': 'Educator / simulation view',
+  'family-safe-preview': 'Family-safe preview'
+};
+const FAMILY_SAFE_NAV_VIEWS = new Set(['board', 'patients', 'settings']);
 
 function formatDraftSections(draft) {
   return Object.entries(draft.sections)
@@ -223,6 +238,10 @@ export default function App() {
     () => demoScenarioOptions.find((option) => option.id === state.selectedScenarioId) ?? demoScenarioOptions[0] ?? null,
     [demoScenarioOptions, state.selectedScenarioId]
   );
+  const roleMode = state.settings.roleMode;
+  const isFamilySafePreview = roleMode === 'family-safe-preview';
+  const roleLabel = ROLE_MODE_LABELS[roleMode] ?? ROLE_MODE_LABELS['clinical-staff'];
+  const showClinicalGraphs = state.settings.graphVisibility === 'clinical-only' && !isFamilySafePreview;
   const reviewSignals = useMemo(
     () => selectPatientSimulationSignals(state, selectedPatient?.id),
     [selectedPatient?.id, state]
@@ -317,6 +336,18 @@ export default function App() {
     };
   }, [dispatch, selectedPatient?.id]);
 
+  useEffect(() => {
+    if (!isFamilySafePreview) return;
+
+    if (!FAMILY_SAFE_NAV_VIEWS.has(state.selectedView)) {
+      dispatch({ type: 'navigation/changed', payload: { view: 'board' } });
+    }
+
+    setIsHospitalInsightsOpen(false);
+    setIsReviewReportOpen(false);
+    setIsPresentationMode(false);
+  }, [dispatch, isFamilySafePreview, state.selectedView]);
+
   function selectPatient(patientId) {
     const nextPatient = selectPatientFromState(state, patientId) ?? state.patients[0];
     const nextFlag = evaluatePotassiumSafetyGap(nextPatient);
@@ -354,7 +385,8 @@ export default function App() {
   }
 
   function navigate(view) {
-    dispatch({ type: 'navigation/changed', payload: { view } });
+    const nextView = isFamilySafePreview && !FAMILY_SAFE_NAV_VIEWS.has(view) ? 'board' : view;
+    dispatch({ type: 'navigation/changed', payload: { view: nextView } });
     setDraftStatus('');
     setServerAuditStatus('');
   }
@@ -586,6 +618,7 @@ export default function App() {
         activeView={state.selectedView}
         escalationCount={selectActiveEscalationCount(state)}
         onNavigate={navigate}
+        roleMode={roleMode}
         taskCount={openTaskCount}
       />
       <div className="workspace-main">
@@ -595,38 +628,47 @@ export default function App() {
             <h1>SafeFlow</h1>
           </div>
           <div className="topbar-actions">
-            <DemoScenarioSelector
-              description={state.scenarioDescription}
-              onChange={changeDemoScenario}
-              options={demoScenarioOptions}
-              value={state.selectedScenarioId}
-            />
             <span className="product-note">SafeFlow Nursing concept</span>
-            <button
-              aria-pressed={isPresentationMode}
-              className="secondary-action presentation-mode-trigger"
-              onClick={togglePresentationMode}
-              type="button"
-            >
-              {isPresentationMode ? 'Exit presentation mode' : 'Presentation mode'}
-            </button>
-            <SimulationReviewReportButton
-              isOpen={isReviewReportOpen}
-              onClick={() => {
-                setIsReviewReportOpen((current) => !current);
-                setIsHospitalInsightsOpen(false);
-              }}
-            />
-            <HospitalInsightsButton
-              isOpen={isHospitalInsightsOpen}
-              onClick={() => {
-                setIsHospitalInsightsOpen((current) => !current);
-                setIsReviewReportOpen(false);
-              }}
-            />
+            <span className="role-pill">{roleLabel}</span>
+            {!isFamilySafePreview && (
+              <DemoScenarioSelector
+                description={state.scenarioDescription}
+                onChange={changeDemoScenario}
+                options={demoScenarioOptions}
+                value={state.selectedScenarioId}
+              />
+            )}
+            {!isFamilySafePreview && (
+              <button
+                aria-pressed={isPresentationMode}
+                className="secondary-action presentation-mode-trigger"
+                onClick={togglePresentationMode}
+                type="button"
+              >
+                {isPresentationMode ? 'Exit presentation mode' : 'Presentation mode'}
+              </button>
+            )}
+            {!isFamilySafePreview && (
+              <SimulationReviewReportButton
+                isOpen={isReviewReportOpen}
+                onClick={() => {
+                  setIsReviewReportOpen((current) => !current);
+                  setIsHospitalInsightsOpen(false);
+                }}
+              />
+            )}
+            {!isFamilySafePreview && (
+              <HospitalInsightsButton
+                isOpen={isHospitalInsightsOpen}
+                onClick={() => {
+                  setIsHospitalInsightsOpen((current) => !current);
+                  setIsReviewReportOpen(false);
+                }}
+              />
+            )}
           </div>
         </header>
-        {isPresentationMode && (
+        {!isFamilySafePreview && isPresentationMode && (
           <section className="presentation-banner" aria-label="Presentation mode">
             <div className="presentation-banner-copy">
               <p className="eyebrow">Presentation mode</p>
@@ -655,21 +697,40 @@ export default function App() {
             <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
           </section>
         )}
+        {isFamilySafePreview && (
+          <section className="presentation-banner family-safe-banner" aria-label="Family-safe preview">
+            <div className="presentation-banner-copy">
+              <p className="eyebrow">Family-safe preview</p>
+              <h2>Plain-language simulation summary</h2>
+              <p className="presentation-banner-boundary">
+                Simulation-only. No real patient data is used. No live NHS systems are connected. The clinical team remains responsible.
+              </p>
+              <p className="presentation-banner-scenario">
+                Selected summary: <strong>What has been reviewed, what is still being checked, and the next update placeholder.</strong>
+              </p>
+              <p className="presentation-banner-description">
+                This preview keeps the language calm and plain while the team prepares the next family-safe update.
+              </p>
+            </div>
+          </section>
+        )}
         <SafetyBanner />
-        <nav className="tab-list" aria-label="Prototype journey">
-          {tabs.map((tab) => (
-            <button
-              aria-selected={state.selectedView === tab.id}
-              className={state.selectedView === tab.id ? 'active' : ''}
-              key={tab.id}
-              onClick={() => navigate(tab.id)}
-              role="tab"
-              type="button"
-            >
-              {tab.label}
-            </button>
-          ))}
-        </nav>
+        {!isFamilySafePreview && (
+          <nav className="tab-list" aria-label="Prototype journey">
+            {tabs.map((tab) => (
+              <button
+                aria-selected={state.selectedView === tab.id}
+                className={state.selectedView === tab.id ? 'active' : ''}
+                key={tab.id}
+                onClick={() => navigate(tab.id)}
+                role="tab"
+                type="button"
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+        )}
         <div className={`dashboard-layout ${showPatientPanel ? '' : 'full-width'}`}>
           <div>
             {state.selectedView === 'board' && (
@@ -677,6 +738,7 @@ export default function App() {
                 summary={state.wardSummary}
                 patients={state.patients}
                 selectedPatientId={selectedPatient.id}
+                roleMode={roleMode}
                 onSelectPatient={selectPatient}
                 onExport={exportWardBoard}
               />
@@ -769,22 +831,29 @@ export default function App() {
               onAddTask={addTask}
               onRequestContact={requestContact}
               patient={selectedPatient}
+              detailLevel={state.settings.detailLevel}
               reviewSignals={reviewSignals}
               signalSnapshot={state.signalSnapshots?.[selectedPatient.id] ?? null}
+              roleMode={roleMode}
+              showClinicalGraphs={showClinicalGraphs}
             />
           )}
         </div>
-        {!isPresentationMode && <ArchitectureStrip />}
-        <HospitalInsightsDrawer
-          isOpen={isHospitalInsightsOpen}
-          onClose={() => setIsHospitalInsightsOpen(false)}
-          snapshot={hospitalInsights}
-        />
-        <SimulationReviewReportDrawer
-          isOpen={isReviewReportOpen}
-          onClose={() => setIsReviewReportOpen(false)}
-          snapshot={simulationReviewReport}
-        />
+        {!isPresentationMode && !isFamilySafePreview && <ArchitectureStrip />}
+        {!isFamilySafePreview && (
+          <HospitalInsightsDrawer
+            isOpen={isHospitalInsightsOpen}
+            onClose={() => setIsHospitalInsightsOpen(false)}
+            snapshot={hospitalInsights}
+          />
+        )}
+        {!isFamilySafePreview && (
+          <SimulationReviewReportDrawer
+            isOpen={isReviewReportOpen}
+            onClose={() => setIsReviewReportOpen(false)}
+            snapshot={simulationReviewReport}
+          />
+        )}
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
         {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
       </div>

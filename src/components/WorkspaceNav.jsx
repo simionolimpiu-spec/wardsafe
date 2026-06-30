@@ -24,12 +24,26 @@ const navItems = [
   { id: 'settings', label: 'Settings', icon: Settings }
 ];
 
+const familySafeNavItemIds = new Set(['board', 'patients', 'settings']);
+
 export function WorkspaceNav({
   activeView = 'board',
   taskCount = 6,
   escalationCount = 2,
+  roleMode = 'clinical-staff',
   onNavigate = () => {}
 }) {
+  const visibleNavItems =
+    roleMode === 'family-safe-preview'
+      ? navItems.filter((item) => familySafeNavItemIds.has(item.id))
+      : navItems;
+  const roleLabel =
+    roleMode === 'family-safe-preview'
+      ? 'Family-safe preview'
+      : roleMode === 'educator-simulation'
+        ? 'Educator simulation'
+        : 'Clinical staff';
+
   return (
     <aside className="workspace-nav" aria-label="SafeFlow workspace">
       <div className="nav-brand">
@@ -41,7 +55,7 @@ export function WorkspaceNav({
       </div>
 
       <nav aria-label="SafeFlow workspace">
-        {navItems.map((item) => {
+        {visibleNavItems.map((item) => {
           const Icon = item.icon;
           const count = item.id === 'tasks'
             ? taskCount
@@ -63,6 +77,7 @@ export function WorkspaceNav({
       </nav>
 
       <div className="nav-context">
+        <p><strong>Mode</strong><span>{roleLabel}</span></p>
         <p><strong>Ward</strong><span>Day Care Unit</span></p>
         <p><strong>Location</strong><span>Cityview Community Hospital</span></p>
         <small>Simulation version 1.3</small>

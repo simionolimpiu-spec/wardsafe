@@ -67,13 +67,17 @@ describe('SafeFlow prototype', () => {
     ).toBeInTheDocument();
     expect(within(banner).getByText(/selected scenario:/i)).toBeInTheDocument();
     expect(within(banner).getByRole('list', { name: /presentation flow/i })).toBeInTheDocument();
-    expect(within(banner).getByText(/^Demo Scenario$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Patient Review Cues$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Hospital Insights$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Simulation Review Report$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Enable Presentation Mode$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Select a Demo Scenario$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Review the simulated patient context$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Review patient-level cues$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Open Hospital Insights$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Compare the ward against simulated hospital benchmarks$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Open the Simulation Review Report$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Explain the future NHS\/AWS roadmap$/i)).toBeInTheDocument();
     expect(
       within(banner).getByText(
-        /^Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS\/AWS integration\.$/i
+        /^Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS\/AWS roadmap\.$/i
       )
     ).toBeInTheDocument();
     expect(within(banner).getByRole('button', { name: /exit presentation mode/i })).toBeInTheDocument();
@@ -114,6 +118,34 @@ describe('SafeFlow prototype', () => {
     await user.click(within(drawer).getByRole('button', { name: /close insights/i }));
 
     expect(screen.queryByRole('dialog', { name: /hospital insights/i })).not.toBeInTheDocument();
+  });
+
+  it('switches to a family-safe preview that hides internal clinical navigation and cue wording', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: 'Settings' }));
+    const settings = screen.getByRole('region', { name: /settings/i });
+    const roleModeGroup = within(settings).getByRole('group', { name: /role mode/i });
+    await user.click(within(roleModeGroup).getByRole('button', { name: /^family-safe preview$/i }));
+    await user.click(within(settings).getByRole('button', { name: /save settings/i }));
+    await user.click(within(nav).getByRole('button', { name: 'Ward Safety Board' }));
+
+    expect(screen.queryByRole('combobox', { name: /demo scenario/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /presentation mode/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /hospital insights/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /review report/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('tablist', { name: /prototype journey/i })).not.toBeInTheDocument();
+
+    const familySafeBoard = screen.getByRole('table', { name: /ward patient list/i });
+    expect(within(familySafeBoard).getByText(/Plain-language summary/i)).toBeInTheDocument();
+    expect(within(familySafeBoard).getByRole('columnheader', { name: /still being checked/i })).toBeInTheDocument();
+    expect(within(familySafeBoard).queryByText(/NEWS2/)).not.toBeInTheDocument();
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    expect(within(panel).getByRole('region', { name: /family-safe preview/i })).toBeInTheDocument();
+    expect(panel.textContent).not.toMatch(/simulation review cues|deterioration|electrolyte|sepsis|AKI|documentation completeness|risk-support|diagnos|prescrib|treatment recommendation/i);
   });
 
   it('opens and closes the simulation review report with patient and ward comparison cues', async () => {

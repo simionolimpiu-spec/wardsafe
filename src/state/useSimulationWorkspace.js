@@ -1,5 +1,9 @@
 import { useEffect, useReducer } from 'react';
-import { createInitialSimulationState, simulationReducer } from './simulationWorkspace.js';
+import {
+  createInitialSimulationState,
+  normaliseSimulationState,
+  simulationReducer
+} from './simulationWorkspace.js';
 import {
   clearSimulationState,
   loadSimulationState,
@@ -10,7 +14,7 @@ export function useSimulationWorkspace() {
   const [state, dispatch] = useReducer(
     simulationReducer,
     undefined,
-    () => loadSimulationState() ?? createInitialSimulationState()
+    () => normaliseSimulationState(loadSimulationState()) ?? createInitialSimulationState()
   );
 
   useEffect(() => {

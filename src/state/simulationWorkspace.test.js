@@ -33,7 +33,10 @@ describe('createInitialSimulationState', () => {
       settings: {
         compactMode: false,
         draftProvider: 'auto',
-        simulationUser: 'Leanne Mitchell'
+        simulationUser: 'Leanne Mitchell',
+        roleMode: 'clinical-staff',
+        detailLevel: 'standard',
+        graphVisibility: 'clinical-only'
       }
     });
     expect(state.patients).not.toBe(simulatedPatients);
@@ -560,13 +563,16 @@ describe('simulationReducer', () => {
   it('merges settings and audits the change', () => {
     const state = reduce({
       type: 'settings/changed',
-      payload: { compactMode: true, draftProvider: 'local' }
+      payload: { compactMode: true, draftProvider: 'local', roleMode: 'educator-simulation', detailLevel: 'detailed' }
     });
 
     expect(state.settings).toEqual({
       compactMode: true,
       draftProvider: 'local',
-      simulationUser: 'Leanne Mitchell'
+      simulationUser: 'Leanne Mitchell',
+      roleMode: 'educator-simulation',
+      detailLevel: 'detailed',
+      graphVisibility: 'clinical-only'
     });
     expect(state.auditEvents[0]).toMatchObject({
       id: 'audit-test',
@@ -590,6 +596,18 @@ describe('simulationReducer', () => {
       id: 'audit-test',
       label: 'Simulation reset',
       patientId: null
+    });
+  });
+
+  it('keeps family-safe preview graph visibility hidden when the role changes', () => {
+    const state = reduce({
+      type: 'settings/changed',
+      payload: { roleMode: 'family-safe-preview', graphVisibility: 'clinical-only' }
+    });
+
+    expect(state.settings).toMatchObject({
+      roleMode: 'family-safe-preview',
+      graphVisibility: 'hidden'
     });
   });
 

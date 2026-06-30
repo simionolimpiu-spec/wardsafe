@@ -5,9 +5,15 @@ import { initialAuditEvents } from '../domain/workflowEvents.js';
 const defaultSettings = {
   compactMode: false,
   draftProvider: 'auto',
-  simulationUser: 'Leanne Mitchell'
+  simulationUser: 'Leanne Mitchell',
+  roleMode: 'clinical-staff',
+  detailLevel: 'standard',
+  graphVisibility: 'clinical-only'
 };
 const SIMULATION_WORKSPACE_VERSION = 2;
+const allowedRoleModes = new Set(['clinical-staff', 'educator-simulation', 'family-safe-preview']);
+const allowedDetailLevels = new Set(['summary', 'standard', 'detailed']);
+const allowedGraphVisibility = new Set(['clinical-only', 'hidden']);
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -149,6 +155,53 @@ function normaliseSignalSnapshot(snapshot) {
   };
 }
 
+function normaliseSettings(settings = {}) {
+  const compactMode = Boolean(settings.compactMode);
+  const draftProvider = typeof settings.draftProvider === 'string' && settings.draftProvider.trim()
+    ? settings.draftProvider.trim()
+    : defaultSettings.draftProvider;
+  const simulationUser = typeof settings.simulationUser === 'string' && settings.simulationUser.trim()
+    ? settings.simulationUser.trim()
+    : defaultSettings.simulationUser;
+  const roleMode = allowedRoleModes.has(settings.roleMode) ? settings.roleMode : defaultSettings.roleMode;
+  const detailLevel = allowedDetailLevels.has(settings.detailLevel)
+    ? settings.detailLevel
+    : defaultSettings.detailLevel;
+  const graphVisibility = allowedGraphVisibility.has(settings.graphVisibility)
+    ? settings.graphVisibility
+    : defaultSettings.graphVisibility;
+
+  return {
+    compactMode,
+    draftProvider,
+    simulationUser,
+    roleMode,
+    detailLevel,
+    graphVisibility: roleMode === 'family-safe-preview' ? 'hidden' : graphVisibility
+  };
+}
+
+export function normaliseSimulationState(state) {
+  if (!isPlainObject(state)) {
+    return null;
+  }
+
+  if (state.version !== SIMULATION_WORKSPACE_VERSION) {
+    return null;
+  }
+
+  if (!Array.isArray(state.patients) || !Array.isArray(state.auditEvents) || !Array.isArray(state.escalations)) {
+    return null;
+  }
+
+  return {
+    ...state,
+    signalSnapshots: isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {},
+    intelligence: isPlainObject(state.intelligence) ? state.intelligence : { suggestionActions: [] },
+    settings: normaliseSettings(state.settings)
+  };
+}
+
 function normaliseSourceMetadata(value) {
   if (!isPlainObject(value)) {
     return null;
@@ -197,7 +250,8 @@ export function simulationReducer(state, action) {
   const currentState = {
     ...state,
     intelligence: state.intelligence ?? { suggestionActions: [] },
-    signalSnapshots: isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {}
+    signalSnapshots: isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {},
+    settings: normaliseSettings(state.settings)
   };
 
   switch (action.type) {
@@ -451,7 +505,7 @@ export function simulationReducer(state, action) {
     case 'settings/changed': {
       const nextState = {
         ...state,
-        settings: { ...state.settings, ...action.payload }
+        settings: normaliseSettings({ ...state.settings, ...action.payload })
       };
       return withAudit(
         nextState,

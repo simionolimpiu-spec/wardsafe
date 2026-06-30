@@ -22,12 +22,15 @@ function renderPanel(overrides = {}) {
       patient={patient}
       reviewSignals={overrides.reviewSignals ?? []}
       signalSnapshot={overrides.signalSnapshot ?? null}
+      roleMode={overrides.roleMode ?? 'clinical-staff'}
+      detailLevel={overrides.detailLevel ?? 'standard'}
+      showClinicalGraphs={overrides.showClinicalGraphs ?? true}
     />
   );
 }
 
 describe('PatientSafetyPanel', () => {
-  it('renders the Simulation Review Cues section when derived signals are available', () => {
+  it('renders the Patient Journey Twin and Simulation Review Cues section for staff views', () => {
     renderPanel({
       reviewSignals: [
         {
@@ -104,6 +107,8 @@ describe('PatientSafetyPanel', () => {
     });
 
     const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    expect(within(panel).getByRole('region', { name: /patient journey twin/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/journey trend/i)).toBeInTheDocument();
     const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
 
     expect(within(reviewCues).getByText(/simulation-only cues/i)).toBeInTheDocument();
@@ -125,6 +130,25 @@ describe('PatientSafetyPanel', () => {
 
     expect(within(reviewCues).getByText(/no signal snapshot available yet/i)).toBeInTheDocument();
     expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision|replace potassium|potassium replacement/i);
+  });
+
+  it('shows a calm family-safe summary instead of internal cue language', () => {
+    renderPanel({
+      roleMode: 'family-safe-preview',
+      signalSnapshot: {
+        signalTimeline: [],
+        riskSuggestions: [],
+        sourceFreshness: { state: 'current', label: 'Latest simulated signal feed' },
+        missingDataNotes: [],
+        receivedAt: '2026-06-10T09:15:00.000Z'
+      }
+    });
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    expect(within(panel).getByRole('region', { name: /family-safe preview/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/what has been reviewed/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/A member of the clinical team will share the next update\./i)).toBeInTheDocument();
+    expect(panel.textContent).not.toMatch(/simulation review cues|NEWS2|electrolyte|sepsis|deterioration|risk-support|diagnos|prescrib|administer|autonomous decision/i);
   });
 
   it('keeps the existing tasks and audit tabs working', async () => {
