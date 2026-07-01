@@ -9,10 +9,10 @@
 |---|---|
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype (working tree clean as of last check). |
-| Open PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. CI: both checks passing (AWS and database foundation; Application quality). State: OPEN, not merged. |
+| Current branch | ui/design-foundation (working tree clean as of last check). |
+| Open PR | #8 "chore(ui): design tokens + stylesheet split (foundation for UI refresh)", branch ui/design-foundation. State: OPEN and ready for review. PR #7 remains open. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED is currently UNSET (not explicitly false). Treat as not-approved by default, but this should be set explicitly to avoid ambiguity. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; confirm PR #7 review and merge decision. |
+| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; review PR #8 and decide merge. |
 
 ## Completed / Done
 
@@ -30,12 +30,15 @@
 | SF-013 | Done | Clinical safety / IG | clinical-safety-ig-readiness.md created covering simulation boundary, clinical safety, IG/data protection, human review, RBAC/audit logging, future NHS/AWS readiness, risks, open questions, and simulation-to-live gates. | Commit d00b662 |
 | SF-014 | Done | Stakeholder pack | stakeholder-demo-pack.md created as a concise NHS-facing demo pack. | Commit b74ab9f |
 | SF-016 | Done | Control | CONTROL.md created at repo root as the permanent control tracker. | This commit |
+| SF-118 | Done | UI foundation | Design token layer added and `src/styles` split into focused partials; Phase 1 shell-vs-content restyle can now begin. | Branch `ui/design-foundation` |
 
 ## Started / Open / Ready
 
 | ID | Status | Area | Work item | Next action |
 |---|---|---|---|---|
 | SF-101 | Ready for review | Release | PR #7 feature/minimal-role-aware-gui open, both CI checks passing. | Review diff for safety-boundary wording and scope, then decide merge. |
+| SF-119 | Ready | UI | Phase 1 shell restyle | Apply the new token layer to the app shell, navigation, and presentation chrome. |
+| SF-120 | Ready | UI | Phase 1 content restyle | Apply the new token layer to board, panel, drawer, scenario, and form surfaces in parallel with the shell pass. |
 | SF-102 | In progress | Product concept | Patient Journey Twin / Simulation Patient Twin concept started. | Design UI wording and docs; keep simulation-only. |
 | SF-104 | In progress | AWS architecture | Architecture direction discussed: Aurora, Step Functions, Bedrock/LLM layer, tokenised backend. | Keep as mock/readiness architecture until explicit deployment approval. |
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |

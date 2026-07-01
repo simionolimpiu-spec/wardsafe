@@ -1,0 +1,372 @@
+.workflow-view {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.section-heading {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.workflow-grid article,
+.readiness-panel {
+  border: 1px solid #e2ebf7;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.workflow-grid h3,
+.readiness-panel h3 {
+  align-items: center;
+  color: #003087;
+  display: flex;
+  gap: 8px;
+  margin-top: 0;
+}
+
+.big-number {
+  color: #00a3a3;
+  display: block;
+  font-size: 2.6rem;
+  font-weight: 900;
+}
+
+.readiness-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.readiness-list li {
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.readiness-list li span {
+  font-weight: 900;
+  margin-right: 8px;
+}
+
+.readiness-list .complete {
+  background: #e8f5ee;
+  color: #006b3c;
+}
+
+.readiness-list .blocked {
+  background: #fff3df;
+  color: #845400;
+}
+
+.risk-support-panel {
+  border: 1px solid #e2ebf7;
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  margin: 18px 0;
+  padding: 14px;
+}
+
+.risk-support-summary {
+  display: grid;
+  gap: 4px;
+}
+
+.risk-support-summary strong {
+  color: #003087;
+  font-size: 1.02rem;
+}
+
+.risk-support-summary span {
+  color: #17436f;
+  font-weight: 800;
+}
+
+.risk-support-summary small {
+  color: #53657a;
+}
+
+.risk-support-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.risk-support-card {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-left: 4px solid #005eb8;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.risk-support-card.ready {
+  border-left-color: #006b3c;
+}
+
+.risk-support-card.review-suggested {
+  border-left-color: #005eb8;
+}
+
+.risk-support-card.documentation-gap {
+  border-left-color: #f59e0b;
+}
+
+.risk-support-card.handover-cue {
+  border-left-color: #00a3a3;
+}
+
+.risk-support-card.escalation-readiness {
+  border-left-color: #005eb8;
+}
+
+.risk-support-card.discharge-blocker {
+  border-left-color: #8a5a00;
+}
+
+.risk-support-card-heading {
+  align-items: start;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.risk-support-card-heading strong {
+  color: #003087;
+}
+
+.risk-support-card-heading span {
+  color: #005eb8;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.risk-support-card p {
+  color: #53657a;
+  font-weight: 800;
+  margin: 0;
+}
+
+.risk-support-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.risk-support-card li {
+  margin: 5px 0;
+}
+
+.risk-support-card small {
+  color: #617083;
+}
+
+.risk-support-boundary {
+  color: #53657a;
+  margin: 0;
+}
+
+.potassium-view {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.scenario-library {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.scenario-grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.scenario-card {
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.scenario-card h3 {
+  color: #003087;
+  margin: 0;
+}
+
+.scenario-card p {
+  margin: 0;
+}
+
+.scenario-review {
+  background: #eef8f7;
+  border-left: 5px solid #00a3a3;
+  border-radius: 8px;
+  color: #17436f;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.scenario-columns {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scenario-columns h4 {
+  align-items: center;
+  color: #003087;
+  display: flex;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+
+.scenario-columns ul,
+.hazard-controls ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.scenario-columns li,
+.hazard-controls li {
+  margin: 6px 0;
+}
+
+.evidence-line {
+  color: #41516a;
+}
+
+.hazard-controls {
+  background: #fff7e8;
+  border: 1px solid #f4d18d;
+  border-radius: 8px;
+  margin-top: 18px;
+  padding: 14px;
+}
+
+.hazard-controls h3 {
+  color: #8a5a00;
+  margin-top: 0;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.evidence-grid article {
+  border-left: 6px solid #005eb8;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px #e2ebf7;
+  padding: 14px;
+}
+
+.evidence-grid article:nth-child(2) {
+  border-left-color: #f59e0b;
+}
+
+.evidence-grid article:nth-child(3) {
+  border-left-color: #007f3b;
+}
+
+.boundary-card {
+  background: #fff4f4;
+  border: 1px solid #f0b8b8;
+  border-radius: 8px;
+  color: #8b0018;
+  margin: 18px 0;
+  padding: 14px;
+}
+
+.draft-label {
+  align-items: center;
+  color: #003087;
+  display: flex;
+  font-weight: 900;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.draft-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.draft-actions .primary-action {
+  margin-top: 0;
+}
+
+.audit-view {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.learning-card {
+  background: #eef8f7;
+  border: 1px solid #b9e2df;
+  border-radius: 8px;
+  margin: 18px 0;
+  padding: 14px;
+}
+
+.audit-backend-panel {
+  align-items: center;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 18px 0;
+  padding: 14px;
+}
+
+.audit-backend-panel p {
+  color: #53657a;
+  margin: 4px 0 0;
+}
+
+.backend-audit-list {
+  border-bottom: 1px solid #e5edf6;
+  border-top: 1px solid #e5edf6;
+  margin: 0 0 18px;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.timeline li {
+  align-items: start;
+  border-bottom: 1px solid #e5edf6;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  padding: 10px 0;
+}

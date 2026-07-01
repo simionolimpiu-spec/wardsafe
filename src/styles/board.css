@@ -1,0 +1,116 @@
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.metric {
+  border: 1px solid #e2ebf7;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.metric span,
+.metric small {
+  display: block;
+}
+
+.metric strong {
+  color: #005eb8;
+  display: block;
+  font-size: 1.8rem;
+}
+
+.patient-table {
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  min-width: 980px;
+  width: 100%;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.patient-table th,
+.patient-table td {
+  border-bottom: 1px solid #e5edf6;
+  padding: 10px;
+  text-align: left;
+}
+
+.patient-table tr.is-selected {
+  background: #eef5ff;
+}
+
+.link-button {
+  background: transparent;
+  border: 0;
+  color: #005eb8;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 0;
+}
+
+.risk {
+  border-radius: 999px;
+  display: inline-block;
+  font-weight: 800;
+  padding: 4px 8px;
+}
+
+.risk-high {
+  background: #fde8e8;
+  color: #b00020;
+}
+
+.risk-medium {
+  background: #fff1d6;
+  color: #8a5a00;
+}
+
+.risk-low {
+  background: #e8f5ee;
+  color: #006b3c;
+}
+
+.flag-stack {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.progress-ring {
+  --progress: 0%;
+  align-items: center;
+  background:
+    radial-gradient(circle, #fff 56%, transparent 58%),
+    conic-gradient(#005eb8 var(--progress), #dfe7f2 0);
+  border-radius: 50%;
+  color: #003087;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  height: 58px;
+  justify-content: center;
+  width: 58px;
+}
+
+.readiness {
+  border-radius: 999px;
+  display: inline-block;
+  font-weight: 900;
+  padding: 5px 8px;
+}
+
+.readiness.ready {
+  background: #e8f5ee;
+  color: #006b3c;
+}
+
+.readiness.blocked {
+  background: #fff3df;
+  color: #845400;
+}

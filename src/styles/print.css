@@ -1,0 +1,44 @@
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .review-report-overlay,
+  .review-report-overlay * {
+    visibility: visible;
+  }
+
+  .review-report-overlay {
+    display: block;
+    inset: auto;
+    position: static;
+    z-index: auto;
+  }
+
+  .review-report-backdrop,
+  .review-report-header-actions {
+    display: none !important;
+  }
+
+  .review-report-drawer {
+    border: 0;
+    box-shadow: none;
+    height: auto;
+    overflow: visible;
+    padding: 0;
+    position: static;
+    width: 100%;
+  }
+
+  .review-report-section {
+    break-inside: avoid;
+  }
+}
