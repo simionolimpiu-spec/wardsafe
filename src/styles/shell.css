@@ -1,0 +1,462 @@
+.app-shell {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.workspace-main {
+  min-width: 0;
+  padding: 24px;
+}
+
+.eyebrow {
+  color: #005eb8;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.topbar,
+.board-header,
+.panel-heading,
+.safety-banner {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topbar {
+  flex-wrap: wrap;
+}
+
+.topbar h1,
+.ward-board h2,
+.patient-panel h2 {
+  color: #003087;
+  margin: 0;
+}
+
+.product-note,
+.date-chip {
+  border: 1px solid #d4e2f4;
+  border-radius: 999px;
+  color: #003087;
+  font-weight: 700;
+  padding: 8px 12px;
+}
+
+.topbar-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.demo-scenario-control {
+  color: #17436f;
+  display: grid;
+  gap: 4px;
+  min-width: 220px;
+}
+
+.demo-scenario-control span {
+  color: #617083;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.demo-scenario-control select {
+  background: #fff;
+  border: 1px solid #b5cce8;
+  border-radius: 8px;
+  color: #17436f;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
+.demo-scenario-control small {
+  color: #617083;
+  font-size: 0.77rem;
+  line-height: 1.35;
+}
+
+.presentation-banner {
+  background: linear-gradient(135deg, #eef5ff 0%, #f8fbff 100%);
+  border: 1px solid #cfe0f6;
+  border-radius: 12px;
+  display: grid;
+  gap: 16px;
+  margin: 18px 0;
+  padding: 18px;
+}
+
+.presentation-banner-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.presentation-banner-copy h2 {
+  color: #003087;
+  margin: 0;
+}
+
+.presentation-banner-boundary {
+  background: #edf5ff;
+  border: 1px solid #cfe0f6;
+  border-left: 4px solid #003087;
+  border-radius: 10px;
+  color: #0b3760;
+  font-size: 0.93rem;
+  font-weight: 800;
+  line-height: 1.45;
+  margin: 2px 0 0;
+  padding: 10px 12px;
+}
+
+.presentation-banner-scenario,
+.presentation-banner-description,
+.presentation-banner-note {
+  margin: 0;
+}
+
+.presentation-banner-scenario strong {
+  color: #102033;
+}
+
+.presentation-banner-description {
+  color: #17436f;
+  font-weight: 700;
+}
+
+.presentation-banner-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.presentation-flow {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.presentation-flow li {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 10px;
+  display: grid;
+  gap: 4px;
+  min-height: 72px;
+  padding: 12px;
+}
+
+.presentation-flow span {
+  color: #617083;
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.presentation-flow strong {
+  color: #17436f;
+  font-size: 1.04rem;
+  line-height: 1.25;
+}
+
+.presentation-banner-note {
+  color: #53657a;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.safety-banner,
+.ward-board,
+.patient-panel {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(16, 32, 51, 0.08);
+}
+
+.safety-banner {
+  color: #17436f;
+  justify-content: flex-start;
+  margin: 20px 0;
+  padding: 14px 16px;
+}
+
+.safety-banner strong,
+.safety-banner span {
+  display: block;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 390px);
+  gap: 18px;
+}
+
+.dashboard-layout > * {
+  min-width: 0;
+}
+
+.dashboard-layout.full-width {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.workspace-nav {
+  background: #fff;
+  border-right: 1px solid #d7e3f4;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  padding: 18px 16px;
+}
+
+.nav-brand {
+  align-items: center;
+  border-bottom: 1px solid #e5edf6;
+  display: flex;
+  gap: 10px;
+  padding-bottom: 18px;
+}
+
+.nav-brand strong,
+.nav-brand span {
+  display: block;
+}
+
+.nav-brand strong {
+  color: #003087;
+  font-size: 1.1rem;
+}
+
+.nav-brand span {
+  color: #617083;
+  font-size: 0.85rem;
+}
+
+.brand-mark {
+  align-items: center;
+  background: #005eb8;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  font-weight: 900;
+  height: 38px;
+  justify-content: center;
+  width: 44px;
+}
+
+.workspace-nav nav {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 18px 0;
+}
+
+.workspace-nav button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: #17436f;
+  cursor: pointer;
+  display: grid;
+  font-weight: 800;
+  gap: 10px;
+  grid-template-columns: 18px 1fr auto;
+  min-height: 42px;
+  padding: 10px;
+  text-align: left;
+}
+
+.workspace-nav button.active {
+  background: #005eb8;
+  color: #fff;
+}
+
+.nav-count {
+  align-items: center;
+  background: #e51b72;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.75rem;
+  height: 22px;
+  justify-content: center;
+  min-width: 22px;
+  padding: 0 7px;
+}
+
+.workspace-nav button.active .nav-count {
+  background: #fff;
+  color: #005eb8;
+}
+
+.nav-context {
+  border-top: 1px solid #e5edf6;
+  color: #41516a;
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.nav-context p {
+  margin: 0;
+}
+
+.nav-context strong,
+.nav-context span,
+.nav-context small {
+  display: block;
+}
+
+.nav-context small {
+  color: #617083;
+}
+
+.ward-board,
+.patient-panel {
+  padding: 18px;
+}
+
+.architecture-strip {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: 8px;
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.architecture-strip h2 {
+  color: #003087;
+  font-size: 1rem;
+  margin: 0 0 14px;
+}
+
+.architecture-strip ol {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(8, minmax(92px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.architecture-strip li {
+  color: #41516a;
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+}
+
+.architecture-strip strong {
+  color: #102033;
+}
+
+.architecture-strip p {
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+.app-shell.presentation-mode .workspace-main {
+  padding: 30px;
+}
+
+.app-shell.presentation-mode .topbar {
+  gap: 20px;
+}
+
+.app-shell.presentation-mode .topbar h1 {
+  font-size: 2.3rem;
+  letter-spacing: -0.03em;
+}
+
+.app-shell.presentation-mode .topbar-actions {
+  gap: 14px;
+}
+
+.app-shell.presentation-mode .secondary-action,
+.app-shell.presentation-mode .demo-scenario-control select {
+  min-height: 46px;
+  font-size: 0.98rem;
+}
+
+.app-shell.presentation-mode .tab-list button {
+  font-size: 1rem;
+  padding: 14px 12px;
+}
+
+.app-shell.presentation-mode .presentation-banner-boundary {
+  font-size: 0.98rem;
+}
+
+.app-shell.presentation-mode .ward-board h2,
+.app-shell.presentation-mode .patient-panel h2 {
+  font-size: 1.42rem;
+}
+
+.app-shell.presentation-mode .safety-banner {
+  font-size: 1rem;
+  padding: 16px 18px;
+}
+
+.app-shell.presentation-mode .dashboard-layout {
+  gap: 22px;
+}
+
+.app-shell.presentation-mode .architecture-strip,
+.app-shell.presentation-mode .status-message,
+.app-shell.presentation-mode .backend-note {
+  display: none;
+}
+
+.architecture-icon {
+  align-items: center;
+  background: #eef5ff;
+  border: 1px solid #cfe0f6;
+  border-radius: 8px;
+  color: #005eb8;
+  display: inline-flex;
+  height: 46px;
+  justify-content: center;
+  width: 46px;
+}
+
+.last-updated {
+  color: #617083;
+  margin-bottom: 0;
+}
+
+.tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.tab-list button {
+  background: #fff;
+  border: 1px solid #c8d8ec;
+  border-radius: 8px;
+  color: #17436f;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 10px 14px;
+}
+
+.tab-list button.active,
+.tab-list button[aria-selected="true"] {
+  background: #005eb8;
+  color: #fff;
+}
