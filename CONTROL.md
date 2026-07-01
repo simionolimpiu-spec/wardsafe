@@ -11,7 +11,7 @@
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
 | Current branch | codex/safeflow-prototype (working tree clean after PR #9 merge). |
 | Open PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: OPEN and ready for review. CI: both checks passing. |
-| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED is currently UNSET (not explicitly false). Treat as not-approved by default, but this should be set explicitly to avoid ambiguity. |
+| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved. |
 | Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; review PR #7 and decide merge. |
 
 ## Completed / Done
@@ -30,6 +30,7 @@
 | SF-013 | Done | Clinical safety / IG | clinical-safety-ig-readiness.md created covering simulation boundary, clinical safety, IG/data protection, human review, RBAC/audit logging, future NHS/AWS readiness, risks, open questions, and simulation-to-live gates. | Commit d00b662 |
 | SF-014 | Done | Stakeholder pack | stakeholder-demo-pack.md created as a concise NHS-facing demo pack. | Commit b74ab9f |
 | SF-016 | Done | Control | CONTROL.md created at repo root as the permanent control tracker. | This commit |
+| SF-117 | Done | Governance | Deployment guard now fails closed and logs when SAFEFLOW_DEPLOYMENT_APPROVED is unset or not exactly `true`. | Added shared deployment approval reader plus tests; deploy approval is explicit only for the exact string `true`. |
 | SF-118 | Done | UI foundation | Design token layer added and `src/styles` split into focused partials; Phase 1 shell-vs-content restyle can now begin. | Branch `ui/design-foundation` |
 | SF-122 | Done | ML foundation | Simulated Trend Model (simulation-risk-ml-v0) shipped with synthetic-only training data, plain-JS logistic regression, and a checked-in model artifact. | Merged via PR #9 on 1 July 2026 after rebasing onto `codex/safeflow-prototype`. |
 
@@ -45,7 +46,6 @@
 | SF-104 | In progress | AWS architecture | Architecture direction discussed: Aurora, Step Functions, Bedrock/LLM layer, tokenised backend. | Keep as mock/readiness architecture until explicit deployment approval. |
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
 | SF-107 | In progress | Clinical safety | Digital twin / predictive learning idea explored. | Frame as review-support and education only, not clinical prediction. |
-| SF-117 | Ready | Governance | Deployment guard is unset rather than explicit. | Set SAFEFLOW_DEPLOYMENT_APPROVED explicitly to false in config/env template. |
 | SF-109 | Ready | Governance | Clinical safety case outline identified as next step. | Draft safety case outline and hazard log skeleton. |
 
 ## Backlog
@@ -89,8 +89,7 @@
 | Priority | Action |
 |---|---|
 | 1 | Review PR #7 diff for safety-boundary wording and scope, then decide merge. |
-| 2 | Set SAFEFLOW_DEPLOYMENT_APPROVED explicitly to false rather than leaving it unset. |
-| 3 | Draft a clinical safety case outline and hazard log skeleton. |
-| 4 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. |
-| 5 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
-| 6 | Keep this file updated after every commit, document, or design decision. |
+| 2 | Draft a clinical safety case outline and hazard log skeleton. |
+| 3 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. |
+| 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
+| 5 | Keep this file updated after every commit, document, or design decision. |

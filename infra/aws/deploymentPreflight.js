@@ -1,6 +1,7 @@
 import { pathToFileURL } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import { readDeploymentApproval } from './deploymentApproval.js';
 
 const execFileAsync = promisify(execFile);
 const MIN_PREVIEW_ACCESS_TOKEN_LENGTH = 24;
@@ -50,6 +51,7 @@ export function createDeploymentPreflight({
 export function validateDeploymentEnvironment(env = process.env) {
   const errors = [];
   const region = env.CDK_DEFAULT_REGION || env.AWS_REGION;
+  const deploymentApproval = readDeploymentApproval(env);
 
   if (region !== 'eu-west-2') {
     errors.push('CDK_DEFAULT_REGION must be eu-west-2 for the SafeFlow London-region simulation deployment.');
@@ -60,6 +62,13 @@ export function validateDeploymentEnvironment(env = process.env) {
   }
 
   for (const key of REQUIRED_DEPLOYMENT_CONFIRMATIONS) {
+    if (key === 'SAFEFLOW_DEPLOYMENT_APPROVED') {
+      if (!deploymentApproval.approved) {
+        errors.push(deploymentApproval.message);
+      }
+      continue;
+    }
+
     if (env[key] !== 'true') {
       errors.push(`${key} must be true before AWS deploy-prep or deploy commands run.`);
     }
