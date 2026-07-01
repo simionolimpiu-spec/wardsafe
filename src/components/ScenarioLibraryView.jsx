@@ -22,8 +22,8 @@ export function ScenarioLibraryView() {
               <span>{scenario.reviewPrompt}</span>
             </div>
             <div className="scenario-columns">
-              <ScenarioList icon={ClipboardCheck} items={scenario.successSignals} title="Success signals" />
-              <ScenarioList icon={ShieldCheck} items={scenario.hazards} title="Hazards to watch" />
+              <ScenarioList icon={ClipboardCheck} items={scenario.successSignals} title="Success signals" tone="success" />
+              <ScenarioList icon={ShieldCheck} items={scenario.hazards} title="Hazards to watch" tone="hazard" />
             </div>
             <p className="evidence-line"><strong>Evidence expected:</strong> {scenario.evidenceExpected.join(', ')}</p>
           </article>
@@ -40,9 +40,9 @@ export function ScenarioLibraryView() {
   );
 }
 
-function ScenarioList({ icon: Icon, items, title }) {
+function ScenarioList({ icon: Icon, items, title, tone = 'success' }) {
   return (
-    <div>
+    <div className={`scenario-list ${tone}`}>
       <h4><Icon aria-hidden="true" size={17} /> {title}</h4>
       <ul>
         {items.map((item) => <li key={item}>{item}</li>)}

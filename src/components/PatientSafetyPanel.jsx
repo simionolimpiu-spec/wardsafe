@@ -71,7 +71,7 @@ export function PatientSafetyPanel({
         </section>
       )}
 
-      <div className="integration-card">
+      <div className="integration-card integration-card--muted">
         <CloudCog aria-hidden="true" size={22} />
         <div>
           <strong>FHIR-ready integrations</strong>
@@ -88,7 +88,7 @@ function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
   const suggestionProviderNote = formatPreviewSourceNote(signalSnapshot?.suggestionSourceMetadata, 'Risk suggestions');
 
   return (
-    <section aria-labelledby="patient-review-cues-heading">
+    <section aria-labelledby="patient-review-cues-heading" className="review-cue-section">
       <h3 id="patient-review-cues-heading">Simulation Review Cues</h3>
       <p>Simulation-only cues. Human review required.</p>
       <p className="risk-support-boundary">Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p>
@@ -116,7 +116,7 @@ function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
 
 function ReviewSignalCard({ signal }) {
   return (
-    <article className="integration-card review-cue-card">
+    <article className={`integration-card review-cue-card review-cue-${signal.priority ?? 'review'}`}>
       <Siren aria-hidden="true" size={18} />
       <div>
         <p className="review-cue-meta">
