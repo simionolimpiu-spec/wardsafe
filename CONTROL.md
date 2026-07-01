@@ -10,9 +10,9 @@
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
 | Current branch | codex/safeflow-prototype (shell/navigation refresh merged from `ui/shell-and-navigation-refresh`). |
-| Open PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: OPEN and ready for review. CI: both checks passing. |
+| Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; review PR #7 and decide merge. |
+| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; PR #7 was closed as superseded. |
 
 ## Completed / Done
 
@@ -39,14 +39,14 @@
 
 | ID | Status | Area | Work item | Next action |
 |---|---|---|---|---|
-| SF-101 | Ready for review | Release | PR #7 feature/minimal-role-aware-gui open, both CI checks passing. | Review diff for safety-boundary wording and scope, then decide merge. |
+| SF-101 | Closed | Release | PR #7 feature/minimal-role-aware-gui closed as superseded. | No merge planned. |
 | SF-120 | Ready | UI | Phase 1 content restyle | Apply the new token layer to board, panel, drawer, scenario, and form surfaces in parallel with the shell pass. |
 | SF-121 | Ready | UI | Panel review-cue CSS gap | `PatientSafetyPanel.jsx` still references `review-cue-stack`, `review-cue-meta`, `review-cue-evidence`, and `review-cue-notes`; add matching panel.css rules during the content-views refresh. |
 | SF-102 | In progress | Product concept | Patient Journey Twin / Simulation Patient Twin concept started. | Design UI wording and docs; keep simulation-only. Patient Journey Twin UI (parallel workstream, running on another machine right now) can integrate `scoreSimulatedTrend()` now that PR #9 is merged. |
 | SF-104 | In progress | AWS architecture | Architecture direction discussed: Aurora, Step Functions, Bedrock/LLM layer, tokenised backend. | Keep as mock/readiness architecture until explicit deployment approval. |
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
 | SF-107 | In progress | Clinical safety | Digital twin / predictive learning idea explored. | Frame as review-support and education only, not clinical prediction. |
-| SF-109 | Ready | Governance | Clinical safety case outline identified as next step. | Draft safety case outline and hazard log skeleton. |
+| SF-109 | Done | Governance | Clinical safety case outline and hazard log skeleton drafted. | `docs/public-demo-pack/clinical-safety-case-outline.md`, using `templates/safety-case-outline-template.md`; 10-row hazard log grounded in the actual signal-envelope contract (`signalClient.js`) and existing risks R-001–R-008. Not yet independently reviewed; roles unfilled pending a future pilot. |
 
 ## Backlog
 
@@ -88,8 +88,17 @@
 
 | Priority | Action |
 |---|---|
-| 1 | Review PR #7 diff for safety-boundary wording and scope, then decide merge. |
-| 2 | Draft a clinical safety case outline and hazard log skeleton. |
-| 3 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. |
+| 1 | Record PR #7 as closed as superseded and keep the tracker aligned with GitHub. (Done) |
+| 2 | Draft a clinical safety case outline and hazard log skeleton. (Done — see SF-109) |
+| 3 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. (In progress — delivery-roadmap.md refreshed 1 July 2026; stakeholder pack/white paper still to check.) |
 | 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
-| 5 | Keep this file updated after every commit, document, or design decision. |
+| 5 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified. |
+| 6 | Keep this file updated after every commit, document, or design decision. |
+
+## Authoring note (1 July 2026)
+
+This safety-case work (SF-109) and the roadmap refresh were authored directly against the
+repository files rather than via a Codex CLI session, to conserve Codex usage for code changes
+that need build/test verification. Docs-only changes like this one carry no build risk, so direct
+authoring plus a short terminal-only commit/push/PR step is the lighter-weight path going forward
+for non-code control-board and documentation work.
