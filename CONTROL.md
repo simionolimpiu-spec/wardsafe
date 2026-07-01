@@ -9,10 +9,10 @@
 |---|---|
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype (shell/navigation refresh merged from `ui/shell-and-navigation-refresh`). |
-| Open PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: OPEN and ready for review. CI: both checks passing. |
-| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; review PR #7 and decide merge. |
+| Current branch | ui/content-views-refresh (local feature branch; ready to publish). |
+| Open PR | None yet for the local UI refresh branch. |
+| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED is currently UNSET (not explicitly false). Treat as not-approved by default, but this should be set explicitly to avoid ambiguity. |
+| Primary unfinished control task | Publish `ui/content-views-refresh`, then continue with the next feature branch and keep this file updated after every commit, doc change, or PR event. |
 
 ## Completed / Done
 
@@ -33,6 +33,8 @@
 | SF-117 | Done | Governance | Deployment guard now fails closed and logs when SAFEFLOW_DEPLOYMENT_APPROVED is unset or not exactly `true`. | Added shared deployment approval reader plus tests; deploy approval is explicit only for the exact string `true`. |
 | SF-118 | Done | UI foundation | Design token layer added and `src/styles` split into focused partials; Phase 1 shell-vs-content restyle can now begin. | Branch `ui/design-foundation` |
 | SF-119 | Done | UI | Phase 1 shell restyle | Shell, navigation, presentation mode, forms, dialogs, and responsive affordances refreshed on `ui/shell-and-navigation-refresh`. | Branch `ui/shell-and-navigation-refresh` |
+| SF-120 | Done | UI | Phase 1 content restyle | Applied the new token layer to board, panel, drawer, scenario, and form surfaces in the content-views refresh. | Branch `ui/content-views-refresh`; commit `e900176`. |
+| SF-121 | Done | UI | Panel review-cue CSS gap | Added matching panel.css rules for the review cue stack during the content-views refresh. | Branch `ui/content-views-refresh`; commit `e900176`. |
 | SF-122 | Done | ML foundation | Simulated Trend Model (simulation-risk-ml-v0) shipped with synthetic-only training data, plain-JS logistic regression, and a checked-in model artifact. | Merged via PR #9 on 1 July 2026 after rebasing onto `codex/safeflow-prototype`. |
 
 ## Started / Open / Ready
@@ -40,8 +42,6 @@
 | ID | Status | Area | Work item | Next action |
 |---|---|---|---|---|
 | SF-101 | Ready for review | Release | PR #7 feature/minimal-role-aware-gui open, both CI checks passing. | Review diff for safety-boundary wording and scope, then decide merge. |
-| SF-120 | Ready | UI | Phase 1 content restyle | Apply the new token layer to board, panel, drawer, scenario, and form surfaces in parallel with the shell pass. |
-| SF-121 | Ready | UI | Panel review-cue CSS gap | `PatientSafetyPanel.jsx` still references `review-cue-stack`, `review-cue-meta`, `review-cue-evidence`, and `review-cue-notes`; add matching panel.css rules during the content-views refresh. |
 | SF-102 | In progress | Product concept | Patient Journey Twin / Simulation Patient Twin concept started. | Design UI wording and docs; keep simulation-only. Patient Journey Twin UI (parallel workstream, running on another machine right now) can integrate `scoreSimulatedTrend()` now that PR #9 is merged. |
 | SF-104 | In progress | AWS architecture | Architecture direction discussed: Aurora, Step Functions, Bedrock/LLM layer, tokenised backend. | Keep as mock/readiness architecture until explicit deployment approval. |
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
