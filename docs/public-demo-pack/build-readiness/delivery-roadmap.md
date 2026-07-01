@@ -1,6 +1,6 @@
 # SafeFlow Delivery Roadmap
 
-Last updated: 2026-06-30
+Last updated: 2026-07-01
 
 ## Completed Prototype Work
 
@@ -12,6 +12,13 @@ Last updated: 2026-06-30
 - Status: Done - Architecture readiness note. Commit: `a80039c`. Key files: `docs/demo-readiness-pack.md`. Tests/build: docs-only update; no app build changes required. Remaining risks: future architecture remains hypothetical until governance is approved. Suggested next action: turn the note into a formal architecture and governance workstream when ready.
 - Status: Done - Demo/readiness documentation updates. Commits: `6dadce6` and `3620953`. Key files: `docs/demo-readiness-pack.md`. Tests/build: docs-only update; no app build changes required. Remaining risks: documentation can drift from the UI as the prototype evolves. Suggested next action: keep the readiness pack in sync with future demo changes.
 - Status: Done - Clinical Safety and IG readiness note. Commit: `d00b66225918394b656ba54f16b933cc0a392bc7`. Key file: `docs/public-demo-pack/build-readiness/clinical-safety-ig-readiness.md`. Summary: Added NHS-facing simulation-to-live readiness guidance covering clinical safety, information governance, data protection, human review, RBAC, audit logging, future NHS/AWS readiness, risks/mitigations, open questions, and transition gates. Remaining risk: the document is readiness guidance only. It does not replace formal trust IG approval, clinical safety case development, DPIA, Caldicott review, or local pilot approval. Suggested next action: use this document as the foundation for a formal clinical safety case outline and stakeholder readiness pack.
+- Status: Done - Fail-closed deployment approval guard (SF-117). Key files: `infra/aws/deploymentApproval.js`, `infra/aws/app.js`, tests. Summary: `SAFEFLOW_DEPLOYMENT_APPROVED` now fails closed unless set to the exact string `true`; unset or other values are explicitly logged as not approved. Merged via PR #10.
+- Status: Done - UI design-token foundation (SF-118). Key files: `src/styles/tokens.css` and the split of the former monolithic `src/styles.css` into focused partials. Summary: established a token layer so shell and content restyles could proceed in parallel without conflicts. Merged via PR #8.
+- Status: Done - Shell, navigation and presentation mode refresh (SF-119). Key files: `src/styles/shell.css`, `src/styles/forms-and-dialogs.css`, `src/styles/responsive.css`, `WorkspaceNav.jsx`, `SafetyBanner.jsx`, `App.jsx` header/nav markup. Summary: refreshed sidebar nav, topbar hierarchy, safety banner presentation, and Presentation Mode framing; safety-boundary wording unchanged. Merged via PR #11.
+- Status: Done - Simulated Trend Model / ML foundation (SF-122). Key files: `ml/generateSyntheticDataset.js`, `ml/trainSimulatedTrendModel.js`, `src/domain/patientJourneyTrendModel.js`, `MODEL_CARD.md`. Summary: a small logistic-regression model (`modelVersion: simulation-risk-ml-v0`) trained entirely on procedurally-generated synthetic data, exposed as `scoreSimulatedTrend()`, wrapped in the existing simulation-safety envelope contract. Merged via PR #9.
+- Status: Done - Domain/safety-logic test coverage. Key files: `src/domain/simulationRiskSupport.test.js`, `src/domain/safetyRules.test.js`, `src/domain/patientJourneyTrendModel.test.js`, `src/domain/workflowEvents.test.js`. Summary: added boundary-case coverage across the core risk/safety domain functions; found and fixed a real bug where `initialAuditEvents()` threw on `responseHistory: null`/undefined instead of returning an empty array. Merged via PR #12.
+- Status: Closed as superseded - PR #7 "Add minimal role-aware GUI foundation". Reason: predated the design-token/stylesheet split and overlapped every file touched by the shell/content/Twin workstreams above; the underlying "role-aware GUI" intent is queued to be re-scoped as a fresh, small PR once the current wave of UI/Twin work lands, built on the new token system rather than rebased through it.
+- Status: Done - Clinical safety case outline and hazard log skeleton (SF-109). Key file: `docs/public-demo-pack/clinical-safety-case-outline.md`. Summary: filled out the safety-case-outline-template with a 10-row hazard log grounded in the actual signal-envelope contract and the existing CONTROL.md risk register (R-001–R-008). Not yet independently reviewed; clinical safety lead and IG lead roles remain unfilled pending a future governed pilot.
 
 ## Active Follow-up Backlog
 
@@ -26,16 +33,25 @@ Acceptance criteria:
 - The simulation safety disclaimer remains visible in the public preview UI.
 - No silent placeholder fallback is allowed in production-intent environments.
 
+## In Progress (as of 1 July 2026)
+
+- Status: In progress - Content views refresh (board, panel, drawers, scenarios), including the
+  missing `review-cue-*` CSS rules in `PatientSafetyPanel.jsx` (SF-120, SF-121). Branch
+  `ui/content-views-refresh`.
+- Status: In progress - Patient Journey Twin timeline view, importing the real
+  `scoreSimulatedTrend()` now that PR #9 is merged (SF-102). Branch `feature/patient-journey-twin`.
+- Status: Queued - WCAG AA accessibility pass (focus states, contrast, ARIA, keyboard nav) once the
+  two items above land. Branch `feature/accessibility-pass`.
+
 ## Prototype Backlog
 
 - Status: Backlog - Full-screen Presentation Mode refinement.
 - Status: Backlog - PDF export later.
 - Status: Backlog - AWS architecture mock documentation.
 - Status: Backlog - NHS Digital API research only, no live integration.
-- Status: Backlog - Clinical safety case outline.
 - Status: Backlog - Information governance checklist.
 - Status: Backlog - Role-based access/audit logging design.
-- Status: Backlog - Stakeholder demo pack.
+- Status: Backlog - Stakeholder demo pack alignment with this roadmap and CONTROL.md.
 
 ## Phase 0: Public Simulation Prototype
 
