@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { App } from 'aws-cdk-lib';
+import { readDeploymentApproval } from './deploymentApproval.js';
 import { resolveEnvironmentProfile } from './environmentProfiles.js';
 import { SafeFlowFoundationStack } from './safeflowFoundationStack.js';
 
@@ -9,6 +10,11 @@ const profileName = app.node.tryGetContext('safeflowEnvironment')
   ?? 'simulation';
 const operation = app.node.tryGetContext('safeFlowOperation');
 const previewAccessToken = process.env.SAFEFLOW_PREVIEW_ACCESS_TOKEN;
+const deploymentApproval = readDeploymentApproval(process.env);
+
+if (operation === 'deploy' && !deploymentApproval.approved) {
+  process.stderr.write(`SafeFlow deployment approval guard: ${deploymentApproval.message}\n`);
+}
 
 if (operation === 'deploy' && !isUsablePreviewAccessToken(previewAccessToken)) {
   throw new Error('SAFEFLOW_PREVIEW_ACCESS_TOKEN must be set to a non-placeholder value at least 24 characters long before public preview deploy or diff.');
@@ -17,7 +23,7 @@ if (operation === 'deploy' && !isUsablePreviewAccessToken(previewAccessToken)) {
 const safeFlowProfile = resolveEnvironmentProfile(profileName, {
   operation,
   allowRestricted: process.env.SAFEFLOW_RESTRICTED_ENVIRONMENT_APPROVED === 'true',
-  allowDeployment: process.env.SAFEFLOW_DEPLOYMENT_APPROVED === 'true'
+  allowDeployment: deploymentApproval.approved
 });
 
 new SafeFlowFoundationStack(app, safeFlowProfile.stackId, {
