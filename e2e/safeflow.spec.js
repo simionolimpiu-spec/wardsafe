@@ -3,6 +3,27 @@ import { expect, test } from '@playwright/test';
 test('SafeFlow prototype journey stays within simulation safety boundaries', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
+  await expect(page.getByRole('heading', { name: /Make ward risk visible before escalation is missed/i })).toBeVisible();
+  await expect(page.getByText(/SafeFlow brings readiness checks, risk signals, escalation prompts and audit learning/i)).toBeVisible();
+  await expect(page.getByText(/Nurse-led ward safety workflow/i)).toBeVisible();
+  await expect(page.getByText(/Primary creator: Olimpiu "Oli" Simion/i)).toBeVisible();
+  await expect(page.getByText(/Clinical contributor: Mihaela "Mia" Simion/i)).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Six surfaces, one simulation-first workflow/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /One workflow from readiness to learning/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /A small, governed route from prototype to ward pilot/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Boundaries are part of the design/i })).toBeVisible();
+  await expect(page.getByText(/SafeFlow is an early-stage simulation-first prototype\. It does not claim NHS approval, clinical validation, live deployment or clinical decision-support status\./i)).toBeVisible();
+  await expect(page.getByRole('link', { name: /Open CEP brief/i })).toHaveAttribute('href', '#cep-brief');
+  await expect(page.getByRole('link', { name: /View pilot pathway/i })).toHaveAttribute('href', '#pilot');
+  await page.getByRole('link', { name: /Open CEP brief/i }).click();
+  await expect(page.getByRole('heading', { name: /SafeFlow NHS CEP Brief/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Print brief/i })).toBeVisible();
+  await expect(page.getByText(/^NHS$/)).toHaveCount(0);
+
+  await page.getByRole('link', { name: /View pilot pathway/i }).click();
+  await expect(page.getByRole('heading', { name: /A small, governed route from prototype to ward pilot/i })).toBeVisible();
+
+  await page.getByRole('button', { name: /Open interactive prototype/i }).click();
   await expect(page.getByRole('heading', { name: 'SafeFlow', exact: true })).toBeVisible();
   await expect(page.getByText(/Simulation only/i)).toBeVisible();
   await expect(page.getByText(/^NHS$/)).toHaveCount(0);

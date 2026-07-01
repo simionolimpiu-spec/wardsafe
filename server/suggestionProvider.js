@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Pool as PgPool } from 'pg';
-import { getDemoSuggestionFixtures } from '../src/data/demoScenarios.js';
 
 const SUGGESTION_LIST_QUERY_PATH = 'database/queries/simulationRiskSuggestions.sql';
 const SUGGESTION_ACTION_QUERY_PATH = 'database/queries/recordSimulationSuggestionAction.sql';
@@ -15,8 +14,35 @@ const ACTION_TYPES = new Set([
   'resolved'
 ]);
 
+const localSuggestionFixture = {
+  suggestionId: 'suggestion-dcu-031-electrolyte-review',
+  syntheticPatientRef: 'DCU-031',
+  riskType: 'missed_action',
+  riskTier: 'urgent',
+  riskScore: 0.86,
+  status: 'suggested',
+  title: 'Electrolyte result review may be needed',
+  suggestedFlag: 'Electrolyte result review may be needed',
+  suggestedBlocker: 'Unresolved abnormal blood result',
+  suggestedTask: 'Review blood trend and document action',
+  evidence: [
+    { signalCode: 'potassium', label: 'Potassium 3.1 mmol/L final at 09:10' },
+    { signalCode: 'magnesium', label: 'Magnesium result not visible' },
+    { signalCode: 'NEWS2', label: 'NEWS2 7 at 09:15' },
+    { signalCode: 'electrolyte_plan_gap', label: 'Monitoring plan unclear at 09:20' }
+  ],
+  missingData: ['Magnesium result not visible'],
+  modelVersion: 'simulation-risk-v0',
+  featureSetVersion: 'signal-features-v0',
+  requiresHumanReview: true,
+  createdAt: '2026-06-10T09:12:00.000Z',
+  updatedAt: '2026-06-10T09:12:00.000Z',
+  actions: [],
+  simulationOnly: true
+};
+
 export function createLocalSuggestionProvider({ now = () => new Date().toISOString() } = {}) {
-  const suggestions = getDemoSuggestionFixtures().map(clone);
+  const suggestions = [clone(localSuggestionFixture)];
   let actionSequence = 0;
 
   return {

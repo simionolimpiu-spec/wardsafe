@@ -1,37 +1,45 @@
 # SafeFlow Public Demo Pack
 
-This pack supports review of the simulation-only SafeFlow prototype in this repository.
+This pack is the public-facing support set for the simulation-first SafeFlow preview.
 
-SafeFlow is the short product mark used inside the prototype UI. SafeFlow Nursing is the nurse-led concept and authorship name used for the wider invention and confidential pack.
+SafeFlow is the short product mark used in the website UI. SafeFlow Nursing is the wider nurse-led invention name used in private notes and governance material.
 
-## Contents
+## What is inside
 
-- `demo-script.md` - a short walkthrough for showing the prototype.
-- `../demo-readiness-pack.md` - concise reviewer talking points, demo flow and safe answers for common questions.
-- `../demo-screenshot-checklist.md` - manual checklist for capturing reviewer-safe screenshots.
+- `safeflow-cep-brief.md` - one-page NHS-facing brief for reviewers and mentors.
+- `safeflow-3-minute-pitch.md` - spoken pitch script for live conversations.
+- `stakeholder-outreach-emails.md` - short outreach templates for reviewers, ward leads and safety contacts.
+- `demo-script.md` - walkthrough for showing the current prototype.
 - `review-checklist.md` - public-safe review prompts for safety, workflow and product fit.
-- `safety-boundary.md` - the explicit boundaries used by the current prototype.
-- `../risk-support-technical-explainer.md` - plain-language technical explainer for the simulation-only risk-support layer.
-- `discovery-workshop-pack.md` - workshop agenda, scenario prompts, feedback form and initial hazard log.
-- `ui-target-spec.md` - screenshot-inspired UI target spec without official NHS branding.
-- `build-readiness/` - implementation blueprint, architecture, technology, hardware and roadmap.
-- `templates/` - reusable planning templates for scenarios, discovery feedback and backlog decisions, integrations, AI provider review and pilot readiness.
+- `safety-boundary.md` - the explicit boundary used by the public preview.
+- `build-readiness/` - implementation blueprint, architecture, technology, hardware and roadmap for internal review.
+- `templates/` - reusable planning templates for scenarios, feedback, backlog, integrations and pilot readiness.
 - `templates/discovery-feedback-backlog-template.md` - turns workshop feedback into prioritised backlog items and hazard follow-up.
 
-## Current Prototype Scope
+## How to use the website preview
 
-- Ward Safety Board for fictional patients.
-- Handover and discharge readiness workflow.
-- Potassium / electrolyte safety-gap explanation.
-- Discovery scenario library for structured review.
-- Editable SBAR draft with audit cue.
-- Audit and learning timeline from simulated workflow events.
-- Hospital Insights simulation drawer for ward-versus-hospital comparison cues.
-- Simulation Review Report for patient-level cues plus ward comparison summary.
+1. Run `npm run dev`.
+2. Open the local Vite URL shown in the terminal.
+3. Start on the homepage hero.
+4. Use `Open CEP brief` for the one-page summary.
+5. Use `View pilot pathway` to find the pilot section quickly.
+6. Use `Open interactive prototype` only when you want to inspect the simulation workspace.
 
-## Out Of Scope
+## Safety boundary
 
-- Live patient data.
-- NHS logo, branding or endorsement.
-- Diagnosis, prescribing or treatment instructions.
-- EPR/FHIR integration, authentication or deployment.
+- Simulation-first only.
+- No NHS logo or endorsement.
+- No live patient data.
+- No clinical validation claim.
+- No NHS approval claim.
+- No live deployment claim.
+- No clinical decision-support claim.
+
+## What not to claim publicly
+
+- NHS approval
+- clinical validation
+- live deployment
+- certification
+- CE/UKCA status
+- proven patient outcomes

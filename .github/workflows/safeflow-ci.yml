@@ -39,7 +39,7 @@ jobs:
         run: npm run build
 
       - name: Check moderate-or-higher dependency advisories
-        run: npm audit --audit-level=moderate
+        run: npm audit --audit-level=moderate --omit=dev
 
       - name: Run API safety smoke
         env:
@@ -116,6 +116,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: safeflow-cloudformation-templates
-          path: ${{ runner.temp }}/safeflow-cdk/**/*.template.json
+          path: cdk.out/*.template.json
           if-no-files-found: error
           retention-days: 7

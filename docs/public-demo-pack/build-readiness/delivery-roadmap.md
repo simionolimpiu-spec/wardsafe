@@ -1,42 +1,5 @@
 # SafeFlow Delivery Roadmap
 
-Last updated: 2026-06-30
-
-## Completed Prototype Work
-
-- Status: Done - Simulation Demo Scenario selector. Commit: `6b2e4be` (presentation follow-on in `f55c51b` and `e809bfa`). Key files: `src/components/DemoScenarioSelector.jsx`, `src/data/demoScenarios.js`, `src/data/demoScenarios.test.js`, `src/App.jsx`, `src/App.test.jsx`, `src/state/simulationWorkspace.js`, `src/state/simulationWorkspace.test.js`, `src/state/simulationPersistence.js`, `src/state/simulationPersistence.test.js`, `src/styles.css`, `server/signalProvider.js`, `server/suggestionProvider.js`. Tests/build: `npm test` and `npm run build` passed on the final prototype state. Remaining risks: fictional scenarios are limited and the choice is stored locally only. Suggested next action: expand the scenario set if presenters need more demo variety.
-- Status: Done - Hospital Insights drawer. Commit: `8ebcb3b`. Key files: `src/components/HospitalInsightsDrawer.jsx`, `src/services/hospitalInsightsService.js`, `src/services/hospitalInsightsService.test.js`, `src/App.jsx`, `src/App.test.jsx`, `src/styles.css`. Tests/build: `npm test` and `npm run build` passed on the final prototype state. Remaining risks: deterministic mock benchmarks are stable for demos only. Suggested next action: keep the boundary ready for future governed data sources.
-- Status: Done - Simulation Review Report. Commit: `dcd5b55`. Key files: `src/components/SimulationReviewReportDrawer.jsx`, `src/services/simulationReviewReportService.js`, `src/services/simulationReviewReportService.test.js`, `src/App.jsx`, `src/App.test.jsx`, `src/styles.css`. Tests/build: `npm test` and `npm run build` passed on the final prototype state. Remaining risks: the report is a simulation summary, not a clinical document. Suggested next action: keep report copy aligned with the simulation boundary as the demo evolves.
-- Status: Done - Presentation Mode. Commit: `f55c51b` (polish in `e809bfa`). Key files: `src/App.jsx`, `src/styles.css`, `src/App.test.jsx`, `infra/aws/runSynth.js`, `infra/aws/runSynth.test.js`. Tests/build: `npm test` and `npm run build` passed on the final prototype state. Remaining risks: demo mode should always keep the safety boundary visible. Suggested next action: consider future full-screen/projector refinements if stakeholders want them.
-- Status: Done - Exportable Simulation Review Report with copy and print actions. Commit: `0a20cd5` (polish in `105c892`). Key files: `src/services/simulationReviewReportService.js`, `src/services/simulationReviewReportService.test.js`, `src/components/SimulationReviewReportDrawer.jsx`, `src/styles.css`, `src/App.jsx`, `src/App.test.jsx`. Tests/build: `npm test` and `npm run build` passed on the final prototype state. Remaining risks: plain-text copy/print is demo-safe, but a governed PDF/reporting path is still future work. Suggested next action: assess PDF export later if the roadmap needs it.
-- Status: Done - Architecture readiness note. Commit: `a80039c`. Key files: `docs/demo-readiness-pack.md`. Tests/build: docs-only update; no app build changes required. Remaining risks: future architecture remains hypothetical until governance is approved. Suggested next action: turn the note into a formal architecture and governance workstream when ready.
-- Status: Done - Demo/readiness documentation updates. Commits: `6dadce6` and `3620953`. Key files: `docs/demo-readiness-pack.md`. Tests/build: docs-only update; no app build changes required. Remaining risks: documentation can drift from the UI as the prototype evolves. Suggested next action: keep the readiness pack in sync with future demo changes.
-- Status: Done - Clinical Safety and IG readiness note. Commit: `d00b66225918394b656ba54f16b933cc0a392bc7`. Key file: `docs/public-demo-pack/build-readiness/clinical-safety-ig-readiness.md`. Summary: Added NHS-facing simulation-to-live readiness guidance covering clinical safety, information governance, data protection, human review, RBAC, audit logging, future NHS/AWS readiness, risks/mitigations, open questions, and transition gates. Remaining risk: the document is readiness guidance only. It does not replace formal trust IG approval, clinical safety case development, DPIA, Caldicott review, or local pilot approval. Suggested next action: use this document as the foundation for a formal clinical safety case outline and stakeholder readiness pack.
-
-## Active Follow-up Backlog
-
-### Replace placeholder signal and risk providers with ML-backed DB read models
-
-Acceptance criteria:
-
-- Database read model is available in the preview stack.
-- Placeholder fallback is used only when explicitly configured for preview or simulation mode.
-- API responses expose source and provider metadata for both signal and risk-suggestion routes.
-- Tests cover both DB-backed and placeholder-backed modes.
-- The simulation safety disclaimer remains visible in the public preview UI.
-- No silent placeholder fallback is allowed in production-intent environments.
-
-## Prototype Backlog
-
-- Status: Backlog - Full-screen Presentation Mode refinement.
-- Status: Backlog - PDF export later.
-- Status: Backlog - AWS architecture mock documentation.
-- Status: Backlog - NHS Digital API research only, no live integration.
-- Status: Backlog - Clinical safety case outline.
-- Status: Backlog - Information governance checklist.
-- Status: Backlog - Role-based access/audit logging design.
-- Status: Backlog - Stakeholder demo pack.
-
 ## Phase 0: Public Simulation Prototype
 
 Status: current PR.

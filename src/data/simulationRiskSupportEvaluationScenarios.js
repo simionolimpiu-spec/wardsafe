@@ -10,7 +10,6 @@ function createScenario({
   rationale,
   expectedOverallCategory,
   expectedFlaggedDomains,
-  coverageTags = [],
   patient,
   journey = null
 }) {
@@ -20,7 +19,6 @@ function createScenario({
     rationale,
     expectedOverallCategory,
     expectedFlaggedDomains,
-    coverageTags,
     patient,
     journey: journey ?? {
       id: scenarioId,
@@ -225,7 +223,6 @@ export const simulationRiskSupportEvaluationScenarios = [
     rationale: 'Fictional discharge-ready journey with complete notes and no active workflow gaps.',
     expectedOverallCategory: 'ready',
     expectedFlaggedDomains: [],
-    coverageTags: ['lowSignalBaseline'],
     patient: readyPatient
   }),
   createScenario({
@@ -234,11 +231,6 @@ export const simulationRiskSupportEvaluationScenarios = [
     rationale: 'Fictional note leaves the plan, observation history and escalation cues intentionally blank.',
     expectedOverallCategory: 'review suggested',
     expectedFlaggedDomains: ['documentation_quality', 'escalation_readiness'],
-    coverageTags: [
-      'documentationQuality',
-      'escalationReadiness',
-      'missingObservationDocumentation'
-    ],
     patient: documentationGapPatient
   }),
   createScenario({
@@ -247,11 +239,6 @@ export const simulationRiskSupportEvaluationScenarios = [
     rationale: 'Fictional handover stays open so the harness can check transfer-of-responsibility cues.',
     expectedOverallCategory: 'review suggested',
     expectedFlaggedDomains: ['handover_completeness', 'discharge_readiness'],
-    coverageTags: [
-      'handoverCompleteness',
-      'dischargeReadiness',
-      'missingHandoverField'
-    ],
     patient: incompleteHandoverPatient
   }),
   createScenario({
@@ -260,7 +247,6 @@ export const simulationRiskSupportEvaluationScenarios = [
     rationale: 'Fictional review note leaves the SBAR assessment blank while the rest of the journey remains ready.',
     expectedOverallCategory: 'ready',
     expectedFlaggedDomains: ['escalation_readiness'],
-    coverageTags: ['escalationReadiness', 'unresolvedEscalationCue'],
     patient: escalationCuePatient
   }),
   createScenario({
@@ -269,7 +255,6 @@ export const simulationRiskSupportEvaluationScenarios = [
     rationale: 'Fictional discharge remains blocked even though the rest of the journey is ready for review.',
     expectedOverallCategory: 'ready',
     expectedFlaggedDomains: ['discharge_readiness'],
-    coverageTags: ['dischargeReadiness', 'dischargeReadinessBlocker'],
     patient: dischargeBlockerPatient
   }),
   createScenario({
@@ -283,16 +268,6 @@ export const simulationRiskSupportEvaluationScenarios = [
       'escalation_readiness',
       'discharge_readiness'
     ],
-    coverageTags: [
-      'documentationQuality',
-      'handoverCompleteness',
-      'escalationReadiness',
-      'dischargeReadiness',
-      'multipleSimultaneousGaps',
-      'missingObservationDocumentation',
-      'missingHandoverField',
-      'dischargeReadinessBlocker'
-    ],
     patient: multipleGapPatient
   }),
   createScenario({
@@ -305,13 +280,6 @@ export const simulationRiskSupportEvaluationScenarios = [
       'handover_completeness',
       'escalation_readiness',
       'discharge_readiness'
-    ],
-    coverageTags: [
-      'documentationQuality',
-      'handoverCompleteness',
-      'escalationReadiness',
-      'dischargeReadiness',
-      'partialInputHandling'
     ],
     patient: partialSafePatient
   })

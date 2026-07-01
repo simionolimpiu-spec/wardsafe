@@ -12,17 +12,16 @@ describe('simulation persistence', () => {
     localStorage.clear();
   });
 
-  it('round-trips version 2 simulation state', () => {
+  it('round-trips version 1 simulation state', () => {
     const state = createInitialSimulationState();
     state.selectedView = 'tasks';
 
     saveSimulationState(state);
 
     expect(loadSimulationState()).toMatchObject({
-      version: 2,
+      version: 1,
       selectedView: 'tasks',
-      selectedPatientId: 'DCU-031',
-      selectedScenarioId: 'day-care-treatment-pathway'
+      selectedPatientId: 'DCU-031'
     });
   });
 
@@ -33,7 +32,7 @@ describe('simulation persistence', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 99, patients: [] }));
     expect(loadSimulationState()).toBeNull();
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 2, patients: [] }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, patients: [] }));
     expect(loadSimulationState()).toBeNull();
   });
 
@@ -54,7 +53,7 @@ describe('simulation persistence', () => {
     };
 
     saveSimulationState(createInitialSimulationState(), storage);
-    expect(loadSimulationState(storage)?.version).toBe(2);
+    expect(loadSimulationState(storage)?.version).toBe(1);
     clearSimulationState(storage);
     expect(loadSimulationState(storage)).toBeNull();
   });

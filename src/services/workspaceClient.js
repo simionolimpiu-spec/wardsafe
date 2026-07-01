@@ -1,14 +1,9 @@
-import { buildApiUrl, createApiHeaders } from './apiBaseUrl.js';
-
-export async function requestWorkspaceSnapshot({
-  fetchImpl = globalThis.fetch,
-  env = import.meta.env
-} = {}) {
+export async function requestWorkspaceSnapshot({ fetchImpl = globalThis.fetch } = {}) {
   if (!fetchImpl) return null;
 
   try {
-    const response = await fetchImpl(buildApiUrl('/api/simulation/workspace', { env }), {
-      headers: createApiHeaders({ Accept: 'application/json' }, { env })
+    const response = await fetchImpl('/api/simulation/workspace', {
+      headers: { Accept: 'application/json' }
     });
     if (!response.ok) return null;
 

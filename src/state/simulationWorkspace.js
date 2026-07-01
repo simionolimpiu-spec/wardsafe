@@ -1,5 +1,4 @@
-import { buildSimulationSignals } from '../domain/signalEngine.js';
-import { getDemoScenarioById, getDefaultDemoScenario } from '../data/demoScenarios.js';
+import { simulatedPatients } from '../data/simulatedPatients.js';
 import { initialAuditEvents } from '../domain/workflowEvents.js';
 
 const defaultSettings = {
@@ -7,7 +6,6 @@ const defaultSettings = {
   draftProvider: 'auto',
   simulationUser: 'Leanne Mitchell'
 };
-const SIMULATION_WORKSPACE_VERSION = 2;
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -73,146 +71,48 @@ function patientEscalationStatus(escalations, patientId) {
   return 'None';
 }
 
-function isPlainObject(value) {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
-}
+export function createInitialSimulationState() {
+  const patients = clone(simulatedPatients).map((patient) => ({
+    ...patient,
+    observations: []
+  }));
+  const escalations = patients
+    .filter((patient) => patient.escalation !== 'None')
+    .map((patient, index) => ({
+      id: `escalation-${index + 1}`,
+      patientId: patient.id,
+      reason: patient.nextAction,
+      owner: patient.responsibleNurse,
+      status: patient.escalation === 'Active' ? 'Active' : 'Monitoring'
+    }));
+  const auditEvents = patients.flatMap((patient) =>
+    initialAuditEvents(patient).map((event) => ({
+      ...event,
+      patientId: patient.id
+    }))
+  ).reverse();
 
-function safeClone(value) {
-  try {
-    return JSON.parse(JSON.stringify(value));
-  } catch {
-    return undefined;
-  }
-}
-
-function normaliseTextList(value) {
-  if (!Array.isArray(value)) return [];
-  return value
-    .map((entry) => (typeof entry === 'string' ? entry.trim() : String(entry ?? '').trim()))
-    .filter(Boolean);
-}
-
-function normaliseSnapshotEntry(entry) {
-  if (!isPlainObject(entry)) return null;
-  const cloned = safeClone(entry);
-  return isPlainObject(cloned) ? cloned : null;
-}
-
-function normaliseSignalSnapshot(snapshot) {
-  const fallback = {
-    signalTimeline: [],
-    riskSuggestions: [],
-    signalSourceMetadata: null,
-    suggestionSourceMetadata: null,
-    sourceFreshness: {
-      state: 'unavailable',
-      label: 'No signal freshness available.'
+  return {
+    version: 1,
+    selectedView: 'board',
+    selectedPatientId: patients[0]?.id ?? null,
+    patients,
+    escalations,
+    intelligence: {
+      suggestionActions: []
     },
-    missingDataNotes: [],
-    receivedAt: null
+    auditEvents,
+    settings: { ...defaultSettings }
   };
-
-  if (!isPlainObject(snapshot)) {
-    return fallback;
-  }
-
-  const sourceFreshnessClone = safeClone(snapshot.sourceFreshness);
-  const sourceFreshness = isPlainObject(sourceFreshnessClone)
-    ? {
-        ...sourceFreshnessClone,
-        state:
-          typeof sourceFreshnessClone.state === 'string' && sourceFreshnessClone.state.trim()
-            ? sourceFreshnessClone.state.trim()
-            : fallback.sourceFreshness.state,
-        label:
-          typeof sourceFreshnessClone.label === 'string' && sourceFreshnessClone.label.trim()
-            ? sourceFreshnessClone.label.trim()
-            : fallback.sourceFreshness.label
-      }
-    : { ...fallback.sourceFreshness };
-
-  return {
-    signalTimeline: Array.isArray(snapshot.signalTimeline)
-      ? snapshot.signalTimeline.map(normaliseSnapshotEntry).filter(Boolean)
-      : [],
-    riskSuggestions: Array.isArray(snapshot.riskSuggestions)
-      ? snapshot.riskSuggestions.map(normaliseSnapshotEntry).filter(Boolean)
-      : [],
-    signalSourceMetadata: normaliseSourceMetadata(snapshot.signalSourceMetadata),
-    suggestionSourceMetadata: normaliseSourceMetadata(snapshot.suggestionSourceMetadata),
-    sourceFreshness,
-    missingDataNotes: normaliseTextList(snapshot.missingDataNotes),
-    receivedAt:
-      typeof snapshot.receivedAt === 'string' && snapshot.receivedAt.trim()
-        ? snapshot.receivedAt.trim()
-      : null
-  };
-}
-
-function normaliseSourceMetadata(value) {
-  if (!isPlainObject(value)) {
-    return null;
-  }
-
-  const cloned = safeClone(value);
-  if (!isPlainObject(cloned)) {
-    return null;
-  }
-
-  const source = typeof cloned.source === 'string' && cloned.source.trim()
-    ? cloned.source.trim()
-    : null;
-  const provider = typeof cloned.provider === 'string' && cloned.provider.trim()
-    ? cloned.provider.trim()
-    : null;
-  const mode = typeof cloned.mode === 'string' && cloned.mode.trim()
-    ? cloned.mode.trim()
-    : 'simulation';
-  const explanation = typeof cloned.explanation === 'string' && cloned.explanation.trim()
-    ? cloned.explanation.trim()
-    : null;
-
-  if (!source || !provider || !explanation) {
-    return null;
-  }
-
-  return {
-    source,
-    provider,
-    mode,
-    clinicalUse: cloned.clinicalUse === false ? false : null,
-    validationStatus:
-      typeof cloned.validationStatus === 'string' && cloned.validationStatus.trim()
-        ? cloned.validationStatus.trim()
-        : 'not-clinically-validated',
-    explanation
-  };
-}
-
-export function createInitialSimulationState(scenarioId = getDefaultDemoScenario().id) {
-  return buildSimulationState(getDemoScenarioById(scenarioId));
 }
 
 export function simulationReducer(state, action) {
-  const currentState = {
-    ...state,
-    intelligence: state.intelligence ?? { suggestionActions: [] },
-    signalSnapshots: isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {}
-  };
-
   switch (action.type) {
     case 'navigation/changed':
       return { ...state, selectedView: action.payload.view };
 
     case 'patient/selected':
       return { ...state, selectedPatientId: action.payload.patientId };
-
-    case 'scenario/selected':
-      return {
-        ...buildSimulationState(getDemoScenarioById(action.payload.scenarioId)),
-        settings: { ...state.settings },
-        selectedView: state.selectedView
-      };
 
     case 'task/added': {
       const { patientId, label, owner, due } = action.payload;
@@ -400,27 +300,14 @@ export function simulationReducer(state, action) {
       );
     }
 
-    case 'signal/snapshotStored': {
-      const { patientId, snapshot } = action.payload ?? {};
-      if (typeof patientId !== 'string' || !findPatient(state, patientId)) return state;
-
-      return {
-        ...currentState,
-        signalSnapshots: {
-          ...currentState.signalSnapshots,
-          [patientId]: normaliseSignalSnapshot(snapshot)
-        }
-      };
-    }
-
     case 'intelligence/suggestionActioned': {
       const { suggestionId, patientId, actionType, actionReason } = action.payload;
-      if (!findPatient(currentState, patientId)) return state;
+      if (!findPatient(state, patientId)) return state;
 
-      const currentIntelligence = currentState.intelligence;
-      const suggestionActions = currentIntelligence.suggestionActions;
+      const currentIntelligence = state.intelligence ?? { suggestionActions: [] };
+      const suggestionActions = currentIntelligence.suggestionActions ?? [];
       const nextState = {
-        ...currentState,
+        ...state,
         intelligence: {
           ...currentIntelligence,
           suggestionActions: [
@@ -439,7 +326,7 @@ export function simulationReducer(state, action) {
       return withAudit(
         nextState,
         createWorkspaceAuditEvent(
-          currentState,
+          state,
           action,
           `Intelligence suggestion ${actionType}`,
           actionReason,
@@ -500,65 +387,4 @@ export function selectActiveEscalationCount(state) {
 
 export function selectPatient(state, patientId = state.selectedPatientId) {
   return state.patients.find((patient) => patient.id === patientId);
-}
-
-export function selectPatientSimulationSignals(state, patientId = state.selectedPatientId) {
-  const patient = selectPatient(state, patientId);
-  if (!patient) return [];
-
-  const snapshots = isPlainObject(state.signalSnapshots) ? state.signalSnapshots : {};
-  const snapshot = snapshots[patient.id];
-  if (!isPlainObject(snapshot)) return [];
-
-  return buildSimulationSignals({
-    patient,
-    signals: snapshot.signalTimeline,
-    suggestions: snapshot.riskSuggestions,
-    snapshotMeta: {
-      sourceFreshness: snapshot.sourceFreshness,
-      missingDataNotes: snapshot.missingDataNotes,
-      receivedAt: snapshot.receivedAt
-    }
-  });
-}
-
-function buildSimulationState(scenario) {
-  const patients = clone(scenario.patients).map((patient) => ({
-    ...patient,
-    observations: Array.isArray(patient.observations) ? patient.observations : []
-  }));
-  const escalations = patients
-    .filter((patient) => patient.escalation !== 'None')
-    .map((patient, index) => ({
-      id: `escalation-${index + 1}`,
-      patientId: patient.id,
-      reason: patient.nextAction,
-      owner: patient.responsibleNurse,
-      status: patient.escalation === 'Active' ? 'Active' : 'Monitoring'
-    }));
-  const auditEvents = patients.flatMap((patient) =>
-    initialAuditEvents(patient).map((event) => ({
-      ...event,
-      patientId: patient.id
-    }))
-  ).reverse();
-
-  return {
-    version: SIMULATION_WORKSPACE_VERSION,
-    selectedScenarioId: scenario.id,
-    selectedView: 'board',
-    selectedPatientId: scenario.selectedPatientId,
-    scenarioDescription: scenario.description,
-    currentWardName: scenario.currentWardName,
-    hospitalName: scenario.hospitalName,
-    wardSummary: clone(scenario.wardSummary),
-    patients,
-    escalations,
-    signalSnapshots: {},
-    intelligence: {
-      suggestionActions: []
-    },
-    auditEvents,
-    settings: { ...defaultSettings }
-  };
 }

@@ -24,15 +24,13 @@ $env:AWS_PROFILE="safeflow-free-tier"
 $env:AWS_REGION="eu-west-2"
 $env:CDK_DEFAULT_REGION="eu-west-2"
 $env:SAFEFLOW_ENVIRONMENT="simulation"
-$env:SAFEFLOW_ALLOWED_ORIGIN="https://preview.example.com"
-$env:SAFEFLOW_PREVIEW_ACCESS_TOKEN="replace-with-a-long-random-preview-token"
 $env:SAFEFLOW_SIMULATION_ONLY="true"
 $env:SAFEFLOW_ACCOUNT_MFA_CONFIRMED="true"
 $env:SAFEFLOW_BUDGET_CONFIRMED="true"
 $env:SAFEFLOW_DEPLOYMENT_APPROVED="false"
 ```
 
-Keep `SAFEFLOW_DEPLOYMENT_APPROVED=false` while reviewing templates. Set it to `true` only for an intentional `cdk diff` or `cdk deploy` session. The preview access token must be a non-placeholder value before public preview diff or deploy commands run.
+Keep `SAFEFLOW_DEPLOYMENT_APPROVED=false` while reviewing templates. Set it to `true` only for an intentional `cdk diff` or `cdk deploy` session.
 
 ## Safe Commands
 

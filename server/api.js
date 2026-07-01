@@ -5,10 +5,8 @@ import {
   assertSimulationAuditPayloadIsSafe,
   createConfiguredAuditEventProvider
 } from './auditEventProvider.js';
-import { createCorsHeaders } from './corsConfig.js';
 import { createSimulationReadinessReport } from './readinessReport.js';
 import { createSimulationRiskSupportReadOnlyReport } from './simulationRiskSupportReport.js';
-import { buildSimulationOutputEnvelope } from './simulationOutputMetadata.js';
 import { createConfiguredSignalProvider } from './signalProvider.js';
 import { createConfiguredSuggestionProvider } from './suggestionProvider.js';
 import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
@@ -24,7 +22,7 @@ export function createApiHandler({
   return async function apiHandler(req, res) {
     const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');
     const suggestionActionMatch = pathname.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
-    setCorsHeaders(res, env);
+    setCorsHeaders(res);
 
     if (req.method === 'OPTIONS') {
       res.statusCode = 204;
@@ -104,15 +102,13 @@ function simulationSafetyBoundary() {
 async function handleSimulationSignals(res, signalProvider, searchParams) {
   try {
     const signals = await signalProvider.listPatientSignals({ patientId: searchParams.get('patientId') || null });
-    writeJson(res, 200, buildSimulationOutputEnvelope({
-      source: signalProvider.id ?? 'simulation-signals',
-      payload: {
+    writeJson(res, 200, {
       product: 'SafeFlow',
       simulationOnly: true,
+      source: signalProvider.id ?? 'simulation-signals',
       safetyBoundary: simulationSafetyBoundary(),
       signals
-      }
-    }));
+    });
   } catch {
     writeJson(res, 503, { error: 'Simulation signals unavailable' });
   }
@@ -130,15 +126,13 @@ async function handleSimulationRiskSupportReport(res, searchParams) {
 async function handleSimulationRiskSuggestions(res, suggestionProvider, searchParams) {
   try {
     const suggestions = await suggestionProvider.listRiskSuggestions({ patientId: searchParams.get('patientId') || null });
-    writeJson(res, 200, buildSimulationOutputEnvelope({
-      source: suggestionProvider.id ?? 'simulation-risk-suggestions',
-      payload: {
+    writeJson(res, 200, {
       product: 'SafeFlow',
       simulationOnly: true,
+      source: suggestionProvider.id ?? 'simulation-risk-suggestions',
       safetyBoundary: simulationSafetyBoundary(),
       suggestions
-      }
-    }));
+    });
   } catch {
     writeJson(res, 503, { error: 'Simulation risk suggestions unavailable' });
   }
@@ -246,8 +240,8 @@ function writeJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
-function setCorsHeaders(res, env) {
-  for (const [name, value] of Object.entries(createCorsHeaders(env))) {
-    res.setHeader(name, value);
-  }
+function setCorsHeaders(res) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }

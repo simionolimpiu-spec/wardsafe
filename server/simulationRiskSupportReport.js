@@ -10,6 +10,7 @@ const SOURCE = 'fictional scenario fixtures';
 const GENERATED_BY = 'deterministic rules';
 const CLINICAL_USE = 'not for live clinical deployment';
 const REVIEW_PURPOSE = 'Structured review support only; nurses and clinicians remain responsible for judgement and escalation.';
+const STRUCTURED_REVIEW_SUPPORT = 'Structured review support for a simulation-only prototype generated from fictional scenario fixtures with deterministic rules.';
 
 const SAFETY_BOUNDARY = Object.freeze({
   noLivePatientData: true,
@@ -83,11 +84,13 @@ export function createSimulationRiskSupportReportReference() {
     humanReviewRequired: report.humanReviewRequired,
     generatedBy: report.generatedBy,
     clinicalUse: report.clinicalUse,
+    structuredReviewSupport: report.structuredReviewSupport,
     reviewPurpose: report.reviewPurpose,
     totalScenarios: report.totalScenarios,
     passedScenarios: report.passedScenarios,
     failedScenarios: report.failedScenarios,
     aggregateSummary: report.aggregateSummary,
+    aggregateDomainSummary: report.aggregateDomainSummary,
     flaggedDomainSummary: report.flaggedDomainSummary
   };
 }
@@ -107,6 +110,7 @@ function buildSimulationRiskSupportReadOnlyReport(evaluation) {
     generatedBy: GENERATED_BY,
     clinicalUse: CLINICAL_USE,
     accessMode: 'read-only',
+    structuredReviewSupport: STRUCTURED_REVIEW_SUPPORT,
     reviewPurpose: REVIEW_PURPOSE,
     safetyBoundary: { ...SAFETY_BOUNDARY },
     evaluationVersion: evaluation.evaluationVersion,
@@ -115,7 +119,8 @@ function buildSimulationRiskSupportReadOnlyReport(evaluation) {
     failedScenarios: evaluation.failedScenarios ?? 0,
     scenarioResults,
     aggregateSummary,
-    flaggedDomainSummary: buildFlaggedDomainSummary(aggregateSummary)
+    aggregateDomainSummary: buildAggregateDomainSummary(aggregateSummary),
+    flaggedDomainSummary: buildAggregateDomainSummary(aggregateSummary)
   };
 }
 
@@ -125,23 +130,29 @@ function buildAggregateSummary(scenarioResults) {
     handoverCompletenessIssueCount: 0,
     escalationReadinessCueCount: 0,
     dischargeReadinessBlockerCount: 0,
-    scenariosWithMultipleGaps: 0
+    scenariosWithMultipleGaps: 0,
+    scenariosWithMissingDocumentation: 0,
+    scenariosWithDischargeBlockers: 0
   };
 
   for (const result of scenarioResults) {
     const domains = new Set(result.actualFlaggedDomains ?? []);
+    const missingDocumentationFields = result.missingDocumentationFields ?? [];
+    const dischargeReadinessBlockers = result.dischargeReadinessBlockers ?? [];
 
     if (domains.has('documentation_quality')) summary.documentationGapCount += 1;
     if (domains.has('handover_completeness')) summary.handoverCompletenessIssueCount += 1;
     if (domains.has('escalation_readiness')) summary.escalationReadinessCueCount += 1;
     if (domains.has('discharge_readiness')) summary.dischargeReadinessBlockerCount += 1;
     if (domains.size > 1) summary.scenariosWithMultipleGaps += 1;
+    if (missingDocumentationFields.length > 0) summary.scenariosWithMissingDocumentation += 1;
+    if (dischargeReadinessBlockers.length > 0) summary.scenariosWithDischargeBlockers += 1;
   }
 
   return summary;
 }
 
-function buildFlaggedDomainSummary(aggregateSummary) {
+function buildAggregateDomainSummary(aggregateSummary) {
   return FLAGGED_DOMAIN_DEFINITIONS.map(({ signalType, label, aggregateKey }) => ({
     signalType,
     label,

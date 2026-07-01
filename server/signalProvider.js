@@ -1,15 +1,137 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Pool as PgPool } from 'pg';
-import { getDemoSignalFixtures } from '../src/data/demoScenarios.js';
 
 const SIGNAL_TIMELINE_QUERY_PATH = 'database/queries/simulationSignalTimeline.sql';
+
+const localSignals = [
+  {
+    signalId: 'signal-dcu-031-potassium-0910',
+    syntheticPatientRef: 'DCU-031',
+    sourceSystem: 'simulation-ice',
+    sourceType: 'lab',
+    signalCode: 'potassium',
+    displayName: 'Potassium',
+    value: '3.1',
+    unit: 'mmol/L',
+    referenceRange: '3.5-5.3',
+    status: 'final',
+    collectedAt: '2026-06-10T08:55:00.000Z',
+    resultedAt: '2026-06-10T09:10:00.000Z',
+    receivedAt: '2026-06-10T09:10:30.000Z',
+    effectiveAt: '2026-06-10T09:10:00.000Z',
+    sourceFreshness: 'current',
+    confidence: 0.98,
+    provenance: {
+      feed: 'simulation',
+      messageType: 'ice_pathology_result',
+      directCareIdentifiers: false
+    },
+    simulationOnly: true
+  },
+  {
+    signalId: 'signal-dcu-031-magnesium-missing-0910',
+    syntheticPatientRef: 'DCU-031',
+    sourceSystem: 'simulation-ice',
+    sourceType: 'lab',
+    signalCode: 'magnesium',
+    displayName: 'Magnesium',
+    value: null,
+    unit: 'mmol/L',
+    referenceRange: '0.7-1.0',
+    status: 'missing',
+    collectedAt: null,
+    resultedAt: null,
+    receivedAt: '2026-06-10T09:10:30.000Z',
+    effectiveAt: '2026-06-10T09:10:30.000Z',
+    sourceFreshness: 'current',
+    confidence: 0.9,
+    provenance: {
+      feed: 'simulation',
+      messageType: 'expected_pathology_result',
+      directCareIdentifiers: false
+    },
+    simulationOnly: true
+  },
+  {
+    signalId: 'signal-dcu-031-news2-0915',
+    syntheticPatientRef: 'DCU-031',
+    sourceSystem: 'simulation-observations',
+    sourceType: 'observation',
+    signalCode: 'NEWS2',
+    displayName: 'NEWS2',
+    value: '7',
+    unit: null,
+    referenceRange: null,
+    status: 'final',
+    collectedAt: '2026-06-10T09:15:00.000Z',
+    resultedAt: '2026-06-10T09:15:00.000Z',
+    receivedAt: '2026-06-10T09:15:10.000Z',
+    effectiveAt: '2026-06-10T09:15:00.000Z',
+    sourceFreshness: 'current',
+    confidence: 1,
+    provenance: {
+      feed: 'simulation',
+      messageType: 'news2_observation',
+      directCareIdentifiers: false
+    },
+    simulationOnly: true
+  },
+  {
+    signalId: 'signal-dcu-031-plan-gap-0920',
+    syntheticPatientRef: 'DCU-031',
+    sourceSystem: 'simulation-workflow',
+    sourceType: 'workflow',
+    signalCode: 'electrolyte_plan_gap',
+    displayName: 'Electrolyte monitoring plan',
+    value: 'unclear',
+    unit: null,
+    referenceRange: null,
+    status: 'final',
+    collectedAt: '2026-06-10T09:20:00.000Z',
+    resultedAt: '2026-06-10T09:20:00.000Z',
+    receivedAt: '2026-06-10T09:20:10.000Z',
+    effectiveAt: '2026-06-10T09:20:00.000Z',
+    sourceFreshness: 'current',
+    confidence: 0.92,
+    provenance: {
+      feed: 'simulation',
+      messageType: 'workflow_gap',
+      directCareIdentifiers: false
+    },
+    simulationOnly: true
+  },
+  {
+    signalId: 'signal-dcu-028-urine-prelim-1145',
+    syntheticPatientRef: 'DCU-028',
+    sourceSystem: 'simulation-microbiology',
+    sourceType: 'microbiology',
+    signalCode: 'urine_culture',
+    displayName: 'Urine culture',
+    value: 'preliminary growth flagged',
+    unit: null,
+    referenceRange: null,
+    status: 'preliminary',
+    collectedAt: '2026-06-10T07:20:00.000Z',
+    resultedAt: '2026-06-10T11:45:00.000Z',
+    receivedAt: '2026-06-10T11:45:30.000Z',
+    effectiveAt: '2026-06-10T11:45:00.000Z',
+    sourceFreshness: 'current',
+    confidence: 0.85,
+    provenance: {
+      feed: 'simulation',
+      messageType: 'microbiology_result',
+      directCareIdentifiers: false
+    },
+    simulationOnly: true
+  }
+];
 
 export function createLocalSignalProvider() {
   return {
     id: 'local-simulation-signals',
     async listPatientSignals({ patientId } = {}) {
-      return clone(getDemoSignalFixtures())
+      return clone(localSignals)
         .filter((signal) => !patientId || signal.syntheticPatientRef === patientId)
         .sort((left, right) => right.effectiveAt.localeCompare(left.effectiveAt));
     }

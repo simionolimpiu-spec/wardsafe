@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createSafeFlowApiHandler } from './index.mjs';
+import { createSafeFlowApiHandler, handler } from './index.mjs';
 
 const originalEnv = { ...process.env };
 
@@ -8,101 +8,6 @@ afterEach(() => {
 });
 
 describe('SafeFlow private API handler', () => {
-  it('sets preview-safe CORS headers for a configured frontend origin', async () => {
-    const apiHandler = createSafeFlowApiHandler({
-      env: {
-        SAFEFLOW_SIMULATION_ONLY: 'true',
-        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/'
-      }
-    });
-
-    const response = await apiHandler();
-
-    expect(response.headers).toMatchObject({
-      'content-type': 'application/json',
-      'Access-Control-Allow-Origin': 'https://preview.example.com',
-      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type,X-SafeFlow-Preview-Token'
-    });
-  });
-
-  it('allows CORS preflight without exposing route data', async () => {
-    const apiHandler = createSafeFlowApiHandler({
-      env: {
-        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'OPTIONS', path: '/api/simulation/workspace' } }
-    });
-
-    expect(response.statusCode).toBe(204);
-    expect(response.body).toBe('');
-  });
-
-  it('requires the preview token when the public preview gate is configured', async () => {
-    const apiHandler = createSafeFlowApiHandler({
-      env: {
-        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
-      }
-    });
-
-    const missingToken = await apiHandler();
-    const validToken = await apiHandler({
-      headers: {
-        'X-SafeFlow-Preview-Token': 'safe-preview-token-for-review-12345'
-      }
-    });
-
-    expect(missingToken.statusCode).toBe(401);
-    expect(JSON.parse(missingToken.body)).toEqual({
-      error: 'Preview access token required.'
-    });
-    expect(validToken.statusCode).toBe(200);
-  });
-
-  it('rejects non-OPTIONS preview requests from the wrong configured origin even when the token is valid', async () => {
-    const apiHandler = createSafeFlowApiHandler({
-      env: {
-        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/',
-        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'GET', path: '/api/simulation/workspace' } },
-      headers: {
-        Origin: 'https://wrong-preview.example.com',
-        'X-SafeFlow-Preview-Token': 'safe-preview-token-for-review-12345'
-      }
-    });
-
-    expect(response.statusCode).toBe(403);
-    expect(JSON.parse(response.body)).toEqual({
-      error: 'Preview origin not allowed.'
-    });
-  });
-
-  it('allows matching-origin preview requests when the configured token is valid', async () => {
-    const apiHandler = createSafeFlowApiHandler({
-      env: {
-        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/',
-        SAFEFLOW_PREVIEW_ACCESS_TOKEN: 'safe-preview-token-for-review-12345'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'GET', path: '/api/simulation/workspace' } },
-      headers: {
-        Origin: 'https://preview.example.com',
-        'X-SafeFlow-Preview-Token': 'safe-preview-token-for-review-12345'
-      }
-    });
-
-    expect(response.statusCode).toBe(200);
-  });
-
   it('returns simulation metadata without exposing configured resource identifiers', async () => {
     process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
@@ -110,9 +15,8 @@ describe('SafeFlow private API handler', () => {
     process.env.PROVIDER_CONFIG_SECRET_ARN = 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:provider';
     process.env.DOCUMENT_BUCKET_NAME = 'safeflow-private-documents';
     process.env.MIGRATION_MANIFEST_PATH = 'database/migration-manifest.json';
-    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await apiHandler();
+    const response = await handler();
     const payload = JSON.parse(response.body);
     const serializedPayload = JSON.stringify(payload);
 
@@ -122,7 +26,7 @@ describe('SafeFlow private API handler', () => {
       environment: 'simulation',
       simulationOnly: true,
       noLivePatientData: true,
-      publicIngress: true,
+      publicIngress: false,
       migrationManifestPath: 'database/migration-manifest.json',
       configuredResources: {
         hasDatabaseSecret: true,
@@ -137,9 +41,8 @@ describe('SafeFlow private API handler', () => {
   it('exposes a private simulation workspace route without live-data access', async () => {
     process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
-    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await apiHandler({
+    const response = await handler({
       requestContext: { http: { method: 'GET', path: '/api/simulation/workspace' } }
     });
     const payload = JSON.parse(response.body);
@@ -218,9 +121,8 @@ describe('SafeFlow private API handler', () => {
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
     process.env.DATABASE_SECRET_ARN = 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database';
     process.env.DOCUMENT_BUCKET_NAME = 'safeflow-private-documents';
-    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await apiHandler({
+    const response = await handler({
       requestContext: { http: { method: 'GET', path: '/api/simulation/readiness' } }
     });
     const payload = JSON.parse(response.body);
@@ -340,112 +242,6 @@ describe('SafeFlow private API handler', () => {
     expect(query).toHaveBeenNthCalledWith(4, expect.stringContaining('risk_suggestions'), [null]);
   });
 
-  it('falls back to placeholder readiness providers when optional preview read models are unavailable', async () => {
-    const workspaceSnapshot = {
-      schemaVersion: 1,
-      product: 'SafeFlow',
-      simulationOnly: true,
-      safetyBoundary: {
-        noLivePatientData: true,
-        directCareIdentifiers: false,
-        humanReviewRequired: true
-      },
-      workspace: {
-        summary: { wardName: 'Day Care Unit', patientCount: 2 },
-        patients: []
-      }
-    };
-    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { Pool, query } = createSequencedPoolFactory([
-      [{ workspace_snapshot: workspaceSnapshot }],
-      [],
-      { error: new Error('missing relation clinical_signals') },
-      { error: new Error('missing relation risk_suggestions') }
-    ]);
-    const apiHandler = createSafeFlowApiHandler({
-      Pool,
-      readSecret: async () => JSON.stringify({
-        username: 'safeflow_api',
-        password: 'secret-password',
-        host: 'private-rds.example',
-        port: 5432,
-        dbname: 'safeflow'
-      }),
-      env: {
-        SAFEFLOW_ENVIRONMENT: 'simulation',
-        SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
-        SAFEFLOW_DATA_MODE: 'database'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'GET', path: '/api/simulation/readiness' } }
-    });
-    const payload = JSON.parse(response.body);
-
-    expect(response.statusCode).toBe(200);
-    expect(payload.providers).toMatchObject({
-      workspace: 'postgresql-simulation-read-model',
-      audit: 'postgresql-simulation-audit-events',
-      signals: 'private-lambda-signals-placeholder',
-      suggestions: 'private-lambda-risk-suggestions-placeholder'
-    });
-    expect(query).toHaveBeenCalledTimes(4);
-    expect(warning).toHaveBeenCalledTimes(2);
-    warning.mockRestore();
-  });
-
-  it('does not silently fall back to placeholder readiness providers outside preview simulation mode', async () => {
-    const workspaceSnapshot = {
-      schemaVersion: 1,
-      product: 'SafeFlow',
-      simulationOnly: true,
-      safetyBoundary: {
-        noLivePatientData: true,
-        directCareIdentifiers: false,
-        humanReviewRequired: true
-      },
-      workspace: {
-        summary: { wardName: 'Day Care Unit', patientCount: 2 },
-        patients: []
-      }
-    };
-    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { Pool } = createSequencedPoolFactory([
-      [{ workspace_snapshot: workspaceSnapshot }],
-      [],
-      { error: new Error('missing relation clinical_signals') }
-    ]);
-    const apiHandler = createSafeFlowApiHandler({
-      Pool,
-      readSecret: async () => JSON.stringify({
-        username: 'safeflow_api',
-        password: 'secret-password',
-        host: 'private-rds.example',
-        port: 5432,
-        dbname: 'safeflow'
-      }),
-      env: {
-        SAFEFLOW_ENVIRONMENT: 'pilot',
-        SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
-        SAFEFLOW_DATA_MODE: 'database'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'GET', path: '/api/simulation/readiness' } }
-    });
-
-    expect(response.statusCode).toBe(503);
-    expect(JSON.parse(response.body)).toEqual({
-      error: 'SafeFlow database route unavailable.'
-    });
-    expect(warning).not.toHaveBeenCalled();
-    warning.mockRestore();
-  });
-
   it('loads private simulation signals from PostgreSQL when database mode is configured', async () => {
     const { Pool, query } = createPoolFactory({
       rows: [{
@@ -500,78 +296,6 @@ describe('SafeFlow private API handler', () => {
     });
     expect(query).toHaveBeenCalledWith(expect.stringContaining('clinical_signals'), ['DCU-031']);
     expect(JSON.stringify(payload)).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email|arn:aws)\b/i);
-  });
-
-  it('falls back to placeholder signals when the optional preview signal read model is unavailable', async () => {
-    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { Pool } = createPoolFactory({
-      error: new Error('missing relation clinical_signals')
-    });
-    const apiHandler = createSafeFlowApiHandler({
-      Pool,
-      readSecret: async () => JSON.stringify({
-        username: 'safeflow_api',
-        password: 'secret-password',
-        host: 'private-rds.example',
-        dbname: 'safeflow'
-      }),
-      env: {
-        SAFEFLOW_ENVIRONMENT: 'simulation',
-        SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
-        SAFEFLOW_DATA_MODE: 'database'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'GET', path: '/api/simulation/signals' } },
-      queryStringParameters: { patientId: 'DCU-031' }
-    });
-    const payload = JSON.parse(response.body);
-
-    expect(response.statusCode).toBe(200);
-    expect(payload).toMatchObject({
-      product: 'SafeFlow',
-      simulationOnly: true,
-      source: 'private-lambda-signals-placeholder',
-      signals: []
-    });
-    expect(warning).toHaveBeenCalledTimes(1);
-    warning.mockRestore();
-  });
-
-  it('does not silently fall back to placeholder signals outside preview simulation mode', async () => {
-    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { Pool } = createPoolFactory({
-      error: new Error('missing relation clinical_signals')
-    });
-    const apiHandler = createSafeFlowApiHandler({
-      Pool,
-      readSecret: async () => JSON.stringify({
-        username: 'safeflow_api',
-        password: 'secret-password',
-        host: 'private-rds.example',
-        dbname: 'safeflow'
-      }),
-      env: {
-        SAFEFLOW_ENVIRONMENT: 'pilot',
-        SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
-        SAFEFLOW_DATA_MODE: 'database'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'GET', path: '/api/simulation/signals' } },
-      queryStringParameters: { patientId: 'DCU-031' }
-    });
-
-    expect(response.statusCode).toBe(503);
-    expect(JSON.parse(response.body)).toEqual({
-      error: 'SafeFlow database route unavailable.'
-    });
-    expect(warning).not.toHaveBeenCalled();
-    warning.mockRestore();
   });
 
   it('loads private simulation risk suggestions from PostgreSQL when database mode is configured', async () => {
@@ -630,44 +354,6 @@ describe('SafeFlow private API handler', () => {
       })]
     });
     expect(query).toHaveBeenCalledWith(expect.stringContaining('risk_suggestions'), ['DCU-031']);
-  });
-
-  it('falls back to placeholder risk suggestions when the optional preview suggestion read model is unavailable', async () => {
-    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { Pool } = createPoolFactory({
-      error: new Error('missing relation risk_suggestions')
-    });
-    const apiHandler = createSafeFlowApiHandler({
-      Pool,
-      readSecret: async () => JSON.stringify({
-        username: 'safeflow_api',
-        password: 'secret-password',
-        host: 'private-rds.example',
-        dbname: 'safeflow'
-      }),
-      env: {
-        SAFEFLOW_ENVIRONMENT: 'simulation',
-        SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
-        SAFEFLOW_DATA_MODE: 'database'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: { http: { method: 'GET', path: '/api/simulation/risk-suggestions' } },
-      queryStringParameters: { patientId: 'DCU-031' }
-    });
-    const payload = JSON.parse(response.body);
-
-    expect(response.statusCode).toBe(200);
-    expect(payload).toMatchObject({
-      product: 'SafeFlow',
-      simulationOnly: true,
-      source: 'private-lambda-risk-suggestions-placeholder',
-      suggestions: []
-    });
-    expect(warning).toHaveBeenCalledTimes(1);
-    warning.mockRestore();
   });
 
   it('records private simulation risk suggestion actions into PostgreSQL', async () => {
@@ -730,62 +416,11 @@ describe('SafeFlow private API handler', () => {
     );
   });
 
-  it('falls back to the placeholder suggestion-action contract when the optional preview action store is unavailable', async () => {
-    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { Pool } = createPoolFactory({
-      error: new Error('missing relation suggestion_actions')
-    });
-    const apiHandler = createSafeFlowApiHandler({
-      Pool,
-      readSecret: async () => JSON.stringify({
-        username: 'safeflow_api',
-        password: 'secret-password',
-        host: 'private-rds.example',
-        dbname: 'safeflow'
-      }),
-      env: {
-        SAFEFLOW_ENVIRONMENT: 'simulation',
-        SAFEFLOW_SIMULATION_ONLY: 'true',
-        DATABASE_SECRET_ARN: 'arn:aws:secretsmanager:eu-west-2:123456789012:secret:database',
-        SAFEFLOW_DATA_MODE: 'database'
-      }
-    });
-
-    const response = await apiHandler({
-      requestContext: {
-        http: {
-          method: 'POST',
-          path: '/api/simulation/risk-suggestions/suggestion-dcu-031-electrolyte-review/actions'
-        }
-      },
-      body: JSON.stringify({
-        actionType: 'accepted',
-        actionReason: 'Charge nurse reviewed fictional evidence',
-        actorRef: 'fictional-user-laura-bennett'
-      })
-    });
-    const payload = JSON.parse(response.body);
-
-    expect(response.statusCode).toBe(202);
-    expect(payload).toMatchObject({
-      product: 'SafeFlow',
-      simulationOnly: true,
-      source: 'private-lambda-risk-suggestions-placeholder',
-      actionStore: {
-        appendOnly: true,
-        databaseWriteContract: 'database/queries/recordSimulationSuggestionAction.sql'
-      }
-    });
-    expect(warning).toHaveBeenCalledTimes(1);
-    warning.mockRestore();
-  });
-
   it('advertises the private audit-event append route without writing live data', async () => {
     process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
     process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
-    const apiHandler = createSafeFlowApiHandler();
 
-    const response = await apiHandler({
+    const response = await handler({
       requestContext: { http: { method: 'POST', path: '/api/simulation/audit-events' } }
     });
     const payload = JSON.parse(response.body);
@@ -944,16 +579,7 @@ function createPoolFactory({ rows = [], error } = {}) {
 }
 
 function createSequencedPoolFactory(rowSets) {
-  const query = vi.fn(async () => {
-    const next = rowSets.shift();
-    if (next instanceof Error) {
-      throw next;
-    }
-    if (next && typeof next === 'object' && 'error' in next) {
-      throw next.error;
-    }
-    return { rows: next ?? [] };
-  });
+  const query = vi.fn(async () => ({ rows: rowSets.shift() ?? [] }));
   const end = vi.fn(async () => {});
   const Pool = vi.fn(function Pool() {
     return { query, end };

@@ -9,10 +9,10 @@
 |---|---|
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype (shell/navigation refresh merged from `ui/shell-and-navigation-refresh`). |
-| Open PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: OPEN and ready for review. CI: both checks passing. |
-| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; review PR #7 and decide merge. |
+| Current branch | patient-journey-twin (local feature branch; ready to publish). |
+| Open PR | None yet for the local Patient Journey Twin branch. |
+| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED is currently UNSET (not explicitly false). Treat as not-approved by default, but this should be set explicitly to avoid ambiguity. |
+| Primary unfinished control task | Publish `patient-journey-twin` and keep this file updated after every commit, doc change, or PR event. |
 
 ## Completed / Done
 
@@ -42,7 +42,7 @@
 | SF-101 | Ready for review | Release | PR #7 feature/minimal-role-aware-gui open, both CI checks passing. | Review diff for safety-boundary wording and scope, then decide merge. |
 | SF-120 | Ready | UI | Phase 1 content restyle | Apply the new token layer to board, panel, drawer, scenario, and form surfaces in parallel with the shell pass. |
 | SF-121 | Ready | UI | Panel review-cue CSS gap | `PatientSafetyPanel.jsx` still references `review-cue-stack`, `review-cue-meta`, `review-cue-evidence`, and `review-cue-notes`; add matching panel.css rules during the content-views refresh. |
-| SF-102 | In progress | Product concept | Patient Journey Twin / Simulation Patient Twin concept started. | Design UI wording and docs; keep simulation-only. Patient Journey Twin UI (parallel workstream, running on another machine right now) can integrate `scoreSimulatedTrend()` now that PR #9 is merged. |
+| SF-102 | Done | Product concept | Patient Journey Twin / Simulation Patient Twin discovery branch prepared and validated locally. | Branch `patient-journey-twin`; tests and build passed. |
 | SF-104 | In progress | AWS architecture | Architecture direction discussed: Aurora, Step Functions, Bedrock/LLM layer, tokenised backend. | Keep as mock/readiness architecture until explicit deployment approval. |
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
 | SF-107 | In progress | Clinical safety | Digital twin / predictive learning idea explored. | Frame as review-support and education only, not clinical prediction. |
@@ -88,8 +88,9 @@
 
 | Priority | Action |
 |---|---|
-| 1 | Review PR #7 diff for safety-boundary wording and scope, then decide merge. |
-| 2 | Draft a clinical safety case outline and hazard log skeleton. |
-| 3 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. |
-| 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
-| 5 | Keep this file updated after every commit, document, or design decision. |
+| 1 | Publish `patient-journey-twin`, then review the new PR and decide merge. |
+| 2 | Set SAFEFLOW_DEPLOYMENT_APPROVED explicitly to false rather than leaving it unset. |
+| 3 | Draft a clinical safety case outline and hazard log skeleton. |
+| 4 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. |
+| 5 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
+| 6 | Keep this file updated after every commit, document, or design decision. |

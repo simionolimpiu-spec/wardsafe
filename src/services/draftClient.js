@@ -1,21 +1,15 @@
 import { createSbarDraft } from '../domain/draftProvider.js';
-import { buildApiUrl, createApiHeaders } from './apiBaseUrl.js';
 
-export async function requestSbarDraft({
-  patient,
-  flag,
-  fetchImpl = globalThis.fetch,
-  env = import.meta.env
-}) {
+export async function requestSbarDraft({ patient, flag, fetchImpl = globalThis.fetch }) {
   const fallbackDraft = createSbarDraft({ patient, flag });
   if (!fetchImpl) {
     return fallbackDraft;
   }
 
   try {
-    const response = await fetchImpl(buildApiUrl('/api/drafts/sbar', { env }), {
+    const response = await fetchImpl('/api/drafts/sbar', {
       method: 'POST',
-      headers: createApiHeaders({ 'Content-Type': 'application/json' }, { env }),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ patientId: patient.id })
     });
     if (!response.ok) {

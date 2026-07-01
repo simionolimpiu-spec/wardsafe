@@ -11,16 +11,6 @@ This prototype is a simulation-only product demonstration.
 - Creates editable SBAR-style draft wording from visible fictional evidence.
 - Records simulated audit events for learning review.
 
-## Simulation Signal Engine Boundary
-
-The Simulation Signal Engine is deterministic and simulation-only.
-
-- It converts fictional patient workflow state, fictional signal snapshots and fictional risk suggestions into structured review cues.
-- Every cue is framed as review support only and states that human review is required.
-- The engine does not diagnose, prescribe, recommend treatment, or make autonomous clinical decisions.
-- A signal output guard removes unsafe wording before cues are shown in the UI.
-- This engine is for prototype review, learning and audit discussion only, not live NHS use.
-
 ## What SafeFlow Does Not Do In This Prototype
 
 - It does not use live patient data.

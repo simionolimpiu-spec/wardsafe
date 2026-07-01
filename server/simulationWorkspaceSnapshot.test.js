@@ -44,6 +44,7 @@ describe('simulation workspace snapshot', () => {
       humanReviewRequired: true,
       generatedBy: 'deterministic rules',
       clinicalUse: 'not for live clinical deployment',
+      structuredReviewSupport: expect.stringContaining('simulation-only prototype'),
       totalScenarios: 7,
       passedScenarios: 7,
       failedScenarios: 0,
@@ -52,9 +53,17 @@ describe('simulation workspace snapshot', () => {
         handoverCompletenessIssueCount: 3,
         escalationReadinessCueCount: 4,
         dischargeReadinessBlockerCount: 4,
-        scenariosWithMultipleGaps: 4
+        scenariosWithMultipleGaps: 4,
+        scenariosWithMissingDocumentation: 3,
+        scenariosWithDischargeBlockers: 4
       }
     });
+    expect(snapshot.workspace.riskSupportReport.aggregateDomainSummary).toEqual([
+      { signalType: 'documentation_quality', label: 'documentation gap', count: 3 },
+      { signalType: 'handover_completeness', label: 'handover completeness issue', count: 3 },
+      { signalType: 'escalation_readiness', label: 'escalation readiness cue', count: 4 },
+      { signalType: 'discharge_readiness', label: 'discharge-readiness blocker', count: 4 }
+    ]);
     expect(snapshot.workspace.riskSupportReport.scenarioResults).toBeUndefined();
     expect(snapshot.workspace.auditEvents[0]).toEqual(expect.objectContaining({
       label: expect.any(String),

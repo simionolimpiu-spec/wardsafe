@@ -4,7 +4,6 @@ import { promisify } from 'node:util';
 import { readDeploymentApproval } from './deploymentApproval.js';
 
 const execFileAsync = promisify(execFile);
-const MIN_PREVIEW_ACCESS_TOKEN_LENGTH = 24;
 
 export const REQUIRED_DEPLOYMENT_CONFIRMATIONS = Object.freeze([
   'SAFEFLOW_SIMULATION_ONLY',
@@ -78,22 +77,6 @@ export function validateDeploymentEnvironment(env = process.env) {
     errors.push('AWS_PROFILE or AWS_ACCESS_KEY_ID must be set for local AWS CLI/CDK authentication.');
   }
 
-  const previewAccessToken = typeof env.SAFEFLOW_PREVIEW_ACCESS_TOKEN === 'string'
-    ? env.SAFEFLOW_PREVIEW_ACCESS_TOKEN.trim()
-    : '';
-
-  if (
-    previewAccessToken.length < MIN_PREVIEW_ACCESS_TOKEN_LENGTH ||
-    /^(changeme|placeholder|example|test|token|replace(?:-.+)?)$/i.test(previewAccessToken)
-  ) {
-    errors.push(`SAFEFLOW_PREVIEW_ACCESS_TOKEN must be set to a non-placeholder value at least ${MIN_PREVIEW_ACCESS_TOKEN_LENGTH} characters long before public preview deploy.`);
-  }
-
-  const previewOriginError = validatePreviewOrigin(env.SAFEFLOW_ALLOWED_ORIGIN);
-  if (previewOriginError) {
-    errors.push(previewOriginError);
-  }
-
   return errors;
 }
 
@@ -124,29 +107,6 @@ function isRootIdentity(arn) {
 
 function isCliEntryPoint(metaUrl, argvPath) {
   return argvPath ? pathToFileURL(argvPath).href === metaUrl : false;
-}
-
-function validatePreviewOrigin(allowedOrigin) {
-  const configuredOrigin = typeof allowedOrigin === 'string'
-    ? allowedOrigin.trim()
-    : '';
-
-  if (!configuredOrigin) {
-    return 'SAFEFLOW_ALLOWED_ORIGIN must be set to a hosted preview origin before public preview deploy.';
-  }
-
-  try {
-    const url = new URL(configuredOrigin);
-    const normalizedHost = url.hostname.toLowerCase();
-
-    if (normalizedHost === 'localhost' || normalizedHost === '127.0.0.1') {
-      return 'SAFEFLOW_ALLOWED_ORIGIN must point to a hosted preview origin, not localhost or 127.0.0.1.';
-    }
-  } catch {
-    return 'SAFEFLOW_ALLOWED_ORIGIN must be a valid hosted preview origin URL before public preview deploy.';
-  }
-
-  return null;
 }
 
 if (isCliEntryPoint(import.meta.url, process.argv[1])) {

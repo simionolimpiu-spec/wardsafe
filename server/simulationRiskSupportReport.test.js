@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { simulatedPatients } from '../src/data/simulatedPatients.js';
+import { simulationRiskSupportReportExample } from '../src/data/simulationRiskSupportReportExample.js';
 import { simulationRiskSupportEvaluationScenarios } from '../src/data/simulationRiskSupportEvaluationScenarios.js';
 import { evaluateSimulationRiskSupportScenarios } from '../src/domain/simulationRiskSupportEvaluation.js';
 import {
@@ -17,6 +18,7 @@ describe('simulation risk-support read-only report', () => {
     const serialized = JSON.stringify(first);
 
     expect(first).toEqual(second);
+    expect(first).toEqual(simulationRiskSupportReportExample);
     expect(first).toMatchObject({
       reportType: 'simulation-risk-support-read-only-report',
       reportVersion: 'simulation-risk-support-read-only-report-v1',
@@ -27,6 +29,7 @@ describe('simulation risk-support read-only report', () => {
       generatedBy: 'deterministic rules',
       clinicalUse: 'not for live clinical deployment',
       accessMode: 'read-only',
+      structuredReviewSupport: expect.stringContaining('simulation-only prototype'),
       reviewPurpose: expect.stringContaining('Structured review support only'),
       evaluationVersion: 'simulation-risk-support-evaluation-v1',
       totalScenarios: simulationRiskSupportEvaluationScenarios.length,
@@ -34,6 +37,12 @@ describe('simulation risk-support read-only report', () => {
       failedScenarios: 0
     });
     expect(first.scenarioResults).toEqual(expectedEvaluation.scenarioResults);
+    expect(first.scenarioResults.map((result) => result.scenarioId)).toEqual(
+      simulationRiskSupportEvaluationScenarios.map((scenario) => scenario.scenarioId)
+    );
+    expect(first.scenarioResults.map((result) => result.patientId)).toEqual(
+      simulationRiskSupportEvaluationScenarios.map((scenario) => scenario.patient.id)
+    );
     expect(first.scenarioResults.every((result) =>
       result.scenarioId &&
       result.patientId &&
@@ -51,14 +60,17 @@ describe('simulation risk-support read-only report', () => {
       handoverCompletenessIssueCount: 3,
       escalationReadinessCueCount: 4,
       dischargeReadinessBlockerCount: 4,
-      scenariosWithMultipleGaps: 4
+      scenariosWithMultipleGaps: 4,
+      scenariosWithMissingDocumentation: 3,
+      scenariosWithDischargeBlockers: 4
     });
-    expect(first.flaggedDomainSummary).toEqual([
+    expect(first.aggregateDomainSummary).toEqual([
       { signalType: 'documentation_quality', label: 'documentation gap', count: 3 },
       { signalType: 'handover_completeness', label: 'handover completeness issue', count: 3 },
       { signalType: 'escalation_readiness', label: 'escalation readiness cue', count: 4 },
       { signalType: 'discharge_readiness', label: 'discharge-readiness blocker', count: 4 }
     ]);
+    expect(first.flaggedDomainSummary).toEqual(first.aggregateDomainSummary);
     expect(first.safetyLanguageCheck).toEqual({
       passed: true,
       matches: []
@@ -79,6 +91,7 @@ describe('simulation risk-support read-only report', () => {
       humanReviewRequired: true,
       generatedBy: 'deterministic rules',
       clinicalUse: 'not for live clinical deployment',
+      structuredReviewSupport: expect.stringContaining('simulation-only prototype'),
       reviewPurpose: expect.stringContaining('Structured review support only'),
       totalScenarios: 7,
       passedScenarios: 7,
@@ -88,9 +101,17 @@ describe('simulation risk-support read-only report', () => {
         handoverCompletenessIssueCount: 3,
         escalationReadinessCueCount: 4,
         dischargeReadinessBlockerCount: 4,
-        scenariosWithMultipleGaps: 4
+        scenariosWithMultipleGaps: 4,
+        scenariosWithMissingDocumentation: 3,
+        scenariosWithDischargeBlockers: 4
       }
     });
+    expect(reference.aggregateDomainSummary).toEqual([
+      { signalType: 'documentation_quality', label: 'documentation gap', count: 3 },
+      { signalType: 'handover_completeness', label: 'handover completeness issue', count: 3 },
+      { signalType: 'escalation_readiness', label: 'escalation readiness cue', count: 4 },
+      { signalType: 'discharge_readiness', label: 'discharge-readiness blocker', count: 4 }
+    ]);
     expect(reference.scenarioResults).toBeUndefined();
   });
 

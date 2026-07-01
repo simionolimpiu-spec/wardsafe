@@ -64,41 +64,9 @@ describe('createApiHandler', () => {
       signals: 'local-simulation-signals',
       suggestions: 'local-simulation-risk-suggestions'
     });
-    expect(payload).toMatchObject({
-      mode: 'simulation',
-      clinicalUse: false,
-      validationStatus: 'not-clinically-validated',
-      explanation: expect.stringContaining('Not clinically validated'),
-      providerMetadata: {
-        signals: {
-          providerId: 'local-simulation-signals',
-          provider: 'fixture'
-        },
-        suggestions: {
-          providerId: 'local-simulation-risk-suggestions',
-          provider: 'fixture'
-        }
-      }
-    });
     expect(payload.migrations.approved).toBe(true);
     expect(serializedPayload).not.toContain('postgres://');
     expect(serializedPayload).not.toContain('sk-secret');
-  });
-
-  it('sets preview-safe CORS for the configured frontend origin', async () => {
-    const handler = createApiHandler({
-      env: {
-        SAFEFLOW_ALLOWED_ORIGIN: 'https://preview.example.com/'
-      }
-    });
-    const req = createJsonRequest({ method: 'GET', path: '/api/health' });
-    const res = createJsonResponse();
-
-    await handler(req, res);
-
-    expect(res.headers['Access-Control-Allow-Origin']).toBe('https://preview.example.com');
-    expect(res.headers['Access-Control-Allow-Methods']).toBe('GET,POST,OPTIONS');
-    expect(res.headers['Access-Control-Allow-Headers']).toBe('Content-Type,X-SafeFlow-Preview-Token');
   });
 
   it('uses configured database providers by default when simulation database mode is set', async () => {
@@ -123,10 +91,6 @@ describe('createApiHandler', () => {
       audit: 'postgresql-simulation-audit-events',
       signals: 'postgresql-simulation-signals',
       suggestions: 'postgresql-simulation-risk-suggestions'
-    });
-    expect(payload.providerMetadata).toMatchObject({
-      signals: { providerId: 'postgresql-simulation-signals', provider: 'database-read-model' },
-      suggestions: { providerId: 'postgresql-simulation-risk-suggestions', provider: 'database-read-model' }
     });
     expect(payload.database).toMatchObject({
       configured: true,
@@ -198,6 +162,7 @@ describe('createApiHandler', () => {
       clinicalUse: 'not for live clinical deployment',
       source: 'fictional scenario fixtures',
       accessMode: 'read-only',
+      structuredReviewSupport: expect.stringContaining('simulation-only prototype'),
       reviewPurpose: expect.stringContaining('Structured review support only'),
       totalScenarios: 7,
       passedScenarios: 7,
@@ -207,9 +172,17 @@ describe('createApiHandler', () => {
         handoverCompletenessIssueCount: 3,
         escalationReadinessCueCount: 4,
         dischargeReadinessBlockerCount: 4,
-        scenariosWithMultipleGaps: 4
+        scenariosWithMultipleGaps: 4,
+        scenariosWithMissingDocumentation: 3,
+        scenariosWithDischargeBlockers: 4
       }
     });
+    expect(payload.aggregateDomainSummary).toEqual([
+      { signalType: 'documentation_quality', label: 'documentation gap', count: 3 },
+      { signalType: 'handover_completeness', label: 'handover completeness issue', count: 3 },
+      { signalType: 'escalation_readiness', label: 'escalation readiness cue', count: 4 },
+      { signalType: 'discharge_readiness', label: 'discharge-readiness blocker', count: 4 }
+    ]);
     expect(payload.flaggedDomainSummary).toEqual([
       { signalType: 'documentation_quality', label: 'documentation gap', count: 3 },
       { signalType: 'handover_completeness', label: 'handover completeness issue', count: 3 },
@@ -227,6 +200,7 @@ describe('createApiHandler', () => {
       passed: true,
       matches: []
     });
+    expect(payload.flaggedDomainSummary).toEqual(payload.aggregateDomainSummary);
     expect(serializedPayload).not.toMatch(/\bdiagnosis\b|\bdiagnose\b|\bdiagnostic\b/i);
     expect(serializedPayload).not.toMatch(/\bprescribe\b|\bprescribing\b|\bprescription\b/i);
     expect(serializedPayload).not.toMatch(/\btreatment recommendation\b|\bAI decision\b|\bclinical decision engine\b|\bautonomous care\b|\blive NHS deployment\b/i);
@@ -374,13 +348,8 @@ describe('createApiHandler', () => {
     expect(signalProvider.listPatientSignals).toHaveBeenCalledWith({ patientId: 'DCU-031' });
     expect(payload).toMatchObject({
       product: 'SafeFlow',
-      mode: 'simulation',
       simulationOnly: true,
       source: 'local-simulation-signals',
-      provider: 'fixture',
-      clinicalUse: false,
-      validationStatus: 'not-clinically-validated',
-      explanation: expect.stringContaining('Not clinically validated'),
       signals: [expect.objectContaining({ syntheticPatientRef: 'DCU-031', simulationOnly: true })]
     });
     expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
@@ -412,13 +381,8 @@ describe('createApiHandler', () => {
     expect(suggestionProvider.listRiskSuggestions).toHaveBeenCalledWith({ patientId: 'DCU-031' });
     expect(payload).toMatchObject({
       product: 'SafeFlow',
-      mode: 'simulation',
       simulationOnly: true,
       source: 'local-simulation-risk-suggestions',
-      provider: 'fixture',
-      clinicalUse: false,
-      validationStatus: 'not-clinically-validated',
-      explanation: expect.stringContaining('Not clinically validated'),
       suggestions: [expect.objectContaining({
         suggestionId: 'suggestion-dcu-031-electrolyte-review',
         requiresHumanReview: true

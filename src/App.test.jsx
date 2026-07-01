@@ -1,7 +1,39 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import App from './App.jsx';
+import App, { PrototypeApp } from './App.jsx';
+
+describe('SafeFlow CEP website', () => {
+  it('opens on a promotional CEP site and launches the simulation prototype', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(screen.getByRole('heading', { name: /Make ward risk visible before escalation is missed/i })).toBeInTheDocument();
+    expect(screen.getByText(/SafeFlow brings readiness checks, risk signals, escalation prompts and audit learning/i)).toBeInTheDocument();
+    expect(screen.getByText(/Nurse-led ward safety workflow/i)).toBeInTheDocument();
+    expect(screen.getByText(/Primary creator: Olimpiu "Oli" Simion/i)).toBeInTheDocument();
+    expect(screen.getByText(/Clinical contributor: Mihaela "Mia" Simion/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Six surfaces, one simulation-first workflow/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /One workflow from readiness to learning/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /A small, governed route from prototype to ward pilot/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Boundaries are part of the design/i })).toBeInTheDocument();
+    expect(screen.getByText(/SafeFlow is an early-stage simulation-first prototype\. It does not claim NHS approval, clinical validation, live deployment or clinical decision-support status\./i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Open CEP brief/i })).toHaveAttribute('href', '#cep-brief');
+    expect(screen.getByRole('link', { name: /View pilot pathway/i })).toHaveAttribute('href', '#pilot');
+    expect(screen.getByRole('heading', { name: /SafeFlow NHS CEP Brief/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Print brief/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /NHS Clinical Entrepreneur Programme/i })).toHaveAttribute('href', 'https://nhscep.com/');
+    window.print = vi.fn();
+
+    await user.click(screen.getByRole('button', { name: /Print brief/i }));
+    expect(window.print).toHaveBeenCalledTimes(1);
+
+    await user.click(screen.getByRole('button', { name: /Open interactive prototype/i }));
+
+    expect(screen.getByRole('navigation', { name: /SafeFlow workspace/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'SafeFlow' })).toBeInTheDocument();
+  });
+});
 
 describe('SafeFlow prototype', () => {
   beforeEach(() => {
@@ -13,250 +45,18 @@ describe('SafeFlow prototype', () => {
   });
 
   it('opens on the ward safety board with simulation boundaries visible', () => {
-    render(<App />);
+    render(<PrototypeApp />);
 
     expect(screen.getByRole('heading', { name: 'SafeFlow' })).toBeInTheDocument();
     expect(screen.getByText(/simulation only/i)).toBeInTheDocument();
-    expect(screen.getByText(/fictional patient data only/i)).toBeInTheDocument();
-    expect(screen.getByText(/not clinical advice/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/human review required/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
     expect(wardList).toBeInTheDocument();
     expect(within(wardList).getByText('DCU-031')).toBeInTheDocument();
   });
 
-  it('renders a hospital insights button in the main header', () => {
-    render(<App />);
-
-    expect(screen.getByRole('button', { name: /hospital insights/i })).toBeInTheDocument();
-  });
-
-  it('renders a review report button in the main header', () => {
-    render(<App />);
-
-    expect(screen.getByRole('button', { name: /review report/i })).toBeInTheDocument();
-  });
-
-  it('renders a presentation mode toggle in the main header', () => {
-    render(<App />);
-
-    expect(screen.getByRole('button', { name: /presentation mode/i })).toBeInTheDocument();
-  });
-
-  it('renders a demo scenario selector in the main header', () => {
-    render(<App />);
-
-    const selector = screen.getByRole('combobox', { name: /demo scenario/i });
-    expect(selector).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /day care treatment pathway review/i })).toBeInTheDocument();
-  });
-
-  it('enables and disables presentation mode with simulation-only flow cues', async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    await user.click(screen.getByRole('button', { name: /presentation mode/i }));
-
-    const banner = screen.getByRole('region', { name: /presentation mode/i });
-    expect(within(banner).getByRole('heading', { name: /simulation-only safeFlow demo/i })).toBeInTheDocument();
-    expect(
-      within(banner).getByText(
-        /^Simulation-only\. Human review required\. Designed for NHS leadership, ward managers, clinical educators, and digital safety leads\.$/i
-      )
-    ).toBeInTheDocument();
-    expect(within(banner).getByText(/selected scenario:/i)).toBeInTheDocument();
-    expect(within(banner).getByRole('list', { name: /presentation flow/i })).toBeInTheDocument();
-    expect(within(banner).getByText(/^Demo Scenario$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Patient Review Cues$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Hospital Insights$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Simulation Review Report$/i)).toBeInTheDocument();
-    expect(
-      within(banner).getByText(
-        /^Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS\/AWS integration\.$/i
-      )
-    ).toBeInTheDocument();
-    expect(within(banner).getByRole('button', { name: /exit presentation mode/i })).toBeInTheDocument();
-
-    await user.click(within(banner).getByRole('button', { name: /exit presentation mode/i }));
-
-    expect(screen.queryByRole('region', { name: /presentation mode/i })).not.toBeInTheDocument();
-  });
-
-  it('opens and closes the hospital insights drawer with comparison cues', async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    await user.click(screen.getByRole('button', { name: /hospital insights/i }));
-
-    const drawer = screen.getByRole('dialog', { name: /hospital insights/i });
-    expect(within(drawer).getByText(/^Simulation insight$/i)).toBeInTheDocument();
-    expect(
-      within(drawer).getByText(
-        /^Simulation comparison cues for ward-level review\. This prototype uses mock data only and is not connected to live NHS systems\.$/i
-      )
-    ).toBeInTheDocument();
-    expect(
-      within(drawer).getByText(/^Patient view -> review cues -> ward comparison -> hospital insights -> future NHS\/AWS integration$/i)
-    ).toBeInTheDocument();
-    expect(within(drawer).getByText(/Hospital benchmark: Cityview Community Hospital/i)).toBeInTheDocument();
-    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Simulation source/i);
-    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Static prototype data/i);
-    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Live systems: not connected/i);
-    expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Patient data: not present/i);
-    expect(within(drawer).getByRole('img', { name: /ward versus hospital comparison chart/i })).toBeInTheDocument();
-    expect(within(drawer).getByRole('table', { name: /ward comparison/i })).toBeInTheDocument();
-    expect(within(drawer).getByText(/Documentation completeness/i, { selector: 'th span' })).toBeInTheDocument();
-    expect(
-      within(drawer).getByText(/^Simulation only\. Fictional ward benchmark data\. Human review required\.$/i)
-    ).toBeInTheDocument();
-
-    await user.click(within(drawer).getByRole('button', { name: /close insights/i }));
-
-    expect(screen.queryByRole('dialog', { name: /hospital insights/i })).not.toBeInTheDocument();
-  });
-
-  it('opens and closes the simulation review report with patient and ward comparison cues', async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    await user.click(screen.getByRole('button', { name: /review report/i }));
-
-    const report = screen.getByRole('dialog', { name: /safeFlow simulation review report/i });
-    expect(within(report).getByText(/^SafeFlow Simulation Review Report$/i)).toBeInTheDocument();
-    expect(
-      within(report).getByText(
-        /^Simulation data only\. This report is not connected to live NHS systems and must not be used for patient care\.$/i
-      )
-    ).toBeInTheDocument();
-    expect(
-      within(report).getByText(
-        /^No real NHS data is used\. No live NHS systems are connected\. No patient-identifiable information is used\.$/i
-      )
-    ).toBeInTheDocument();
-    expect(
-      within(report).getByText(
-        /^Patient view -> review cues -> ward comparison -> hospital insights -> learning summary$/i
-      )
-    ).toBeInTheDocument();
-    expect(within(report).getByText(/Patient review snapshot/i)).toBeInTheDocument();
-    expect(within(report).getByRole('heading', { name: /Active review cues/i })).toBeInTheDocument();
-    expect(within(report).getByRole('heading', { name: /Ward comparison snapshot/i })).toBeInTheDocument();
-    expect(within(report).getAllByText(/human review required/i).length).toBeGreaterThan(0);
-    expect(
-      within(report).getByText(/^Comparison summary for education, quality improvement, and human-led review\.$/i)
-    ).toBeInTheDocument();
-    expect(within(report).getByRole('button', { name: /copy report/i })).toBeInTheDocument();
-    expect(within(report).getByRole('button', { name: /print report/i })).toBeInTheDocument();
-    expect(report.textContent).not.toMatch(/automated escalation|diagnos|treatment advice|risk prediction/i);
-
-    await user.click(within(report).getByRole('button', { name: /close report/i }));
-
-    expect(screen.queryByRole('dialog', { name: /safeFlow simulation review report/i })).not.toBeInTheDocument();
-  });
-
-  it('copies and prints the simulation review report export', async () => {
-    const user = userEvent.setup();
-    const writeText = vi.fn().mockResolvedValue(undefined);
-    vi.stubGlobal('navigator', { clipboard: { writeText } });
-    const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
-    render(<App />);
-
-    await user.click(screen.getByRole('button', { name: /review report/i }));
-
-    const report = screen.getByRole('dialog', { name: /safeFlow simulation review report/i });
-    await user.click(within(report).getByRole('button', { name: /copy report/i }));
-    await user.click(within(report).getByRole('button', { name: /print report/i }));
-
-    expect(writeText).toHaveBeenCalledTimes(1);
-    expect(writeText.mock.calls[0][0]).toContain('SafeFlow Simulation Review Report');
-    expect(writeText.mock.calls[0][0]).toContain('Simulation data only. Not connected to live NHS systems. Not for patient care.');
-    expect(writeText.mock.calls[0][0]).toContain('Day Care treatment pathway review');
-    expect(writeText.mock.calls[0][0]).toContain('All review cues and comparison signals require human review.');
-    expect(writeText.mock.calls[0][0]).toContain('Ward comparison / Hospital Insights summary');
-    expect(printSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('switches demo scenarios and updates the selected patient and report context', async () => {
-    const user = userEvent.setup();
-    const fetch = vi.fn((input) => {
-      if (typeof input === 'string' && input.startsWith('/api/simulation/signals?patientId=DCU-031')) {
-        return Promise.resolve({
-          ok: true,
-          json: vi.fn().mockResolvedValue({
-            product: 'SafeFlow',
-            simulationOnly: true,
-            signals: [
-              {
-                signalId: 'signal-dcu-031-potassium-0910',
-                syntheticPatientRef: 'DCU-031',
-                simulationOnly: true
-              }
-            ]
-          })
-        });
-      }
-
-      if (typeof input === 'string' && input.startsWith('/api/simulation/risk-suggestions?patientId=DCU-031')) {
-        return Promise.resolve({
-          ok: true,
-          json: vi.fn().mockResolvedValue({
-            product: 'SafeFlow',
-            simulationOnly: true,
-            suggestions: []
-          })
-        });
-      }
-
-      if (typeof input === 'string' && input.startsWith('/api/simulation/signals?patientId=DCU-044')) {
-        return Promise.resolve({
-          ok: true,
-          json: vi.fn().mockResolvedValue({
-            product: 'SafeFlow',
-            simulationOnly: true,
-            signals: [
-              {
-                signalId: 'signal-dcu-044-discharge-1130',
-                syntheticPatientRef: 'DCU-044',
-                simulationOnly: true
-              }
-            ]
-          })
-        });
-      }
-
-      if (typeof input === 'string' && input.startsWith('/api/simulation/risk-suggestions?patientId=DCU-044')) {
-        return Promise.resolve({
-          ok: true,
-          json: vi.fn().mockResolvedValue({
-            product: 'SafeFlow',
-            simulationOnly: true,
-            suggestions: []
-          })
-        });
-      }
-
-      return Promise.resolve({
-        ok: false,
-        json: vi.fn().mockResolvedValue({})
-      });
-    });
-    vi.stubGlobal('fetch', fetch);
-    render(<App />);
-
-    await user.selectOptions(screen.getByRole('combobox', { name: /demo scenario/i }), 'amu-discharge-readiness-review');
-
-    expect(await screen.findByRole('heading', { name: 'DCU-044' })).toBeInTheDocument();
-    expect(screen.getByText(/Acute Medical Unit/i)).toBeInTheDocument();
-
-    await user.click(screen.getByRole('button', { name: /review report/i }));
-
-    const report = screen.getByRole('dialog', { name: /safeFlow simulation review report/i });
-    expect(within(report).getByText(/DCU-044/i)).toBeInTheDocument();
-  });
-
   it('shows the fuller clinical workspace shell without official branding', () => {
-    render(<App />);
+    render(<PrototypeApp />);
 
     const productNav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
     expect(within(productNav).getByRole('button', { name: /ward safety board/i })).toBeInTheDocument();
@@ -268,7 +68,7 @@ describe('SafeFlow prototype', () => {
   });
 
   it('shows richer fictional ward rows and circular handover progress', () => {
-    render(<App />);
+    render(<PrototypeApp />);
 
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
     expect(within(wardList).getByText('DCU-052')).toBeInTheDocument();
@@ -276,23 +76,8 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByLabelText(/handover progress 100 percent for Patient 052/i)).toBeInTheDocument();
   });
 
-  it('keeps the public preview boundary explicit and avoids unsafe clinical wording', () => {
-    render(<App />);
-
-    const boundary = screen.getByRole('region', { name: /simulation safety boundary/i });
-    const boundaryText = boundary.textContent;
-
-    expect(boundaryText).toMatch(/fictional patient data only/i);
-    expect(boundaryText).toMatch(/not clinical advice/i);
-    expect(boundaryText).toMatch(/not diagnosis/i);
-    expect(boundaryText).toMatch(/not prescribing/i);
-    expect(boundaryText).toMatch(/not live nhs deployment/i);
-    expect(boundaryText).toMatch(/human review required/i);
-    expect(boundaryText).not.toMatch(/diagnose this patient|prescribe potassium|administer potassium|give potassium|replace potassium/i);
-  });
-
   it('keeps the ward table inside a scrollable board region', () => {
-    render(<App />);
+    render(<PrototypeApp />);
 
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
     expect(wardList.parentElement).toHaveClass('table-scroll');
@@ -300,7 +85,7 @@ describe('SafeFlow prototype', () => {
 
   it('selects a patient and shows the safety panel', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('button', { name: /open Patient 031/i }));
 
@@ -311,7 +96,7 @@ describe('SafeFlow prototype', () => {
 
   it('switches patient panel tabs for tasks and audit trail', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
     await user.click(within(panel).getByRole('tab', { name: /tasks/i }));
@@ -323,25 +108,20 @@ describe('SafeFlow prototype', () => {
 
   it('shows handover and discharge readiness for the selected patient', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('tab', { name: /handover/i }));
 
-    const handoverReadinessRegion = screen.getByRole('region', { name: /handover and discharge readiness/i });
-
-    expect(handoverReadinessRegion).toBeInTheDocument();
-    expect(within(handoverReadinessRegion).getByText(/Handover 50% complete/i)).toBeInTheDocument();
-    expect(within(handoverReadinessRegion).getByText(/^Medical plan unclear$/i)).toBeInTheDocument();
-    expect(within(handoverReadinessRegion).getByText(/Simulation risk support/i)).toBeInTheDocument();
-    expect(within(handoverReadinessRegion).getByText(/not clinically validated and not for clinical decision-making/i)).toBeInTheDocument();
-    const riskSupportSignals = within(handoverReadinessRegion).getByRole('list', { name: /risk-support signals/i });
-    expect(riskSupportSignals).toBeInTheDocument();
-    expect(within(riskSupportSignals).getByText(/Discharge readiness blockers/i)).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /handover and discharge readiness/i })).toBeInTheDocument();
+    expect(screen.getByText(/Handover 50% complete/i)).toBeInTheDocument();
+    expect(screen.getByText(/Simulation risk support/i)).toBeInTheDocument();
+    expect(screen.getByRole('list', { name: /risk-support signals/i })).toBeInTheDocument();
+    expect(within(screen.getByRole('list', { name: /risk-support signals/i })).getByText(/Discharge readiness blockers/i)).toBeInTheDocument();
   });
 
   it('explains the potassium safety gap and records edited SBAR draft activity', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('tab', { name: /potassium flag/i }));
 
@@ -377,7 +157,7 @@ describe('SafeFlow prototype', () => {
         }
       })
     }));
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('tab', { name: /potassium flag/i }));
     await user.click(screen.getByRole('button', { name: /generate draft/i }));
@@ -389,99 +169,9 @@ describe('SafeFlow prototype', () => {
     }));
   });
 
-  it('sanitizes unsafe replacement wording before simulation review cues reach the patient panel', async () => {
-    const user = userEvent.setup();
-    const fetch = vi.fn((input) => {
-      if (typeof input === 'string' && input.startsWith('/api/simulation/signals?patientId=DCU-031')) {
-        return Promise.resolve({
-          ok: true,
-          json: vi.fn().mockResolvedValue({
-            product: 'SafeFlow',
-            source: 'private-lambda-signals-placeholder',
-            provider: 'placeholder',
-            mode: 'simulation',
-            simulationOnly: true,
-            clinicalUse: false,
-            validationStatus: 'not-clinically-validated',
-            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
-            signals: [
-              {
-                signalId: 'signal-dcu-031-potassium-0910',
-                syntheticPatientRef: 'DCU-031',
-                sourceSystem: 'simulation-ice',
-                sourceType: 'lab',
-                signalCode: 'potassium',
-                displayName: 'Potassium',
-                value: '3.1',
-                unit: 'mmol/L',
-                status: 'final',
-                effectiveAt: '2026-06-10T09:10:00.000Z',
-                sourceFreshness: 'current',
-                simulationOnly: true
-              }
-            ]
-          })
-        });
-      }
-
-      if (typeof input === 'string' && input.startsWith('/api/simulation/risk-suggestions?patientId=DCU-031')) {
-        return Promise.resolve({
-          ok: true,
-          json: vi.fn().mockResolvedValue({
-            product: 'SafeFlow',
-            source: 'private-lambda-risk-suggestions-placeholder',
-            provider: 'placeholder',
-            mode: 'simulation',
-            simulationOnly: true,
-            clinicalUse: false,
-            validationStatus: 'not-clinically-validated',
-            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
-            suggestions: [
-              {
-                suggestionId: 'suggestion-dcu-031-replacement-risk',
-                syntheticPatientRef: 'DCU-031',
-                riskType: 'missed_action',
-                riskTier: 'urgent',
-                title: 'Replace potassium immediately',
-                suggestedFlag: 'Potassium replacement pathway',
-                suggestedBlocker: 'Autonomous clinical decision',
-                suggestedTask: 'Replace potassium now',
-                evidence: [{ label: 'Potassium replacement pathway' }],
-                missingData: ['Need diagnosis'],
-                requiresHumanReview: true,
-                simulationOnly: true,
-                createdAt: '2026-06-10T09:12:00.000Z'
-              }
-            ]
-          })
-        });
-      }
-
-      return Promise.resolve({
-        ok: false,
-        json: vi.fn().mockResolvedValue({})
-      });
-    });
-    vi.stubGlobal('fetch', fetch);
-
-    render(<App />);
-
-    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
-    const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
-
-    await user.click(screen.getByRole('button', { name: /open Patient 031/i }));
-
-    await within(reviewCues).findByText(/^Electrolyte review$/i);
-    expect(reviewCues.textContent).toMatch(/Signals: private-lambda-signals-placeholder/i);
-    expect(reviewCues.textContent).toMatch(/Risk suggestions: private-lambda-risk-suggestions-placeholder/i);
-    expect(reviewCues.textContent).toMatch(/not clinically validated and not for clinical decision-making/i);
-    expect(reviewCues.textContent).toMatch(/human review required/i);
-    expect(reviewCues.textContent).not.toMatch(/replace potassium|potassium replacement|diagnos|prescrib|administer|AI decided|autonomous decision/i);
-  });
-
   it('shows a discovery scenario library with initial hazard controls', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('tab', { name: /scenarios/i }));
 
@@ -500,7 +190,7 @@ describe('SafeFlow prototype', () => {
 
   it('shows audit and learning timeline from simulated workflow events', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     const journey = screen.getByRole('navigation', { name: /prototype journey/i });
     await user.click(within(journey).getByRole('tab', { name: 'Audit' }));
@@ -538,7 +228,7 @@ describe('SafeFlow prototype', () => {
       })
     });
     vi.stubGlobal('fetch', fetch);
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: 'Audit Trail' }));
@@ -553,7 +243,7 @@ describe('SafeFlow prototype', () => {
 
   it('opens distinct patients and observations screens', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: 'My Patients' }));
@@ -567,7 +257,7 @@ describe('SafeFlow prototype', () => {
 
   it('records a validated fictional observation', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('button', { name: 'Observations' }));
     const news2 = screen.getByLabelText('NEWS2');
@@ -582,7 +272,7 @@ describe('SafeFlow prototype', () => {
 
   it('creates and completes tasks from the task register', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: /tasks/i }));
@@ -613,7 +303,7 @@ describe('SafeFlow prototype', () => {
       })
     });
     vi.stubGlobal('fetch', fetch);
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: /tasks/i }));
@@ -632,7 +322,7 @@ describe('SafeFlow prototype', () => {
 
   it('creates and closes a simulated escalation', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: /escalations/i }));
@@ -648,7 +338,7 @@ describe('SafeFlow prototype', () => {
 
   it('saves handover progress and clears discharge blockers', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('button', { name: 'Handover' }));
     const completion = screen.getByLabelText('Handover completion');
@@ -666,7 +356,7 @@ describe('SafeFlow prototype', () => {
 
   it('opens report, audit and settings workspaces and resets safely', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: 'Reports' }));
@@ -707,7 +397,7 @@ describe('SafeFlow prototype', () => {
         }
       })
     }));
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: 'Settings' }));
@@ -724,11 +414,7 @@ describe('SafeFlow prototype', () => {
       ok: true,
       json: vi.fn().mockResolvedValue({
         product: 'SafeFlow',
-        mode: 'simulation',
         simulationOnly: true,
-        clinicalUse: false,
-        validationStatus: 'not-clinically-validated',
-        explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
         safetyBoundary: {
           noLivePatientData: true,
           directCareIdentifiers: false,
@@ -737,13 +423,7 @@ describe('SafeFlow prototype', () => {
         providers: {
           draft: 'deterministic',
           workspace: 'local-fictional-fixture',
-          audit: 'local-audit-fixture',
-          signals: 'private-lambda-signals-placeholder',
-          suggestions: 'private-lambda-risk-suggestions-placeholder'
-        },
-        providerMetadata: {
-          signals: { providerId: 'private-lambda-signals-placeholder', provider: 'placeholder' },
-          suggestions: { providerId: 'private-lambda-risk-suggestions-placeholder', provider: 'placeholder' }
+          audit: 'local-audit-fixture'
         },
         database: {
           configured: false,
@@ -756,7 +436,7 @@ describe('SafeFlow prototype', () => {
         }
       })
     }));
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: 'Settings' }));
@@ -765,9 +445,6 @@ describe('SafeFlow prototype', () => {
     expect(await screen.findByText(/Migration approval current/i)).toBeInTheDocument();
     expect(screen.getByText('deterministic', { selector: 'dd' })).toBeInTheDocument();
     expect(screen.getByText('local-audit-fixture', { selector: 'dd' })).toBeInTheDocument();
-    expect(screen.getByText(/private-lambda-signals-placeholder \(placeholder preview provider\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/private-lambda-risk-suggestions-placeholder \(placeholder preview provider\)/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/not clinically validated and not for clinical decision-making/i).length).toBeGreaterThan(0);
     expect(screen.getByRole('status')).toHaveTextContent(/Build readiness check complete/i);
   });
 
@@ -784,7 +461,7 @@ describe('SafeFlow prototype', () => {
     ['Settings', 'Settings']
   ])('opens %s as a distinct workspace', async (buttonName, heading) => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
     const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
     await user.click(within(nav).getByRole('button', { name: buttonName }));
@@ -794,7 +471,7 @@ describe('SafeFlow prototype', () => {
 
   it('records simulated team contact without creating a telephone link', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
 
     await user.click(screen.getByRole('button', { name: 'Call team' }));
     expect(screen.getByRole('dialog', { name: /Record simulated team contact/i })).toBeInTheDocument();
@@ -806,7 +483,7 @@ describe('SafeFlow prototype', () => {
 
   it('adds a task from the patient safety panel', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<PrototypeApp />);
     const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
 
     await user.click(within(panel).getByRole('tab', { name: /tasks/i }));

@@ -6,9 +6,7 @@ export function SafetyBanner() {
       <ShieldCheck aria-hidden="true" size={22} />
       <div>
         <strong>Simulation only</strong>
-        <span>
-          Public preview boundary. Fictional patient data only. Not clinical advice, not diagnosis, not prescribing, not live NHS deployment. Human review required.
-        </span>
+        <span>No live patient data, no NHS endorsement, no prescribing or diagnosis.</span>
       </div>
     </section>
   );
