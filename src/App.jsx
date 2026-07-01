@@ -590,7 +590,7 @@ export default function App() {
       />
       <div className="workspace-main">
         <header className="topbar">
-          <div>
+          <div className="topbar-copy">
             <p className="eyebrow">Simulation prototype</p>
             <h1>SafeFlow</h1>
           </div>
