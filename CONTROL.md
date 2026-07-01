@@ -9,9 +9,9 @@
 |---|---|
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype (shell/navigation refresh merged from `ui/shell-and-navigation-refresh`). |
+| Current branch | codex/safeflow-prototype (SF-123 merged from `fix/local-provider-fallback-guard`; local providers now fail closed outside allowed preview environments). |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
-| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved. |
+| Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
 | Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; PR #7 was closed as superseded. |
 
 ## Completed / Done
