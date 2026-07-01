@@ -10,9 +10,9 @@
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
 | Current branch | patient-journey-twin (local feature branch; ready to publish). |
-| Open PR | None yet for the local Patient Journey Twin branch. |
+| Open PR | #14 "feat(twin): Patient Journey Twin timeline view", branch patient-journey-twin. State: OPEN and ready for review. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED is currently UNSET (not explicitly false). Treat as not-approved by default, but this should be set explicitly to avoid ambiguity. |
-| Primary unfinished control task | Publish `patient-journey-twin` and keep this file updated after every commit, doc change, or PR event. |
+| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; review PR #14 and decide merge. |
 
 ## Completed / Done
 
