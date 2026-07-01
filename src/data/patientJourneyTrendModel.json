@@ -1,0 +1,51 @@
+{
+  "modelVersion": "simulation-risk-ml-v0",
+  "featureSetVersion": "signal-features-ml-v0",
+  "trainingDate": "2026-07-01T14:19:59.749Z",
+  "datasetSize": 1000,
+  "trainSize": 800,
+  "testSize": 200,
+  "featureOrder": [
+    "news2Normalized",
+    "potassiumFallingFlag",
+    "documentationQualityNorm",
+    "handoverCompleteNorm",
+    "openTaskLoadNorm",
+    "escalationStateNorm",
+    "dischargeBlockerNorm"
+  ],
+  "weights": [
+    9.140275,
+    5.364457,
+    -7.425866,
+    -5.740489,
+    3.060349,
+    5.683343,
+    3.785833
+  ],
+  "intercept": -2.040838,
+  "riskTierThresholds": {
+    "watchUpper": 0.4,
+    "reviewUpper": 0.7
+  },
+  "testMetrics": {
+    "accuracy": 0.95,
+    "precision": 0.963,
+    "recall": 0.917,
+    "note": "performance on synthetic holdout data, not clinical validation"
+  },
+  "trainingSummary": {
+    "algorithm": "batch gradient descent logistic regression in plain JavaScript",
+    "learningRate": 0.75,
+    "epochs": 1600,
+    "seed": 20260701,
+    "generatedFrom": "ml/data/syntheticTrainingData.json",
+    "labelDefinition": {
+      "description": "Illustrative deterioration-review flag generated from a fixed weighted sum of synthetic features plus noise, then thresholded.",
+      "formula": "linear = -0.95 + 2.05*news2Normalized + 1.25*potassiumFallingFlag - 1.55*documentationQualityNorm - 1.2*handoverCompleteNorm + 1.15*openTaskLoadNorm + 1.4*escalationStateNorm + 1.5*dischargeBlockerNorm + noise; label = linear >= 0.12 ? 1 : 0",
+      "threshold": 0.12,
+      "noiseRange": 0.35,
+      "note": "The generated label is fabricated for simulation only and does not represent clinical truth."
+    }
+  }
+}

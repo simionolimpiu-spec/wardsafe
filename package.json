@@ -7,6 +7,8 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "test": "vitest run --passWithNoTests --config ./vitest.config.js",
+    "ml:generate-dataset": "node ml/generateSyntheticDataset.js",
+    "ml:train": "node ml/trainSimulatedTrendModel.js",
     "test:watch": "vitest",
     "e2e": "playwright test",
     "infra:synth": "node infra/aws/runSynth.js",
