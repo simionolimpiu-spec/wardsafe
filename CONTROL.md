@@ -10,9 +10,9 @@
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
 | Current branch | ui/design-foundation (working tree clean as of last check). |
-| Open PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. CI: both checks passing (AWS and database foundation; Application quality). State: OPEN, not merged. |
+| Open PR | #8 "chore(ui): design tokens + stylesheet split (foundation for UI refresh)", branch ui/design-foundation. State: OPEN and ready for review. PR #7 remains open. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED is currently UNSET (not explicitly false). Treat as not-approved by default, but this should be set explicitly to avoid ambiguity. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; confirm PR #7 review and merge decision. |
+| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; review PR #8 and decide merge. |
 
 ## Completed / Done
 
