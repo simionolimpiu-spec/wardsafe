@@ -9,8 +9,9 @@
 |---|---|
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype (SF-123 merged from `fix/local-provider-fallback-guard`; local providers now fail closed outside allowed preview environments). |
+| Current branch | codex/safeflow-prototype (SF-123 merged from `fix/local-provider-fallback-guard`; PR #13 `ui/content-views-refresh` merged 1 July 2026, merge commit 4752252). |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
+| Merged PR | #13 "Content views refresh", branch ui/content-views-refresh. Rebased onto latest base, `npm test` (56 files, 338 tests) and `npm run build` passed, safety-wording scan clean, merged 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
 | Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; PR #7 was closed as superseded. |
 
@@ -43,9 +44,7 @@
 | ID | Status | Area | Work item | Next action |
 |---|---|---|---|---|
 | SF-101 | Closed | Release | PR #7 feature/minimal-role-aware-gui closed as superseded. | No merge planned. |
-| SF-120 | Ready | UI | Phase 1 content restyle | Apply the new token layer to board, panel, drawer, scenario, and form surfaces in parallel with the shell pass. |
-| SF-121 | Ready | UI | Panel review-cue CSS gap | `PatientSafetyPanel.jsx` still references `review-cue-stack`, `review-cue-meta`, `review-cue-evidence`, and `review-cue-notes`; add matching panel.css rules during the content-views refresh. |
-| SF-102 | In progress | Product concept | Patient Journey Twin / Simulation Patient Twin concept started. | Design UI wording and docs; keep simulation-only. Patient Journey Twin UI (parallel workstream, running on another machine right now) can integrate `scoreSimulatedTrend()` now that PR #9 is merged. |
+| SF-102 | Blocked — needs rescoping | Product concept | Patient Journey Twin / Simulation Patient Twin concept started; PR #14 opened but is far out of scope. | PR #14 was rebased locally (disposable, never pushed) onto latest `origin/codex/safeflow-prototype` on 1 July 2026 to measure its true diff once stale-base noise was removed: **88 files changed, +15,617/-5,819**, and `WorkspaceNav.jsx` does not even appear in the diff. The intended scope was "new Patient Journey Twin component(s) plus wiring into `App.jsx`/`WorkspaceNav.jsx`." The actual branch touches CI workflows, `AGENTS.md`, `infra/aws/*`, `package.json`/`package-lock.json`, most of `server/*`, and deletes existing files (`src/App.signalWiring.test.jsx`, `infra/ci/projectInstructions.test.js`, `infra/ci/riskSupportTechnicalExplainer.test.js`, `src/domain/simulationScenarioCoverage.test.js`, `src/components/PatientSafetyPanel.test.jsx`, `src/components/SafetyBanner.jsx`). **Do not merge PR #14 as-is.** Needs to go back to Mia to rescope down to just the new Twin files plus minimal wiring — likely easiest as a fresh branch off current `codex/safeflow-prototype` rather than trying to salvage this one. |
 | SF-104 | In progress | AWS architecture | Architecture direction discussed: Aurora, Step Functions, Bedrock/LLM layer, tokenised backend. | Keep as mock/readiness architecture until explicit deployment approval. |
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
 | SF-107 | In progress | Clinical safety | Digital twin / predictive learning idea explored. | Frame as review-support and education only, not clinical prediction. |
@@ -105,3 +104,14 @@ repository files rather than via a Codex CLI session, to conserve Codex usage fo
 that need build/test verification. Docs-only changes like this one carry no build risk, so direct
 authoring plus a short terminal-only commit/push/PR step is the lighter-weight path going forward
 for non-code control-board and documentation work.
+
+## PR #14 scope-creep finding (1 July 2026, for Mia)
+
+PR #14 (`patient-journey-twin`) is **not ready to merge**. A disposable, unpushed local rebase
+onto the latest `origin/codex/safeflow-prototype` was used to separate genuine branch content
+from stale-base noise. After rebasing, the branch still shows 88 changed files and roughly
+15.6k/5.8k line insertions/deletions against current base, and the expected `WorkspaceNav.jsx`
+wiring change is not present at all. This is real scope creep, not a rebase artifact. Recommended
+fix: start a clean branch from current `codex/safeflow-prototype` and re-apply just the new
+Patient Journey Twin component(s), their domain/test files, and the intended `App.jsx` /
+`WorkspaceNav.jsx` wiring — nothing else. See SF-102 above for the full file list this ruled out.
