@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import modelData from '../data/patientJourneyTrendModel.json';
 import { scoreSimulatedTrend } from './patientJourneyTrendModel.js';
 
 const lowRiskFeatures = {
@@ -44,6 +45,14 @@ const expectedKeys = [
   'updatedAt'
 ].sort();
 
+function news2NormalizedForRiskScore(targetRiskScore) {
+  const intercept = Number(modelData.intercept);
+  const weight = Number(modelData.weights[0]);
+  const logit = Math.log(targetRiskScore / (1 - targetRiskScore));
+
+  return (logit - intercept) / weight;
+}
+
 describe('scoreSimulatedTrend', () => {
   it('returns the expected simulated trend suggestion contract shape', () => {
     const result = scoreSimulatedTrend(lowRiskFeatures);
@@ -72,6 +81,82 @@ describe('scoreSimulatedTrend', () => {
     expect(typeof result.updatedAt).toBe('string');
     expect(result.title.toLowerCase()).toContain('simulated');
     expect(result.suggestedFlag.toLowerCase()).toContain('simulated');
+  });
+
+  it('keeps simulation invariants and records missing data when features are omitted', () => {
+    const result = scoreSimulatedTrend({
+      syntheticPatientRef: '',
+      news2Normalized: undefined,
+      potassiumFallingFlag: undefined,
+      documentationQualityNorm: undefined,
+      handoverCompleteNorm: undefined,
+      openTaskLoadNorm: undefined,
+      escalationStateNorm: undefined,
+      dischargeBlockerNorm: undefined
+    });
+
+    expect(result).toMatchObject({
+      syntheticPatientRef: 'unknown',
+      riskType: 'simulated_trend',
+      status: 'suggested',
+      requiresHumanReview: true,
+      simulationOnly: true
+    });
+    expect(result.riskTier).toMatch(/^(watch|review|urgent)$/);
+    expect(result.missingData).toEqual(expect.arrayContaining([
+      'news2Normalized missing or invalid; defaulted to 0.',
+      'potassiumFallingFlag missing or invalid; defaulted to 0.',
+      'documentationQualityNorm missing or invalid; defaulted to 0.',
+      'handoverCompleteNorm missing or invalid; defaulted to 0.',
+      'openTaskLoadNorm missing or invalid; defaulted to 0.',
+      'escalationStateNorm missing or invalid; defaulted to 0.',
+      'dischargeBlockerNorm missing or invalid; defaulted to 0.'
+    ]));
+  });
+
+  it('classifies the watch, review and urgent bands at the model thresholds', () => {
+    const watchBand = scoreSimulatedTrend({
+      syntheticPatientRef: 'EDGE-WATCH',
+      news2Normalized: news2NormalizedForRiskScore(0.399),
+      potassiumFallingFlag: 0,
+      documentationQualityNorm: 0,
+      handoverCompleteNorm: 0,
+      openTaskLoadNorm: 0,
+      escalationStateNorm: 0,
+      dischargeBlockerNorm: 0
+    });
+    const reviewBand = scoreSimulatedTrend({
+      syntheticPatientRef: 'EDGE-REVIEW',
+      news2Normalized: news2NormalizedForRiskScore(0.4),
+      potassiumFallingFlag: 0,
+      documentationQualityNorm: 0,
+      handoverCompleteNorm: 0,
+      openTaskLoadNorm: 0,
+      escalationStateNorm: 0,
+      dischargeBlockerNorm: 0
+    });
+    const urgentBand = scoreSimulatedTrend({
+      syntheticPatientRef: 'EDGE-URGENT',
+      news2Normalized: news2NormalizedForRiskScore(0.701),
+      potassiumFallingFlag: 0,
+      documentationQualityNorm: 0,
+      handoverCompleteNorm: 0,
+      openTaskLoadNorm: 0,
+      escalationStateNorm: 0,
+      dischargeBlockerNorm: 0
+    });
+
+    expect(watchBand.riskTier).toBe('watch');
+    expect(watchBand.riskScore).toBeLessThan(0.4);
+    expect(reviewBand.riskTier).toBe('review');
+    expect(reviewBand.riskScore).toBeCloseTo(0.4, 3);
+    expect(urgentBand.riskTier).toBe('urgent');
+    expect(urgentBand.riskScore).toBeGreaterThan(0.7);
+    expect([watchBand.riskTier, reviewBand.riskTier, urgentBand.riskTier]).toEqual([
+      'watch',
+      'review',
+      'urgent'
+    ]);
   });
 
   it('keeps scores bounded and separates low-risk and high-risk synthetic inputs', () => {
