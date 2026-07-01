@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Pool as PgPool } from 'pg';
 import { getDemoSignalFixtures } from '../src/data/demoScenarios.js';
+import { allowsSimulationPreviewFallback } from './simulationOutputMetadata.js';
 
 const SIGNAL_TIMELINE_QUERY_PATH = 'database/queries/simulationSignalTimeline.sql';
 
@@ -55,6 +56,13 @@ export function createConfiguredSignalProvider({
   poolConfig
 } = {}) {
   if (!env.DATABASE_URL && !poolConfig) {
+    if (!allowsSimulationPreviewFallback(env)) {
+      throw new Error(
+        'Signal provider has no DATABASE_URL configured and SAFEFLOW_ENVIRONMENT does not allow a ' +
+        'simulation preview fallback; refusing to silently serve fictional placeholder signals. ' +
+        'Set DATABASE_URL or an allowed SAFEFLOW_ENVIRONMENT (e.g. "local", "dev", "simulation").'
+      );
+    }
     return createLocalSignalProvider();
   }
 

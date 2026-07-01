@@ -34,6 +34,7 @@
 | SF-118 | Done | UI foundation | Design token layer added and `src/styles` split into focused partials; Phase 1 shell-vs-content restyle can now begin. | Branch `ui/design-foundation` |
 | SF-119 | Done | UI | Phase 1 shell restyle | Shell, navigation, presentation mode, forms, dialogs, and responsive affordances refreshed on `ui/shell-and-navigation-refresh`. | Branch `ui/shell-and-navigation-refresh` |
 | SF-122 | Done | ML foundation | Simulated Trend Model (simulation-risk-ml-v0) shipped with synthetic-only training data, plain-JS logistic regression, and a checked-in model artifact. | Merged via PR #9 on 1 July 2026 after rebasing onto `codex/safeflow-prototype`. |
+| SF-123 | Done | Backend safety gap | Local dev-server signal/suggestion providers (`createConfiguredSignalProvider`, `createConfiguredSuggestionProvider`) now refuse to silently serve placeholder fixtures when `SAFEFLOW_ENVIRONMENT` is not an allowed preview value, matching the guard already used by the Lambda handler (`allowsSimulationPreviewFallback`). Closes the "no silent placeholder fallback in production-intent environments" acceptance criterion from the delivery roadmap's DB-read-model backlog item. | `server/signalProvider.js`, `server/suggestionProvider.js`, plus new tests in `server/signalProvider.test.js` and `server/suggestionProvider.test.js`. Authored directly (Claude), not via Codex CLI, to conserve Codex usage. |
 
 ## Started / Open / Ready
 
