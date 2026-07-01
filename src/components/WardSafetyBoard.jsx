@@ -1,6 +1,12 @@
 import { AlertTriangle, ClipboardCheck, Download, Home, Users } from 'lucide-react';
 
-const metricIcons = [Users, AlertTriangle, AlertTriangle, ClipboardCheck, Home];
+const metricCards = [
+  { label: 'Patients', valueKey: 'patients', caption: 'In unit', icon: Users, tone: 'neutral' },
+  { label: 'Escalations', valueKey: 'activeEscalations', caption: 'Active', icon: AlertTriangle, tone: 'danger' },
+  { label: 'NEWS2 >=5', valueKey: 'highNews', caption: 'High risk', icon: AlertTriangle, tone: 'warning' },
+  { label: 'Handover', valueKey: 'handoverCompletePercent', caption: 'Complete', icon: ClipboardCheck, tone: 'neutral', suffix: '%' },
+  { label: 'Discharge ready', valueKey: 'dischargeReadyToday', caption: 'Today', icon: Home, tone: 'neutral' }
+];
 
 function HandoverProgress({ patient }) {
   const progress = patient.handoverComplete;
@@ -16,14 +22,6 @@ function HandoverProgress({ patient }) {
 }
 
 export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelectPatient, onExport = () => {} }) {
-  const metrics = [
-    ['Patients', summary.metrics.patients, 'In unit'],
-    ['Escalations', summary.metrics.activeEscalations, 'Active'],
-    ['NEWS2 >=5', summary.metrics.highNews, 'High risk'],
-    ['Handover', `${summary.metrics.handoverCompletePercent}%`, 'Complete'],
-    ['Discharge ready', summary.metrics.dischargeReadyToday, 'Today']
-  ];
-
   return (
     <section className="ward-board" aria-labelledby="ward-board-title">
       <div className="board-header">
@@ -35,15 +33,23 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
       </div>
 
       <div className="metric-grid" aria-label="Ward metrics">
-        {metrics.map(([label, value, caption], index) => {
-          const Icon = metricIcons[index];
+        {metricCards.map((metric) => {
+          const value = metric.suffix
+            ? `${summary.metrics[metric.valueKey]}${metric.suffix}`
+            : summary.metrics[metric.valueKey];
+          const Icon = metric.icon;
+
           return (
-            <div className="metric" key={label}>
-              <Icon aria-hidden="true" size={22} />
-              <span>{label}</span>
-              <strong>{value}</strong>
-              <small>{caption}</small>
-            </div>
+            <article className={`metric metric-${metric.tone}`} key={metric.label}>
+              <div aria-hidden="true" className="metric-icon">
+                <Icon size={18} />
+              </div>
+              <div className="metric-copy">
+                <span>{metric.label}</span>
+                <strong>{value}</strong>
+                <small>{metric.caption}</small>
+              </div>
+            </article>
           );
         })}
       </div>
@@ -84,7 +90,11 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
                     ))}
                   </div>
                 </td>
-                <td>{patient.news2}</td>
+                <td>
+                  <span className={`news2-score news2-score-${getNews2Band(patient.news2)}`}>
+                    {patient.news2}
+                  </span>
+                </td>
                 <td>{patient.responsibleNurse}</td>
                 <td>{patient.nextAction}</td>
                 <td>{patient.escalation}</td>
@@ -105,4 +115,16 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
       </div>
     </section>
   );
+}
+
+function getNews2Band(value) {
+  if (Number(value) >= 5) {
+    return 'high';
+  }
+
+  if (Number(value) >= 3) {
+    return 'watch';
+  }
+
+  return 'normal';
 }

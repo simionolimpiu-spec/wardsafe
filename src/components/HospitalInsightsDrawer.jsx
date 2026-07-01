@@ -1,5 +1,7 @@
 import { AlertTriangle, ArrowDownRight, Award, BarChart3, Building2, ChevronRight, X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+const DRAWER_TRANSITION_MS = 220;
 
 const summaryCardIcons = {
   current: BarChart3,
@@ -25,10 +27,44 @@ export function HospitalInsightsButton({ isOpen = false, onClick = () => {} }) {
 }
 
 export function HospitalInsightsDrawer({ isOpen = false, onClose = () => {}, snapshot }) {
+  const [isRendered, setIsRendered] = useState(Boolean(isOpen && snapshot));
+  const [isVisible, setIsVisible] = useState(false);
+  const shouldAnimate =
+    typeof window !== 'undefined' &&
+    import.meta.env.MODE !== 'test' &&
+    !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
   useEffect(() => {
-    if (!isOpen) return undefined;
+    if (isOpen && snapshot) {
+      setIsRendered(true);
+      if (!shouldAnimate) {
+        setIsVisible(true);
+        return undefined;
+      }
+      const scheduleFrame = window.requestAnimationFrame ?? ((callback) => window.setTimeout(callback, 16));
+      const cancelFrame = window.cancelAnimationFrame ?? window.clearTimeout;
+      const frame = scheduleFrame(() => setIsVisible(true));
+      return () => cancelFrame(frame);
+    }
+
+    if (!shouldAnimate) {
+      setIsVisible(false);
+      setIsRendered(false);
+      return undefined;
+    }
+
+    setIsVisible(false);
+    const timeout = window.setTimeout(() => setIsRendered(false), DRAWER_TRANSITION_MS);
+    return () => window.clearTimeout(timeout);
+  }, [isOpen, shouldAnimate, snapshot]);
+
+  useEffect(() => {
+    if (!isRendered) {
+      return undefined;
+    }
 
     const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement;
     document.body.style.overflow = 'hidden';
 
     function handleKeyDown(event) {
@@ -42,20 +78,21 @@ export function HospitalInsightsDrawer({ isOpen = false, onClose = () => {}, sna
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
+      previousFocus?.focus?.();
     };
-  }, [isOpen, onClose]);
+  }, [isRendered, onClose]);
 
-  if (!isOpen || !snapshot) {
+  if (!isRendered || !snapshot) {
     return null;
   }
 
   return (
-    <div className="hospital-insights-overlay">
+    <div className={`hospital-insights-overlay ${isVisible ? 'is-visible' : ''}`}>
       <div aria-hidden="true" className="hospital-insights-backdrop" onClick={onClose} />
       <aside
         aria-labelledby="hospital-insights-title"
         aria-modal="true"
-        className="hospital-insights-drawer"
+        className={`hospital-insights-drawer ${isVisible ? 'is-visible' : ''}`}
         id="hospital-insights-dialog"
         role="dialog"
       >

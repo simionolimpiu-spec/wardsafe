@@ -1,6 +1,8 @@
 import { ChevronRight, FileText, X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { buildSimulationReviewReportExportText } from '../services/simulationReviewReportService.js';
+
+const DRAWER_TRANSITION_MS = 220;
 
 export function SimulationReviewReportButton({ isOpen = false, onClick = () => {} }) {
   return (
@@ -18,6 +20,13 @@ export function SimulationReviewReportButton({ isOpen = false, onClick = () => {
 }
 
 export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {}, snapshot }) {
+  const [isRendered, setIsRendered] = useState(Boolean(isOpen && snapshot));
+  const [isVisible, setIsVisible] = useState(false);
+  const shouldAnimate =
+    typeof window !== 'undefined' &&
+    import.meta.env.MODE !== 'test' &&
+    !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
   async function handleCopyReport() {
     const exportText = buildSimulationReviewReportExportText(snapshot);
     if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
@@ -36,7 +45,33 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
   }
 
   useEffect(() => {
-    if (!isOpen) return undefined;
+    if (isOpen && snapshot) {
+      setIsRendered(true);
+      if (!shouldAnimate) {
+        setIsVisible(true);
+        return undefined;
+      }
+      const scheduleFrame = window.requestAnimationFrame ?? ((callback) => window.setTimeout(callback, 16));
+      const cancelFrame = window.cancelAnimationFrame ?? window.clearTimeout;
+      const frame = scheduleFrame(() => setIsVisible(true));
+      return () => cancelFrame(frame);
+    }
+
+    if (!shouldAnimate) {
+      setIsVisible(false);
+      setIsRendered(false);
+      return undefined;
+    }
+
+    setIsVisible(false);
+    const timeout = window.setTimeout(() => setIsRendered(false), DRAWER_TRANSITION_MS);
+    return () => window.clearTimeout(timeout);
+  }, [isOpen, shouldAnimate, snapshot]);
+
+  useEffect(() => {
+    if (!isRendered) {
+      return undefined;
+    }
 
     const previousOverflow = document.body.style.overflow;
     const previousFocus = document.activeElement;
@@ -55,19 +90,19 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
       window.removeEventListener('keydown', handleKeyDown);
       previousFocus?.focus?.();
     };
-  }, [isOpen, onClose]);
+  }, [isRendered, onClose]);
 
-  if (!isOpen || !snapshot) {
+  if (!isRendered || !snapshot) {
     return null;
   }
 
   return (
-    <div className="review-report-overlay">
+    <div className={`review-report-overlay ${isVisible ? 'is-visible' : ''}`}>
       <div aria-hidden="true" className="review-report-backdrop" onClick={onClose} />
       <aside
         aria-labelledby="simulation-review-report-title"
         aria-modal="true"
-        className="review-report-drawer"
+        className={`review-report-drawer ${isVisible ? 'is-visible' : ''}`}
         id="simulation-review-report-dialog"
         role="dialog"
       >
@@ -142,7 +177,7 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
           </div>
           <div className="review-report-cue-list">
             {snapshot.activeReviewCues.map((cue) => (
-              <article className="review-report-cue-card" key={cue.id}>
+              <article className={`review-report-cue-card review-report-cue-${slugify(cue.priorityLabel || 'Review')}`} key={cue.id}>
                 <p className="review-report-cue-meta">
                   <span>{cue.categoryLabel}</span>
                   <span>{cue.priorityLabel}</span>
@@ -247,4 +282,11 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
       </aside>
     </div>
   );
+}
+
+function slugify(value) {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
