@@ -39,6 +39,21 @@ describe('signal provider', () => {
     expect(JSON.stringify(signals)).not.toMatch(/\bnhs_number|date_of_birth|postcode|address\b/i);
   });
 
+  it('refuses to silently fall back to placeholder signals in a non-preview environment', () => {
+    expect(() => createConfiguredSignalProvider({
+      env: { SAFEFLOW_SIMULATION_ONLY: 'true', SAFEFLOW_ENVIRONMENT: 'production' }
+    })).toThrow(/SAFEFLOW_ENVIRONMENT does not allow a simulation preview fallback/);
+  });
+
+  it('still falls back to local fixtures when SAFEFLOW_ENVIRONMENT is an allowed preview value', async () => {
+    const provider = createConfiguredSignalProvider({
+      env: { SAFEFLOW_SIMULATION_ONLY: 'true', SAFEFLOW_ENVIRONMENT: 'dev' }
+    });
+
+    expect(provider.id).toBe('local-simulation-signals');
+    await expect(provider.listPatientSignals({ patientId: 'DCU-031' })).resolves.toBeTruthy();
+  });
+
   it('refuses database mode unless simulation-only mode and database URL are explicit', () => {
     const { Pool } = createPoolFactory();
 

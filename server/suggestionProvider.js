@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Pool as PgPool } from 'pg';
 import { getDemoSuggestionFixtures } from '../src/data/demoScenarios.js';
+import { allowsSimulationPreviewFallback } from './simulationOutputMetadata.js';
 
 const SUGGESTION_LIST_QUERY_PATH = 'database/queries/simulationRiskSuggestions.sql';
 const SUGGESTION_ACTION_QUERY_PATH = 'database/queries/recordSimulationSuggestionAction.sql';
@@ -119,6 +120,13 @@ export function createConfiguredSuggestionProvider({
   poolConfig
 } = {}) {
   if (!env.DATABASE_URL && !poolConfig) {
+    if (!allowsSimulationPreviewFallback(env)) {
+      throw new Error(
+        'Suggestion provider has no DATABASE_URL configured and SAFEFLOW_ENVIRONMENT does not allow ' +
+        'a simulation preview fallback; refusing to silently serve fictional placeholder suggestions. ' +
+        'Set DATABASE_URL or an allowed SAFEFLOW_ENVIRONMENT (e.g. "local", "dev", "simulation").'
+      );
+    }
     return createLocalSuggestionProvider();
   }
 

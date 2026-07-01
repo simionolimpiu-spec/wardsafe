@@ -163,4 +163,18 @@ describe('suggestion provider', () => {
 
     expect(provider.id).toBe('local-simulation-risk-suggestions');
   });
+
+  it('refuses to silently fall back to placeholder suggestions in a non-preview environment', () => {
+    expect(() => createConfiguredSuggestionProvider({
+      env: { SAFEFLOW_SIMULATION_ONLY: 'true', SAFEFLOW_ENVIRONMENT: 'production' }
+    })).toThrow(/SAFEFLOW_ENVIRONMENT does not allow a simulation preview fallback/);
+  });
+
+  it('still falls back to local fixtures when SAFEFLOW_ENVIRONMENT is an allowed preview value', () => {
+    const provider = createConfiguredSuggestionProvider({
+      env: { SAFEFLOW_SIMULATION_ONLY: 'true', SAFEFLOW_ENVIRONMENT: 'dev' }
+    });
+
+    expect(provider.id).toBe('local-simulation-risk-suggestions');
+  });
 });

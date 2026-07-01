@@ -26,12 +26,22 @@ Last updated: 2026-07-01
 
 Acceptance criteria:
 
-- Database read model is available in the preview stack.
+- Database read model is available in the preview stack. **Met** — `createDatabaseSignalProvider`
+  and `createDatabaseSuggestionProvider` already existed and are exercised in the Lambda handler.
 - Placeholder fallback is used only when explicitly configured for preview or simulation mode.
+  **Met** — the Lambda handler already gates on `SAFEFLOW_DATA_MODE`; the local dev-server
+  providers now also gate the no-DATABASE_URL fallback on `allowsSimulationPreviewFallback` (SF-123).
 - API responses expose source and provider metadata for both signal and risk-suggestion routes.
-- Tests cover both DB-backed and placeholder-backed modes.
-- The simulation safety disclaimer remains visible in the public preview UI.
-- No silent placeholder fallback is allowed in production-intent environments.
+  **Met** — `buildSimulationOutputEnvelope` already attaches `source` and `provider` to both routes
+  in `server/api.js`.
+- Tests cover both DB-backed and placeholder-backed modes. **Met**, plus new tests added for the
+  non-preview-environment refusal case (SF-123).
+- The simulation safety disclaimer remains visible in the public preview UI. Unchanged by this
+  backend work; last verified as part of the shell/navigation refresh (SF-119).
+- No silent placeholder fallback is allowed in production-intent environments. **Met for the local
+  dev-server path as of SF-123** — previously only the Lambda handler enforced this; the local
+  `createConfiguredSignalProvider`/`createConfiguredSuggestionProvider` used by `server/api.js` did
+  not check `SAFEFLOW_ENVIRONMENT` at all before this fix.
 
 ## In Progress (as of 1 July 2026)
 
