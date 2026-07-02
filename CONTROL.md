@@ -39,6 +39,7 @@
 | SF-122 | Done | ML foundation | Simulated Trend Model (simulation-risk-ml-v0) shipped with synthetic-only training data, plain-JS logistic regression, and a checked-in model artifact. | Merged via PR #9 on 1 July 2026 after rebasing onto `codex/safeflow-prototype`. |
 | SF-123 | Done | Backend safety gap | Local dev-server signal/suggestion providers (`createConfiguredSignalProvider`, `createConfiguredSuggestionProvider`) now refuse to silently serve placeholder fixtures when `SAFEFLOW_ENVIRONMENT` is not an allowed preview value, matching the guard already used by the Lambda handler (`allowsSimulationPreviewFallback`). Closes the "no silent placeholder fallback in production-intent environments" acceptance criterion from the delivery roadmap's DB-read-model backlog item. | `server/signalProvider.js`, `server/suggestionProvider.js`, plus new tests in `server/signalProvider.test.js` and `server/suggestionProvider.test.js`. Authored directly (Claude), not via Codex CLI, to conserve Codex usage. |
 | SF-124 | Done | UI accessibility | WCAG AA accessibility pass across current UI surfaces: focus states, contrast, ARIA, keyboard navigation. | Merge commit `46ef3c0` via PR [#17](https://github.com/simionolimpiu-spec/wardsafe/pull/17). |
+| SF-209 | Done | Data model | Fictional patient timeline + observations + review cues. | Merge commit `91c727c` via PR [#18](https://github.com/simionolimpiu-spec/wardsafe/pull/18); synthetic-only data only. |
 
 ## Started / Open / Ready
 
@@ -60,7 +61,6 @@
 | SF-205 | Backlog | Research | NHS Digital API research only | Research mode only; no live integration. |
 | SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Keep as mock/demo unless implementing locally. |
-| SF-209 | Backlog | Data model | Fictional patient timeline + observations + review cues | Must use fictional data only. |
 | SF-210 | Backlog | Evaluation | Demo evaluation framework | Usability, nursing review, documentation safety, learning value. |
 
 ## Risks and controls
