@@ -63,7 +63,10 @@ Planned direction:
 
 Before any live pilot, SafeFlow would need:
 
-- Clinical safety case development.
+- Clinical safety case development. A first-pass outline and hazard log skeleton now exist
+  (`docs/public-demo-pack/clinical-safety-case-outline.md`), but this is planning work only — it
+  has not been independently reviewed, and the clinical safety lead and information-governance
+  lead roles it depends on are not yet appointed.
 - DCB0129 / DCB0160-style safety case work where applicable.
 - DPIA and information-governance approval.
 - Caldicott and data protection review.

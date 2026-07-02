@@ -13,6 +13,8 @@ SafeFlow is the short product mark used inside the prototype UI. SafeFlow Nursin
 - `safety-boundary.md` - the explicit boundaries used by the current prototype.
 - `../risk-support-technical-explainer.md` - plain-language technical explainer for the simulation-only risk-support layer.
 - `discovery-workshop-pack.md` - workshop agenda, scenario prompts, feedback form and initial hazard log.
+- `clinical-safety-case-outline.md` - first-pass clinical safety case outline and 10-row hazard log, not yet independently reviewed.
+- `stakeholder-demo-pack.md` - concise NHS-facing stakeholder demo pack.
 - `ui-target-spec.md` - screenshot-inspired UI target spec without official NHS branding.
 - `build-readiness/` - implementation blueprint, architecture, technology, hardware and roadmap.
 - `templates/` - reusable planning templates for scenarios, discovery feedback and backlog decisions, integrations, AI provider review and pilot readiness.

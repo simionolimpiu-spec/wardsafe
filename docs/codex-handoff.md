@@ -1,6 +1,18 @@
 # Codex Handoff
 
-Last updated: 2026-06-30
+Last updated: 2026-06-30 (STALE — see note below)
+
+**This file is out of date as of 2 July 2026.** It still describes PR #6 as "the active review
+surface," but PR #6 was superseded, PR #7 was closed on 1 July 2026, and PRs #8 through #17 have
+since merged (design tokens, deployment guard, shell/nav refresh, ML foundation, domain test
+coverage, clinical safety case outline SF-109, provider fail-closed fix SF-123, content-views
+refresh SF-120/SF-121, accessibility pass SF-124). PR #14 (`feature/patient-journey-twin`) was
+found to have serious scope creep and was left open/unmerged pending a rescoped v2 branch. **Do
+not treat any PR number, branch, or "current integration rule" below as current** — always check
+`CONTROL.md` at the repo root first, since R-008 in that file exists specifically because this
+kind of exported/stale handoff note has caused wrong-PR-number mistakes before. The AWS/Amplify
+deployment details below have not been re-verified since this file was last updated and may no
+longer reflect the live state; re-confirm with `gh` and AWS before acting on them.
 
 This file is the shared handoff note for cross-thread coordination between Oli's Codex and Mia's Codex. Treat GitHub remote state and deployed AWS state as the source of truth when local clones disagree.
 
