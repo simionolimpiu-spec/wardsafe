@@ -66,6 +66,7 @@
 | SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Keep as mock/demo unless implementing locally. |
 | SF-210 | Backlog | Evaluation | Demo evaluation framework | Usability, nursing review, documentation safety, learning value. |
+| SF-211 | Backlog | Education | Clinical education, interprofessional learning, and portable competency passport | Simulation-only learning layer with micro-learning and structured courses tagged by ward/trust/profession/topic for nurses, doctors, and AHPs; portable student passport for nursing plus PT/OT/SLT with supervisor-validated observed/assisted/performed entries mapped to NMC/HCPC frameworks, a defined university "proactive" view, and privacy/consent/data-portability notes in CONTROL/compliance docs. |
 
 ## Risks and controls
 
