@@ -17,6 +17,7 @@ import { AuditLearningView } from './components/AuditLearningView.jsx';
 import { DemoScenarioSelector } from './components/DemoScenarioSelector.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
+import { HospitalInsightsView } from './components/HospitalInsightsView.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { SimulationReviewReportButton, SimulationReviewReportDrawer } from './components/SimulationReviewReportDrawer.jsx';
@@ -655,7 +656,7 @@ export default function App() {
             <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
           </section>
         )}
-        <SafetyBanner />
+        {state.selectedView !== 'hospital-insights' && <SafetyBanner />}
         <nav className="tab-list" aria-label="Prototype journey">
           {tabs.map((tab) => (
             <button
@@ -727,6 +728,13 @@ export default function App() {
             )}
             {state.selectedView === 'reports' && (
               <ReportsView auditEvents={state.auditEvents} onExportWard={exportWardBoard} patients={state.patients} />
+            )}
+            {state.selectedView === 'hospital-insights' && (
+              <HospitalInsightsView
+                currentWardName={state.currentWardName}
+                hospitalName={state.hospitalName}
+                patient={selectedPatient}
+              />
             )}
             {state.selectedView === 'potassium' && (
               <PotassiumSafetyGapView

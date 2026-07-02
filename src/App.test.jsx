@@ -6,9 +6,11 @@ import App from './App.jsx';
 describe('SafeFlow prototype', () => {
   beforeEach(() => {
     localStorage.clear();
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(() => ({ canvas: {} }));
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -29,7 +31,9 @@ describe('SafeFlow prototype', () => {
   it('renders a hospital insights button in the main header', () => {
     render(<App />);
 
-    expect(screen.getByRole('button', { name: /hospital insights/i })).toBeInTheDocument();
+    const header = screen.getByRole('heading', { name: 'SafeFlow' }).closest('header');
+    expect(header).not.toBeNull();
+    expect(within(header ?? document.body).getByRole('button', { name: /hospital insights/i })).toBeInTheDocument();
   });
 
   it('renders a review report button in the main header', () => {
@@ -88,7 +92,9 @@ describe('SafeFlow prototype', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('button', { name: /hospital insights/i }));
+    const header = screen.getByRole('heading', { name: 'SafeFlow' }).closest('header');
+    expect(header).not.toBeNull();
+    await user.click(within(header ?? document.body).getByRole('button', { name: /hospital insights/i }));
 
     const drawer = screen.getByRole('dialog', { name: /hospital insights/i });
     expect(within(drawer).getByText(/^Simulation insight$/i)).toBeInTheDocument();
@@ -828,6 +834,7 @@ describe('SafeFlow prototype', () => {
     ['Handover', 'Handover and Discharge Readiness'],
     ['Discharges', 'Discharges'],
     ['Reports', 'Reports'],
+    ['Hospital insights', 'Hospital insights'],
     ['Audit Trail', 'Audit and Learning'],
     ['Settings', 'Settings']
   ])('opens %s as a distinct workspace', async (buttonName, heading) => {
