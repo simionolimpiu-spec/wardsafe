@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { simulatedPatients } from '../data/simulatedPatients.js';
+import { buildHeuristicCues } from '../domain/heuristicCueEngine.js';
 import { PatientSafetyPanel } from './PatientSafetyPanel.jsx';
 
 function clone(value) {
@@ -19,6 +20,7 @@ function renderPanel(overrides = {}) {
       flag={overrides.flag ?? { level: 'warning', title: 'Potassium review suggested' }}
       onAddTask={overrides.onAddTask ?? (() => {})}
       onRequestContact={overrides.onRequestContact ?? (() => {})}
+      heuristicCues={overrides.heuristicCues ?? []}
       patient={patient}
       reviewSignals={overrides.reviewSignals ?? []}
       signalSnapshot={overrides.signalSnapshot ?? null}
@@ -129,6 +131,70 @@ describe('PatientSafetyPanel', () => {
     expect(within(reviewCues).getAllByText(/human review required/i).length).toBeGreaterThan(1);
     expect(within(reviewCues).getAllByText(/review suggested/i).length).toBeGreaterThan(0);
     expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision|replace potassium|potassium replacement/i);
+  });
+
+  it('reveals the heuristic rationale when Why flagged is expanded', async () => {
+    const user = userEvent.setup();
+    renderPanel({
+      heuristicCues: buildHeuristicCues({
+        signals: [
+          {
+            id: 'simulation-signal-dcu-031-documentation',
+            category: 'documentation'
+          },
+          {
+            id: 'simulation-signal-dcu-031-electrolyte-review',
+            category: 'electrolyte-review'
+          }
+        ],
+        flag: {
+          level: 'medium',
+          title: 'Potassium review suggested'
+        }
+      }),
+      signalSnapshot: {
+        signalTimeline: [],
+        riskSuggestions: [],
+        sourceFreshness: {
+          state: 'current',
+          label: 'Latest simulated signal feed'
+        },
+        signalSourceMetadata: {
+          source: 'private-lambda-signals-placeholder',
+          provider: 'placeholder',
+          mode: 'simulation',
+          clinicalUse: false,
+          validationStatus: 'not-clinically-validated',
+          explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+        },
+        suggestionSourceMetadata: {
+          source: 'private-lambda-risk-suggestions-placeholder',
+          provider: 'placeholder',
+          mode: 'simulation',
+          clinicalUse: false,
+          validationStatus: 'not-clinically-validated',
+          explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+        },
+        missingDataNotes: [],
+        receivedAt: '2026-06-10T09:15:00.000Z'
+      }
+    });
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
+    const whyFlaggedSummary = within(reviewCues).getByText(/^why flagged$/i);
+
+    expect(within(reviewCues).getByText(/^Heuristic$/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/documentation gap/i)).toBeInTheDocument();
+
+    await user.click(whyFlaggedSummary);
+
+    const details = whyFlaggedSummary.closest('details');
+    expect(details).not.toBeNull();
+    expect(details).toHaveAttribute('open');
+    expect(details).toHaveTextContent(/A documentation cue appears alongside an unresolved safety flag/i);
+    expect(details).toHaveTextContent(/documentation-gap/i);
+    expect(details).toHaveTextContent(/1 documentation cue plus an unresolved safety flag/i);
   });
 
   it('shows a quiet fallback message when no signal snapshot is available', () => {

@@ -6,6 +6,7 @@ export function PatientSafetyPanel({
   flag,
   onAddTask = () => {},
   onRequestContact = () => {},
+  heuristicCues = [],
   reviewSignals = [],
   signalSnapshot = null
 }) {
@@ -109,7 +110,12 @@ export function PatientSafetyPanel({
                   </button>
                 )}
               </div>
-              <ReviewCuesSection reviewSignals={reviewSignals} signalSnapshot={signalSnapshot} />
+              <ReviewCuesSection
+                flag={flag}
+                heuristicCues={heuristicCues}
+                reviewSignals={reviewSignals}
+                signalSnapshot={signalSnapshot}
+              />
               <SbarSummary patient={patient} />
             </>
           )}
@@ -161,10 +167,13 @@ export function PatientSafetyPanel({
   );
 }
 
-function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
+function ReviewCuesSection({ flag, heuristicCues, reviewSignals, signalSnapshot }) {
   const hasSignalSnapshot = Boolean(signalSnapshot);
   const signalProviderNote = formatPreviewSourceNote(signalSnapshot?.signalSourceMetadata, 'Signals');
   const suggestionProviderNote = formatPreviewSourceNote(signalSnapshot?.suggestionSourceMetadata, 'Risk suggestions');
+  const reviewSignalIndex = new Map(reviewSignals.map((signal) => [signal.id, signal]));
+  const heuristicDisplayCues = heuristicCues.map((cue) => buildHeuristicDisplayCue(cue, reviewSignalIndex, flag));
+  const displayCues = [...reviewSignals, ...heuristicDisplayCues];
 
   return (
     <section aria-labelledby="patient-review-cues-heading" className="review-cue-section">
@@ -176,11 +185,11 @@ function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
           {[signalProviderNote, suggestionProviderNote].filter(Boolean).join(' ')}
         </p>
       )}
-      {!hasSignalSnapshot ? (
+      {!hasSignalSnapshot && displayCues.length === 0 ? (
         <p>No signal snapshot available yet.</p>
-      ) : reviewSignals.length > 0 ? (
+      ) : displayCues.length > 0 ? (
         <ul className="review-cue-stack">
-          {reviewSignals.map((signal) => (
+          {displayCues.map((signal) => (
             <li key={signal.id}>
               <ReviewSignalCard signal={signal} />
             </li>
@@ -194,6 +203,8 @@ function ReviewCuesSection({ reviewSignals, signalSnapshot }) {
 }
 
 function ReviewSignalCard({ signal }) {
+  const showRationaleDisclosure = Boolean(signal.ruleId || signal.threshold);
+
   return (
     <article className={`integration-card review-cue-card review-cue-${signal.priority ?? 'review'}`}>
       <Siren aria-hidden="true" size={18} />
@@ -220,6 +231,20 @@ function ReviewSignalCard({ signal }) {
           </ul>
         )}
         <p>{signal.suggestedHumanReviewAction}</p>
+        {showRationaleDisclosure && (
+          <details className="review-cue-details">
+            <summary>Why flagged</summary>
+            <div className="review-cue-details-body">
+              {signal.ruleId && (
+                <p><span className="review-cue-detail-label">Rule</span> {signal.ruleId}</p>
+              )}
+              {signal.rationale && <p>{signal.rationale}</p>}
+              {signal.threshold && (
+                <p><span className="review-cue-detail-label">Threshold</span> {signal.threshold}</p>
+              )}
+            </div>
+          </details>
+        )}
       </div>
     </article>
   );
@@ -238,6 +263,7 @@ function formatSignalCategory(category) {
     handover: 'Handover',
     discharge: 'Discharge',
     learning: 'Learning',
+    heuristic: 'Heuristic',
     'simulation-fallback': 'Fallback'
   };
 
@@ -268,6 +294,42 @@ function formatPreviewSourceNote(metadata, label) {
   };
 
   return `${label}: ${metadata.source} (${providerLabels[metadata.provider] ?? 'simulation provider'}).`;
+}
+
+function buildHeuristicDisplayCue(cue, reviewSignalIndex, flag) {
+  return {
+    id: `heuristic-${cue.ruleId}`,
+    category: 'heuristic',
+    priority: cue.severity,
+    title: cue.cue,
+    explanation: 'Simulation-only cue from explicit rules. Human review required.',
+    evidence: cue.contributingSignals.map((signalId) => ({
+      id: signalId,
+      label: formatHeuristicContributor(signalId, reviewSignalIndex, flag)
+    })),
+    suggestedHumanReviewAction: 'Human review required: confirm the matching cues and document the outcome.',
+    simulationOnly: true,
+    humanReviewRequired: true,
+    unsafeClinicalAdvice: false,
+    ruleId: cue.ruleId,
+    rationale: cue.rationale,
+    threshold: cue.threshold,
+    contributingSignals: cue.contributingSignals
+  };
+}
+
+function formatHeuristicContributor(contributorId, reviewSignalIndex, flag) {
+  if (typeof contributorId !== 'string' || !contributorId.trim()) {
+    return 'Simulation cue';
+  }
+
+  if (contributorId.startsWith('flag:')) {
+    const level = contributorId.slice(5).trim();
+    return flag?.title ? `Safety flag: ${flag.title}` : `Safety flag: ${level || 'unknown'}`;
+  }
+
+  const signal = reviewSignalIndex.get(contributorId);
+  return signal?.title ?? signal?.explanation ?? contributorId;
 }
 
 function SbarSummary({ patient }) {

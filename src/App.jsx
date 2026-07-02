@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
 import { getSimulationReviewReportSnapshot } from './services/simulationReviewReportService.js';
 import { createSbarDraft } from './domain/draftProvider.js';
+import { buildHeuristicCues } from './domain/heuristicCueEngine.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
 import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
@@ -234,10 +235,14 @@ export default function App() {
     () => selectPatientSimulationSignals(state, selectedPatient?.id),
     [selectedPatient?.id, state]
   );
+  const potassiumFlag = useMemo(() => evaluatePotassiumSafetyGap(selectedPatient), [selectedPatient]);
+  const heuristicCues = useMemo(
+    () => buildHeuristicCues({ signals: reviewSignals, flag: potassiumFlag }),
+    [reviewSignals, potassiumFlag]
+  );
   const allTasks = selectAllTasks(state);
   const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
   const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges', 'potassium'].includes(state.selectedView);
-  const potassiumFlag = useMemo(() => evaluatePotassiumSafetyGap(selectedPatient), [selectedPatient]);
   const riskSupport = useMemo(() => {
     return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
   }, [selectedPatient, potassiumFlag]);
@@ -790,6 +795,7 @@ export default function App() {
               onAddTask={addTask}
               onRequestContact={requestContact}
               patient={selectedPatient}
+              heuristicCues={heuristicCues}
               reviewSignals={reviewSignals}
               signalSnapshot={state.signalSnapshots?.[selectedPatient.id] ?? null}
             />
