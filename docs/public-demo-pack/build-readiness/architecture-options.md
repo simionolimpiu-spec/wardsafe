@@ -1,5 +1,9 @@
 # SafeFlow Architecture Options
 
+> Readiness note: this document describes a mock/readiness direction only. It is for planning, review and shared vocabulary. It does not imply a live AWS deployment, does not wire AWS SDK calls into this repo, and does not depend on `SAFEFLOW_DEPLOYMENT_APPROVED`.
+
+Related control-board entry: `CONTROL.md` SF-104.
+
 ## Option A: Static Simulation Prototype
 
 Use now.
@@ -34,27 +38,50 @@ Recommended next target.
 Shape:
 
 - React frontend.
-- Backend API.
-- PostgreSQL database.
-- Authenticated users and roles.
-- Audit event service.
-- AI draft provider service.
-- Synthetic or de-identified data only at first.
+- Tokenised backend API that verifies bearer tokens from Cognito or another approved identity provider.
+- Role-based access control enforced server-side from token claims.
+- Step Functions orchestrates multi-step workflow actions such as draft request, review, save and export.
+- Aurora PostgreSQL stores workflow state, audit events, draft notes and relational workspace data.
+- A server-side `DraftProvider` interface can call a Bedrock/LLM layer for wording assistance and draft generation.
+- CloudWatch, KMS, Secrets Manager and S3 support logs, encryption, secrets and exports.
+- This is a readiness model only. No live AWS deployment or SDK wiring is included in the repo.
 
 Best for:
 
-- Ward simulation workshops.
+- Simulation workshops.
 - Safety-case development.
 - Product validation.
 - Procurement and partner conversations.
 
+Request flow:
+
+```mermaid
+flowchart LR
+  U[Reviewer or clinician] --> FE[SafeFlow frontend]
+  FE -->|Bearer token| API[Tokenised backend API]
+  API --> AUTH[Token verification and RBAC]
+  AUTH --> WF[Step Functions workflow orchestration]
+  WF --> DB[(Aurora PostgreSQL)]
+  WF --> LLM[Bedrock / LLM draft provider]
+  API --> AUDIT[Append-only audit logging]
+  AUDIT --> DB
+  API --> FE
+```
+
+Notes:
+
+- The audit path stays append-only and reviewable.
+- AI draft generation stays behind the server-side provider interface.
+- The diagram is a planning aid, not a deployment recipe.
+
 Key decisions:
 
 - Identity provider.
-- Cloud provider.
-- Data model.
+- Token format and claim mapping.
+- Exact workflow states.
 - Audit event schema.
-- AI provider boundary.
+- Whether the Bedrock layer is direct or wrapped by a provider service.
+- Retention and access controls for audit data.
 
 ## Option C: Integrated Clinical System
 
@@ -85,4 +112,4 @@ Risks:
 
 Move from A to B first. Do not jump directly from the static prototype to an integrated clinical system.
 
-The next meaningful milestone is a secure pilot application using synthetic or de-identified data, with authentication, persistence, audit logging and server-side AI boundaries.
+The next meaningful milestone is a documented, readiness-only AWS pilot shape using synthetic or de-identified data, with tokenised auth, RBAC, audit logging, Aurora persistence, Step Functions orchestration and a Bedrock/LLM draft provider behind a server-side interface.
