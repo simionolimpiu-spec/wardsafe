@@ -5,11 +5,15 @@ const CATEGORY_ORDER = {
   documentation: 0,
   'electrolyte-review': 1,
   'infection-review': 2,
-  escalation: 3,
-  handover: 4,
-  discharge: 5,
-  learning: 6,
-  'simulation-fallback': 7
+  'sepsis-screen': 3,
+  'falls-risk': 4,
+  'medication-timing': 5,
+  'deteriorating-obs': 6,
+  escalation: 7,
+  handover: 8,
+  discharge: 9,
+  learning: 10,
+  'simulation-fallback': 11
 };
 
 const PRIORITY_ORDER = {
@@ -40,6 +44,10 @@ export function buildSimulationSignals({
     buildDocumentationSignal({ patient: safePatient, signalIndex }),
     buildElectrolyteReviewSignal({ patient: safePatient, signalIndex, suggestions: riskSuggestions }),
     buildInfectionReviewSignal({ patient: safePatient, signalIndex, suggestions: riskSuggestions }),
+    buildSepsisScreenSignal({ patient: safePatient, signalIndex }),
+    buildFallsRiskSignal({ patient: safePatient, signalIndex }),
+    buildMedicationTimingSignal({ patient: safePatient, signalIndex }),
+    buildDeterioratingObsSignal({ patient: safePatient, signalIndex }),
     buildEscalationSignal({ patient: safePatient, signalIndex, suggestions: riskSuggestions }),
     buildHandoverSignal({ patient: safePatient }),
     buildDischargeSignal({ patient: safePatient }),
@@ -201,6 +209,94 @@ function buildInfectionReviewSignal({ patient, signalIndex, suggestions }) {
     evidence,
     suggestedHumanReviewAction: 'Human review required: confirm the visible escalation context and update the handover or documentation summary.',
     freshness: freshnessFromSignals([news2Signal, urineCultureSignal]),
+    missingDataNotes: []
+  });
+}
+
+function buildSepsisScreenSignal({ patient, signalIndex }) {
+  const sepsisScreenSignal = signalIndex.sepsisScreen;
+  if (!sepsisScreenSignal) {
+    return null;
+  }
+
+  return createSignal({
+    patientId: safePatientId(patient),
+    category: 'sepsis-screen',
+    priority: 'review',
+    title: 'Review suggested: sepsis-screen cue',
+    explanation: joinSentences([
+      'Simulation-only cue highlighting sepsis-screen evidence to check.',
+      'A sepsis-screen signal is visible in the fictional workflow.'
+    ]),
+    evidence: [signalEvidence(sepsisScreenSignal)],
+    suggestedHumanReviewAction: 'Human review required: confirm the visible sepsis-screen status and document the outcome.',
+    freshness: freshnessFromSignals([sepsisScreenSignal]),
+    missingDataNotes: []
+  });
+}
+
+function buildFallsRiskSignal({ patient, signalIndex }) {
+  const fallsRiskSignal = signalIndex.fallsRisk;
+  if (!fallsRiskSignal) {
+    return null;
+  }
+
+  return createSignal({
+    patientId: safePatientId(patient),
+    category: 'falls-risk',
+    priority: 'watch',
+    title: 'Review suggested: falls-risk cue',
+    explanation: joinSentences([
+      'Simulation-only cue highlighting falls-risk evidence to check.',
+      'A falls-risk signal is visible in the fictional workflow.'
+    ]),
+    evidence: [signalEvidence(fallsRiskSignal)],
+    suggestedHumanReviewAction: 'Human review required: confirm the visible falls-risk context and document the outcome.',
+    freshness: freshnessFromSignals([fallsRiskSignal]),
+    missingDataNotes: []
+  });
+}
+
+function buildMedicationTimingSignal({ patient, signalIndex }) {
+  const medicationTimingSignal = signalIndex.medicationTiming;
+  if (!medicationTimingSignal) {
+    return null;
+  }
+
+  return createSignal({
+    patientId: safePatientId(patient),
+    category: 'medication-timing',
+    priority: 'review',
+    title: 'Review suggested: medication-timing cue',
+    explanation: joinSentences([
+      'Simulation-only cue highlighting medication-timing evidence to check.',
+      'A medication-timing signal is visible in the fictional workflow.'
+    ]),
+    evidence: [signalEvidence(medicationTimingSignal)],
+    suggestedHumanReviewAction: 'Human review required: confirm the visible medication timing and document the outcome.',
+    freshness: freshnessFromSignals([medicationTimingSignal]),
+    missingDataNotes: []
+  });
+}
+
+function buildDeterioratingObsSignal({ patient, signalIndex }) {
+  const deterioratingObsSignal = signalIndex.deterioratingObs;
+  if (!deterioratingObsSignal) {
+    return null;
+  }
+
+  return createSignal({
+    patientId: safePatientId(patient),
+    category: 'deteriorating-obs',
+    priority: 'blocker',
+    title: 'Review suggested: deteriorating observations cue',
+    explanation: joinSentences([
+      'Simulation-only cue highlighting deteriorating observations to check.',
+      'A worsening observation trend is visible in the fictional workflow.'
+    ]),
+    evidence: [signalEvidence(deterioratingObsSignal)],
+    suggestedHumanReviewAction: 'Human review required: confirm the visible observation trend and document the next review step.',
+    freshness: freshnessFromSignals([deterioratingObsSignal]),
     missingDataNotes: []
   });
 }
@@ -453,11 +549,31 @@ function indexSignals(signals) {
     magnesiumMissing: findLatestSignal(signals, (signal) => isSignalCode(signal, 'magnesium') && isMissingSignal(signal)),
     news2: findLatestSignal(signals, (signal) => isSignalCode(signal, 'news2')),
     planGap: findLatestSignal(signals, (signal) => isSignalCode(signal, 'electrolyte_plan_gap') || /unclear/i.test(String(signal.value ?? ''))),
-    urineCulture: findLatestSignal(signals, (signal) => isSignalCode(signal, 'urine_culture'))
+    urineCulture: findLatestSignal(signals, (signal) => isSignalCode(signal, 'urine_culture')),
+    sepsisScreen: findLatestSignal(signals, (signal) => isSignalCode(signal, 'sepsis_screen')),
+    fallsRisk: findLatestSignal(signals, (signal) => isSignalCode(signal, 'falls_risk')),
+    medicationTiming: findLatestSignal(signals, (signal) => isSignalCode(signal, 'medication_timing')),
+    deterioratingObs: findLatestSignal(signals, (signal) => isSignalCode(signal, 'deteriorating_obs'))
   };
 }
 
 function pickScenario({ patient, signalIndex }) {
+  if (signalIndex.deterioratingObs) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-surgical-postop-deterioration') ?? null;
+  }
+
+  if (signalIndex.sepsisScreen) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-paediatric-sepsis-screen') ?? null;
+  }
+
+  if (signalIndex.fallsRisk) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-community-falls-risk') ?? null;
+  }
+
+  if (signalIndex.medicationTiming) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-community-medication-timing') ?? null;
+  }
+
   if (signalIndex.potassium || signalIndex.magnesiumMissing || signalIndex.planGap) {
     return discoveryScenarios.find((scenario) => scenario.id === 'scenario-electrolyte-aki') ?? null;
   }

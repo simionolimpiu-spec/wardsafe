@@ -83,6 +83,98 @@ const suggestions = [
   }
 ];
 
+const cueTimelineSignals = [
+  {
+    signalId: 'signal-ward-001-sepsis-screen-0905',
+    syntheticPatientRef: 'WARD-001',
+    sourceSystem: 'simulation-workflow',
+    sourceType: 'workflow',
+    signalCode: 'sepsis_screen',
+    displayName: 'Sepsis screen',
+    value: 'overdue',
+    status: 'final',
+    effectiveAt: '2026-06-10T09:05:00.000Z',
+    sourceFreshness: 'current',
+    simulationOnly: true
+  },
+  {
+    signalId: 'signal-ward-001-falls-risk-0910',
+    syntheticPatientRef: 'WARD-001',
+    sourceSystem: 'simulation-workflow',
+    sourceType: 'workflow',
+    signalCode: 'falls_risk',
+    displayName: 'Falls assessment',
+    value: 'overdue',
+    status: 'final',
+    effectiveAt: '2026-06-10T09:10:00.000Z',
+    sourceFreshness: 'current',
+    simulationOnly: true
+  },
+  {
+    signalId: 'signal-ward-001-medication-timing-0915',
+    syntheticPatientRef: 'WARD-001',
+    sourceSystem: 'simulation-workflow',
+    sourceType: 'workflow',
+    signalCode: 'medication_timing',
+    displayName: 'Medication timing',
+    value: 'late',
+    status: 'final',
+    effectiveAt: '2026-06-10T09:15:00.000Z',
+    sourceFreshness: 'current',
+    simulationOnly: true
+  },
+  {
+    signalId: 'signal-ward-001-deteriorating-obs-0920',
+    syntheticPatientRef: 'WARD-001',
+    sourceSystem: 'simulation-observations',
+    sourceType: 'observation',
+    signalCode: 'deteriorating_obs',
+    displayName: 'Observation trend',
+    value: 'worsening',
+    status: 'final',
+    effectiveAt: '2026-06-10T09:20:00.000Z',
+    sourceFreshness: 'current',
+    simulationOnly: true
+  }
+];
+
+const cuePatient = {
+  id: 'WARD-001',
+  name: 'Patient WARD-001',
+  age: 67,
+  risk: 'Medium',
+  riskFlags: ['Post-op review'],
+  news2: 2,
+  responsibleNurse: 'Leanne Mitchell',
+  nextAction: 'Document the review',
+  escalation: 'None',
+  handoverComplete: 100,
+  dischargeReady: true,
+  medicines: ['Paracetamol 1g QDS'],
+  symptoms: ['Mild pain'],
+  allergies: [],
+  baseline: ['Post-operative surgical review'],
+  currentState: ['Sepsis screen overdue', 'Falls assessment overdue', 'Medication timing overdue', 'Observation trend worsening'],
+  trajectory: ['Observation trend worsening'],
+  uncertainty: [],
+  responseHistory: ['09:00 observations recorded'],
+  labs: {
+    potassium: [{ time: '07:00', value: 4.1 }],
+    magnesium: [{ time: '07:00', value: 0.86 }],
+    creatinine: [{ time: '07:00', value: 72 }]
+  },
+  plan: 'Post-op review documented.',
+  sbar: {
+    situation: 'Post-op review open for the simulated surgical patient.',
+    background: 'Recent surgery and current review open.',
+    assessment: 'Observation trend is worsening in the simulation record.',
+    recommendation: 'Document the current review and confirm the next step.'
+  },
+  tasks: [],
+  auditTrail: ['Post-op review opened.'],
+  dischargeBlockers: []
+};
+
 const readyPatient = {
   id: 'DCU-099',
   name: 'Patient 099',
@@ -213,6 +305,64 @@ describe('buildSimulationSignals', () => {
     expect(derivedSignals.every((signal) => signal.humanReviewRequired === true)).toBe(true);
     expect(derivedSignals.every((signal) => /human review required/i.test(signal.suggestedHumanReviewAction))).toBe(true);
     expect(derivedSignals.every((signal) => signal.simulationOnly === true)).toBe(true);
+  });
+
+  it('builds the new sepsis, falls, medication timing and deteriorating observation cues', () => {
+    const derivedSignals = buildSimulationSignals({
+      patient: clone(cuePatient),
+      signals: clone(cueTimelineSignals),
+      suggestions: []
+    });
+
+    expect(derivedSignals.map((signal) => signal.category)).toEqual([
+      'sepsis-screen',
+      'falls-risk',
+      'medication-timing',
+      'deteriorating-obs',
+      'learning'
+    ]);
+
+    const sepsisScreenSignal = derivedSignals.find((signal) => signal.category === 'sepsis-screen');
+    const fallsRiskSignal = derivedSignals.find((signal) => signal.category === 'falls-risk');
+    const medicationTimingSignal = derivedSignals.find((signal) => signal.category === 'medication-timing');
+    const deterioratingObsSignal = derivedSignals.find((signal) => signal.category === 'deteriorating-obs');
+    const learningSignal = derivedSignals.find((signal) => signal.category === 'learning');
+
+    expect(sepsisScreenSignal).toMatchObject({
+      title: 'Review suggested: sepsis-screen cue',
+      priority: 'review',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      unsafeClinicalAdvice: false
+    });
+    expect(sepsisScreenSignal.evidence).toEqual([
+      expect.objectContaining({ label: 'Sepsis screen overdue final at 09:05' })
+    ]);
+
+    expect(fallsRiskSignal).toMatchObject({
+      title: 'Review suggested: falls-risk cue',
+      priority: 'watch',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      unsafeClinicalAdvice: false
+    });
+
+    expect(medicationTimingSignal).toMatchObject({
+      title: 'Review suggested: medication-timing cue',
+      priority: 'review',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      unsafeClinicalAdvice: false
+    });
+
+    expect(deterioratingObsSignal).toMatchObject({
+      title: 'Review suggested: deteriorating observations cue',
+      priority: 'blocker',
+      simulationOnly: true,
+      humanReviewRequired: true,
+      unsafeClinicalAdvice: false
+    });
+    expect(learningSignal?.title).toContain('Surgical post-op deterioration review');
   });
 
   it('blocks diagnosis, prescribing and autonomous wording in cue text', () => {

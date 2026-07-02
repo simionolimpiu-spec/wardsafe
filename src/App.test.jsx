@@ -55,6 +55,10 @@ describe('SafeFlow prototype', () => {
     expect(selector).toBeInTheDocument();
     expect(selector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
     expect(within(selector).getByRole('option', { name: /day care treatment pathway review/i })).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: /surgical post-op deterioration review/i })).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: /paediatric sepsis-screen review/i })).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: /community frailty falls-risk review/i })).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: /community medication-timing review/i })).toBeInTheDocument();
   });
 
   it('enables and disables presentation mode with simulation-only flow cues', async () => {
@@ -526,6 +530,10 @@ describe('SafeFlow prototype', () => {
     expect(within(scenarioRegion).getByText(/Electrolyte \/ AKI documentation gap/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Sepsis escalation handover/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Discharge readiness blocker/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Surgical post-op deterioration review/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Paediatric sepsis-screen review/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Community frailty falls-risk review/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Community medication-timing review/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Initial hazard controls/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/No live patient data/i)).toBeInTheDocument();
 

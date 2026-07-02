@@ -37,6 +37,58 @@ export const discoveryScenarios = [
     ],
     evidenceExpected: ['Discharge checklist', 'Outstanding task', 'Responsible nurse', 'Education status'],
     hazards: ['Readiness label too vague', 'Operational blocker mistaken for clinical advice', 'Completed tasks not auditable']
+  },
+  {
+    id: 'scenario-surgical-postop-deterioration',
+    title: 'Surgical post-op deterioration review',
+    wardContext: 'Post-operative surgical patient with a deteriorating observations cue and a medication-timing note still open.',
+    reviewPrompt: 'Can the surgical team see the observation trend, the medication timing note and the documentation gap without turning it into treatment advice?',
+    successSignals: [
+      'The deteriorating observations cue is visible at a glance',
+      'Medication timing is explicit but non-prescriptive',
+      'Human review wording stays clear and editable'
+    ],
+    evidenceExpected: ['Observation trend', 'Medication timing', 'Post-op review', 'Open task'],
+    hazards: ['Treatment advice language creeping in', 'Observation trend hidden inside the narrative', 'Ownership of the review is unclear']
+  },
+  {
+    id: 'scenario-paediatric-sepsis-screen',
+    title: 'Paediatric sepsis-screen review',
+    wardContext: 'Paediatric ward patient with a sepsis-screen cue, a family update note and a medication timing check still open.',
+    reviewPrompt: 'Can the reviewer spot the sepsis-screen cue and the missing documentation while keeping the wording simulation-only?',
+    successSignals: [
+      'The sepsis-screen cue is explicit',
+      'Medication timing is visible without implying prescribing',
+      'Family communication remains a documentation task'
+    ],
+    evidenceExpected: ['Sepsis screen', 'Medication timing', 'Observation trend', 'Family update'],
+    hazards: ['Diagnosis wording', 'Overstated urgency', 'Missing human-review framing']
+  },
+  {
+    id: 'scenario-community-falls-risk',
+    title: 'Community frailty falls-risk review',
+    wardContext: 'Community frailty follow-up with an overdue falls assessment and mobility support note that still needs review.',
+    reviewPrompt: 'Can the team see the falls-risk cue, the mobility context and the open task without blending it into clinical advice?',
+    successSignals: [
+      'The falls-risk cue is visible on the card',
+      'Mobility support context is easy to find',
+      'The review language stays operational and human-led'
+    ],
+    evidenceExpected: ['Falls assessment', 'Mobility support', 'Home visit note', 'Open task'],
+    hazards: ['Falls risk hidden in narrative text', 'Operational steps mixed with advice', 'Review ownership is not obvious']
+  },
+  {
+    id: 'scenario-community-medication-timing',
+    title: 'Community medication-timing review',
+    wardContext: 'Community follow-up with a medication-timing cue and a reconciliation note that is not yet complete.',
+    reviewPrompt: 'Can the reviewer see the timing issue, the medicines context and the documentation gap without drifting into prescribing language?',
+    successSignals: [
+      'Medication timing cue is visible',
+      'Medicines context stays explicit',
+      'Human review wording remains intact'
+    ],
+    evidenceExpected: ['Medication timing', 'Medicines list', 'Open task', 'Documentation gap'],
+    hazards: ['Prescribing language appears', 'Timing issue hidden in the note', 'Ownership of the follow-up is unclear']
   }
 ];
 

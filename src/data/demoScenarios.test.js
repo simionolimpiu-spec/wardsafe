@@ -24,6 +24,22 @@ describe('demo scenarios', () => {
       expect.objectContaining({
         id: 'day-care-treatment-pathway',
         label: 'Day Care treatment pathway review'
+      }),
+      expect.objectContaining({
+        id: 'surgical-postop-deterioration-review',
+        label: 'Surgical post-op deterioration review'
+      }),
+      expect.objectContaining({
+        id: 'paediatric-sepsis-screen-review',
+        label: 'Paediatric sepsis-screen review'
+      }),
+      expect.objectContaining({
+        id: 'community-falls-risk-review',
+        label: 'Community frailty falls-risk review'
+      }),
+      expect.objectContaining({
+        id: 'community-medication-timing-review',
+        label: 'Community medication-timing review'
       })
     ]);
   });
@@ -37,5 +53,13 @@ describe('demo scenarios', () => {
       currentWardName: 'Acute Medical Unit'
     });
     expect(getDemoScenarioById('amu-discharge-readiness-review')).toEqual(scenario);
+
+    const surgicalScenario = getDemoScenarioById('surgical-postop-deterioration-review');
+    expect(surgicalScenario).toMatchObject({
+      id: 'surgical-postop-deterioration-review',
+      selectedPatientId: 'DCU-028',
+      currentWardName: 'Surgical Ward'
+    });
+    expect(getDemoScenarioById('surgical-postop-deterioration-review')).toEqual(surgicalScenario);
   });
 });

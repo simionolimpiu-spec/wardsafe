@@ -90,6 +90,18 @@ describe('simulationReducer', () => {
     expect(selectPatient(selected).id).toBe('DCU-044');
   });
 
+  it('loads a new ward scenario with the expected ward name and selected patient', () => {
+    const selected = reduce({
+      type: 'scenario/selected',
+      payload: { scenarioId: 'paediatric-sepsis-screen-review' }
+    });
+
+    expect(selected.selectedScenarioId).toBe('paediatric-sepsis-screen-review');
+    expect(selected.currentWardName).toBe('Paediatric Ward');
+    expect(selected.selectedPatientId).toBe('DCU-031');
+    expect(selectPatient(selected).id).toBe('DCU-031');
+  });
+
   it('adds and completes a task with audit labels', () => {
     const added = reduce({
       type: 'task/added',
