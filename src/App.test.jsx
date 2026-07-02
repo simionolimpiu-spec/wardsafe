@@ -49,6 +49,7 @@ describe('SafeFlow prototype', () => {
 
     const selector = screen.getByRole('combobox', { name: /demo scenario/i });
     expect(selector).toBeInTheDocument();
+    expect(selector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
     expect(within(selector).getByRole('option', { name: /day care treatment pathway review/i })).toBeInTheDocument();
   });
 
@@ -153,6 +154,35 @@ describe('SafeFlow prototype', () => {
     await user.click(within(report).getByRole('button', { name: /close report/i }));
 
     expect(screen.queryByRole('dialog', { name: /safeFlow simulation review report/i })).not.toBeInTheDocument();
+  });
+
+  it('traps focus inside the simulation review report and restores it on Escape', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const trigger = screen.getByRole('button', { name: /review report/i });
+    await user.click(trigger);
+
+    const report = screen.getByRole('dialog', { name: /safeFlow simulation review report/i });
+    const closeButton = within(report).getByRole('button', { name: /close report/i });
+    const copyButton = within(report).getByRole('button', { name: /copy report/i });
+    const printButton = within(report).getByRole('button', { name: /print report/i });
+
+    expect(closeButton).toHaveFocus();
+
+    await user.tab();
+    expect(copyButton).toHaveFocus();
+
+    await user.tab();
+    expect(printButton).toHaveFocus();
+
+    await user.tab();
+    expect(closeButton).toHaveFocus();
+
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByRole('dialog', { name: /safeFlow simulation review report/i })).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
   });
 
   it('copies and prints the simulation review report export', async () => {
@@ -595,7 +625,7 @@ describe('SafeFlow prototype', () => {
 
     expect(screen.getByText('Confirm fictional transport')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Mark Confirm fictional transport Done' }));
-    expect(screen.getByRole('status')).toHaveTextContent(/Task marked Done/i);
+    expect(screen.getByText(/^Task marked Done$/i)).toBeInTheDocument();
   });
 
   it('mirrors completed tasks to the server-side simulation audit boundary', async () => {
@@ -619,7 +649,7 @@ describe('SafeFlow prototype', () => {
     await user.click(within(nav).getByRole('button', { name: /tasks/i }));
     await user.click(screen.getByRole('button', { name: 'Mark Medical review Done' }));
 
-    expect(screen.getByRole('status')).toHaveTextContent(/Task marked Done/i);
+    expect(screen.getByText(/Task marked Done/i)).toBeInTheDocument();
     expect(await screen.findByText(/Server audit mirrored to local-audit-fixture/i)).toBeInTheDocument();
     expect(fetch).toHaveBeenCalledWith('/api/simulation/audit-events', expect.objectContaining({
       method: 'POST',
@@ -680,9 +710,27 @@ describe('SafeFlow prototype', () => {
     await user.click(within(nav).getByRole('button', { name: 'Settings' }));
     expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Reset simulation' }));
-    expect(screen.getByRole('dialog', { name: 'Reset simulation' })).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: 'Reset simulation' })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Confirm reset' }));
     expect(screen.getByRole('status')).toHaveTextContent(/Simulation reset/i);
+  });
+
+  it('restores focus when the reset dialog is dismissed with Escape', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+
+    await user.click(within(nav).getByRole('button', { name: 'Settings' }));
+    const resetButton = screen.getByRole('button', { name: 'Reset simulation' });
+    await user.click(resetButton);
+
+    const dialog = await screen.findByRole('dialog', { name: 'Reset simulation' });
+    expect(within(dialog).getByRole('button', { name: 'Cancel' })).toHaveFocus();
+
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByRole('dialog', { name: 'Reset simulation' })).not.toBeInTheDocument();
+    expect(resetButton).toHaveFocus();
   });
 
   it('checks the backend workspace source from settings', async () => {
@@ -797,7 +845,7 @@ describe('SafeFlow prototype', () => {
     render(<App />);
 
     await user.click(screen.getByRole('button', { name: 'Call team' }));
-    expect(screen.getByRole('dialog', { name: /Record simulated team contact/i })).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /Record simulated team contact/i })).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /call/i })).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Record contact' }));
 

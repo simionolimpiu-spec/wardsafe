@@ -14,7 +14,17 @@ export function ReportsView({ patients, auditEvents, onExportWard }) {
       </header>
       <p>Exports contain fictional identifiers only and do not represent clinical records.</p>
       <div className="segmented-control" aria-label="Report type">
-        {['ward', 'handover', 'audit'].map((item) => <button aria-pressed={report === item} className={report === item ? 'active' : ''} key={item} onClick={() => setReport(item)} type="button">{item[0].toUpperCase() + item.slice(1)}</button>)}
+        {['ward', 'handover', 'audit'].map((item) => (
+          <button
+            aria-pressed={report === item}
+            className={report === item ? 'active' : ''}
+            key={item}
+            onClick={() => setReport(item)}
+            type="button"
+          >
+            {item[0].toUpperCase() + item.slice(1)}
+          </button>
+        ))}
       </div>
       <div className="report-summary">
         <FileBarChart aria-hidden="true" size={24} />

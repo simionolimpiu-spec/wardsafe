@@ -1,5 +1,5 @@
 import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export function PatientSafetyPanel({
   patient,
@@ -10,13 +10,47 @@ export function PatientSafetyPanel({
   signalSnapshot = null
 }) {
   const [activeTab, setActiveTab] = useState('overview');
+  const tabRefs = useRef([]);
   const tabs = [
-    ['overview', 'Safety Overview'],
-    ['sbar', 'SBAR'],
-    ['tasks', `Tasks ${patient.tasks.length}`],
-    ['audit', 'Audit Trail']
+    { id: 'overview', label: 'Safety Overview' },
+    { id: 'sbar', label: 'SBAR' },
+    { id: 'tasks', label: `Tasks ${patient.tasks.length}` },
+    { id: 'audit', label: 'Audit Trail' }
   ];
   const auditTrail = patient.auditTrail?.length ? patient.auditTrail : patient.responseHistory;
+
+  function focusTab(index) {
+    const nextTab = tabs[index];
+    if (!nextTab) {
+      return;
+    }
+
+    setActiveTab(nextTab.id);
+    tabRefs.current[index]?.focus();
+  }
+
+  function handleTabKeyDown(event, index) {
+    if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (event.key === 'Home') {
+      focusTab(0);
+      return;
+    }
+
+    if (event.key === 'End') {
+      focusTab(tabs.length - 1);
+      return;
+    }
+
+    const nextIndex = event.key === 'ArrowRight'
+      ? (index + 1) % tabs.length
+      : (index - 1 + tabs.length) % tabs.length;
+    focusTab(nextIndex);
+  }
 
   return (
     <aside className="patient-panel" aria-label="Patient safety panel">
@@ -28,14 +62,21 @@ export function PatientSafetyPanel({
         <span className={`risk risk-${patient.risk.toLowerCase()}`}>{patient.risk} risk</span>
       </div>
 
-      <div className="panel-tabs" role="tablist" aria-label="Patient detail tabs">
-        {tabs.map(([id, label]) => (
+      <div className="panel-tabs" aria-label="Patient detail tabs" role="tablist">
+        {tabs.map(({ id, label }, index) => (
           <button
+            aria-controls={`${id}-panel`}
             aria-selected={activeTab === id}
             className={activeTab === id ? 'active' : ''}
+            id={`${id}-tab`}
             key={id}
             onClick={() => setActiveTab(id)}
+            onKeyDown={(event) => handleTabKeyDown(event, index)}
+            ref={(node) => {
+              tabRefs.current[index] = node;
+            }}
             role="tab"
+            tabIndex={activeTab === id ? 0 : -1}
             type="button"
           >
             {label}
@@ -43,33 +84,71 @@ export function PatientSafetyPanel({
         ))}
       </div>
 
-      {activeTab === 'overview' && (
-        <>
-          <div className="alert-list">
-            {patient.allergies.length > 0 && <p>Allergy: {patient.allergies.join(', ')}</p>}
-            {flag.level !== 'none' && <p>{flag.title}</p>}
-            <p>{patient.escalation === 'Active' ? 'Escalation active - medical team informed' : 'No active escalation'}</p>
-            {patient.escalation === 'Active' && (
-              <button className="call-button" onClick={() => onRequestContact(patient)} type="button"><Phone aria-hidden="true" size={16} /> Call team</button>
-            )}
-          </div>
-          <ReviewCuesSection reviewSignals={reviewSignals} signalSnapshot={signalSnapshot} />
-          <SbarSummary patient={patient} />
-        </>
-      )}
+      <div className="panel-tabpanels">
+        <div
+          aria-labelledby="overview-tab"
+          hidden={activeTab !== 'overview'}
+          id="overview-panel"
+          role="tabpanel"
+        >
+          {activeTab === 'overview' && (
+            <>
+              <div className="alert-list">
+                {patient.allergies.length > 0 && <p>Allergy: {patient.allergies.join(', ')}</p>}
+                {flag.level !== 'none' && <p>{flag.title}</p>}
+                <p>{patient.escalation === 'Active' ? 'Escalation active - medical team informed' : 'No active escalation'}</p>
+                {patient.escalation === 'Active' && (
+                  <button
+                    aria-haspopup="dialog"
+                    className="call-button"
+                    onClick={() => onRequestContact(patient)}
+                    type="button"
+                  >
+                    <Phone aria-hidden="true" size={16} />
+                    Call team
+                  </button>
+                )}
+              </div>
+              <ReviewCuesSection reviewSignals={reviewSignals} signalSnapshot={signalSnapshot} />
+              <SbarSummary patient={patient} />
+            </>
+          )}
+        </div>
 
-      {activeTab === 'sbar' && <SbarSummary patient={patient} />}
+        <div
+          aria-labelledby="sbar-tab"
+          hidden={activeTab !== 'sbar'}
+          id="sbar-panel"
+          role="tabpanel"
+        >
+          {activeTab === 'sbar' && <SbarSummary patient={patient} />}
+        </div>
 
-      {activeTab === 'tasks' && <TaskList onAddTask={onAddTask} patient={patient} />}
+        <div
+          aria-labelledby="tasks-tab"
+          hidden={activeTab !== 'tasks'}
+          id="tasks-panel"
+          role="tabpanel"
+        >
+          {activeTab === 'tasks' && <TaskList onAddTask={onAddTask} patient={patient} />}
+        </div>
 
-      {activeTab === 'audit' && (
-        <section>
-          <h3>Audit Trail</h3>
-          <ul className="audit-preview">
-            {auditTrail.map((item) => <li key={item}>{item}</li>)}
-          </ul>
-        </section>
-      )}
+        <div
+          aria-labelledby="audit-tab"
+          hidden={activeTab !== 'audit'}
+          id="audit-panel"
+          role="tabpanel"
+        >
+          {activeTab === 'audit' && (
+            <section>
+              <h3>Audit Trail</h3>
+              <ul className="audit-preview">
+                {auditTrail.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            </section>
+          )}
+        </div>
+      </div>
 
       <div className="integration-card integration-card--muted">
         <CloudCog aria-hidden="true" size={22} />

@@ -786,7 +786,7 @@ export default function App() {
           snapshot={simulationReviewReport}
         />
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
-        {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
+        {serverAuditStatus && <p className="backend-note" role="status">{serverAuditStatus}</p>}
       </div>
       {dialog?.type === 'reset' && (
         <SimulationDialog confirmLabel="Confirm reset" onClose={() => setDialog(null)} onConfirm={confirmReset} title="Reset simulation">

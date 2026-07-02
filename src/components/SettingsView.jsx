@@ -27,7 +27,7 @@ export function SettingsView({
       </form>
       <div className="danger-zone">
         <div><strong>Reset simulation</strong><p>Restore the committed fictional patients, tasks, escalations and audit seed.</p></div>
-        <button className="secondary-action" onClick={onRequestReset} type="button"><RotateCcw aria-hidden="true" size={16} /> Reset simulation</button>
+        <button aria-haspopup="dialog" className="secondary-action" onClick={onRequestReset} type="button"><RotateCcw aria-hidden="true" size={16} /> Reset simulation</button>
       </div>
       <div className="integration-check">
         <div><strong>Backend workspace source</strong><p>Check the server-side simulation contract without replacing browser-local edits.</p></div>

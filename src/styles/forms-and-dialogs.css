@@ -24,6 +24,12 @@
   transform: translateY(0);
 }
 
+:where(.primary-action, .secondary-action, .icon-action, .segmented-control button, .patient-switcher button):focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
 textarea {
   background: #fff;
   border: 1px solid #b5cce8;
@@ -37,6 +43,11 @@ textarea {
 
 textarea:hover {
   border-color: rgba(0, 94, 184, 0.28);
+}
+
+:where(input, textarea, select):focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
 }
 
 .primary-action {
@@ -414,7 +425,14 @@ textarea:hover {
 .icon-action:focus-visible,
 .segmented-control button:focus-visible,
 .patient-switcher button:focus-visible {
-  box-shadow: 0 0 0 3px rgba(0, 94, 184, 0.12);
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-backdrop,
+  .simulation-dialog {
+    animation: none;
+  }
 }
 
 .compact-mode .operational-view,

@@ -1,12 +1,14 @@
 import { ChevronRight, FileText, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { buildSimulationReviewReportExportText } from '../services/simulationReviewReportService.js';
+import { useModalFocusTrap } from './useModalFocusTrap.js';
 
 const DRAWER_TRANSITION_MS = 220;
 
 export function SimulationReviewReportButton({ isOpen = false, onClick = () => {} }) {
   return (
     <button
+      aria-haspopup="dialog"
       aria-controls="simulation-review-report-dialog"
       aria-expanded={isOpen}
       className="secondary-action simulation-review-report-trigger"
@@ -22,10 +24,19 @@ export function SimulationReviewReportButton({ isOpen = false, onClick = () => {
 export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {}, snapshot }) {
   const [isRendered, setIsRendered] = useState(Boolean(isOpen && snapshot));
   const [isVisible, setIsVisible] = useState(false);
+  const drawerRef = useRef(null);
+  const closeButtonRef = useRef(null);
   const shouldAnimate =
     typeof window !== 'undefined' &&
     import.meta.env.MODE !== 'test' &&
     !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  useModalFocusTrap({
+    active: isRendered,
+    containerRef: drawerRef,
+    initialFocusRef: closeButtonRef,
+    onEscape: onClose
+  });
 
   async function handleCopyReport() {
     const exportText = buildSimulationReviewReportExportText(snapshot);
@@ -68,30 +79,6 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
     return () => window.clearTimeout(timeout);
   }, [isOpen, shouldAnimate, snapshot]);
 
-  useEffect(() => {
-    if (!isRendered) {
-      return undefined;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    const previousFocus = document.activeElement;
-    document.body.style.overflow = 'hidden';
-
-    function handleKeyDown(event) {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-      previousFocus?.focus?.();
-    };
-  }, [isRendered, onClose]);
-
   if (!isRendered || !snapshot) {
     return null;
   }
@@ -104,6 +91,8 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
         aria-modal="true"
         className={`review-report-drawer ${isVisible ? 'is-visible' : ''}`}
         id="simulation-review-report-dialog"
+        ref={drawerRef}
+        tabIndex={-1}
         role="dialog"
       >
         <header className="review-report-header">
@@ -131,7 +120,7 @@ export function SimulationReviewReportDrawer({ isOpen = false, onClose = () => {
             <button className="secondary-action review-report-print-trigger" onClick={handlePrintReport} type="button">
               Print report
             </button>
-            <button aria-label="Close report" className="icon-action" onClick={onClose} type="button">
+            <button ref={closeButtonRef} aria-label="Close report" className="icon-action" onClick={onClose} type="button">
               <X aria-hidden="true" size={18} />
             </button>
           </div>
