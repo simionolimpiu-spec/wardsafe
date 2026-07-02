@@ -5,17 +5,19 @@ export function DemoScenarioSelector({
   options = [],
   value = ''
 }) {
+  const descriptionId = `${id}-description`;
+
   return (
     <label className="demo-scenario-control" htmlFor={id}>
       <span>Demo scenario</span>
-      <select id={id} onChange={(event) => onChange(event.target.value)} value={value}>
+      <select aria-describedby={descriptionId} id={id} onChange={(event) => onChange(event.target.value)} value={value}>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.label}
           </option>
         ))}
       </select>
-      <small>{description || 'Simulation data only. Fictional patient and ward context.'}</small>
+      <small id={descriptionId}>{description || 'Simulation data only. Fictional patient and ward context.'}</small>
     </label>
   );
 }

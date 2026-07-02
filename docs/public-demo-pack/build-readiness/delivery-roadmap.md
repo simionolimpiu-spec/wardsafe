@@ -1,6 +1,6 @@
 # SafeFlow Delivery Roadmap
 
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 ## Completed Prototype Work
 
@@ -44,7 +44,7 @@ Acceptance criteria:
   `createConfiguredSignalProvider`/`createConfiguredSuggestionProvider` used by `server/api.js` did
   not check `SAFEFLOW_ENVIRONMENT` at all before this fix.
 
-## In Progress (as of 1 July 2026)
+## In Progress (as of 2 July 2026)
 
 - Status: Blocked - Patient Journey Twin timeline view, importing the real `scoreSimulatedTrend()`
   now that PR #9 is merged (SF-102). Branch `feature/patient-journey-twin`, opened as PR #14. A
@@ -56,10 +56,9 @@ Acceptance criteria:
   is left open and untouched on GitHub; it should not be merged as-is. See `CONTROL.md` (SF-102) for
   the full finding. Recommended: re-do as a small, fresh branch off current
   `codex/safeflow-prototype` with just the new Twin component(s) and the intended wiring.
-- Status: Queued - WCAG AA accessibility pass (focus states, contrast, ARIA, keyboard nav), branch
-  `feature/accessibility-pass`. Now unblocked on the content-views-refresh side (PR #13 merged);
-  still waiting on the Patient Journey Twin rescoping above before starting, per the original
-  sequencing.
+## Ready for Review (as of 2 July 2026)
+
+- Status: Ready for review - WCAG AA accessibility pass (focus states, contrast, ARIA, keyboard nav), branch `feature/accessibility-pass`, PR [#17](https://github.com/simionolimpiu-spec/wardsafe/pull/17). Key files: `src/styles/tokens.css`, `src/styles/shell.css`, `src/styles/forms-and-dialogs.css`, `src/styles/panel.css`, `src/styles/board.css`, `src/components/useModalFocusTrap.js`, `src/components/PatientSafetyPanel.jsx`, `src/components/SimulationDialog.jsx`, `src/components/HospitalInsightsDrawer.jsx`, `src/components/SimulationReviewReportDrawer.jsx`, `src/components/DemoScenarioSelector.jsx`, `src/components/SettingsView.jsx`, `src/components/AuditLearningView.jsx`, `src/components/ReportsView.jsx`, `src/App.jsx`, `src/App.test.jsx`, `src/components/PatientSafetyPanel.test.jsx`. Tests/build: `npm test` (56 files, 341 tests) and `npm run build` passed, safety-wording scan clean, no changes to `server/*`, `infra/*`, `package.json`, or any lockfile.
 
 ## Prototype Backlog
 

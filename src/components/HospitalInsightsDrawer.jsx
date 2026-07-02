@@ -1,5 +1,6 @@
 import { AlertTriangle, ArrowDownRight, Award, BarChart3, Building2, ChevronRight, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useModalFocusTrap } from './useModalFocusTrap.js';
 
 const DRAWER_TRANSITION_MS = 220;
 
@@ -14,6 +15,7 @@ const summaryCardIcons = {
 export function HospitalInsightsButton({ isOpen = false, onClick = () => {} }) {
   return (
     <button
+      aria-haspopup="dialog"
       aria-controls="hospital-insights-dialog"
       aria-expanded={isOpen}
       className="secondary-action hospital-insights-trigger"
@@ -29,10 +31,19 @@ export function HospitalInsightsButton({ isOpen = false, onClick = () => {} }) {
 export function HospitalInsightsDrawer({ isOpen = false, onClose = () => {}, snapshot }) {
   const [isRendered, setIsRendered] = useState(Boolean(isOpen && snapshot));
   const [isVisible, setIsVisible] = useState(false);
+  const drawerRef = useRef(null);
+  const closeButtonRef = useRef(null);
   const shouldAnimate =
     typeof window !== 'undefined' &&
     import.meta.env.MODE !== 'test' &&
     !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  useModalFocusTrap({
+    active: isRendered,
+    containerRef: drawerRef,
+    initialFocusRef: closeButtonRef,
+    onEscape: onClose
+  });
 
   useEffect(() => {
     if (isOpen && snapshot) {
@@ -58,30 +69,6 @@ export function HospitalInsightsDrawer({ isOpen = false, onClose = () => {}, sna
     return () => window.clearTimeout(timeout);
   }, [isOpen, shouldAnimate, snapshot]);
 
-  useEffect(() => {
-    if (!isRendered) {
-      return undefined;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    const previousFocus = document.activeElement;
-    document.body.style.overflow = 'hidden';
-
-    function handleKeyDown(event) {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-      previousFocus?.focus?.();
-    };
-  }, [isRendered, onClose]);
-
   if (!isRendered || !snapshot) {
     return null;
   }
@@ -94,6 +81,8 @@ export function HospitalInsightsDrawer({ isOpen = false, onClose = () => {}, sna
         aria-modal="true"
         className={`hospital-insights-drawer ${isVisible ? 'is-visible' : ''}`}
         id="hospital-insights-dialog"
+        ref={drawerRef}
+        tabIndex={-1}
         role="dialog"
       >
         <header className="insights-header">
@@ -120,7 +109,7 @@ export function HospitalInsightsDrawer({ isOpen = false, onClose = () => {}, sna
               </div>
             )}
           </div>
-          <button aria-label="Close insights" className="icon-action" onClick={onClose} type="button">
+          <button ref={closeButtonRef} aria-label="Close insights" className="icon-action" onClick={onClose} type="button">
             <X aria-hidden="true" size={18} />
           </button>
         </header>

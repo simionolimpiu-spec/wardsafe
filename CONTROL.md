@@ -1,6 +1,6 @@
 # SafeFlow Control Board
 
-**Status date:** 1 July 2026
+**Status date:** 2 July 2026
 **Project boundary:** Simulation, education and stakeholder demonstration only. No real patient data. No live NHS deployment. No automated diagnosis, prescribing or escalation.
 
 ## Current status
@@ -9,7 +9,7 @@
 |---|---|
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype (SF-123 merged from `fix/local-provider-fallback-guard`; PR #13 `ui/content-views-refresh` merged 1 July 2026, merge commit 4752252). |
+| Current branch | feature/accessibility-pass (SF-124 ready for review; PR #17 opened 2 July 2026: [Accessibility pass: focus states, contrast, ARIA, keyboard nav](https://github.com/simionolimpiu-spec/wardsafe/pull/17)). |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
 | Merged PR | #13 "Content views refresh", branch ui/content-views-refresh. Rebased onto latest base, `npm test` (56 files, 338 tests) and `npm run build` passed, safety-wording scan clean, merged 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
@@ -49,6 +49,7 @@
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
 | SF-107 | In progress | Clinical safety | Digital twin / predictive learning idea explored. | Frame as review-support and education only, not clinical prediction. |
 | SF-109 | Done | Governance | Clinical safety case outline and hazard log skeleton drafted. | `docs/public-demo-pack/clinical-safety-case-outline.md`, using `templates/safety-case-outline-template.md`; 10-row hazard log grounded in the actual signal-envelope contract (`signalClient.js`) and existing risks R-001–R-008. Not yet independently reviewed; roles unfilled pending a future pilot. |
+| SF-124 | Ready for review | UI accessibility | WCAG AA accessibility pass across current UI surfaces: focus states, contrast, ARIA, keyboard navigation. | Branch `feature/accessibility-pass`; PR [#17](https://github.com/simionolimpiu-spec/wardsafe/pull/17). |
 
 ## Backlog
 

@@ -130,6 +130,11 @@
   padding: 0;
 }
 
+.link-button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
 .risk {
   border: 1px solid currentColor;
   border-radius: var(--radius-pill);

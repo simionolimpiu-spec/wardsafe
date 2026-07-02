@@ -140,4 +140,20 @@ describe('PatientSafetyPanel', () => {
     await user.click(within(panel).getByRole('tab', { name: /audit trail/i }));
     expect(within(panel).getByText(/escalation created/i)).toBeInTheDocument();
   });
+
+  it('moves between patient tabs with arrow keys', async () => {
+    const user = userEvent.setup();
+    renderPanel();
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    const overviewTab = within(panel).getByRole('tab', { name: /safety overview/i });
+    const sbarTab = within(panel).getByRole('tab', { name: /^sbar$/i });
+
+    overviewTab.focus();
+    await user.keyboard('{ArrowRight}');
+
+    expect(sbarTab).toHaveFocus();
+    expect(within(panel).getByRole('tabpanel', { name: /^sbar$/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/SBAR summary/i)).toBeInTheDocument();
+  });
 });

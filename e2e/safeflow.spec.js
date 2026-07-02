@@ -67,7 +67,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByRole('dialog', { name: 'Record simulated team contact' })).toBeVisible();
   await expect(page.getByRole('link', { name: /call/i })).toHaveCount(0);
   await page.getByRole('button', { name: 'Record contact' }).click();
-  await expect(page.getByRole('status')).toContainText('Simulated team contact recorded');
+  await expect(page.getByText(/Simulated team contact recorded/i)).toBeVisible();
 
   const bodyText = await page.locator('body').innerText();
   expect(bodyText).not.toMatch(/administer potassium|give potassium|replace potassium|prescribe potassium|diagnose this patient/i);

@@ -18,6 +18,12 @@
   padding: 9px 12px;
 }
 
+.call-button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
 .panel-tabs {
   border-bottom: 1px solid #d7e3f4;
   display: flex;
@@ -43,6 +49,11 @@
 .panel-tabs button[aria-selected="true"] {
   border-bottom-color: var(--color-brand);
   color: var(--color-brand);
+}
+
+.panel-tabs button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
 }
 
 .sbar-list {

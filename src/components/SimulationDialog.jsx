@@ -1,28 +1,25 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import { useModalFocusTrap } from './useModalFocusTrap.js';
 
 export function SimulationDialog({ title, children, confirmLabel, onConfirm, onClose }) {
-  const titleRef = useRef(null);
+  const dialogRef = useRef(null);
+  const cancelButtonRef = useRef(null);
 
-  useEffect(() => {
-    const previousFocus = document.activeElement;
-    function handleKeyDown(event) {
-      if (event.key === 'Escape') onClose();
-    }
-    document.addEventListener('keydown', handleKeyDown);
-    titleRef.current?.focus();
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      previousFocus?.focus();
-    };
-  }, [onClose]);
+  useModalFocusTrap({
+    active: true,
+    containerRef: dialogRef,
+    initialFocusRef: cancelButtonRef,
+    onEscape: onClose
+  });
 
   return (
-    <div className="dialog-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()} role="presentation">
-      <section aria-labelledby="simulation-dialog-title" aria-modal="true" className="simulation-dialog" role="dialog">
-        <h2 id="simulation-dialog-title" ref={titleRef} tabIndex="-1">{title}</h2>
+    <div className="dialog-overlay">
+      <div aria-hidden="true" className="dialog-backdrop" onMouseDown={onClose} role="presentation" />
+      <section aria-labelledby="simulation-dialog-title" aria-modal="true" className="simulation-dialog" ref={dialogRef} role="dialog" tabIndex={-1}>
+        <h2 id="simulation-dialog-title">{title}</h2>
         {children}
         <div className="dialog-actions">
-          <button className="secondary-action" onClick={onClose} type="button">Cancel</button>
+          <button ref={cancelButtonRef} className="secondary-action" onClick={onClose} type="button">Cancel</button>
           <button className="primary-action" onClick={onConfirm} type="button">{confirmLabel}</button>
         </div>
       </section>
