@@ -53,13 +53,15 @@
 | SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
 | SF-107 | In progress | Clinical safety | Digital twin / predictive learning idea explored. | Frame as review-support and education only, not clinical prediction. |
 | SF-109 | Done | Governance | Clinical safety case outline and hazard log skeleton drafted. | `docs/public-demo-pack/clinical-safety-case-outline.md`, using `templates/safety-case-outline-template.md`; 10-row hazard log grounded in the actual signal-envelope contract (`signalClient.js`) and existing risks R-001–R-008. Not yet independently reviewed; roles unfilled pending a future pilot. |
+| SF-127 | Backlog | Safety QA | Safety-language regression test gap on newest UI. | `scanStrictSafetyLanguage`/`scanBoundaryAwareSafetyLanguage` (`src/domain/safetyLanguage.js`) is only wired into `simulationScenarioCoverage`/`simulationRiskSupportEvaluation`. Manual audit (2 July 2026) found `PatientJourneyTwin.jsx`, `HospitalInsightsView.jsx`, `patientTimeline.js`/fixtures, and `patientJourneyTrendModel.js` clean today, but none of them are covered by an automated scan, so future fixture/copy edits could reintroduce prohibited wording undetected. Add a scan of their rendered/serialized output to the existing test suite. |
+
 ## Backlog
 
 | ID | Status | Area | Work item | Notes |
 |---|---|---|---|---|
 | SF-201 | Backlog | UI | Full-screen presentation mode | Improve stakeholder demo flow further. |
 | SF-202 | Backlog | UI | Cleaner NHS-realistic version 2 screen concept | Use minimal, customisable, safer NHS-realistic visual language. |
-| SF-204 | Backlog | AWS docs | AWS mock docs and architecture diagrams | Aurora, Step Functions, Bedrock/LLM, tokenisation, RBAC/audit. |
+| SF-204 | Closed (superseded) | AWS docs | AWS mock docs and architecture diagrams | Delivered by SF-104 (PR #19, `docs/public-demo-pack/build-readiness/architecture-options.md` + `technology-stack.md`). No further action. |
 | SF-205 | Backlog | Research | NHS Digital API research only | Research mode only; no live integration. |
 | SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Keep as mock/demo unless implementing locally. |
@@ -77,6 +79,7 @@
 | R-006 | Public preview shared before release review. | Confirm PR status, CI, branch cleanliness, and wording before merge/tag. |
 | R-007 | LLM/digital twin wording creates unsafe expectations. | Call it Patient Journey Twin / Simulation Patient Twin and explain that it supports learning and review, not autonomous care. |
 | R-008 | Control docs reference the wrong PR number after external export/import. | Always re-pull live git/GitHub state before updating this file; do not trust prior chat summaries alone. |
+| R-009 | Simulated ML risk-model output (`patientJourneyTrendModel.js`, weights in `patientJourneyTrendModel.json`) gets read as a validated clinical prediction. | Keep "Illustrative model output, not clinically validated" on every rendered trend chart/summary; never surface `testMetrics` (accuracy/precision/recall) in the UI — confirmed today they are data-layer only, not rendered. See SF-127 for closing the automated-scan gap on this and the Twin/Hospital Insights surfaces. |
 
 ## Core decisions to preserve
 
