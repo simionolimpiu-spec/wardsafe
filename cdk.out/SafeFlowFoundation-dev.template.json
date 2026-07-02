@@ -1,0 +1,1495 @@
+{
+ "Resources": {
+  "SafeFlowFoundationKey836861F9": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "Description": "Customer managed key for SafeFlow pilot foundation resources",
+    "EnableKeyRotation": true,
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:Describe*"
+       ],
+       "Condition": {
+        "ArnLike": {
+         "kms:EncryptionContext:aws:logs:arn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":logs:us-east-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":log-group:/aws/lambda/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "logs.us-east-1.amazonaws.com"
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+       ],
+       "Condition": {
+        "StringEquals": {
+         "kms:ViaService": "secretsmanager.us-east-1.amazonaws.com"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "kms:CreateGrant",
+        "kms:DescribeKey"
+       ],
+       "Condition": {
+        "StringEquals": {
+         "kms:ViaService": "secretsmanager.us-east-1.amazonaws.com"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": "kms:Decrypt",
+       "Condition": {
+        "StringEquals": {
+         "kms:ViaService": "secretsmanager.us-east-1.amazonaws.com"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "SafeFlowApiFunctionServiceRoleA82CD76F",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": "kms:Decrypt",
+       "Condition": {
+        "StringEquals": {
+         "kms:ViaService": "secretsmanager.us-east-1.amazonaws.com"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "SafeFlowMigrationFunctionServiceRoleE8FB369F",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowFoundationKey/Resource"
+   }
+  },
+  "SafeFlowFoundationKeyAlias066B6ED7": {
+   "Type": "AWS::KMS::Alias",
+   "Properties": {
+    "AliasName": "alias/safeflow-dev-foundation",
+    "TargetKeyId": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowFoundationKey/Alias/Resource"
+   }
+  },
+  "SafeFlowVpcD2EFB13E": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/Resource"
+   }
+  },
+  "SafeFlowVpcAppSubnet1SubnetD6973C9E": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "App"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet1/Subnet"
+   }
+  },
+  "SafeFlowVpcAppSubnet1RouteTable97F80CCF": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet1/RouteTable"
+   }
+  },
+  "SafeFlowVpcAppSubnet1RouteTableAssociationB538D611": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "SafeFlowVpcAppSubnet1RouteTable97F80CCF"
+    },
+    "SubnetId": {
+     "Ref": "SafeFlowVpcAppSubnet1SubnetD6973C9E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet1/RouteTableAssociation"
+   }
+  },
+  "SafeFlowVpcAppSubnet2Subnet85F8F566": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "App"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet2/Subnet"
+   }
+  },
+  "SafeFlowVpcAppSubnet2RouteTableED3422C7": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet2/RouteTable"
+   }
+  },
+  "SafeFlowVpcAppSubnet2RouteTableAssociation8314D03C": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "SafeFlowVpcAppSubnet2RouteTableED3422C7"
+    },
+    "SubnetId": {
+     "Ref": "SafeFlowVpcAppSubnet2Subnet85F8F566"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/AppSubnet2/RouteTableAssociation"
+   }
+  },
+  "SafeFlowVpcDataSubnet1Subnet56079314": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Data"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet1/Subnet"
+   }
+  },
+  "SafeFlowVpcDataSubnet1RouteTable1E9DC139": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet1/RouteTable"
+   }
+  },
+  "SafeFlowVpcDataSubnet1RouteTableAssociation49B23630": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "SafeFlowVpcDataSubnet1RouteTable1E9DC139"
+    },
+    "SubnetId": {
+     "Ref": "SafeFlowVpcDataSubnet1Subnet56079314"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet1/RouteTableAssociation"
+   }
+  },
+  "SafeFlowVpcDataSubnet2Subnet06508B14": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Data"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet2/Subnet"
+   }
+  },
+  "SafeFlowVpcDataSubnet2RouteTable4D11883E": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet2/RouteTable"
+   }
+  },
+  "SafeFlowVpcDataSubnet2RouteTableAssociation0F0B5085": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "SafeFlowVpcDataSubnet2RouteTable4D11883E"
+    },
+    "SubnetId": {
+     "Ref": "SafeFlowVpcDataSubnet2Subnet06508B14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/DataSubnet2/RouteTableAssociation"
+   }
+  },
+  "SafeFlowVpcIGW4474BFC4": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/IGW"
+   }
+  },
+  "SafeFlowVpcVPCGW303C457F": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "SafeFlowVpcIGW4474BFC4"
+    },
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/VPCGW"
+   }
+  },
+  "SafeFlowVpcSafeFlowSecretsManagerEndpoint578E675D": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "PrivateDnsEnabled": true,
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "SafeFlowEndpointSecurityGroupA9FD3D3F",
+       "GroupId"
+      ]
+     }
+    ],
+    "ServiceName": "com.amazonaws.us-east-1.secretsmanager",
+    "SubnetIds": [
+     {
+      "Ref": "SafeFlowVpcAppSubnet1SubnetD6973C9E"
+     },
+     {
+      "Ref": "SafeFlowVpcAppSubnet2Subnet85F8F566"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc"
+     }
+    ],
+    "VpcEndpointType": "Interface",
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/SafeFlowSecretsManagerEndpoint/Resource"
+   }
+  },
+  "SafeFlowVpcSafeFlowS3EndpointD43E3671": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "SafeFlowVpcAppSubnet1RouteTable97F80CCF"
+     },
+     {
+      "Ref": "SafeFlowVpcAppSubnet2RouteTableED3422C7"
+     },
+     {
+      "Ref": "SafeFlowVpcDataSubnet1RouteTable1E9DC139"
+     },
+     {
+      "Ref": "SafeFlowVpcDataSubnet2RouteTable4D11883E"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".s3"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "SafeFlowFoundation-dev/SafeFlowVpc"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowVpc/SafeFlowS3Endpoint/Resource"
+   }
+  },
+  "SafeFlowAppSecurityGroup7BE39CEF": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SafeFlow application tier security group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowAppSecurityGroup/Resource"
+   }
+  },
+  "SafeFlowDatabaseSecurityGroup89E71132": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SafeFlow PostgreSQL security group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "255.255.255.255/32",
+      "Description": "Disallow all traffic",
+      "FromPort": 252,
+      "IpProtocol": "icmp",
+      "ToPort": 86
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowDatabaseSecurityGroup/Resource"
+   }
+  },
+  "SafeFlowDatabaseSecurityGroupfromSafeFlowFoundationdevSafeFlowAppSecurityGroup3F84302D54325296FA98": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow PostgreSQL only from the SafeFlow application tier",
+    "FromPort": 5432,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "SafeFlowDatabaseSecurityGroup89E71132",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "SafeFlowAppSecurityGroup7BE39CEF",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5432
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowDatabaseSecurityGroup/from SafeFlowFoundationdevSafeFlowAppSecurityGroup3F84302D:5432"
+   }
+  },
+  "SafeFlowEndpointSecurityGroupA9FD3D3F": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SafeFlow private AWS service endpoint security group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "SafeFlowVpcD2EFB13E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowEndpointSecurityGroup/Resource"
+   }
+  },
+  "SafeFlowEndpointSecurityGroupfromSafeFlowFoundationdevSafeFlowAppSecurityGroup3F84302D443E43008EA": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow HTTPS from the SafeFlow application tier to private service endpoints",
+    "FromPort": 443,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "SafeFlowEndpointSecurityGroupA9FD3D3F",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "SafeFlowAppSecurityGroup7BE39CEF",
+      "GroupId"
+     ]
+    },
+    "ToPort": 443
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowEndpointSecurityGroup/from SafeFlowFoundationdevSafeFlowAppSecurityGroup3F84302D:443"
+   }
+  },
+  "SafeFlowDatabaseSecret96509167": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Generated by the CDK for stack: ",
+       {
+        "Ref": "AWS::StackName"
+       }
+      ]
+     ]
+    },
+    "GenerateSecretString": {
+     "ExcludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\",
+     "GenerateStringKey": "password",
+     "PasswordLength": 30,
+     "SecretStringTemplate": "{\"username\":\"safeflow_admin\"}"
+    },
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    },
+    "Name": "safeflow/dev/database/admin"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowDatabaseSecret/Resource"
+   }
+  },
+  "SafeFlowDatabaseSecretAttachment2A9A8E79": {
+   "Type": "AWS::SecretsManager::SecretTargetAttachment",
+   "Properties": {
+    "SecretId": {
+     "Ref": "SafeFlowDatabaseSecret96509167"
+    },
+    "TargetId": {
+     "Ref": "SafeFlowPostgres6B3DA25E"
+    },
+    "TargetType": "AWS::RDS::DBInstance"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowDatabaseSecret/Attachment/Resource"
+   }
+  },
+  "SafeFlowPostgresSubnetGroup7BD29E6A": {
+   "Type": "AWS::RDS::DBSubnetGroup",
+   "Properties": {
+    "DBSubnetGroupDescription": "Subnet group for SafeFlowPostgres database",
+    "SubnetIds": [
+     {
+      "Ref": "SafeFlowVpcDataSubnet1Subnet56079314"
+     },
+     {
+      "Ref": "SafeFlowVpcDataSubnet2Subnet06508B14"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowPostgres/SubnetGroup/Default"
+   }
+  },
+  "SafeFlowPostgres6B3DA25E": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "AllocatedStorage": "20",
+    "BackupRetentionPeriod": 1,
+    "CopyTagsToSnapshot": true,
+    "DBInstanceClass": "db.t4g.micro",
+    "DBName": "safeflow",
+    "DBSubnetGroupName": {
+     "Ref": "SafeFlowPostgresSubnetGroup7BD29E6A"
+    },
+    "DeleteAutomatedBackups": true,
+    "DeletionProtection": false,
+    "Engine": "postgres",
+    "EngineVersion": "16",
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    },
+    "MasterUserPassword": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "SafeFlowDatabaseSecret96509167"
+       },
+       ":SecretString:password::}}"
+      ]
+     ]
+    },
+    "MasterUsername": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "SafeFlowDatabaseSecret96509167"
+       },
+       ":SecretString:username::}}"
+      ]
+     ]
+    },
+    "MaxAllocatedStorage": 100,
+    "MultiAZ": false,
+    "PreferredBackupWindow": "01:00-02:00",
+    "PubliclyAccessible": false,
+    "StorageEncrypted": true,
+    "StorageType": "gp2",
+    "VPCSecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "SafeFlowDatabaseSecurityGroup89E71132",
+       "GroupId"
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowPostgres/Resource"
+   }
+  },
+  "SafeFlowAppDatabaseSecret615FDA17": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "Least-privilege SafeFlow API PostgreSQL credential secret",
+    "GenerateSecretString": {
+     "ExcludePunctuation": true,
+     "GenerateStringKey": "password",
+     "PasswordLength": 32,
+     "SecretStringTemplate": {
+      "Fn::Join": [
+       "",
+       [
+        "{\"username\":\"safeflow_api\",\"engine\":\"postgres\",\"host\":\"",
+        {
+         "Fn::GetAtt": [
+          "SafeFlowPostgres6B3DA25E",
+          "Endpoint.Address"
+         ]
+        },
+        "\",\"port\":5432,\"dbname\":\"safeflow\"}"
+       ]
+      ]
+     }
+    },
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    },
+    "Name": "safeflow/dev/database/api"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowAppDatabaseSecret/Resource"
+   }
+  },
+  "SafeFlowDocumentBucketEAB9E6CD": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "KMSMasterKeyID": {
+         "Fn::GetAtt": [
+          "SafeFlowFoundationKey836861F9",
+          "Arn"
+         ]
+        },
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowDocumentBucket/Resource"
+   }
+  },
+  "SafeFlowDocumentBucketPolicy6ECADC87": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "SafeFlowDocumentBucketEAB9E6CD"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SafeFlowDocumentBucketEAB9E6CD",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SafeFlowDocumentBucketEAB9E6CD",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowDocumentBucket/Policy/Resource"
+   }
+  },
+  "SafeFlowProviderConfigSecret177CC77A": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "Server-side provider configuration placeholder for SafeFlow draft generation",
+    "GenerateSecretString": {},
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    },
+    "Name": "safeflow/dev/provider/openai"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowProviderConfigSecret/Resource"
+   }
+  },
+  "SafeFlowApiFunctionServiceRoleA82CD76F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "DependsOn": [
+    "SafeFlowVpcAppSubnet1RouteTableAssociationB538D611",
+    "SafeFlowVpcAppSubnet2RouteTableAssociation8314D03C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowApiFunction/ServiceRole/Resource"
+   }
+  },
+  "SafeFlowApiFunctionServiceRoleDefaultPolicy91A37A66": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "SafeFlowAppDatabaseSecret615FDA17"
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "SafeFlowProviderConfigSecret177CC77A"
+       }
+      },
+      {
+       "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:AbortMultipartUpload"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "SafeFlowDocumentBucketEAB9E6CD",
+            "Arn"
+           ]
+          },
+          "/simulation/*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "s3:ListBucket",
+       "Condition": {
+        "StringLike": {
+         "s3:prefix": [
+          "simulation/*"
+         ]
+        }
+       },
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SafeFlowDocumentBucketEAB9E6CD",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SafeFlowFoundationKey836861F9",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SafeFlowApiFunctionServiceRoleDefaultPolicy91A37A66",
+    "Roles": [
+     {
+      "Ref": "SafeFlowApiFunctionServiceRoleA82CD76F"
+     }
+    ]
+   },
+   "DependsOn": [
+    "SafeFlowVpcAppSubnet1RouteTableAssociationB538D611",
+    "SafeFlowVpcAppSubnet2RouteTableAssociation8314D03C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowApiFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "SafeFlowApiFunction5EF1D95D": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "4b38f839a94a5e166042276d2e8706c4a3bb23a42b15adef932abc1e4ae60f9a.zip"
+    },
+    "Description": "Private SafeFlow simulation API compute scaffold",
+    "Environment": {
+     "Variables": {
+      "SAFEFLOW_ENVIRONMENT": "dev",
+      "SAFEFLOW_SIMULATION_ONLY": "true",
+      "SAFEFLOW_DATA_CLASSIFICATION": "synthetic-only",
+      "SAFEFLOW_DATA_MODE": "database",
+      "DATABASE_SECRET_ARN": {
+       "Ref": "SafeFlowAppDatabaseSecret615FDA17"
+      },
+      "PROVIDER_CONFIG_SECRET_ARN": {
+       "Ref": "SafeFlowProviderConfigSecret177CC77A"
+      },
+      "DOCUMENT_BUCKET_NAME": {
+       "Ref": "SafeFlowDocumentBucketEAB9E6CD"
+      },
+      "MIGRATION_MANIFEST_PATH": "database/migration-manifest.json"
+     }
+    },
+    "Handler": "index.handler",
+    "KmsKeyArn": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    },
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "SafeFlowApiFunctionServiceRoleA82CD76F",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Timeout": 10,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "SafeFlowAppSecurityGroup7BE39CEF",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "SafeFlowVpcAppSubnet1SubnetD6973C9E"
+      },
+      {
+       "Ref": "SafeFlowVpcAppSubnet2Subnet85F8F566"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "SafeFlowApiFunctionServiceRoleDefaultPolicy91A37A66",
+    "SafeFlowApiFunctionServiceRoleA82CD76F",
+    "SafeFlowVpcAppSubnet1RouteTableAssociationB538D611",
+    "SafeFlowVpcAppSubnet2RouteTableAssociation8314D03C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowApiFunction/Resource",
+    "aws:asset:path": "asset.4b38f839a94a5e166042276d2e8706c4a3bb23a42b15adef932abc1e4ae60f9a",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SafeFlowMigrationFunctionServiceRoleE8FB369F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "DependsOn": [
+    "SafeFlowVpcAppSubnet1RouteTableAssociationB538D611",
+    "SafeFlowVpcAppSubnet2RouteTableAssociation8314D03C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowMigrationFunction/ServiceRole/Resource"
+   }
+  },
+  "SafeFlowMigrationFunctionServiceRoleDefaultPolicy495B3230": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "SafeFlowDatabaseSecret96509167"
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "SafeFlowAppDatabaseSecret615FDA17"
+       }
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SafeFlowFoundationKey836861F9",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SafeFlowMigrationFunctionServiceRoleDefaultPolicy495B3230",
+    "Roles": [
+     {
+      "Ref": "SafeFlowMigrationFunctionServiceRoleE8FB369F"
+     }
+    ]
+   },
+   "DependsOn": [
+    "SafeFlowVpcAppSubnet1RouteTableAssociationB538D611",
+    "SafeFlowVpcAppSubnet2RouteTableAssociation8314D03C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowMigrationFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "SafeFlowMigrationFunction5204E787": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "62ebeebd62cbb89edb988cd0db8bec8200626ff05bf8cc0e686f0f872ebd9223.zip"
+    },
+    "Description": "Private SafeFlow simulation database migration runner",
+    "Environment": {
+     "Variables": {
+      "SAFEFLOW_ENVIRONMENT": "dev",
+      "SAFEFLOW_SIMULATION_ONLY": "true",
+      "SAFEFLOW_DATA_CLASSIFICATION": "synthetic-only",
+      "DATABASE_SECRET_ARN": {
+       "Ref": "SafeFlowDatabaseSecretAttachment2A9A8E79"
+      },
+      "APP_DATABASE_SECRET_ARN": {
+       "Ref": "SafeFlowAppDatabaseSecret615FDA17"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "KmsKeyArn": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    },
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "SafeFlowMigrationFunctionServiceRoleE8FB369F",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Timeout": 120,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "SafeFlowAppSecurityGroup7BE39CEF",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "SafeFlowVpcAppSubnet1SubnetD6973C9E"
+      },
+      {
+       "Ref": "SafeFlowVpcAppSubnet2Subnet85F8F566"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "SafeFlowMigrationFunctionServiceRoleDefaultPolicy495B3230",
+    "SafeFlowMigrationFunctionServiceRoleE8FB369F",
+    "SafeFlowVpcAppSubnet1RouteTableAssociationB538D611",
+    "SafeFlowVpcAppSubnet2RouteTableAssociation8314D03C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowMigrationFunction/Resource",
+    "aws:asset:path": "asset.62ebeebd62cbb89edb988cd0db8bec8200626ff05bf8cc0e686f0f872ebd9223",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SafeFlowApiLogGroupFCDB9ABD": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "SafeFlowFoundationKey836861F9",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "SafeFlowApiFunction5EF1D95D"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 30
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/SafeFlowApiLogGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/31RyU7DMBD9Fu6uKQUhrm1ZVIGgalCv1cSZBreJHXnGVJWVf0eO0wQJidNb/PzGy0zO7qdyegUnmqjiOKl0LkPGoI4CTrQLx5pkeMWzWO5NhHmlgaLoSCtQzWTYNipa2/VSrJ3+BsbM5wY5miPbWM/4CXmFoz96cyKrNLC2Ji6vDKMzyC/AeIJzX9+rOTOorxoNiy63B4XbRj2ZorHacB8eZL/rdyJD5Z3m84uzvumO86+xMqVDola4gmR4BIYcCDNUDllc5MoQg1Eo0tWGpsfFH+MSbQV1HVSDgRKdDGlyrE3wCa5E/nXhIfBnJdmtoFsZFl4d06v3LMHaVlqdR7vXSSyAsBUV1HkBO2MLPJB87+DZG9V9jIZaho1NP9jh2JhYHL8DImSS8wh9oVzuzVBT2ZJkeLPl8CQX3rZig2S9Uyi67RlDqU0ZMx+eG8+tiEeTB7r+nt3Jmwc5vTqQ1hPnDesa5SbhD38ZQCvYAgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SafeFlowFoundation-dev/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "DatabaseEndpoint": {
+   "Description": "Private SafeFlow PostgreSQL endpoint",
+   "Value": {
+    "Fn::GetAtt": [
+     "SafeFlowPostgres6B3DA25E",
+     "Endpoint.Address"
+    ]
+   }
+  },
+  "DatabaseSecretArn": {
+   "Description": "Generated database credential secret ARN",
+   "Value": {
+    "Ref": "SafeFlowDatabaseSecret96509167"
+   }
+  },
+  "AppDatabaseSecretArn": {
+   "Description": "Least-privilege SafeFlow API database credential secret ARN",
+   "Value": {
+    "Ref": "SafeFlowAppDatabaseSecret615FDA17"
+   }
+  },
+  "DocumentBucketName": {
+   "Description": "Encrypted private document/export bucket",
+   "Value": {
+    "Ref": "SafeFlowDocumentBucketEAB9E6CD"
+   }
+  },
+  "ProviderConfigSecretArn": {
+   "Description": "Server-side draft provider configuration secret ARN",
+   "Value": {
+    "Ref": "SafeFlowProviderConfigSecret177CC77A"
+   }
+  },
+  "ApiLogGroupName": {
+   "Description": "SafeFlow API CloudWatch log group",
+   "Value": {
+    "Ref": "SafeFlowApiLogGroupFCDB9ABD"
+   }
+  },
+  "ApiFunctionName": {
+   "Description": "Private SafeFlow API Lambda function name",
+   "Value": {
+    "Ref": "SafeFlowApiFunction5EF1D95D"
+   }
+  },
+  "MigrationFunctionName": {
+   "Description": "Private SafeFlow migration runner Lambda function name",
+   "Value": {
+    "Ref": "SafeFlowMigrationFunction5204E787"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
