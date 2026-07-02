@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  BarChart3,
   ClipboardList,
   ClipboardPlus,
   FileText,
@@ -17,6 +18,7 @@ const navItems = [
   { id: 'observations', label: 'Observations', icon: Stethoscope },
   { id: 'tasks', label: 'Tasks', icon: ClipboardList },
   { id: 'escalations', label: 'Escalations', icon: AlertTriangle },
+  { id: 'hospital-insights', label: 'Hospital insights', icon: BarChart3 },
   { id: 'handover', label: 'Handover', icon: Waypoints },
   { id: 'discharges', label: 'Discharges', icon: ClipboardPlus },
   { id: 'reports', label: 'Reports', icon: FileText },
