@@ -43,6 +43,7 @@
 | SF-125 | Done | Dashboard data layer | Chart-ready aggregation service for ward comparison, simulated trend, and cue breakdowns. | Merge commit `f83d4bb` via PR [#21](https://github.com/simionolimpiu-spec/wardsafe/pull/21). |
 | SF-126 | Done | Hospital insights dashboard | Hospital insights section with ward comparison and Patient Journey Twin simulated trend charts, using the shared chart-ready dashboard data service. | Squash merge commit `ccede12` via PR [#22](https://github.com/simionolimpiu-spec/wardsafe/pull/22). |
 | SF-209 | Done | Data model | Fictional patient timeline + observations + review cues. | Merge commit `91c727c` via PR [#18](https://github.com/simionolimpiu-spec/wardsafe/pull/18); synthetic-only data only. |
+| SF-211 | Done | Education | Clinical education, interprofessional learning, and portable competency passport | Simulation-only learning layer with micro-learning and structured courses tagged by ward/trust/profession/topic; squash merge commit `cf1577804876428723956b52e101cf0066b660af` via PR [#23](https://github.com/simionolimpiu-spec/wardsafe/pull/23). |
 
 ## Started / Open / Ready
 
@@ -66,7 +67,9 @@
 | SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Keep as mock/demo unless implementing locally. |
 | SF-210 | Backlog | Evaluation | Demo evaluation framework | Usability, nursing review, documentation safety, learning value. |
-| SF-211 | Backlog | Education | Clinical education, interprofessional learning, and portable competency passport | Simulation-only learning layer with micro-learning and structured courses tagged by ward/trust/profession/topic for nurses, doctors, and AHPs; portable student passport for nursing plus PT/OT/SLT with supervisor-validated observed/assisted/performed entries mapped to NMC/HCPC frameworks, a defined university "proactive" view, and privacy/consent/data-portability notes in CONTROL/compliance docs. |
+| SF-212 | Backlog | Simulation | More scenarios + safety flags | Add more fictional ward scenarios and safety cues, extending the existing demo scenario + cue data; simulation-only and illustrative. |
+| SF-213 | Backlog | Safety | Heuristic cue engine (explainable 'intuition') | Transparent, auditable rules layer that raises cues and explains why; human-review required; no black-box automation. |
+| SF-214 | Backlog | ML | Extend simulation-risk ML model | Grow `simulation-risk-ml-v0` with more input features from the new scenarios/flags, a richer synthetic dataset, and proper evaluation; output stays labelled illustrative/not clinically validated. |
 
 ## Risks and controls
 
@@ -81,6 +84,7 @@
 | R-007 | LLM/digital twin wording creates unsafe expectations. | Call it Patient Journey Twin / Simulation Patient Twin and explain that it supports learning and review, not autonomous care. |
 | R-008 | Control docs reference the wrong PR number after external export/import. | Always re-pull live git/GitHub state before updating this file; do not trust prior chat summaries alone. |
 | R-009 | Simulated ML risk-model output (`patientJourneyTrendModel.js`, weights in `patientJourneyTrendModel.json`) gets read as a validated clinical prediction. | Keep "Illustrative model output, not clinically validated" on every rendered trend chart/summary; never surface `testMetrics` (accuracy/precision/recall) in the UI — confirmed today they are data-layer only, not rendered. See SF-127 for closing the automated-scan gap on this and the Twin/Hospital Insights surfaces. |
+| R-010 | Next-phase scope drifts into live or black-box claims. | Keep this phase simulation-only, with no real-patient data, no autonomous clinical action, no AGI/black-box language, and ship each item as its own scoped PR. |
 
 ## Core decisions to preserve
 
