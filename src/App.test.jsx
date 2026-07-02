@@ -834,6 +834,8 @@ describe('SafeFlow prototype', () => {
     ['Handover', 'Handover and Discharge Readiness'],
     ['Discharges', 'Discharges'],
     ['Reports', 'Reports'],
+    ['Competency Passport', 'Portable Competency Passport'],
+    ['Learning Hub', 'Learning Hub'],
     ['Hospital insights', 'Hospital insights'],
     ['Audit Trail', 'Audit and Learning'],
     ['Settings', 'Settings']
