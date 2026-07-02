@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   ListChecks,
   Settings,
+  Sparkles,
   Stethoscope,
   UserRound,
   Waypoints
@@ -22,6 +23,7 @@ const navItems = [
   { id: 'handover', label: 'Handover', icon: Waypoints },
   { id: 'discharges', label: 'Discharges', icon: ClipboardPlus },
   { id: 'reports', label: 'Reports', icon: FileText },
+  { id: 'twin', label: 'Patient Journey Twin', icon: Sparkles },
   { id: 'audit', label: 'Audit Trail', icon: ListChecks },
   { id: 'settings', label: 'Settings', icon: Settings }
 ];
