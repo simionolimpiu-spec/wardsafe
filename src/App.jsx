@@ -33,6 +33,7 @@ import { EscalationsView } from './components/EscalationsView.jsx';
 import { DischargesView } from './components/DischargesView.jsx';
 import { ReportsView } from './components/ReportsView.jsx';
 import { SettingsView } from './components/SettingsView.jsx';
+import { PatientJourneyTwin } from './components/PatientJourneyTwin.jsx';
 import { SimulationDialog } from './components/SimulationDialog.jsx';
 import { getDemoScenarioOptions } from './data/demoScenarios.js';
 import {
@@ -49,6 +50,7 @@ const tabs = [
   { id: 'handover', label: 'Handover' },
   { id: 'potassium', label: 'Potassium flag' },
   { id: 'scenarios', label: 'Scenarios' },
+  { id: 'twin', label: 'Patient Journey Twin' },
   { id: 'audit', label: 'Audit' }
 ];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
@@ -748,6 +750,9 @@ export default function App() {
               />
             )}
             {state.selectedView === 'scenarios' && <ScenarioLibraryView />}
+            {state.selectedView === 'twin' && (
+              <PatientJourneyTwin patient={selectedPatient} />
+            )}
             {state.selectedView === 'audit' && (
               <AuditLearningView
                 backendAuditStatus={backendAuditStatus}
