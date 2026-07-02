@@ -35,6 +35,8 @@ import { ReportsView } from './components/ReportsView.jsx';
 import { SettingsView } from './components/SettingsView.jsx';
 import { PatientJourneyTwin } from './components/PatientJourneyTwin.jsx';
 import { SimulationDialog } from './components/SimulationDialog.jsx';
+import { CompetencyPassportView } from './CompetencyPassportView.jsx';
+import { LearningHubView } from './LearningHubView.jsx';
 import { getDemoScenarioOptions } from './data/demoScenarios.js';
 import {
   selectActiveEscalationCount,
@@ -50,6 +52,8 @@ const tabs = [
   { id: 'handover', label: 'Handover' },
   { id: 'potassium', label: 'Potassium flag' },
   { id: 'scenarios', label: 'Scenarios' },
+  { id: 'competency-passport', label: 'Competency Passport' },
+  { id: 'learning-hub', label: 'Learning Hub' },
   { id: 'twin', label: 'Patient Journey Twin' },
   { id: 'audit', label: 'Audit' }
 ];
@@ -750,6 +754,10 @@ export default function App() {
               />
             )}
             {state.selectedView === 'scenarios' && <ScenarioLibraryView />}
+            {state.selectedView === 'competency-passport' && (
+              <CompetencyPassportView />
+            )}
+            {state.selectedView === 'learning-hub' && <LearningHubView />}
             {state.selectedView === 'twin' && (
               <PatientJourneyTwin patient={selectedPatient} />
             )}

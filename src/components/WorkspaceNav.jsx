@@ -1,11 +1,13 @@
 import {
   AlertTriangle,
   BarChart3,
+  BookOpenCheck,
   ClipboardList,
   ClipboardPlus,
   FileText,
   LayoutDashboard,
   ListChecks,
+  Award,
   Settings,
   Sparkles,
   Stethoscope,
@@ -23,6 +25,8 @@ const navItems = [
   { id: 'handover', label: 'Handover', icon: Waypoints },
   { id: 'discharges', label: 'Discharges', icon: ClipboardPlus },
   { id: 'reports', label: 'Reports', icon: FileText },
+  { id: 'competency-passport', label: 'Competency Passport', icon: Award },
+  { id: 'learning-hub', label: 'Learning Hub', icon: BookOpenCheck },
   { id: 'twin', label: 'Patient Journey Twin', icon: Sparkles },
   { id: 'audit', label: 'Audit Trail', icon: ListChecks },
   { id: 'settings', label: 'Settings', icon: Settings }
