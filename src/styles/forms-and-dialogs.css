@@ -382,10 +382,17 @@ textarea:hover {
   animation: dialog-backdrop-fade 160ms ease-out;
   background: rgba(8, 26, 53, 0.56);
   backdrop-filter: blur(3px);
+  inset: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.dialog-overlay {
+  align-items: center;
   display: grid;
   inset: 0;
+  justify-items: center;
   padding: 18px;
-  place-items: center;
   position: fixed;
   z-index: 30;
 }
@@ -397,8 +404,10 @@ textarea:hover {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   padding: 20px;
+  position: relative;
   transform-origin: center;
   width: min(460px, 100%);
+  z-index: 1;
 }
 
 .simulation-dialog h2 {
@@ -429,6 +438,7 @@ textarea:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .dialog-overlay,
   .dialog-backdrop,
   .simulation-dialog {
     animation: none;

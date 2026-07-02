@@ -13,7 +13,7 @@ export function SimulationDialog({ title, children, confirmLabel, onConfirm, onC
   });
 
   return (
-    <>
+    <div className="dialog-overlay">
       <div aria-hidden="true" className="dialog-backdrop" onMouseDown={onClose} role="presentation" />
       <section aria-labelledby="simulation-dialog-title" aria-modal="true" className="simulation-dialog" ref={dialogRef} role="dialog" tabIndex={-1}>
         <h2 id="simulation-dialog-title">{title}</h2>
@@ -23,6 +23,6 @@ export function SimulationDialog({ title, children, confirmLabel, onConfirm, onC
           <button className="primary-action" onClick={onConfirm} type="button">{confirmLabel}</button>
         </div>
       </section>
-    </>
+    </div>
   );
 }
