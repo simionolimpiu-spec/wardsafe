@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { DatabaseSync } from 'node:sqlite';
 import { buildWardDatabaseExport, wardLibrary } from '../src/data/wardLibrary/index.js';
 
 export const EXPORT_TABLES = [
@@ -109,7 +108,7 @@ export function renderWardDatabaseArtifacts(exportModel = buildWardDatabaseExpor
   };
 }
 
-export function writeWardDatabaseArtifacts({
+export async function writeWardDatabaseArtifacts({
   outputDir = defaultOutputDir(),
   library = wardLibrary
 } = {}) {
@@ -129,7 +128,7 @@ export function writeWardDatabaseArtifacts({
   if (fs.existsSync(sqlitePath)) {
     fs.rmSync(sqlitePath);
   }
-  buildSqliteDatabase({
+  await buildSqliteDatabase({
     sqlitePath,
     schemaSql: artifacts.schemaSql,
     seedSql: artifacts.seedSql
@@ -148,7 +147,8 @@ export function writeWardDatabaseArtifacts({
   };
 }
 
-function buildSqliteDatabase({ sqlitePath, schemaSql, seedSql }) {
+async function buildSqliteDatabase({ sqlitePath, schemaSql, seedSql }) {
+  const { DatabaseSync } = await import('node:sqlite');
   const db = new DatabaseSync(sqlitePath);
   try {
     db.exec('PRAGMA foreign_keys = ON;');
@@ -312,7 +312,7 @@ function isMainModule() {
 }
 
 if (isMainModule()) {
-  const result = writeWardDatabaseArtifacts();
+  const result = await writeWardDatabaseArtifacts();
   console.log(`Wrote ward simulation database exports to ${result.outputDir}`);
   console.log(`SQLite database: ${result.sqlitePath}`);
   console.log(JSON.stringify(result.counts, null, 2));
