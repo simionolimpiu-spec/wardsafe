@@ -44,6 +44,18 @@ describe('PatientSafetyPanel', () => {
           simulationOnly: true,
           humanReviewRequired: true,
           unsafeClinicalAdvice: false
+        },
+        {
+          id: 'simulation-signal-dcu-031-sepsis-screen',
+          category: 'sepsis-screen',
+          priority: 'watch',
+          title: 'Review suggested: sepsis-screen cue',
+          explanation: 'Simulation-only cue highlighting sepsis-screen evidence to check.',
+          evidence: [{ label: 'Sepsis screen overdue final at 09:05' }],
+          suggestedHumanReviewAction: 'Human review required: confirm the visible sepsis-screen status and document the outcome.',
+          simulationOnly: true,
+          humanReviewRequired: true,
+          unsafeClinicalAdvice: false
         }
       ],
       signalSnapshot: {
@@ -111,7 +123,9 @@ describe('PatientSafetyPanel', () => {
     expect(within(reviewCues).getByText(/Signals: private-lambda-signals-placeholder/i)).toBeInTheDocument();
     expect(within(reviewCues).getByText(/Risk suggestions: private-lambda-risk-suggestions-placeholder/i)).toBeInTheDocument();
     expect(within(reviewCues).getByText(/^Documentation$/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/^Sepsis screen$/i)).toBeInTheDocument();
     expect(within(reviewCues).getByText(/^Review$/i)).toBeInTheDocument();
+    expect(within(reviewCues).getByText(/^Watch$/i)).toBeInTheDocument();
     expect(within(reviewCues).getAllByText(/human review required/i).length).toBeGreaterThan(1);
     expect(within(reviewCues).getAllByText(/review suggested/i).length).toBeGreaterThan(0);
     expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision|replace potassium|potassium replacement/i);

@@ -280,6 +280,218 @@ const demoScenarioDefinitions = [
         simulationOnly: true
       }
     ]
+  },
+  {
+    id: 'surgical-postop-deterioration-review',
+    label: 'Surgical post-op deterioration review',
+    description: 'Simulation comparison cues for a fictional surgical ward post-op deterioration review.',
+    currentWardName: 'Surgical Ward',
+    selectedPatientId: 'DCU-028',
+    patientOverrides: {
+      'DCU-028': {
+        age: 67,
+        risk: 'Medium',
+        riskFlags: ['Post-op review'],
+        nextAction: 'Document post-op review',
+        handoverComplete: 58,
+        dischargeReady: false,
+        medicines: ['Co-codamol 30/500mg PRN', 'Cefuroxime 750mg BD'],
+        symptoms: ['Increased pain on movement', 'More drowsy'],
+        baseline: ['Day 2 after abdominal surgery', 'Mobilising with assistance'],
+        currentState: ['Deteriorating observations cue visible', 'Post-op wound review pending'],
+        trajectory: ['Observations trending worse after surgery'],
+        uncertainty: ['Observation trend not yet documented', 'Medication timing not fully visible'],
+        responseHistory: ['07:45 post-op review opened'],
+        plan: '',
+        sbar: {
+          situation: 'Post-operative review still open with deteriorating observations visible in the simulation record.',
+          background: 'Recent abdominal surgery and pain review.',
+          assessment: 'Observation trend is worsening and a documentation gap remains visible.',
+          recommendation: 'Document the post-op review and confirm the next review step.'
+        },
+        tasks: [
+          { id: 'task-8', label: 'Document post-op review', status: 'Due', owner: 'Aisha Khan', due: '09:45' },
+          { id: 'task-9', label: 'Confirm wound review note', status: 'Due', owner: 'Aisha Khan', due: '10:15' }
+        ],
+        auditTrail: ['Post-op deterioration review opened by Aisha Khan.'],
+        dischargeBlockers: ['Observation trend under review', 'Post-op documentation incomplete']
+      }
+    },
+    signalFixtures: [
+      {
+        signalId: 'signal-dcu-028-deteriorating-obs-0945',
+        syntheticPatientRef: 'DCU-028',
+        sourceSystem: 'simulation-observations',
+        sourceType: 'observation',
+        signalCode: 'deteriorating_obs',
+        displayName: 'Observation trend',
+        value: 'worsening',
+        status: 'final',
+        effectiveAt: '2026-06-10T09:45:00.000Z',
+        sourceFreshness: 'current',
+        simulationOnly: true
+      }
+    ],
+    suggestionFixtures: []
+  },
+  {
+    id: 'paediatric-sepsis-screen-review',
+    label: 'Paediatric sepsis-screen review',
+    description: 'Simulation comparison cues for a fictional paediatric ward sepsis-screen review.',
+    currentWardName: 'Paediatric Ward',
+    selectedPatientId: 'DCU-031',
+    patientOverrides: {
+      'DCU-031': {
+        age: 8,
+        risk: 'High',
+        riskFlags: ['Sepsis screen due'],
+        nextAction: 'Document sepsis-screen status',
+        handoverComplete: 46,
+        dischargeReady: false,
+        medicines: ['Amoxicillin 250mg TDS', 'Paracetamol PRN'],
+        symptoms: ['Fever', 'Poor intake', 'Lethargy'],
+        baseline: ['Paediatric infection review', 'Parent present'],
+        currentState: ['Sepsis screen overdue', 'Family update note open'],
+        trajectory: ['Observations trending worse'],
+        uncertainty: ['Sepsis screen not documented', 'Family update not visible'],
+        responseHistory: ['08:20 observations recorded', '08:35 parent update documented'],
+        plan: '',
+        sbar: {
+          situation: 'Paediatric review in progress with a sepsis-screen cue visible in the simulation record.',
+          background: 'Fever, poor intake and parent update still open.',
+          assessment: 'Sepsis-screen status is not yet documented and the review remains open.',
+          recommendation: 'Document the visible screening status and confirm the next review step.'
+        },
+        tasks: [
+          { id: 'task-10', label: 'Document sepsis screen', status: 'Due', owner: 'Leanne Mitchell', due: '09:15' },
+          { id: 'task-11', label: 'Update family note', status: 'Due', owner: 'Leanne Mitchell', due: '09:45' }
+        ],
+        auditTrail: ['Paediatric sepsis-screen review opened by Leanne Mitchell.'],
+        dischargeBlockers: ['Sepsis-screen documentation incomplete', 'Family update not recorded']
+      }
+    },
+    signalFixtures: [
+      {
+        signalId: 'signal-dcu-031-sepsis-screen-0905',
+        syntheticPatientRef: 'DCU-031',
+        sourceSystem: 'simulation-workflow',
+        sourceType: 'workflow',
+        signalCode: 'sepsis_screen',
+        displayName: 'Sepsis screen',
+        value: 'overdue',
+        status: 'final',
+        effectiveAt: '2026-06-10T09:05:00.000Z',
+        sourceFreshness: 'current',
+        simulationOnly: true
+      }
+    ],
+    suggestionFixtures: []
+  },
+  {
+    id: 'community-falls-risk-review',
+    label: 'Community frailty falls-risk review',
+    description: 'Simulation comparison cues for a fictional community frailty falls-risk review.',
+    currentWardName: 'Community Frailty Team',
+    selectedPatientId: 'DCU-044',
+    patientOverrides: {
+      'DCU-044': {
+        age: 84,
+        risk: 'Medium',
+        riskFlags: ['Falls assessment overdue'],
+        nextAction: 'Document falls assessment',
+        handoverComplete: 64,
+        dischargeReady: false,
+        medicines: ['Metformin 500mg BD'],
+        symptoms: ['Unsteady on standing', 'Reduced appetite'],
+        baseline: ['Lives alone', 'Uses frame', 'Community frailty follow-up'],
+        currentState: ['Falls assessment overdue', 'Mobility support note open'],
+        trajectory: ['Moving more slowly this week'],
+        uncertainty: ['Falls prevention plan not visible'],
+        responseHistory: ['08:35 home visit opened'],
+        plan: '',
+        sbar: {
+          situation: 'Community frailty follow-up with a falls-risk cue visible in the simulation record.',
+          background: 'Lives alone and uses a frame for mobility.',
+          assessment: 'Falls assessment is not yet documented and the review remains open.',
+          recommendation: 'Document the visible falls assessment and confirm the next review step.'
+        },
+        tasks: [
+          { id: 'task-12', label: 'Document falls assessment', status: 'Due', owner: 'Rachel Lee', due: '10:00' },
+          { id: 'task-13', label: 'Update mobility note', status: 'Due', owner: 'Rachel Lee', due: '10:30' }
+        ],
+        auditTrail: ['Community falls-risk review opened by Rachel Lee.'],
+        dischargeBlockers: ['Falls assessment incomplete', 'Mobility support note incomplete']
+      }
+    },
+    signalFixtures: [
+      {
+        signalId: 'signal-dcu-044-falls-risk-0915',
+        syntheticPatientRef: 'DCU-044',
+        sourceSystem: 'simulation-workflow',
+        sourceType: 'workflow',
+        signalCode: 'falls_risk',
+        displayName: 'Falls assessment',
+        value: 'overdue',
+        status: 'final',
+        effectiveAt: '2026-06-10T09:15:00.000Z',
+        sourceFreshness: 'current',
+        simulationOnly: true
+      }
+    ],
+    suggestionFixtures: []
+  },
+  {
+    id: 'community-medication-timing-review',
+    label: 'Community medication-timing review',
+    description: 'Simulation comparison cues for a fictional community follow-up with medication-timing review cues.',
+    currentWardName: 'Community Frailty Team',
+    selectedPatientId: 'DCU-052',
+    patientOverrides: {
+      'DCU-052': {
+        age: 78,
+        risk: 'Low',
+        riskFlags: ['Medication timing review'],
+        nextAction: 'Document medication timing',
+        handoverComplete: 72,
+        dischargeReady: false,
+        medicines: ['Apixaban 5mg BD'],
+        symptoms: ['Needs dose support'],
+        baseline: ['Atrial fibrillation', 'Community medicines support'],
+        currentState: ['Medication timing overdue', 'Reconciliation note incomplete'],
+        trajectory: ['Timing note still open'],
+        uncertainty: ['Last dose time not visible'],
+        responseHistory: ['09:00 medication review opened'],
+        plan: '',
+        sbar: {
+          situation: 'Community follow-up with a medication-timing cue visible in the simulation record.',
+          background: 'Atrial fibrillation and medicines support follow-up.',
+          assessment: 'Medication timing is not yet documented and the review remains open.',
+          recommendation: 'Document the visible timing issue and confirm the follow-up step.'
+        },
+        tasks: [
+          { id: 'task-14', label: 'Document medication timing', status: 'Due', owner: 'Mark Davies', due: '09:30' },
+          { id: 'task-15', label: 'Complete reconciliation note', status: 'Due', owner: 'Mark Davies', due: '10:00' }
+        ],
+        auditTrail: ['Community medication-timing review opened by Mark Davies.'],
+        dischargeBlockers: ['Medication timing note incomplete']
+      }
+    },
+    signalFixtures: [
+      {
+        signalId: 'signal-dcu-052-medication-timing-0905',
+        syntheticPatientRef: 'DCU-052',
+        sourceSystem: 'simulation-workflow',
+        sourceType: 'workflow',
+        signalCode: 'medication_timing',
+        displayName: 'Medication timing',
+        value: 'overdue',
+        status: 'final',
+        effectiveAt: '2026-06-10T09:05:00.000Z',
+        sourceFreshness: 'current',
+        simulationOnly: true
+      }
+    ],
+    suggestionFixtures: []
   }
 ];
 

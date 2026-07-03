@@ -114,4 +114,33 @@ describe('simulation review report service', () => {
     expect(exportText).toContain('Active patient-level review cues');
     expect(exportText).toContain('No active patient-level review cues in this simulation snapshot.');
   });
+
+  it('renders the new cue categories with readable labels in the report snapshot', () => {
+    const patient = simulatedPatients.find((entry) => entry.id === 'DCU-031');
+    const hospitalInsights = getHospitalInsightsSnapshot({ currentWardName: 'Day Care Unit' });
+    const selectedScenario = getDemoScenarioById('day-care-treatment-pathway');
+    const snapshot = getSimulationReviewReportSnapshot({
+      patient,
+      reviewSignals: [
+        {
+          id: 'signal-3',
+          category: 'sepsis-screen',
+          priority: 'watch',
+          title: 'Review suggested: sepsis-screen cue',
+          explanation: 'Simulation-only cue highlighting sepsis-screen evidence to check.',
+          evidence: [],
+          suggestedHumanReviewAction: 'Human review required: confirm the visible sepsis-screen status and document the outcome.',
+          freshness: { state: 'current', label: 'Latest simulated signal feed' },
+          missingDataNotes: []
+        }
+      ],
+      hospitalInsights,
+      selectedScenario
+    });
+
+    expect(snapshot.activeReviewCues[0]).toMatchObject({
+      categoryLabel: 'Sepsis screen',
+      priorityLabel: 'Watch'
+    });
+  });
 });
