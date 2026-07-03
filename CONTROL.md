@@ -1,6 +1,6 @@
 # SafeFlow Control Board
 
-**Status date:** 2 July 2026
+**Status date:** 3 July 2026
 **Project boundary:** Simulation, education and stakeholder demonstration only. No real patient data. No live NHS deployment. No automated diagnosis, prescribing or escalation.
 
 ## Current status
@@ -48,6 +48,7 @@
 | SF-213 | Done | Safety | Heuristic cue engine (explainable 'intuition') | Merge commit `fb6a9cef22158ad02f7a5e59bc94c68238d96621` via PR [#25](https://github.com/simionolimpiu-spec/wardsafe/pull/25); deterministic cue layer with transparent explanations and human review required. |
 | SF-215 | Done | Safety / UI | Scope low-potassium flag and clean top nav | Merge commit `f63591d0e77dffc17611ad8ad25ef5038011ac1e` via PR [#26](https://github.com/simionolimpiu-spec/wardsafe/pull/26); scoped lab-signal flag wording to structured review support and refreshed navigation. |
 | SF-214 | Done | ML | Extend simulation-risk ML model | Merge commit `ed4e5b60d1f150c5dfe258f4f52060887c8cb8e9` via PR [#27](https://github.com/simionolimpiu-spec/wardsafe/pull/27); synthetic-only model extension remains illustrative and not clinically validated. |
+| SF-216 | Done | Data model | Ward simulation database | Squash merge commit `17971040696045291281b45c4d77d1120e72a724` via PR [#28](https://github.com/simionolimpiu-spec/wardsafe/pull/28); pure ward artifact rendering split out from the SQLite writer so CI can import the database fixtures safely. |
 
 ## Started / Open / Ready
 
