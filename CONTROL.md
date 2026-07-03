@@ -44,6 +44,10 @@
 | SF-126 | Done | Hospital insights dashboard | Hospital insights section with ward comparison and Patient Journey Twin simulated trend charts, using the shared chart-ready dashboard data service. | Squash merge commit `ccede12` via PR [#22](https://github.com/simionolimpiu-spec/wardsafe/pull/22). |
 | SF-209 | Done | Data model | Fictional patient timeline + observations + review cues. | Merge commit `91c727c` via PR [#18](https://github.com/simionolimpiu-spec/wardsafe/pull/18); synthetic-only data only. |
 | SF-211 | Done | Education | Clinical education, interprofessional learning, and portable competency passport | Simulation-only learning layer with micro-learning and structured courses tagged by ward/trust/profession/topic; squash merge commit `cf1577804876428723956b52e101cf0066b660af` via PR [#23](https://github.com/simionolimpiu-spec/wardsafe/pull/23). |
+| SF-212 | Done | Simulation | More scenarios + safety flags | Merge commit `2abb2a04ce891bc390a132bb045535bce84a6653` via PR [#24](https://github.com/simionolimpiu-spec/wardsafe/pull/24); fictional ward scenarios and explainable safety cues only. |
+| SF-213 | Done | Safety | Heuristic cue engine (explainable 'intuition') | Merge commit `fb6a9cef22158ad02f7a5e59bc94c68238d96621` via PR [#25](https://github.com/simionolimpiu-spec/wardsafe/pull/25); deterministic cue layer with transparent explanations and human review required. |
+| SF-215 | Done | Safety / UI | Scope low-potassium flag and clean top nav | Merge commit `f63591d0e77dffc17611ad8ad25ef5038011ac1e` via PR [#26](https://github.com/simionolimpiu-spec/wardsafe/pull/26); scoped lab-signal flag wording to structured review support and refreshed navigation. |
+| SF-214 | Done | ML | Extend simulation-risk ML model | Merge commit `ed4e5b60d1f150c5dfe258f4f52060887c8cb8e9` via PR [#27](https://github.com/simionolimpiu-spec/wardsafe/pull/27); synthetic-only model extension remains illustrative and not clinically validated. |
 
 ## Started / Open / Ready
 
@@ -67,9 +71,6 @@
 | SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Keep as mock/demo unless implementing locally. |
 | SF-210 | Backlog | Evaluation | Demo evaluation framework | Usability, nursing review, documentation safety, learning value. |
-| SF-212 | Backlog | Simulation | More scenarios + safety flags | Add more fictional ward scenarios and safety cues, extending the existing demo scenario + cue data; simulation-only and illustrative. |
-| SF-213 | Backlog | Safety | Heuristic cue engine (explainable 'intuition') | Transparent, auditable rules layer that raises cues and explains why; human-review required; no black-box automation. |
-| SF-214 | Backlog | ML | Extend simulation-risk ML model | Grow `simulation-risk-ml-v0` with more input features from the new scenarios/flags, a richer synthetic dataset, and proper evaluation; output stays labelled illustrative/not clinically validated. |
 
 ## Risks and controls
 
