@@ -25,6 +25,7 @@ const navItems = [
   { id: 'handover', label: 'Handover', icon: Waypoints },
   { id: 'discharges', label: 'Discharges', icon: ClipboardPlus },
   { id: 'reports', label: 'Reports', icon: FileText },
+  { id: 'scenarios', label: 'Scenarios', icon: ClipboardList },
   { id: 'competency-passport', label: 'Competency Passport', icon: Award },
   { id: 'learning-hub', label: 'Learning Hub', icon: BookOpenCheck },
   { id: 'twin', label: 'Patient Journey Twin', icon: Sparkles },

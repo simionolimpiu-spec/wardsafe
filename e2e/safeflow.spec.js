@@ -18,7 +18,14 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await page.getByRole('tab', { name: /Handover/i }).click();
   await expect(page.getByRole('region', { name: /Handover and discharge readiness/i })).toBeVisible();
 
-  await page.getByRole('tab', { name: /Potassium flag/i }).click();
+  const journey = page.getByRole('navigation', { name: /Prototype journey/i });
+  await expect(journey.getByRole('tab', { name: /Potassium flag/i })).toHaveCount(0);
+  await expect(journey.getByRole('tab', { name: /^Scenarios$/i })).toHaveCount(0);
+  await expect(journey.getByRole('tab', { name: /Competency Passport/i })).toHaveCount(0);
+  await expect(journey.getByRole('tab', { name: /Learning Hub/i })).toHaveCount(0);
+  await page.getByRole('tab', { name: /Ward board/i }).click();
+  await expect(page.getByRole('row', { name: /DCU-031.*Electrolyte \/ AKI safety gap/i })).toBeVisible();
+  await expect(page.getByRole('region', { name: /Potassium electrolyte safety gap/i })).toBeVisible();
   await expect(page.getByText(/does not prescribe/i)).toBeVisible();
   await expect(page.getByText(/Potassium has fallen from 3.8 to 3.2 mmol\/L/i).first()).toBeVisible();
 
@@ -26,7 +33,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await page.getByRole('button', { name: /Save SBAR draft/i }).click();
   await expect(page.getByText(/SBAR draft edited and saved/i)).toBeVisible();
 
-  await page.getByRole('tab', { name: /Scenarios/i }).click();
+  await page.getByRole('button', { name: /Scenarios/i }).click();
   await expect(page.getByRole('region', { name: /Discovery scenario library/i })).toBeVisible();
   await expect(page.getByText(/Initial hazard controls/i)).toBeVisible();
 

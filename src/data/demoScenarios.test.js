@@ -9,9 +9,13 @@ describe('demo scenarios', () => {
   it('returns deterministic scenario options with a day care default', () => {
     const options = getDemoScenarioOptions();
     const defaultScenario = getDefaultDemoScenario();
+    const correlatedPatient = defaultScenario.patients.find((patient) => patient.id === 'DCU-031');
+    const uncorrelatedPatients = defaultScenario.patients.filter((patient) => patient.id !== 'DCU-031');
 
     expect(defaultScenario.id).toBe('day-care-treatment-pathway');
     expect(defaultScenario.selectedPatientId).toBe('DCU-031');
+    expect(correlatedPatient?.riskFlags).toContain('Electrolyte / AKI safety gap');
+    expect(uncorrelatedPatients.some((patient) => patient.riskFlags?.includes('Electrolyte / AKI safety gap'))).toBe(false);
     expect(options).toEqual([
       expect.objectContaining({
         id: 'gastro-documentation-review',

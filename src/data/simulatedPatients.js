@@ -17,7 +17,7 @@ export const simulatedPatients = [
     name: 'Patient 031',
     age: 57,
     risk: 'High',
-    riskFlags: ['Allergy (Penicillin)', 'Sepsis Concern'],
+    riskFlags: ['Allergy (Penicillin)', 'Sepsis Concern', 'Electrolyte / AKI safety gap'],
     news2: 6,
     responsibleNurse: 'Leanne Mitchell',
     nextAction: 'Medical review documented',
