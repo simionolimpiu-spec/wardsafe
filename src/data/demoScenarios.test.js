@@ -16,7 +16,7 @@ describe('demo scenarios', () => {
     expect(defaultScenario.selectedPatientId).toBe('DCU-031');
     expect(correlatedPatient?.riskFlags).toContain('Electrolyte / AKI safety gap');
     expect(uncorrelatedPatients.some((patient) => patient.riskFlags?.includes('Electrolyte / AKI safety gap'))).toBe(false);
-    expect(options).toEqual([
+    expect(options.slice(0, 7)).toEqual([
       expect.objectContaining({
         id: 'gastro-documentation-review',
         label: 'Gastro ward documentation review'
@@ -46,6 +46,30 @@ describe('demo scenarios', () => {
         label: 'Community medication-timing review'
       })
     ]);
+  });
+
+  it('adds the ward simulation database scenarios without replacing the existing defaults', () => {
+    const options = getDemoScenarioOptions();
+    const libraryScenario = getDemoScenarioById('ward-sim-surgical-01');
+
+    expect(options).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'day-care-treatment-pathway',
+        label: 'Day Care treatment pathway review'
+      }),
+      expect.objectContaining({
+        id: 'ward-sim-surgical-01',
+        label: expect.stringContaining('Surgical')
+      })
+    ]));
+    expect(libraryScenario).toEqual(expect.objectContaining({
+      id: 'ward-sim-surgical-01',
+      currentWardName: 'Surgical Ward Alpha',
+      hospitalName: 'Cityview Community Hospital',
+      selectedPatientId: expect.stringMatching(/^WS-SURG-/)
+    }));
+    expect(libraryScenario.patients.length).toBeGreaterThanOrEqual(3);
+    expect(libraryScenario.patients[0].riskFlags.length).toBeGreaterThan(0);
   });
 
   it('returns a cloned scenario definition for each id', () => {

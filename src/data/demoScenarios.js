@@ -1,4 +1,8 @@
 import { simulatedPatients, wardSummary as dayCareWardSummary } from './simulatedPatients.js';
+import {
+  getWardLibraryDemoScenarioById,
+  getWardLibraryScenarioOptions
+} from './wardLibrary/index.js';
 
 export const DEFAULT_DEMO_SCENARIO_ID = 'day-care-treatment-pathway';
 
@@ -500,7 +504,11 @@ export function getDefaultDemoScenario() {
 }
 
 export function getDemoScenarioById(scenarioId = DEFAULT_DEMO_SCENARIO_ID) {
-  const definition = demoScenarioDefinitions.find((scenario) => scenario.id === scenarioId) ?? demoScenarioDefinitions[2];
+  const definition = demoScenarioDefinitions.find((scenario) => scenario.id === scenarioId);
+  if (!definition) {
+    return getWardLibraryDemoScenarioById(scenarioId) ?? getDemoScenarioById(DEFAULT_DEMO_SCENARIO_ID);
+  }
+
   const patients = buildScenarioPatients(definition);
 
   return {
@@ -518,7 +526,10 @@ export function getDemoScenarioById(scenarioId = DEFAULT_DEMO_SCENARIO_ID) {
 }
 
 export function getDemoScenarioOptions() {
-  return demoScenarioDefinitions.map(({ id, label, description }) => ({ id, label, description }));
+  return [
+    ...demoScenarioDefinitions.map(({ id, label, description }) => ({ id, label, description })),
+    ...getWardLibraryScenarioOptions()
+  ];
 }
 
 export function getDemoSignalFixtures() {
