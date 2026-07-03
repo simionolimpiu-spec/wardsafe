@@ -316,6 +316,31 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByLabelText(/handover progress 100 percent for Patient 052/i)).toBeInTheDocument();
   });
 
+  it('shows the electrolyte risk flag only for the correlated fictional patient', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const wardList = screen.getByRole('table', { name: /ward patient list/i });
+    const patient031Row = within(wardList).getByRole('button', { name: /open Patient 031 \(DCU-031\)/i }).closest('tr');
+    const patient028Row = within(wardList).getByRole('button', { name: /open Patient 028 \(DCU-028\)/i }).closest('tr');
+
+    expect(patient031Row).not.toBeNull();
+    expect(patient028Row).not.toBeNull();
+    expect(within(patient031Row ?? wardList).getByText(/^Electrolyte \/ AKI safety gap$/i)).toBeInTheDocument();
+    expect(within(patient028Row ?? wardList).queryByText(/^Electrolyte \/ AKI safety gap$/i)).not.toBeInTheDocument();
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    const overview = within(panel).getByRole('tabpanel', { name: /safety overview/i });
+    expect(within(overview).getByText(/^Electrolyte \/ AKI safety gap$/i)).toHaveClass('risk');
+    expect(within(overview).getByRole('region', { name: /potassium electrolyte safety gap/i })).toBeInTheDocument();
+
+    await user.click(within(wardList).getByRole('button', { name: /open Patient 028 \(DCU-028\)/i }));
+
+    const updatedPanel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    expect(within(updatedPanel).queryByText(/^Electrolyte \/ AKI safety gap$/i)).not.toBeInTheDocument();
+    expect(within(updatedPanel).queryByRole('region', { name: /potassium electrolyte safety gap/i })).not.toBeInTheDocument();
+  });
+
   it('keeps the public preview boundary explicit and avoids unsafe clinical wording', () => {
     render(<App />);
 
@@ -383,16 +408,16 @@ describe('SafeFlow prototype', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('tab', { name: /potassium flag/i }));
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
 
-    expect(screen.getByRole('region', { name: /potassium electrolyte safety gap/i })).toBeInTheDocument();
-    expect(screen.getByText(/Potassium has fallen from 3.8 to 3.2 mmol\/L/i, { selector: 'li' })).toBeInTheDocument();
-    expect(screen.getByText(/Magnesium result not visible/i, { selector: 'li' })).toBeInTheDocument();
-    expect(screen.getByText(/does not prescribe/i)).toBeInTheDocument();
+    expect(within(panel).getByRole('region', { name: /potassium electrolyte safety gap/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/Potassium has fallen from 3.8 to 3.2 mmol\/L/i, { selector: 'li' })).toBeInTheDocument();
+    expect(within(panel).getByText(/Magnesium result not visible/i, { selector: 'li' })).toBeInTheDocument();
+    expect(within(panel).getByText(/does not prescribe/i)).toBeInTheDocument();
 
-    const draft = screen.getByLabelText(/editable SBAR draft/i);
+    const draft = within(panel).getByLabelText(/editable SBAR draft/i);
     fireEvent.change(draft, { target: { value: 'Edited safe escalation note.' } });
-    await user.click(screen.getByRole('button', { name: /save SBAR draft/i }));
+    await user.click(within(panel).getByRole('button', { name: /save SBAR draft/i }));
 
     expect(screen.getByText(/SBAR draft edited and saved/i)).toBeInTheDocument();
   });
@@ -419,10 +444,10 @@ describe('SafeFlow prototype', () => {
     }));
     render(<App />);
 
-    await user.click(screen.getByRole('tab', { name: /potassium flag/i }));
-    await user.click(screen.getByRole('button', { name: /generate draft/i }));
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    await user.click(within(panel).getByRole('button', { name: /generate draft/i }));
 
-    expect(screen.getByLabelText(/editable SBAR draft/i).value).toContain('RECOMMENDATION: API recommendation');
+    expect(within(panel).getByLabelText(/editable SBAR draft/i).value).toContain('RECOMMENDATION: API recommendation');
     expect(screen.getByText(/OpenAI provider draft ready/i)).toBeInTheDocument();
     expect(fetch).toHaveBeenCalledWith('/api/drafts/sbar', expect.objectContaining({
       body: JSON.stringify({ patientId: 'DCU-031' })
@@ -523,7 +548,8 @@ describe('SafeFlow prototype', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('tab', { name: /scenarios/i }));
+    const productNav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+    await user.click(within(productNav).getByRole('button', { name: /scenarios/i }));
 
     const scenarioRegion = screen.getByRole('region', { name: /discovery scenario library/i });
     expect(scenarioRegion).toBeInTheDocument();
@@ -540,6 +566,21 @@ describe('SafeFlow prototype', () => {
     const scenarioText = scenarioRegion.textContent;
     expect(scenarioText).not.toMatch(/administer potassium|give potassium|replace potassium|prescribe potassium|diagnose this patient/i);
     expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
+  });
+
+  it('keeps the top prototype journey focused on board-level views', () => {
+    render(<App />);
+
+    const journey = screen.getByRole('navigation', { name: /prototype journey/i });
+
+    expect(within(journey).getByRole('tab', { name: /ward board/i })).toBeInTheDocument();
+    expect(within(journey).getByRole('tab', { name: /handover/i })).toBeInTheDocument();
+    expect(within(journey).getByRole('tab', { name: /patient journey twin/i })).toBeInTheDocument();
+    expect(within(journey).getByRole('tab', { name: /^audit$/i })).toBeInTheDocument();
+    expect(within(journey).queryByRole('tab', { name: /potassium flag/i })).not.toBeInTheDocument();
+    expect(within(journey).queryByRole('tab', { name: /^scenarios$/i })).not.toBeInTheDocument();
+    expect(within(journey).queryByRole('tab', { name: /competency passport/i })).not.toBeInTheDocument();
+    expect(within(journey).queryByRole('tab', { name: /learning hub/i })).not.toBeInTheDocument();
   });
 
   it('shows audit and learning timeline from simulated workflow events', async () => {
@@ -842,6 +883,7 @@ describe('SafeFlow prototype', () => {
     ['Handover', 'Handover and Discharge Readiness'],
     ['Discharges', 'Discharges'],
     ['Reports', 'Reports'],
+    ['Scenarios', 'Discovery Scenario Library'],
     ['Competency Passport', 'Portable Competency Passport'],
     ['Learning Hub', 'Learning Hub'],
     ['Hospital insights', 'Hospital insights'],

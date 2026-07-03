@@ -1,11 +1,17 @@
 import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { PotassiumSafetyGapView } from './PotassiumSafetyGapView.jsx';
 
 export function PatientSafetyPanel({
   patient,
   flag,
+  draftText = '',
+  isGeneratingDraft = false,
   onAddTask = () => {},
+  onDraftChange = () => {},
+  onGenerateDraft = () => {},
   onRequestContact = () => {},
+  onSaveDraft = () => {},
   heuristicCues = [],
   reviewSignals = [],
   signalSnapshot = null
@@ -19,6 +25,11 @@ export function PatientSafetyPanel({
     { id: 'audit', label: 'Audit Trail' }
   ];
   const auditTrail = patient.auditTrail?.length ? patient.auditTrail : patient.responseHistory;
+  const riskFlags = Array.isArray(patient.riskFlags) ? patient.riskFlags.filter(Boolean) : [];
+  const canShowSafetyGapDetail = flag?.level !== 'none'
+    && Array.isArray(flag?.reasons)
+    && Array.isArray(flag?.missingInformation)
+    && Array.isArray(flag?.recommendedNursingActions);
 
   function focusTab(index) {
     const nextTab = tabs[index];
@@ -95,6 +106,13 @@ export function PatientSafetyPanel({
           {activeTab === 'overview' && (
             <>
               <div className="alert-list">
+                {riskFlags.length > 0 && (
+                  <ul className="flag-stack overview-risk-flags" aria-label={`Risk flags for ${patient.name}`}>
+                    {riskFlags.map((riskFlag) => (
+                      <li className={`risk risk-${patient.risk.toLowerCase()}`} key={riskFlag}>{riskFlag}</li>
+                    ))}
+                  </ul>
+                )}
                 {patient.allergies.length > 0 && <p>Allergy: {patient.allergies.join(', ')}</p>}
                 {flag.level !== 'none' && <p>{flag.title}</p>}
                 <p>{patient.escalation === 'Active' ? 'Escalation active - medical team informed' : 'No active escalation'}</p>
@@ -110,6 +128,17 @@ export function PatientSafetyPanel({
                   </button>
                 )}
               </div>
+              {canShowSafetyGapDetail && (
+                <PotassiumSafetyGapView
+                  draftText={draftText}
+                  flag={flag}
+                  isGeneratingDraft={isGeneratingDraft}
+                  onDraftChange={onDraftChange}
+                  onGenerateDraft={onGenerateDraft}
+                  onSaveDraft={onSaveDraft}
+                  patient={patient}
+                />
+              )}
               <ReviewCuesSection
                 flag={flag}
                 heuristicCues={heuristicCues}

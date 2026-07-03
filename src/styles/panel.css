@@ -6,6 +6,12 @@
   padding: var(--space-4);
 }
 
+.overview-risk-flags {
+  flex-flow: row wrap;
+  margin: var(--space-2) 0;
+  padding: 0;
+}
+
 .call-button {
   align-items: center;
   background: var(--color-brand);

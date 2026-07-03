@@ -22,7 +22,6 @@ import { HospitalInsightsView } from './components/HospitalInsightsView.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { SimulationReviewReportButton, SimulationReviewReportDrawer } from './components/SimulationReviewReportDrawer.jsx';
-import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
 import { SafetyBanner } from './components/SafetyBanner.jsx';
 import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
 import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
@@ -51,10 +50,6 @@ import { buildWardReportRows, downloadSimulationCsv } from './domain/simulationE
 const tabs = [
   { id: 'board', label: 'Ward board' },
   { id: 'handover', label: 'Handover' },
-  { id: 'potassium', label: 'Potassium flag' },
-  { id: 'scenarios', label: 'Scenarios' },
-  { id: 'competency-passport', label: 'Competency Passport' },
-  { id: 'learning-hub', label: 'Learning Hub' },
   { id: 'twin', label: 'Patient Journey Twin' },
   { id: 'audit', label: 'Audit' }
 ];
@@ -242,7 +237,7 @@ export default function App() {
   );
   const allTasks = selectAllTasks(state);
   const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
-  const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges', 'potassium'].includes(state.selectedView);
+  const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges'].includes(state.selectedView);
   const riskSupport = useMemo(() => {
     return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
   }, [selectedPatient, potassiumFlag]);
@@ -361,7 +356,7 @@ export default function App() {
       eventType: 'draft.saved',
       eventSummary: 'Fictional SBAR draft saved',
       sourceTable: 'drafts',
-      metadata: { screen: 'potassium' }
+      metadata: { screen: 'patient_panel' }
     });
   }
 
@@ -747,17 +742,6 @@ export default function App() {
                 patient={selectedPatient}
               />
             )}
-            {state.selectedView === 'potassium' && (
-              <PotassiumSafetyGapView
-                patient={selectedPatient}
-                flag={potassiumFlag}
-                draftText={draftText}
-                onDraftChange={setDraftText}
-                onGenerateDraft={generateProviderDraft}
-                onSaveDraft={saveDraft}
-                isGeneratingDraft={isGeneratingDraft}
-              />
-            )}
             {state.selectedView === 'scenarios' && <ScenarioLibraryView />}
             {state.selectedView === 'competency-passport' && (
               <CompetencyPassportView />
@@ -792,8 +776,13 @@ export default function App() {
           {showPatientPanel && (
             <PatientSafetyPanel
               flag={potassiumFlag}
+              draftText={draftText}
+              isGeneratingDraft={isGeneratingDraft}
               onAddTask={addTask}
+              onDraftChange={setDraftText}
+              onGenerateDraft={generateProviderDraft}
               onRequestContact={requestContact}
+              onSaveDraft={saveDraft}
               patient={selectedPatient}
               heuristicCues={heuristicCues}
               reviewSignals={reviewSignals}
