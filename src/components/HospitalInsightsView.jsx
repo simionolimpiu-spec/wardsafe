@@ -1,7 +1,10 @@
 import Chart from 'chart.js/auto';
 import { AlertTriangle, ArrowDownRight, Award, BarChart3, Building2, ChevronRight, TrendingUp } from 'lucide-react';
 import { useEffect, useMemo, useRef } from 'react';
-import { scoreSimulatedTrend } from '../domain/patientJourneyTrendModel.js';
+import {
+  buildSimulatedTrendFeatureSnapshot,
+  scoreSimulatedTrend
+} from '../domain/patientJourneyTrendModel.js';
 import {
   buildSimulatedRiskTrendChartData,
   buildWardComparisonChartData
@@ -30,7 +33,10 @@ const CHART_COLORS = {
 export function HospitalInsightsView({
   currentWardName = 'Day Care Unit',
   hospitalName = 'Cityview Community Hospital',
-  patient = null
+  heuristicCues = [],
+  patient = null,
+  reviewSignals = [],
+  safetyFlag = null
 }) {
   const snapshot = useMemo(
     () => getHospitalInsightsSnapshot({ currentWardName, hospitalName }),
@@ -41,8 +47,13 @@ export function HospitalInsightsView({
     [snapshot]
   );
   const trendFeatures = useMemo(
-    () => buildPatientJourneyTwinFeatures(patient),
-    [patient]
+    () => buildSimulatedTrendFeatureSnapshot({
+      patient,
+      safetyFlag,
+      heuristicCues,
+      reviewSignals
+    }),
+    [heuristicCues, patient, reviewSignals, safetyFlag]
   );
   const trendSuggestion = useMemo(
     () => scoreSimulatedTrend(trendFeatures),
@@ -150,7 +161,6 @@ export function HospitalInsightsView({
     </section>
   );
 }
-
 function ChartCard({
   ariaLabel,
   chartConfig,
@@ -378,88 +388,4 @@ function buildTrendFallbackText(trendChartData) {
 
   const direction = currentPoint.riskScore >= firstPoint.riskScore ? 'rises' : 'falls';
   return `Illustrative model output, not clinically validated. The simulated risk score ${direction} from ${firstPoint.displayValue} to ${currentPoint.displayValue} across ${trendChartData.points.length} points.`;
-}
-
-function buildPatientJourneyTwinFeatures(patient) {
-  const safePatient = isPlainObject(patient) ? patient : {};
-  const openTasks = Array.isArray(safePatient.tasks)
-    ? safePatient.tasks.filter((task) => isPlainObject(task) && task.status !== 'Done')
-    : [];
-  const dischargeBlockers = Array.isArray(safePatient.dischargeBlockers) ? safePatient.dischargeBlockers : [];
-
-  return {
-    syntheticPatientRef: safeText(safePatient.id, 'unknown'),
-    news2Normalized: clamp01(toNumber(safePatient.news2, 0) / 10),
-    potassiumFallingFlag: hasPotassiumTrendDown(safePatient) ? 1 : 0,
-    documentationQualityNorm: buildDocumentationQualityScore(safePatient),
-    handoverCompleteNorm: clamp01(toNumber(safePatient.handoverComplete, 0) / 100),
-    openTaskLoadNorm: clamp01(openTasks.length / 5),
-    escalationStateNorm: buildEscalationStateScore(safePatient.escalation),
-    dischargeBlockerNorm: clamp01(dischargeBlockers.length / 4)
-  };
-}
-
-function buildDocumentationQualityScore(patient) {
-  const checks = [
-    hasText(patient.plan),
-    hasText(patient.sbar?.recommendation),
-    Array.isArray(patient.currentState) && patient.currentState.length > 0,
-    Array.isArray(patient.auditTrail) && patient.auditTrail.length > 0,
-    Array.isArray(patient.responseHistory) && patient.responseHistory.length > 0
-  ];
-
-  return Number(
-    checks.reduce((total, present) => total + (present ? 0.2 : 0), 0).toFixed(2)
-  );
-}
-
-function buildEscalationStateScore(value) {
-  if (value === 'Active') {
-    return 1;
-  }
-
-  if (value === 'Monitoring') {
-    return 0.55;
-  }
-
-  if (value === 'None') {
-    return 0.1;
-  }
-
-  return 0;
-}
-
-function hasPotassiumTrendDown(patient) {
-  const potassiumSeries = Array.isArray(patient.labs?.potassium) ? patient.labs.potassium : [];
-  if (potassiumSeries.length > 1) {
-    const firstValue = toNumber(potassiumSeries[0]?.value, NaN);
-    const lastValue = toNumber(potassiumSeries.at(-1)?.value, NaN);
-    if (Number.isFinite(firstValue) && Number.isFinite(lastValue)) {
-      return lastValue < firstValue;
-    }
-  }
-
-  const currentState = Array.isArray(patient.currentState) ? patient.currentState : [];
-  return currentState.some((entry) => String(entry ?? '').toLowerCase().includes('potassium falling'));
-}
-
-function hasText(value) {
-  return typeof value === 'string' && value.trim().length > 0;
-}
-
-function isPlainObject(value) {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
-}
-
-function safeText(value, fallback = '') {
-  return typeof value === 'string' && value.trim() ? value.trim() : fallback;
-}
-
-function toNumber(value, fallback = 0) {
-  const numeric = Number(value);
-  return Number.isFinite(numeric) ? numeric : fallback;
-}
-
-function clamp01(value) {
-  return Math.max(0, Math.min(1, value));
 }

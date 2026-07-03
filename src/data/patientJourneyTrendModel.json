@@ -1,10 +1,10 @@
 {
-  "modelVersion": "simulation-risk-ml-v0",
-  "featureSetVersion": "signal-features-ml-v0",
-  "trainingDate": "2026-07-01T14:19:59.749Z",
-  "datasetSize": 1000,
-  "trainSize": 800,
-  "testSize": 200,
+  "modelVersion": "simulation-risk-ml-v0-2-sim",
+  "featureSetVersion": "signal-features-ml-v0-2-sim",
+  "trainingDate": "2026-07-03T00:00:00.000Z",
+  "datasetSize": 1500,
+  "trainSize": 1200,
+  "testSize": 300,
   "featureOrder": [
     "news2Normalized",
     "potassiumFallingFlag",
@@ -12,39 +12,59 @@
     "handoverCompleteNorm",
     "openTaskLoadNorm",
     "escalationStateNorm",
-    "dischargeBlockerNorm"
+    "dischargeBlockerNorm",
+    "news2TrendDeltaNorm",
+    "safetyFlagLevelNorm",
+    "simulationFlagCountNorm",
+    "heuristicCueCountNorm",
+    "blockerCueCountNorm",
+    "documentationCuePresentFlag",
+    "handoverCuePresentFlag",
+    "escalationCuePresentFlag",
+    "dischargeCuePresentFlag",
+    "deterioratingObsCuePresentFlag"
   ],
   "weights": [
-    9.140275,
-    5.364457,
-    -7.425866,
-    -5.740489,
-    3.060349,
-    5.683343,
-    3.785833
+    6.418903,
+    3.279302,
+    -4.616531,
+    -5.239833,
+    1.819839,
+    3.768347,
+    2.087407,
+    1.89053,
+    3.052214,
+    2.683167,
+    2.106258,
+    1.961918,
+    2.44842,
+    1.604264,
+    2.520695,
+    2.917224,
+    3.330986
   ],
-  "intercept": -2.040838,
+  "intercept": -2.523789,
   "riskTierThresholds": {
     "watchUpper": 0.4,
     "reviewUpper": 0.7
   },
   "testMetrics": {
-    "accuracy": 0.95,
-    "precision": 0.963,
-    "recall": 0.917,
+    "accuracy": 0.96,
+    "precision": 0.974,
+    "recall": 0.974,
     "note": "performance on synthetic holdout data, not clinical validation"
   },
   "trainingSummary": {
     "algorithm": "batch gradient descent logistic regression in plain JavaScript",
     "learningRate": 0.75,
     "epochs": 1600,
-    "seed": 20260701,
+    "seed": 20260703,
     "generatedFrom": "ml/data/syntheticTrainingData.json",
     "labelDefinition": {
       "description": "Illustrative deterioration-review flag generated from a fixed weighted sum of synthetic features plus noise, then thresholded.",
-      "formula": "linear = -0.95 + 2.05*news2Normalized + 1.25*potassiumFallingFlag - 1.55*documentationQualityNorm - 1.2*handoverCompleteNorm + 1.15*openTaskLoadNorm + 1.4*escalationStateNorm + 1.5*dischargeBlockerNorm + noise; label = linear >= 0.12 ? 1 : 0",
-      "threshold": 0.12,
-      "noiseRange": 0.35,
+      "formula": "linear = -1.65 + 2.05*news2Normalized + 1.25*potassiumFallingFlag - 1.55*documentationQualityNorm - 1.2*handoverCompleteNorm + 1.15*openTaskLoadNorm + 1.4*escalationStateNorm + 1.5*dischargeBlockerNorm + 1.2*news2TrendDeltaNorm + 0.95*safetyFlagLevelNorm + 0.85*simulationFlagCountNorm + 1*heuristicCueCountNorm + 1.1*blockerCueCountNorm + 0.7*documentationCuePresentFlag + 0.55*handoverCuePresentFlag + 0.85*escalationCuePresentFlag + 0.8*dischargeCuePresentFlag + 0.9*deterioratingObsCuePresentFlag + noise; label = linear >= 0.18 ? 1 : 0",
+      "threshold": 0.18,
+      "noiseRange": 0.42,
       "note": "The generated label is fabricated for simulation only and does not represent clinical truth."
     }
   }

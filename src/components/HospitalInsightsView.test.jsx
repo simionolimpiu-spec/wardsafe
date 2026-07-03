@@ -61,4 +61,44 @@ describe('HospitalInsightsView', () => {
     expect(chartMocks.instances[0].config.type).toBe('bar');
     expect(chartMocks.instances[1].config.type).toBe('line');
   });
+
+  it('feeds review cues and safety flags into the simulated trend without rendering holdout metrics', () => {
+    const lowSignalPatient = simulatedPatients.find((entry) => entry.id === 'DCU-052');
+    const baseline = render(
+      <HospitalInsightsView
+        currentWardName="Community Frailty Team"
+        hospitalName="Cityview Community Hospital"
+        patient={lowSignalPatient}
+      />
+    );
+    const baselineTrendValue = chartMocks.instances[1].config.data.datasets[0].data.at(-1);
+
+    baseline.unmount();
+    chartMocks.instances.length = 0;
+    chartMocks.Chart.mockClear();
+
+    render(
+      <HospitalInsightsView
+        currentWardName="Community Frailty Team"
+        hospitalName="Cityview Community Hospital"
+        heuristicCues={[
+          { ruleId: 'escalation-readiness-cue', severity: 'blocker' },
+          { ruleId: 'documentation-gap', severity: 'review' }
+        ]}
+        patient={lowSignalPatient}
+        reviewSignals={[
+          { category: 'deteriorating-obs', priority: 'blocker' },
+          { category: 'documentation', priority: 'review' }
+        ]}
+        safetyFlag={{ level: 'medium' }}
+      />
+    );
+
+    const enrichedTrendValue = chartMocks.instances[1].config.data.datasets[0].data.at(-1);
+    const view = screen.getByRole('region', { name: /hospital insights/i });
+
+    expect(enrichedTrendValue).toBeGreaterThan(baselineTrendValue);
+    expect(within(view).getAllByText(/illustrative model output, not clinically validated/i).length).toBeGreaterThan(0);
+    expect(within(view).queryByText(/accuracy|precision|recall/i)).not.toBeInTheDocument();
+  });
 });

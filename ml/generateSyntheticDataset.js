@@ -1,8 +1,8 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export const MODEL_VERSION = 'simulation-risk-ml-v0';
-export const FEATURE_SET_VERSION = 'signal-features-ml-v0';
+export const MODEL_VERSION = 'simulation-risk-ml-v0-2-sim';
+export const FEATURE_SET_VERSION = 'signal-features-ml-v0-2-sim';
 export const FEATURE_ORDER = [
   'news2Normalized',
   'potassiumFallingFlag',
@@ -10,14 +10,25 @@ export const FEATURE_ORDER = [
   'handoverCompleteNorm',
   'openTaskLoadNorm',
   'escalationStateNorm',
-  'dischargeBlockerNorm'
+  'dischargeBlockerNorm',
+  'news2TrendDeltaNorm',
+  'safetyFlagLevelNorm',
+  'simulationFlagCountNorm',
+  'heuristicCueCountNorm',
+  'blockerCueCountNorm',
+  'documentationCuePresentFlag',
+  'handoverCuePresentFlag',
+  'escalationCuePresentFlag',
+  'dischargeCuePresentFlag',
+  'deterioratingObsCuePresentFlag'
 ];
 
 export const SYNTHETIC_DATASET_PATH = new URL('./data/syntheticTrainingData.json', import.meta.url);
 
-const DEFAULT_SEED = 20260701;
-const DEFAULT_DATASET_SIZE = 1000;
+const DEFAULT_SEED = 20260703;
+const DEFAULT_DATASET_SIZE = 1500;
 const DEFAULT_TRAIN_RATIO = 0.8;
+const DATASET_GENERATED_AT = '2026-07-03T00:00:00.000Z';
 
 const LABEL_WEIGHTS = {
   news2Normalized: 2.05,
@@ -26,12 +37,22 @@ const LABEL_WEIGHTS = {
   handoverCompleteNorm: -1.2,
   openTaskLoadNorm: 1.15,
   escalationStateNorm: 1.4,
-  dischargeBlockerNorm: 1.5
+  dischargeBlockerNorm: 1.5,
+  news2TrendDeltaNorm: 1.2,
+  safetyFlagLevelNorm: 0.95,
+  simulationFlagCountNorm: 0.85,
+  heuristicCueCountNorm: 1,
+  blockerCueCountNorm: 1.1,
+  documentationCuePresentFlag: 0.7,
+  handoverCuePresentFlag: 0.55,
+  escalationCuePresentFlag: 0.85,
+  dischargeCuePresentFlag: 0.8,
+  deterioratingObsCuePresentFlag: 0.9
 };
 
-const LABEL_INTERCEPT = -0.95;
-const LABEL_NOISE_RANGE = 0.35;
-const LABEL_THRESHOLD = 0.12;
+const LABEL_INTERCEPT = -1.65;
+const LABEL_NOISE_RANGE = 0.42;
+const LABEL_THRESHOLD = 0.18;
 
 export function generateSyntheticDataset({
   seed = DEFAULT_SEED,
@@ -60,7 +81,7 @@ export function generateSyntheticDataset({
   const testRows = rows.slice(splitIndex);
 
   return {
-    generatedAt: new Date().toISOString(),
+    generatedAt: DATASET_GENERATED_AT,
     seed,
     datasetSize: rows.length,
     trainSize: trainRows.length,
@@ -75,7 +96,17 @@ export function generateSyntheticDataset({
       handoverCompleteNorm: 'Synthetic handover completeness score scaled from 0 to 1.',
       openTaskLoadNorm: 'Synthetic open task load score scaled from 0 to 1.',
       escalationStateNorm: 'Synthetic escalation state score scaled from 0 to 1.',
-      dischargeBlockerNorm: 'Synthetic discharge blocker score scaled from 0 to 1.'
+      dischargeBlockerNorm: 'Synthetic discharge blocker score scaled from 0 to 1.',
+      news2TrendDeltaNorm: 'Synthetic positive NEWS2 movement between fictional observation snapshots, scaled from 0 to 1.',
+      safetyFlagLevelNorm: 'Synthetic unresolved safety-flag intensity scaled from 0 to 1.',
+      simulationFlagCountNorm: 'Synthetic count of visible simulation flags scaled from 0 to 1.',
+      heuristicCueCountNorm: 'Synthetic count of heuristic review cues scaled from 0 to 1.',
+      blockerCueCountNorm: 'Synthetic count of blocker-severity cues scaled from 0 to 1.',
+      documentationCuePresentFlag: 'Synthetic binary flag for a documentation gap cue.',
+      handoverCuePresentFlag: 'Synthetic binary flag for a handover completeness cue.',
+      escalationCuePresentFlag: 'Synthetic binary flag for an escalation readiness cue.',
+      dischargeCuePresentFlag: 'Synthetic binary flag for a discharge-readiness blocker cue.',
+      deterioratingObsCuePresentFlag: 'Synthetic binary flag for a deteriorating observations cue.'
     },
     labelDefinition: {
       description: 'Illustrative deterioration-review flag generated from a fixed weighted sum of synthetic features plus noise, then thresholded.',
@@ -130,6 +161,11 @@ function buildFeatureVector(rng) {
   const documentationQualityNorm = clamp01(0.35 + 0.65 * (1 - Math.pow(rng(), 1.7)));
   const handoverCompleteNorm = clamp01(0.3 + 0.7 * (1 - Math.pow(rng(), 1.45)));
   const news2Normalized = clamp01(Math.pow(rng(), 1.15));
+  const news2TrendDeltaNorm = clamp01(
+    (rng() < clamp01(0.12 + (0.55 * news2Normalized) + (0.16 * (1 - documentationQualityNorm))))
+      ? (0.08 + (0.55 * news2Normalized * rng()) + (0.22 * rng()))
+      : (0.05 * rng())
+  );
   const openTaskLoadNorm = clamp01(
     0.15 +
     (0.5 * (1 - handoverCompleteNorm)) +
@@ -154,6 +190,53 @@ function buildFeatureVector(rng) {
     (0.22 * openTaskLoadNorm) +
     (0.12 * (1 - documentationQualityNorm))
   ) ? 1 : 0;
+  const documentationCuePresentFlag = binaryFeature(
+    rng,
+    0.1 + (0.72 * (1 - documentationQualityNorm)) + (0.14 * potassiumFallingFlag)
+  );
+  const handoverCuePresentFlag = binaryFeature(
+    rng,
+    0.1 + (0.62 * (1 - handoverCompleteNorm)) + (0.22 * openTaskLoadNorm)
+  );
+  const deterioratingObsCuePresentFlag = binaryFeature(
+    rng,
+    0.08 + (0.48 * news2Normalized) + (0.5 * news2TrendDeltaNorm)
+  );
+  const escalationCuePresentFlag = binaryFeature(
+    rng,
+    0.08 + (0.58 * escalationStateNorm) + (0.18 * deterioratingObsCuePresentFlag)
+  );
+  const dischargeCuePresentFlag = binaryFeature(
+    rng,
+    0.08 + (0.68 * dischargeBlockerNorm) + (0.18 * handoverCuePresentFlag)
+  );
+  const multipleGapCueFlag = documentationCuePresentFlag + handoverCuePresentFlag + escalationCuePresentFlag + dischargeCuePresentFlag >= 3 ? 1 : 0;
+  const safetyFlagLevelNorm = clamp01(
+    potassiumFallingFlag
+      ? (0.48 + (0.32 * rng()) + (0.2 * news2Normalized))
+      : (0.14 * documentationCuePresentFlag) + (0.18 * deterioratingObsCuePresentFlag) + (0.12 * rng())
+  );
+  const simulationFlagCountNorm = clamp01((
+    potassiumFallingFlag +
+    documentationCuePresentFlag +
+    handoverCuePresentFlag +
+    escalationCuePresentFlag +
+    dischargeCuePresentFlag +
+    deterioratingObsCuePresentFlag
+  ) / 6);
+  const heuristicCueCountNorm = clamp01((
+    documentationCuePresentFlag +
+    handoverCuePresentFlag +
+    escalationCuePresentFlag +
+    dischargeCuePresentFlag +
+    multipleGapCueFlag
+  ) / 5);
+  const blockerCueCountNorm = clamp01((
+    escalationCuePresentFlag +
+    dischargeCuePresentFlag +
+    deterioratingObsCuePresentFlag +
+    multipleGapCueFlag
+  ) / 5);
 
   return {
     news2Normalized: roundTo(news2Normalized, 4),
@@ -162,7 +245,17 @@ function buildFeatureVector(rng) {
     handoverCompleteNorm: roundTo(handoverCompleteNorm, 4),
     openTaskLoadNorm: roundTo(openTaskLoadNorm, 4),
     escalationStateNorm: roundTo(escalationStateNorm, 4),
-    dischargeBlockerNorm: roundTo(dischargeBlockerNorm, 4)
+    dischargeBlockerNorm: roundTo(dischargeBlockerNorm, 4),
+    news2TrendDeltaNorm: roundTo(news2TrendDeltaNorm, 4),
+    safetyFlagLevelNorm: roundTo(safetyFlagLevelNorm, 4),
+    simulationFlagCountNorm: roundTo(simulationFlagCountNorm, 4),
+    heuristicCueCountNorm: roundTo(heuristicCueCountNorm, 4),
+    blockerCueCountNorm: roundTo(blockerCueCountNorm, 4),
+    documentationCuePresentFlag,
+    handoverCuePresentFlag,
+    escalationCuePresentFlag,
+    dischargeCuePresentFlag,
+    deterioratingObsCuePresentFlag
   };
 }
 
@@ -185,6 +278,10 @@ function buildLabelRecord(features, rng) {
 
 function uniformNoise(rng, range) {
   return (rng() * 2 - 1) * range;
+}
+
+function binaryFeature(rng, probability) {
+  return rng() < clamp01(probability) ? 1 : 0;
 }
 
 function sigmoid(value) {
