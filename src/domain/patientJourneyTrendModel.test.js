@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import modelData from '../data/patientJourneyTrendModel.json';
-import { scoreSimulatedTrend } from './patientJourneyTrendModel.js';
+import {
+  buildSimulatedTrendFeatureSnapshot,
+  scoreSimulatedTrend
+} from './patientJourneyTrendModel.js';
+import {
+  FEATURE_ORDER,
+  FEATURE_SET_VERSION,
+  MODEL_VERSION,
+  generateSyntheticDataset
+} from '../../ml/generateSyntheticDataset.js';
 
 const lowRiskFeatures = {
   syntheticPatientRef: 'DCU-LOW-001',
@@ -66,8 +75,8 @@ describe('scoreSimulatedTrend', () => {
       status: 'suggested',
       title: expect.stringMatching(/simulated/i),
       suggestedFlag: expect.stringMatching(/simulated/i),
-      modelVersion: 'simulation-risk-ml-v0',
-      featureSetVersion: 'signal-features-ml-v0',
+      modelVersion: 'simulation-risk-ml-v0-2-sim',
+      featureSetVersion: 'signal-features-ml-v0-2-sim',
       requiresHumanReview: true,
       simulationOnly: true,
       actions: []
@@ -171,5 +180,117 @@ describe('scoreSimulatedTrend', () => {
     expect(high.riskTier).toMatch(/^(watch|review|urgent)$/);
     expect(low.riskScore).toBeLessThan(high.riskScore);
     expect(low.riskTier).not.toBe(high.riskTier);
+  });
+
+  it('derives richer simulation-only feature snapshots from flags, heuristic cues and observation deltas', () => {
+    const featureSnapshot = buildSimulatedTrendFeatureSnapshot({
+      patient: {
+        id: 'DCU-RICH-001',
+        news2: 7,
+        riskFlags: ['Sepsis screen due', 'Falls assessment overdue'],
+        plan: '',
+        sbar: { recommendation: '' },
+        currentState: ['Deteriorating observations cue visible'],
+        auditTrail: ['Deteriorating observation review opened.'],
+        responseHistory: [],
+        handoverComplete: 40,
+        escalation: 'Active',
+        dischargeBlockers: ['Transport not booked'],
+        tasks: [{ id: 'task-1', status: 'Due' }],
+        observations: [{ news2: 3 }, { news2: 7 }],
+        labs: {
+          potassium: [{ value: 4.1 }, { value: 3.3 }]
+        }
+      },
+      safetyFlag: { level: 'medium' },
+      heuristicCues: [
+        { ruleId: 'escalation-readiness-cue', severity: 'blocker' },
+        { ruleId: 'handover-completeness-issue', severity: 'review' },
+        { ruleId: 'documentation-gap', severity: 'review' }
+      ],
+      reviewSignals: [
+        { category: 'deteriorating-obs', priority: 'blocker' },
+        { category: 'discharge', priority: 'blocker' },
+        { category: 'documentation', priority: 'review' }
+      ]
+    });
+
+    expect(featureSnapshot).toMatchObject({
+      syntheticPatientRef: 'DCU-RICH-001',
+      news2Normalized: 0.7,
+      potassiumFallingFlag: 1,
+      handoverCompleteNorm: 0.4,
+      news2TrendDeltaNorm: 0.4,
+      safetyFlagLevelNorm: 0.6,
+      simulationFlagCountNorm: 0.5,
+      heuristicCueCountNorm: 0.6,
+      blockerCueCountNorm: 0.6,
+      documentationCuePresentFlag: 1,
+      handoverCuePresentFlag: 1,
+      escalationCuePresentFlag: 1,
+      dischargeCuePresentFlag: 1,
+      deterioratingObsCuePresentFlag: 1
+    });
+  });
+
+  it('accepts an array of feature snapshots and scores the latest snapshot with observation-trend context', () => {
+    const neutralFeatures = {
+      syntheticPatientRef: 'TREND-ARRAY',
+      potassiumFallingFlag: 0,
+      documentationQualityNorm: 0.5,
+      handoverCompleteNorm: 0.5,
+      openTaskLoadNorm: 0.35,
+      escalationStateNorm: 0.35,
+      dischargeBlockerNorm: 0.35
+    };
+    const steady = scoreSimulatedTrend([
+      { ...neutralFeatures, news2Normalized: 0.4 },
+      { ...neutralFeatures, news2Normalized: 0.4 }
+    ]);
+    const rising = scoreSimulatedTrend([
+      { ...neutralFeatures, news2Normalized: 0.1 },
+      { ...neutralFeatures, news2Normalized: 0.4 }
+    ]);
+
+    expect(rising.syntheticPatientRef).toBe('TREND-ARRAY');
+    expect(rising.modelVersion).toBe('simulation-risk-ml-v0-2-sim');
+    expect(rising.featureSetVersion).toBe('signal-features-ml-v0-2-sim');
+    expect(rising.riskScore).toBeGreaterThan(steady.riskScore);
+    expect(rising.evidence.map((item) => item.label)).toEqual(
+      expect.arrayContaining([
+        'NEWS2 increased across the simulated observation snapshots.'
+      ])
+    );
+  });
+});
+
+describe('simulated trend synthetic dataset', () => {
+  it('generates deterministic richer synthetic rows with the v0.2 simulation feature set', () => {
+    const first = generateSyntheticDataset({ seed: 20260703 });
+    const second = generateSyntheticDataset({ seed: 20260703 });
+
+    expect(first).toEqual(second);
+    expect(MODEL_VERSION).toBe('simulation-risk-ml-v0-2-sim');
+    expect(FEATURE_SET_VERSION).toBe('signal-features-ml-v0-2-sim');
+    expect(first.datasetSize).toBeGreaterThan(1000);
+    expect(first.modelVersion).toBe(MODEL_VERSION);
+    expect(first.featureSetVersion).toBe(FEATURE_SET_VERSION);
+    expect(FEATURE_ORDER).toEqual(expect.arrayContaining([
+      'news2TrendDeltaNorm',
+      'safetyFlagLevelNorm',
+      'simulationFlagCountNorm',
+      'heuristicCueCountNorm',
+      'blockerCueCountNorm',
+      'documentationCuePresentFlag',
+      'handoverCuePresentFlag',
+      'escalationCuePresentFlag',
+      'dischargeCuePresentFlag',
+      'deterioratingObsCuePresentFlag'
+    ]));
+    expect(first.trainRows[0].features).toEqual(
+      expect.objectContaining(
+        Object.fromEntries(FEATURE_ORDER.map((featureName) => [featureName, expect.any(Number)]))
+      )
+    );
   });
 });

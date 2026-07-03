@@ -739,7 +739,10 @@ export default function App() {
               <HospitalInsightsView
                 currentWardName={state.currentWardName}
                 hospitalName={state.hospitalName}
+                heuristicCues={heuristicCues}
                 patient={selectedPatient}
+                reviewSignals={reviewSignals}
+                safetyFlag={potassiumFlag}
               />
             )}
             {state.selectedView === 'scenarios' && <ScenarioLibraryView />}

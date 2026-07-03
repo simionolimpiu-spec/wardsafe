@@ -17,7 +17,7 @@ const RISK_TIER_THRESHOLDS = {
 export async function trainSimulatedTrendModel({
   learningRate = 0.75,
   epochs = 1600,
-  seed = 20260701
+  seed = 20260703
 } = {}) {
   const dataset = await ensureSyntheticDataset({ seed });
   const trainRows = Array.isArray(dataset.trainRows) ? dataset.trainRows : [];
@@ -40,7 +40,7 @@ export async function trainSimulatedTrendModel({
   const artifact = {
     modelVersion: MODEL_VERSION,
     featureSetVersion: FEATURE_SET_VERSION,
-    trainingDate: new Date().toISOString(),
+    trainingDate: typeof dataset.generatedAt === 'string' ? dataset.generatedAt : '2026-07-03T00:00:00.000Z',
     datasetSize: dataset.datasetSize ?? (trainRows.length + testRows.length),
     trainSize: trainRows.length,
     testSize: testRows.length,
@@ -168,8 +168,8 @@ function roundTo(value, digits = 3) {
 }
 
 async function main() {
-  await writeSyntheticDataset({ seed: 20260701 });
-  const artifact = await trainSimulatedTrendModel({ seed: 20260701 });
+  await writeSyntheticDataset({ seed: 20260703 });
+  const artifact = await trainSimulatedTrendModel({ seed: 20260703 });
   console.log(
     `Wrote model artifact to ${fileURLToPath(MODEL_OUTPUT_PATH)} with holdout accuracy ${artifact.testMetrics.accuracy}`
   );
