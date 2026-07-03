@@ -10,7 +10,7 @@ import {
 import {
   EXPORT_TABLES,
   renderWardDatabaseArtifacts
-} from '../../../scripts/build-ward-db.mjs';
+} from './wardDatabaseArtifacts.js';
 
 const ALLOWED_WARD_TYPES = new Set([
   'surgical',
