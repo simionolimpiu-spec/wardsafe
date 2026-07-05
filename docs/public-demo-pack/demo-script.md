@@ -1,5 +1,8 @@
 # SafeFlow Demo Script
 
+**Status date:** 2026-07-05
+**Authored directly (docs-only):** aligned to `docs/public-demo-pack/master-narrative.md`.
+
 ## Setup
 
 Run the prototype locally:
@@ -41,7 +44,7 @@ Call out:
 
 - Visible evidence: falling potassium, medicine context, symptoms, renal-function change.
 - Missing information: magnesium result and unclear electrolyte plan.
-- Boundary: SafeFlow supports recognition, checking, escalation and documentation; it does not prescribe, diagnose or replace clinical judgement.
+- Boundary: SafeFlow supports recognition, checking, documentation and escalation readiness; it does not prescribe or replace clinical judgement.
 - Editable SBAR draft generated from visible simulated evidence.
 
 Optional action:
@@ -57,7 +60,7 @@ Open the Audit tab.
 Call out:
 
 - Timeline events are imported from the fictional scenario.
-- Documentation focus: concern, background, assessment, recommendation, who was contacted, response and outcome.
+- Documentation focus: concern, background, assessment, next step, who was contacted, response and outcome.
 
 ## 5. Discovery Scenarios
 

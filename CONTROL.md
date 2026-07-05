@@ -1,25 +1,26 @@
-# SafeFlow Control Board
+﻿# SafeFlow Control Board
 
-**Status date:** 3 July 2026
-**Project boundary:** Simulation, education and stakeholder demonstration only. No real patient data. No live NHS deployment. No automated diagnosis, prescribing or escalation.
+**Status date:** 5 July 2026
+**Project boundary:** Simulation, education and stakeholder demonstration only. No real patient data. No live NHS deployment. No automated prescribing or escalation.
 
 ## Current status
 
 | Field | Current position |
 |---|---|
-| Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 1 July 2026. |
+| Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 5 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype |
+| Current branch | docs/narrative-alignment |
+| Open PR | #29 "test(safety): add regression scans for demo surfaces", branch `test/safety-language-scan-extension`. State: OPEN as of 5 July 2026. |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
 | Merged PR | #13 "Content views refresh", branch ui/content-views-refresh. Rebased onto latest base, `npm test` (56 files, 338 tests) and `npm run build` passed, safety-wording scan clean, merged 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; PR #7 was closed as superseded. |
+| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; keep the app-copy naming cleanup queued as a Mia task. |
 
 ## Completed / Done
 
 | ID | Status | Area | Work item | Evidence |
 |---|---|---|---|---|
-| SF-001 | Done | Safety boundary | Simulation-only boundary established: no real patient data, no live NHS systems, no diagnosis/prescribing/escalation claims. | Project rule / control board |
+| SF-001 | Done | Safety boundary | Simulation-only boundary established: no real patient data, no live NHS systems, no prescribing/escalation claims. | Project rule / control board |
 | SF-002 | Done | Simulation signals | Pure cue engine, workspace signal snapshot storage, app wiring, and patient-panel review cues implemented. | Commit 1e888ae0632898fee488e12def8a1c1b5e9ae96f |
 | SF-003 | Done | Patient panel | Simulation-only Review cues section added to patient panel. | Commit 1e888ae0632898fee488e12def8a1c1b5e9ae96f |
 | SF-004 | Done | Presentation Mode | Header toggle, presentation banner, simplified flow strip, and projector-friendly styling added. | Commit f55c51b |
@@ -56,10 +57,10 @@
 |---|---|---|---|---|
 | SF-101 | Closed | Release | PR #7 feature/minimal-role-aware-gui closed as superseded. | No merge planned. |
 | SF-104 | Done | AWS architecture | Mock/readiness AWS direction documented in `docs/public-demo-pack/build-readiness/architecture-options.md` and `docs/public-demo-pack/build-readiness/technology-stack.md` (Aurora, Step Functions, Bedrock/LLM draft provider, tokenised backend, RBAC/audit logging). | Merged via [PR #19](https://github.com/simionolimpiu-spec/wardsafe/pull/19) on 2 July 2026; squash merge commit `5384b54b7f71d61b9b614df7c753255edab39d18`. Keep as mock/readiness architecture only; no live AWS deployment or SDK wiring until explicit approval. |
-| SF-105 | In progress | Docs alignment | White paper, stakeholder deck, roadmap, and app wording exist in pieces. | Create one aligned master narrative. |
-| SF-107 | In progress | Clinical safety | Digital twin / predictive learning idea explored. | Frame as review-support and education only, not clinical prediction. |
-| SF-109 | Done | Governance | Clinical safety case outline and hazard log skeleton drafted. | `docs/public-demo-pack/clinical-safety-case-outline.md`, using `templates/safety-case-outline-template.md`; 10-row hazard log grounded in the actual signal-envelope contract (`signalClient.js`) and existing risks R-001–R-008. Not yet independently reviewed; roles unfilled pending a future pilot. |
-| SF-127 | Backlog | Safety QA | Safety-language regression test gap on newest UI. | `scanStrictSafetyLanguage`/`scanBoundaryAwareSafetyLanguage` (`src/domain/safetyLanguage.js`) is only wired into `simulationScenarioCoverage`/`simulationRiskSupportEvaluation`. Manual audit (2 July 2026) found `PatientJourneyTwin.jsx`, `HospitalInsightsView.jsx`, `patientTimeline.js`/fixtures, and `patientJourneyTrendModel.js` clean today, but none of them are covered by an automated scan, so future fixture/copy edits could reintroduce prohibited wording undetected. Add a scan of their rendered/serialized output to the existing test suite. |
+| SF-105 | Done | Docs alignment | `docs/public-demo-pack/master-narrative.md` is now the controlled description; `stakeholder-demo-pack.md`, `demo-script.md`, `safety-boundary.md`, and `README.md` are aligned to it. | Branch `docs/narrative-alignment`; app-copy naming cleanup remains a Mia follow-up. |
+| SF-107 | In progress | Clinical safety | Simulation twin / learning idea explored. | Frame as review-support and education only, not live clinical action. |
+| SF-109 | Done | Governance | Clinical safety case outline and hazard log skeleton drafted. | `docs/public-demo-pack/clinical-safety-case-outline.md`, using `templates/safety-case-outline-template.md`; 10-row hazard log grounded in the actual signal-envelope contract (`signalClient.js`) and existing risks R-001â€“R-008. Not yet independently reviewed; roles unfilled pending a future pilot. |
+| SF-127 | In progress | Safety QA | Safety-language regression test gap on newest UI. | `scanStrictSafetyLanguage`/`scanBoundaryAwareSafetyLanguage` (`src/domain/safetyLanguage.js`) is only wired into `simulationScenarioCoverage`/`simulationRiskSupportEvaluation`. Manual audit (2 July 2026) found `PatientJourneyTwin.jsx`, `HospitalInsightsView.jsx`, `patientTimeline.js`/fixtures, and `patientJourneyTrendModel.js` clean today, but none of them are covered by an automated scan, so future fixture/copy edits could reintroduce unsafe wording undetected. PR #29 is open to close this gap. |
 
 ## Backlog
 
@@ -77,15 +78,15 @@
 
 | ID | Risk | Control |
 |---|---|---|
-| R-001 | Project sounds like a live clinical prediction tool. | Use simulation-only, education, human review, and review-support wording everywhere. |
-| R-002 | Scope creep into diagnosis, prescribing, or automated escalation. | Avoid diagnosis engine, prescribing recommendation, and escalation automation claims. |
+| R-001 | Project sounds like a live clinical decision tool. | Use simulation-only, education, human review, and review-support wording everywhere. |
+| R-002 | Scope creep into prescribing, treatment advice, or automated escalation. | Avoid live-clinical action claims and keep the review-support boundary explicit. |
 | R-003 | AWS deploy risk or accidental cost. | Keep SAFEFLOW_DEPLOYMENT_APPROVED false (explicitly set, not merely unset) unless explicitly preparing controlled simulation deployment. |
 | R-004 | Real patient data accidentally enters demo material. | Use fictional patients, fictional observations, and sanitised examples only. |
 | R-005 | Docs, slides, and app language drift apart. | Update this control board after each change; treat exported chat docs as history, not live truth. |
 | R-006 | Public preview shared before release review. | Confirm PR status, CI, branch cleanliness, and wording before merge/tag. |
 | R-007 | LLM/digital twin wording creates unsafe expectations. | Call it Patient Journey Twin / Simulation Patient Twin and explain that it supports learning and review, not autonomous care. |
 | R-008 | Control docs reference the wrong PR number after external export/import. | Always re-pull live git/GitHub state before updating this file; do not trust prior chat summaries alone. |
-| R-009 | Simulated ML risk-model output (`patientJourneyTrendModel.js`, weights in `patientJourneyTrendModel.json`) gets read as a validated clinical prediction. | Keep "Illustrative model output, not clinically validated" on every rendered trend chart/summary; never surface `testMetrics` (accuracy/precision/recall) in the UI — confirmed today they are data-layer only, not rendered. See SF-127 for closing the automated-scan gap on this and the Twin/Hospital Insights surfaces. |
+| R-009 | Simulated ML trend output (`patientJourneyTrendModel.js`, weights in `patientJourneyTrendModel.json`) gets read as a validated clinical result. | Keep "Illustrative model output, not clinically validated" on every rendered trend chart/summary; never surface `testMetrics` (accuracy/precision/recall) in the UI â€” confirmed today they are data-layer only, not rendered. See SF-127 for closing the automated-scan gap on this and the Twin/Hospital Insights surfaces. |
 | R-010 | Next-phase scope drifts into live or black-box claims. | Keep this phase simulation-only, with no real-patient data, no autonomous clinical action, no AGI/black-box language, and ship each item as its own scoped PR. |
 
 ## Core decisions to preserve
@@ -103,8 +104,8 @@
 | Priority | Action |
 |---|---|
 | 1 | Record PR #7 as closed as superseded and keep the tracker aligned with GitHub. (Done) |
-| 2 | Draft a clinical safety case outline and hazard log skeleton. (Done — see SF-109) |
-| 3 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. (In progress — delivery-roadmap.md refreshed 1 July 2026; stakeholder pack/white paper still to check.) |
+| 2 | Draft a clinical safety case outline and hazard log skeleton. (Done â€” see SF-109) |
+| 3 | Keep the public docs aligned with the master narrative and raise the remaining app-copy naming cleanup as a Mia task. |
 | 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
 | 5 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified. |
 | 6 | Keep this file updated after every commit, document, or design decision. |
@@ -126,4 +127,4 @@ from stale-base noise. After rebasing, the branch still shows 88 changed files a
 wiring change is not present at all. This is real scope creep, not a rebase artifact. Recommended
 fix: start a clean branch from current `codex/safeflow-prototype` and re-apply just the new
 Patient Journey Twin component(s), their domain/test files, and the intended `App.jsx` /
-`WorkspaceNav.jsx` wiring — nothing else. See SF-102 above for the full file list this ruled out.
+`WorkspaceNav.jsx` wiring â€” nothing else. See SF-102 above for the full file list this ruled out.

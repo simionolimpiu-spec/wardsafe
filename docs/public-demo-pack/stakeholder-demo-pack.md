@@ -1,17 +1,20 @@
 # SafeFlow Stakeholder Demo Pack
 
+**Status date:** 2026-07-05
+**Authored directly (docs-only):** aligned to `docs/public-demo-pack/master-narrative.md`.
+
 ## 1. One-line concept
 
-SafeFlow is a nurse-led, simulation-only prototype that turns fictional patient documentation into review cues, ward comparison signals, and exportable learning summaries.
+SafeFlow is a nurse-led, simulation-only prototype that turns fictional patient documentation into risk-support signals, ward comparison cues, and exportable learning summaries.
 
 ## 2. Problem SafeFlow Is Exploring
 
-SafeFlow explores how ward teams can make documentation quality, handover completeness, discharge-readiness blockers, and review cues easier to see, discuss, and learn from.
+SafeFlow explores how ward teams can make documentation gaps, handover completeness issues, discharge-readiness blockers, and escalation readiness cues easier to see, discuss, and learn from.
 
 ## 3. What The Prototype Demonstrates
 
 - A fictional patient and ward context.
-- Deterministic review cues that remain explainable.
+- Deterministic review cues and risk-support signals that remain explainable.
 - Ward-level comparison through Hospital Insights.
 - A structured Simulation Review Report.
 - Presentation Mode for cleaner stakeholder demos.
@@ -36,7 +39,7 @@ Enable Presentation Mode -> choose Demo Scenario -> review patient cues -> open 
 - No live NHS systems are connected.
 - No patient-identifiable information is used.
 - It is not for clinical use.
-- It does not provide diagnosis, treatment advice, risk prediction, or automated escalation.
+- It does not provide treatment advice or automated escalation.
 - All review cues and comparison signals require human review.
 
 ## 7. Why This Matters For Nursing Documentation And Ward Learning
@@ -93,4 +96,4 @@ Before any live pilot, SafeFlow would need:
 
 ## Short Close
 
-SafeFlow is a simulation-only prototype for structured review support. It is designed to help nursing and transformation teams discuss documentation quality, comparison signals, and learning points without implying clinical automation or live NHS use.
+SafeFlow is a simulation-only prototype for structured review support. It is designed to help nursing and transformation teams discuss documentation gaps, comparison cues, and learning points without implying clinical automation or live NHS use.
