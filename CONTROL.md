@@ -51,6 +51,9 @@
 | SF-215 | Done | Safety / UI | Scope low-potassium flag and clean top nav | Merge commit `f63591d0e77dffc17611ad8ad25ef5038011ac1e` via PR [#26](https://github.com/simionolimpiu-spec/wardsafe/pull/26); scoped lab-signal flag wording to structured review support and refreshed navigation. |
 | SF-214 | Done | ML | Extend simulation-risk ML model | Merge commit `ed4e5b60d1f150c5dfe258f4f52060887c8cb8e9` via PR [#27](https://github.com/simionolimpiu-spec/wardsafe/pull/27); synthetic-only model extension remains illustrative and not clinically validated. |
 | SF-216 | Done | Data model | Ward simulation database | Squash merge commit `17971040696045291281b45c4d77d1120e72a724` via PR [#28](https://github.com/simionolimpiu-spec/wardsafe/pull/28); pure ward artifact rendering split out from the SQLite writer so CI can import the database fixtures safely. |
+| SF-219 | Done | Governance | DTAC v2 self-assessment (working RAG, five domains) | `docs/public-demo-pack/build-readiness/dtac-v2-self-assessment.md`; honest gap register against the Feb 2026 DTAC form. Authored directly (Claude, docs-only), 3 July 2026. |
+| SF-220 | Done (docs) | Evaluation | SF-210 evaluation framework: measures M1–M8, pre/post forms, SUS, facilitator sheet, data handling, pre-registered thresholds | `docs/public-demo-pack/evaluation-framework.md`. First real session still pending — see SF-210. Authored directly (Claude, docs-only), 3 July 2026. |
+| SF-221 | Done | Research | NHS integration readiness research (closes SF-205): onboarding path, relevant APIs, UK Core FHIR/SNOMED implications, CIS2 seam design, ward-state negative finding | `docs/public-demo-pack/build-readiness/nhs-integration-readiness.md`; primary-source verified against digital.nhs.uk/developer on 3 July 2026. Research only; no integration authorised. |
 | SF-127 | Done | Safety QA | Safety-language regression scan coverage extended to Twin/Hospital Insights/newer surfaces. | Squash merge commit `c0bbb8a` via PR [#29](https://github.com/simionolimpiu-spec/wardsafe/pull/29); adds `src/domain/safetyLanguageScans.test.js` and `src/components/safetyLanguageSurfaces.test.jsx` so future fixture/copy edits on these surfaces are caught automatically. |
 
 ## Started / Open / Ready
@@ -119,6 +122,10 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 | 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
 | 5 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified. |
 | 6 | Keep this file updated after every commit, document, or design decision. |
+
+## Changelog
+
+- ID reconciliation note: SF-217 stayed with the Ward Quality & Safety Review export; the governance docs moved SF-217→SF-219, SF-218→SF-220, and SF-219→SF-221. The doc-only SNOMED/FHIR placeholder was advanced to SF-222 so it stays clear of the new board IDs.
 
 ## Authoring note (1 July 2026)
 
