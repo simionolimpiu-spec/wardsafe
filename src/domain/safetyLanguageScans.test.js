@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { getDemoScenarioById } from '../data/demoScenarios.js';
 import modelData from '../data/patientJourneyTrendModel.json';
 import { patientTimelineFixtures } from '../data/patientTimelineFixtures.js';
 import { simulationRiskSupportEvaluationScenarios } from '../data/simulationRiskSupportEvaluationScenarios.js';
+import { buildHeuristicCues } from './heuristicCueEngine.js';
 import { buildPatientTimelineCollection, buildPatientTimelineEntries } from './patientTimeline.js';
 import {
   SAFETY_BOUNDARY_REQUIRED_CONCEPTS,
@@ -9,6 +11,12 @@ import {
   scanStrictSafetyLanguage
 } from './safetyLanguage.js';
 import { scoreSimulatedTrend } from './patientJourneyTrendModel.js';
+import { evaluatePotassiumSafetyGap } from './safetyRules.js';
+import { getHospitalInsightsSnapshot } from '../services/hospitalInsightsService.js';
+import {
+  buildWardQualitySafetyReviewExportText,
+  getWardQualitySafetyReviewSnapshot
+} from '../services/wardQualitySafetyReviewService.js';
 
 const TIMELINE_REQUIRED_CONCEPT_IDS = [
   'simulation-only',
@@ -20,6 +28,16 @@ const TIMELINE_REQUIRED_CONCEPT_IDS = [
 
 const TIMELINE_REQUIRED_CONCEPTS = SAFETY_BOUNDARY_REQUIRED_CONCEPTS.filter((concept) =>
   TIMELINE_REQUIRED_CONCEPT_IDS.includes(concept.id)
+);
+const WARD_REVIEW_REQUIRED_CONCEPT_IDS = [
+  'simulation-only',
+  'fictional-data',
+  'no-real-patient-data',
+  'not-live-clinical-deployment',
+  'human-review-or-judgement'
+];
+const WARD_REVIEW_REQUIRED_CONCEPTS = SAFETY_BOUNDARY_REQUIRED_CONCEPTS.filter((concept) =>
+  WARD_REVIEW_REQUIRED_CONCEPT_IDS.includes(concept.id)
 );
 
 describe('safety language regression scans', () => {
@@ -115,6 +133,37 @@ describe('safety language regression scans', () => {
       ])
     );
   });
+
+  it('keeps the ward quality and safety review snapshot and export free of prohibited wording', () => {
+    const snapshot = buildWardQualitySafetyReviewSnapshotForScan();
+    const exportText = buildWardQualitySafetyReviewExportText(snapshot);
+    const snapshotScan = scanBoundaryAwareSafetyLanguage(snapshot, {
+      checkedLabel: 'ward quality and safety review snapshot',
+      requiredConcepts: WARD_REVIEW_REQUIRED_CONCEPTS
+    });
+    const exportScan = scanBoundaryAwareSafetyLanguage(exportText, {
+      checkedLabel: 'ward quality and safety review export',
+      requiredConcepts: WARD_REVIEW_REQUIRED_CONCEPTS
+    });
+    const strictScan = scanStrictSafetyLanguage(exportText, {
+      checkedLabel: 'ward quality and safety review export'
+    });
+
+    expect(snapshotScan).toMatchObject({
+      passed: true,
+      violations: [],
+      missingBoundaryConcepts: []
+    });
+    expect(exportScan).toMatchObject({
+      passed: true,
+      violations: [],
+      missingBoundaryConcepts: []
+    });
+    expect(strictScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
 });
 
 function buildTrendFeaturesFromPatient(patient = {}) {
@@ -162,4 +211,84 @@ function toNormalisedNumber(value, divisor) {
 
 function clamp01(value) {
   return Math.max(0, Math.min(1, value));
+}
+
+function buildWardQualitySafetyReviewSnapshotForScan() {
+  const scenario = getDemoScenarioById('day-care-treatment-pathway');
+  const patient = scenario.patients.find((entry) => entry.id === scenario.selectedPatientId);
+  const safetyFlag = evaluatePotassiumSafetyGap(patient);
+  const reviewSignals = buildReviewSignals();
+  const heuristicCues = buildHeuristicCues({ signals: reviewSignals, flag: safetyFlag });
+  const hospitalInsights = getHospitalInsightsSnapshot({
+    currentWardName: scenario.currentWardName,
+    hospitalName: scenario.hospitalName
+  });
+
+  return getWardQualitySafetyReviewSnapshot({
+    patient,
+    reviewSignals,
+    heuristicCues,
+    safetyFlag,
+    hospitalInsights,
+    selectedScenario: scenario
+  });
+}
+
+function buildReviewSignals() {
+  return [
+    {
+      id: 'signal-documentation-1',
+      category: 'documentation',
+      priority: 'review',
+      title: 'Documentation gap',
+      explanation: 'Documentation gap visible in the simulation record.',
+      simulationOnly: true,
+      humanReviewRequired: true
+    },
+    {
+      id: 'signal-documentation-2',
+      category: 'documentation',
+      priority: 'review',
+      title: 'Documentation gap follow-up',
+      explanation: 'A second documentation gap remains visible.',
+      simulationOnly: true,
+      humanReviewRequired: true
+    },
+    {
+      id: 'signal-handover-1',
+      category: 'handover',
+      priority: 'watch',
+      title: 'Handover completeness issue',
+      explanation: 'Handover completeness issue remains open.',
+      simulationOnly: true,
+      humanReviewRequired: true
+    },
+    {
+      id: 'signal-escalation-1',
+      category: 'escalation',
+      priority: 'blocker',
+      title: 'Escalation readiness cue',
+      explanation: 'Escalation readiness cue remains open.',
+      simulationOnly: true,
+      humanReviewRequired: true
+    },
+    {
+      id: 'signal-discharge-1',
+      category: 'discharge',
+      priority: 'blocker',
+      title: 'Discharge-readiness blocker',
+      explanation: 'Discharge-readiness blocker remains open.',
+      simulationOnly: true,
+      humanReviewRequired: true
+    },
+    {
+      id: 'signal-deteriorating-obs-1',
+      category: 'deteriorating-obs',
+      priority: 'blocker',
+      title: 'Deteriorating observations cue',
+      explanation: 'Deteriorating observations cue remains visible.',
+      simulationOnly: true,
+      humanReviewRequired: true
+    }
+  ];
 }

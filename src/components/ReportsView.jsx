@@ -1,7 +1,8 @@
 import { Download, FileBarChart } from 'lucide-react';
 import { useState } from 'react';
+import { WardQualitySafetyReviewButton } from './WardQualitySafetyReviewDrawer.jsx';
 
-export function ReportsView({ patients, auditEvents, onExportWard }) {
+export function ReportsView({ patients, auditEvents, onExportWard, onOpenWardQualitySafetyReview = () => {} }) {
   const [report, setReport] = useState('ward');
   const completeHandovers = patients.filter((patient) => patient.handoverComplete === 100).length;
   const dischargeReady = patients.filter((patient) => patient.dischargeReady).length;
@@ -10,7 +11,10 @@ export function ReportsView({ patients, auditEvents, onExportWard }) {
     <section className="operational-view" aria-labelledby="reports-title">
       <header className="view-heading">
         <div><p className="eyebrow">Simulation evidence</p><h2 id="reports-title">Reports</h2></div>
-        <button aria-label="Export ward board CSV" className="primary-action" onClick={onExportWard} type="button"><Download aria-hidden="true" size={16} /> Export ward board</button>
+        <div className="topbar-actions reports-actions">
+          <button aria-label="Export ward board CSV" className="primary-action" onClick={onExportWard} type="button"><Download aria-hidden="true" size={16} /> Export ward board</button>
+          <WardQualitySafetyReviewButton onClick={onOpenWardQualitySafetyReview} />
+        </div>
       </header>
       <p>Exports contain fictional identifiers only and do not represent clinical records.</p>
       <div className="segmented-control" aria-label="Report type">

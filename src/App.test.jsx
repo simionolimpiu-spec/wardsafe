@@ -217,6 +217,42 @@ describe('SafeFlow prototype', () => {
     expect(printSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('opens and closes the ward quality and safety review from the main header', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const header = screen.getByRole('heading', { name: 'SafeFlow' }).closest('header');
+    expect(header).not.toBeNull();
+    await user.click(within(header ?? document.body).getByRole('button', { name: /ward quality & safety review/i }));
+
+    const report = screen.getByRole('dialog', { name: /ward quality & safety review/i });
+    expect(within(report).getByText(/^Ward Quality & Safety Review$/i)).toBeInTheDocument();
+    expect(within(report).getByRole('heading', { name: /Heuristic cue engine flags/i })).toBeInTheDocument();
+    expect(within(report).getByRole('heading', { name: /Competency Passport verified-learning evidence/i })).toBeInTheDocument();
+
+    await user.click(within(report).getByRole('button', { name: /close report/i }));
+
+    expect(screen.queryByRole('dialog', { name: /ward quality & safety review/i })).not.toBeInTheDocument();
+  });
+
+  it('opens the ward quality and safety review from the Reports surface', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const nav = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+    await user.click(within(nav).getByRole('button', { name: 'Reports' }));
+
+    const reportsView = screen.getByRole('region', { name: /reports/i });
+    expect(within(reportsView).getByRole('button', { name: /ward quality & safety review/i })).toBeInTheDocument();
+
+    await user.click(within(reportsView).getByRole('button', { name: /ward quality & safety review/i }));
+
+    const report = screen.getByRole('dialog', { name: /ward quality & safety review/i });
+    expect(within(report).getByText(/^Ward Quality & Safety Review$/i)).toBeInTheDocument();
+
+    await user.click(within(report).getByRole('button', { name: /close report/i }));
+  });
+
   it('switches demo scenarios and updates the selected patient and report context', async () => {
     const user = userEvent.setup();
     const fetch = vi.fn((input) => {
