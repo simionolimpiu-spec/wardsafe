@@ -9,9 +9,10 @@
 |---|---|
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 5 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | docs/narrative-alignment |
-| Open PR | #29 "test(safety): add regression scans for demo surfaces", branch `test/safety-language-scan-extension`. State: OPEN as of 5 July 2026. |
+| Current branch | codex/safeflow-prototype |
+| Open PR | None open as of 5 July 2026 (post-merge check). |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
+| Merged PR | #29 "test(safety): add regression scans for demo surfaces" (squash merge `c0bbb8a`) and #30 "docs: align public demo pack master narrative" (squash merge `29c1974`), both merged 5 July 2026. Post-merge verification: `npm test` 68 files/393 tests passed, `npm run build` passed. |
 | Merged PR | #13 "Content views refresh", branch ui/content-views-refresh. Rebased onto latest base, `npm test` (56 files, 338 tests) and `npm run build` passed, safety-wording scan clean, merged 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
 | Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; keep the app-copy naming cleanup queued as a Mia task. |
@@ -50,6 +51,7 @@
 | SF-215 | Done | Safety / UI | Scope low-potassium flag and clean top nav | Merge commit `f63591d0e77dffc17611ad8ad25ef5038011ac1e` via PR [#26](https://github.com/simionolimpiu-spec/wardsafe/pull/26); scoped lab-signal flag wording to structured review support and refreshed navigation. |
 | SF-214 | Done | ML | Extend simulation-risk ML model | Merge commit `ed4e5b60d1f150c5dfe258f4f52060887c8cb8e9` via PR [#27](https://github.com/simionolimpiu-spec/wardsafe/pull/27); synthetic-only model extension remains illustrative and not clinically validated. |
 | SF-216 | Done | Data model | Ward simulation database | Squash merge commit `17971040696045291281b45c4d77d1120e72a724` via PR [#28](https://github.com/simionolimpiu-spec/wardsafe/pull/28); pure ward artifact rendering split out from the SQLite writer so CI can import the database fixtures safely. |
+| SF-127 | Done | Safety QA | Safety-language regression scan coverage extended to Twin/Hospital Insights/newer surfaces. | Squash merge commit `c0bbb8a` via PR [#29](https://github.com/simionolimpiu-spec/wardsafe/pull/29); adds `src/domain/safetyLanguageScans.test.js` and `src/components/safetyLanguageSurfaces.test.jsx` so future fixture/copy edits on these surfaces are caught automatically. |
 
 ## Started / Open / Ready
 
@@ -60,7 +62,15 @@
 | SF-105 | Done | Docs alignment | `docs/public-demo-pack/master-narrative.md` is now the controlled description; `stakeholder-demo-pack.md`, `demo-script.md`, `safety-boundary.md`, and `README.md` are aligned to it. | Branch `docs/narrative-alignment`; app-copy naming cleanup remains a Mia follow-up. |
 | SF-107 | In progress | Clinical safety | Simulation twin / learning idea explored. | Frame as review-support and education only, not live clinical action. |
 | SF-109 | Done | Governance | Clinical safety case outline and hazard log skeleton drafted. | `docs/public-demo-pack/clinical-safety-case-outline.md`, using `templates/safety-case-outline-template.md`; 10-row hazard log grounded in the actual signal-envelope contract (`signalClient.js`) and existing risks R-001â€“R-008. Not yet independently reviewed; roles unfilled pending a future pilot. |
-| SF-127 | In progress | Safety QA | Safety-language regression test gap on newest UI. | `scanStrictSafetyLanguage`/`scanBoundaryAwareSafetyLanguage` (`src/domain/safetyLanguage.js`) is only wired into `simulationScenarioCoverage`/`simulationRiskSupportEvaluation`. Manual audit (2 July 2026) found `PatientJourneyTwin.jsx`, `HospitalInsightsView.jsx`, `patientTimeline.js`/fixtures, and `patientJourneyTrendModel.js` clean today, but none of them are covered by an automated scan, so future fixture/copy edits could reintroduce unsafe wording undetected. PR #29 is open to close this gap. |
+
+## Quality Intelligence lane (5 July 2026, from senior-nurse feedback pressure-test)
+
+Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, RRT/Call-for-Concern, patient feedback stations, social hub, Optica-style discharge coordination) was pressure-tested against the simulation-only boundary; full memo saved outside this repo as `SafeFlow_Senior_Nurse_Feedback_Strategy_Memo_2026-07-05.md`. Verdict: patient feedback stations and a social hub stay out as future discovery (real IG/consent gap, SF-206 still backlog); Optica-style discharge coordination and naming a real competitor product stay out of external material entirely. The two in-scope items below are dispatched as SF-217 (Oli) and SF-218 (Mia).
+
+| ID | Status | Area | Work item | Next action |
+|---|---|---|---|---|
+| SF-217 | Started | Quality reporting | Ward Quality & Safety Review export — assembles heuristic cue engine flags, simulation-risk trend summary, and Competency Passport verified-learning evidence into one Band-6/7-styled exportable report, reusing the existing Simulation Review Report export pattern. | Dispatched to Oli's Codex 5 July 2026 on branch `feature/ward-quality-safety-review`; simulation-only, no server/infra/package.json changes. |
+| SF-218 | Ready | Education | Deterioration + escalation-pathway learning modules — 2–3 new Learning Hub micro-learning modules covering deteriorating-patient recognition and RRT-call/Call-for-Concern conversation structure, education only, no live escalation logic. | Prompt sent to Mia 5 July 2026; awaiting her Codex session. |
 
 ## Backlog
 
