@@ -12,7 +12,7 @@
 | Current branch | codex/safeflow-prototype |
 | Open PR | None open as of 5 July 2026 (post-merge check). |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
-| Merged PR | #29 "test(safety): add regression scans for demo surfaces" (squash merge `c0bbb8a`) and #30 "docs: align public demo pack master narrative" (squash merge `29c1974`), both merged 5 July 2026. Post-merge verification: `npm test` 68 files/393 tests passed, `npm run build` passed. |
+| Merged PR | #29 "test(safety): add regression scans for demo surfaces" (squash merge `c0bbb8a`), #30 "docs: align public demo pack master narrative" (squash merge `29c1974`), and #31 "feat: add ward quality and safety review export" (squash merge `8e1dcbb`, SF-217), all merged 5 July 2026. Post-merge verification: `npm test` 70 files/400 tests passed, `npm run build` passed. |
 | Merged PR | #13 "Content views refresh", branch ui/content-views-refresh. Rebased onto latest base, `npm test` (56 files, 338 tests) and `npm run build` passed, safety-wording scan clean, merged 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
 | Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; keep the app-copy naming cleanup queued as a Mia task. |
@@ -69,7 +69,7 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 
 | ID | Status | Area | Work item | Next action |
 |---|---|---|---|---|
-| SF-217 | Started | Quality reporting | Ward Quality & Safety Review export — assembles heuristic cue engine flags, simulation-risk trend summary, and Competency Passport verified-learning evidence into one Band-6/7-styled exportable report, reusing the existing Simulation Review Report export pattern. | Dispatched to Oli's Codex 5 July 2026 on branch `feature/ward-quality-safety-review`; simulation-only, no server/infra/package.json changes. |
+| SF-217 | Done | Quality reporting | Ward Quality & Safety Review export — assembles heuristic cue engine flags, simulation-risk trend summary, and Competency Passport verified-learning evidence into one Band-6/7-styled exportable report, reusing the existing Simulation Review Report export pattern. | Squash merge commit `8e1dcbb` via PR [#31](https://github.com/simionolimpiu-spec/wardsafe/pull/31); 9 files (`src/App.jsx`, `src/App.test.jsx`, `src/components/ReportsView.jsx`, new `WardQualitySafetyReviewDrawer.jsx`+test, extended `safetyLanguageSurfaces.test.jsx`/`safetyLanguageScans.test.js`, new `wardQualitySafetyReviewService.js`+test); post-merge `npm test` 70 files/400 tests passed, `npm run build` passed; diff independently checked for banned wording (clean — only approved terms like "escalation readiness cue" and the standard boundary phrase appear). No server/infra/package.json/CONTROL.md changes. |
 | SF-218 | Ready | Education | Deterioration + escalation-pathway learning modules — 2–3 new Learning Hub micro-learning modules covering deteriorating-patient recognition and RRT-call/Call-for-Concern conversation structure, education only, no live escalation logic. | Prompt sent to Mia 5 July 2026; awaiting her Codex session. |
 
 ## Backlog
