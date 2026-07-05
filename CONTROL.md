@@ -10,11 +10,11 @@
 | Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 5 July 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
 | Current branch | docs/narrative-alignment |
-| Open PR | #29 "test(safety): add regression scans for demo surfaces", branch `test/safety-language-scan-extension`. State: OPEN as of 5 July 2026. |
+| Open PRs | #29 "test(safety): add regression scans for demo surfaces", branch `test/safety-language-scan-extension`. State: OPEN as of 5 July 2026, mergeStateStatus: CLEAN. #30 "docs: align SafeFlow master narrative", branch `docs/narrative-alignment`. State: OPEN as of 5 July 2026, mergeStateStatus: CLEAN. Recommended merge order: #29 first, then #30. |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
 | Merged PR | #13 "Content views refresh", branch ui/content-views-refresh. Rebased onto latest base, `npm test` (56 files, 338 tests) and `npm run build` passed, safety-wording scan clean, merged 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; keep the app-copy naming cleanup queued as a Mia task. |
+| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; keep the app-copy naming cleanup and Quality Intelligence lane wording queued as Mia tasks. |
 
 ## Completed / Done
 
@@ -57,7 +57,7 @@
 |---|---|---|---|---|
 | SF-101 | Closed | Release | PR #7 feature/minimal-role-aware-gui closed as superseded. | No merge planned. |
 | SF-104 | Done | AWS architecture | Mock/readiness AWS direction documented in `docs/public-demo-pack/build-readiness/architecture-options.md` and `docs/public-demo-pack/build-readiness/technology-stack.md` (Aurora, Step Functions, Bedrock/LLM draft provider, tokenised backend, RBAC/audit logging). | Merged via [PR #19](https://github.com/simionolimpiu-spec/wardsafe/pull/19) on 2 July 2026; squash merge commit `5384b54b7f71d61b9b614df7c753255edab39d18`. Keep as mock/readiness architecture only; no live AWS deployment or SDK wiring until explicit approval. |
-| SF-105 | Done | Docs alignment | `docs/public-demo-pack/master-narrative.md` is now the controlled description; `stakeholder-demo-pack.md`, `demo-script.md`, `safety-boundary.md`, and `README.md` are aligned to it. | Branch `docs/narrative-alignment`; app-copy naming cleanup remains a Mia follow-up. |
+| SF-105 | Done | Docs alignment | `docs/public-demo-pack/master-narrative.md` is now the controlled description; `stakeholder-demo-pack.md`, `demo-script.md`, `safety-boundary.md`, and `README.md` are aligned to it. | Branch `docs/narrative-alignment`; app-copy naming cleanup remains a Mia follow-up. The new Quality Intelligence lane framing is now tracked in the public narrative set. |
 | SF-107 | In progress | Clinical safety | Simulation twin / learning idea explored. | Frame as review-support and education only, not live clinical action. |
 | SF-109 | Done | Governance | Clinical safety case outline and hazard log skeleton drafted. | `docs/public-demo-pack/clinical-safety-case-outline.md`, using `templates/safety-case-outline-template.md`; 10-row hazard log grounded in the actual signal-envelope contract (`signalClient.js`) and existing risks R-001â€“R-008. Not yet independently reviewed; roles unfilled pending a future pilot. |
 | SF-127 | In progress | Safety QA | Safety-language regression test gap on newest UI. | `scanStrictSafetyLanguage`/`scanBoundaryAwareSafetyLanguage` (`src/domain/safetyLanguage.js`) is only wired into `simulationScenarioCoverage`/`simulationRiskSupportEvaluation`. Manual audit (2 July 2026) found `PatientJourneyTwin.jsx`, `HospitalInsightsView.jsx`, `patientTimeline.js`/fixtures, and `patientJourneyTrendModel.js` clean today, but none of them are covered by an automated scan, so future fixture/copy edits could reintroduce unsafe wording undetected. PR #29 is open to close this gap. |
@@ -73,6 +73,9 @@
 | SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Keep as mock/demo unless implementing locally. |
 | SF-210 | Backlog | Evaluation | Demo evaluation framework | Usability, nursing review, documentation safety, learning value. |
+| SF-217 | Backlog | Quality Intelligence | Simulation-only Band 6/7-style quality reporting for fictional deteriorating-patient documentation review. | Now; structured review support, human review required. |
+| SF-218 | Backlog | Learning | Simulated RRT/Outreach learning themes from fictional cases. | Next; education only, no live escalation. |
+| SF-219 | Backlog | Governance | Governed escalation-readiness queue, patient voice, and social/discharge coordination discovery only. | Later; discovery only, gated review. |
 
 ## Risks and controls
 
@@ -105,7 +108,7 @@
 |---|---|
 | 1 | Record PR #7 as closed as superseded and keep the tracker aligned with GitHub. (Done) |
 | 2 | Draft a clinical safety case outline and hazard log skeleton. (Done â€” see SF-109) |
-| 3 | Keep the public docs aligned with the master narrative and raise the remaining app-copy naming cleanup as a Mia task. |
+| 3 | Keep the public docs aligned with the master narrative and the Quality Intelligence lane wording; raise the remaining app-copy naming cleanup as a Mia task. |
 | 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
 | 5 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified. |
 | 6 | Keep this file updated after every commit, document, or design decision. |

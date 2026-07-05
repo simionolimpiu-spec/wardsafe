@@ -13,6 +13,7 @@ This prototype is a simulation-only product demonstration.
 - Helps structure escalation and documentation.
 - Creates editable SBAR-style draft wording from visible fictional evidence.
 - Records simulated audit events for learning review.
+- Frames a simulation-only Quality Intelligence lane for fictional deteriorating-patient documentation review.
 
 ## Simulation Signal Engine Boundary
 
@@ -47,3 +48,13 @@ SafeFlow may show:
 - The concern and response should be documented.
 
 SafeFlow must not provide potassium-administration, replacement or prescribing instructions.
+
+## Quality Intelligence Lane Boundary
+
+The Quality Intelligence lane is simulation-only and discovery-gated.
+
+- Now: Band 6/7-style quality reporting for fictional deteriorating-patient documentation review.
+- Next: simulated RRT/Outreach learning themes from fictional cases.
+- Later: governed discovery only for an escalation-readiness queue, patient voice, and social/discharge coordination.
+- It remains structured review support, human review required, and clinical judgement central.
+- It does not create live escalation or direct action on real patients.

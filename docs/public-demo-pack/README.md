@@ -9,7 +9,7 @@ Use `master-narrative.md` as the controlled wording source for this pack.
 ## Contents
 
 - `demo-script.md` - a short walkthrough for showing the prototype.
-- `master-narrative.md` - controlled description, approved terminology list, and discrepancy map.
+- `master-narrative.md` - controlled description, approved terminology list, Quality Intelligence lane, and discrepancy map.
 - `../demo-readiness-pack.md` - concise reviewer talking points, demo flow and safe answers for common questions.
 - `../demo-screenshot-checklist.md` - manual checklist for capturing reviewer-safe screenshots.
 - `review-checklist.md` - public-safe review prompts for safety, workflow and product fit.
@@ -38,5 +38,5 @@ Use `master-narrative.md` as the controlled wording source for this pack.
 
 - Live patient data.
 - NHS logo, branding or endorsement.
-- Clinical-label claims, prescribing or treatment instructions.
+- Clinical-label boundary claims, prescribing or treatment instructions.
 - EPR/FHIR integration, authentication or deployment.

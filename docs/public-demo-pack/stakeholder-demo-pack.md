@@ -17,6 +17,7 @@ SafeFlow explores how ward teams can make documentation gaps, handover completen
 - Deterministic review cues and risk-support signals that remain explainable.
 - Ward-level comparison through Hospital Insights.
 - A structured Simulation Review Report.
+- A simulation-only Quality Intelligence lane for Band 6/7-style quality reporting now, simulated RRT/Outreach learning themes next, and governed discovery only later.
 - Presentation Mode for cleaner stakeholder demos.
 - Copy and print export for discussion.
 
@@ -48,6 +49,7 @@ Enable Presentation Mode -> choose Demo Scenario -> review patient cues -> open 
 - Supports ward-level discussion about handover completeness and discharge readiness.
 - Helps clinical educators and digital safety leads explain quality signals without using real patient data.
 - Gives nursing leadership a fast way to review how structured documentation could support learning and improvement.
+- Gives nursing leadership a safe way to discuss reporting, learning themes, and governed discovery without implying live escalation or real-patient use.
 
 ## 8. Future NHS/AWS Roadmap
 
@@ -90,6 +92,7 @@ Before any live pilot, SafeFlow would need:
 ## 11. Next Steps After Demo
 
 - Capture stakeholder feedback on the wording, flow, and usefulness of the review cues.
+- Capture stakeholder feedback on the Quality Intelligence framing and keep later discovery-only work gated by review.
 - Confirm which ward workflows matter most for a future pilot.
 - Review clinical safety and information-governance readiness.
 - Decide whether the next step is deeper prototype work, a formal readiness pack, or a governed pilot discovery path.

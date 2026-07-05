@@ -6,11 +6,11 @@
 
 ## One Sentence
 
-SafeFlow is a simulation-only, nurse-led prototype that turns fictional ward documentation into structured review support, ward comparison cues, and exportable learning summaries.
+SafeFlow is a simulation-only, nurse-led prototype that turns fictional ward documentation into structured review support, ward comparison cues, exportable learning summaries, and a controlled Quality Intelligence lane.
 
 ## One Paragraph
 
-SafeFlow is a simulation-only, nurse-led prototype for structured review support. It helps nursing and transformation teams explore documentation gaps, handover completeness issues, discharge-readiness blockers, and escalation readiness cues using fictional patient journeys. The product is intentionally bounded: it does not use real patient data, does not connect to live NHS systems, and does not automate clinical action. Every cue is there to support human review, not replace it.
+SafeFlow is a simulation-only, nurse-led prototype for structured review support. It helps nursing and transformation teams explore documentation gaps, handover completeness issues, discharge-readiness blockers, and escalation readiness cues using fictional patient journeys. The product is intentionally bounded: it does not use real patient data, does not connect to live NHS systems, and does not automate clinical action. Every cue is there to support human review, not replace it. A separate Quality Intelligence lane stays simulation-only: Band 6/7-style quality reporting now, simulated RRT/Outreach learning themes next, and governed discovery only later.
 
 ## One Page
 
@@ -21,6 +21,16 @@ It shows a fictional ward board, patient timelines, review cues, ward comparison
 It is not a live patient record, not a prescribing tool, and not an autonomous escalation layer. The right default phrasing is simulation-only, fictional data, human review required, and structured review support.
 
 Primary audiences are nursing educators, ward leaders, digital safety leads, and stakeholders who need to understand the shape of the workflow before any governed pilot is considered.
+
+## Quality Intelligence Lane
+
+SafeFlow can also be framed as a simulation-only Quality Intelligence lane for fictional deteriorating-patient documentation review. It stays nurse-led, requires human review, and keeps clinical judgement central.
+
+| Stage | Framing |
+|---|---|
+| Now | Band 6/7-style quality reporting for fictional deteriorating-patient documentation review. |
+| Next | Simulated RRT/Outreach learning themes from fictional cases. |
+| Later | Governed discovery only for an escalation-readiness queue, patient voice, and social/discharge coordination. |
 
 ## Approved Terminology
 
@@ -42,6 +52,12 @@ Primary audiences are nursing educators, ward leaders, digital safety leads, and
 - Simulation Patient Twin
 - Simulation Review Report
 - Presentation Mode
+- Quality Intelligence lane
+- Band 6/7-style quality reporting
+- simulated RRT/Outreach learning themes
+- governed escalation-readiness queue
+- patient voice
+- social/discharge coordination
 - exportable learning summary
 
 ## Banned Wording

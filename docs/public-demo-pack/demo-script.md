@@ -73,6 +73,15 @@ Call out:
 - Discharge readiness blocker.
 - Initial hazard controls for a simulation-only review.
 
-## Close
+## 6. Quality Intelligence Lane
+
+If asked about future framing, keep it simulation-only:
+
+- Now: Band 6/7-style quality reporting for fictional deteriorating-patient documentation review.
+- Next: simulated RRT/Outreach learning themes from fictional cases.
+- Later: governed discovery only for an escalation-readiness queue, patient voice, and social/discharge coordination.
+- Human review required; clinical judgement remains central.
+
+## 7. Close
 
 Position the prototype as a focused workflow demonstration, not clinical software. The next review question is whether this nurse-led safety workflow is compelling enough to justify structured discovery sessions, deeper stakeholder testing and private invention-pack development.
