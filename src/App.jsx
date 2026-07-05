@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
 import { getSimulationReviewReportSnapshot } from './services/simulationReviewReportService.js';
+import { getWardQualitySafetyReviewSnapshot } from './services/wardQualitySafetyReviewService.js';
 import { createSbarDraft } from './domain/draftProvider.js';
 import { buildHeuristicCues } from './domain/heuristicCueEngine.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
@@ -22,6 +23,7 @@ import { HospitalInsightsView } from './components/HospitalInsightsView.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { SimulationReviewReportButton, SimulationReviewReportDrawer } from './components/SimulationReviewReportDrawer.jsx';
+import { WardQualitySafetyReviewButton, WardQualitySafetyReviewDrawer } from './components/WardQualitySafetyReviewDrawer.jsx';
 import { SafetyBanner } from './components/SafetyBanner.jsx';
 import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
 import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
@@ -260,6 +262,18 @@ export default function App() {
       }),
     [hospitalInsights, reviewSignals, selectedPatient, selectedSignalSnapshot, selectedScenario]
   );
+  const wardQualitySafetyReview = useMemo(
+    () =>
+      getWardQualitySafetyReviewSnapshot({
+        patient: selectedPatient,
+        reviewSignals,
+        heuristicCues,
+        safetyFlag: potassiumFlag,
+        hospitalInsights,
+        selectedScenario
+      }),
+    [hospitalInsights, heuristicCues, potassiumFlag, reviewSignals, selectedPatient, selectedScenario]
+  );
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
   }, [selectedPatient, potassiumFlag]);
@@ -278,6 +292,7 @@ export default function App() {
   const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
   const [isHospitalInsightsOpen, setIsHospitalInsightsOpen] = useState(false);
   const [isReviewReportOpen, setIsReviewReportOpen] = useState(false);
+  const [isWardQualitySafetyReviewOpen, setIsWardQualitySafetyReviewOpen] = useState(false);
   const [dialog, setDialog] = useState(null);
 
   useEffect(() => {
@@ -364,12 +379,14 @@ export default function App() {
     dispatch({ type: 'navigation/changed', payload: { view } });
     setDraftStatus('');
     setServerAuditStatus('');
+    setIsWardQualitySafetyReviewOpen(false);
   }
 
   function changeDemoScenario(scenarioId) {
     dispatch({ type: 'scenario/selected', payload: { scenarioId } });
     setIsHospitalInsightsOpen(false);
     setIsReviewReportOpen(false);
+    setIsWardQualitySafetyReviewOpen(false);
     setDialog(null);
     setDraftStatus('');
     setServerAuditStatus('');
@@ -622,6 +639,15 @@ export default function App() {
               onClick={() => {
                 setIsReviewReportOpen((current) => !current);
                 setIsHospitalInsightsOpen(false);
+                setIsWardQualitySafetyReviewOpen(false);
+              }}
+            />
+            <WardQualitySafetyReviewButton
+              isOpen={isWardQualitySafetyReviewOpen}
+              onClick={() => {
+                setIsWardQualitySafetyReviewOpen((current) => !current);
+                setIsReviewReportOpen(false);
+                setIsHospitalInsightsOpen(false);
               }}
             />
             <HospitalInsightsButton
@@ -629,6 +655,7 @@ export default function App() {
               onClick={() => {
                 setIsHospitalInsightsOpen((current) => !current);
                 setIsReviewReportOpen(false);
+                setIsWardQualitySafetyReviewOpen(false);
               }}
             />
           </div>
@@ -733,7 +760,16 @@ export default function App() {
               />
             )}
             {state.selectedView === 'reports' && (
-              <ReportsView auditEvents={state.auditEvents} onExportWard={exportWardBoard} patients={state.patients} />
+              <ReportsView
+                auditEvents={state.auditEvents}
+                onExportWard={exportWardBoard}
+                onOpenWardQualitySafetyReview={() => {
+                  setIsWardQualitySafetyReviewOpen((current) => !current);
+                  setIsReviewReportOpen(false);
+                  setIsHospitalInsightsOpen(false);
+                }}
+                patients={state.patients}
+              />
             )}
             {state.selectedView === 'hospital-insights' && (
               <HospitalInsightsView
@@ -803,6 +839,11 @@ export default function App() {
           isOpen={isReviewReportOpen}
           onClose={() => setIsReviewReportOpen(false)}
           snapshot={simulationReviewReport}
+        />
+        <WardQualitySafetyReviewDrawer
+          isOpen={isWardQualitySafetyReviewOpen}
+          onClose={() => setIsWardQualitySafetyReviewOpen(false)}
+          snapshot={wardQualitySafetyReview}
         />
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
         {serverAuditStatus && <p className="backend-note" role="status">{serverAuditStatus}</p>}
