@@ -49,6 +49,9 @@
 | SF-215 | Done | Safety / UI | Scope low-potassium flag and clean top nav | Merge commit `f63591d0e77dffc17611ad8ad25ef5038011ac1e` via PR [#26](https://github.com/simionolimpiu-spec/wardsafe/pull/26); scoped lab-signal flag wording to structured review support and refreshed navigation. |
 | SF-214 | Done | ML | Extend simulation-risk ML model | Merge commit `ed4e5b60d1f150c5dfe258f4f52060887c8cb8e9` via PR [#27](https://github.com/simionolimpiu-spec/wardsafe/pull/27); synthetic-only model extension remains illustrative and not clinically validated. |
 | SF-216 | Done | Data model | Ward simulation database | Squash merge commit `17971040696045291281b45c4d77d1120e72a724` via PR [#28](https://github.com/simionolimpiu-spec/wardsafe/pull/28); pure ward artifact rendering split out from the SQLite writer so CI can import the database fixtures safely. |
+| SF-217 | Done | Governance | DTAC v2 self-assessment (working RAG, five domains) | `docs/public-demo-pack/build-readiness/dtac-v2-self-assessment.md`; honest gap register against the Feb 2026 DTAC form. Authored directly (Claude, docs-only), 3 July 2026. |
+| SF-218 | Done (docs) | Evaluation | SF-210 evaluation framework: measures M1–M8, pre/post forms, SUS, facilitator sheet, data handling, pre-registered thresholds | `docs/public-demo-pack/evaluation-framework.md`. First real session still pending — see SF-210. Authored directly (Claude, docs-only), 3 July 2026. |
+| SF-219 | Done | Research | NHS integration readiness research (closes SF-205): onboarding path, relevant APIs, UK Core FHIR/SNOMED implications, CIS2 seam design, ward-state negative finding | `docs/public-demo-pack/build-readiness/nhs-integration-readiness.md`; primary-source verified against digital.nhs.uk/developer on 3 July 2026. Research only; no integration authorised. |
 
 ## Started / Open / Ready
 
@@ -68,10 +71,11 @@
 | SF-201 | Backlog | UI | Full-screen presentation mode | Improve stakeholder demo flow further. |
 | SF-202 | Backlog | UI | Cleaner NHS-realistic version 2 screen concept | Use minimal, customisable, safer NHS-realistic visual language. |
 | SF-204 | Closed (superseded) | AWS docs | AWS mock docs and architecture diagrams | Delivered by SF-104 (PR #19, `docs/public-demo-pack/build-readiness/architecture-options.md` + `technology-stack.md`). No further action. |
-| SF-205 | Backlog | Research | NHS Digital API research only | Research mode only; no live integration. |
+| SF-205 | Closed (delivered) | Research | NHS Digital API research only | Delivered by SF-219 (`nhs-integration-readiness.md`). |
 | SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Keep as mock/demo unless implementing locally. |
-| SF-210 | Backlog | Evaluation | Demo evaluation framework | Usability, nursing review, documentation safety, learning value. |
+| SF-210 | In progress | Evaluation | Demo evaluation framework | Framework, forms, and thresholds delivered (SF-218). Remaining: run the first real session via JPUH education route and produce the first report in `docs/evaluation-reports/`. |
+| SF-220 | Ready (Mia) | Interoperability | SNOMED-code simulated events/observations + UK Core FHIR mapping assessment | Additive only; codes chosen by browser lookup, no API integration. Prompt in strategy pack `05_Mia_Codex_Prompt_Pack.md`. |
 
 ## Risks and controls
 
@@ -102,11 +106,11 @@
 
 | Priority | Action |
 |---|---|
-| 1 | Record PR #7 as closed as superseded and keep the tracker aligned with GitHub. (Done) |
-| 2 | Draft a clinical safety case outline and hazard log skeleton. (Done — see SF-109) |
-| 3 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative. (In progress — delivery-roadmap.md refreshed 1 July 2026; stakeholder pack/white paper still to check.) |
-| 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
-| 5 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified. |
+| 1 | Run the first evaluation session using `evaluation-framework.md` (SF-210) — the evidence, not the app, is the asset. |
+| 2 | Mia's codex queue, one at a time: SF-127 safety-language scan → SF-220 SNOMED/FHIR → SF-207 identity seam. Prompts in strategy pack `05_Mia_Codex_Prompt_Pack.md`. |
+| 3 | Align app wording, stakeholder pack, roadmap, white paper, and slides into one controlled narrative (SF-105). |
+| 4 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified; CSO-training decision for project owner. |
+| 5 | Close DTAC gaps in priority order per `dtac-v2-self-assessment.md`. |
 | 6 | Keep this file updated after every commit, document, or design decision. |
 
 ## Authoring note (1 July 2026)
