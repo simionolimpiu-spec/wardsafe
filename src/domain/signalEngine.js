@@ -553,7 +553,10 @@ function indexSignals(signals) {
     sepsisScreen: findLatestSignal(signals, (signal) => isSignalCode(signal, 'sepsis_screen')),
     fallsRisk: findLatestSignal(signals, (signal) => isSignalCode(signal, 'falls_risk')),
     medicationTiming: findLatestSignal(signals, (signal) => isSignalCode(signal, 'medication_timing')),
-    deterioratingObs: findLatestSignal(signals, (signal) => isSignalCode(signal, 'deteriorating_obs'))
+    deterioratingObs: findLatestSignal(signals, (signal) => isSignalCode(signal, 'deteriorating_obs')),
+    respiratoryRateSignals: findSignals(signals, (signal) => isSignalCode(signal, 'respiratory_rate')),
+    confusionSignal: findLatestSignal(signals, (signal) => isSignalCode(signal, 'confusion')),
+    oxygenSaturationSignals: findSignals(signals, (signal) => isSignalCode(signal, 'oxygen_saturation'))
   };
 }
 
@@ -572,6 +575,18 @@ function pickScenario({ patient, signalIndex }) {
 
   if (signalIndex.medicationTiming) {
     return discoveryScenarios.find((scenario) => scenario.id === 'scenario-community-medication-timing') ?? null;
+  }
+
+  if (isRisingTrend(signalIndex.respiratoryRateSignals)) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-respiratory-rate-trend') ?? null;
+  }
+
+  if (signalIndex.confusionSignal) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-new-onset-confusion') ?? null;
+  }
+
+  if (isFallingTrend(signalIndex.oxygenSaturationSignals)) {
+    return discoveryScenarios.find((scenario) => scenario.id === 'scenario-falling-oxygen-saturation') ?? null;
   }
 
   if (signalIndex.potassium || signalIndex.magnesiumMissing || signalIndex.planGap) {
@@ -696,6 +711,30 @@ function compareByTime(left, right) {
 
 function findLatestSignal(signals, predicate) {
   return signals.filter(predicate).sort(compareByTime)[0] ?? null;
+}
+
+function findSignals(signals, predicate) {
+  return signals.filter(predicate).sort(compareByTime);
+}
+
+function isRisingTrend(signals) {
+  if (!Array.isArray(signals) || signals.length < 2) {
+    return false;
+  }
+
+  const latestValue = toNumber(signals[0]?.value);
+  const earliestValue = toNumber(signals[signals.length - 1]?.value);
+  return latestValue != null && earliestValue != null && latestValue > earliestValue;
+}
+
+function isFallingTrend(signals) {
+  if (!Array.isArray(signals) || signals.length < 2) {
+    return false;
+  }
+
+  const latestValue = toNumber(signals[0]?.value);
+  const earliestValue = toNumber(signals[signals.length - 1]?.value);
+  return latestValue != null && earliestValue != null && latestValue < earliestValue;
 }
 
 function matchesReviewTheme(suggestion, keywords) {
