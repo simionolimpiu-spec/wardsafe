@@ -33,4 +33,37 @@ describe('LearningHubView', () => {
     expect(screen.getByText(/badge earned/i)).toBeInTheDocument();
     expect(screen.getByText(/points earned/i)).toBeInTheDocument();
   });
+
+  it('renders the escalation-pathway learning scenarios and scores the RRT SBAR module', async () => {
+    const user = userEvent.setup();
+    render(<LearningHubView />);
+
+    const escalationPathwayModules = [
+      'Recognising deterioration',
+      'RRT SBAR practice',
+      'Call-for-Concern SBAR note'
+    ];
+
+    for (const title of escalationPathwayModules) {
+      expect(screen.getByRole('option', { name: new RegExp(title, 'i') })).toBeInTheDocument();
+    }
+
+    const module = microLearningFixtures.find((entry) => entry.id === 'escalation-pathway-rrt-sbar');
+    expect(module).toBeDefined();
+
+    await user.selectOptions(screen.getByRole('combobox', { name: /module/i }), module.id);
+
+    expect(screen.getByRole('heading', { name: module.title })).toBeInTheDocument();
+    expect(screen.getAllByText(/escalation-pathway learning scenario/i).length).toBeGreaterThan(0);
+
+    for (const question of module.questions) {
+      const questionGroup = screen.getByRole('group', { name: question.prompt });
+      await user.click(within(questionGroup).getByLabelText(question.options[question.correctIndex]));
+    }
+
+    await user.click(screen.getByRole('button', { name: /score module/i }));
+
+    expect(screen.getByText(/badge earned/i)).toBeInTheDocument();
+    expect(screen.getByText(/points earned/i)).toBeInTheDocument();
+  });
 });
