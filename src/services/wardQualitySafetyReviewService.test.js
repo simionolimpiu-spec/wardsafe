@@ -60,6 +60,8 @@ describe('ward quality and safety review service', () => {
     expect(exportText).toContain('fictional data');
     expect(exportText).toContain('human review required');
     expect(exportText).toContain('structured review support');
+    expect(exportText).toContain(snapshot.boundaryDetail);
+    expect(exportText).toContain(snapshot.humanReviewNote);
     expect(exportText).toContain('review cue');
     expect(exportText).toContain('risk-support signal');
     expect(exportText).toContain('documentation gap');
