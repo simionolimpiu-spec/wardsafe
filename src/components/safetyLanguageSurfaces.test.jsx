@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getDemoScenarioById } from '../data/demoScenarios.js';
-import { simulatedPatients } from '../data/simulatedPatients.js';
+import { simulatedPatients, wardSummary } from '../data/simulatedPatients.js';
 import { buildHeuristicCues } from '../domain/heuristicCueEngine.js';
 import { evaluatePotassiumSafetyGap } from '../domain/safetyRules.js';
 import { scanBoundaryAwareSafetyLanguage } from '../domain/safetyLanguage.js';
@@ -9,6 +9,8 @@ import { getHospitalInsightsSnapshot } from '../services/hospitalInsightsService
 import { getWardQualitySafetyReviewSnapshot } from '../services/wardQualitySafetyReviewService.js';
 import { HospitalInsightsView } from './HospitalInsightsView.jsx';
 import { PatientJourneyTwin } from './PatientJourneyTwin.jsx';
+import { ReportsView } from './ReportsView.jsx';
+import { WardSafetyBoard } from './WardSafetyBoard.jsx';
 import { WardQualitySafetyReviewDrawer } from './WardQualitySafetyReviewDrawer.jsx';
 
 const chartMocks = vi.hoisted(() => {
@@ -86,6 +88,57 @@ describe('safety language surface scans', () => {
 
     const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
       checkedLabel: 'Ward Quality & Safety Review render'
+    });
+
+    expect(result).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the ReportsView render strictly boundary-safe', () => {
+    const { container } = render(
+      <ReportsView
+        auditEvents={[]}
+        onExportWard={() => {}}
+        onOpenWardQualitySafetyReview={() => {}}
+        patients={simulatedPatients}
+      />
+    );
+
+    const view = screen.getByRole('region', { name: /reports/i });
+
+    expect(within(view).getByRole('button', { name: /export ward board csv/i })).toBeInTheDocument();
+    expect(within(view).getByRole('button', { name: /ward quality & safety review/i })).toBeInTheDocument();
+
+    const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
+      checkedLabel: 'ReportsView render'
+    });
+
+    expect(result).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the Ward Safety Board render strictly boundary-safe', () => {
+    const { container } = render(
+      <WardSafetyBoard
+        onExport={() => {}}
+        onSelectPatient={() => {}}
+        patients={simulatedPatients}
+        selectedPatientId={simulatedPatients[0].id}
+        summary={wardSummary}
+      />
+    );
+
+    const view = screen.getByRole('region', { name: /ward safety board/i });
+
+    expect(within(view).getByRole('table', { name: /ward patient list/i })).toBeInTheDocument();
+    expect(within(view).getByRole('button', { name: /export ward board csv/i })).toBeInTheDocument();
+
+    const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
+      checkedLabel: 'WardSafetyBoard render'
     });
 
     expect(result).toMatchObject({
