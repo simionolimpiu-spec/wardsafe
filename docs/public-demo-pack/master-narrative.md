@@ -24,7 +24,11 @@ Primary audiences are nursing educators, ward leaders, digital safety leads, and
 
 ### SafeFlow Quality Intelligence
 
-SafeFlow Quality Intelligence is a simulation-only extension that assembles the review cues, deterioration-pattern flags, and verified learning evidence already generated elsewhere in SafeFlow into structured, exportable reports of the kind a Band 6/7 nurse currently prepares by hand for ward audits, safety huddles, and revalidation. It surfaces what changed, what needs checking, and what learning has been verified - it does not score staff, trigger escalations, or replace any live clinical or quality system.
+SafeFlow Quality Intelligence is a simulation-only extension that assembles the review cues, deterioration-pattern flags, and verified learning evidence already generated elsewhere in SafeFlow into structured, exportable reports of the kind a Band 6/7 nurse currently prepares by hand for ward audits, safety huddles, and revalidation. It surfaces what changed, what needs checking, and what learning has been verified - it stays ward-level, simulation-only, and human review required, and it does not create person-level comparisons or replace any live clinical or quality system.
+
+#### Verified learning evidence
+
+Verified learning evidence is the approved narrative home for future Mia's M10 rollups. It presents aggregated, non-identifying counts of completed simulation learning modules and Competency-Passport credits as ward-level learning assurance (simulation). The output stays simulation-only and human review required, with no names or person-level comparisons.
 
 ## Approved Terminology
 
@@ -42,6 +46,8 @@ SafeFlow Quality Intelligence is a simulation-only extension that assembles the 
 - escalation readiness cue
 - quality review evidence
 - ward quality and safety report (simulation)
+- verified learning evidence
+- ward-level learning assurance (simulation)
 - escalation-pathway learning scenario
 - structured audit evidence export
 - Ward Safety Board
@@ -60,6 +66,10 @@ SafeFlow Quality Intelligence is a simulation-only extension that assembles the 
 - wording that suggests autonomous escalation
 - wording that suggests live NHS deployment
 - wording that suggests live patient data
+- staff scoring
+- competency ranking
+- performance league table
+- individual nurse rating
 - RRT trigger
 - Call for Concern trigger
 - discharge coordination platform
