@@ -10,7 +10,7 @@ SafeFlow is a simulation-only, nurse-led prototype that turns fictional ward doc
 
 ## One Paragraph
 
-SafeFlow is a simulation-only, nurse-led prototype for structured review support. It helps nursing and transformation teams explore documentation gaps, handover completeness issues, discharge-readiness blockers, and escalation readiness cues using fictional patient journeys. The product is intentionally bounded: it does not use real patient data, does not connect to live NHS systems, and does not automate clinical action. Every cue is there to support human review, not replace it.
+SafeFlow is a simulation-only, nurse-led prototype for structured review support. It helps nursing and transformation teams explore documentation gaps, handover completeness issues, discharge-readiness blockers, and escalation readiness cues using fictional patient journeys. The product is intentionally bounded: it does not use real patient data, does not connect to live NHS systems, does not automate clinical action, and does not replace the EPR, RRT/Call-for-Concern, or any live clinical or quality system. Every cue is there to support human review, not replace it.
 
 ## One Page
 
@@ -24,7 +24,7 @@ Primary audiences are nursing educators, ward leaders, digital safety leads, and
 
 ### SafeFlow Quality Intelligence
 
-SafeFlow Quality Intelligence is a simulation-only extension that assembles the review cues, deterioration-pattern flags, and verified learning evidence already generated elsewhere in SafeFlow into structured, exportable reports of the kind a Band 6/7 nurse currently prepares by hand for ward audits, safety huddles, and revalidation. It surfaces what changed, what needs checking, and what learning has been verified - it stays ward-level, simulation-only, and human review required, and it does not create person-level comparisons or replace any live clinical or quality system.
+SafeFlow Quality Intelligence is a simulation-only extension that assembles the review cues, deterioration-pattern flags, and verified learning evidence already generated elsewhere in SafeFlow into structured, exportable reports of the kind a Band 6/7 nurse currently prepares by hand for ward audits, safety huddles, and revalidation. It surfaces what changed, what needs checking, and what learning has been verified - it stays ward-level, simulation-only, and human review required, and it does not create person-level comparisons or replace the EPR, RRT/Call-for-Concern, or any live clinical or quality system.
 
 #### Verified learning evidence
 
