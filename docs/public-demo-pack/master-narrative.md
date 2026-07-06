@@ -1,6 +1,6 @@
 # SafeFlow Master Narrative
 
-**Status date:** 2026-07-05
+**Status date:** 2026-07-06
 **Authored directly (docs-only):** yes
 **Source note:** written from the Aurora white paper and current repo docs; the white-paper source itself is not versioned in this repo.
 
@@ -22,6 +22,10 @@ It is not a live patient record, not a prescribing tool, and not an autonomous e
 
 Primary audiences are nursing educators, ward leaders, digital safety leads, and stakeholders who need to understand the shape of the workflow before any governed pilot is considered.
 
+### SafeFlow Quality Intelligence
+
+SafeFlow Quality Intelligence is a simulation-only extension that assembles the review cues, deterioration-pattern flags, and verified learning evidence already generated elsewhere in SafeFlow into structured, exportable reports of the kind a Band 6/7 nurse currently prepares by hand for ward audits, safety huddles, and revalidation. It surfaces what changed, what needs checking, and what learning has been verified - it does not score staff, trigger escalations, or replace any live clinical or quality system.
+
 ## Approved Terminology
 
 - SafeFlow
@@ -36,6 +40,10 @@ Primary audiences are nursing educators, ward leaders, digital safety leads, and
 - handover completeness issue
 - discharge-readiness blocker
 - escalation readiness cue
+- quality review evidence
+- ward quality and safety report (simulation)
+- escalation-pathway learning scenario
+- structured audit evidence export
 - Ward Safety Board
 - Hospital Insights
 - Patient Journey Twin
@@ -52,6 +60,11 @@ Primary audiences are nursing educators, ward leaders, digital safety leads, and
 - wording that suggests autonomous escalation
 - wording that suggests live NHS deployment
 - wording that suggests live patient data
+- RRT trigger
+- Call for Concern trigger
+- discharge coordination platform
+- patient feedback capture
+- named reference to Optica or any other commercial competitor
 
 ## Honest Gaps
 
@@ -68,6 +81,7 @@ Primary audiences are nursing educators, ward leaders, digital safety leads, and
 | `docs/public-demo-pack/stakeholder-demo-pack.md` | The pack describes the prototype with older boundary phrasing and no single controlled wording source. | The master narrative and white-paper baseline. | Reword the concept, problem, capability, and boundary sections to use the approved terminology list. | GREEN |
 | `docs/public-demo-pack/demo-script.md` | The audit section still uses advisory wording. | The master narrative and the safety boundary. | Replace that line with next-step / response wording and keep the demo flow simulation-only. | GREEN |
 | `docs/public-demo-pack/safety-boundary.md` | The boundary section still uses clinical-label wording. | The master narrative and approved terminology list. | Rewrite the boundary bullets so they say what SafeFlow does and does not do without clinical-label phrasing. | GREEN |
+| `SF-217 Ward Quality & Safety Review export` | The export now has an approved narrative home in this master narrative. | No current conflict; the wording is defined here. | Use the SafeFlow Quality Intelligence subsection and approved terminology list as the controlled wording source. | GREEN |
 | `CONTROL.md` | The board still had older wording in the risk register and status rows. | The master narrative. | Rewrite the affected rows so the control board uses the same review-support language as the docs. | GREEN |
 | `src/components/PatientJourneyTwin.jsx` | The visible timeline surface mixes the primary name and the simulation qualifier. | The approved terminology list. | Suggested Mia task: standardise the surface label and keep the simulation qualifier in the boundary note. | RED |
 
