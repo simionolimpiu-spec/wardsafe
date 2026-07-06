@@ -189,6 +189,80 @@ const readyPatient = {
   uncertainty: []
 };
 
+function buildObservationTrendSignals({
+  patientId,
+  signalCode,
+  displayName,
+  unit,
+  values,
+  startAt,
+  stepMinutes = 15
+}) {
+  return values.map((value, index) => ({
+    signalId: `signal-${patientId.toLowerCase()}-${signalCode}-${String(index + 1).padStart(2, '0')}`,
+    syntheticPatientRef: patientId,
+    sourceSystem: 'simulation-observations',
+    sourceType: 'observation',
+    signalCode,
+    displayName,
+    value: String(value),
+    unit,
+    status: 'final',
+    effectiveAt: new Date(Date.parse(startAt) + (index * stepMinutes * 60000)).toISOString(),
+    sourceFreshness: 'current',
+    simulationOnly: true
+  }));
+}
+
+const deteriorationPatternCases = [
+  {
+    label: 'rising respiratory rate trend',
+    expectedTitle: 'Scenario learning cue: Rising respiratory rate trend',
+    expectedEvidencePhrase: 'rising respiratory rate trend',
+    signals: buildObservationTrendSignals({
+      patientId: 'DCU-099',
+      signalCode: 'respiratory_rate',
+      displayName: 'Respiratory rate',
+      unit: 'breaths/min',
+      values: [18, 22, 28],
+      startAt: '2026-06-10T07:50:00.000Z'
+    })
+  },
+  {
+    label: 'new-onset confusion',
+    expectedTitle: 'Scenario learning cue: New-onset confusion',
+    expectedEvidencePhrase: 'new confusion',
+    signals: [
+      {
+        signalId: 'signal-dcu-099-confusion-0905',
+        syntheticPatientRef: 'DCU-099',
+        sourceSystem: 'simulation-observations',
+        sourceType: 'observation',
+        signalCode: 'confusion',
+        displayName: 'Mental state',
+        value: 'new-onset confusion',
+        status: 'final',
+        effectiveAt: '2026-06-10T09:05:00.000Z',
+        sourceFreshness: 'current',
+        simulationOnly: true
+      }
+    ]
+  },
+  {
+    label: 'falling oxygen saturation',
+    expectedTitle: 'Scenario learning cue: Falling oxygen saturation',
+    expectedEvidencePhrase: 'falling oxygen saturation',
+    signals: buildObservationTrendSignals({
+      patientId: 'DCU-099',
+      signalCode: 'oxygen_saturation',
+      displayName: 'Oxygen saturation',
+      unit: '%',
+      values: [96, 93, 89],
+      startAt: '2026-06-10T08:05:00.000Z'
+    })
+  }
+];
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -306,6 +380,37 @@ describe('buildSimulationSignals', () => {
     expect(derivedSignals.every((signal) => /human review required/i.test(signal.suggestedHumanReviewAction))).toBe(true);
     expect(derivedSignals.every((signal) => signal.simulationOnly === true)).toBe(true);
   });
+
+  it.each(deteriorationPatternCases)(
+    'builds an explainable learning cue for $label',
+    ({ signals, expectedTitle, expectedEvidencePhrase }) => {
+      const derivedSignals = buildSimulationSignals({
+        patient: clone(readyPatient),
+        signals: clone(signals),
+        suggestions: []
+      });
+      const learningSignal = derivedSignals[0];
+
+      expect(derivedSignals).toHaveLength(1);
+      expect(learningSignal).toMatchObject({
+        category: 'learning',
+        priority: 'learning',
+        humanReviewRequired: true,
+        simulationOnly: true,
+        unsafeClinicalAdvice: false
+      });
+      expect(learningSignal.title).toBe(expectedTitle);
+      expect(learningSignal.evidence).toEqual(expect.arrayContaining([
+        expect.objectContaining({
+          label: expect.stringContaining(expectedEvidencePhrase)
+        })
+      ]));
+      expect(learningSignal.suggestedHumanReviewAction).toMatch(/human review required/i);
+      expect(JSON.stringify(derivedSignals)).not.toMatch(
+        /diagnos|prescrib|treatment recommendation|automated escalation|alert the team|live NHS deployment/i
+      );
+    }
+  );
 
   it('builds the new sepsis, falls, medication timing and deteriorating observation cues', () => {
     const derivedSignals = buildSimulationSignals({
