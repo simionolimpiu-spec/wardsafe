@@ -21,6 +21,13 @@ const DOCUMENTATION_FILES = [
   'docs/demo-screenshot-checklist.md',
   'docs/ml-foundation-pr-summary.md',
   'docs/risk-support-technical-explainer.md',
+  'docs/public-demo-pack/master-narrative.md',
+  'docs/public-demo-pack/quality-intelligence-one-pager.md',
+  'docs/public-demo-pack/future-discovery-register.md',
+  'docs/public-demo-pack/safety-boundary.md',
+  'docs/public-demo-pack/stakeholder-demo-pack.md',
+  'docs/public-demo-pack/demo-script.md',
+  'docs/public-demo-pack/build-readiness/first-evaluation-session-plan.md',
   '.github/pull_request_template.md'
 ];
 
