@@ -4,12 +4,14 @@ This pack supports review of the simulation-only SafeFlow prototype in this repo
 
 SafeFlow is the short product mark used inside the prototype UI. SafeFlow Nursing is the nurse-led concept and authorship name used for the wider invention and confidential pack.
 
-Use `master-narrative.md` as the controlled wording source for this pack.
+Use `master-narrative.md` as the controlled wording source for this pack. If a doc conflicts with this file, this file wins.
 
 ## Contents
 
 - `demo-script.md` - a short walkthrough for showing the prototype.
-- `master-narrative.md` - controlled description, approved terminology list, and discrepancy map.
+- [master-narrative.md](master-narrative.md) - controlled description, approved terminology list, discrepancy map, and [verified learning evidence subsection](master-narrative.md#verified-learning-evidence).
+- [quality-intelligence-one-pager.md](quality-intelligence-one-pager.md) - SafeFlow Quality Intelligence overview for the Ward Quality & Safety Review export (`SF-217`).
+- [future-discovery-register.md](future-discovery-register.md) - future discovery register kept out of the current simulation-only prototype.
 - `../demo-readiness-pack.md` - concise reviewer talking points, demo flow and safe answers for common questions.
 - `../demo-screenshot-checklist.md` - manual checklist for capturing reviewer-safe screenshots.
 - `review-checklist.md` - public-safe review prompts for safety, workflow and product fit.
