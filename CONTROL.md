@@ -91,7 +91,7 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 | SF-202 | Backlog | UI | Cleaner NHS-realistic version 2 screen concept | Use minimal, customisable, safer NHS-realistic visual language. |
 | SF-204 | Closed (superseded) | AWS docs | AWS mock docs and architecture diagrams | Delivered by SF-104 (PR #19, `docs/public-demo-pack/build-readiness/architecture-options.md` + `technology-stack.md`). No further action. |
 | SF-205 | Closed (delivered) | Research | NHS Digital API research only | Delivered by SF-221 (`nhs-integration-readiness.md`). |
-| SF-206 | Backlog | Governance | IG checklist | Prepare for future data protection and access-control review. |
+| SF-206 | Closed (delivered) | Governance | IG checklist | Delivered by SF-233 (`docs/public-demo-pack/build-readiness/ig-checklist.md`, PR [#45](https://github.com/simionolimpiu-spec/wardsafe/pull/45)): staged checklist (simulation / evaluation / company / pilot) with blocking gates surfaced (visa + IP checks before incorporation; DPIA before any real data). SF-231/SF-232 reserved for Mia's pending branches; SF-218 fulfilled by her escalation-pathway-learning branch when it lands. |
 | SF-207 | Backlog | Security | RBAC/audit logging implementation concept | Next Mia candidate after SF-218/SF-222: identity-provider seam (CIS2-shaped mock), prompt 3 in strategy-pack `05_Mia_Codex_Prompt_Pack.md`. |
 | SF-210 | In progress | Evaluation | Demo evaluation framework | Framework delivered (SF-220), run-book (SF-223), capture sheet (SF-230). Remaining: run the first real session and produce the first report in `docs/evaluation-reports/`. |
 
