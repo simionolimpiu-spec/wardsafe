@@ -47,3 +47,15 @@ No patient consent line is included because no patient data is collected.
 - Verbatim quotes: ________________________________________________
 - Any hazard-log candidate: _______________________________________
 - Other comments: ________________________________________________
+
+## Relationship to the evaluation framework (read before use)
+
+This sheet is the **in-session quick capture** companion to
+`docs/public-demo-pack/evaluation-framework.md` (SF-220), which remains the controlling
+document for measures (M1–M8), pre/post forms, SUS, thresholds, and data handling. Use both in
+one session: framework pre-form → tasks (this sheet captured live per module) → framework
+post-form. The session run-book is
+`docs/public-demo-pack/build-readiness/first-evaluation-session-plan.md` (SF-223). Any safety
+concern recorded under "Safety / Wording Note" above triggers the framework's rule: a hazard-log
+entry before the next session. If this sheet and the framework ever disagree, the framework wins
+and this sheet gets fixed.
