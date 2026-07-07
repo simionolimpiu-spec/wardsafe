@@ -89,6 +89,45 @@ export const discoveryScenarios = [
     ],
     evidenceExpected: ['Medication timing', 'Medicines list', 'Open task', 'Documentation gap'],
     hazards: ['Prescribing language appears', 'Timing issue hidden in the note', 'Ownership of the follow-up is unclear']
+  },
+  {
+    id: 'scenario-respiratory-rate-trend',
+    title: 'Rising respiratory rate trend',
+    wardContext: 'Fictional day care patient with sequential observations showing a rising respiratory rate trend.',
+    reviewPrompt: 'Can the nurse in charge see the change, the time stamps, and the missing context clearly enough for human review?',
+    successSignals: [
+      'The rising respiratory rate trend is visible in the simulation feed.',
+      'The cue stays simulation-only and human-review required.',
+      'The wording stays calm and explainable.'
+    ],
+    evidenceExpected: ['Respiratory rate trend', 'Observation timestamps', 'Human-review wording'],
+    hazards: ['Overstating the change', 'Hiding the trend in vague wording', 'Using treatment language']
+  },
+  {
+    id: 'scenario-new-onset-confusion',
+    title: 'New-onset confusion',
+    wardContext: 'Fictional patient with new confusion noted in the simulation observations and otherwise steady workflow.',
+    reviewPrompt: 'Can the nurse in charge see what changed and who should review the note?',
+    successSignals: [
+      'New confusion is visible in the fictional record.',
+      'The cue stays simulation-only and human-review required.',
+      'The wording stays calm and explainable.'
+    ],
+    evidenceExpected: ['Confusion note', 'Observation timestamp', 'Human-review wording'],
+    hazards: ['Treating the note as a live alert', 'Hiding the change behind vague wording', 'Using treatment language']
+  },
+  {
+    id: 'scenario-falling-oxygen-saturation',
+    title: 'Falling oxygen saturation',
+    wardContext: 'Fictional patient with a falling oxygen saturation trend across sequential observations.',
+    reviewPrompt: 'Can the nurse in charge see the trend, the timing, and the context clearly enough for human review?',
+    successSignals: [
+      'The falling oxygen saturation trend is visible in the simulation feed.',
+      'The cue stays simulation-only and human-review required.',
+      'The wording stays calm and explainable.'
+    ],
+    evidenceExpected: ['Oxygen saturation trend', 'Observation timestamps', 'Human-review wording'],
+    hazards: ['Overstating the change', 'Hiding the trend in vague wording', 'Using treatment language']
   }
 ];
 
