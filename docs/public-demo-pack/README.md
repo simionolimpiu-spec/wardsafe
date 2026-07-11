@@ -9,6 +9,7 @@ Use `master-narrative.md` as the controlled wording source for this pack. If a d
 ## Contents
 
 - `demo-script.md` - a short walkthrough for showing the prototype.
+- `live-site-demo-walkthrough.md` - deployed static-site click path and plain-English narration for non-clinical and Band 6/7 audiences.
 - [master-narrative.md](master-narrative.md) - controlled description, approved terminology list, discrepancy map, and [verified learning evidence subsection](master-narrative.md#verified-learning-evidence).
 - [quality-intelligence-one-pager.md](quality-intelligence-one-pager.md) - SafeFlow Quality Intelligence overview for the Ward Quality & Safety Review export (`SF-217`).
 - [future-discovery-register.md](future-discovery-register.md) - future discovery register kept out of the current simulation-only prototype.
