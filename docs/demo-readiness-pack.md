@@ -149,6 +149,8 @@ Clinical judgement remains central, and outputs remain human-editable, explainab
 
 ## Live demo walkthrough
 
+For the deployed public static build, use [`public-demo-pack/live-site-demo-walkthrough.md`](public-demo-pack/live-site-demo-walkthrough.md) for the concise click path and speaker narration below. This section remains the broader demo-readiness reference.
+
 Use this flow when presenting SafeFlow in Presentation Mode to NHS nursing leadership, ward managers, clinical educators, digital safety leads, or innovation and transformation teams.
 
 SafeFlow is simulation-only at this stage. No real patient data is used. No live NHS systems are connected. The prototype does not provide diagnosis, treatment advice, risk prediction, or automated escalation. SafeFlow demonstrates how structured documentation, review cues, ward comparison, learning summaries, and exportable reporting could support human-led review.

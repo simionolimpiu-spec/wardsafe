@@ -3,6 +3,8 @@
 **Status date:** 2026-07-05
 **Authored directly (docs-only):** aligned to `docs/public-demo-pack/master-narrative.md`.
 
+For the deployed public static build, use [`live-site-demo-walkthrough.md`](live-site-demo-walkthrough.md). This file remains the local setup and original prototype walkthrough.
+
 ## Setup
 
 Run the prototype locally:
