@@ -107,7 +107,7 @@ export const discoveryScenarios = [
     id: 'scenario-new-onset-confusion',
     title: 'New-onset confusion',
     wardContext: 'Fictional patient with new confusion noted in the simulation observations and otherwise steady workflow.',
-    reviewPrompt: 'Can the nurse in charge see what changed and who should review the note?',
+    reviewPrompt: 'Can the nurse in charge see what changed, why it flagged, and what human review is needed?',
     successSignals: [
       'New confusion is visible in the fictional record.',
       'The cue stays simulation-only and human-review required.',
