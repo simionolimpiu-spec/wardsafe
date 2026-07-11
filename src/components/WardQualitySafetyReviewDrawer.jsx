@@ -263,6 +263,30 @@ export function WardQualitySafetyReviewDrawer({ isOpen = false, onClose = () => 
           <div className="section-heading">
             <ChevronRight aria-hidden="true" size={18} />
             <div>
+              <h3>Ward-level learning assurance (simulation)</h3>
+              <p>Aggregate, non-identifying learning counts. No individual staff names, scores, or ranking.</p>
+            </div>
+          </div>
+          <div className="review-report-summary-grid">
+            {(snapshot.wardLearningAssuranceCards ?? []).map((card) => (
+              <article className="review-report-summary-card" key={card.label}>
+                <span>{card.label}</span>
+                <strong>{card.value}</strong>
+                <small>{card.detail}</small>
+              </article>
+            ))}
+          </div>
+          <div className="review-report-interpretation-list" aria-label="Ward-level learning assurance">
+            {(snapshot.wardLearningAssurancePoints ?? []).map((point) => (
+              <p key={point}>{point}</p>
+            ))}
+          </div>
+        </section>
+
+        <section className="review-report-section">
+          <div className="section-heading">
+            <ChevronRight aria-hidden="true" size={18} />
+            <div>
               <h3>Exportable learning summary</h3>
               <p>Human review required. Simulation-only prototype. Fictional data only.</p>
             </div>
