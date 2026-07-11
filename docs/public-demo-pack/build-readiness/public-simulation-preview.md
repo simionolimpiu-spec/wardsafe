@@ -1,6 +1,6 @@
 # SafeFlow Public Simulation Preview
 
-This note prepares SafeFlow for a shareable, password-protected, simulation-only preview on AWS. It is not a clinical deployment, not a live NHS system, and not intended for real patient data.
+This note describes the current shareable SafeFlow simulation preview and a separate static preview path. SafeFlow is a simulation-only prototype for structured review support. It uses fictional data only, does not connect to live NHS systems, and does not replace any live clinical or quality system.
 
 ## Preview Goal
 
@@ -9,9 +9,9 @@ This note prepares SafeFlow for a shareable, password-protected, simulation-only
 - Keep all preview data fictional and simulation-only.
 - Keep human review explicit throughout the UI and API.
 
-## Current Preview Deployment
+## Current AWS Preview Deployment
 
-The current deployed preview is:
+The current documented hosted preview remains the AWS preview below. It is the only preview described in this note as active:
 
 - Frontend: `https://preview.d3etfd425b4rlk.amplifyapp.com/`
 - Backend API: `https://nlork7u5ziyhwbjmoplexuw4rq0tnwah.lambda-url.eu-west-2.on.aws/`
@@ -21,6 +21,16 @@ The current deployed preview is:
 - Amplify branch: `preview`
 
 Amplify Basic Auth is enabled, and the API requires `X-SafeFlow-Preview-Token`. Do not commit or post the Basic Auth password or preview access token; share them only through a private channel with named reviewers.
+
+## Static GitHub Pages Simulation Preview
+
+The base branch now includes `.github/workflows/deploy-pages.yml`, which builds the static SPA with the `/wardsafe/` base path. This path is separate from the AWS preview:
+
+- it contains the frontend bundle and fictional simulation fixtures only
+- it does not deploy the backend `/api` routes
+- it must remain a simulation-only prototype with human review required
+
+The static path is not currently an active shareable preview. The two recorded workflow runs on 10 July 2026 completed the build but failed during Pages site configuration because repository Pages creation was not accessible to the workflow integration. Until an authorised repository owner enables and verifies Pages, no GitHub Pages URL should be shared or described as deployed. This note does not authorise enabling a hosted preview or change the deployment approval boundary.
 
 ## Hosted Preview API Smoke
 
@@ -41,14 +51,14 @@ The hosted smoke checks:
 
 The hosted smoke is a deployment-contract check. It does not validate clinical correctness, model quality, or real-world decision support behavior.
 
-If a temporary internal diagnostic preview is intentionally ungated, set `SAFEFLOW_EXPECT_PREVIEW_ACCESS_GATE=false` for that smoke run only.
+If a temporary internal test preview is intentionally ungated, set `SAFEFLOW_EXPECT_PREVIEW_ACCESS_GATE=false` for that smoke run only.
 
 ## Current Deployed Behavior
 
-The current deployed preview stack is intentionally safe but limited:
+The current AWS preview stack is intentionally safe but limited:
 
-- `/api/simulation/signals` currently serves a placeholder provider on the live preview stack
-- `/api/simulation/risk-suggestions` currently serves a placeholder provider on the live preview stack
+- `/api/simulation/signals` currently serves a placeholder provider on the AWS preview stack
+- `/api/simulation/risk-suggestions` currently serves a placeholder provider on the AWS preview stack
 - those responses now need to stay explicit about `simulation` mode, `clinicalUse: false`, and their placeholder provider/source
 - this keeps the preview honest and usable for demos without implying validated clinical decision support
 
@@ -115,15 +125,13 @@ Optional backend-only variables:
 
 The public preview must keep the following visible:
 
-- fictional patient data only
-- not clinical advice
-- simulation output for preview only
-- not clinically validated
-- not for clinical decision-making
-- not diagnosis
-- not prescribing
-- not live NHS deployment
-- human review required
+- fictional data only
+- simulation-only prototype for structured review support
+- risk-support signals and documentation cues require human review
+- clinical judgement remains central
+- no live NHS systems or real patient data
+- no automated clinical action
+- no replacement of any live clinical or quality system
 
 ## Password Protection Recommendation
 
