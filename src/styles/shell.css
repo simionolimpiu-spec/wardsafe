@@ -227,6 +227,11 @@
   padding: 12px;
 }
 
+.presentation-flow li.is-active {
+  background: var(--color-info-bg);
+  border-color: var(--color-brand);
+}
+
 .presentation-flow span {
   color: #617083;
   font-size: var(--text-xs);
@@ -239,6 +244,31 @@
   color: #17436f;
   font-size: var(--text-lg);
   line-height: 1.25;
+}
+
+.presentation-flow small {
+  color: var(--color-brand-dark);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+
+.presentation-step-controls {
+  align-items: center;
+  display: flex;
+  gap: var(--space-5);
+  grid-column: 1 / -1;
+  justify-content: space-between;
+}
+
+.presentation-step-controls .secondary-action {
+  min-height: calc(var(--space-11) * 2);
+  padding: var(--space-5) var(--space-6);
+}
+
+.presentation-step-position {
+  color: var(--color-brand-dark);
+  font-size: var(--text-sm);
+  font-weight: 800;
 }
 
 .presentation-banner-note {
@@ -509,12 +539,12 @@
 
 .app-shell.presentation-mode .workspace-main {
   background: radial-gradient(circle at top left, rgba(0, 94, 184, 0.08) 0%, rgba(0, 94, 184, 0) 34%), linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 248, 252, 0.98) 100%);
-  padding: 30px;
+  padding: calc(var(--space-11) + var(--space-3));
 }
 
 .app-shell.presentation-mode .topbar {
-  gap: 20px;
-  padding-bottom: 20px;
+  gap: var(--space-9);
+  padding-bottom: var(--space-9);
 }
 
 .app-shell.presentation-mode .topbar h1 {
@@ -523,7 +553,7 @@
 }
 
 .app-shell.presentation-mode .topbar-actions {
-  gap: 14px;
+  gap: var(--space-6);
 }
 
 .app-shell.presentation-mode .secondary-action,
@@ -531,11 +561,11 @@
 .app-shell.presentation-mode .tab-list button,
 .app-shell.presentation-mode .workspace-nav button {
   font-size: var(--text-base);
-  min-height: 48px;
+  min-height: calc(var(--space-11) * 2);
 }
 
 .app-shell.presentation-mode .presentation-banner {
-  padding: 24px;
+  padding: var(--space-11);
 }
 
 .app-shell.presentation-mode .presentation-banner-copy h2 {
@@ -543,13 +573,25 @@
 }
 
 .app-shell.presentation-mode .presentation-flow li {
-  min-height: 82px;
-  padding: 14px;
+  min-height: calc(var(--space-11) * 3 + var(--space-3));
+  padding: var(--space-6);
 }
 
 .app-shell.presentation-mode .safety-banner {
   font-size: var(--text-base);
-  padding: 16px 18px;
+  padding: var(--space-7) var(--space-8);
+}
+
+.app-shell.presentation-mode .operational-view {
+  padding: var(--space-11);
+}
+
+.app-shell.presentation-mode .operational-view p,
+.app-shell.presentation-mode .operational-view li,
+.app-shell.presentation-mode .operational-view td,
+.app-shell.presentation-mode .operational-view th {
+  font-size: var(--text-lg);
+  line-height: 1.5;
 }
 
 .app-shell.presentation-mode .architecture-strip,

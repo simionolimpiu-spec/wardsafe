@@ -65,7 +65,10 @@ describe('SafeFlow prototype', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('button', { name: /presentation mode/i }));
+    const toggle = screen.getByRole('button', { name: /presentation mode/i });
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    await user.click(toggle);
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
 
     const banner = screen.getByRole('region', { name: /presentation mode/i });
     expect(within(banner).getByRole('heading', { name: /simulation-only safeFlow demo/i })).toBeInTheDocument();
@@ -76,20 +79,48 @@ describe('SafeFlow prototype', () => {
     ).toBeInTheDocument();
     expect(within(banner).getByText(/selected scenario:/i)).toBeInTheDocument();
     expect(within(banner).getByRole('list', { name: /presentation flow/i })).toBeInTheDocument();
-    expect(within(banner).getByText(/^Demo Scenario$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Patient Review Cues$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Hospital Insights$/i)).toBeInTheDocument();
-    expect(within(banner).getByText(/^Simulation Review Report$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Review cues$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Ward Quality & Safety Review export$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Competency Passport$/i)).toBeInTheDocument();
+    expect(within(banner).getByText(/^Hospital Insights$/)).toBeInTheDocument();
     expect(
       within(banner).getByText(
-        /^Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS\/AWS integration\.$/i
+        /^Guided path: review cues → Ward Quality & Safety Review export → Competency Passport → Hospital Insights\.$/i
       )
     ).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
+    expect(within(banner).getByRole('button', { name: /previous/i })).toBeDisabled();
     expect(within(banner).getByRole('button', { name: /exit presentation mode/i })).toBeInTheDocument();
 
     await user.click(within(banner).getByRole('button', { name: /exit presentation mode/i }));
 
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
     expect(screen.queryByRole('region', { name: /presentation mode/i })).not.toBeInTheDocument();
+  });
+
+  it('advances and retreats through the guided presentation views', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: /presentation mode/i }));
+    const next = () => within(screen.getByRole('region', { name: /presentation mode/i })).getByRole('button', { name: /next/i });
+    const previous = () => within(screen.getByRole('region', { name: /presentation mode/i })).getByRole('button', { name: /previous/i });
+
+    expect(screen.getByRole('region', { name: /ward safety board/i })).toBeInTheDocument();
+    await user.click(next());
+    expect(screen.getByRole('dialog', { name: /ward quality & safety review/i })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /reports/i })).toBeInTheDocument();
+
+    await user.click(next());
+    expect(screen.getByRole('heading', { name: /portable competency passport/i })).toBeInTheDocument();
+    await user.click(next());
+    expect(screen.getByRole('heading', { name: /hospital insights/i })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
+    expect(next()).toBeDisabled();
+
+    await user.click(previous());
+    expect(screen.getByRole('heading', { name: /portable competency passport/i })).toBeInTheDocument();
+    expect(within(screen.getByRole('region', { name: /presentation mode/i })).getByText(/^Step 3 of 4$/i)).toBeInTheDocument();
   });
 
   it('opens and closes the hospital insights drawer with comparison cues', async () => {
