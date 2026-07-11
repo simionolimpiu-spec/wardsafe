@@ -1,5 +1,10 @@
 import { competencyPassportFixtures } from '../data/competencyPassportFixtures.js';
-import { buildCompetencyPassportSummary } from '../domain/competencyPassport.js';
+import { microLearningFixtures } from '../data/microLearningFixtures.js';
+import {
+  buildCompetencyPassportSummary,
+  countVerifiedEntries,
+  totalPassportPoints
+} from '../domain/competencyPassport.js';
 import { buildSimulatedTrendFeatureSnapshot, scoreSimulatedTrend } from '../domain/patientJourneyTrendModel.js';
 import { getHospitalInsightsSnapshot } from './hospitalInsightsService.js';
 import { buildSimulatedRiskTrendChartData } from './dashboardChartDataService.js';
@@ -221,6 +226,59 @@ function formatPassportPlacementBlock(card, index) {
   return lines.join('\n');
 }
 
+function buildWardLearningAssurance({
+  passportEntries = [],
+  learningModules = microLearningFixtures,
+  wardName = ''
+} = {}) {
+  const modules = Array.isArray(learningModules) ? learningModules : [];
+  const cleanWard = cleanExportText(wardName);
+  const wardModuleCount = cleanWard
+    ? modules.filter((module) => cleanExportText(module?.ward).toLowerCase() === cleanWard.toLowerCase()).length
+    : 0;
+
+  return {
+    wardName: cleanWard,
+    verifiedCreditCount: countVerifiedEntries(passportEntries),
+    totalPoints: totalPassportPoints(passportEntries),
+    simulationModuleCount: modules.length,
+    wardModuleCount,
+    statement:
+      'ward-level learning assurance (simulation): aggregate, non-identifying counts only. no individual staff names, scores, or ranking.'
+  };
+}
+
+function buildWardLearningAssuranceCards(assurance = {}) {
+  return [
+    {
+      label: 'Verified learning evidence',
+      value: `${assurance.verifiedCreditCount ?? 0} credits`,
+      detail: `${assurance.totalPoints ?? 0} points (aggregate)`
+    },
+    {
+      label: 'Simulation learning modules',
+      value: `${assurance.simulationModuleCount ?? 0}`,
+      detail: assurance.wardName
+        ? `${assurance.wardModuleCount ?? 0} for ${assurance.wardName}`
+        : 'ward-level catalogue'
+    },
+    {
+      label: 'Basis',
+      value: 'Ward-level',
+      detail: 'aggregate, non-identifying (simulation)'
+    }
+  ];
+}
+
+function buildWardLearningAssurancePoints(assurance = {}) {
+  return [
+    `Ward-level learning assurance (simulation): ${assurance.verifiedCreditCount ?? 0} verified learning credits, aggregate only.`,
+    `Simulation learning modules available: ${assurance.simulationModuleCount ?? 0}.`,
+    'Aggregate and non-identifying: no individual staff names, scores, ranking, or league table.',
+    'Human review required. Simulation-only prototype.'
+  ];
+}
+
 export function getWardQualitySafetyReviewSnapshot({
   patient,
   reviewSignals = [],
@@ -245,6 +303,10 @@ export function getWardQualitySafetyReviewSnapshot({
   const trendChartData = buildSimulatedRiskTrendChartData(trendSuggestion);
   const heuristicCueCards = buildHeuristicCueCards(heuristicCues);
   const competencyPassportSummary = buildCompetencyPassportSummary(competencyPassportEntries);
+  const wardLearningAssurance = buildWardLearningAssurance({
+    passportEntries: competencyPassportEntries,
+    wardName: safeHospitalInsights.currentWardName
+  });
 
   return {
     title: DEFAULT_TITLE,
@@ -297,6 +359,9 @@ export function getWardQualitySafetyReviewSnapshot({
     competencyPassportCards: buildCompetencyPassportCards(competencyPassportSummary),
     competencyPassportPlacementCards: buildPassportPlacementCards(competencyPassportSummary),
     competencyLearningPoints: buildCompetencyLearningPoints(competencyPassportSummary),
+    wardLearningAssurance,
+    wardLearningAssuranceCards: buildWardLearningAssuranceCards(wardLearningAssurance),
+    wardLearningAssurancePoints: buildWardLearningAssurancePoints(wardLearningAssurance),
     reviewCueLearningPoints: buildReviewCueLearningPoints(heuristicCueCards),
     humanReviewNote:
       'human review required. simulation-only prototype. structured review support. exportable learning summary.',
@@ -371,6 +436,19 @@ export function buildWardQualitySafetyReviewExportText(snapshot) {
       ? snapshot.competencyPassportPlacementCards.map(formatPassportPlacementBlock)
       : ['No placement evidence is available in this simulation-only prototype.']
   );
+
+  appendExportSection(blocks, 'Ward-level learning assurance (simulation)', [
+    ...(
+      Array.isArray(snapshot.wardLearningAssuranceCards)
+        ? snapshot.wardLearningAssuranceCards.map(formatSummaryCard)
+        : []
+    ),
+    ...(
+      Array.isArray(snapshot.wardLearningAssurancePoints)
+        ? snapshot.wardLearningAssurancePoints
+        : []
+    )
+  ]);
 
   appendExportSection(blocks, 'Exportable learning summary', [
     cleanExportText(snapshot.exportFootnote),

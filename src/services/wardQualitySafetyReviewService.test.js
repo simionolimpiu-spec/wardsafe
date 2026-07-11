@@ -73,6 +73,59 @@ describe('ward quality and safety review service', () => {
       /diagnosis|prescrib|treatment recommendation|AI decision|clinical decision engine|autonomous care|live NHS deployment|potassium recommendation|patient needs potassium|give potassium/i
     );
   });
+
+  it('adds an aggregate, non-identifying ward-level learning assurance section', () => {
+    const scenario = getDemoScenarioById('day-care-treatment-pathway');
+    const patient = scenario.patients.find((entry) => entry.id === scenario.selectedPatientId);
+    const hospitalInsights = getHospitalInsightsSnapshot({
+      currentWardName: scenario.currentWardName,
+      hospitalName: scenario.hospitalName
+    });
+    const reviewSignals = buildReviewSignals();
+    const heuristicCues = buildHeuristicCues({
+      signals: reviewSignals,
+      flag: evaluatePotassiumSafetyGap(patient)
+    });
+
+    const snapshot = getWardQualitySafetyReviewSnapshot({
+      patient,
+      reviewSignals,
+      heuristicCues,
+      hospitalInsights,
+      selectedScenario: scenario
+    });
+    const exportText = buildWardQualitySafetyReviewExportText(snapshot);
+
+    expect(snapshot.wardLearningAssurance).toMatchObject({
+      verifiedCreditCount: expect.any(Number),
+      totalPoints: expect.any(Number),
+      simulationModuleCount: expect.any(Number)
+    });
+    expect(snapshot.wardLearningAssurance.simulationModuleCount).toBeGreaterThan(0);
+    expect(snapshot.wardLearningAssuranceCards.length).toBeGreaterThan(0);
+
+    expect(exportText).toContain('Ward-level learning assurance (simulation)');
+    expect(exportText).toContain('Verified learning evidence');
+    expect(exportText).toContain('aggregate');
+
+    const assuranceText =
+      JSON.stringify(snapshot.wardLearningAssurance) +
+      snapshot.wardLearningAssuranceCards.map((card) => `${card.label} ${card.value} ${card.detail}`).join(' ') +
+      snapshot.wardLearningAssurancePoints.join(' ');
+
+    // Non-identifying: no individual student/staff name from the fixtures may appear anywhere.
+    const studentNames = competencyPassportFixtures.map((fixture) => fixture.studentName).filter(Boolean);
+    expect(studentNames.length).toBeGreaterThan(0);
+    for (const name of studentNames) {
+      expect(assuranceText).not.toContain(name);
+      expect(exportText).not.toContain(name);
+    }
+
+    // No staff scoring / ranking / league table wording.
+    expect(assuranceText).not.toMatch(
+      /staff scoring|competency ranking|performance league table|individual nurse rating/i
+    );
+  });
 });
 
 function buildReviewSignals() {
