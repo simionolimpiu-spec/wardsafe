@@ -56,11 +56,21 @@ const tabs = [
   { id: 'audit', label: 'Audit' }
 ];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
-const PRESENTATION_FLOW_STEPS = ['Demo Scenario', 'Patient Review Cues', 'Hospital Insights', 'Simulation Review Report'];
+const PRESENTATION_STEPS = [
+  { id: 'board', label: 'Review cues', description: 'Ward Safety Board' },
+  { id: 'reports', label: 'Ward Quality & Safety Review export', description: 'Reports' },
+  { id: 'competency-passport', label: 'Competency Passport', description: 'Portable Competency Passport' },
+  { id: 'hospital-insights', label: 'Hospital Insights', description: 'Hospital insights' }
+];
 const PRESENTATION_ROADMAP_NOTE =
-  'Roadmap: patient view → review cues → ward comparison → hospital insights → future NHS/AWS integration.';
+  'Guided path: review cues → Ward Quality & Safety Review export → Competency Passport → Hospital Insights.';
 const PRESENTATION_BOUNDARY_NOTE =
   'Simulation-only. Human review required. Designed for NHS leadership, ward managers, clinical educators, and digital safety leads.';
+
+function getPresentationStepIndex(view) {
+  const stepIndex = PRESENTATION_STEPS.findIndex((step) => step.id === view);
+  return stepIndex >= 0 ? stepIndex : 0;
+}
 
 function formatDraftSections(draft) {
   return Object.entries(draft.sections)
@@ -284,6 +294,7 @@ export default function App() {
   const [isCheckingBackend, setIsCheckingBackend] = useState(false);
   const [isCheckingReadiness, setIsCheckingReadiness] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
+  const presentationStepIndex = getPresentationStepIndex(state.selectedView);
   const [backendWorkspace, setBackendWorkspace] = useState(null);
   const [readinessReport, setReadinessReport] = useState(null);
   const [serverAuditStatus, setServerAuditStatus] = useState('');
@@ -382,6 +393,24 @@ export default function App() {
     setIsWardQualitySafetyReviewOpen(false);
   }
 
+  function openPresentationStep(index) {
+    const step = PRESENTATION_STEPS[index];
+    if (!step) return;
+
+    navigate(step.id);
+    setIsHospitalInsightsOpen(false);
+    setIsReviewReportOpen(false);
+    setIsWardQualitySafetyReviewOpen(step.id === 'reports');
+  }
+
+  function movePresentationStep(offset) {
+    const nextIndex = Math.min(
+      PRESENTATION_STEPS.length - 1,
+      Math.max(0, presentationStepIndex + offset)
+    );
+    openPresentationStep(nextIndex);
+  }
+
   function changeDemoScenario(scenarioId) {
     dispatch({ type: 'scenario/selected', payload: { scenarioId } });
     setIsHospitalInsightsOpen(false);
@@ -393,6 +422,9 @@ export default function App() {
   }
 
   function togglePresentationMode() {
+    if (!isPresentationMode && !PRESENTATION_STEPS.some((step) => step.id === state.selectedView)) {
+      openPresentationStep(0);
+    }
     setIsPresentationMode((current) => !current);
   }
 
@@ -679,13 +711,35 @@ export default function App() {
               </button>
             </div>
             <ol className="presentation-flow" aria-label="Presentation flow">
-              {PRESENTATION_FLOW_STEPS.map((step, index) => (
-                <li key={step}>
+              {PRESENTATION_STEPS.map((step, index) => (
+                <li aria-current={index === presentationStepIndex ? 'step' : undefined} className={index === presentationStepIndex ? 'is-active' : ''} key={step.id}>
                   <span>Step {index + 1}</span>
-                  <strong>{step}</strong>
+                  <strong>{step.label}</strong>
+                  <small>{step.description}</small>
                 </li>
               ))}
             </ol>
+            <div className="presentation-step-controls" aria-label="Presentation step controls">
+              <button
+                className="secondary-action"
+                disabled={presentationStepIndex === 0}
+                onClick={() => movePresentationStep(-1)}
+                type="button"
+              >
+                Previous
+              </button>
+              <span className="presentation-step-position" aria-live="polite">
+                Step {presentationStepIndex + 1} of {PRESENTATION_STEPS.length}
+              </span>
+              <button
+                className="secondary-action"
+                disabled={presentationStepIndex === PRESENTATION_STEPS.length - 1}
+                onClick={() => movePresentationStep(1)}
+                type="button"
+              >
+                Next
+              </button>
+            </div>
             <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
           </section>
         )}
