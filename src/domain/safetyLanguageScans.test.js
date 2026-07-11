@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getDemoScenarioById } from '../data/demoScenarios.js';
+import { microLearningFixtures } from '../data/microLearningFixtures.js';
 import modelData from '../data/patientJourneyTrendModel.json';
 import { patientTimelineFixtures } from '../data/patientTimelineFixtures.js';
 import { simulationRiskSupportEvaluationScenarios } from '../data/simulationRiskSupportEvaluationScenarios.js';
@@ -94,6 +95,17 @@ describe('safety language regression scans', () => {
         violations: []
       });
     }
+  });
+
+  it('keeps the learning hub micro-learning fixtures free of prohibited wording', () => {
+    const fixtureScan = scanStrictSafetyLanguage(microLearningFixtures, {
+      checkedLabel: 'learning hub micro-learning fixtures'
+    });
+
+    expect(fixtureScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
   });
 
   it('catches a planted prohibited phrase in a locally constructed bad fixture', () => {

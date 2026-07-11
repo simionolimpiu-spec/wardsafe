@@ -127,5 +127,146 @@ export const microLearningFixtures = [
         explanation: 'The shared note makes the team working visible for the next reviewer.'
       }
     ]
+  },
+  {
+    id: 'escalation-pathway-deterioration-spotter',
+    title: 'Recognising deterioration',
+    ward: 'Acute Medical Unit',
+    trust: 'Cityview Community Trust',
+    professions: ['nursing', 'medicine', 'hca'],
+    topic: 'escalation-pathway learning scenario',
+    format: 'micro',
+    questions: [
+      {
+        id: 'escalation-pathway-deterioration-1',
+        prompt: 'In this escalation-pathway learning scenario, which change should be named first?',
+        options: [
+          'Rising respiratory rate trend',
+          'A tidy medicine trolley',
+          'A fresh fruit bowl'
+        ],
+        correctIndex: 0,
+        points: 2,
+        explanation: 'The visible breathing change is the clearest fact to share first.'
+      },
+      {
+        id: 'escalation-pathway-deterioration-2',
+        prompt: 'Which other change belongs in the same learning scenario?',
+        options: [
+          'New-onset confusion',
+          'A clean whiteboard',
+          'A quiet handover desk'
+        ],
+        correctIndex: 0,
+        points: 2,
+        explanation: 'New confusion is another visible change that helps the team practise calm review language.'
+      },
+      {
+        id: 'escalation-pathway-deterioration-3',
+        prompt: 'Which final cue completes the deterioration pattern?',
+        options: [
+          'Falling oxygen saturation',
+          'A fresh water jug',
+          'A printed menu'
+        ],
+        correctIndex: 0,
+        points: 3,
+        explanation: 'The oxygen saturation trend completes the learning scenario as a classroom example.'
+      }
+    ]
+  },
+  {
+    id: 'escalation-pathway-rrt-sbar',
+    title: 'RRT SBAR practice',
+    ward: 'General Medical Unit',
+    trust: 'Riverbank Community Trust',
+    professions: ['nursing', 'medicine'],
+    topic: 'escalation-pathway learning scenario',
+    format: 'micro',
+    questions: [
+      {
+        id: 'escalation-pathway-rrt-sbar-1',
+        prompt: 'Which opening line best fits the educational scenario?',
+        options: [
+          'I have a concern about a patient with a rising respiratory rate and I want a review',
+          'The printer is working well',
+          'Let us ignore the observation change'
+        ],
+        correctIndex: 0,
+        points: 2,
+        explanation: 'The call should name the visible concern and ask for a review.'
+      },
+      {
+        id: 'escalation-pathway-rrt-sbar-2',
+        prompt: 'Which SBAR section should hold the current facts?',
+        options: [
+          'Situation',
+          'Ward poster',
+          'Snack list'
+        ],
+        correctIndex: 0,
+        points: 2,
+        explanation: 'Situation is where the current visible change is named.'
+      },
+      {
+        id: 'escalation-pathway-rrt-sbar-3',
+        prompt: 'What should the Recommendation describe?',
+        options: [
+          'The next review step and who should take it',
+          'A private opinion only',
+          'A guess about the cause'
+        ],
+        correctIndex: 0,
+        points: 3,
+        explanation: 'The recommendation should point to the next review step.'
+      }
+    ]
+  },
+  {
+    id: 'escalation-pathway-call-for-concern-note',
+    title: 'Call-for-Concern SBAR note',
+    ward: 'Day Care Unit',
+    trust: 'Cityview Community Trust',
+    professions: ['nursing', 'hca', 'medicine'],
+    topic: 'escalation-pathway learning scenario',
+    format: 'micro',
+    questions: [
+      {
+        id: 'escalation-pathway-call-for-concern-1',
+        prompt: 'What makes a Call-for-Concern note useful in this learning scenario?',
+        options: [
+          'It records the visible facts, time, and who reviewed it',
+          'It replaces the conversation',
+          'It hides the change in a long paragraph'
+        ],
+        correctIndex: 0,
+        points: 2,
+        explanation: 'A short factual note helps the team revisit the learning point.'
+      },
+      {
+        id: 'escalation-pathway-call-for-concern-2',
+        prompt: 'Which detail belongs in the Situation line?',
+        options: [
+          'The current visible change',
+          "The patient's favourite TV show",
+          'A label from the cupboard'
+        ],
+        correctIndex: 0,
+        points: 2,
+        explanation: 'Situation should describe what is happening now using visible facts.'
+      },
+      {
+        id: 'escalation-pathway-call-for-concern-3',
+        prompt: 'How does the module support Competency Passport credit?',
+        options: [
+          'By keeping the score in the learning hub',
+          'By changing the patient chart',
+          'By sending a message outside the training exercise'
+        ],
+        correctIndex: 0,
+        points: 3,
+        explanation: 'The module only awards learning points in the passport and leaves care unchanged.'
+      }
+    ]
   }
 ];
