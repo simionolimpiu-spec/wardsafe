@@ -8,6 +8,8 @@ This index groups the demo pack by audience so a reader can start in the right p
 
 ## Start here (2 minutes)
 
+- **Live demo:** https://simionolimpiu-spec.github.io/wardsafe/
+  Simulation-only, fictional data, not for clinical use.
 - **`master-narrative.md`** — the controlled description of what SafeFlow is, the Quality Intelligence lane, approved terminology, and banned wording. Read this first.
 - **`quality-intelligence-one-pager.md`** — one-page, plain-English pitch for Band 6/7/8a readers, with the load-bearing "what it does NOT do" section.
 

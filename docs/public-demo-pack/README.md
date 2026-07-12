@@ -2,6 +2,9 @@
 
 This pack supports review of the simulation-only SafeFlow prototype in this repository.
 
+View the live demo: https://simionolimpiu-spec.github.io/wardsafe/
+Simulation-only, fictional data, not for clinical use.
+
 SafeFlow is the short product mark used inside the prototype UI. SafeFlow Nursing is the nurse-led concept and authorship name used for the wider invention and confidential pack.
 
 Use `master-narrative.md` as the controlled wording source for this pack. If a doc conflicts with this file, this file wins.

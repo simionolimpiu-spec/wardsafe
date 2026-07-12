@@ -1,3 +1,6 @@
+Live demo: https://simionolimpiu-spec.github.io/wardsafe/
+Simulation-only, fictional data, not for clinical use.
+
 # SafeFlow deployed-site demo walkthrough
 
 **Audience:** non-clinical stakeholders, including graphic designers, and Band 6/7 ward, education, or quality audiences.
