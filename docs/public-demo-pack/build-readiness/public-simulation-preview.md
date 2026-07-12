@@ -24,13 +24,17 @@ Amplify Basic Auth is enabled, and the API requires `X-SafeFlow-Preview-Token`. 
 
 ## Static GitHub Pages Simulation Preview
 
+Current published location: https://simionolimpiu-spec.github.io/wardsafe/
+Simulation-only, fictional data, not for clinical use.
+
+This static site auto-deploys on every push to `codex/safeflow-prototype` via `.github/workflows/deploy-pages.yml`.
 The base branch now includes `.github/workflows/deploy-pages.yml`, which builds the static SPA with the `/wardsafe/` base path. This path is separate from the AWS preview:
 
 - it contains the frontend bundle and fictional simulation fixtures only
 - it does not deploy the backend `/api` routes
 - it must remain a simulation-only prototype with human review required
 
-The static path is not currently an active shareable preview. The two recorded workflow runs on 10 July 2026 completed the build but failed during Pages site configuration because repository Pages creation was not accessible to the workflow integration. Until an authorised repository owner enables and verifies Pages, no GitHub Pages URL should be shared or described as deployed. This note does not authorise enabling a hosted preview or change the deployment approval boundary.
+The static path is the current active shareable simulation preview.
 
 ## Hosted Preview API Smoke
 
