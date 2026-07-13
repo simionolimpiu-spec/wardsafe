@@ -20,6 +20,7 @@ import { DemoScenarioSelector } from './components/DemoScenarioSelector.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
 import { HospitalInsightsView } from './components/HospitalInsightsView.jsx';
+import { TrustNetworkView } from './components/TrustNetworkView.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { SimulationReviewReportButton, SimulationReviewReportDrawer } from './components/SimulationReviewReportDrawer.jsx';
@@ -53,6 +54,7 @@ const tabs = [
   { id: 'board', label: 'Ward board' },
   { id: 'handover', label: 'Handover' },
   { id: 'twin', label: 'Patient Journey Twin' },
+  { id: 'trust-network', label: 'Two-Trust Network' },
   { id: 'audit', label: 'Audit' }
 ];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
@@ -779,6 +781,7 @@ export default function App() {
             {state.selectedView === 'observations' && (
               <ObservationsView patient={selectedPatient} onRecord={recordObservation} />
             )}
+            {state.selectedView === 'trust-network' && <TrustNetworkView />}
             {state.selectedView === 'tasks' && (
               <TasksView
                 onAddTask={addTask}

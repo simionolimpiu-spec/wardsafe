@@ -8,6 +8,7 @@ import { scanBoundaryAwareSafetyLanguage } from '../domain/safetyLanguage.js';
 import { getHospitalInsightsSnapshot } from '../services/hospitalInsightsService.js';
 import { getWardQualitySafetyReviewSnapshot } from '../services/wardQualitySafetyReviewService.js';
 import { HospitalInsightsView } from './HospitalInsightsView.jsx';
+import { TrustNetworkView } from './TrustNetworkView.jsx';
 import { PatientJourneyTwin } from './PatientJourneyTwin.jsx';
 import { ReportsView } from './ReportsView.jsx';
 import { WardSafetyBoard } from './WardSafetyBoard.jsx';
@@ -49,6 +50,21 @@ describe('safety language surface scans', () => {
 
     const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
       checkedLabel: 'Patient Journey Twin render'
+    });
+
+    expect(result).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the Two-Trust Network view render strictly boundary-safe', () => {
+    const { container } = render(<TrustNetworkView />);
+
+    expect(screen.getByRole('heading', { name: /two-trust network/i })).toBeInTheDocument();
+
+    const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
+      checkedLabel: 'Two-Trust Network render'
     });
 
     expect(result).toMatchObject({
