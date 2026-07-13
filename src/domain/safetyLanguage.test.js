@@ -30,6 +30,10 @@ const DOCUMENTATION_FILES = [
   'docs/public-demo-pack/demo-script.md',
   'docs/public-demo-pack/live-site-demo-walkthrough.md',
   'docs/public-demo-pack/build-readiness/first-evaluation-session-plan.md',
+  'docs/public-demo-pack/build-readiness/nhs-realistic-v2-concept.md',
+  'docs/public-demo-pack/build-readiness/rbac-audit-logging-concept.md',
+  'docs/public-demo-pack/build-readiness/simulation-twin-learning-concept.md',
+  'docs/public-demo-pack/build-readiness/evaluation-readiness-summary.md',
   '.github/pull_request_template.md'
 ];
 
