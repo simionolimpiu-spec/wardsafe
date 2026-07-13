@@ -1,0 +1,21 @@
+journeyId,order,trustId,wardId,wardName,stage,handoverNote,simulationOnly
+journey-critical-care-repatriation,1,jpuh,jpuh-ward-2,Ward 2,admission,Admitted under Cardiology/Medical for review; observations and plan documented for handover.,true
+journey-critical-care-repatriation,2,jpuh,jpuh-icu-hdu,ICU/HDU,escalation,Escalation-readiness cue reviewed by a human; local critical-care review before inter-trust transfer.,true
+journey-critical-care-repatriation,3,nnuh,nnuh-critical-care,Critical Care Complex (ITU/HDU),specialist-care,Inter-trust handover to Norfolk & Norwich Critical Care Complex; SBAR summary and plan carried across so the health plan continues.,true
+journey-critical-care-repatriation,4,nnuh,nnuh-gissing,Gissing Ward,step-down,Step-down to a Norfolk & Norwich ward once stable; discharge-readiness and repatriation criteria documented.,true
+journey-critical-care-repatriation,5,jpuh,jpuh-ward-2,Ward 2,repatriation,Repatriated to James Paget with a structured handover; continuing plan and outstanding tasks visible for review.,true
+journey-critical-care-repatriation,6,jpuh,jpuh-ward-18,Ward 18 & Discharge Lounge,discharge,Discharge pathway via the James Paget discharge lounge; follow-up ownership documented.,true
+journey-oncology-shared-care,1,jpuh,jpuh-ward-17,Ward 17,admission,Haematology inpatient review at James Paget; treatment plan documented for shared care.,true
+journey-oncology-shared-care,2,nnuh,nnuh-weybourne,Weybourne Day Unit,specialist-care,Handover for Norfolk & Norwich Weybourne Day Unit treatment; the plan continues across trusts with clear next-review ownership.,true
+journey-oncology-shared-care,3,nnuh,nnuh-colney,Colney Centre,specialist-care,Oncology outpatient review at the Colney Centre; findings shared back for the continuing plan.,true
+journey-oncology-shared-care,4,jpuh,jpuh-sandra-chapman,Sandra Chapman Centre,step-down,Supportive day treatment at the James Paget Sandra Chapman Centre; symptoms and plan reviewed.,true
+journey-oncology-shared-care,5,jpuh,jpuh-ward-17,Ward 17,repatriation,Continuing haematology care back at James Paget; handover completeness reviewed by a human.,true
+journey-surgical-assessment-discharge-package,1,jpuh,jpuh-ed,Emergency Department (A&E),admission,Presented to the James Paget Emergency Department; assessment and plan documented for handover.,true
+journey-surgical-assessment-discharge-package,2,jpuh,jpuh-eadu,EADU,admission,Emergency Assessment & Discharge Unit review; inter-trust referral decision documented.,true
+journey-surgical-assessment-discharge-package,3,nnuh,nnuh-easton,Easton Ward,specialist-care,Handover to Norfolk & Norwich Emergency Surgical Assessment Unit (Easton); the surgical plan continues across trusts.,true
+journey-surgical-assessment-discharge-package,4,nnuh,nnuh-denton,Denton Ward,step-down,Post-procedure surgical ward stay; discharge-readiness blockers and community needs reviewed.,true
+journey-surgical-assessment-discharge-package,5,nnuh,nnuh-denton,Denton Ward,packages-of-care,"Discharge home with a package of care arranged; follow-up and community ownership documented (simulation-only, human-review-framed).",true
+journey-frailty-community-package,1,jpuh,jpuh-ward-12,Ward 12,admission,Admitted under Older People's Medicine; falls-risk and documentation cues reviewed by a human.,true
+journey-frailty-community-package,2,nnuh,nnuh-loddon,Loddon Ward,specialist-care,Inter-trust specialist review at Norfolk & Norwich; the continuing plan and outstanding investigations handed over both ways.,true
+journey-frailty-community-package,3,jpuh,jpuh-ward-12,Ward 12,repatriation,Returned to James Paget with an updated plan; discharge-readiness reviewed.,true
+journey-frailty-community-package,4,jpuh,jpuh-ward-12,Ward 12,packages-of-care,Discharge home with a community package of care; follow-up ownership and safety-netting documented (simulation-only).,true

@@ -1,0 +1,3 @@
+id,name,shortName,role,wardSource,simulationOnly
+jpuh,James Paget University Hospital,James Paget,district general hospital,exact — James Paget Ward Directory (July 2026),true
+nnuh,Norfolk and Norwich University Hospital,Norfolk & Norwich,tertiary teaching hospital,sourced subset — NNUH Wards A-Z (July 2026); re-verify for completeness,true

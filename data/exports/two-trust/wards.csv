@@ -1,0 +1,52 @@
+id,trustId,name,specialty,kind,wardGroup,simulatedBedCount,simulationOnly
+jpuh-ward-1,jpuh,Ward 1,Stroke Unit,inpatient-ward,medical,28,true
+jpuh-ward-2,jpuh,Ward 2,Cardiology / Medical,inpatient-ward,medical,28,true
+jpuh-acu,jpuh,Acute Cardiology Unit,Cardiology,assessment-unit,medical,12,true
+jpuh-ward-3,jpuh,Ward 3,Gastroenterology,inpatient-ward,medical,28,true
+jpuh-ward-4,jpuh,Ward 4,General Medicine,inpatient-ward,medical,30,true
+jpuh-ward-5,jpuh,Ward 5,Mixed Surgery,inpatient-ward,surgical,28,true
+jpuh-ward-6,jpuh,Ward 6,Orthopaedic — Trauma,inpatient-ward,surgical,28,true
+jpuh-ward-7,jpuh,Ward 7,General Medicine,inpatient-ward,medical,30,true
+jpuh-ward-9,jpuh,Ward 9,Mixed Surgery,inpatient-ward,surgical,28,true
+jpuh-windsor,jpuh,Windsor Suite,Ophthalmic Day Unit,day-unit,day-care,0,true
+jpuh-ward-10,jpuh,Ward 10,Paediatrics,paediatrics,specialty,20,true
+jpuh-neonatal,jpuh,Neonatal Unit,Neonatal,neonatal,specialty,12,true
+jpuh-ward-11,jpuh,Ward 11,Maternity,maternity,specialty,22,true
+jpuh-cds,jpuh,Central Delivery Suite,Maternity — Delivery,maternity,specialty,10,true
+jpuh-anc,jpuh,Antenatal Clinic,Maternity — Antenatal,clinic,specialty,0,true
+jpuh-ward-12,jpuh,Ward 12,Older People's Medicine,inpatient-ward,frailty,30,true
+jpuh-ward-15,jpuh,Ward 15,Respiratory,inpatient-ward,medical,28,true
+jpuh-ward-16,jpuh,Ward 16 (Short Stay),Short Stay Medical Unit,assessment-unit,medical,24,true
+jpuh-ward-17,jpuh,Ward 17,Haematology,inpatient-ward,medical,24,true
+jpuh-ward-18,jpuh,Ward 18 & Discharge Lounge,Respiratory,inpatient-ward,medical,28,true
+jpuh-sandra-chapman,jpuh,Sandra Chapman Centre,Haematology & Oncology Day Treatment,day-unit,day-care,0,true
+jpuh-ward-22,jpuh,Ward 22,Elective Orthopaedic,inpatient-ward,surgical,24,true
+jpuh-ed,jpuh,Emergency Department (A&E),Emergency,emergency,emergency,34,true
+jpuh-eadu,jpuh,EADU,Emergency Assessment & Discharge Unit,assessment-unit,emergency,22,true
+jpuh-icu-hdu,jpuh,ICU/HDU,Intensive Care / High Dependency,critical-care,critical-care,16,true
+jpuh-charnwood,jpuh,Charnwood,Private Patient Suite,inpatient-ward,other,12,true
+jpuh-cts,jpuh,Central Treatment Suite,Central Treatment,day-unit,day-care,0,true
+jpuh-day-care,jpuh,Day Care Unit,Day Care,day-unit,day-care,18,true
+jpuh-theatres,jpuh,Theatres & Recovery,Surgery / Recovery,theatre,theatre,0,true
+jpuh-endoscopy,jpuh,Endoscopy,Endoscopy,day-unit,day-care,0,true
+jpuh-renal,jpuh,Renal Unit,Renal Services,day-unit,specialty,0,true
+jpuh-hyperbaric,jpuh,Hyperbaric Unit,Hyperbaric Services,other,specialty,0,true
+jpuh-ambulatory,jpuh,Ambulatory,Ambulatory Care,assessment-unit,medical,0,true
+nnuh-cley,nnuh,Cley Ward,"Inpatient (West Block, L3)",inpatient-ward,medical,28,true
+nnuh-coltishall,nnuh,Coltishall Ward,"Inpatient (West Block, L2)",inpatient-ward,medical,28,true
+nnuh-denton,nnuh,Denton Ward,"Inpatient (Centre Block, L4)",inpatient-ward,surgical,28,true
+nnuh-dilham,nnuh,Dilham Ward,"Inpatient (Centre Block, L3)",inpatient-ward,surgical,28,true
+nnuh-docking,nnuh,Docking Ward,"Inpatient (Centre Block, L2)",inpatient-ward,medical,28,true
+nnuh-earsham,nnuh,Earsham Ward,"Inpatient (Centre Block, L4)",inpatient-ward,surgical,28,true
+nnuh-easton,nnuh,Easton Ward,"Emergency Surgical Assessment Unit (Centre Block, L3)",assessment-unit,surgical,24,true
+nnuh-gissing,nnuh,Gissing Ward,"Inpatient (Centre Block, L3)",inpatient-ward,medical,28,true
+nnuh-gunthorpe,nnuh,Gunthorpe Ward,Inpatient (East Block),inpatient-ward,medical,28,true
+nnuh-kimberley,nnuh,Kimberley Ward,"Inpatient (East Block, L2)",inpatient-ward,medical,28,true
+nnuh-langley,nnuh,Langley Ward,"Inpatient (East Block, L1)",inpatient-ward,medical,28,true
+nnuh-loddon,nnuh,Loddon Ward,"Inpatient (East Block, L2)",inpatient-ward,medical,28,true
+nnuh-mattishall,nnuh,Mattishall Ward,"Inpatient (East Block, L3)",inpatient-ward,medical,28,true
+nnuh-brundall,nnuh,Brundall Ward,Inpatient,inpatient-ward,medical,28,true
+nnuh-weybourne,nnuh,Weybourne Day Unit,Oncology & Haematology Day Unit,day-unit,day-care,0,true
+nnuh-colney,nnuh,Colney Centre,Oncology Outpatients,clinic,specialty,0,true
+nnuh-critical-care,nnuh,Critical Care Complex (ITU/HDU),Intensive Therapy / High Dependency,critical-care,critical-care,28,true
+nnuh-nicu,nnuh,Neonatal Intensive Care Unit,Neonatal Intensive Care,neonatal,specialty,20,true

@@ -1,0 +1,25 @@
+{
+  "generatedLabel": "SafeFlow two-trust simulation network (Simulation-only)",
+  "boundaryNote": "Simulation-only. Real trust and ward names, fictional patients and journeys. Not a live inter-trust record or coordination system. Human review required.",
+  "counts": {
+    "trusts": 2,
+    "wards": 51,
+    "jpuhWards": 33,
+    "nnuhWards": 18,
+    "patients": 97,
+    "journeys": 4,
+    "interTrustJourneys": 4,
+    "journeySegments": 20
+  },
+  "integrity": {
+    "ok": true,
+    "violations": []
+  },
+  "tables": [
+    "trusts",
+    "wards",
+    "patients",
+    "journeys",
+    "journey_segments"
+  ]
+}
