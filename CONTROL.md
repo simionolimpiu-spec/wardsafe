@@ -97,7 +97,7 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 
 | ID | Status | Area | Work item | Notes |
 |---|---|---|---|---|
-| SF-201 | Backlog | UI | Full-screen presentation mode | Improve stakeholder demo flow further. |
+| SF-201 | Done | UI | Full-screen / presentation mode — delivered by the M12 presentation mode (SF-239): toggle-able presentation mode with larger token-based legibility, a 4-step guided flow, and the simulation-only banner always visible. | Closed 12 July 2026 as delivered by SF-239 (PR [#54](https://github.com/simionolimpiu-spec/wardsafe/pull/54)). Any further full-screen polish is optional and would land as additive token CSS. |
 | SF-202 | Done | UI | Cleaner NHS-realistic v2 visual concept — calm / clinical-grade / accessible design direction (colour roles, type & spacing, component notes) for a graphic designer to build on; token-driven, additive, no behaviour or boundary change. | Concept in `docs/public-demo-pack/build-readiness/nhs-realistic-v2-concept.md` (PR [#56](https://github.com/simionolimpiu-spec/wardsafe/pull/56)). Any resulting restyle lands as additive token CSS after designer input. |
 | SF-204 | Closed (superseded) | AWS docs | AWS mock docs and architecture diagrams | Delivered by SF-104 (PR #19, `docs/public-demo-pack/build-readiness/architecture-options.md` + `technology-stack.md`). No further action. |
 | SF-205 | Closed (delivered) | Research | NHS Digital API research only | Delivered by SF-221 (`nhs-integration-readiness.md`). |
