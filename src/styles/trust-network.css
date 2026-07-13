@@ -1,0 +1,102 @@
+.trust-network-view .trust-network-note,
+.trust-network-view .trust-network-summary {
+  color: var(--text-muted, #4a5b66);
+  font-size: 0.9rem;
+}
+
+.trust-network-journeys {
+  display: grid;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.trust-network-journey {
+  border: 1px solid var(--border-subtle, #d7dee3);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: var(--surface, #fff);
+}
+
+.trust-network-journey-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.trust-network-journey-head h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.trust-network-outcome {
+  flex: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft, #e7f3f0);
+  color: var(--accent-strong, #0b6b5b);
+  white-space: nowrap;
+}
+
+.trust-network-outcome[data-outcome='discharge-with-package-of-care'] {
+  background: var(--warn-soft, #fbf1e6);
+  color: var(--warn-strong, #8a4b0a);
+}
+
+.trust-network-segments {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.trust-network-segment {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  border-left: 3px solid var(--border-subtle, #d7dee3);
+  background: var(--surface-muted, #f5f8f9);
+  border-radius: 0 8px 8px 0;
+}
+
+.trust-network-chip {
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #e4edf5;
+  color: #1d3b53;
+  white-space: nowrap;
+}
+
+.trust-network-chip[data-trust='nnuh'] {
+  background: #efe6f6;
+  color: #4a2b63;
+}
+
+.trust-network-segment-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trust-network-segment-body strong {
+  font-size: 0.9rem;
+}
+
+.trust-network-segment-body em {
+  color: var(--text-muted, #4a5b66);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.trust-network-segment-body small {
+  color: var(--text-muted, #4a5b66);
+  font-size: 0.82rem;
+}
