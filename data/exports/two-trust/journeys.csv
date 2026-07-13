@@ -1,0 +1,5 @@
+id,title,outcome,trustsInvolved,interTrust,segmentCount,simulationOnly
+journey-critical-care-repatriation,"District admission, tertiary critical care, then repatriation to James Paget",returned-to-james-paget,jpuh|nnuh,true,6,true
+journey-oncology-shared-care,"Shared oncology care between the two trusts, returning to James Paget",returned-to-james-paget,jpuh|nnuh,true,5,true
+journey-surgical-assessment-discharge-package,"Emergency surgical assessment at Norfolk & Norwich, discharge with a package of care",discharge-with-package-of-care,jpuh|nnuh,true,5,true
+journey-frailty-community-package,"Older person's medicine, cross-trust review, discharge with community package",discharge-with-package-of-care,jpuh|nnuh,true,4,true
