@@ -100,3 +100,43 @@
   color: var(--text-muted, #4a5b66);
   font-size: 0.82rem;
 }
+
+.trust-network-type {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-strong, #0b6b5b);
+  margin-bottom: 2px;
+}
+
+.trust-network-learning {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--accent-soft, #e7f3f0);
+  border: 1px solid #bfe0d8;
+}
+
+.trust-network-learning strong {
+  font-size: 0.85rem;
+  color: var(--accent-strong, #0b6b5b);
+}
+
+.trust-network-learning small {
+  display: block;
+  color: var(--text-muted, #4a5b66);
+  font-size: 0.82rem;
+  margin: 2px 0 6px;
+}
+
+.trust-network-learning ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.trust-network-learning li {
+  font-size: 0.82rem;
+  margin-bottom: 3px;
+}

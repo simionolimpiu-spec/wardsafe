@@ -54,7 +54,7 @@ const tabs = [
   { id: 'board', label: 'Ward board' },
   { id: 'handover', label: 'Handover' },
   { id: 'twin', label: 'Patient Journey Twin' },
-  { id: 'trust-network', label: 'Two-Trust Network' },
+  { id: 'trust-network', label: 'Trust Network' },
   { id: 'audit', label: 'Audit' }
 ];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
