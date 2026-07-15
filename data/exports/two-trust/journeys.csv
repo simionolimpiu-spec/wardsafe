@@ -1,5 +1,6 @@
-id,title,outcome,trustsInvolved,interTrust,segmentCount,simulationOnly
-journey-critical-care-repatriation,"District admission, tertiary critical care, then repatriation to James Paget",returned-to-james-paget,jpuh|nnuh,true,6,true
-journey-oncology-shared-care,"Shared oncology care between the two trusts, returning to James Paget",returned-to-james-paget,jpuh|nnuh,true,5,true
-journey-surgical-assessment-discharge-package,"Emergency surgical assessment at Norfolk & Norwich, discharge with a package of care",discharge-with-package-of-care,jpuh|nnuh,true,5,true
-journey-frailty-community-package,"Older person's medicine, cross-trust review, discharge with community package",discharge-with-package-of-care,jpuh|nnuh,true,4,true
+id,journeyType,homeTrustId,title,outcome,trustsInvolved,interTrust,segmentCount,learningReturnedTo,simulationOnly
+journey-critical-care-repatriation,inter-trust-handover,jpuh,"District admission, tertiary critical care, then repatriation to James Paget",returned-to-james-paget,jpuh|nnuh,true,6,jpuh,true
+journey-specialist-neuro-transfer,specialist-transfer,jpuh,"Specialist neurosciences transfer to Addenbrooke's, repatriated to James Paget",returned-to-james-paget,jpuh|cuh,true,5,jpuh,true
+journey-relocation-continues,relocation,jpuh,Patient relocates to Cambridgeshire — care and history continue at Addenbrooke’s,continues-at-new-trust,jpuh|cuh,true,3,jpuh,true
+journey-temporary-visitor-returns,temporary-visitor,nnuh,"Taken ill while away from home — treated at West Suffolk, returns to Norfolk & Norwich",returned-home-with-learning-copy,wsh|nnuh,true,4,nnuh,true
+journey-cross-region-discharge-package,relocation,qeh,"Cross-region episode, discharge with a package of care near new home",discharge-with-package-of-care,qeh|esneft,true,4,qeh,true

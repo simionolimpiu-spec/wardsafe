@@ -1,21 +1,23 @@
 journeyId,order,trustId,wardId,wardName,stage,handoverNote,simulationOnly
-journey-critical-care-repatriation,1,jpuh,jpuh-ward-2,Ward 2,admission,Admitted under Cardiology/Medical for review; observations and plan documented for handover.,true
+journey-critical-care-repatriation,1,jpuh,jpuh-ward-2,Ward 2,admission,Admitted under Cardiology/Medical; observations and plan documented for handover.,true
 journey-critical-care-repatriation,2,jpuh,jpuh-icu-hdu,ICU/HDU,escalation,Escalation-readiness cue reviewed by a human; local critical-care review before inter-trust transfer.,true
 journey-critical-care-repatriation,3,nnuh,nnuh-critical-care,Critical Care Complex (ITU/HDU),specialist-care,Inter-trust handover to Norfolk & Norwich Critical Care Complex; SBAR summary and plan carried across so the health plan continues.,true
-journey-critical-care-repatriation,4,nnuh,nnuh-gissing,Gissing Ward,step-down,Step-down to a Norfolk & Norwich ward once stable; discharge-readiness and repatriation criteria documented.,true
+journey-critical-care-repatriation,4,nnuh,nnuh-gissing,Gissing Ward,step-down,Step-down once stable; repatriation criteria documented.,true
 journey-critical-care-repatriation,5,jpuh,jpuh-ward-2,Ward 2,repatriation,Repatriated to James Paget with a structured handover; continuing plan and outstanding tasks visible for review.,true
-journey-critical-care-repatriation,6,jpuh,jpuh-ward-18,Ward 18 & Discharge Lounge,discharge,Discharge pathway via the James Paget discharge lounge; follow-up ownership documented.,true
-journey-oncology-shared-care,1,jpuh,jpuh-ward-17,Ward 17,admission,Haematology inpatient review at James Paget; treatment plan documented for shared care.,true
-journey-oncology-shared-care,2,nnuh,nnuh-weybourne,Weybourne Day Unit,specialist-care,Handover for Norfolk & Norwich Weybourne Day Unit treatment; the plan continues across trusts with clear next-review ownership.,true
-journey-oncology-shared-care,3,nnuh,nnuh-colney,Colney Centre,specialist-care,Oncology outpatient review at the Colney Centre; findings shared back for the continuing plan.,true
-journey-oncology-shared-care,4,jpuh,jpuh-sandra-chapman,Sandra Chapman Centre,step-down,Supportive day treatment at the James Paget Sandra Chapman Centre; symptoms and plan reviewed.,true
-journey-oncology-shared-care,5,jpuh,jpuh-ward-17,Ward 17,repatriation,Continuing haematology care back at James Paget; handover completeness reviewed by a human.,true
-journey-surgical-assessment-discharge-package,1,jpuh,jpuh-ed,Emergency Department (A&E),admission,Presented to the James Paget Emergency Department; assessment and plan documented for handover.,true
-journey-surgical-assessment-discharge-package,2,jpuh,jpuh-eadu,EADU,admission,Emergency Assessment & Discharge Unit review; inter-trust referral decision documented.,true
-journey-surgical-assessment-discharge-package,3,nnuh,nnuh-easton,Easton Ward,specialist-care,Handover to Norfolk & Norwich Emergency Surgical Assessment Unit (Easton); the surgical plan continues across trusts.,true
-journey-surgical-assessment-discharge-package,4,nnuh,nnuh-denton,Denton Ward,step-down,Post-procedure surgical ward stay; discharge-readiness blockers and community needs reviewed.,true
-journey-surgical-assessment-discharge-package,5,nnuh,nnuh-denton,Denton Ward,packages-of-care,"Discharge home with a package of care arranged; follow-up and community ownership documented (simulation-only, human-review-framed).",true
-journey-frailty-community-package,1,jpuh,jpuh-ward-12,Ward 12,admission,Admitted under Older People's Medicine; falls-risk and documentation cues reviewed by a human.,true
-journey-frailty-community-package,2,nnuh,nnuh-loddon,Loddon Ward,specialist-care,Inter-trust specialist review at Norfolk & Norwich; the continuing plan and outstanding investigations handed over both ways.,true
-journey-frailty-community-package,3,jpuh,jpuh-ward-12,Ward 12,repatriation,Returned to James Paget with an updated plan; discharge-readiness reviewed.,true
-journey-frailty-community-package,4,jpuh,jpuh-ward-12,Ward 12,packages-of-care,Discharge home with a community package of care; follow-up ownership and safety-netting documented (simulation-only).,true
+journey-critical-care-repatriation,6,jpuh,jpuh-ward-18,Ward 18 & Discharge Lounge,discharge,Discharge via the James Paget discharge lounge; follow-up ownership documented.,true
+journey-specialist-neuro-transfer,1,jpuh,jpuh-ed,Emergency Department (A&E),admission,Presented to James Paget Emergency Department; assessment and plan documented.,true
+journey-specialist-neuro-transfer,2,jpuh,jpuh-icu-hdu,ICU/HDU,escalation,Stabilised locally; tertiary neurosciences referral decision documented and reviewed by a human.,true
+journey-specialist-neuro-transfer,3,cuh,cuh-a4,Ward A4,specialist-care,Transfer to Addenbrooke's neuromedical/neurosurgical ward; the health plan and history travel with the patient.,true
+journey-specialist-neuro-transfer,4,cuh,cuh-critical-care,Neuro & General Critical Care,specialist-care,Addenbrooke's critical care as needed; plan updated and shared for continuity.,true
+journey-specialist-neuro-transfer,5,jpuh,jpuh-ward-1,Ward 1,repatriation,Repatriated to the James Paget Stroke Unit for ongoing rehabilitation; handover completeness reviewed.,true
+journey-relocation-continues,1,jpuh,jpuh-ward-12,Ward 12,admission,Prior episode under James Paget Older People's Medicine; documented plan forms the portable history.,true
+journey-relocation-continues,2,cuh,cuh-c4,Ward C4,relocation-care,"After relocating, a new episode is managed at Addenbrooke's frail-elderly ward with the portable history available for continuity.",true
+journey-relocation-continues,3,cuh,cuh-c5,Ward C5,step-down,General medicine / nephrology review; continuing plan documented at the new home trust.,true
+journey-temporary-visitor-returns,1,wsh,wsh-ed,Emergency Department,found-away,Taken ill while away from home; attends West Suffolk Emergency Department; portable history supports safe assessment.,true
+journey-temporary-visitor-returns,2,wsh,wsh-amu,Acute Medical Unit,treatment-away,Managed on the West Suffolk Acute Medical Unit; plan documented and shareable for continuity.,true
+journey-temporary-visitor-returns,3,nnuh,nnuh-holt,Holt Ward,return-home,Returns home; Norfolk & Norwich Acute Medical Unit continues the plan with the away-episode visible.,true
+journey-temporary-visitor-returns,4,nnuh,nnuh-gunthorpe,Gunthorpe Ward,discharge,Discharge with follow-up; away-episode incorporated into the continuing record.,true
+journey-cross-region-discharge-package,1,qeh,qeh-gen-med,General Medical Ward,admission,Prior general-medicine episode at Queen Elizabeth King's Lynn forms the portable history.,true
+journey-cross-region-discharge-package,2,esneft,esneft-amu,Acute Medical Unit,relocation-care,"After moving to East Suffolk, a new episode is assessed at Ipswich Acute Medical Unit with the history available.",true
+journey-cross-region-discharge-package,3,esneft,esneft-elderly,Older People's Medicine Ward,step-down,Older people's medicine review; community needs and discharge-readiness documented.,true
+journey-cross-region-discharge-package,4,esneft,esneft-discharge,Discharge Lounge,packages-of-care,"Discharge home with a package of care near the new home; follow-up ownership documented (simulation-only, human-review-framed).",true

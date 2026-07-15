@@ -46,7 +46,55 @@ nnuh-langley,nnuh,Langley Ward,"Inpatient (East Block, L1)",inpatient-ward,medic
 nnuh-loddon,nnuh,Loddon Ward,"Inpatient (East Block, L2)",inpatient-ward,medical,28,true
 nnuh-mattishall,nnuh,Mattishall Ward,"Inpatient (East Block, L3)",inpatient-ward,medical,28,true
 nnuh-brundall,nnuh,Brundall Ward,Inpatient,inpatient-ward,medical,28,true
+nnuh-buxton,nnuh,Buxton Ward,Inpatient,inpatient-ward,medical,28,true
+nnuh-cringleford,nnuh,Cringleford Ward,Inpatient,inpatient-ward,medical,28,true
+nnuh-holt,nnuh,Holt Ward,Acute Medical Unit,assessment-unit,medical,32,true
 nnuh-weybourne,nnuh,Weybourne Day Unit,Oncology & Haematology Day Unit,day-unit,day-care,0,true
 nnuh-colney,nnuh,Colney Centre,Oncology Outpatients,clinic,specialty,0,true
 nnuh-critical-care,nnuh,Critical Care Complex (ITU/HDU),Intensive Therapy / High Dependency,critical-care,critical-care,28,true
 nnuh-nicu,nnuh,Neonatal Intensive Care Unit,Neonatal Intensive Care,neonatal,specialty,20,true
+cuh-a3,cuh,Ward A3,Regional Neurosciences Unit,inpatient-ward,neurosciences,26,true
+cuh-a4,cuh,Ward A4,Neuromedical / Neurosurgical,inpatient-ward,neurosciences,26,true
+cuh-a5,cuh,Ward A5,Neurosciences,inpatient-ward,neurosciences,26,true
+cuh-c4,cuh,Ward C4,Frail & Acute Medicine for the Elderly,inpatient-ward,frailty,28,true
+cuh-c5,cuh,Ward C5,General Medicine & Nephrology,inpatient-ward,medical,28,true
+cuh-c10,cuh,Ward C10,Haematology & Haematological Oncology,inpatient-ward,medical,24,true
+cuh-d7,cuh,Ward D7,Diabetes & Endocrinology,inpatient-ward,medical,28,true
+cuh-g2,cuh,Ward G2,General Medicine,inpatient-ward,medical,28,true
+cuh-g3,cuh,Ward G3,General Medicine,inpatient-ward,medical,28,true
+cuh-c10-haem2,cuh,Ward U3,Haematology & Oncology,inpatient-ward,medical,24,true
+cuh-k2,cuh,Ward K2,Cardiac Day Unit,day-unit,day-care,0,true
+cuh-k3,cuh,Ward K3,Cardiology / Coronary Care Unit,inpatient-ward,medical,28,true
+cuh-l2,cuh,Ward L2,Day Surgery Unit,day-unit,day-care,0,true
+cuh-u2,cuh,Ward U2,Gastroenterology,inpatient-ward,medical,28,true
+cuh-f5,cuh,Ward F5,Transplant High Dependency,critical-care,critical-care,6,true
+cuh-g5,cuh,Ward G5,Transplant,inpatient-ward,specialty,28,true
+cuh-ed,cuh,Emergency Department,Emergency / Major Trauma Centre,emergency,emergency,40,true
+cuh-critical-care,cuh,Neuro & General Critical Care,Intensive Care,critical-care,critical-care,30,true
+wsh-ed,wsh,Emergency Department,Emergency,emergency,emergency,30,true
+wsh-amu,wsh,Acute Medical Unit,Acute Medicine,assessment-unit,medical,32,true
+wsh-sau,wsh,Surgical Assessment Unit,Surgical Assessment,assessment-unit,surgical,24,true
+wsh-stroke,wsh,Stroke Unit,Stroke,inpatient-ward,medical,28,true
+wsh-gen-med,wsh,General Medical Ward,General Medicine,inpatient-ward,medical,30,true
+wsh-surgical,wsh,General Surgical Ward,General Surgery,inpatient-ward,surgical,28,true
+wsh-elderly,wsh,Older People's Medicine Ward,Older People's Medicine,inpatient-ward,frailty,30,true
+wsh-icu,wsh,Critical Care Unit,Intensive Care / High Dependency,critical-care,critical-care,14,true
+wsh-discharge,wsh,Discharge Lounge,Discharge,assessment-unit,medical,0,true
+esneft-ed,esneft,Emergency Department,Emergency,emergency,emergency,30,true
+esneft-amu,esneft,Acute Medical Unit,Acute Medicine,assessment-unit,medical,32,true
+esneft-sau,esneft,Surgical Assessment Unit,Surgical Assessment,assessment-unit,surgical,24,true
+esneft-stroke,esneft,Stroke Unit,Stroke,inpatient-ward,medical,28,true
+esneft-gen-med,esneft,General Medical Ward,General Medicine,inpatient-ward,medical,30,true
+esneft-surgical,esneft,General Surgical Ward,General Surgery,inpatient-ward,surgical,28,true
+esneft-elderly,esneft,Older People's Medicine Ward,Older People's Medicine,inpatient-ward,frailty,30,true
+esneft-icu,esneft,Critical Care Unit,Intensive Care / High Dependency,critical-care,critical-care,14,true
+esneft-discharge,esneft,Discharge Lounge,Discharge,assessment-unit,medical,0,true
+qeh-ed,qeh,Emergency Department,Emergency,emergency,emergency,30,true
+qeh-amu,qeh,Acute Medical Unit,Acute Medicine,assessment-unit,medical,32,true
+qeh-sau,qeh,Surgical Assessment Unit,Surgical Assessment,assessment-unit,surgical,24,true
+qeh-stroke,qeh,Stroke Unit,Stroke,inpatient-ward,medical,28,true
+qeh-gen-med,qeh,General Medical Ward,General Medicine,inpatient-ward,medical,30,true
+qeh-surgical,qeh,General Surgical Ward,General Surgery,inpatient-ward,surgical,28,true
+qeh-elderly,qeh,Older People's Medicine Ward,Older People's Medicine,inpatient-ward,frailty,30,true
+qeh-icu,qeh,Critical Care Unit,Intensive Care / High Dependency,critical-care,critical-care,14,true
+qeh-discharge,qeh,Discharge Lounge,Discharge,assessment-unit,medical,0,true
