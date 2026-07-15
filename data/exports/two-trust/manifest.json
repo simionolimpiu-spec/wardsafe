@@ -3,24 +3,24 @@
   "boundaryNote": "Simulation-only. Real trust and ward names, fictional patients and portable journeys. A learning copy of each cross-trust journey returns to the originating trust for teaching. This is NOT a live cross-trust patient record or data-sharing system; a real version would require Shared Care Record / DPIA information-governance. Human review required.",
   "counts": {
     "trusts": 6,
-    "wards": 99,
+    "wards": 126,
     "perTrustWardCounts": {
       "jpuh": 33,
       "nnuh": 21,
       "cuh": 18,
-      "wsh": 9,
-      "esneft": 9,
-      "qeh": 9
+      "wsh": 10,
+      "esneft": 27,
+      "qeh": 17
     },
-    "patients": 209,
+    "patients": 293,
     "journeys": 5,
     "interTrustJourneys": 5,
     "portableJourneys": 4,
     "journeySegments": 22,
     "learningRecords": 5,
-    "patientTimelines": 209,
-    "observations": 836,
-    "driftingTimelines": 83
+    "patientTimelines": 293,
+    "observations": 1172,
+    "driftingTimelines": 117
   },
   "integrity": {
     "ok": true,
