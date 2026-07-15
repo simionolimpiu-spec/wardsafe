@@ -126,10 +126,10 @@ const JOURNEY_DEFINITIONS = [
     summary: "Fictional patient whose home trust is Queen Elizabeth King's Lynn has an episode managed at Ipswich (ESNEFT) after moving; discharged with a package of care near the new home, with a learning copy back to King's Lynn.",
     outcome: 'discharge-with-package-of-care',
     segments: [
-      { wardId: 'qeh-gen-med', stage: 'admission', note: "Prior general-medicine episode at Queen Elizabeth King's Lynn forms the portable history." },
-      { wardId: 'esneft-amu', stage: 'relocation-care', note: 'After moving to East Suffolk, a new episode is assessed at Ipswich Acute Medical Unit with the history available.' },
-      { wardId: 'esneft-elderly', stage: 'step-down', note: "Older people's medicine review; community needs and discharge-readiness documented." },
-      { wardId: 'esneft-discharge', stage: 'packages-of-care', note: 'Discharge home with a package of care near the new home; follow-up ownership documented (simulation-only, human-review-framed).' }
+      { wardId: 'qeh-tilney', stage: 'admission', note: "Prior general-medicine episode at Queen Elizabeth King's Lynn forms the portable history." },
+      { wardId: 'esneft-brook', stage: 'relocation-care', note: 'After moving to East Suffolk, a new episode is assessed at Ipswich Acute Medical Unit (Brook Ward) with the history available.' },
+      { wardId: 'esneft-woodbridge', stage: 'step-down', note: "Older people's medicine review on Woodbridge Ward; community needs and discharge-readiness documented." },
+      { wardId: 'esneft-woodbridge', stage: 'packages-of-care', note: 'Discharge home with a package of care near the new home; follow-up ownership documented (simulation-only, human-review-framed).' }
     ],
     learning: { returnedToTrustId: 'qeh', summary: "Learning copy of the cross-region episode returned to Queen Elizabeth King's Lynn for teaching.", teachingPoints: ['Continuity when a patient moves region', 'Arranging community packages near a new home', 'Feedback loop to the originating trust'] }
   }

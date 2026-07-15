@@ -17,7 +17,7 @@ journey-temporary-visitor-returns,1,wsh,wsh-ed,Emergency Department,found-away,T
 journey-temporary-visitor-returns,2,wsh,wsh-amu,Acute Medical Unit,treatment-away,Managed on the West Suffolk Acute Medical Unit; plan documented and shareable for continuity.,true
 journey-temporary-visitor-returns,3,nnuh,nnuh-holt,Holt Ward,return-home,Returns home; Norfolk & Norwich Acute Medical Unit continues the plan with the away-episode visible.,true
 journey-temporary-visitor-returns,4,nnuh,nnuh-gunthorpe,Gunthorpe Ward,discharge,Discharge with follow-up; away-episode incorporated into the continuing record.,true
-journey-cross-region-discharge-package,1,qeh,qeh-gen-med,General Medical Ward,admission,Prior general-medicine episode at Queen Elizabeth King's Lynn forms the portable history.,true
-journey-cross-region-discharge-package,2,esneft,esneft-amu,Acute Medical Unit,relocation-care,"After moving to East Suffolk, a new episode is assessed at Ipswich Acute Medical Unit with the history available.",true
-journey-cross-region-discharge-package,3,esneft,esneft-elderly,Older People's Medicine Ward,step-down,Older people's medicine review; community needs and discharge-readiness documented.,true
-journey-cross-region-discharge-package,4,esneft,esneft-discharge,Discharge Lounge,packages-of-care,"Discharge home with a package of care near the new home; follow-up ownership documented (simulation-only, human-review-framed).",true
+journey-cross-region-discharge-package,1,qeh,qeh-tilney,Tilney Ward,admission,Prior general-medicine episode at Queen Elizabeth King's Lynn forms the portable history.,true
+journey-cross-region-discharge-package,2,esneft,esneft-brook,Brook Ward,relocation-care,"After moving to East Suffolk, a new episode is assessed at Ipswich Acute Medical Unit (Brook Ward) with the history available.",true
+journey-cross-region-discharge-package,3,esneft,esneft-woodbridge,Woodbridge Ward,step-down,Older people's medicine review on Woodbridge Ward; community needs and discharge-readiness documented.,true
+journey-cross-region-discharge-package,4,esneft,esneft-woodbridge,Woodbridge Ward,packages-of-care,"Discharge home with a package of care near the new home; follow-up ownership documented (simulation-only, human-review-framed).",true

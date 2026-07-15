@@ -11,16 +11,16 @@
 //   'sourced'       — real ward names confirmed from the trust's public Wards A-Z (partial; re-verify for completeness).
 //   'representative'— real FUNCTIONAL unit names every acute trust has (ED, AMU, ICU, Stroke Unit, ...);
 //                     proper ward names not yet sourced. Clearly a placeholder set, not invented proper nouns.
-// Sources fetched July 2026 (jpaget.nhs.uk, nnuh.nhs.uk, cuh.nhs.uk) — re-verify periodically.
+// Sources fetched July 2026 (jpaget.nhs.uk, nnuh.nhs.uk, cuh.nhs.uk, wsh.nhs.uk, esneft.nhs.uk, qehkl.nhs.uk) — re-verify periodically.
 // `simulatedBedCount` is a simulation estimate ONLY, not a real bed number.
 
 export const TRUSTS = Object.freeze([
   Object.freeze({ id: 'jpuh', name: 'James Paget University Hospital', shortName: 'James Paget', region: 'Norfolk / Waveney', role: 'district general hospital', wardSource: 'exact', simulationOnly: true, clinicalUse: 'not for live clinical deployment' }),
   Object.freeze({ id: 'nnuh', name: 'Norfolk and Norwich University Hospital', shortName: 'Norfolk & Norwich', region: 'Norfolk', role: 'tertiary teaching hospital', wardSource: 'sourced', simulationOnly: true, clinicalUse: 'not for live clinical deployment' }),
   Object.freeze({ id: 'cuh', name: "Addenbrooke's Hospital (Cambridge University Hospitals)", shortName: "Addenbrooke's", region: 'Cambridgeshire', role: 'tertiary / major trauma / neurosciences / transplant', wardSource: 'sourced', simulationOnly: true, clinicalUse: 'not for live clinical deployment' }),
-  Object.freeze({ id: 'wsh', name: 'West Suffolk Hospital', shortName: 'West Suffolk', region: 'West Suffolk (Bury St Edmunds)', role: 'district general hospital', wardSource: 'representative', simulationOnly: true, clinicalUse: 'not for live clinical deployment' }),
-  Object.freeze({ id: 'esneft', name: 'Ipswich Hospital (East Suffolk & North Essex)', shortName: 'ESNEFT — Ipswich', region: 'East Suffolk', role: 'district general hospital', wardSource: 'representative', simulationOnly: true, clinicalUse: 'not for live clinical deployment' }),
-  Object.freeze({ id: 'qeh', name: "Queen Elizabeth Hospital King's Lynn", shortName: "QEH King's Lynn", region: 'West Norfolk', role: 'district general hospital', wardSource: 'representative', simulationOnly: true, clinicalUse: 'not for live clinical deployment' })
+  Object.freeze({ id: 'wsh', name: 'West Suffolk Hospital', shortName: 'West Suffolk', region: 'West Suffolk (Bury St Edmunds)', role: 'district general hospital', wardSource: 'sourced', simulationOnly: true, clinicalUse: 'not for live clinical deployment' }),
+  Object.freeze({ id: 'esneft', name: 'Ipswich Hospital (East Suffolk & North Essex)', shortName: 'ESNEFT — Ipswich', region: 'East Suffolk', role: 'district general hospital', wardSource: 'sourced', simulationOnly: true, clinicalUse: 'not for live clinical deployment' }),
+  Object.freeze({ id: 'qeh', name: "Queen Elizabeth Hospital King's Lynn", shortName: "QEH King's Lynn", region: 'West Norfolk', role: 'district general hospital', wardSource: 'sourced', simulationOnly: true, clinicalUse: 'not for live clinical deployment' })
 ]);
 
 function freezeWards(trustId, wards) {
@@ -127,9 +127,70 @@ function representativeWards(trustId) {
   ]);
 }
 
-export const WSH_WARDS = representativeWards('wsh');
-export const ESNEFT_WARDS = representativeWards('esneft');
-export const QEH_WARDS = representativeWards('qeh');
+// West Suffolk Hospital — sourced ward set (wsh.nhs.uk / NHS, July 2026; partial).
+export const WSH_WARDS = freezeWards('wsh', [
+  { id: 'wsh-f7', name: 'Ward F7', specialty: 'Short Stay / General Medicine', kind: 'assessment-unit', wardGroup: 'medical', simulatedBedCount: 24 },
+  { id: 'wsh-f9', name: 'Ward F9', specialty: 'Gastroenterology', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'wsh-f10', name: 'Ward F10', specialty: 'Respiratory', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'wsh-g3', name: 'Ward G3', specialty: 'Cardiology / General Medicine', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'wsh-g4', name: 'Ward G4', specialty: "Older People's / General Medicine", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
+  { id: 'wsh-g8', name: 'Ward G8', specialty: 'Acute Stroke / Stroke Rehabilitation', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'wsh-e17', name: 'Ward E17', specialty: 'Renal / Kidney Services', kind: 'day-unit', wardGroup: 'specialty', simulatedBedCount: 0 },
+  { id: 'wsh-ed', name: 'Emergency Department', specialty: 'Emergency', kind: 'emergency', wardGroup: 'emergency', simulatedBedCount: 30 },
+  { id: 'wsh-amu', name: 'Acute Medical Unit', specialty: 'Acute Medicine', kind: 'assessment-unit', wardGroup: 'medical', simulatedBedCount: 32 },
+  { id: 'wsh-icu', name: 'Critical Care Unit', specialty: 'Intensive Care / High Dependency', kind: 'critical-care', wardGroup: 'critical-care', simulatedBedCount: 12 }
+]);
+// Ipswich Hospital (ESNEFT) — sourced ward set (esneft.nhs.uk Ipswich Wards A-Z, July 2026).
+export const ESNEFT_WARDS = freezeWards('esneft', [
+  { id: 'esneft-brantham', name: 'Brantham Ward', specialty: 'Emergency Assessment Unit (Medicine)', kind: 'assessment-unit', wardGroup: 'medical', simulatedBedCount: 30 },
+  { id: 'esneft-brook', name: 'Brook Ward', specialty: 'Acute Medical Unit', kind: 'assessment-unit', wardGroup: 'medical', simulatedBedCount: 32 },
+  { id: 'esneft-sproughton', name: 'Sproughton Ward', specialty: 'Surgical Assessment Unit', kind: 'assessment-unit', wardGroup: 'surgical', simulatedBedCount: 24 },
+  { id: 'esneft-bergholt', name: 'Bergholt Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-boxford', name: 'Boxford Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-bramford', name: 'Bramford Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-capel', name: 'Capel Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-claydon', name: 'Claydon Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-debenham', name: 'Debenham Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'surgical', simulatedBedCount: 28 },
+  { id: 'esneft-grundisburgh', name: 'Grundisburgh Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-haughley', name: 'Haughley Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-kesgrave', name: 'Kesgrave Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'surgical', simulatedBedCount: 28 },
+  { id: 'esneft-kirton', name: 'Kirton Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-lavenham', name: 'Lavenham Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-levington', name: 'Levington Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-martlesham', name: 'Martlesham Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-needham', name: 'Needham Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-saxmundham', name: 'Saxmundham Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-shotley', name: 'Shotley Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-somersham', name: 'Somersham Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-stour', name: 'Stour Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'surgical', simulatedBedCount: 28 },
+  { id: 'esneft-stowupland', name: 'Stowupland Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-stradbroke', name: 'Stradbroke Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-waveney', name: 'Waveney Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'esneft-woodbridge', name: 'Woodbridge Ward', specialty: "Older People's Medicine", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
+  { id: 'esneft-critical-care', name: 'Critical Care Unit', specialty: 'Intensive Care / High Dependency', kind: 'critical-care', wardGroup: 'critical-care', simulatedBedCount: 16 },
+  { id: 'esneft-framlingham', name: 'Framlingham Ward', specialty: 'Neonatal Unit', kind: 'neonatal', wardGroup: 'specialty', simulatedBedCount: 20 }
+]);
+
+// Queen Elizabeth Hospital King's Lynn — sourced ward set (qehkl.nhs.uk, July 2026; partial).
+export const QEH_WARDS = freezeWards('qeh', [
+  { id: 'qeh-windsor', name: 'Windsor Ward', specialty: 'Frailty Unit', kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 28 },
+  { id: 'qeh-necton', name: 'Necton Ward', specialty: 'Respiratory', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 32 },
+  { id: 'qeh-elm', name: 'Elm Ward', specialty: 'Non-elective Surgery', kind: 'inpatient-ward', wardGroup: 'surgical', simulatedBedCount: 33 },
+  { id: 'qeh-tilney', name: 'Tilney Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-gayton', name: 'Gayton Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-west-newton', name: 'West Newton Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-denver', name: 'Denver Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-stanhoe', name: 'Stanhoe Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-pentney', name: 'Pentney Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-oxborough', name: 'Oxborough Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-feltwell', name: 'Feltwell Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-rudham', name: 'Rudham Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'surgical', simulatedBedCount: 28 },
+  { id: 'qeh-wolferton', name: 'Wolferton Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
+  { id: 'qeh-castleacre', name: 'Castleacre Ward', specialty: 'Maternity (Antenatal & Postnatal)', kind: 'maternity', wardGroup: 'specialty', simulatedBedCount: 25 },
+  { id: 'qeh-ed', name: 'Emergency Department', specialty: 'Emergency', kind: 'emergency', wardGroup: 'emergency', simulatedBedCount: 30 },
+  { id: 'qeh-amu', name: 'Acute Medical Unit', specialty: 'Acute Medicine', kind: 'assessment-unit', wardGroup: 'medical', simulatedBedCount: 32 },
+  { id: 'qeh-icu', name: 'Critical Care Unit', specialty: 'Intensive Care / High Dependency', kind: 'critical-care', wardGroup: 'critical-care', simulatedBedCount: 12 }
+]);
 
 export const WARDS_BY_TRUST = Object.freeze({
   jpuh: JPUH_WARDS,

@@ -595,243 +595,579 @@ CUH-P-043,cuh,cuh-critical-care,1,0,16,95,67,124,37.2,Alert,stable,true
 CUH-P-043,cuh,cuh-critical-care,2,4,16,95,67,124,37.2,Alert,stable,true
 CUH-P-043,cuh,cuh-critical-care,3,8,16,95,67,124,37.2,Alert,stable,true
 CUH-P-043,cuh,cuh-critical-care,4,12,16,95,67,124,37.2,Alert,stable,true
-WSH-P-001,wsh,wsh-amu,1,0,16,91,61,98,36.8,Alert,drifting,true
-WSH-P-001,wsh,wsh-amu,2,4,18,90,67,96,37,Alert,drifting,true
-WSH-P-001,wsh,wsh-amu,3,8,20,89,73,96,37.2,Alert,drifting,true
-WSH-P-001,wsh,wsh-amu,4,12,22,88,79,96,37.4,New confusion (review),drifting,true
-WSH-P-002,wsh,wsh-amu,1,0,17,91,44,112,37.3,Alert,stable,true
-WSH-P-002,wsh,wsh-amu,2,4,17,91,44,112,37.3,Alert,stable,true
-WSH-P-002,wsh,wsh-amu,3,8,17,91,44,112,37.3,Alert,stable,true
-WSH-P-002,wsh,wsh-amu,4,12,17,91,44,112,37.3,Alert,stable,true
-WSH-P-003,wsh,wsh-amu,1,0,18,92,51,104,37,Alert,stable,true
-WSH-P-003,wsh,wsh-amu,2,4,18,92,51,104,37,Alert,stable,true
-WSH-P-003,wsh,wsh-amu,3,8,18,92,51,104,37,Alert,stable,true
-WSH-P-003,wsh,wsh-amu,4,12,18,92,51,104,37,Alert,stable,true
-WSH-P-004,wsh,wsh-sau,1,0,14,92,58,96,36.7,Alert,drifting,true
-WSH-P-004,wsh,wsh-sau,2,4,16,91,64,96,36.9,Alert,drifting,true
-WSH-P-004,wsh,wsh-sau,3,8,18,90,70,96,37.1,Alert,drifting,true
-WSH-P-004,wsh,wsh-sau,4,12,20,89,76,96,37.3,New confusion (review),drifting,true
-WSH-P-005,wsh,wsh-sau,1,0,15,92,64,111,37.2,Alert,stable,true
-WSH-P-005,wsh,wsh-sau,2,4,15,92,64,111,37.2,Alert,stable,true
-WSH-P-005,wsh,wsh-sau,3,8,15,92,64,111,37.2,Alert,stable,true
-WSH-P-005,wsh,wsh-sau,4,12,15,92,64,111,37.2,Alert,stable,true
-WSH-P-006,wsh,wsh-sau,1,0,16,92,48,103,36.9,Alert,drifting,true
-WSH-P-006,wsh,wsh-sau,2,4,18,91,54,99,37.1,Alert,drifting,true
-WSH-P-006,wsh,wsh-sau,3,8,20,90,60,96,37.3,Alert,drifting,true
-WSH-P-006,wsh,wsh-sau,4,12,22,89,66,96,37.5,New confusion (review),drifting,true
-WSH-P-007,wsh,wsh-stroke,1,0,17,93,55,96,36.6,Alert,stable,true
-WSH-P-007,wsh,wsh-stroke,2,4,17,93,55,96,36.6,Alert,stable,true
-WSH-P-007,wsh,wsh-stroke,3,8,17,93,55,96,36.6,Alert,stable,true
-WSH-P-007,wsh,wsh-stroke,4,12,17,93,55,96,36.6,Alert,stable,true
-WSH-P-008,wsh,wsh-stroke,1,0,17,94,47,102,37.1,Alert,stable,true
-WSH-P-008,wsh,wsh-stroke,2,4,17,94,47,102,37.1,Alert,stable,true
-WSH-P-008,wsh,wsh-stroke,3,8,17,94,47,102,37.1,Alert,stable,true
-WSH-P-008,wsh,wsh-stroke,4,12,17,94,47,102,37.1,Alert,stable,true
-WSH-P-009,wsh,wsh-stroke,1,0,18,94,54,96,36.8,Alert,drifting,true
-WSH-P-009,wsh,wsh-stroke,2,4,20,93,60,96,37,Alert,drifting,true
-WSH-P-009,wsh,wsh-stroke,3,8,22,92,66,96,37.2,Alert,drifting,true
-WSH-P-009,wsh,wsh-stroke,4,12,24,91,72,96,37.4,New confusion (review),drifting,true
-WSH-P-010,wsh,wsh-gen-med,1,0,16,94,61,109,37,Alert,stable,true
-WSH-P-010,wsh,wsh-gen-med,2,4,16,94,61,109,37,Alert,stable,true
-WSH-P-010,wsh,wsh-gen-med,3,8,16,94,61,109,37,Alert,stable,true
-WSH-P-010,wsh,wsh-gen-med,4,12,16,94,61,109,37,Alert,stable,true
-WSH-P-011,wsh,wsh-gen-med,1,0,15,93,54,96,37.3,Alert,drifting,true
-WSH-P-011,wsh,wsh-gen-med,2,4,17,92,60,96,37.5,Alert,drifting,true
-WSH-P-011,wsh,wsh-gen-med,3,8,19,91,66,96,37.7,Alert,drifting,true
-WSH-P-011,wsh,wsh-gen-med,4,12,21,90,72,96,37.9,New confusion (review),drifting,true
-WSH-P-012,wsh,wsh-gen-med,1,0,14,93,48,103,36.8,Alert,stable,true
-WSH-P-012,wsh,wsh-gen-med,2,4,14,93,48,103,36.8,Alert,stable,true
-WSH-P-012,wsh,wsh-gen-med,3,8,14,93,48,103,36.8,Alert,stable,true
-WSH-P-012,wsh,wsh-gen-med,4,12,14,93,48,103,36.8,Alert,stable,true
-WSH-P-013,wsh,wsh-surgical,1,0,18,93,64,111,37.1,Alert,stable,true
-WSH-P-013,wsh,wsh-surgical,2,4,18,93,64,111,37.1,Alert,stable,true
-WSH-P-013,wsh,wsh-surgical,3,8,18,93,64,111,37.1,Alert,stable,true
-WSH-P-013,wsh,wsh-surgical,4,12,18,93,64,111,37.1,Alert,stable,true
-WSH-P-014,wsh,wsh-surgical,1,0,15,95,65,100,36.6,Alert,drifting,true
-WSH-P-014,wsh,wsh-surgical,2,4,17,94,71,96,36.8,Alert,drifting,true
-WSH-P-014,wsh,wsh-surgical,3,8,19,93,77,96,37,Alert,drifting,true
-WSH-P-014,wsh,wsh-surgical,4,12,21,92,83,96,37.2,New confusion (review),drifting,true
-WSH-P-015,wsh,wsh-surgical,1,0,14,94,58,108,36.9,Alert,stable,true
-WSH-P-015,wsh,wsh-surgical,2,4,14,94,58,108,36.9,Alert,stable,true
-WSH-P-015,wsh,wsh-surgical,3,8,14,94,58,108,36.9,Alert,stable,true
-WSH-P-015,wsh,wsh-surgical,4,12,14,94,58,108,36.9,Alert,stable,true
-WSH-P-016,wsh,wsh-elderly,1,0,18,94,51,96,37.2,Alert,drifting,true
-WSH-P-016,wsh,wsh-elderly,2,4,20,93,57,96,37.4,Alert,drifting,true
-WSH-P-016,wsh,wsh-elderly,3,8,22,92,63,96,37.6,Alert,drifting,true
-WSH-P-016,wsh,wsh-elderly,4,12,24,91,69,96,37.8,New confusion (review),drifting,true
-WSH-P-017,wsh,wsh-elderly,1,0,17,94,45,101,36.7,Alert,stable,true
-WSH-P-017,wsh,wsh-elderly,2,4,17,94,45,101,36.7,Alert,stable,true
-WSH-P-017,wsh,wsh-elderly,3,8,17,94,45,101,36.7,Alert,stable,true
-WSH-P-017,wsh,wsh-elderly,4,12,17,94,45,101,36.7,Alert,stable,true
-WSH-P-018,wsh,wsh-elderly,1,0,18,92,54,106,37,Alert,stable,true
-WSH-P-018,wsh,wsh-elderly,2,4,18,92,54,106,37,Alert,stable,true
-WSH-P-018,wsh,wsh-elderly,3,8,18,92,54,106,37,Alert,stable,true
-WSH-P-018,wsh,wsh-elderly,4,12,18,92,54,106,37,Alert,stable,true
-WSH-P-019,wsh,wsh-icu,1,0,17,91,47,96,37.3,Alert,drifting,true
-WSH-P-019,wsh,wsh-icu,2,4,19,90,53,96,37.5,Alert,drifting,true
-WSH-P-019,wsh,wsh-icu,3,8,21,89,59,96,37.7,Alert,drifting,true
-WSH-P-019,wsh,wsh-icu,4,12,23,88,65,96,37.9,New confusion (review),drifting,true
-WSH-P-020,wsh,wsh-icu,1,0,18,95,63,99,37.3,Alert,stable,true
-WSH-P-020,wsh,wsh-icu,2,4,18,95,63,99,37.3,Alert,stable,true
-WSH-P-020,wsh,wsh-icu,3,8,18,95,63,99,37.3,Alert,stable,true
-WSH-P-020,wsh,wsh-icu,4,12,18,95,63,99,37.3,Alert,stable,true
-ESNEFT-P-001,esneft,esneft-amu,1,0,14,96,81,119,37.1,Alert,drifting,true
-ESNEFT-P-001,esneft,esneft-amu,2,4,16,95,87,115,37.3,Alert,drifting,true
-ESNEFT-P-001,esneft,esneft-amu,3,8,18,94,93,111,37.5,Alert,drifting,true
-ESNEFT-P-001,esneft,esneft-amu,4,12,20,93,99,107,37.7,New confusion (review),drifting,true
-ESNEFT-P-002,esneft,esneft-amu,1,0,17,97,78,118,37,Alert,stable,true
-ESNEFT-P-002,esneft,esneft-amu,2,4,17,97,78,118,37,Alert,stable,true
-ESNEFT-P-002,esneft,esneft-amu,3,8,17,97,78,118,37,Alert,stable,true
-ESNEFT-P-002,esneft,esneft-amu,4,12,17,97,78,118,37,Alert,stable,true
-ESNEFT-P-003,esneft,esneft-amu,1,0,16,96,71,126,37.3,Alert,stable,true
-ESNEFT-P-003,esneft,esneft-amu,2,4,16,96,71,126,37.3,Alert,stable,true
-ESNEFT-P-003,esneft,esneft-amu,3,8,16,96,71,126,37.3,Alert,stable,true
-ESNEFT-P-003,esneft,esneft-amu,4,12,16,96,71,126,37.3,Alert,stable,true
-ESNEFT-P-004,esneft,esneft-sau,1,0,14,97,68,124,37.2,Alert,drifting,true
-ESNEFT-P-004,esneft,esneft-sau,2,4,16,96,74,120,37.4,Alert,drifting,true
-ESNEFT-P-004,esneft,esneft-sau,3,8,18,95,80,116,37.6,Alert,drifting,true
-ESNEFT-P-004,esneft,esneft-sau,4,12,20,94,86,112,37.8,New confusion (review),drifting,true
-ESNEFT-P-005,esneft,esneft-sau,1,0,18,97,85,133,36.7,Alert,stable,true
-ESNEFT-P-005,esneft,esneft-sau,2,4,18,97,85,133,36.7,Alert,stable,true
-ESNEFT-P-005,esneft,esneft-sau,3,8,18,97,85,133,36.7,Alert,stable,true
-ESNEFT-P-005,esneft,esneft-sau,4,12,18,97,85,133,36.7,Alert,stable,true
-ESNEFT-P-006,esneft,esneft-sau,1,0,16,98,82,131,36.6,Alert,drifting,true
-ESNEFT-P-006,esneft,esneft-sau,2,4,18,97,88,127,36.8,Alert,drifting,true
-ESNEFT-P-006,esneft,esneft-sau,3,8,20,96,94,123,37,Alert,drifting,true
-ESNEFT-P-006,esneft,esneft-sau,4,12,22,95,100,119,37.2,New confusion (review),drifting,true
-ESNEFT-P-007,esneft,esneft-stroke,1,0,15,97,75,116,36.9,Alert,stable,true
-ESNEFT-P-007,esneft,esneft-stroke,2,4,15,97,75,116,36.9,Alert,stable,true
-ESNEFT-P-007,esneft,esneft-stroke,3,8,15,97,75,116,36.9,Alert,stable,true
-ESNEFT-P-007,esneft,esneft-stroke,4,12,15,97,75,116,36.9,Alert,stable,true
-ESNEFT-P-008,esneft,esneft-stroke,1,0,18,98,72,115,36.8,Alert,stable,true
-ESNEFT-P-008,esneft,esneft-stroke,2,4,18,98,72,115,36.8,Alert,stable,true
-ESNEFT-P-008,esneft,esneft-stroke,3,8,18,98,72,115,36.8,Alert,stable,true
-ESNEFT-P-008,esneft,esneft-stroke,4,12,18,98,72,115,36.8,Alert,stable,true
-ESNEFT-P-009,esneft,esneft-stroke,1,0,17,98,88,123,37.1,Alert,drifting,true
-ESNEFT-P-009,esneft,esneft-stroke,2,4,19,97,94,119,37.3,Alert,drifting,true
-ESNEFT-P-009,esneft,esneft-stroke,3,8,21,96,100,115,37.5,Alert,drifting,true
-ESNEFT-P-009,esneft,esneft-stroke,4,12,23,95,106,111,37.7,New confusion (review),drifting,true
-ESNEFT-P-010,esneft,esneft-gen-med,1,0,16,96,86,122,36.9,Alert,stable,true
-ESNEFT-P-010,esneft,esneft-gen-med,2,4,16,96,86,122,36.9,Alert,stable,true
-ESNEFT-P-010,esneft,esneft-gen-med,3,8,16,96,86,122,36.9,Alert,stable,true
-ESNEFT-P-010,esneft,esneft-gen-med,4,12,16,96,86,122,36.9,Alert,stable,true
-ESNEFT-P-011,esneft,esneft-gen-med,1,0,17,97,70,114,36.6,Alert,drifting,true
-ESNEFT-P-011,esneft,esneft-gen-med,2,4,19,96,76,110,36.8,Alert,drifting,true
-ESNEFT-P-011,esneft,esneft-gen-med,3,8,21,95,82,106,37,Alert,drifting,true
-ESNEFT-P-011,esneft,esneft-gen-med,4,12,23,94,88,102,37.2,New confusion (review),drifting,true
-ESNEFT-P-012,esneft,esneft-gen-med,1,0,14,96,73,115,36.7,Alert,stable,true
-ESNEFT-P-012,esneft,esneft-gen-med,2,4,14,96,73,115,36.7,Alert,stable,true
-ESNEFT-P-012,esneft,esneft-gen-med,3,8,14,96,73,115,36.7,Alert,stable,true
-ESNEFT-P-012,esneft,esneft-gen-med,4,12,14,96,73,115,36.7,Alert,stable,true
-ESNEFT-P-013,esneft,esneft-surgical,1,0,15,96,79,130,37.2,Alert,stable,true
-ESNEFT-P-013,esneft,esneft-surgical,2,4,15,96,79,130,37.2,Alert,stable,true
-ESNEFT-P-013,esneft,esneft-surgical,3,8,15,96,79,130,37.2,Alert,stable,true
-ESNEFT-P-013,esneft,esneft-surgical,4,12,15,96,79,130,37.2,Alert,stable,true
-ESNEFT-P-014,esneft,esneft-surgical,1,0,17,95,82,131,37.3,Alert,drifting,true
-ESNEFT-P-014,esneft,esneft-surgical,2,4,19,94,88,127,37.5,Alert,drifting,true
-ESNEFT-P-014,esneft,esneft-surgical,3,8,21,93,94,123,37.7,Alert,drifting,true
-ESNEFT-P-014,esneft,esneft-surgical,4,12,23,92,100,119,37.9,New confusion (review),drifting,true
-ESNEFT-P-015,esneft,esneft-surgical,1,0,18,96,66,123,37,Alert,stable,true
-ESNEFT-P-015,esneft,esneft-surgical,2,4,18,96,66,123,37,Alert,stable,true
-ESNEFT-P-015,esneft,esneft-surgical,3,8,18,96,66,123,37,Alert,stable,true
-ESNEFT-P-015,esneft,esneft-surgical,4,12,18,96,66,123,37,Alert,stable,true
-ESNEFT-P-016,esneft,esneft-elderly,1,0,15,95,69,125,37.1,Alert,drifting,true
-ESNEFT-P-016,esneft,esneft-elderly,2,4,17,94,75,121,37.3,Alert,drifting,true
-ESNEFT-P-016,esneft,esneft-elderly,3,8,19,93,81,117,37.5,Alert,drifting,true
-ESNEFT-P-016,esneft,esneft-elderly,4,12,21,92,87,113,37.7,New confusion (review),drifting,true
-ESNEFT-P-017,esneft,esneft-elderly,1,0,16,95,76,117,36.8,Alert,stable,true
-ESNEFT-P-017,esneft,esneft-elderly,2,4,16,95,76,117,36.8,Alert,stable,true
-ESNEFT-P-017,esneft,esneft-elderly,3,8,16,95,76,117,36.8,Alert,stable,true
-ESNEFT-P-017,esneft,esneft-elderly,4,12,16,95,76,117,36.8,Alert,stable,true
-ESNEFT-P-018,esneft,esneft-elderly,1,0,18,99,79,118,36.9,Alert,stable,true
-ESNEFT-P-018,esneft,esneft-elderly,2,4,18,99,79,118,36.9,Alert,stable,true
-ESNEFT-P-018,esneft,esneft-elderly,3,8,18,99,79,118,36.9,Alert,stable,true
-ESNEFT-P-018,esneft,esneft-elderly,4,12,18,99,79,118,36.9,Alert,stable,true
-ESNEFT-P-019,esneft,esneft-icu,1,0,14,95,86,133,36.6,Alert,drifting,true
-ESNEFT-P-019,esneft,esneft-icu,2,4,16,94,92,129,36.8,Alert,drifting,true
-ESNEFT-P-019,esneft,esneft-icu,3,8,18,93,98,125,37,Alert,drifting,true
-ESNEFT-P-019,esneft,esneft-icu,4,12,20,92,104,121,37.2,New confusion (review),drifting,true
-ESNEFT-P-020,esneft,esneft-icu,1,0,16,94,53,105,36.6,Alert,stable,true
-ESNEFT-P-020,esneft,esneft-icu,2,4,16,94,53,105,36.6,Alert,stable,true
-ESNEFT-P-020,esneft,esneft-icu,3,8,16,94,53,105,36.6,Alert,stable,true
-ESNEFT-P-020,esneft,esneft-icu,4,12,16,94,53,105,36.6,Alert,stable,true
-QEH-P-001,qeh,qeh-amu,1,0,16,91,65,100,37.2,Alert,drifting,true
-QEH-P-001,qeh,qeh-amu,2,4,18,90,71,96,37.4,Alert,drifting,true
-QEH-P-001,qeh,qeh-amu,3,8,20,89,77,96,37.6,Alert,drifting,true
-QEH-P-001,qeh,qeh-amu,4,12,22,88,83,96,37.8,New confusion (review),drifting,true
-QEH-P-002,qeh,qeh-amu,1,0,17,91,49,96,36.9,Alert,stable,true
-QEH-P-002,qeh,qeh-amu,2,4,17,91,49,96,36.9,Alert,stable,true
-QEH-P-002,qeh,qeh-amu,3,8,17,91,49,96,36.9,Alert,stable,true
-QEH-P-002,qeh,qeh-amu,4,12,17,91,49,96,36.9,Alert,stable,true
-QEH-P-003,qeh,qeh-amu,1,0,18,92,56,107,36.6,Alert,stable,true
-QEH-P-003,qeh,qeh-amu,2,4,18,92,56,107,36.6,Alert,stable,true
-QEH-P-003,qeh,qeh-amu,3,8,18,92,56,107,36.6,Alert,stable,true
-QEH-P-003,qeh,qeh-amu,4,12,18,92,56,107,36.6,Alert,stable,true
-QEH-P-004,qeh,qeh-sau,1,0,16,95,55,96,37.1,Alert,drifting,true
-QEH-P-004,qeh,qeh-sau,2,4,18,94,61,96,37.3,Alert,drifting,true
-QEH-P-004,qeh,qeh-sau,3,8,20,93,67,96,37.5,Alert,drifting,true
-QEH-P-004,qeh,qeh-sau,4,12,22,92,73,96,37.7,New confusion (review),drifting,true
-QEH-P-005,qeh,qeh-sau,1,0,17,95,62,110,36.8,Alert,stable,true
-QEH-P-005,qeh,qeh-sau,2,4,17,95,62,110,36.8,Alert,stable,true
-QEH-P-005,qeh,qeh-sau,3,8,17,95,62,110,36.8,Alert,stable,true
-QEH-P-005,qeh,qeh-sau,4,12,17,95,62,110,36.8,Alert,stable,true
-QEH-P-006,qeh,qeh-sau,1,0,18,95,45,101,37.3,Alert,drifting,true
-QEH-P-006,qeh,qeh-sau,2,4,20,94,51,97,37.5,Alert,drifting,true
-QEH-P-006,qeh,qeh-sau,3,8,22,93,57,96,37.7,Alert,drifting,true
-QEH-P-006,qeh,qeh-sau,4,12,24,92,63,96,37.9,New confusion (review),drifting,true
-QEH-P-007,qeh,qeh-stroke,1,0,14,91,52,96,37,Alert,stable,true
-QEH-P-007,qeh,qeh-stroke,2,4,14,91,52,96,37,Alert,stable,true
-QEH-P-007,qeh,qeh-stroke,3,8,14,91,52,96,37,Alert,stable,true
-QEH-P-007,qeh,qeh-stroke,4,12,14,91,52,96,37,Alert,stable,true
-QEH-P-008,qeh,qeh-stroke,1,0,17,94,52,105,36.7,Alert,stable,true
-QEH-P-008,qeh,qeh-stroke,2,4,17,94,52,105,36.7,Alert,stable,true
-QEH-P-008,qeh,qeh-stroke,3,8,17,94,52,105,36.7,Alert,stable,true
-QEH-P-008,qeh,qeh-stroke,4,12,17,94,52,105,36.7,Alert,stable,true
-QEH-P-009,qeh,qeh-stroke,1,0,18,94,58,96,37.2,Alert,drifting,true
-QEH-P-009,qeh,qeh-stroke,2,4,20,93,64,96,37.4,Alert,drifting,true
-QEH-P-009,qeh,qeh-stroke,3,8,22,92,70,96,37.6,Alert,drifting,true
-QEH-P-009,qeh,qeh-stroke,4,12,24,91,76,96,37.8,New confusion (review),drifting,true
-QEH-P-010,qeh,qeh-gen-med,1,0,16,94,66,112,36.6,Alert,stable,true
-QEH-P-010,qeh,qeh-gen-med,2,4,16,94,66,112,36.6,Alert,stable,true
-QEH-P-010,qeh,qeh-gen-med,3,8,16,94,66,112,36.6,Alert,stable,true
-QEH-P-010,qeh,qeh-gen-med,4,12,16,94,66,112,36.6,Alert,stable,true
-QEH-P-011,qeh,qeh-gen-med,1,0,15,93,59,97,36.9,Alert,drifting,true
-QEH-P-011,qeh,qeh-gen-med,2,4,17,92,65,96,37.1,Alert,drifting,true
-QEH-P-011,qeh,qeh-gen-med,3,8,19,91,71,96,37.3,Alert,drifting,true
-QEH-P-011,qeh,qeh-gen-med,4,12,21,90,77,96,37.5,New confusion (review),drifting,true
-QEH-P-012,qeh,qeh-gen-med,1,0,14,93,52,105,37.2,Alert,stable,true
-QEH-P-012,qeh,qeh-gen-med,2,4,14,93,52,105,37.2,Alert,stable,true
-QEH-P-012,qeh,qeh-gen-med,3,8,14,93,52,105,37.2,Alert,stable,true
-QEH-P-012,qeh,qeh-gen-med,4,12,14,93,52,105,37.2,Alert,stable,true
-QEH-P-013,qeh,qeh-surgical,1,0,18,93,46,96,36.7,Alert,stable,true
-QEH-P-013,qeh,qeh-surgical,2,4,18,93,46,96,36.7,Alert,stable,true
-QEH-P-013,qeh,qeh-surgical,3,8,18,93,46,96,36.7,Alert,stable,true
-QEH-P-013,qeh,qeh-surgical,4,12,18,93,46,96,36.7,Alert,stable,true
-QEH-P-014,qeh,qeh-surgical,1,0,17,93,62,98,37,Alert,drifting,true
-QEH-P-014,qeh,qeh-surgical,2,4,19,92,68,96,37.2,Alert,drifting,true
-QEH-P-014,qeh,qeh-surgical,3,8,21,91,74,96,37.4,Alert,drifting,true
-QEH-P-014,qeh,qeh-surgical,4,12,23,90,80,96,37.6,New confusion (review),drifting,true
-QEH-P-015,qeh,qeh-surgical,1,0,16,92,55,106,37.3,Alert,stable,true
-QEH-P-015,qeh,qeh-surgical,2,4,16,92,55,106,37.3,Alert,stable,true
-QEH-P-015,qeh,qeh-surgical,3,8,16,92,55,106,37.3,Alert,stable,true
-QEH-P-015,qeh,qeh-surgical,4,12,16,92,55,106,37.3,Alert,stable,true
-QEH-P-016,qeh,qeh-elderly,1,0,15,92,49,96,36.8,Alert,drifting,true
-QEH-P-016,qeh,qeh-elderly,2,4,17,91,55,96,37,Alert,drifting,true
-QEH-P-016,qeh,qeh-elderly,3,8,19,90,61,96,37.2,Alert,drifting,true
-QEH-P-016,qeh,qeh-elderly,4,12,21,89,67,96,37.4,New confusion (review),drifting,true
-QEH-P-017,qeh,qeh-elderly,1,0,14,92,65,100,37.1,Alert,stable,true
-QEH-P-017,qeh,qeh-elderly,2,4,14,92,65,100,37.1,Alert,stable,true
-QEH-P-017,qeh,qeh-elderly,3,8,14,92,65,100,37.1,Alert,stable,true
-QEH-P-017,qeh,qeh-elderly,4,12,14,92,65,100,37.1,Alert,stable,true
-QEH-P-018,qeh,qeh-elderly,1,0,18,92,59,108,36.6,Alert,stable,true
-QEH-P-018,qeh,qeh-elderly,2,4,18,92,59,108,36.6,Alert,stable,true
-QEH-P-018,qeh,qeh-elderly,3,8,18,92,59,108,36.6,Alert,stable,true
-QEH-P-018,qeh,qeh-elderly,4,12,18,92,59,108,36.6,Alert,stable,true
-QEH-P-019,qeh,qeh-icu,1,0,17,91,52,96,36.9,Alert,drifting,true
-QEH-P-019,qeh,qeh-icu,2,4,19,90,58,96,37.1,Alert,drifting,true
-QEH-P-019,qeh,qeh-icu,3,8,21,89,64,96,37.3,Alert,drifting,true
-QEH-P-019,qeh,qeh-icu,4,12,23,88,70,96,37.5,New confusion (review),drifting,true
-QEH-P-020,qeh,qeh-icu,1,0,18,95,45,101,36.9,Alert,stable,true
-QEH-P-020,qeh,qeh-icu,2,4,18,95,45,101,36.9,Alert,stable,true
-QEH-P-020,qeh,qeh-icu,3,8,18,95,45,101,36.9,Alert,stable,true
-QEH-P-020,qeh,qeh-icu,4,12,18,95,45,101,36.9,Alert,stable,true
+WSH-P-001,wsh,wsh-f7,1,0,16,91,61,98,36.8,Alert,drifting,true
+WSH-P-001,wsh,wsh-f7,2,4,18,90,67,96,37,Alert,drifting,true
+WSH-P-001,wsh,wsh-f7,3,8,20,89,73,96,37.2,Alert,drifting,true
+WSH-P-001,wsh,wsh-f7,4,12,22,88,79,96,37.4,New confusion (review),drifting,true
+WSH-P-002,wsh,wsh-f7,1,0,17,91,44,112,37.3,Alert,stable,true
+WSH-P-002,wsh,wsh-f7,2,4,17,91,44,112,37.3,Alert,stable,true
+WSH-P-002,wsh,wsh-f7,3,8,17,91,44,112,37.3,Alert,stable,true
+WSH-P-002,wsh,wsh-f7,4,12,17,91,44,112,37.3,Alert,stable,true
+WSH-P-003,wsh,wsh-f7,1,0,18,92,51,104,37,Alert,stable,true
+WSH-P-003,wsh,wsh-f7,2,4,18,92,51,104,37,Alert,stable,true
+WSH-P-003,wsh,wsh-f7,3,8,18,92,51,104,37,Alert,stable,true
+WSH-P-003,wsh,wsh-f7,4,12,18,92,51,104,37,Alert,stable,true
+WSH-P-004,wsh,wsh-f9,1,0,14,92,58,96,36.7,Alert,drifting,true
+WSH-P-004,wsh,wsh-f9,2,4,16,91,64,96,36.9,Alert,drifting,true
+WSH-P-004,wsh,wsh-f9,3,8,18,90,70,96,37.1,Alert,drifting,true
+WSH-P-004,wsh,wsh-f9,4,12,20,89,76,96,37.3,New confusion (review),drifting,true
+WSH-P-005,wsh,wsh-f9,1,0,15,92,64,111,37.2,Alert,stable,true
+WSH-P-005,wsh,wsh-f9,2,4,15,92,64,111,37.2,Alert,stable,true
+WSH-P-005,wsh,wsh-f9,3,8,15,92,64,111,37.2,Alert,stable,true
+WSH-P-005,wsh,wsh-f9,4,12,15,92,64,111,37.2,Alert,stable,true
+WSH-P-006,wsh,wsh-f9,1,0,16,92,48,103,36.9,Alert,drifting,true
+WSH-P-006,wsh,wsh-f9,2,4,18,91,54,99,37.1,Alert,drifting,true
+WSH-P-006,wsh,wsh-f9,3,8,20,90,60,96,37.3,Alert,drifting,true
+WSH-P-006,wsh,wsh-f9,4,12,22,89,66,96,37.5,New confusion (review),drifting,true
+WSH-P-007,wsh,wsh-f10,1,0,17,93,55,96,36.6,Alert,stable,true
+WSH-P-007,wsh,wsh-f10,2,4,17,93,55,96,36.6,Alert,stable,true
+WSH-P-007,wsh,wsh-f10,3,8,17,93,55,96,36.6,Alert,stable,true
+WSH-P-007,wsh,wsh-f10,4,12,17,93,55,96,36.6,Alert,stable,true
+WSH-P-008,wsh,wsh-f10,1,0,17,94,47,102,37.1,Alert,stable,true
+WSH-P-008,wsh,wsh-f10,2,4,17,94,47,102,37.1,Alert,stable,true
+WSH-P-008,wsh,wsh-f10,3,8,17,94,47,102,37.1,Alert,stable,true
+WSH-P-008,wsh,wsh-f10,4,12,17,94,47,102,37.1,Alert,stable,true
+WSH-P-009,wsh,wsh-f10,1,0,18,94,54,96,36.8,Alert,drifting,true
+WSH-P-009,wsh,wsh-f10,2,4,20,93,60,96,37,Alert,drifting,true
+WSH-P-009,wsh,wsh-f10,3,8,22,92,66,96,37.2,Alert,drifting,true
+WSH-P-009,wsh,wsh-f10,4,12,24,91,72,96,37.4,New confusion (review),drifting,true
+WSH-P-010,wsh,wsh-g3,1,0,16,94,61,109,37,Alert,stable,true
+WSH-P-010,wsh,wsh-g3,2,4,16,94,61,109,37,Alert,stable,true
+WSH-P-010,wsh,wsh-g3,3,8,16,94,61,109,37,Alert,stable,true
+WSH-P-010,wsh,wsh-g3,4,12,16,94,61,109,37,Alert,stable,true
+WSH-P-011,wsh,wsh-g3,1,0,15,93,54,96,37.3,Alert,drifting,true
+WSH-P-011,wsh,wsh-g3,2,4,17,92,60,96,37.5,Alert,drifting,true
+WSH-P-011,wsh,wsh-g3,3,8,19,91,66,96,37.7,Alert,drifting,true
+WSH-P-011,wsh,wsh-g3,4,12,21,90,72,96,37.9,New confusion (review),drifting,true
+WSH-P-012,wsh,wsh-g3,1,0,14,93,48,103,36.8,Alert,stable,true
+WSH-P-012,wsh,wsh-g3,2,4,14,93,48,103,36.8,Alert,stable,true
+WSH-P-012,wsh,wsh-g3,3,8,14,93,48,103,36.8,Alert,stable,true
+WSH-P-012,wsh,wsh-g3,4,12,14,93,48,103,36.8,Alert,stable,true
+WSH-P-013,wsh,wsh-g4,1,0,18,93,64,111,37.1,Alert,stable,true
+WSH-P-013,wsh,wsh-g4,2,4,18,93,64,111,37.1,Alert,stable,true
+WSH-P-013,wsh,wsh-g4,3,8,18,93,64,111,37.1,Alert,stable,true
+WSH-P-013,wsh,wsh-g4,4,12,18,93,64,111,37.1,Alert,stable,true
+WSH-P-014,wsh,wsh-g4,1,0,15,95,65,100,36.6,Alert,drifting,true
+WSH-P-014,wsh,wsh-g4,2,4,17,94,71,96,36.8,Alert,drifting,true
+WSH-P-014,wsh,wsh-g4,3,8,19,93,77,96,37,Alert,drifting,true
+WSH-P-014,wsh,wsh-g4,4,12,21,92,83,96,37.2,New confusion (review),drifting,true
+WSH-P-015,wsh,wsh-g4,1,0,14,94,58,108,36.9,Alert,stable,true
+WSH-P-015,wsh,wsh-g4,2,4,14,94,58,108,36.9,Alert,stable,true
+WSH-P-015,wsh,wsh-g4,3,8,14,94,58,108,36.9,Alert,stable,true
+WSH-P-015,wsh,wsh-g4,4,12,14,94,58,108,36.9,Alert,stable,true
+WSH-P-016,wsh,wsh-g8,1,0,18,94,51,96,37.2,Alert,drifting,true
+WSH-P-016,wsh,wsh-g8,2,4,20,93,57,96,37.4,Alert,drifting,true
+WSH-P-016,wsh,wsh-g8,3,8,22,92,63,96,37.6,Alert,drifting,true
+WSH-P-016,wsh,wsh-g8,4,12,24,91,69,96,37.8,New confusion (review),drifting,true
+WSH-P-017,wsh,wsh-g8,1,0,17,94,45,101,36.7,Alert,stable,true
+WSH-P-017,wsh,wsh-g8,2,4,17,94,45,101,36.7,Alert,stable,true
+WSH-P-017,wsh,wsh-g8,3,8,17,94,45,101,36.7,Alert,stable,true
+WSH-P-017,wsh,wsh-g8,4,12,17,94,45,101,36.7,Alert,stable,true
+WSH-P-018,wsh,wsh-g8,1,0,18,92,54,106,37,Alert,stable,true
+WSH-P-018,wsh,wsh-g8,2,4,18,92,54,106,37,Alert,stable,true
+WSH-P-018,wsh,wsh-g8,3,8,18,92,54,106,37,Alert,stable,true
+WSH-P-018,wsh,wsh-g8,4,12,18,92,54,106,37,Alert,stable,true
+WSH-P-019,wsh,wsh-amu,1,0,17,91,47,96,37.3,Alert,drifting,true
+WSH-P-019,wsh,wsh-amu,2,4,19,90,53,96,37.5,Alert,drifting,true
+WSH-P-019,wsh,wsh-amu,3,8,21,89,59,96,37.7,Alert,drifting,true
+WSH-P-019,wsh,wsh-amu,4,12,23,88,65,96,37.9,New confusion (review),drifting,true
+WSH-P-020,wsh,wsh-amu,1,0,18,95,63,99,37.3,Alert,stable,true
+WSH-P-020,wsh,wsh-amu,2,4,18,95,63,99,37.3,Alert,stable,true
+WSH-P-020,wsh,wsh-amu,3,8,18,95,63,99,37.3,Alert,stable,true
+WSH-P-020,wsh,wsh-amu,4,12,18,95,63,99,37.3,Alert,stable,true
+WSH-P-021,wsh,wsh-amu,1,0,14,91,47,96,37,Alert,drifting,true
+WSH-P-021,wsh,wsh-amu,2,4,16,90,53,96,37.2,Alert,drifting,true
+WSH-P-021,wsh,wsh-amu,3,8,18,89,59,96,37.4,Alert,drifting,true
+WSH-P-021,wsh,wsh-amu,4,12,20,88,65,96,37.6,New confusion (review),drifting,true
+WSH-P-022,wsh,wsh-icu,1,0,16,95,50,96,37.1,Alert,stable,true
+WSH-P-022,wsh,wsh-icu,2,4,16,95,50,96,37.1,Alert,stable,true
+WSH-P-022,wsh,wsh-icu,3,8,16,95,50,96,37.1,Alert,stable,true
+WSH-P-022,wsh,wsh-icu,4,12,16,95,50,96,37.1,Alert,stable,true
+WSH-P-023,wsh,wsh-icu,1,0,17,95,57,107,36.8,Alert,stable,true
+WSH-P-023,wsh,wsh-icu,2,4,17,95,57,107,36.8,Alert,stable,true
+WSH-P-023,wsh,wsh-icu,3,8,17,95,57,107,36.8,Alert,stable,true
+WSH-P-023,wsh,wsh-icu,4,12,17,95,57,107,36.8,Alert,stable,true
+ESNEFT-P-001,esneft,esneft-brantham,1,0,14,96,81,119,37.1,Alert,drifting,true
+ESNEFT-P-001,esneft,esneft-brantham,2,4,16,95,87,115,37.3,Alert,drifting,true
+ESNEFT-P-001,esneft,esneft-brantham,3,8,18,94,93,111,37.5,Alert,drifting,true
+ESNEFT-P-001,esneft,esneft-brantham,4,12,20,93,99,107,37.7,New confusion (review),drifting,true
+ESNEFT-P-002,esneft,esneft-brantham,1,0,17,97,78,118,37,Alert,stable,true
+ESNEFT-P-002,esneft,esneft-brantham,2,4,17,97,78,118,37,Alert,stable,true
+ESNEFT-P-002,esneft,esneft-brantham,3,8,17,97,78,118,37,Alert,stable,true
+ESNEFT-P-002,esneft,esneft-brantham,4,12,17,97,78,118,37,Alert,stable,true
+ESNEFT-P-003,esneft,esneft-brantham,1,0,16,96,71,126,37.3,Alert,stable,true
+ESNEFT-P-003,esneft,esneft-brantham,2,4,16,96,71,126,37.3,Alert,stable,true
+ESNEFT-P-003,esneft,esneft-brantham,3,8,16,96,71,126,37.3,Alert,stable,true
+ESNEFT-P-003,esneft,esneft-brantham,4,12,16,96,71,126,37.3,Alert,stable,true
+ESNEFT-P-004,esneft,esneft-brook,1,0,14,97,68,124,37.2,Alert,drifting,true
+ESNEFT-P-004,esneft,esneft-brook,2,4,16,96,74,120,37.4,Alert,drifting,true
+ESNEFT-P-004,esneft,esneft-brook,3,8,18,95,80,116,37.6,Alert,drifting,true
+ESNEFT-P-004,esneft,esneft-brook,4,12,20,94,86,112,37.8,New confusion (review),drifting,true
+ESNEFT-P-005,esneft,esneft-brook,1,0,18,97,85,133,36.7,Alert,stable,true
+ESNEFT-P-005,esneft,esneft-brook,2,4,18,97,85,133,36.7,Alert,stable,true
+ESNEFT-P-005,esneft,esneft-brook,3,8,18,97,85,133,36.7,Alert,stable,true
+ESNEFT-P-005,esneft,esneft-brook,4,12,18,97,85,133,36.7,Alert,stable,true
+ESNEFT-P-006,esneft,esneft-brook,1,0,16,98,82,131,36.6,Alert,drifting,true
+ESNEFT-P-006,esneft,esneft-brook,2,4,18,97,88,127,36.8,Alert,drifting,true
+ESNEFT-P-006,esneft,esneft-brook,3,8,20,96,94,123,37,Alert,drifting,true
+ESNEFT-P-006,esneft,esneft-brook,4,12,22,95,100,119,37.2,New confusion (review),drifting,true
+ESNEFT-P-007,esneft,esneft-sproughton,1,0,15,97,75,116,36.9,Alert,stable,true
+ESNEFT-P-007,esneft,esneft-sproughton,2,4,15,97,75,116,36.9,Alert,stable,true
+ESNEFT-P-007,esneft,esneft-sproughton,3,8,15,97,75,116,36.9,Alert,stable,true
+ESNEFT-P-007,esneft,esneft-sproughton,4,12,15,97,75,116,36.9,Alert,stable,true
+ESNEFT-P-008,esneft,esneft-sproughton,1,0,18,98,72,115,36.8,Alert,stable,true
+ESNEFT-P-008,esneft,esneft-sproughton,2,4,18,98,72,115,36.8,Alert,stable,true
+ESNEFT-P-008,esneft,esneft-sproughton,3,8,18,98,72,115,36.8,Alert,stable,true
+ESNEFT-P-008,esneft,esneft-sproughton,4,12,18,98,72,115,36.8,Alert,stable,true
+ESNEFT-P-009,esneft,esneft-sproughton,1,0,17,98,88,123,37.1,Alert,drifting,true
+ESNEFT-P-009,esneft,esneft-sproughton,2,4,19,97,94,119,37.3,Alert,drifting,true
+ESNEFT-P-009,esneft,esneft-sproughton,3,8,21,96,100,115,37.5,Alert,drifting,true
+ESNEFT-P-009,esneft,esneft-sproughton,4,12,23,95,106,111,37.7,New confusion (review),drifting,true
+ESNEFT-P-010,esneft,esneft-bergholt,1,0,16,96,86,122,36.9,Alert,stable,true
+ESNEFT-P-010,esneft,esneft-bergholt,2,4,16,96,86,122,36.9,Alert,stable,true
+ESNEFT-P-010,esneft,esneft-bergholt,3,8,16,96,86,122,36.9,Alert,stable,true
+ESNEFT-P-010,esneft,esneft-bergholt,4,12,16,96,86,122,36.9,Alert,stable,true
+ESNEFT-P-011,esneft,esneft-bergholt,1,0,17,97,70,114,36.6,Alert,drifting,true
+ESNEFT-P-011,esneft,esneft-bergholt,2,4,19,96,76,110,36.8,Alert,drifting,true
+ESNEFT-P-011,esneft,esneft-bergholt,3,8,21,95,82,106,37,Alert,drifting,true
+ESNEFT-P-011,esneft,esneft-bergholt,4,12,23,94,88,102,37.2,New confusion (review),drifting,true
+ESNEFT-P-012,esneft,esneft-bergholt,1,0,14,96,73,115,36.7,Alert,stable,true
+ESNEFT-P-012,esneft,esneft-bergholt,2,4,14,96,73,115,36.7,Alert,stable,true
+ESNEFT-P-012,esneft,esneft-bergholt,3,8,14,96,73,115,36.7,Alert,stable,true
+ESNEFT-P-012,esneft,esneft-bergholt,4,12,14,96,73,115,36.7,Alert,stable,true
+ESNEFT-P-013,esneft,esneft-boxford,1,0,15,96,79,130,37.2,Alert,stable,true
+ESNEFT-P-013,esneft,esneft-boxford,2,4,15,96,79,130,37.2,Alert,stable,true
+ESNEFT-P-013,esneft,esneft-boxford,3,8,15,96,79,130,37.2,Alert,stable,true
+ESNEFT-P-013,esneft,esneft-boxford,4,12,15,96,79,130,37.2,Alert,stable,true
+ESNEFT-P-014,esneft,esneft-boxford,1,0,17,95,82,131,37.3,Alert,drifting,true
+ESNEFT-P-014,esneft,esneft-boxford,2,4,19,94,88,127,37.5,Alert,drifting,true
+ESNEFT-P-014,esneft,esneft-boxford,3,8,21,93,94,123,37.7,Alert,drifting,true
+ESNEFT-P-014,esneft,esneft-boxford,4,12,23,92,100,119,37.9,New confusion (review),drifting,true
+ESNEFT-P-015,esneft,esneft-boxford,1,0,18,96,66,123,37,Alert,stable,true
+ESNEFT-P-015,esneft,esneft-boxford,2,4,18,96,66,123,37,Alert,stable,true
+ESNEFT-P-015,esneft,esneft-boxford,3,8,18,96,66,123,37,Alert,stable,true
+ESNEFT-P-015,esneft,esneft-boxford,4,12,18,96,66,123,37,Alert,stable,true
+ESNEFT-P-016,esneft,esneft-bramford,1,0,15,95,69,125,37.1,Alert,drifting,true
+ESNEFT-P-016,esneft,esneft-bramford,2,4,17,94,75,121,37.3,Alert,drifting,true
+ESNEFT-P-016,esneft,esneft-bramford,3,8,19,93,81,117,37.5,Alert,drifting,true
+ESNEFT-P-016,esneft,esneft-bramford,4,12,21,92,87,113,37.7,New confusion (review),drifting,true
+ESNEFT-P-017,esneft,esneft-bramford,1,0,16,95,76,117,36.8,Alert,stable,true
+ESNEFT-P-017,esneft,esneft-bramford,2,4,16,95,76,117,36.8,Alert,stable,true
+ESNEFT-P-017,esneft,esneft-bramford,3,8,16,95,76,117,36.8,Alert,stable,true
+ESNEFT-P-017,esneft,esneft-bramford,4,12,16,95,76,117,36.8,Alert,stable,true
+ESNEFT-P-018,esneft,esneft-bramford,1,0,18,99,79,118,36.9,Alert,stable,true
+ESNEFT-P-018,esneft,esneft-bramford,2,4,18,99,79,118,36.9,Alert,stable,true
+ESNEFT-P-018,esneft,esneft-bramford,3,8,18,99,79,118,36.9,Alert,stable,true
+ESNEFT-P-018,esneft,esneft-bramford,4,12,18,99,79,118,36.9,Alert,stable,true
+ESNEFT-P-019,esneft,esneft-capel,1,0,14,95,86,133,36.6,Alert,drifting,true
+ESNEFT-P-019,esneft,esneft-capel,2,4,16,94,92,129,36.8,Alert,drifting,true
+ESNEFT-P-019,esneft,esneft-capel,3,8,18,93,98,125,37,Alert,drifting,true
+ESNEFT-P-019,esneft,esneft-capel,4,12,20,92,104,121,37.2,New confusion (review),drifting,true
+ESNEFT-P-020,esneft,esneft-capel,1,0,16,94,53,105,36.6,Alert,stable,true
+ESNEFT-P-020,esneft,esneft-capel,2,4,16,94,53,105,36.6,Alert,stable,true
+ESNEFT-P-020,esneft,esneft-capel,3,8,16,94,53,105,36.6,Alert,stable,true
+ESNEFT-P-020,esneft,esneft-capel,4,12,16,94,53,105,36.6,Alert,stable,true
+ESNEFT-P-021,esneft,esneft-capel,1,0,15,93,46,96,36.9,Alert,drifting,true
+ESNEFT-P-021,esneft,esneft-capel,2,4,17,92,52,96,37.1,Alert,drifting,true
+ESNEFT-P-021,esneft,esneft-capel,3,8,19,91,58,96,37.3,Alert,drifting,true
+ESNEFT-P-021,esneft,esneft-capel,4,12,21,90,64,96,37.5,New confusion (review),drifting,true
+ESNEFT-P-022,esneft,esneft-claydon,1,0,14,93,62,98,37.2,Alert,stable,true
+ESNEFT-P-022,esneft,esneft-claydon,2,4,14,93,62,98,37.2,Alert,stable,true
+ESNEFT-P-022,esneft,esneft-claydon,3,8,14,93,62,98,37.2,Alert,stable,true
+ESNEFT-P-022,esneft,esneft-claydon,4,12,14,93,62,98,37.2,Alert,stable,true
+ESNEFT-P-023,esneft,esneft-claydon,1,0,18,93,56,107,36.7,Alert,stable,true
+ESNEFT-P-023,esneft,esneft-claydon,2,4,18,93,56,107,36.7,Alert,stable,true
+ESNEFT-P-023,esneft,esneft-claydon,3,8,18,93,56,107,36.7,Alert,stable,true
+ESNEFT-P-023,esneft,esneft-claydon,4,12,18,93,56,107,36.7,Alert,stable,true
+ESNEFT-P-024,esneft,esneft-claydon,1,0,17,93,49,96,37,Alert,drifting,true
+ESNEFT-P-024,esneft,esneft-claydon,2,4,19,92,55,96,37.2,Alert,drifting,true
+ESNEFT-P-024,esneft,esneft-claydon,3,8,21,91,61,96,37.4,Alert,drifting,true
+ESNEFT-P-024,esneft,esneft-claydon,4,12,23,90,67,96,37.6,New confusion (review),drifting,true
+ESNEFT-P-025,esneft,esneft-debenham,1,0,16,92,65,100,37.3,Alert,stable,true
+ESNEFT-P-025,esneft,esneft-debenham,2,4,16,92,65,100,37.3,Alert,stable,true
+ESNEFT-P-025,esneft,esneft-debenham,3,8,16,92,65,100,37.3,Alert,stable,true
+ESNEFT-P-025,esneft,esneft-debenham,4,12,16,92,65,100,37.3,Alert,stable,true
+ESNEFT-P-026,esneft,esneft-debenham,1,0,15,92,59,108,36.8,Alert,drifting,true
+ESNEFT-P-026,esneft,esneft-debenham,2,4,17,91,65,104,37,Alert,drifting,true
+ESNEFT-P-026,esneft,esneft-debenham,3,8,19,90,71,100,37.2,Alert,drifting,true
+ESNEFT-P-026,esneft,esneft-debenham,4,12,21,89,77,96,37.4,New confusion (review),drifting,true
+ESNEFT-P-027,esneft,esneft-debenham,1,0,14,92,52,96,37.1,Alert,stable,true
+ESNEFT-P-027,esneft,esneft-debenham,2,4,14,92,52,96,37.1,Alert,stable,true
+ESNEFT-P-027,esneft,esneft-debenham,3,8,14,92,52,96,37.1,Alert,stable,true
+ESNEFT-P-027,esneft,esneft-debenham,4,12,14,92,52,96,37.1,Alert,stable,true
+ESNEFT-P-028,esneft,esneft-grundisburgh,1,0,14,91,60,109,36.6,Alert,stable,true
+ESNEFT-P-028,esneft,esneft-grundisburgh,2,4,14,91,60,109,36.6,Alert,stable,true
+ESNEFT-P-028,esneft,esneft-grundisburgh,3,8,14,91,60,109,36.6,Alert,stable,true
+ESNEFT-P-028,esneft,esneft-grundisburgh,4,12,14,91,60,109,36.6,Alert,stable,true
+ESNEFT-P-029,esneft,esneft-grundisburgh,1,0,18,95,53,96,36.9,Alert,drifting,true
+ESNEFT-P-029,esneft,esneft-grundisburgh,2,4,20,94,59,96,37.1,Alert,drifting,true
+ESNEFT-P-029,esneft,esneft-grundisburgh,3,8,22,93,65,96,37.3,Alert,drifting,true
+ESNEFT-P-029,esneft,esneft-grundisburgh,4,12,24,92,71,96,37.5,New confusion (review),drifting,true
+ESNEFT-P-030,esneft,esneft-grundisburgh,1,0,15,91,46,102,36.7,Alert,stable,true
+ESNEFT-P-030,esneft,esneft-grundisburgh,2,4,15,91,46,102,36.7,Alert,stable,true
+ESNEFT-P-030,esneft,esneft-grundisburgh,3,8,15,91,46,102,36.7,Alert,stable,true
+ESNEFT-P-030,esneft,esneft-grundisburgh,4,12,15,91,46,102,36.7,Alert,stable,true
+ESNEFT-P-031,esneft,esneft-haughley,1,0,16,91,52,96,37.2,Alert,drifting,true
+ESNEFT-P-031,esneft,esneft-haughley,2,4,18,90,58,96,37.4,Alert,drifting,true
+ESNEFT-P-031,esneft,esneft-haughley,3,8,20,89,64,96,37.6,Alert,drifting,true
+ESNEFT-P-031,esneft,esneft-haughley,4,12,22,88,70,96,37.8,New confusion (review),drifting,true
+ESNEFT-P-032,esneft,esneft-haughley,1,0,17,91,59,108,36.9,Alert,stable,true
+ESNEFT-P-032,esneft,esneft-haughley,2,4,17,91,59,108,36.9,Alert,stable,true
+ESNEFT-P-032,esneft,esneft-haughley,3,8,17,91,59,108,36.9,Alert,stable,true
+ESNEFT-P-032,esneft,esneft-haughley,4,12,17,91,59,108,36.9,Alert,stable,true
+ESNEFT-P-033,esneft,esneft-haughley,1,0,18,92,66,100,36.6,Alert,stable,true
+ESNEFT-P-033,esneft,esneft-haughley,2,4,18,92,66,100,36.6,Alert,stable,true
+ESNEFT-P-033,esneft,esneft-haughley,3,8,18,92,66,100,36.6,Alert,stable,true
+ESNEFT-P-033,esneft,esneft-haughley,4,12,18,92,66,100,36.6,Alert,stable,true
+ESNEFT-P-034,esneft,esneft-kesgrave,1,0,16,95,65,111,37.1,Alert,drifting,true
+ESNEFT-P-034,esneft,esneft-kesgrave,2,4,18,94,71,107,37.3,Alert,drifting,true
+ESNEFT-P-034,esneft,esneft-kesgrave,3,8,20,93,77,103,37.5,Alert,drifting,true
+ESNEFT-P-034,esneft,esneft-kesgrave,4,12,22,92,83,99,37.7,New confusion (review),drifting,true
+ESNEFT-P-035,esneft,esneft-kesgrave,1,0,17,95,49,103,36.8,Alert,stable,true
+ESNEFT-P-035,esneft,esneft-kesgrave,2,4,17,95,49,103,36.8,Alert,stable,true
+ESNEFT-P-035,esneft,esneft-kesgrave,3,8,17,95,49,103,36.8,Alert,stable,true
+ESNEFT-P-035,esneft,esneft-kesgrave,4,12,17,95,49,103,36.8,Alert,stable,true
+ESNEFT-P-036,esneft,esneft-kesgrave,1,0,18,95,55,96,37.3,Alert,drifting,true
+ESNEFT-P-036,esneft,esneft-kesgrave,2,4,20,94,61,96,37.5,Alert,drifting,true
+ESNEFT-P-036,esneft,esneft-kesgrave,3,8,22,93,67,96,37.7,Alert,drifting,true
+ESNEFT-P-036,esneft,esneft-kesgrave,4,12,24,92,73,96,37.9,New confusion (review),drifting,true
+ESNEFT-P-037,esneft,esneft-kirton,1,0,14,91,62,110,37,Alert,stable,true
+ESNEFT-P-037,esneft,esneft-kirton,2,4,14,91,62,110,37,Alert,stable,true
+ESNEFT-P-037,esneft,esneft-kirton,3,8,14,91,62,110,37,Alert,stable,true
+ESNEFT-P-037,esneft,esneft-kirton,4,12,14,91,62,110,37,Alert,stable,true
+ESNEFT-P-038,esneft,esneft-kirton,1,0,18,93,53,105,36.7,Alert,stable,true
+ESNEFT-P-038,esneft,esneft-kirton,2,4,18,93,53,105,36.7,Alert,stable,true
+ESNEFT-P-038,esneft,esneft-kirton,3,8,18,93,53,105,36.7,Alert,stable,true
+ESNEFT-P-038,esneft,esneft-kirton,4,12,18,93,53,105,36.7,Alert,stable,true
+ESNEFT-P-039,esneft,esneft-kirton,1,0,14,93,59,97,37.2,Alert,drifting,true
+ESNEFT-P-039,esneft,esneft-kirton,2,4,16,92,65,96,37.4,Alert,drifting,true
+ESNEFT-P-039,esneft,esneft-kirton,3,8,18,91,71,96,37.6,Alert,drifting,true
+ESNEFT-P-039,esneft,esneft-kirton,4,12,20,90,77,96,37.8,New confusion (review),drifting,true
+ESNEFT-P-040,esneft,esneft-lavenham,1,0,15,92,55,106,37.2,Alert,stable,true
+ESNEFT-P-040,esneft,esneft-lavenham,2,4,15,92,55,106,37.2,Alert,stable,true
+ESNEFT-P-040,esneft,esneft-lavenham,3,8,15,92,55,106,37.2,Alert,stable,true
+ESNEFT-P-040,esneft,esneft-lavenham,4,12,15,92,55,106,37.2,Alert,stable,true
+ESNEFT-P-041,esneft,esneft-lavenham,1,0,14,92,49,96,36.7,Alert,drifting,true
+ESNEFT-P-041,esneft,esneft-lavenham,2,4,16,91,55,96,36.9,Alert,drifting,true
+ESNEFT-P-041,esneft,esneft-lavenham,3,8,18,90,61,96,37.1,Alert,drifting,true
+ESNEFT-P-041,esneft,esneft-lavenham,4,12,20,89,67,96,37.3,New confusion (review),drifting,true
+ESNEFT-P-042,esneft,esneft-lavenham,1,0,17,93,46,96,36.6,Alert,stable,true
+ESNEFT-P-042,esneft,esneft-lavenham,2,4,17,93,46,96,36.6,Alert,stable,true
+ESNEFT-P-042,esneft,esneft-lavenham,3,8,17,93,46,96,36.6,Alert,stable,true
+ESNEFT-P-042,esneft,esneft-lavenham,4,12,17,93,46,96,36.6,Alert,stable,true
+ESNEFT-P-043,esneft,esneft-levington,1,0,16,92,62,98,36.9,Alert,stable,true
+ESNEFT-P-043,esneft,esneft-levington,2,4,16,92,62,98,36.9,Alert,stable,true
+ESNEFT-P-043,esneft,esneft-levington,3,8,16,92,62,98,36.9,Alert,stable,true
+ESNEFT-P-043,esneft,esneft-levington,4,12,16,92,62,98,36.9,Alert,stable,true
+ESNEFT-P-044,esneft,esneft-levington,1,0,16,91,52,96,36.8,Alert,drifting,true
+ESNEFT-P-044,esneft,esneft-levington,2,4,18,90,58,96,37,Alert,drifting,true
+ESNEFT-P-044,esneft,esneft-levington,3,8,20,89,64,96,37.2,Alert,drifting,true
+ESNEFT-P-044,esneft,esneft-levington,4,12,22,88,70,96,37.4,New confusion (review),drifting,true
+ESNEFT-P-045,esneft,esneft-levington,1,0,15,91,45,101,37.1,Alert,stable,true
+ESNEFT-P-045,esneft,esneft-levington,2,4,15,91,45,101,37.1,Alert,stable,true
+ESNEFT-P-045,esneft,esneft-levington,3,8,15,91,45,101,37.1,Alert,stable,true
+ESNEFT-P-045,esneft,esneft-levington,4,12,15,91,45,101,37.1,Alert,stable,true
+ESNEFT-P-046,esneft,esneft-martlesham,1,0,18,92,65,100,37,Alert,drifting,true
+ESNEFT-P-046,esneft,esneft-martlesham,2,4,20,91,71,96,37.2,Alert,drifting,true
+ESNEFT-P-046,esneft,esneft-martlesham,3,8,22,90,77,96,37.4,Alert,drifting,true
+ESNEFT-P-046,esneft,esneft-martlesham,4,12,24,89,83,96,37.6,New confusion (review),drifting,true
+ESNEFT-P-047,esneft,esneft-martlesham,1,0,17,91,58,108,37.3,Alert,stable,true
+ESNEFT-P-047,esneft,esneft-martlesham,2,4,17,91,58,108,37.3,Alert,stable,true
+ESNEFT-P-047,esneft,esneft-martlesham,3,8,17,91,58,108,37.3,Alert,stable,true
+ESNEFT-P-047,esneft,esneft-martlesham,4,12,17,91,58,108,37.3,Alert,stable,true
+ESNEFT-P-048,esneft,esneft-martlesham,1,0,18,94,62,110,37.2,Alert,stable,true
+ESNEFT-P-048,esneft,esneft-martlesham,2,4,18,94,62,110,37.2,Alert,stable,true
+ESNEFT-P-048,esneft,esneft-martlesham,3,8,18,94,62,110,37.2,Alert,stable,true
+ESNEFT-P-048,esneft,esneft-martlesham,4,12,18,94,62,110,37.2,Alert,stable,true
+ESNEFT-P-049,esneft,esneft-needham,1,0,17,94,56,96,36.7,Alert,drifting,true
+ESNEFT-P-049,esneft,esneft-needham,2,4,19,93,62,96,36.9,Alert,drifting,true
+ESNEFT-P-049,esneft,esneft-needham,3,8,21,92,68,96,37.1,Alert,drifting,true
+ESNEFT-P-049,esneft,esneft-needham,4,12,23,91,74,96,37.3,New confusion (review),drifting,true
+ESNEFT-P-050,esneft,esneft-needham,1,0,14,94,48,103,37.3,Alert,stable,true
+ESNEFT-P-050,esneft,esneft-needham,2,4,14,94,48,103,37.3,Alert,stable,true
+ESNEFT-P-050,esneft,esneft-needham,3,8,14,94,48,103,37.3,Alert,stable,true
+ESNEFT-P-050,esneft,esneft-needham,4,12,14,94,48,103,37.3,Alert,stable,true
+ESNEFT-P-051,esneft,esneft-needham,1,0,15,95,55,96,37,Alert,drifting,true
+ESNEFT-P-051,esneft,esneft-needham,2,4,17,94,61,96,37.2,Alert,drifting,true
+ESNEFT-P-051,esneft,esneft-needham,3,8,19,93,67,96,37.4,Alert,drifting,true
+ESNEFT-P-051,esneft,esneft-needham,4,12,21,92,73,96,37.6,New confusion (review),drifting,true
+ESNEFT-P-052,esneft,esneft-saxmundham,1,0,17,94,58,96,37.1,Alert,stable,true
+ESNEFT-P-052,esneft,esneft-saxmundham,2,4,17,94,58,96,37.1,Alert,stable,true
+ESNEFT-P-052,esneft,esneft-saxmundham,3,8,17,94,58,96,37.1,Alert,stable,true
+ESNEFT-P-052,esneft,esneft-saxmundham,4,12,17,94,58,96,37.1,Alert,stable,true
+ESNEFT-P-053,esneft,esneft-saxmundham,1,0,18,94,65,111,36.8,Alert,stable,true
+ESNEFT-P-053,esneft,esneft-saxmundham,2,4,18,94,65,111,36.8,Alert,stable,true
+ESNEFT-P-053,esneft,esneft-saxmundham,3,8,18,94,65,111,36.8,Alert,stable,true
+ESNEFT-P-053,esneft,esneft-saxmundham,4,12,18,94,65,111,36.8,Alert,stable,true
+ESNEFT-P-054,esneft,esneft-saxmundham,1,0,18,95,52,96,36.9,Alert,drifting,true
+ESNEFT-P-054,esneft,esneft-saxmundham,2,4,20,94,58,96,37.1,Alert,drifting,true
+ESNEFT-P-054,esneft,esneft-saxmundham,3,8,22,93,64,96,37.3,Alert,drifting,true
+ESNEFT-P-054,esneft,esneft-saxmundham,4,12,24,92,70,96,37.5,New confusion (review),drifting,true
+ESNEFT-P-055,esneft,esneft-shotley,1,0,14,91,59,108,36.6,Alert,stable,true
+ESNEFT-P-055,esneft,esneft-shotley,2,4,14,91,59,108,36.6,Alert,stable,true
+ESNEFT-P-055,esneft,esneft-shotley,3,8,14,91,59,108,36.6,Alert,stable,true
+ESNEFT-P-055,esneft,esneft-shotley,4,12,14,91,59,108,36.6,Alert,stable,true
+ESNEFT-P-056,esneft,esneft-shotley,1,0,16,95,62,110,36.7,Alert,drifting,true
+ESNEFT-P-056,esneft,esneft-shotley,2,4,18,94,68,106,36.9,Alert,drifting,true
+ESNEFT-P-056,esneft,esneft-shotley,3,8,20,93,74,102,37.1,Alert,drifting,true
+ESNEFT-P-056,esneft,esneft-shotley,4,12,22,92,80,98,37.3,New confusion (review),drifting,true
+ESNEFT-P-057,esneft,esneft-shotley,1,0,17,95,45,101,37.2,Alert,stable,true
+ESNEFT-P-057,esneft,esneft-shotley,2,4,17,95,45,101,37.2,Alert,stable,true
+ESNEFT-P-057,esneft,esneft-shotley,3,8,17,95,45,101,37.2,Alert,stable,true
+ESNEFT-P-057,esneft,esneft-shotley,4,12,17,95,45,101,37.2,Alert,stable,true
+ESNEFT-P-058,esneft,esneft-somersham,1,0,17,91,55,106,37.3,Alert,stable,true
+ESNEFT-P-058,esneft,esneft-somersham,2,4,17,91,55,106,37.3,Alert,stable,true
+ESNEFT-P-058,esneft,esneft-somersham,3,8,17,91,55,106,37.3,Alert,stable,true
+ESNEFT-P-058,esneft,esneft-somersham,4,12,17,91,55,106,37.3,Alert,stable,true
+ESNEFT-P-059,esneft,esneft-somersham,1,0,18,92,62,98,37,Alert,drifting,true
+ESNEFT-P-059,esneft,esneft-somersham,2,4,20,91,68,96,37.2,Alert,drifting,true
+ESNEFT-P-059,esneft,esneft-somersham,3,8,22,90,74,96,37.4,Alert,drifting,true
+ESNEFT-P-059,esneft,esneft-somersham,4,12,24,89,80,96,37.6,New confusion (review),drifting,true
+ESNEFT-P-060,esneft,esneft-somersham,1,0,15,99,79,118,37,Alert,stable,true
+ESNEFT-P-060,esneft,esneft-somersham,2,4,15,99,79,118,37,Alert,stable,true
+ESNEFT-P-060,esneft,esneft-somersham,3,8,15,99,79,118,37,Alert,stable,true
+ESNEFT-P-060,esneft,esneft-somersham,4,12,15,99,79,118,37,Alert,stable,true
+ESNEFT-P-061,esneft,esneft-stour,1,0,14,98,72,126,37.3,Alert,drifting,true
+ESNEFT-P-061,esneft,esneft-stour,2,4,16,97,78,122,37.5,Alert,drifting,true
+ESNEFT-P-061,esneft,esneft-stour,3,8,18,96,84,118,37.7,Alert,drifting,true
+ESNEFT-P-061,esneft,esneft-stour,4,12,20,95,90,114,37.9,New confusion (review),drifting,true
+ESNEFT-P-062,esneft,esneft-stour,1,0,18,98,66,112,36.8,Alert,stable,true
+ESNEFT-P-062,esneft,esneft-stour,2,4,18,98,66,112,36.8,Alert,stable,true
+ESNEFT-P-062,esneft,esneft-stour,3,8,18,98,66,112,36.8,Alert,stable,true
+ESNEFT-P-062,esneft,esneft-stour,4,12,18,98,66,112,36.8,Alert,stable,true
+ESNEFT-P-063,esneft,esneft-stour,1,0,17,98,82,120,37.1,Alert,stable,true
+ESNEFT-P-063,esneft,esneft-stour,2,4,17,98,82,120,37.1,Alert,stable,true
+ESNEFT-P-063,esneft,esneft-stour,3,8,17,98,82,120,37.1,Alert,stable,true
+ESNEFT-P-063,esneft,esneft-stour,4,12,17,98,82,120,37.1,Alert,stable,true
+ESNEFT-P-064,esneft,esneft-stowupland,1,0,14,95,83,132,36.6,Alert,drifting,true
+ESNEFT-P-064,esneft,esneft-stowupland,2,4,16,94,89,128,36.8,Alert,drifting,true
+ESNEFT-P-064,esneft,esneft-stowupland,3,8,18,93,95,124,37,Alert,drifting,true
+ESNEFT-P-064,esneft,esneft-stowupland,4,12,20,92,101,120,37.2,New confusion (review),drifting,true
+ESNEFT-P-065,esneft,esneft-stowupland,1,0,18,99,76,117,36.9,Alert,stable,true
+ESNEFT-P-065,esneft,esneft-stowupland,2,4,18,99,76,117,36.9,Alert,stable,true
+ESNEFT-P-065,esneft,esneft-stowupland,3,8,18,99,76,117,36.9,Alert,stable,true
+ESNEFT-P-065,esneft,esneft-stowupland,4,12,18,99,76,117,36.9,Alert,stable,true
+ESNEFT-P-066,esneft,esneft-stowupland,1,0,17,99,69,125,37.2,Alert,drifting,true
+ESNEFT-P-066,esneft,esneft-stowupland,2,4,19,98,75,121,37.4,Alert,drifting,true
+ESNEFT-P-066,esneft,esneft-stowupland,3,8,21,97,81,117,37.6,Alert,drifting,true
+ESNEFT-P-066,esneft,esneft-stowupland,4,12,23,96,87,113,37.8,New confusion (review),drifting,true
+ESNEFT-P-067,esneft,esneft-stradbroke,1,0,16,99,86,133,36.7,Alert,stable,true
+ESNEFT-P-067,esneft,esneft-stradbroke,2,4,16,99,86,133,36.7,Alert,stable,true
+ESNEFT-P-067,esneft,esneft-stradbroke,3,8,16,99,86,133,36.7,Alert,stable,true
+ESNEFT-P-067,esneft,esneft-stradbroke,4,12,16,99,86,133,36.7,Alert,stable,true
+ESNEFT-P-068,esneft,esneft-stradbroke,1,0,17,97,72,115,37,Alert,stable,true
+ESNEFT-P-068,esneft,esneft-stradbroke,2,4,17,97,72,115,37,Alert,stable,true
+ESNEFT-P-068,esneft,esneft-stradbroke,3,8,17,97,72,115,37,Alert,stable,true
+ESNEFT-P-068,esneft,esneft-stradbroke,4,12,17,97,72,115,37,Alert,stable,true
+ESNEFT-P-069,esneft,esneft-stradbroke,1,0,16,96,88,123,37.3,Alert,drifting,true
+ESNEFT-P-069,esneft,esneft-stradbroke,2,4,18,95,94,119,37.5,Alert,drifting,true
+ESNEFT-P-069,esneft,esneft-stradbroke,3,8,20,94,100,115,37.7,Alert,drifting,true
+ESNEFT-P-069,esneft,esneft-stradbroke,4,12,22,93,106,111,37.9,New confusion (review),drifting,true
+ESNEFT-P-070,esneft,esneft-waveney,1,0,16,95,62,110,37.1,Alert,stable,true
+ESNEFT-P-070,esneft,esneft-waveney,2,4,16,95,62,110,37.1,Alert,stable,true
+ESNEFT-P-070,esneft,esneft-waveney,3,8,16,95,62,110,37.1,Alert,stable,true
+ESNEFT-P-070,esneft,esneft-waveney,4,12,16,95,62,110,37.1,Alert,stable,true
+ESNEFT-P-071,esneft,esneft-waveney,1,0,17,95,46,102,36.8,Alert,drifting,true
+ESNEFT-P-071,esneft,esneft-waveney,2,4,19,94,52,98,37,Alert,drifting,true
+ESNEFT-P-071,esneft,esneft-waveney,3,8,21,93,58,96,37.2,Alert,drifting,true
+ESNEFT-P-071,esneft,esneft-waveney,4,12,23,92,64,96,37.4,New confusion (review),drifting,true
+ESNEFT-P-072,esneft,esneft-waveney,1,0,18,95,52,96,37.3,Alert,stable,true
+ESNEFT-P-072,esneft,esneft-waveney,2,4,18,95,52,96,37.3,Alert,stable,true
+ESNEFT-P-072,esneft,esneft-waveney,3,8,18,95,52,96,37.3,Alert,stable,true
+ESNEFT-P-072,esneft,esneft-waveney,4,12,18,95,52,96,37.3,Alert,stable,true
+ESNEFT-P-073,esneft,esneft-woodbridge,1,0,14,91,59,108,37,Alert,stable,true
+ESNEFT-P-073,esneft,esneft-woodbridge,2,4,14,91,59,108,37,Alert,stable,true
+ESNEFT-P-073,esneft,esneft-woodbridge,3,8,14,91,59,108,37,Alert,stable,true
+ESNEFT-P-073,esneft,esneft-woodbridge,4,12,14,91,59,108,37,Alert,stable,true
+ESNEFT-P-074,esneft,esneft-woodbridge,1,0,15,91,66,100,36.7,Alert,drifting,true
+ESNEFT-P-074,esneft,esneft-woodbridge,2,4,17,90,72,96,36.9,Alert,drifting,true
+ESNEFT-P-074,esneft,esneft-woodbridge,3,8,19,89,78,96,37.1,Alert,drifting,true
+ESNEFT-P-074,esneft,esneft-woodbridge,4,12,21,88,84,96,37.3,New confusion (review),drifting,true
+ESNEFT-P-075,esneft,esneft-woodbridge,1,0,16,91,49,96,37.2,Alert,stable,true
+ESNEFT-P-075,esneft,esneft-woodbridge,2,4,16,91,49,96,37.2,Alert,stable,true
+ESNEFT-P-075,esneft,esneft-woodbridge,3,8,16,91,49,96,37.2,Alert,stable,true
+ESNEFT-P-075,esneft,esneft-woodbridge,4,12,16,91,49,96,37.2,Alert,stable,true
+ESNEFT-P-076,esneft,esneft-critical-care,1,0,17,91,56,107,36.9,Alert,drifting,true
+ESNEFT-P-076,esneft,esneft-critical-care,2,4,19,90,62,103,37.1,Alert,drifting,true
+ESNEFT-P-076,esneft,esneft-critical-care,3,8,21,89,68,99,37.3,Alert,drifting,true
+ESNEFT-P-076,esneft,esneft-critical-care,4,12,23,88,74,96,37.5,New confusion (review),drifting,true
+ESNEFT-P-077,esneft,esneft-critical-care,1,0,18,92,63,99,36.6,Alert,stable,true
+ESNEFT-P-077,esneft,esneft-critical-care,2,4,18,92,63,99,36.6,Alert,stable,true
+ESNEFT-P-077,esneft,esneft-critical-care,3,8,18,92,63,99,36.6,Alert,stable,true
+ESNEFT-P-077,esneft,esneft-critical-care,4,12,18,92,63,99,36.6,Alert,stable,true
+QEH-P-001,qeh,qeh-windsor,1,0,16,91,65,100,37.2,Alert,drifting,true
+QEH-P-001,qeh,qeh-windsor,2,4,18,90,71,96,37.4,Alert,drifting,true
+QEH-P-001,qeh,qeh-windsor,3,8,20,89,77,96,37.6,Alert,drifting,true
+QEH-P-001,qeh,qeh-windsor,4,12,22,88,83,96,37.8,New confusion (review),drifting,true
+QEH-P-002,qeh,qeh-windsor,1,0,17,91,49,96,36.9,Alert,stable,true
+QEH-P-002,qeh,qeh-windsor,2,4,17,91,49,96,36.9,Alert,stable,true
+QEH-P-002,qeh,qeh-windsor,3,8,17,91,49,96,36.9,Alert,stable,true
+QEH-P-002,qeh,qeh-windsor,4,12,17,91,49,96,36.9,Alert,stable,true
+QEH-P-003,qeh,qeh-windsor,1,0,18,92,56,107,36.6,Alert,stable,true
+QEH-P-003,qeh,qeh-windsor,2,4,18,92,56,107,36.6,Alert,stable,true
+QEH-P-003,qeh,qeh-windsor,3,8,18,92,56,107,36.6,Alert,stable,true
+QEH-P-003,qeh,qeh-windsor,4,12,18,92,56,107,36.6,Alert,stable,true
+QEH-P-004,qeh,qeh-necton,1,0,16,95,55,96,37.1,Alert,drifting,true
+QEH-P-004,qeh,qeh-necton,2,4,18,94,61,96,37.3,Alert,drifting,true
+QEH-P-004,qeh,qeh-necton,3,8,20,93,67,96,37.5,Alert,drifting,true
+QEH-P-004,qeh,qeh-necton,4,12,22,92,73,96,37.7,New confusion (review),drifting,true
+QEH-P-005,qeh,qeh-necton,1,0,17,95,62,110,36.8,Alert,stable,true
+QEH-P-005,qeh,qeh-necton,2,4,17,95,62,110,36.8,Alert,stable,true
+QEH-P-005,qeh,qeh-necton,3,8,17,95,62,110,36.8,Alert,stable,true
+QEH-P-005,qeh,qeh-necton,4,12,17,95,62,110,36.8,Alert,stable,true
+QEH-P-006,qeh,qeh-necton,1,0,18,95,45,101,37.3,Alert,drifting,true
+QEH-P-006,qeh,qeh-necton,2,4,20,94,51,97,37.5,Alert,drifting,true
+QEH-P-006,qeh,qeh-necton,3,8,22,93,57,96,37.7,Alert,drifting,true
+QEH-P-006,qeh,qeh-necton,4,12,24,92,63,96,37.9,New confusion (review),drifting,true
+QEH-P-007,qeh,qeh-elm,1,0,14,91,52,96,37,Alert,stable,true
+QEH-P-007,qeh,qeh-elm,2,4,14,91,52,96,37,Alert,stable,true
+QEH-P-007,qeh,qeh-elm,3,8,14,91,52,96,37,Alert,stable,true
+QEH-P-007,qeh,qeh-elm,4,12,14,91,52,96,37,Alert,stable,true
+QEH-P-008,qeh,qeh-elm,1,0,17,94,52,105,36.7,Alert,stable,true
+QEH-P-008,qeh,qeh-elm,2,4,17,94,52,105,36.7,Alert,stable,true
+QEH-P-008,qeh,qeh-elm,3,8,17,94,52,105,36.7,Alert,stable,true
+QEH-P-008,qeh,qeh-elm,4,12,17,94,52,105,36.7,Alert,stable,true
+QEH-P-009,qeh,qeh-elm,1,0,18,94,58,96,37.2,Alert,drifting,true
+QEH-P-009,qeh,qeh-elm,2,4,20,93,64,96,37.4,Alert,drifting,true
+QEH-P-009,qeh,qeh-elm,3,8,22,92,70,96,37.6,Alert,drifting,true
+QEH-P-009,qeh,qeh-elm,4,12,24,91,76,96,37.8,New confusion (review),drifting,true
+QEH-P-010,qeh,qeh-tilney,1,0,16,94,66,112,36.6,Alert,stable,true
+QEH-P-010,qeh,qeh-tilney,2,4,16,94,66,112,36.6,Alert,stable,true
+QEH-P-010,qeh,qeh-tilney,3,8,16,94,66,112,36.6,Alert,stable,true
+QEH-P-010,qeh,qeh-tilney,4,12,16,94,66,112,36.6,Alert,stable,true
+QEH-P-011,qeh,qeh-tilney,1,0,15,93,59,97,36.9,Alert,drifting,true
+QEH-P-011,qeh,qeh-tilney,2,4,17,92,65,96,37.1,Alert,drifting,true
+QEH-P-011,qeh,qeh-tilney,3,8,19,91,71,96,37.3,Alert,drifting,true
+QEH-P-011,qeh,qeh-tilney,4,12,21,90,77,96,37.5,New confusion (review),drifting,true
+QEH-P-012,qeh,qeh-tilney,1,0,14,93,52,105,37.2,Alert,stable,true
+QEH-P-012,qeh,qeh-tilney,2,4,14,93,52,105,37.2,Alert,stable,true
+QEH-P-012,qeh,qeh-tilney,3,8,14,93,52,105,37.2,Alert,stable,true
+QEH-P-012,qeh,qeh-tilney,4,12,14,93,52,105,37.2,Alert,stable,true
+QEH-P-013,qeh,qeh-gayton,1,0,18,93,46,96,36.7,Alert,stable,true
+QEH-P-013,qeh,qeh-gayton,2,4,18,93,46,96,36.7,Alert,stable,true
+QEH-P-013,qeh,qeh-gayton,3,8,18,93,46,96,36.7,Alert,stable,true
+QEH-P-013,qeh,qeh-gayton,4,12,18,93,46,96,36.7,Alert,stable,true
+QEH-P-014,qeh,qeh-gayton,1,0,17,93,62,98,37,Alert,drifting,true
+QEH-P-014,qeh,qeh-gayton,2,4,19,92,68,96,37.2,Alert,drifting,true
+QEH-P-014,qeh,qeh-gayton,3,8,21,91,74,96,37.4,Alert,drifting,true
+QEH-P-014,qeh,qeh-gayton,4,12,23,90,80,96,37.6,New confusion (review),drifting,true
+QEH-P-015,qeh,qeh-gayton,1,0,16,92,55,106,37.3,Alert,stable,true
+QEH-P-015,qeh,qeh-gayton,2,4,16,92,55,106,37.3,Alert,stable,true
+QEH-P-015,qeh,qeh-gayton,3,8,16,92,55,106,37.3,Alert,stable,true
+QEH-P-015,qeh,qeh-gayton,4,12,16,92,55,106,37.3,Alert,stable,true
+QEH-P-016,qeh,qeh-west-newton,1,0,15,92,49,96,36.8,Alert,drifting,true
+QEH-P-016,qeh,qeh-west-newton,2,4,17,91,55,96,37,Alert,drifting,true
+QEH-P-016,qeh,qeh-west-newton,3,8,19,90,61,96,37.2,Alert,drifting,true
+QEH-P-016,qeh,qeh-west-newton,4,12,21,89,67,96,37.4,New confusion (review),drifting,true
+QEH-P-017,qeh,qeh-west-newton,1,0,14,92,65,100,37.1,Alert,stable,true
+QEH-P-017,qeh,qeh-west-newton,2,4,14,92,65,100,37.1,Alert,stable,true
+QEH-P-017,qeh,qeh-west-newton,3,8,14,92,65,100,37.1,Alert,stable,true
+QEH-P-017,qeh,qeh-west-newton,4,12,14,92,65,100,37.1,Alert,stable,true
+QEH-P-018,qeh,qeh-west-newton,1,0,18,92,59,108,36.6,Alert,stable,true
+QEH-P-018,qeh,qeh-west-newton,2,4,18,92,59,108,36.6,Alert,stable,true
+QEH-P-018,qeh,qeh-west-newton,3,8,18,92,59,108,36.6,Alert,stable,true
+QEH-P-018,qeh,qeh-west-newton,4,12,18,92,59,108,36.6,Alert,stable,true
+QEH-P-019,qeh,qeh-denver,1,0,17,91,52,96,36.9,Alert,drifting,true
+QEH-P-019,qeh,qeh-denver,2,4,19,90,58,96,37.1,Alert,drifting,true
+QEH-P-019,qeh,qeh-denver,3,8,21,89,64,96,37.3,Alert,drifting,true
+QEH-P-019,qeh,qeh-denver,4,12,23,88,70,96,37.5,New confusion (review),drifting,true
+QEH-P-020,qeh,qeh-denver,1,0,18,95,45,101,36.9,Alert,stable,true
+QEH-P-020,qeh,qeh-denver,2,4,18,95,45,101,36.9,Alert,stable,true
+QEH-P-020,qeh,qeh-denver,3,8,18,95,45,101,36.9,Alert,stable,true
+QEH-P-020,qeh,qeh-denver,4,12,18,95,45,101,36.9,Alert,stable,true
+QEH-P-021,qeh,qeh-denver,1,0,14,91,52,96,36.6,Alert,drifting,true
+QEH-P-021,qeh,qeh-denver,2,4,16,90,58,96,36.8,Alert,drifting,true
+QEH-P-021,qeh,qeh-denver,3,8,18,89,64,96,37,Alert,drifting,true
+QEH-P-021,qeh,qeh-denver,4,12,20,88,70,96,37.2,New confusion (review),drifting,true
+QEH-P-022,qeh,qeh-stanhoe,1,0,16,95,55,96,36.7,Alert,stable,true
+QEH-P-022,qeh,qeh-stanhoe,2,4,16,95,55,96,36.7,Alert,stable,true
+QEH-P-022,qeh,qeh-stanhoe,3,8,16,95,55,96,36.7,Alert,stable,true
+QEH-P-022,qeh,qeh-stanhoe,4,12,16,95,55,96,36.7,Alert,stable,true
+QEH-P-023,qeh,qeh-stanhoe,1,0,17,95,61,109,37.2,Alert,stable,true
+QEH-P-023,qeh,qeh-stanhoe,2,4,17,95,61,109,37.2,Alert,stable,true
+QEH-P-023,qeh,qeh-stanhoe,3,8,17,95,61,109,37.2,Alert,stable,true
+QEH-P-023,qeh,qeh-stanhoe,4,12,17,95,61,109,37.2,Alert,stable,true
+QEH-P-024,qeh,qeh-stanhoe,1,0,14,94,64,111,37.3,Alert,drifting,true
+QEH-P-024,qeh,qeh-stanhoe,2,4,16,93,70,107,37.5,Alert,drifting,true
+QEH-P-024,qeh,qeh-stanhoe,3,8,18,92,76,103,37.7,Alert,drifting,true
+QEH-P-024,qeh,qeh-stanhoe,4,12,20,91,82,99,37.9,New confusion (review),drifting,true
+QEH-P-025,qeh,qeh-pentney,1,0,15,95,48,103,37,Alert,stable,true
+QEH-P-025,qeh,qeh-pentney,2,4,15,95,48,103,37,Alert,stable,true
+QEH-P-025,qeh,qeh-pentney,3,8,15,95,48,103,37,Alert,stable,true
+QEH-P-025,qeh,qeh-pentney,4,12,15,95,48,103,37,Alert,stable,true
+QEH-P-026,qeh,qeh-pentney,1,0,17,94,51,104,37.1,Alert,drifting,true
+QEH-P-026,qeh,qeh-pentney,2,4,19,93,57,100,37.3,Alert,drifting,true
+QEH-P-026,qeh,qeh-pentney,3,8,21,92,63,96,37.5,Alert,drifting,true
+QEH-P-026,qeh,qeh-pentney,4,12,23,91,69,96,37.7,New confusion (review),drifting,true
+QEH-P-027,qeh,qeh-pentney,1,0,18,94,58,96,36.8,Alert,stable,true
+QEH-P-027,qeh,qeh-pentney,2,4,18,94,58,96,36.8,Alert,stable,true
+QEH-P-027,qeh,qeh-pentney,3,8,18,94,58,96,36.8,Alert,stable,true
+QEH-P-027,qeh,qeh-pentney,4,12,18,94,58,96,36.8,Alert,stable,true
+QEH-P-028,qeh,qeh-oxborough,1,0,16,92,52,105,36.9,Alert,stable,true
+QEH-P-028,qeh,qeh-oxborough,2,4,16,92,52,105,36.9,Alert,stable,true
+QEH-P-028,qeh,qeh-oxborough,3,8,16,92,52,105,36.9,Alert,stable,true
+QEH-P-028,qeh,qeh-oxborough,4,12,16,92,52,105,36.9,Alert,stable,true
+QEH-P-029,qeh,qeh-oxborough,1,0,17,93,59,97,36.6,Alert,drifting,true
+QEH-P-029,qeh,qeh-oxborough,2,4,19,92,65,96,36.8,Alert,drifting,true
+QEH-P-029,qeh,qeh-oxborough,3,8,21,91,71,96,37,Alert,drifting,true
+QEH-P-029,qeh,qeh-oxborough,4,12,23,90,77,96,37.2,New confusion (review),drifting,true
+QEH-P-030,qeh,qeh-oxborough,1,0,14,93,52,105,36.8,Alert,stable,true
+QEH-P-030,qeh,qeh-oxborough,2,4,14,93,52,105,36.8,Alert,stable,true
+QEH-P-030,qeh,qeh-oxborough,3,8,14,93,52,105,36.8,Alert,stable,true
+QEH-P-030,qeh,qeh-oxborough,4,12,14,93,52,105,36.8,Alert,stable,true
+QEH-P-031,qeh,qeh-feltwell,1,0,18,93,45,96,37.1,Alert,drifting,true
+QEH-P-031,qeh,qeh-feltwell,2,4,20,92,51,96,37.3,Alert,drifting,true
+QEH-P-031,qeh,qeh-feltwell,3,8,22,91,57,96,37.5,Alert,drifting,true
+QEH-P-031,qeh,qeh-feltwell,4,12,24,90,63,96,37.7,New confusion (review),drifting,true
+QEH-P-032,qeh,qeh-feltwell,1,0,16,94,65,111,37,Alert,stable,true
+QEH-P-032,qeh,qeh-feltwell,2,4,16,94,65,111,37,Alert,stable,true
+QEH-P-032,qeh,qeh-feltwell,3,8,16,94,65,111,37,Alert,stable,true
+QEH-P-032,qeh,qeh-feltwell,4,12,16,94,65,111,37,Alert,stable,true
+QEH-P-033,qeh,qeh-feltwell,1,0,15,93,58,96,37.3,Alert,stable,true
+QEH-P-033,qeh,qeh-feltwell,2,4,15,93,58,96,37.3,Alert,stable,true
+QEH-P-033,qeh,qeh-feltwell,3,8,15,93,58,96,37.3,Alert,stable,true
+QEH-P-033,qeh,qeh-feltwell,4,12,15,93,58,96,37.3,Alert,stable,true
+QEH-P-034,qeh,qeh-rudham,1,0,18,94,55,96,37.2,Alert,drifting,true
+QEH-P-034,qeh,qeh-rudham,2,4,20,93,61,96,37.4,Alert,drifting,true
+QEH-P-034,qeh,qeh-rudham,3,8,22,92,67,96,37.6,Alert,drifting,true
+QEH-P-034,qeh,qeh-rudham,4,12,24,91,73,96,37.8,New confusion (review),drifting,true
+QEH-P-035,qeh,qeh-rudham,1,0,17,94,49,103,36.7,Alert,stable,true
+QEH-P-035,qeh,qeh-rudham,2,4,17,94,49,103,36.7,Alert,stable,true
+QEH-P-035,qeh,qeh-rudham,3,8,17,94,49,103,36.7,Alert,stable,true
+QEH-P-035,qeh,qeh-rudham,4,12,17,94,49,103,36.7,Alert,stable,true
+QEH-P-036,qeh,qeh-rudham,1,0,15,95,46,102,36.6,Alert,drifting,true
+QEH-P-036,qeh,qeh-rudham,2,4,17,94,52,98,36.8,Alert,drifting,true
+QEH-P-036,qeh,qeh-rudham,3,8,19,93,58,96,37,Alert,drifting,true
+QEH-P-036,qeh,qeh-rudham,4,12,21,92,64,96,37.2,New confusion (review),drifting,true
+QEH-P-037,qeh,qeh-wolferton,1,0,14,94,62,110,36.9,Alert,stable,true
+QEH-P-037,qeh,qeh-wolferton,2,4,14,94,62,110,36.9,Alert,stable,true
+QEH-P-037,qeh,qeh-wolferton,3,8,14,94,62,110,36.9,Alert,stable,true
+QEH-P-037,qeh,qeh-wolferton,4,12,14,94,62,110,36.9,Alert,stable,true
+QEH-P-038,qeh,qeh-wolferton,1,0,16,91,45,101,36.8,Alert,stable,true
+QEH-P-038,qeh,qeh-wolferton,2,4,16,91,45,101,36.8,Alert,stable,true
+QEH-P-038,qeh,qeh-wolferton,3,8,16,91,45,101,36.8,Alert,stable,true
+QEH-P-038,qeh,qeh-wolferton,4,12,16,91,45,101,36.8,Alert,stable,true
+QEH-P-039,qeh,qeh-wolferton,1,0,15,91,61,109,37.1,Alert,drifting,true
+QEH-P-039,qeh,qeh-wolferton,2,4,17,90,67,105,37.3,Alert,drifting,true
+QEH-P-039,qeh,qeh-wolferton,3,8,19,89,73,101,37.5,Alert,drifting,true
+QEH-P-039,qeh,qeh-wolferton,4,12,21,88,79,97,37.7,New confusion (review),drifting,true
+QEH-P-040,qeh,qeh-amu,1,0,17,98,80,130,37.1,Alert,stable,true
+QEH-P-040,qeh,qeh-amu,2,4,17,98,80,130,37.1,Alert,stable,true
+QEH-P-040,qeh,qeh-amu,3,8,17,98,80,130,37.1,Alert,stable,true
+QEH-P-040,qeh,qeh-amu,4,12,17,98,80,130,37.1,Alert,stable,true
+QEH-P-041,qeh,qeh-amu,1,0,18,98,87,122,36.8,Alert,drifting,true
+QEH-P-041,qeh,qeh-amu,2,4,20,97,93,118,37,Alert,drifting,true
+QEH-P-041,qeh,qeh-amu,3,8,22,96,99,114,37.2,Alert,drifting,true
+QEH-P-041,qeh,qeh-amu,4,12,24,95,105,110,37.4,New confusion (review),drifting,true
+QEH-P-042,qeh,qeh-amu,1,0,14,98,70,114,37.3,Alert,stable,true
+QEH-P-042,qeh,qeh-amu,2,4,14,98,70,114,37.3,Alert,stable,true
+QEH-P-042,qeh,qeh-amu,3,8,14,98,70,114,37.3,Alert,stable,true
+QEH-P-042,qeh,qeh-amu,4,12,14,98,70,114,37.3,Alert,stable,true
+QEH-P-043,qeh,qeh-icu,1,0,15,99,77,129,37,Alert,stable,true
+QEH-P-043,qeh,qeh-icu,2,4,15,99,77,129,37,Alert,stable,true
+QEH-P-043,qeh,qeh-icu,3,8,15,99,77,129,37,Alert,stable,true
+QEH-P-043,qeh,qeh-icu,4,12,15,99,77,129,37,Alert,stable,true
+QEH-P-044,qeh,qeh-icu,1,0,16,99,84,121,36.7,Alert,drifting,true
+QEH-P-044,qeh,qeh-icu,2,4,18,98,90,117,36.9,Alert,drifting,true
+QEH-P-044,qeh,qeh-icu,3,8,20,97,96,113,37.1,Alert,drifting,true
+QEH-P-044,qeh,qeh-icu,4,12,22,96,102,109,37.3,New confusion (review),drifting,true

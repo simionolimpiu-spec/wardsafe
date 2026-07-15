@@ -2,6 +2,6 @@ id,name,shortName,region,role,wardSource,simulationOnly
 jpuh,James Paget University Hospital,James Paget,Norfolk / Waveney,district general hospital,exact,true
 nnuh,Norfolk and Norwich University Hospital,Norfolk & Norwich,Norfolk,tertiary teaching hospital,sourced,true
 cuh,Addenbrooke's Hospital (Cambridge University Hospitals),Addenbrooke's,Cambridgeshire,tertiary / major trauma / neurosciences / transplant,sourced,true
-wsh,West Suffolk Hospital,West Suffolk,West Suffolk (Bury St Edmunds),district general hospital,representative,true
-esneft,Ipswich Hospital (East Suffolk & North Essex),ESNEFT — Ipswich,East Suffolk,district general hospital,representative,true
-qeh,Queen Elizabeth Hospital King's Lynn,QEH King's Lynn,West Norfolk,district general hospital,representative,true
+wsh,West Suffolk Hospital,West Suffolk,West Suffolk (Bury St Edmunds),district general hospital,sourced,true
+esneft,Ipswich Hospital (East Suffolk & North Essex),ESNEFT — Ipswich,East Suffolk,district general hospital,sourced,true
+qeh,Queen Elizabeth Hospital King's Lynn,QEH King's Lynn,West Norfolk,district general hospital,sourced,true
