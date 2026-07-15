@@ -22,6 +22,11 @@ describe('TrustNetworkView', () => {
     expect(screen.getAllByText(/Relocation|Away from home|Specialist transfer/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Returns to James Paget|Care continues at new trust|Returns home/i).length).toBeGreaterThan(0);
 
+    // per-journey fictional patient observation timeline renders
+    expect(screen.getAllByText(/observations \((stable|drifting)\)/i).length).toBeGreaterThan(0);
+    expect(region.textContent).toMatch(/RR \d+/);
+    expect(region.textContent).toMatch(/SpO/);
+
     expect(region.textContent).not.toMatch(/diagnos|prescrib|automated escalation|staff scoring|league table/i);
   });
 });

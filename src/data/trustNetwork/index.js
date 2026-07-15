@@ -10,6 +10,7 @@
 // data-sharing system (that is the regulated Shared Care Record / DPIA space).
 
 import { TRUSTS, WARDS_BY_TRUST, ALL_WARDS } from './trusts.js';
+import { buildPatientTimeline, buildAllPatientTimelines } from './patientTimelines.js';
 
 const CLINICAL_USE = 'not for live clinical deployment';
 const SOURCE = 'England trust network simulation fixture';
@@ -152,6 +153,7 @@ function buildJourneys() {
     const trustsInvolved = [...new Set(segments.map((s) => s.trustId))];
     return Object.freeze({
       id: def.id, journeyType: def.journeyType, homeTrustId: def.homeTrustId, homeTrustName: trustShort(def.homeTrustId),
+      subjectPatientId: `${def.homeTrustId.toUpperCase()}-P-001`,
       title: def.title, summary: def.summary, outcome: def.outcome,
       trustsInvolved, interTrust: trustsInvolved.length > 1, segments,
       learningRecord: Object.freeze({
@@ -168,6 +170,8 @@ function buildJourneys() {
 
 const patients = buildPatients();
 const journeys = buildJourneys();
+const patientTimelines = buildAllPatientTimelines(patients);
+const timelineByPatient = new Map(patientTimelines.map((t) => [t.patientId, t]));
 
 export const trustNetwork = Object.freeze({
   label: 'SafeFlow England trust network (simulation)',
@@ -186,6 +190,10 @@ export function getPortableJourneys() {
 }
 export function getLearningRecords() {
   return journeys.map((j) => ({ journeyId: j.id, title: j.title, ...j.learningRecord }));
+}
+export function getPatientTimelines() { return patientTimelines; }
+export function getPatientTimeline(patientId) {
+  return timelineByPatient.get(patientId) ?? (patients.find((p) => p.id === patientId) ? buildPatientTimeline(patients.find((p) => p.id === patientId)) : null);
 }
 
 export function buildTrustNetworkExport(network = trustNetwork) {
@@ -221,6 +229,12 @@ export function buildTrustNetworkExport(network = trustNetwork) {
     trusts: network.trusts, wards: network.wards, patients: network.patients, journeys: network.journeys,
     journeySegments: Object.freeze(journeySegments),
     learningRecords: Object.freeze(getLearningRecords()),
+    patientTimelines,
+    observations: Object.freeze(
+      patientTimelines.flatMap((t) => t.points.map((pt) => Object.freeze({
+        patientId: t.patientId, trustId: t.trustId, wardId: t.wardId, trend: t.trend, ...pt
+      })))
+    ),
     counts: Object.freeze({
       trusts: network.trusts.length,
       wards: network.wards.length,
@@ -230,7 +244,10 @@ export function buildTrustNetworkExport(network = trustNetwork) {
       interTrustJourneys: network.journeys.filter((j) => j.interTrust).length,
       portableJourneys: getPortableJourneys().length,
       journeySegments: journeySegments.length,
-      learningRecords: network.journeys.length
+      learningRecords: network.journeys.length,
+      patientTimelines: patientTimelines.length,
+      observations: patientTimelines.reduce((n, t) => n + t.points.length, 0),
+      driftingTimelines: patientTimelines.filter((t) => t.trend === 'drifting').length
     }),
     integrity: Object.freeze({ ok: violations.length === 0, violations: Object.freeze(violations) })
   });

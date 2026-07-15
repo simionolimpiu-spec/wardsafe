@@ -140,3 +140,46 @@
   font-size: 0.82rem;
   margin-bottom: 3px;
 }
+
+.trust-network-timeline {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f2f6fa;
+  border: 1px solid #dbe6ef;
+}
+
+.trust-network-timeline > strong {
+  font-size: 0.8rem;
+  color: #1d3b53;
+}
+
+.trust-network-obs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+}
+
+.trust-network-obs {
+  font-size: 0.74rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #dbe6ef;
+  color: #24323c;
+  white-space: nowrap;
+}
+
+.trust-network-obs em {
+  display: block;
+  font-style: normal;
+  font-weight: 700;
+  color: #4a5b66;
+  font-size: 0.68rem;
+}
+
+.trust-network-timeline > small {
+  color: var(--text-muted, #4a5b66);
+  font-size: 0.78rem;
+}

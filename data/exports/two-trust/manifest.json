@@ -17,7 +17,10 @@
     "interTrustJourneys": 5,
     "portableJourneys": 4,
     "journeySegments": 22,
-    "learningRecords": 5
+    "learningRecords": 5,
+    "patientTimelines": 209,
+    "observations": 836,
+    "driftingTimelines": 83
   },
   "integrity": {
     "ok": true,
@@ -29,6 +32,7 @@
     "patients",
     "journeys",
     "journey_segments",
-    "learning_records"
+    "learning_records",
+    "observations"
   ]
 }
