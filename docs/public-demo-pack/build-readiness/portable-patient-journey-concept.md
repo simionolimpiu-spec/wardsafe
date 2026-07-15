@@ -45,6 +45,14 @@ So: **the live cross-trust record stays FUTURE DISCOVERY**, gated behind the inf
 - What DPIA and data-sharing agreements are required, and who signs them?
 - How is the "learning copy back to the originating trust" de-identified / governed for teaching use?
 
+## Alignment, not replacement (Shared Care Record / GP Connect)
+
+A live version must **align with and read from** existing NHS interoperability, never become a competing source of truth:
+
+- **Shared Care Records (ShCR)** and **GP Connect** already federate a patient's record across organisations — the portable journey would surface/annotate that, not duplicate it.
+- SafeFlow's contribution is the **review-support + teaching layer** on top: the explainable review cues, the continuing-plan view, and the **learning copy back to the originating trust** — the part that is genuinely new and that the ShCR does not itself provide.
+- The de-identified **learning/teaching copy** is a distinct governance case from the live care record and would be handled separately (aggregate/teaching use, not identifiable care data).
+
 ## Status
 
 Concept + simulation delivered (trust network + portable journeys + learning copies). The live cross-trust record remains future discovery, contingent on the IG work above. No real patient data is used at any point.

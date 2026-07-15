@@ -2,8 +2,28 @@ import {
   trustNetwork,
   getWardsForTrust,
   getPatientsForWard,
-  getInterTrustJourneys
+  getInterTrustJourneys,
+  getPatientTimeline
 } from '../data/trustNetwork/index.js';
+
+function JourneyPatientTimeline({ patientId }) {
+  const timeline = getPatientTimeline(patientId);
+  if (!timeline) return null;
+  return (
+    <div className="trust-network-timeline" aria-label={`Fictional observation timeline for ${patientId}`}>
+      <strong>Fictional patient {patientId} · observations ({timeline.trend})</strong>
+      <div className="trust-network-obs-row">
+        {timeline.points.map((pt) => (
+          <span className="trust-network-obs" key={pt.order} title={`+${pt.offsetHours}h`}>
+            <em>+{pt.offsetHours}h</em>
+            RR {pt.respRate} · SpO₂ {pt.spo2}% · HR {pt.heartRate} · {pt.tempC}°C
+          </span>
+        ))}
+      </div>
+      <small>{timeline.trendNote}</small>
+    </div>
+  );
+}
 
 const OUTCOME_LABELS = {
   'returned-to-james-paget': 'Returns to James Paget',
@@ -68,6 +88,7 @@ export function TrustNetworkView() {
               </span>
             </header>
             <p className="trust-network-summary">{journey.summary}</p>
+            <JourneyPatientTimeline patientId={journey.subjectPatientId} />
             <ol className="trust-network-segments">
               {journey.segments.map((segment) => (
                 <li className="trust-network-segment" key={`${journey.id}-${segment.order}`}>

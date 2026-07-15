@@ -44,6 +44,11 @@ export const EXPORT_TABLES = [
     name: 'learning_records',
     headers: ['journeyId', 'returnedToTrustId', 'purpose', 'summary', 'teachingPoints'],
     rows: (m) => m.learningRecords.map((r) => ({ journeyId: r.journeyId, returnedToTrustId: r.returnedToTrustId, purpose: r.purpose, summary: r.summary, teachingPoints: r.teachingPoints.join('|') }))
+  },
+  {
+    name: 'observations',
+    headers: ['patientId', 'trustId', 'wardId', 'order', 'offsetHours', 'respRate', 'spo2', 'heartRate', 'systolicBp', 'tempC', 'consciousness', 'trend', 'simulationOnly'],
+    rows: (m) => m.observations.map((o) => ({ patientId: o.patientId, trustId: o.trustId, wardId: o.wardId, order: o.order, offsetHours: o.offsetHours, respRate: o.respRate, spo2: o.spo2, heartRate: o.heartRate, systolicBp: o.systolicBp, tempC: o.tempC, consciousness: o.consciousness, trend: o.trend, simulationOnly: o.simulationOnly }))
   }
 ];
 
