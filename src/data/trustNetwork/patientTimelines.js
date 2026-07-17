@@ -7,7 +7,7 @@ const OBS_POINTS = 4; // sequential fictional observation sets per patient
 const CONSCIOUSNESS = ['Alert', 'Alert', 'Alert', 'New confusion (review)'];
 
 // Small deterministic hash so the same patient always gets the same timeline.
-function hashSeed(text) {
+export function hashSeed(text) {
   let h = 2166136261;
   for (let i = 0; i < text.length; i += 1) {
     h ^= text.charCodeAt(i);
