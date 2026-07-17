@@ -204,6 +204,8 @@ describe('PatientSafetyPanel', () => {
     const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
 
     expect(within(reviewCues).getByText(/no signal snapshot available yet/i)).toBeInTheDocument();
+    expect(within(panel).getByRole('button', { name: 'Review SBAR' })).toBeInTheDocument();
+    expect(within(panel).getByRole('button', { name: 'Call team' })).toBeInTheDocument();
     expect(reviewCues.textContent).not.toMatch(/diagnos|prescrib|administer|AI decided|automatically treat|autonomous decision|replace potassium|potassium replacement/i);
   });
 

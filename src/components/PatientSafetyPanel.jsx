@@ -1,4 +1,4 @@
-import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { PotassiumSafetyGapView } from './PotassiumSafetyGapView.jsx';
 
@@ -74,6 +74,11 @@ export function PatientSafetyPanel({
         <span className={`risk risk-${patient.risk.toLowerCase()}`}>{patient.risk} risk</span>
       </div>
 
+      <div aria-label="Patient review alert" className="panel-alert-strip" role="note">
+        <AlertTriangle aria-hidden="true" size={17} />
+        <span>{patient.escalation === 'Active' ? 'Active simulation review cue. Human review required.' : 'Simulation review status. Human review required.'}</span>
+      </div>
+
       <div className="panel-tabs" aria-label="Patient detail tabs" role="tablist">
         {tabs.map(({ id, label }, index) => (
           <button
@@ -116,17 +121,6 @@ export function PatientSafetyPanel({
                 {patient.allergies.length > 0 && <p>Allergy: {patient.allergies.join(', ')}</p>}
                 {flag.level !== 'none' && <p>{flag.title}</p>}
                 <p>{patient.escalation === 'Active' ? 'Escalation active - medical team informed' : 'No active escalation'}</p>
-                {patient.escalation === 'Active' && (
-                  <button
-                    aria-haspopup="dialog"
-                    className="call-button"
-                    onClick={() => onRequestContact(patient)}
-                    type="button"
-                  >
-                    <Phone aria-hidden="true" size={16} />
-                    Call team
-                  </button>
-                )}
               </div>
               {canShowSafetyGapDetail && (
                 <PotassiumSafetyGapView
@@ -183,6 +177,19 @@ export function PatientSafetyPanel({
             </section>
           )}
         </div>
+      </div>
+
+      <div className="panel-footer-actions">
+        <button className="primary-action" onClick={() => setActiveTab('sbar')} type="button">Review SBAR</button>
+        <button
+          aria-haspopup={patient.escalation === 'Active' ? 'dialog' : undefined}
+          className="danger-action"
+          disabled={patient.escalation !== 'Active'}
+          onClick={() => onRequestContact(patient)}
+          type="button"
+        >
+          <Phone aria-hidden="true" size={16} /> Call team
+        </button>
       </div>
 
       <div className="integration-card integration-card--muted">

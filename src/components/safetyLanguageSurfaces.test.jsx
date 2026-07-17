@@ -178,6 +178,8 @@ describe('safety language surface scans', () => {
     const view = screen.getByRole('region', { name: /ward safety board/i });
 
     expect(within(view).getByRole('table', { name: /ward patient list/i })).toBeInTheDocument();
+    expect(within(view).getByRole('columnheader', { name: 'Fictional label' })).toBeInTheDocument();
+    expect(within(view).getByRole('columnheader', { name: 'Escalation status' })).toBeInTheDocument();
     expect(within(view).getByRole('button', { name: /export ward board csv/i })).toBeInTheDocument();
 
     const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {

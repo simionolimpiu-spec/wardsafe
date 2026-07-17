@@ -32,14 +32,14 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
           <thead>
             <tr>
               <th>Patient ID</th>
-              <th>Name</th>
-              <th>Risk flags</th>
+              <th>Fictional label</th>
+              <th>Risk</th>
               <th>NEWS2</th>
-              <th>Responsible nurse</th>
+              <th>Responsible fictional nurse</th>
               <th>Next action</th>
-              <th>Escalation</th>
-              <th>Handover</th>
-              <th>Discharge</th>
+              <th>Escalation status</th>
+              <th>Handover %</th>
+              <th>Discharge-ready</th>
             </tr>
           </thead>
           <tbody>
@@ -58,9 +58,10 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
                 <td>{patient.name}</td>
                 <td>{patient.name}</td>
                 <td>
+                  <span className={`risk risk-${patient.risk.toLowerCase()}`}>{patient.risk}</span>
                   <div className="flag-stack">
                     {(patient.riskFlags?.length ? patient.riskFlags : [patient.risk]).map((flag) => (
-                      <span className={`risk risk-${patient.risk.toLowerCase()}`} key={flag}>{flag}</span>
+                      <small key={flag}>{flag}</small>
                     ))}
                   </div>
                 </td>
