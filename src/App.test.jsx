@@ -48,17 +48,16 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('button', { name: /presentation mode/i })).toBeInTheDocument();
   });
 
-  it('renders a demo scenario selector in the main header', () => {
+  it('renders a ward context selector in the main header', () => {
     render(<App />);
 
-    const selector = screen.getByRole('combobox', { name: /demo scenario/i });
+    const selector = screen.getByRole('combobox', { name: 'Ward' });
     expect(selector).toBeInTheDocument();
-    expect(selector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
-    expect(within(selector).getByRole('option', { name: /day care treatment pathway review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /surgical post-op deterioration review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /paediatric sepsis-screen review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /community frailty falls-risk review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /community medication-timing review/i })).toBeInTheDocument();
+    expect(selector).toHaveAccessibleDescription(/fictional patient data only/i);
+    expect(within(selector).getByRole('option', { name: 'Day Care' })).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: 'Surgical' })).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: 'Paediatric' })).toBeInTheDocument();
+    expect(within(selector).getByRole('option', { name: 'Community Frailty' })).toBeInTheDocument();
   });
 
   it('enables and disables presentation mode with simulation-only flow cues', async () => {
@@ -351,10 +350,10 @@ describe('SafeFlow prototype', () => {
     vi.stubGlobal('fetch', fetch);
     render(<App />);
 
-    await user.selectOptions(screen.getByRole('combobox', { name: /demo scenario/i }), 'amu-discharge-readiness-review');
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Ward' }), 'acute-medical');
 
     expect(await screen.findByRole('heading', { name: 'DCU-044' })).toBeInTheDocument();
-    expect(screen.getByText(/Acute Medical Unit/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Acute Medical Unit/i).length).toBeGreaterThan(0);
 
     await user.click(screen.getByRole('button', { name: /review report/i }));
 

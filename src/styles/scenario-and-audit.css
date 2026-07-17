@@ -6,6 +6,13 @@
   padding: var(--space-6);
 }
 
+.app-shell-redesign .scenario-library-view,
+.app-shell-redesign .audit-learning-view {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
 .section-heading {
   align-items: flex-start;
   display: flex;

@@ -163,3 +163,28 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 1180px) {
+  .redesign-topbar { grid-template-columns: 1fr auto; }
+  .topbar-context { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
+  .app-shell-redesign .topbar-actions { grid-column: 2; grid-row: 1; }
+  .board-summary-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .app-shell-redesign .workspace-content { padding: 16px; }
+  .redesign-topbar { display: flex; flex-wrap: wrap; padding: 14px 16px; }
+  .shell-brand { flex: 1 1 220px; }
+  .app-shell-redesign .topbar-actions { flex: 1 1 100%; justify-content: flex-start; }
+  .topbar-context { flex: 1 1 100%; justify-content: flex-start; }
+  .ward-context-selector { flex: 1 1 180px; }
+  .date-stepper { flex: 0 1 auto; }
+  .board-summary-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-shell-redesign .patient-panel { position: static; }
+}
+
+@media (max-width: 520px) {
+  .board-summary-cards { grid-template-columns: 1fr; }
+  .user-chip small { display: none; }
+  .date-stepper time { font-size: var(--text-xs); }
+}

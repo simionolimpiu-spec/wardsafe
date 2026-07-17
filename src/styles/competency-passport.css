@@ -3,6 +3,13 @@
   gap: var(--space-6);
 }
 
+.app-shell-redesign .competency-passport-view,
+.app-shell-redesign .passport-card {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
 .competency-passport-copy,
 .passport-form-note,
 .passport-coverage-summary,

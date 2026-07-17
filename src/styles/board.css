@@ -233,3 +233,25 @@
   background: var(--color-warning-bg);
   color: var(--color-warning);
 }
+
+/* O18 board surfaces */
+.app-shell-redesign .ward-board,
+.app-shell-redesign .patient-panel,
+.app-shell-redesign .operational-view {
+  background: var(--sf-grey-0);
+  border: 1px solid var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
+.board-summary-cards { display: grid; gap: 12px; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 20px 0 24px; }
+.summary-card { align-items: center; background: var(--sf-grey-0); border: 1px solid var(--sf-grey-200); border-radius: var(--sf-radius-md); display: flex; gap: 10px; min-height: 88px; padding: 14px; }
+.summary-card-icon { align-items: center; background: var(--sf-blue-soft); border-radius: 10px; color: var(--sf-blue); display: inline-flex; flex: 0 0 auto; height: 38px; justify-content: center; width: 38px; }
+.summary-card-danger { border-left: 4px solid var(--sf-red); }
+.summary-card-danger .summary-card-icon { background: var(--sf-red-soft); color: var(--sf-red); }
+.summary-card-warning { border-left: 4px solid var(--sf-amber); }
+.summary-card-warning .summary-card-icon { background: var(--sf-amber-soft); color: var(--sf-amber); }
+.summary-card-success { border-left: 4px solid var(--sf-green); }
+.summary-card-success .summary-card-icon { background: var(--sf-green-soft); color: var(--sf-green); }
+.summary-card span { color: var(--sf-grey-500); display: block; font-size: var(--text-xs); font-weight: 800; line-height: 1.25; }
+.summary-card strong { color: var(--sf-blue-ink); display: block; font-size: var(--text-2xl); line-height: 1.1; margin-top: 4px; }

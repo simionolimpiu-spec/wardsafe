@@ -4,6 +4,12 @@
   font-size: 0.9rem;
 }
 
+.app-shell-redesign .trust-network-view {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
 .trust-network-journeys {
   display: grid;
   gap: 16px;

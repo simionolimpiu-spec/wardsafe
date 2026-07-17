@@ -12,6 +12,13 @@
   transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
+.app-shell-redesign .operational-view,
+.app-shell-redesign .simulation-dialog {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
 .secondary-action:hover {
   background: #fff;
   border-color: rgba(0, 94, 184, 0.28);
