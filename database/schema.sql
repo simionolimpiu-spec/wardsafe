@@ -233,6 +233,44 @@ create table if not exists hazard_log_entries (
   updated_at timestamptz not null default now()
 );
 
+-- Longitudinal journey tables (day-indexed).
+-- NOTE ON IDENTIFIER NAMESPACE: patient_id here is a fictional trust-network
+-- patient identifier (e.g. 'JPUH-P-001', see src/data/trustNetwork), which is
+-- a SEPARATE simulation universe from the patient_summaries/DCU-XXX rows
+-- above. It is intentionally not a foreign key into patient_summaries. Rows
+-- are produced by the deterministic longitudinal engine
+-- (src/domain/longitudinalJourney.js) and materialised via
+-- scripts/build-longitudinal-db.mjs for query-at-scale proof; the live API
+-- serves the same data computed on the fly (no DB round-trip required).
+create table if not exists journey_episodes (
+  id uuid primary key default gen_random_uuid(),
+  patient_id text not null check (length(patient_id) > 0),
+  episode_id text not null,
+  start_day integer not null check (start_day >= 1),
+  end_day integer check (end_day is null or end_day >= start_day),
+  phase text not null check (phase in ('admission', 'wardMove', 'interTrustTransfer', 'discharge', 'community', 'readmission')),
+  phase_label text not null,
+  trust_id text not null,
+  ward_id text not null,
+  journey_id text,
+  journey_type text,
+  journey_stage text,
+  simulation_only boolean not null default true check (simulation_only is true),
+  human_review_required boolean not null default true check (human_review_required is true),
+  created_at timestamptz not null default now()
+);
+
+create table if not exists longitudinal_observations (
+  id uuid primary key default gen_random_uuid(),
+  patient_id text not null check (length(patient_id) > 0),
+  day_number integer not null check (day_number >= 1),
+  observation_type text not null check (observation_type in ('respRate', 'spo2', 'heartRate', 'systolicBp', 'tempC', 'consciousness')),
+  observed_value text not null,
+  source_label text not null default 'simulation-longitudinal',
+  simulation_only boolean not null default true check (simulation_only is true),
+  created_at timestamptz not null default now()
+);
+
 create index if not exists idx_patient_summaries_ward_id on patient_summaries (ward_id);
 create index if not exists idx_observations_patient_summary_id on observations (patient_summary_id);
 create index if not exists idx_safety_flags_patient_summary_id on safety_flags (patient_summary_id);
@@ -258,6 +296,10 @@ create unique index if not exists idx_handover_items_seed_unique on handover_ite
 create unique index if not exists idx_discharge_blockers_seed_unique on discharge_blockers (patient_summary_id, blocker_type, description);
 create unique index if not exists idx_draft_notes_seed_unique on draft_notes (patient_summary_id, provider_name, prompt_version, draft_type);
 create unique index if not exists idx_hazard_log_entries_seed_unique on hazard_log_entries (scenario_id, hazard);
+create index if not exists idx_journey_episodes_patient_start_day on journey_episodes (patient_id, start_day);
+create unique index if not exists idx_journey_episodes_seed_unique on journey_episodes (patient_id, episode_id);
+create index if not exists idx_longitudinal_observations_patient_day on longitudinal_observations (patient_id, day_number);
+create unique index if not exists idx_longitudinal_observations_seed_unique on longitudinal_observations (patient_id, day_number, observation_type);
 
 create or replace function set_updated_at()
 returns trigger as $$

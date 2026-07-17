@@ -15,3 +15,8 @@ cdk.out/
 !.env.example
 !.env.aws.example
 *.log
+
+# Longitudinal materialisation CSV output (regenerate via npm run db:build-longitudinal[:full]).
+# Only manifest.json (counts + timing) is committed - the CSVs can reach
+# millions of rows at full 1300-day scale and are not repo-appropriate.
+data/exports/longitudinal/*.csv

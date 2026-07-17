@@ -17,7 +17,9 @@ describe('SafeFlow PostgreSQL schema', () => {
     'handover_items',
     'discharge_blockers',
     'draft_notes',
-    'audit_events'
+    'audit_events',
+    'journey_episodes',
+    'longitudinal_observations'
   ];
 
   it.each(requiredTables)('defines the %s table', (tableName) => {
@@ -50,6 +52,17 @@ describe('SafeFlow PostgreSQL schema', () => {
     expect(schema).toContain("synthetic_patient_ref text not null check (synthetic_patient_ref ~ '^DCU-[0-9]{3}$')");
     expect(schema).toContain("source_type text not null check (source_type in ('lab', 'observation', 'microbiology', 'workflow', 'medication', 'allergy', 'sensor', 'external_ai'))");
     expect(schema).toMatch(/simulation_only boolean not null default true check \(simulation_only is true\)/i);
+    expect(schema).not.toMatch(/\bnhs_number\b|\bdate_of_birth\b|\bpostcode\b|\baddress\b/i);
+  });
+
+  it('stores longitudinal journey data on an independent fictional identifier namespace, without direct identifiers', () => {
+    expect(schema).toMatch(/create table if not exists journey_episodes\b/i);
+    expect(schema).toMatch(/create table if not exists longitudinal_observations\b/i);
+    expect(schema).toContain('patient_id text not null check (length(patient_id) > 0)');
+    expect(schema).toContain("phase text not null check (phase in ('admission', 'wardMove', 'interTrustTransfer', 'discharge', 'community', 'readmission'))");
+    expect(schema).toContain("observation_type text not null check (observation_type in ('respRate', 'spo2', 'heartRate', 'systolicBp', 'tempC', 'consciousness'))");
+    expect(schema).toMatch(/idx_journey_episodes_patient_start_day on journey_episodes \(patient_id, start_day\)/i);
+    expect(schema).toMatch(/idx_longitudinal_observations_patient_day on longitudinal_observations \(patient_id, day_number\)/i);
     expect(schema).not.toMatch(/\bnhs_number\b|\bdate_of_birth\b|\bpostcode\b|\baddress\b/i);
   });
 

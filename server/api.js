@@ -1,5 +1,6 @@
 import { simulatedPatients } from '../src/data/simulatedPatients.js';
 import { deterministicDraftProvider } from '../src/domain/draftProvider.js';
+import { buildEpisodes, compareDays, getPatientDay } from '../src/domain/longitudinalJourney.js';
 import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
 import {
   assertSimulationAuditPayloadIsSafe,
@@ -24,6 +25,9 @@ export function createApiHandler({
   return async function apiHandler(req, res) {
     const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');
     const suggestionActionMatch = pathname.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
+    const longitudinalDayMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/days\/(-?\d+)$/);
+    const longitudinalEpisodesMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/episodes$/);
+    const longitudinalCompareMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/compare$/);
     setCorsHeaders(res, env);
 
     if (req.method === 'OPTIONS') {
@@ -86,6 +90,21 @@ export function createApiHandler({
 
     if (req.method === 'POST' && pathname === '/api/drafts/sbar') {
       await handleSbarDraft(req, res, provider);
+      return;
+    }
+
+    if (req.method === 'GET' && longitudinalDayMatch) {
+      handleLongitudinalDay(res, decodeURIComponent(longitudinalDayMatch[1]), longitudinalDayMatch[2]);
+      return;
+    }
+
+    if (req.method === 'GET' && longitudinalEpisodesMatch) {
+      handleLongitudinalEpisodes(res, decodeURIComponent(longitudinalEpisodesMatch[1]), searchParams);
+      return;
+    }
+
+    if (req.method === 'GET' && longitudinalCompareMatch) {
+      handleLongitudinalCompare(res, decodeURIComponent(longitudinalCompareMatch[1]), searchParams);
       return;
     }
 
@@ -218,6 +237,69 @@ async function handleSbarDraft(req, res, provider) {
       providerError: error.name ?? 'DraftProviderError'
     });
   }
+}
+
+function handleLongitudinalDay(res, patientId, rawDay) {
+  const day = Number(rawDay);
+  if (!Number.isInteger(day) || day < 1) {
+    writeJson(res, 400, { error: 'Day must be a positive integer' });
+    return;
+  }
+
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'longitudinal-journey-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      day: getPatientDay(patientId, day)
+    }
+  }));
+}
+
+function handleLongitudinalEpisodes(res, patientId, searchParams) {
+  const throughDay = normaliseThroughDay(searchParams.get('throughDay'));
+  if (throughDay === null) {
+    writeJson(res, 400, { error: 'throughDay must be a positive integer' });
+    return;
+  }
+
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'longitudinal-journey-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      throughDay,
+      episodes: buildEpisodes(patientId, throughDay)
+    }
+  }));
+}
+
+function handleLongitudinalCompare(res, patientId, searchParams) {
+  const dayA = Number(searchParams.get('from'));
+  const dayB = Number(searchParams.get('to'));
+  if (!Number.isInteger(dayA) || dayA < 1 || !Number.isInteger(dayB) || dayB < 1) {
+    writeJson(res, 400, { error: 'from and to must be positive integers' });
+    return;
+  }
+
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'longitudinal-journey-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      comparison: compareDays(patientId, dayA, dayB)
+    }
+  }));
+}
+
+function normaliseThroughDay(value) {
+  if (value == null || value === '') return 1;
+  const day = Number(value);
+  if (!Number.isInteger(day) || day < 1) return null;
+  return day;
 }
 
 function normaliseAuditLimit(value) {

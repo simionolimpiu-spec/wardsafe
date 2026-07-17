@@ -9,6 +9,7 @@ import {
   createDatabaseAuditEventProvider
 } from '../../../../server/auditEventProvider.js';
 import { createCorsHeaders, isOriginAllowed } from '../../../../server/corsConfig.js';
+import { buildEpisodes, compareDays, getPatientDay } from '../../../../src/domain/longitudinalJourney.js';
 import { createSimulationReadinessReport } from '../../../../server/readinessReport.js';
 import {
   allowsSimulationPreviewFallback,
@@ -178,6 +179,10 @@ export function createSafeFlowApiHandler({
       }
 
       const suggestionActionMatch = path.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
+      const longitudinalDayMatch = path.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/days\/(-?\d+)$/);
+      const longitudinalEpisodesMatch = path.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/episodes$/);
+      const longitudinalCompareMatch = path.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/compare$/);
+
       if (method === 'POST' && suggestionActionMatch) {
         if (!databaseMode) {
           return respond(202, placeholderRiskSuggestionAction({ env, simulationOnly }));
@@ -234,6 +239,59 @@ export function createSafeFlowApiHandler({
         return respond(201, {
           event: await auditEventProvider.recordEvent(body)
         });
+      }
+
+      if (method === 'GET' && longitudinalDayMatch) {
+        const day = Number(longitudinalDayMatch[2]);
+        if (!Number.isInteger(day) || day < 1) {
+          return respond(400, { error: 'Day must be a positive integer' });
+        }
+
+        return respond(200, buildSimulationOutputEnvelope({
+          source: 'longitudinal-journey-engine',
+          payload: {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            safetyBoundary: safetyBoundary(),
+            day: getPatientDay(decodeURIComponent(longitudinalDayMatch[1]), day)
+          }
+        }));
+      }
+
+      if (method === 'GET' && longitudinalEpisodesMatch) {
+        const throughDay = Number(event.queryStringParameters?.throughDay ?? 1);
+        if (!Number.isInteger(throughDay) || throughDay < 1) {
+          return respond(400, { error: 'throughDay must be a positive integer' });
+        }
+
+        return respond(200, buildSimulationOutputEnvelope({
+          source: 'longitudinal-journey-engine',
+          payload: {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            safetyBoundary: safetyBoundary(),
+            throughDay,
+            episodes: buildEpisodes(decodeURIComponent(longitudinalEpisodesMatch[1]), throughDay)
+          }
+        }));
+      }
+
+      if (method === 'GET' && longitudinalCompareMatch) {
+        const dayA = Number(event.queryStringParameters?.from);
+        const dayB = Number(event.queryStringParameters?.to);
+        if (!Number.isInteger(dayA) || dayA < 1 || !Number.isInteger(dayB) || dayB < 1) {
+          return respond(400, { error: 'from and to must be positive integers' });
+        }
+
+        return respond(200, buildSimulationOutputEnvelope({
+          source: 'longitudinal-journey-engine',
+          payload: {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            safetyBoundary: safetyBoundary(),
+            comparison: compareDays(decodeURIComponent(longitudinalCompareMatch[1]), dayA, dayB)
+          }
+        }));
       }
 
       if (method !== 'GET' || path !== '/api/health') {
