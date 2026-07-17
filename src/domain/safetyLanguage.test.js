@@ -35,6 +35,7 @@ const DOCUMENTATION_FILES = [
   'docs/public-demo-pack/build-readiness/simulation-twin-learning-concept.md',
   'docs/public-demo-pack/build-readiness/evaluation-readiness-summary.md',
   'docs/public-demo-pack/build-readiness/portable-patient-journey-concept.md',
+  'docs/public-demo-pack/build-readiness/longitudinal-record-boundary.md',
   '.github/pull_request_template.md'
 ];
 
