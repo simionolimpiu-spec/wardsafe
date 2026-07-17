@@ -74,6 +74,12 @@ describe('safety language surface scans', () => {
     const { container } = render(<PatientJourneyTwin patient={patient} />);
 
     expect(screen.getByRole('heading', { name: /patient journey twin/i })).toBeInTheDocument();
+    expect(screen.getByRole('slider', { name: /journey day scrubber/i })).toHaveAttribute(
+      'aria-valuetext',
+      'Day 1300 of 1300'
+    );
+    expect(screen.getByRole('table', { name: /then versus now observations/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('img', { name: /trend across day 1 to day 1300/i })).toHaveLength(6);
 
     const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
       checkedLabel: 'Patient Journey Twin render'

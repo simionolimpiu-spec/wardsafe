@@ -1,47 +1,65 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
-import { simulatedPatients } from '../data/simulatedPatients.js';
 import { PatientJourneyTwin } from './PatientJourneyTwin.jsx';
 
-function clone(value) {
-  return JSON.parse(JSON.stringify(value));
-}
-
-const patient = clone(simulatedPatients[0]);
-
 describe('PatientJourneyTwin', () => {
-  it('renders the simulation-only patient timelines from the merged fixtures', () => {
-    render(<PatientJourneyTwin patient={patient} />);
+  it('renders an accessible long-range day scrubber with keyboard support', async () => {
+    const user = userEvent.setup();
+    render(<PatientJourneyTwin patient={{ id: 'DCU-031' }} />);
 
-    expect(screen.getByRole('heading', { name: /patient journey twin/i })).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /Patient Journey Twin \/ Simulation Patient Twin — simulation-only timeline for review and learning\. Not a live clinical record\. Human review required\./i
-      )
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Patient Journey Twin \/ Simulation Patient Twin/i)).toBeInTheDocument();
-    expect(screen.getByText(/Current board selection:/i)).toHaveTextContent('DCU-031');
+    const slider = screen.getByRole('slider', { name: /journey day scrubber/i });
+    expect(slider).toHaveAttribute('min', '1');
+    expect(slider).toHaveAttribute('max', '1300');
+    expect(slider).toHaveAttribute('aria-valuetext', 'Day 1300 of 1300');
+    expect(screen.getByRole('button', { name: /previous journey day/i })).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: /next journey day/i })).toBeDisabled();
 
-    expect(screen.getByText(/2 fictional patient timelines/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Simulation-only/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/No live patient data/i).length).toBeGreaterThan(0);
+    slider.focus();
+    await user.keyboard('{ArrowLeft}');
 
-    expect(screen.getByRole('heading', { name: /fictional patient alpha/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /fictional patient bravo/i })).toBeInTheDocument();
-    expect(screen.getAllByText(/^Source$/i)).toHaveLength(2);
-    expect(screen.getAllByText(/fictional timeline fixture/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Clinical use$/i)).toHaveLength(2);
-    expect(screen.getAllByText(/not for live clinical deployment/i).length).toBeGreaterThan(0);
+    expect(slider).toHaveValue('1299');
+    expect(slider).toHaveAttribute('aria-valuetext', 'Day 1299 of 1300');
+  });
 
-    expect(screen.getAllByText(/^Missing information$/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/^Limitations$/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/No live EPR, pathology, or observations integration\./i)).toBeInTheDocument();
-    expect(screen.getByText(/No live discharge or transport integration\./i)).toBeInTheDocument();
+  it('jumps the scrubber and highlights the current episode chapter', () => {
+    render(<PatientJourneyTwin patient={{ id: 'DCU-031' }} />);
 
-    expect(screen.getByText(/Baseline observations recorded/i)).toBeInTheDocument();
-    expect(screen.getByText(/Discharge education completed/i)).toBeInTheDocument();
-    expect(screen.getByText(/2026-06-11 07:55 UTC/i)).toBeInTheDocument();
+    const transferChapter = screen.getAllByRole('button', { name: /transfer/i })[0];
+    fireEvent.click(transferChapter);
 
-    expect(screen.queryByText(/illustrative model output, not clinically validated/i)).not.toBeInTheDocument();
+    const slider = screen.getByRole('slider', { name: /journey day scrubber/i });
+    expect(Number(slider.value)).toBeGreaterThan(1);
+    expect(screen.getByText(/Current chapter:/i)).toHaveTextContent(/Transfer/i);
+    expect(transferChapter).toHaveAttribute('aria-current', 'step');
+  });
+
+  it('renders then-vs-now observation rows, locations, phases and readable trends', () => {
+    render(<PatientJourneyTwin patient={{ id: 'DCU-031' }} />);
+
+    const comparison = screen.getByRole('table', { name: /then versus now observations/i });
+    expect(within(comparison).getAllByRole('row')).toHaveLength(7);
+    expect(within(comparison).getByText('Respiratory rate')).toBeInTheDocument();
+    expect(within(comparison).getByText('Oxygen saturation')).toBeInTheDocument();
+    expect(screen.getByText('Location then')).toBeInTheDocument();
+    expect(screen.getByText('Location now')).toBeInTheDocument();
+    expect(screen.getByText('Phase then')).toBeInTheDocument();
+    expect(screen.getByText('Phase now')).toBeInTheDocument();
+    expect(screen.getAllByRole('img', { name: /trend across day 1 to day 1300/i })).toHaveLength(6);
+    expect(screen.getAllByText(/Values: Day 1:/i)).toHaveLength(6);
+    expect(screen.getAllByText(/human review required/i).length).toBeGreaterThan(0);
+  });
+
+  it('keeps a selected day when valid and clamps it when a new patient range is shorter', () => {
+    const { rerender } = render(<PatientJourneyTwin patient={{ id: 'DCU-031', latestDay: 10 }} />);
+    const slider = screen.getByRole('slider', { name: /journey day scrubber/i });
+
+    fireEvent.change(slider, { target: { value: '5' } });
+    expect(slider).toHaveValue('5');
+
+    rerender(<PatientJourneyTwin patient={{ id: 'DCU-028', latestDay: 4 }} />);
+
+    expect(screen.getByRole('slider', { name: /journey day scrubber/i })).toHaveValue('4');
+    expect(screen.getByRole('slider', { name: /journey day scrubber/i })).toHaveAttribute('aria-valuetext', 'Day 4 of 4');
   });
 });

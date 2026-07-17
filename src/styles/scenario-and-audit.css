@@ -729,3 +729,397 @@
 .twin-entry-notes {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
+
+.twin-longitudinal-card {
+  background: linear-gradient(180deg, var(--sf-grey-25) 0%, var(--sf-grey-0) 55%);
+  border-color: var(--sf-grey-200);
+  gap: var(--space-7);
+}
+
+.twin-longitudinal-card .twin-patient-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: var(--space-5);
+  justify-content: space-between;
+}
+
+.twin-longitudinal-card .twin-patient-heading h3 {
+  color: var(--sf-blue-ink);
+  margin: 2px 0 0;
+}
+
+.twin-longitudinal-card .twin-patient-heading p:last-child {
+  color: var(--sf-grey-500);
+  margin: var(--space-2) 0 0;
+}
+
+.twin-day-scrubber,
+.twin-then-now-panel,
+.twin-trend-panel {
+  background: var(--sf-grey-0);
+  border: 1px solid var(--sf-grey-200);
+  border-radius: var(--sf-radius-md);
+  box-shadow: var(--sf-shadow-1);
+}
+
+.twin-day-scrubber {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.twin-day-scrubber-heading,
+.twin-panel-heading,
+.twin-trend-card-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: var(--space-4);
+  justify-content: space-between;
+}
+
+.twin-day-scrubber-heading label {
+  color: var(--sf-blue-ink);
+  display: block;
+  font-size: var(--text-lg);
+  font-weight: 900;
+}
+
+.twin-day-scrubber-heading p {
+  color: var(--sf-grey-500);
+  font-size: var(--text-sm);
+  margin: var(--space-1) 0 0;
+}
+
+.twin-day-scrubber-heading output,
+.twin-panel-context {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-sm);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.twin-day-scrubber-controls {
+  align-items: center;
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: auto minmax(120px, 1fr) auto;
+}
+
+.twin-day-scrubber-controls button {
+  align-items: center;
+  background: var(--sf-grey-0);
+  border: 1px solid var(--sf-grey-200);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-blue-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  gap: var(--space-2);
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+}
+
+.twin-day-scrubber-controls button:hover:not(:disabled) {
+  background: var(--sf-blue-soft);
+  border-color: var(--sf-blue);
+}
+
+.twin-day-scrubber-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.twin-day-scrubber-controls input[type='range'] {
+  accent-color: var(--sf-blue);
+  cursor: pointer;
+  min-width: 0;
+  width: 100%;
+}
+
+.twin-selected-episode {
+  color: var(--sf-grey-500);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.twin-selected-episode strong {
+  color: var(--sf-blue-ink);
+}
+
+.twin-chapter-nav {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.twin-subsection-label {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-xs);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.twin-chapter-strip {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding: 2px 2px var(--space-3);
+  scrollbar-color: var(--sf-grey-200) var(--sf-grey-25);
+}
+
+.twin-chapter {
+  background: var(--sf-grey-25);
+  border: 1px solid var(--sf-grey-200);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-grey-900);
+  cursor: pointer;
+  display: grid;
+  flex: 0 0 158px;
+  gap: var(--space-2);
+  min-height: 104px;
+  padding: var(--space-4);
+  text-align: left;
+}
+
+.twin-chapter:hover,
+.twin-chapter--current {
+  background: var(--sf-blue-soft);
+  border-color: var(--sf-blue);
+}
+
+.twin-chapter--current {
+  box-shadow: inset 0 0 0 2px rgba(0, 94, 184, 0.16);
+}
+
+.twin-chapter-title {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-sm);
+  font-weight: 900;
+}
+
+.twin-chapter-trust {
+  justify-self: start;
+}
+
+.twin-chapter-range,
+.twin-chapter small {
+  color: var(--sf-grey-500);
+  font-size: var(--text-xs);
+}
+
+.twin-chapter small {
+  font-weight: 800;
+}
+
+.twin-review-grid {
+  align-items: start;
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+}
+
+.twin-then-now-panel,
+.twin-trend-panel {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-6);
+}
+
+.twin-panel-heading h3 {
+  color: var(--sf-blue-ink);
+  margin: 2px 0 0;
+}
+
+.twin-review-note {
+  color: var(--sf-grey-500);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.twin-location-phase-grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.twin-location-phase-grid div {
+  background: var(--sf-grey-25);
+  border: 1px solid var(--sf-grey-100);
+  border-radius: var(--sf-radius-sm);
+  padding: var(--space-4);
+}
+
+.twin-location-phase-grid dt {
+  color: var(--sf-grey-500);
+  font-size: var(--text-xs);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.twin-location-phase-grid dd {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  margin: var(--space-2) 0 0;
+}
+
+.twin-observation-table-wrap {
+  overflow-x: auto;
+}
+
+.twin-observation-table {
+  border-collapse: collapse;
+  min-width: 560px;
+  width: 100%;
+}
+
+.twin-observation-table th,
+.twin-observation-table td {
+  border-bottom: 1px solid var(--sf-grey-100);
+  padding: var(--space-4) var(--space-3);
+  text-align: left;
+  vertical-align: top;
+}
+
+.twin-observation-table thead th {
+  color: var(--sf-grey-500);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.twin-observation-table tbody th {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-sm);
+}
+
+.twin-observation-table tbody th small,
+.twin-change-note {
+  color: var(--sf-grey-500);
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.35;
+  margin-top: var(--space-2);
+}
+
+.twin-observation-table td {
+  color: var(--sf-grey-900);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.twin-delta {
+  align-items: center;
+  display: inline-flex;
+  font-weight: 900;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+
+.twin-delta--up {
+  color: var(--sf-amber);
+}
+
+.twin-delta--down {
+  color: var(--sf-blue);
+}
+
+.twin-delta--same {
+  color: var(--sf-grey-500);
+}
+
+.twin-trend-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.twin-trend-card {
+  background: var(--sf-grey-25);
+  border: 1px solid var(--sf-grey-100);
+  border-radius: var(--sf-radius-sm);
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.twin-trend-card-heading strong {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-sm);
+}
+
+.twin-trend-card-heading span {
+  color: var(--sf-grey-500);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.twin-sparkline {
+  background: var(--sf-grey-0);
+  border: 1px solid var(--sf-grey-200);
+  border-radius: var(--sf-radius-sm);
+  height: 72px;
+  overflow: visible;
+  width: 100%;
+}
+
+.twin-sparkline-baseline {
+  stroke: var(--sf-grey-200);
+  stroke-width: 1;
+}
+
+.twin-sparkline-line {
+  stroke: var(--sparkline-color);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.twin-sparkline-marker {
+  stroke: var(--sf-blue-ink);
+  stroke-dasharray: 3 3;
+  stroke-width: 1.5;
+}
+
+.twin-sparkline-values {
+  color: var(--sf-grey-500);
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 920px) {
+  .twin-review-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .twin-longitudinal-card .twin-patient-heading,
+  .twin-day-scrubber-heading {
+    display: grid;
+  }
+
+  .twin-day-scrubber-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .twin-day-scrubber-controls input[type='range'] {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .twin-day-scrubber-controls button {
+    grid-row: 2;
+  }
+
+  .twin-location-phase-grid {
+    grid-template-columns: 1fr;
+  }
+}
