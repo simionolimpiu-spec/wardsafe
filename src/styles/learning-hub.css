@@ -3,6 +3,14 @@
   gap: var(--space-6);
 }
 
+.app-shell-redesign .learning-hub-view,
+.app-shell-redesign .learning-hub-module-card,
+.app-shell-redesign .learning-hub-result-card {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
 .learning-hub-copy,
 .learning-hub-action-note,
 .learning-hub-placeholder,

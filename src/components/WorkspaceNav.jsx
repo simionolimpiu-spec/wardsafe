@@ -12,7 +12,8 @@ import {
   Sparkles,
   Stethoscope,
   UserRound,
-  Waypoints
+  Waypoints,
+  ShieldAlert
 } from 'lucide-react';
 
 const navItems = [
@@ -29,6 +30,7 @@ const navItems = [
   { id: 'competency-passport', label: 'Competency Passport', icon: Award },
   { id: 'learning-hub', label: 'Learning Hub', icon: BookOpenCheck },
   { id: 'twin', label: 'Patient Journey Twin', icon: Sparkles },
+  { id: 'trust-network', label: 'Trust Network', icon: Waypoints },
   { id: 'audit', label: 'Audit Trail', icon: ListChecks },
   { id: 'settings', label: 'Settings', icon: Settings }
 ];
@@ -37,15 +39,16 @@ export function WorkspaceNav({
   activeView = 'board',
   taskCount = 6,
   escalationCount = 2,
-  onNavigate = () => {}
+  onNavigate = () => {},
+  currentWardName = 'Day Care Unit'
 }) {
   return (
     <aside className="workspace-nav" aria-label="SafeFlow workspace">
       <div className="nav-brand">
         <span className="brand-mark" aria-hidden="true">SF</span>
         <div>
-          <strong>SafeFlow</strong>
-          <span>Nursing simulation</span>
+          <strong>SafeFlow Nursing</strong>
+          <span>Simulation-only ward workspace</span>
         </div>
       </div>
 
@@ -71,8 +74,17 @@ export function WorkspaceNav({
         })}
       </nav>
 
+      <section aria-label="Safety first" className="nav-safety-card">
+        <ShieldAlert aria-hidden="true" size={18} />
+        <div>
+          <strong>Safety first</strong>
+          <p>See something that needs review?</p>
+          <button onClick={() => onNavigate('reports')} type="button">Report concern</button>
+        </div>
+      </section>
+
       <div className="nav-context">
-        <p><strong>Ward</strong><span>Day Care Unit</span></p>
+        <p><strong>Ward</strong><span>{currentWardName}</span></p>
         <p><strong>Location</strong><span>Cityview Community Hospital</span></p>
         <small>Simulation version 1.3</small>
       </div>

@@ -1,12 +1,5 @@
-import { AlertTriangle, ClipboardCheck, Download, Home, Users } from 'lucide-react';
-
-const metricCards = [
-  { label: 'Patients', valueKey: 'patients', caption: 'In unit', icon: Users, tone: 'neutral' },
-  { label: 'Escalations', valueKey: 'activeEscalations', caption: 'Active', icon: AlertTriangle, tone: 'danger' },
-  { label: 'NEWS2 >=5', valueKey: 'highNews', caption: 'High risk', icon: AlertTriangle, tone: 'warning' },
-  { label: 'Handover', valueKey: 'handoverCompletePercent', caption: 'Complete', icon: ClipboardCheck, tone: 'neutral', suffix: '%' },
-  { label: 'Discharge ready', valueKey: 'dischargeReadyToday', caption: 'Today', icon: Home, tone: 'neutral' }
-];
+import { Download } from 'lucide-react';
+import { BoardSummaryCards } from './BoardSummaryCards.jsx';
 
 function HandoverProgress({ patient }) {
   const progress = patient.handoverComplete;
@@ -32,27 +25,7 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
         <p className="date-chip">{summary.dateLabel}</p>
       </div>
 
-      <div className="metric-grid" aria-label="Ward metrics">
-        {metricCards.map((metric) => {
-          const value = metric.suffix
-            ? `${summary.metrics[metric.valueKey]}${metric.suffix}`
-            : summary.metrics[metric.valueKey];
-          const Icon = metric.icon;
-
-          return (
-            <article className={`metric metric-${metric.tone}`} key={metric.label}>
-              <div aria-hidden="true" className="metric-icon">
-                <Icon size={18} />
-              </div>
-              <div className="metric-copy">
-                <span>{metric.label}</span>
-                <strong>{value}</strong>
-                <small>{metric.caption}</small>
-              </div>
-            </article>
-          );
-        })}
-      </div>
+      <BoardSummaryCards summary={summary} />
 
       <div className="table-scroll">
         <table aria-label="Ward patient list" className="patient-table">
@@ -82,6 +55,7 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
                     {patient.id}
                   </button>
                 </td>
+                <td>{patient.name}</td>
                 <td>{patient.name}</td>
                 <td>
                   <div className="flag-stack">

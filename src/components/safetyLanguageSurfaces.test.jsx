@@ -13,6 +13,8 @@ import { PatientJourneyTwin } from './PatientJourneyTwin.jsx';
 import { ReportsView } from './ReportsView.jsx';
 import { WardSafetyBoard } from './WardSafetyBoard.jsx';
 import { WardQualitySafetyReviewDrawer } from './WardQualitySafetyReviewDrawer.jsx';
+import { AppShell } from './AppShell.jsx';
+import { getDemoScenarioOptions } from '../data/demoScenarios.js';
 
 const chartMocks = vi.hoisted(() => {
   const instances = [];
@@ -37,6 +39,31 @@ describe('safety language surface scans', () => {
     chartMocks.instances.length = 0;
     chartMocks.Chart.mockClear();
     vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(() => ({ canvas: {} }));
+  });
+
+  it('keeps the redesigned application shell boundary-safe on the board view', () => {
+    const { container } = render(
+      <AppShell
+        currentWardName="Day Care Unit"
+        dateLabel="Wednesday 17 June 2026"
+        onScenarioChange={() => {}}
+        scenarioOptions={getDemoScenarioOptions()}
+        selectedScenarioId="day-care-treatment-pathway"
+      >
+        <section aria-label="Shell content"><h2>Ward Safety Board</h2></section>
+      </AppShell>
+    );
+
+    expect(screen.getByRole('heading', { name: 'SafeFlow' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
+    const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
+      checkedLabel: 'AppShell render'
+    });
+
+    expect(result).toMatchObject({
+      passed: true,
+      violations: []
+    });
   });
 
   afterEach(() => {

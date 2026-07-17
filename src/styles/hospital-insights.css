@@ -3,6 +3,13 @@
   gap: var(--space-6);
 }
 
+.app-shell-redesign .hospital-insights-view,
+.app-shell-redesign .hospital-insights-chart-card {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
 .hospital-insights-heading {
   align-items: flex-start;
 }

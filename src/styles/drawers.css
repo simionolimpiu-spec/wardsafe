@@ -2,6 +2,13 @@
   white-space: nowrap;
 }
 
+.app-shell-redesign .hospital-insights-drawer,
+.app-shell-redesign .review-report-drawer {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg) 0 0 var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-2);
+}
+
 .hospital-insights-overlay {
   display: grid;
   align-items: stretch;

@@ -48,7 +48,7 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByRole('button', { name: /presentation mode/i })).toBeInTheDocument();
   });
 
-  it('renders a demo scenario selector in the main header', () => {
+  it('renders a ward context selector in the main header', () => {
     render(<App />);
 
     const wardSelector = screen.getByRole('combobox', { name: 'Ward' });
@@ -359,7 +359,7 @@ describe('SafeFlow prototype', () => {
     await user.selectOptions(screen.getByRole('combobox', { name: 'Review focus' }), 'legacy-amu-discharge-readiness-review');
 
     expect(await screen.findByRole('heading', { name: 'DCU-044' })).toBeInTheDocument();
-    expect(screen.getByText(/Acute Medical Unit/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Acute Medical Unit/i).length).toBeGreaterThan(0);
 
     await user.click(screen.getByRole('button', { name: /review report/i }));
 

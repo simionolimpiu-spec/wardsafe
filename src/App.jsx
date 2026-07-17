@@ -16,7 +16,7 @@ import {
   requestSimulationAuditEvents
 } from './services/auditClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
-import { DemoScenarioSelector } from './components/DemoScenarioSelector.jsx';
+import { AppShell } from './components/AppShell.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
 import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
 import { HospitalInsightsView } from './components/HospitalInsightsView.jsx';
@@ -25,10 +25,8 @@ import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
 import { SimulationReviewReportButton, SimulationReviewReportDrawer } from './components/SimulationReviewReportDrawer.jsx';
 import { WardQualitySafetyReviewButton, WardQualitySafetyReviewDrawer } from './components/WardQualitySafetyReviewDrawer.jsx';
-import { SafetyBanner } from './components/SafetyBanner.jsx';
 import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
 import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
-import { WorkspaceNav } from './components/WorkspaceNav.jsx';
 import { MyPatientsView } from './components/MyPatientsView.jsx';
 import { ObservationsView } from './components/ObservationsView.jsx';
 import { TasksView } from './components/TasksView.jsx';
@@ -639,27 +637,20 @@ export default function App() {
   }
 
   return (
-    <main className={`app-shell ${state.settings.compactMode ? 'compact-mode' : ''} ${isPresentationMode ? 'presentation-mode' : ''}`}>
-      <WorkspaceNav
-        activeView={state.selectedView}
-        escalationCount={selectActiveEscalationCount(state)}
-        onNavigate={navigate}
-        taskCount={openTaskCount}
-      />
-      <div className="workspace-main">
-        <header className="topbar">
-          <div className="topbar-copy">
-            <p className="eyebrow">Simulation prototype</p>
-            <h1>SafeFlow</h1>
-          </div>
-          <div className="topbar-actions">
-            <DemoScenarioSelector
-              description={state.scenarioDescription}
-              onChange={changeDemoScenario}
-              options={demoScenarioOptions}
-              value={state.selectedScenarioId}
-            />
-            <span className="product-note">SafeFlow Nursing concept</span>
+    <AppShell
+      activeView={state.selectedView}
+      compactMode={state.settings.compactMode}
+      currentWardName={state.currentWardName}
+      dateLabel={state.wardSummary.dateLabel}
+      escalationCount={selectActiveEscalationCount(state)}
+      isPresentationMode={isPresentationMode}
+      onNavigate={navigate}
+      onScenarioChange={changeDemoScenario}
+      scenarioDescription={state.scenarioDescription}
+      scenarioOptions={demoScenarioOptions}
+      selectedScenarioId={state.selectedScenarioId}
+      taskCount={openTaskCount}
+      topbarActions={<>
             <button
               aria-pressed={isPresentationMode}
               className="secondary-action presentation-mode-trigger"
@@ -692,8 +683,8 @@ export default function App() {
                 setIsWardQualitySafetyReviewOpen(false);
               }}
             />
-          </div>
-        </header>
+      </>}
+    >
         {isPresentationMode && (
           <section className="presentation-banner" aria-label="Presentation mode">
             <div className="presentation-banner-copy">
@@ -745,7 +736,6 @@ export default function App() {
             <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
           </section>
         )}
-        {state.selectedView !== 'hospital-insights' && <SafetyBanner />}
         <nav className="tab-list" aria-label="Prototype journey">
           {tabs.map((tab) => (
             <button
@@ -904,7 +894,6 @@ export default function App() {
         />
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
         {serverAuditStatus && <p className="backend-note" role="status">{serverAuditStatus}</p>}
-      </div>
       {dialog?.type === 'reset' && (
         <SimulationDialog confirmLabel="Confirm reset" onClose={() => setDialog(null)} onConfirm={confirmReset} title="Reset simulation">
           <p>This clears browser-local changes and restores the original fictional scenario.</p>
@@ -915,6 +904,6 @@ export default function App() {
           <p>No call will be placed. This records a fictional contact event for {dialog.patientId}.</p>
         </SimulationDialog>
       )}
-    </main>
+    </AppShell>
   );
 }
