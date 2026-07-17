@@ -4,7 +4,10 @@ import { scanStrictSafetyLanguage } from '../../domain/safetyLanguage.js';
 import {
   buildWardDatabaseExport,
   getWardLibraryDemoScenarioById,
+  getReviewFocusOptions,
   getWardLibraryScenarioOptions,
+  getWardOptions,
+  resolveScenarioId,
   wardLibrary
 } from './index.js';
 import {
@@ -196,6 +199,44 @@ describe('ward simulation database library', () => {
       }),
       tasks: expect.any(Array)
     }));
+  });
+
+  it('derives one ward option from each ward record', () => {
+    expect(getWardOptions()).toEqual(
+      wardLibrary.wards.map((ward) => ({
+        id: ward.id,
+        label: ward.name.replace(/\s+Alpha$/i, '').replace(/\s+(Ward|Unit|Team)$/i, '')
+      }))
+    );
+  });
+
+  it('returns short review focus options for each ward', () => {
+    for (const ward of wardLibrary.wards) {
+      const options = getReviewFocusOptions(ward.id);
+      const scenarios = wardLibrary.scenarios.filter((scenario) => scenario.wardType === ward.wardType);
+
+      expect(options).toHaveLength(scenarios.length);
+      expect(options.map((option) => option.scenarioId)).toEqual(scenarios.map((scenario) => scenario.id));
+      expect(options).toEqual(expect.arrayContaining([
+        expect.objectContaining({ id: expect.any(String), label: expect.any(String), scenarioId: expect.any(String) })
+      ]));
+      expect(new Set(options.map((option) => option.label))).toEqual(new Set([
+        'Documentation',
+        'Escalation readiness',
+        'Discharge readiness',
+        'Medicine timing',
+        'Observation trend'
+      ]));
+    }
+  });
+
+  it('round-trips every library scenario id through ward and review focus', () => {
+    for (const scenario of wardLibrary.scenarios) {
+      const ward = wardLibrary.wards.find((candidate) => candidate.wardType === scenario.wardType);
+      const focus = getReviewFocusOptions(ward.id).find((option) => option.scenarioId === scenario.id);
+
+      expect(resolveScenarioId(ward.id, focus.id)).toBe(scenario.id);
+    }
   });
 
   it('keeps ward library wording inside the strict simulation-only safety boundary', () => {
