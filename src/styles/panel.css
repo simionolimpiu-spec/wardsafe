@@ -160,6 +160,19 @@
   font-size: var(--text-xs);
 }
 
+/* O18 patient detail panel */
+.app-shell-redesign .patient-panel { align-self: start; position: sticky; top: 108px; }
+.app-shell-redesign .panel-heading { border-bottom: 0; }
+.app-shell-redesign .panel-heading h2 { color: var(--sf-blue-ink); }
+.panel-alert-strip { align-items: center; background: var(--sf-red-soft); border: 1px solid #efb7b2; border-left: 4px solid var(--sf-red); border-radius: var(--sf-radius-sm); color: var(--sf-red); display: flex; font-size: var(--text-sm); font-weight: 800; gap: 8px; margin: 14px 0; padding: 10px 12px; }
+.panel-alert-strip svg { flex: 0 0 auto; }
+.panel-footer-actions { border-top: 1px solid var(--sf-grey-200); display: grid; gap: 10px; grid-template-columns: 1fr 1fr; margin-top: 20px; padding-top: 16px; }
+.panel-footer-actions .primary-action,
+.panel-footer-actions .danger-action { align-items: center; display: inline-flex; justify-content: center; margin: 0; min-height: 44px; }
+.danger-action { align-items: center; background: var(--sf-red); border: 1px solid var(--sf-red); border-radius: var(--sf-radius-sm); color: #fff; cursor: pointer; display: inline-flex; font-weight: 900; gap: 6px; padding: 10px 14px; }
+.danger-action:hover { background: #8f1d14; }
+.danger-action:disabled { background: var(--sf-grey-200); border-color: var(--sf-grey-200); color: var(--sf-grey-500); cursor: not-allowed; }
+
 .review-cue-stack {
   display: grid;
   gap: var(--space-3);

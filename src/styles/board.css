@@ -255,3 +255,15 @@
 .summary-card-success .summary-card-icon { background: var(--sf-green-soft); color: var(--sf-green); }
 .summary-card span { color: var(--sf-grey-500); display: block; font-size: var(--text-xs); font-weight: 800; line-height: 1.25; }
 .summary-card strong { color: var(--sf-blue-ink); display: block; font-size: var(--text-2xl); line-height: 1.1; margin-top: 4px; }
+.app-shell-redesign .patient-table { min-width: 1180px; }
+.app-shell-redesign .patient-table th { background: var(--sf-grey-50); color: var(--sf-grey-500); font-size: var(--text-xs); letter-spacing: 0.04em; text-transform: uppercase; }
+.app-shell-redesign .patient-table td { color: var(--sf-grey-900); }
+.app-shell-redesign .patient-table tbody tr { transition: background-color 140ms ease; }
+.app-shell-redesign .patient-table tbody tr:hover,
+.app-shell-redesign .patient-table tbody tr:focus-within { background: var(--sf-blue-soft); }
+.app-shell-redesign .patient-table tr.is-selected { background: #dfeefa; box-shadow: inset 3px 0 var(--sf-blue); }
+.app-shell-redesign .patient-table td:nth-child(2) { font-weight: 800; }
+.app-shell-redesign .patient-table td:nth-child(3) .flag-stack { margin-top: 7px; }
+.app-shell-redesign .patient-table td:nth-child(3) small { color: var(--sf-grey-500); font-size: var(--text-xs); }
+.app-shell-redesign .patient-table .risk { text-transform: none; }
+.app-shell-redesign .patient-table .link-button { color: var(--sf-blue); text-decoration: underline; text-underline-offset: 2px; }
