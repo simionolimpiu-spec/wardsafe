@@ -1,10 +1,12 @@
 import { patientTimelineFixtures } from '../data/patientTimelineFixtures.js';
+import { buildEpisodes, getPatientDay } from './longitudinalJourney.js';
 
 const DEFAULT_SOURCE = 'fictional timeline fixture';
 const DEFAULT_CLINICAL_USE = 'not for live clinical deployment';
 const DEFAULT_SIMULATION_LABEL = 'Simulation-only';
 const DEFAULT_PATIENT_LIMITATION = 'Synthetic timeline only; no live patient data.';
 const DEFAULT_ENTRY_LIMITATION = 'Synthetic timeline entry contains incomplete information.';
+const LONGITUDINAL_DEFAULT_THROUGH_DAY = 14;
 
 export function buildPatientTimelineCollection(fixtures = patientTimelineFixtures) {
   if (!Array.isArray(fixtures)) {
@@ -12,6 +14,37 @@ export function buildPatientTimelineCollection(fixtures = patientTimelineFixture
   }
 
   return fixtures.map((fixture, index) => normalisePatientTimelineFixture(fixture, index));
+}
+
+// Optional adapter for consumers that want the newer day-indexed source while
+// leaving the fixture-backed Patient Journey Twin unchanged by default.
+export function buildLongitudinalPatientTimeline(patientId, throughDay = LONGITUDINAL_DEFAULT_THROUGH_DAY) {
+  const maxDay = normaliseDay(throughDay);
+  const episodes = buildEpisodes(patientId, maxDay);
+  const days = [];
+
+  for (let day = 1; day <= maxDay; day += 1) {
+    const picture = getPatientDay(patientId, day);
+    days.push({
+      dayNumber: picture.dayNumber,
+      observations: picture.observations,
+      location: picture.location,
+      episodePhase: picture.episodePhase,
+      reviewThemeCue: picture.reviewThemeCue,
+      simulationOnly: true,
+      humanReviewRequired: true
+    });
+  }
+
+  return Object.freeze({
+    patientId: normalisePatientId(patientId),
+    days: Object.freeze(days),
+    episodes,
+    source: 'fictional longitudinal journey engine',
+    simulationOnly: true,
+    humanReviewRequired: true,
+    clinicalUse: DEFAULT_CLINICAL_USE
+  });
 }
 
 export function buildPatientTimelineEntries(fixtures = patientTimelineFixtures) {
@@ -195,4 +228,15 @@ function safeText(value, fallback) {
 
 function isValidTimestamp(value) {
   return typeof value === 'string' && Number.isFinite(Date.parse(value));
+}
+
+function normaliseDay(dayNumber) {
+  const value = Number(dayNumber);
+  if (!Number.isFinite(value)) return 1;
+  return Math.max(1, Math.floor(value));
+}
+
+function normalisePatientId(patientId) {
+  const value = String(patientId ?? '').trim();
+  return value || 'SIM-P-UNKNOWN';
 }
