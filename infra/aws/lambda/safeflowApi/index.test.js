@@ -928,6 +928,63 @@ describe('SafeFlow private API handler', () => {
     expect(serializedPayload).not.toContain('arn:aws');
     expect(serializedPayload).not.toContain('safeflow_admin');
   });
+
+  it('returns a fictional patient-day from the longitudinal journey engine', async () => {
+    process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
+    process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
+    const apiHandler = createSafeFlowApiHandler();
+
+    const response = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/days/1300' } }
+    });
+    const payload = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(200);
+    expect(payload.simulationOnly).toBe(true);
+    expect(payload.day.patientId).toBe('JPUH-P-001');
+    expect(payload.day.dayNumber).toBe(1300);
+    expect(JSON.stringify(payload)).not.toMatch(/"(?:name|patientName|nhsNumber|dob)"\s*:/i);
+  });
+
+  it('returns the episode schedule for a fictional patient through a given day', async () => {
+    process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
+    process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
+    const apiHandler = createSafeFlowApiHandler();
+
+    const response = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/episodes' } },
+      queryStringParameters: { throughDay: '30' }
+    });
+    const payload = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(200);
+    expect(payload.throughDay).toBe(30);
+    expect(Array.isArray(payload.episodes)).toBe(true);
+    expect(payload.episodes.length).toBeGreaterThan(0);
+  });
+
+  it('returns a then-vs-now comparison for a fictional patient and rejects a malformed request', async () => {
+    process.env.SAFEFLOW_ENVIRONMENT = 'simulation';
+    process.env.SAFEFLOW_SIMULATION_ONLY = 'true';
+    const apiHandler = createSafeFlowApiHandler();
+
+    const okResponse = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/compare' } },
+      queryStringParameters: { from: '1', to: '1300' }
+    });
+    const payload = JSON.parse(okResponse.body);
+
+    expect(okResponse.statusCode).toBe(200);
+    expect(payload.comparison.dayA).toBe(1);
+    expect(payload.comparison.dayB).toBe(1300);
+
+    const badResponse = await apiHandler({
+      requestContext: { http: { method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/compare' } },
+      queryStringParameters: { from: '1' }
+    });
+
+    expect(badResponse.statusCode).toBe(400);
+  });
 });
 
 function createPoolFactory({ rows = [], error } = {}) {

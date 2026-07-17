@@ -533,4 +533,68 @@ describe('createApiHandler', () => {
     expect(payload.draft.provider).toBe('deterministic');
     expect(payload.draft.sections.situation).toContain('DCU-031');
   });
+
+  it('returns a fictional patient-day from the longitudinal journey engine', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/days/1300' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.simulationOnly).toBe(true);
+    expect(payload.day.patientId).toBe('JPUH-P-001');
+    expect(payload.day.dayNumber).toBe(1300);
+    expect(payload.day.simulationOnly).toBe(true);
+    expect(JSON.stringify(payload)).not.toMatch(/"(?:name|patientName|nhsNumber|dob)"\s*:/i);
+  });
+
+  it('rejects a non-positive-integer day for the longitudinal day route', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/days/0' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('returns the episode schedule for a fictional patient through a given day', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/episodes?throughDay=30' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.throughDay).toBe(30);
+    expect(Array.isArray(payload.episodes)).toBe(true);
+    expect(payload.episodes.length).toBeGreaterThan(0);
+  });
+
+  it('returns a then-vs-now comparison for a fictional patient', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/compare?from=1&to=1300' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.comparison.dayA).toBe(1);
+    expect(payload.comparison.dayB).toBe(1300);
+    expect(payload.comparison.trendNote).toMatch(/human review required/i);
+  });
+
+  it('rejects a longitudinal compare request missing from/to', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/compare' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+
+    expect(res.statusCode).toBe(400);
+  });
 });

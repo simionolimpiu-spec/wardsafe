@@ -18,6 +18,8 @@
     "infra:diff:simulation": "npm run infra:deploy:preflight && cdk diff -c safeFlowOperation=deploy -c safeflowEnvironment=simulation",
     "infra:deploy:simulation": "npm run infra:deploy:preflight && cdk deploy -c safeFlowOperation=deploy -c safeflowEnvironment=simulation",
     "db:manifest": "node database/printMigrationManifest.js",
+    "db:build-longitudinal": "node scripts/build-longitudinal-db.mjs --through-day=60",
+    "db:build-longitudinal:full": "node scripts/build-longitudinal-db.mjs --through-day=1300",
     "db:migrate:plan": "node database/runMigrations.js --dry-run",
     "db:migrate:execute": "node database/runMigrations.js --execute",
     "preview": "vite preview --host 127.0.0.1",
