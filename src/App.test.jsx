@@ -462,7 +462,7 @@ describe('SafeFlow prototype', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('tab', { name: /handover/i }));
+    await user.click(within(screen.getByRole('navigation', { name: /SafeFlow workspace/i })).getByRole('button', { name: 'Handover', exact: true }));
 
     const handoverReadinessRegion = screen.getByRole('region', { name: /handover and discharge readiness/i });
 
@@ -640,27 +640,25 @@ describe('SafeFlow prototype', () => {
     expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
   });
 
-  it('keeps the top prototype journey focused on board-level views', () => {
+  it('keeps the sidebar as the sole primary workspace navigation', () => {
     render(<App />);
 
-    const journey = screen.getByRole('navigation', { name: /prototype journey/i });
+    const workspace = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
 
-    expect(within(journey).getByRole('tab', { name: /ward board/i })).toBeInTheDocument();
-    expect(within(journey).getByRole('tab', { name: /handover/i })).toBeInTheDocument();
-    expect(within(journey).getByRole('tab', { name: /patient journey twin/i })).toBeInTheDocument();
-    expect(within(journey).getByRole('tab', { name: /^audit$/i })).toBeInTheDocument();
-    expect(within(journey).queryByRole('tab', { name: /potassium flag/i })).not.toBeInTheDocument();
-    expect(within(journey).queryByRole('tab', { name: /^scenarios$/i })).not.toBeInTheDocument();
-    expect(within(journey).queryByRole('tab', { name: /competency passport/i })).not.toBeInTheDocument();
-    expect(within(journey).queryByRole('tab', { name: /learning hub/i })).not.toBeInTheDocument();
+    expect(within(workspace).getByRole('button', { name: /ward safety board/i })).toBeInTheDocument();
+    expect(within(workspace).getByRole('button', { name: /^handover/i })).toBeInTheDocument();
+    expect(within(workspace).getByRole('button', { name: /patient journey twin/i })).toBeInTheDocument();
+    expect(within(workspace).getByRole('button', { name: /audit trail/i })).toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: /prototype journey/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('tab', { name: /ward board/i })).not.toBeInTheDocument();
   });
 
   it('shows audit and learning timeline from simulated workflow events', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const journey = screen.getByRole('navigation', { name: /prototype journey/i });
-    await user.click(within(journey).getByRole('tab', { name: 'Audit' }));
+    const workspace = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+    await user.click(within(workspace).getByRole('button', { name: /audit trail/i }));
 
     expect(screen.getByRole('region', { name: /audit and learning/i })).toBeInTheDocument();
     expect(screen.getAllByText(/Imported from fictional scenario timeline/i).length).toBeGreaterThan(0);
