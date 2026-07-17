@@ -51,14 +51,18 @@ describe('SafeFlow prototype', () => {
   it('renders a demo scenario selector in the main header', () => {
     render(<App />);
 
-    const selector = screen.getByRole('combobox', { name: /demo scenario/i });
-    expect(selector).toBeInTheDocument();
-    expect(selector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
-    expect(within(selector).getByRole('option', { name: /day care treatment pathway review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /surgical post-op deterioration review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /paediatric sepsis-screen review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /community frailty falls-risk review/i })).toBeInTheDocument();
-    expect(within(selector).getByRole('option', { name: /community medication-timing review/i })).toBeInTheDocument();
+    const wardSelector = screen.getByRole('combobox', { name: 'Ward' });
+    const focusSelector = screen.getByRole('combobox', { name: 'Review focus' });
+    expect(wardSelector).toBeInTheDocument();
+    expect(focusSelector).toBeInTheDocument();
+    expect(wardSelector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
+    expect(focusSelector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
+    expect(within(wardSelector).getByRole('option', { name: 'Day Care' })).toBeInTheDocument();
+    expect(within(wardSelector).getByRole('option', { name: 'Surgical' })).toBeInTheDocument();
+    expect(within(wardSelector).getByRole('option', { name: 'Paediatrics' })).toBeInTheDocument();
+    expect(within(wardSelector).getByRole('option', { name: 'Community Frailty' })).toBeInTheDocument();
+    expect(within(focusSelector).getByRole('option', { name: 'Documentation' })).toBeInTheDocument();
+    expect(within(focusSelector).getByRole('option', { name: 'Observation trend' })).toBeInTheDocument();
   });
 
   it('enables and disables presentation mode with simulation-only flow cues', async () => {
@@ -351,7 +355,8 @@ describe('SafeFlow prototype', () => {
     vi.stubGlobal('fetch', fetch);
     render(<App />);
 
-    await user.selectOptions(screen.getByRole('combobox', { name: /demo scenario/i }), 'amu-discharge-readiness-review');
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Ward' }), 'ward-acute-medical-alpha');
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Review focus' }), 'legacy-amu-discharge-readiness-review');
 
     expect(await screen.findByRole('heading', { name: 'DCU-044' })).toBeInTheDocument();
     expect(screen.getByText(/Acute Medical Unit/i)).toBeInTheDocument();

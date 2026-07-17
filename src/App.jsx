@@ -40,7 +40,7 @@ import { PatientJourneyTwin } from './components/PatientJourneyTwin.jsx';
 import { SimulationDialog } from './components/SimulationDialog.jsx';
 import { CompetencyPassportView } from './CompetencyPassportView.jsx';
 import { LearningHubView } from './LearningHubView.jsx';
-import { getDemoScenarioOptions } from './data/demoScenarios.js';
+import { getDemoScenarioSelectionOptions } from './data/demoScenarios.js';
 import {
   selectActiveEscalationCount,
   selectAllTasks,
@@ -235,7 +235,7 @@ function buildSignalSnapshot({ signals, suggestions } = {}) {
 export default function App() {
   const { state, dispatch, reset } = useSimulationWorkspace();
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
-  const demoScenarioOptions = useMemo(() => getDemoScenarioOptions(), []);
+  const demoScenarioOptions = useMemo(() => getDemoScenarioSelectionOptions(), []);
   const selectedScenario = useMemo(
     () => demoScenarioOptions.find((option) => option.id === state.selectedScenarioId) ?? demoScenarioOptions[0] ?? null,
     [demoScenarioOptions, state.selectedScenarioId]
