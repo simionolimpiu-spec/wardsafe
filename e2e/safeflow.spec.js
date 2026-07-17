@@ -7,7 +7,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByText(/Simulation only/i)).toBeVisible();
   await expect(page.getByText(/^NHS$/)).toHaveCount(0);
 
-  const overflowingMetrics = await page.locator('.metric-grid').evaluate((grid) => {
+  const overflowingMetrics = await page.locator('.board-summary-cards').evaluate((grid) => {
     const gridRect = grid.getBoundingClientRect();
     return Array.from(grid.children)
       .filter((card) => card.getBoundingClientRect().right > gridRect.right + 1)

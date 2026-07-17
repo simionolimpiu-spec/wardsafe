@@ -1,7 +1,9 @@
 import { simulatedPatients, wardSummary as dayCareWardSummary } from './simulatedPatients.js';
 import {
   getWardLibraryDemoScenarioById,
-  getWardLibraryScenarioOptions
+  getReviewFocusOptions,
+  getWardLibraryScenarioOptions,
+  getWardOptions
 } from './wardLibrary/index.js';
 
 export const DEFAULT_DEMO_SCENARIO_ID = 'day-care-treatment-pathway';
@@ -532,6 +534,33 @@ export function getDemoScenarioOptions() {
   ];
 }
 
+export function getDemoScenarioSelectionOptions() {
+  const libraryWardOptions = getWardOptions();
+  const librarySelectionByScenarioId = new Map(
+    libraryWardOptions.flatMap((ward) =>
+      getReviewFocusOptions(ward.id).map((focus) => [focus.scenarioId, {
+        wardId: ward.id,
+        wardLabel: ward.label,
+        focusId: focus.id,
+        focusLabel: focus.label
+      }])
+    )
+  );
+
+  return [
+    ...getWardLibraryScenarioOptions().map((scenario) => ({
+      ...scenario,
+      ...librarySelectionByScenarioId.get(scenario.id)
+    })),
+    ...demoScenarioDefinitions.map((scenario) => ({
+      id: scenario.id,
+      label: scenario.label,
+      description: scenario.description,
+      ...legacySelectionMetadata(scenario, libraryWardOptions)
+    }))
+  ];
+}
+
 export function getDemoSignalFixtures() {
   return demoScenarioDefinitions.flatMap((scenario) => clone(scenario.signalFixtures));
 }
@@ -546,6 +575,58 @@ function buildScenarioPatients(definition) {
     ...clone(patient),
     ...(overrides[patient.id] ? clone(overrides[patient.id]) : {})
   }));
+}
+
+function legacySelectionMetadata(scenario, libraryWardOptions) {
+  const matchedWard = libraryWardOptions.find((ward) => wardNamesMatch(ward.label, scenario.currentWardName));
+  const wardLabel = matchedWard?.label ?? compactWardLabel(scenario.currentWardName);
+
+  return {
+    wardId: matchedWard?.id ?? `legacy-${slugify(scenario.currentWardName)}`,
+    wardLabel,
+    focusId: `legacy-${slugify(scenario.id)}`,
+    focusLabel: deriveLegacyFocusLabel(scenario, wardLabel)
+  };
+}
+
+function deriveLegacyFocusLabel(scenario, wardLabel) {
+  const withoutReview = scenario.label.replace(/\s+review$/i, '').trim();
+  const wardPrefix = compactWardLabel(wardLabel);
+  const prefixPattern = new RegExp(`^${escapeRegExp(wardPrefix)}(?:\\s+(?:ward|unit|team))?\\s*`, 'i');
+  let focusText = withoutReview.replace(prefixPattern, '').replace(/^ward\s+/i, '').trim();
+  if (!focusText || focusText === withoutReview) {
+    focusText = withoutReview.split(/\s+/).slice(1).join(' ').trim() || withoutReview;
+  }
+  return focusText
+    .split(/\s+/)
+    .map((part) => part ? `${part.charAt(0).toUpperCase()}${part.slice(1)}` : part)
+    .join(' ');
+}
+
+function compactWardLabel(value) {
+  return String(value ?? '')
+    .replace(/\s+Alpha$/i, '')
+    .replace(/\s+(Ward|Unit|Team)$/i, '')
+    .trim();
+}
+
+function wardNamesMatch(left, right) {
+  const normalise = (value) => compactWardLabel(value).toLowerCase().replace(/[^a-z0-9]+/g, '');
+  const leftValue = normalise(left);
+  const rightValue = normalise(right);
+  return leftValue === rightValue || leftValue.replace(/s$/, '') === rightValue.replace(/s$/, '');
+}
+
+function escapeRegExp(value) {
+  return String(value ?? '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function slugify(value) {
+  return String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function createWardSummary(unitName, patients, meta = {}) {

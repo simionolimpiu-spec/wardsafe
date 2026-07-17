@@ -56,6 +56,7 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
                   </button>
                 </td>
                 <td>{patient.name}</td>
+                <td>{patient.name}</td>
                 <td>
                   <span className={`risk risk-${patient.risk.toLowerCase()}`}>{patient.risk}</span>
                   <div className="flag-stack">

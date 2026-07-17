@@ -89,30 +89,40 @@ const FLAG_CATEGORY_DEFINITIONS = [
 const SCENARIO_THEMES = [
   {
     suffix: '01',
+    focusId: 'documentation',
+    focusLabel: 'Documentation',
     title: 'documentation and handover review',
     description: 'Simulation-only ward scenario focused on documentation gaps, handover completeness and human review.',
     categories: ['documentation', 'handover', 'learning']
   },
   {
     suffix: '02',
+    focusId: 'escalation-readiness',
+    focusLabel: 'Escalation readiness',
     title: 'escalation readiness review',
     description: 'Simulation-only ward scenario focused on escalation readiness cues and visible ownership.',
     categories: ['escalation', 'deteriorating-obs', 'handover']
   },
   {
     suffix: '03',
+    focusId: 'discharge-readiness',
+    focusLabel: 'Discharge readiness',
     title: 'discharge-readiness review',
     description: 'Simulation-only ward scenario focused on discharge-readiness blockers and documented follow-up ownership.',
     categories: ['discharge', 'documentation', 'handover']
   },
   {
     suffix: '04',
+    focusId: 'medicine-timing',
+    focusLabel: 'Medicine timing',
     title: 'medicine timing documentation review',
     description: 'Simulation-only ward scenario focused on medicine timing, notes and review ownership.',
     categories: ['medication-timing', 'documentation', 'learning']
   },
   {
     suffix: '05',
+    focusId: 'observation-trend',
+    focusLabel: 'Observation trend',
     title: 'observation trend review',
     description: 'Simulation-only ward scenario focused on NEWS2 observation sets, trend visibility and structured review support.',
     categories: ['deteriorating-obs', 'escalation', 'documentation']
@@ -164,6 +174,32 @@ export function getWardLibraryScenarioOptions() {
     label: scenario.title,
     description: scenario.description
   }));
+}
+
+export function getWardOptions() {
+  return wardLibrary.wards.map((ward) => ({
+    id: ward.id,
+    label: wardLabel(ward)
+  }));
+}
+
+export function getReviewFocusOptions(wardId) {
+  const ward = findWard(wardId);
+  if (!ward) {
+    return [];
+  }
+
+  return wardLibrary.scenarios
+    .filter((scenario) => scenario.wardType === ward.wardType)
+    .map((scenario) => ({
+      id: scenario.focusId,
+      label: scenario.focusLabel,
+      scenarioId: scenario.id
+    }));
+}
+
+export function resolveScenarioId(wardId, focusId) {
+  return getReviewFocusOptions(wardId).find((focus) => focus.id === focusId)?.scenarioId ?? null;
 }
 
 export function getWardLibraryDemoScenarioById(scenarioId) {
@@ -412,6 +448,8 @@ function buildScenarios(wards, flags, patients) {
       return {
         id: `ward-sim-${scenarioWardSlug}-${theme.suffix}`,
         title: `${titleCase(ward.wardType)} ${theme.title}`,
+        focusId: theme.focusId,
+        focusLabel: theme.focusLabel,
         wardType: ward.wardType,
         description: `${theme.description} Fictional patients only; human review required and clinical judgement remains central.`,
         patientIds: scenarioPatients.map((patient) => patient.patientId),
@@ -726,6 +764,18 @@ function scenarioSlugForWardType(wardType) {
   return slugify(wardType)
     .replace('icu-hdu', 'icu-hdu')
     .replace('general-medical', 'general-medical');
+}
+
+function findWard(wardId) {
+  return wardLibrary.wards.find((ward) =>
+    ward.id === wardId || ward.wardType === wardId || ward.code === wardId
+  );
+}
+
+function wardLabel(ward) {
+  return ward.name
+    .replace(/\s+Alpha$/i, '')
+    .replace(/\s+(Ward|Unit|Team)$/i, '');
 }
 
 function slugify(value) {

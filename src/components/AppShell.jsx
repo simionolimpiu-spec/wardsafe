@@ -1,7 +1,7 @@
 import { Bell, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { DemoScenarioSelector } from './DemoScenarioSelector.jsx';
 import { SafetyBanner } from './SafetyBanner.jsx';
-import { WardContextSelector } from './WardContextSelector.jsx';
 import { WorkspaceNav } from './WorkspaceNav.jsx';
 
 const viewSubtitles = {
@@ -41,6 +41,7 @@ export function AppShell({
   isPresentationMode = false,
   onNavigate = () => {},
   onScenarioChange = () => {},
+  scenarioDescription = '',
   scenarioOptions = [],
   selectedScenarioId,
   taskCount,
@@ -70,7 +71,12 @@ export function AppShell({
             </div>
           </div>
           <div className="topbar-context">
-            <WardContextSelector onChange={onScenarioChange} options={scenarioOptions} value={selectedScenarioId} />
+            <DemoScenarioSelector
+              description={scenarioDescription}
+              onChange={onScenarioChange}
+              options={scenarioOptions}
+              value={selectedScenarioId}
+            />
             <div aria-label="Simulation date" className="date-stepper" role="group">
               <button aria-label="Previous simulation date" onClick={() => setDateOffset((value) => value - 1)} type="button"><ChevronLeft aria-hidden="true" size={18} /></button>
               <time dateTime="2026-06-17" aria-live="polite">{displayDate}</time>

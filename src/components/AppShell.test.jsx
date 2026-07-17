@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { getDemoScenarioOptions } from '../data/demoScenarios.js';
+import { getDemoScenarioSelectionOptions } from '../data/demoScenarios.js';
 import { wardSummary } from '../data/simulatedPatients.js';
 import { AppShell } from './AppShell.jsx';
 
@@ -13,7 +13,7 @@ describe('AppShell', () => {
         escalationCount={wardSummary.metrics.activeEscalations}
         onNavigate={vi.fn()}
         onScenarioChange={vi.fn()}
-        scenarioOptions={getDemoScenarioOptions()}
+        scenarioOptions={getDemoScenarioSelectionOptions()}
         selectedScenarioId="day-care-treatment-pathway"
         taskCount={5}
       >
