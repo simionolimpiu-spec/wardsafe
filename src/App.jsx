@@ -48,13 +48,6 @@ import {
 import { useSimulationWorkspace } from './state/useSimulationWorkspace.js';
 import { buildWardReportRows, downloadSimulationCsv } from './domain/simulationExport.js';
 
-const tabs = [
-  { id: 'board', label: 'Ward board' },
-  { id: 'handover', label: 'Handover' },
-  { id: 'twin', label: 'Patient Journey Twin' },
-  { id: 'trust-network', label: 'Trust Network' },
-  { id: 'audit', label: 'Audit' }
-];
 const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
 const PRESENTATION_STEPS = [
   { id: 'board', label: 'Review cues', description: 'Ward Safety Board' },
@@ -736,20 +729,6 @@ export default function App() {
             <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
           </section>
         )}
-        <nav className="tab-list" aria-label="Prototype journey">
-          {tabs.map((tab) => (
-            <button
-              aria-selected={state.selectedView === tab.id}
-              className={state.selectedView === tab.id ? 'active' : ''}
-              key={tab.id}
-              onClick={() => navigate(tab.id)}
-              role="tab"
-              type="button"
-            >
-              {tab.label}
-            </button>
-          ))}
-        </nav>
         <div className={`dashboard-layout ${showPatientPanel ? '' : 'full-width'}`}>
           <div>
             {state.selectedView === 'board' && (

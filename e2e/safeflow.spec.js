@@ -6,6 +6,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByRole('heading', { name: 'SafeFlow', exact: true })).toBeVisible();
   await expect(page.getByText(/Simulation only/i)).toBeVisible();
   await expect(page.getByText(/^NHS$/)).toHaveCount(0);
+  expect(await page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('Inter');
 
   const overflowingMetrics = await page.locator('.board-summary-cards').evaluate((grid) => {
     const gridRect = grid.getBoundingClientRect();
@@ -15,15 +16,16 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   });
   expect(overflowingMetrics).toEqual([]);
 
-  await page.getByRole('tab', { name: /Handover/i }).click();
+  const workspaceNav = page.getByRole('navigation', { name: /SafeFlow workspace/i });
+  await workspaceNav.getByRole('button', { name: 'Handover', exact: true }).click();
   await expect(page.getByRole('region', { name: /Handover and discharge readiness/i })).toBeVisible();
 
-  const journey = page.getByRole('navigation', { name: /Prototype journey/i });
-  await expect(journey.getByRole('tab', { name: /Potassium flag/i })).toHaveCount(0);
-  await expect(journey.getByRole('tab', { name: /^Scenarios$/i })).toHaveCount(0);
-  await expect(journey.getByRole('tab', { name: /Competency Passport/i })).toHaveCount(0);
-  await expect(journey.getByRole('tab', { name: /Learning Hub/i })).toHaveCount(0);
-  await page.getByRole('tab', { name: /Ward board/i }).click();
+  await expect(page.getByRole('navigation', { name: /Prototype journey/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /Potassium flag/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /^Scenarios$/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /Competency Passport/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /Learning Hub/i })).toHaveCount(0);
+  await workspaceNav.getByRole('button', { name: 'Ward Safety Board', exact: true }).click();
   await expect(page.getByRole('row', { name: /DCU-031.*Electrolyte \/ AKI safety gap/i })).toBeVisible();
   await expect(page.getByRole('region', { name: /Potassium electrolyte safety gap/i })).toBeVisible();
   await expect(page.getByText(/does not prescribe/i)).toBeVisible();
@@ -33,7 +35,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await page.getByRole('button', { name: /Save SBAR draft/i }).click();
   await expect(page.getByText(/SBAR draft edited and saved/i)).toBeVisible();
 
-  await page.getByRole('button', { name: /Scenarios/i }).click();
+  await workspaceNav.getByRole('button', { name: 'Scenarios', exact: true }).click();
   await expect(page.getByRole('region', { name: /Discovery scenario library/i })).toBeVisible();
   await expect(page.getByText(/Initial hazard controls/i)).toBeVisible();
 
@@ -51,7 +53,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   ];
 
   for (const [button, heading] of destinations) {
-    await page.getByRole('button', { name: button, exact: typeof button === 'string' }).click();
+    await workspaceNav.getByRole('button', { name: button, exact: typeof button === 'string' }).click();
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   }
 
