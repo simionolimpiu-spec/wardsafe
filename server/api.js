@@ -2,6 +2,7 @@ import { simulatedPatients } from '../src/data/simulatedPatients.js';
 import { deterministicDraftProvider } from '../src/domain/draftProvider.js';
 import { buildEpisodes, compareDays, getPatientDay } from '../src/domain/longitudinalJourney.js';
 import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
+import { buildWardLongitudinalRollup, compareWardDays } from '../src/domain/wardLongitudinalRollup.js';
 import {
   assertSimulationAuditPayloadIsSafe,
   createConfiguredAuditEventProvider
@@ -28,6 +29,8 @@ export function createApiHandler({
     const longitudinalDayMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/days\/(-?\d+)$/);
     const longitudinalEpisodesMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/episodes$/);
     const longitudinalCompareMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/compare$/);
+    const wardLongitudinalRollupMatch = pathname.match(/^\/api\/simulation\/longitudinal\/wards\/([^/]+)\/rollup$/);
+    const wardLongitudinalCompareMatch = pathname.match(/^\/api\/simulation\/longitudinal\/wards\/([^/]+)\/compare$/);
     setCorsHeaders(res, env);
 
     if (req.method === 'OPTIONS') {
@@ -105,6 +108,16 @@ export function createApiHandler({
 
     if (req.method === 'GET' && longitudinalCompareMatch) {
       handleLongitudinalCompare(res, decodeURIComponent(longitudinalCompareMatch[1]), searchParams);
+      return;
+    }
+
+    if (req.method === 'GET' && wardLongitudinalRollupMatch) {
+      handleWardLongitudinalRollup(res, decodeURIComponent(wardLongitudinalRollupMatch[1]), searchParams);
+      return;
+    }
+
+    if (req.method === 'GET' && wardLongitudinalCompareMatch) {
+      handleWardLongitudinalCompare(res, decodeURIComponent(wardLongitudinalCompareMatch[1]), searchParams);
       return;
     }
 
@@ -291,6 +304,30 @@ function handleLongitudinalCompare(res, patientId, searchParams) {
       simulationOnly: true,
       safetyBoundary: simulationSafetyBoundary(),
       comparison: compareDays(patientId, dayA, dayB)
+    }
+  }));
+}
+
+function handleWardLongitudinalRollup(res, wardId, searchParams) {
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'ward-longitudinal-rollup-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      rollup: buildWardLongitudinalRollup(wardId, searchParams.get('day'))
+    }
+  }));
+}
+
+function handleWardLongitudinalCompare(res, wardId, searchParams) {
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'ward-longitudinal-rollup-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      comparison: compareWardDays(wardId, searchParams.get('from'), searchParams.get('to'))
     }
   }));
 }

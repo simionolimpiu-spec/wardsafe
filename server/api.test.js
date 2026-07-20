@@ -597,4 +597,75 @@ describe('createApiHandler', () => {
 
     expect(res.statusCode).toBe(400);
   });
+
+  it('returns a ward cohort rollup from the longitudinal rollup engine', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/jpuh-ward-1/rollup?day=1300' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.source).toBe('ward-longitudinal-rollup-engine');
+    expect(payload.rollup).toMatchObject({
+      wardId: 'jpuh-ward-1',
+      dayNumber: 1300,
+      patientCount: 3
+    });
+  });
+
+  it('keeps unknown ward rollups empty and lets the engine default an invalid day', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/unknown%20ward/rollup?day=not-a-day' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.rollup).toMatchObject({
+      wardId: 'unknown ward',
+      dayNumber: 1,
+      patientCount: 0,
+      averages: { respRate: null, spo2: null, heartRate: null, systolicBp: null, tempC: null },
+      reviewFlagCount: 0
+    });
+  });
+
+  it('returns a then-vs-now comparison for a fictional ward cohort', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/jpuh-ward-1/compare?from=1&to=90' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.source).toBe('ward-longitudinal-rollup-engine');
+    expect(payload.comparison).toMatchObject({
+      wardId: 'jpuh-ward-1',
+      dayA: 1,
+      dayB: 90,
+      reviewFlagCount: { then: 3, now: 3 }
+    });
+    expect(payload.comparison.trendNote).toMatch(/human review required/i);
+  });
+
+  it('returns an empty comparison for an unknown ward using engine defaults', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/unknown-ward/compare?from=&to=invalid' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.comparison).toMatchObject({
+      wardId: 'unknown-ward',
+      dayA: 1,
+      dayB: 1,
+      reviewFlagCount: { then: 0, now: 0 }
+    });
+  });
 });
