@@ -230,6 +230,31 @@
   font-weight: 700;
 }
 
+.trust-network-ward-trend-range {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+}
+
+.trust-network-ward-trend-range label {
+  color: var(--text-muted, #4a5b66);
+  font-size: 0.64rem;
+}
+
+.trust-network-ward-trend-range select {
+  max-width: 148px;
+  padding: 3px 4px;
+  border: 1px solid var(--border-subtle, #d7dee3);
+  border-radius: 4px;
+  background: var(--surface, #fff);
+  color: var(--text, #24323c);
+  font-size: 0.68rem;
+}
+
+.trust-network-ward-trend-range span {
+  font-size: 0.72rem;
+}
+
 .trust-network-ward-trend-meta,
 .trust-network-ward-trend-flags,
 .trust-network-ward-trend-note {
