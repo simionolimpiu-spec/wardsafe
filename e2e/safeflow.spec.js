@@ -39,6 +39,26 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByRole('region', { name: /Discovery scenario library/i })).toBeVisible();
   await expect(page.getByText(/Initial hazard controls/i)).toBeVisible();
 
+  await workspaceNav.getByRole('button', { name: 'Trust Network', exact: true }).click();
+  const trustNetworkView = page.getByRole('region', { name: /England Trust Network/i });
+  await expect(trustNetworkView).toBeVisible();
+  await expect(trustNetworkView.getByRole('heading', { name: /England Trust Network \(simulation\)/i })).toBeVisible();
+  await expect(page.getByRole('region', { name: /Simulation safety boundary/i })).toBeVisible();
+  await expect(page.getByText(/Simulation only/i)).toBeVisible();
+
+  const wardTrendPanel = trustNetworkView.getByRole('article', { name: /Ward trend \(simulation\) for/i }).first();
+  await expect(wardTrendPanel).toBeVisible();
+  await expect(wardTrendPanel.getByRole('table', { name: /Average observations for/i })).toBeVisible();
+  await expect(wardTrendPanel.getByText(/Fictional cohort: \d+ patients/i)).toBeVisible();
+
+  const respiratoryRateRow = wardTrendPanel.getByRole('row', { name: /Respiratory rate/i });
+  const defaultRespiratoryRate = await respiratoryRateRow.innerText();
+  const dayRangePicker = wardTrendPanel.getByRole('combobox', { name: /Compare fictional ward days/i });
+  await expect(wardTrendPanel.getByText('1 -> 90')).toBeVisible();
+  await dayRangePicker.selectOption('1-180');
+  await expect(wardTrendPanel.getByText('1 -> 180')).toBeVisible();
+  await expect(wardTrendPanel.getByRole('row', { name: /Respiratory rate/i })).not.toHaveText(defaultRespiratoryRate);
+
   const destinations = [
     ['Ward Safety Board', 'Ward Safety Board'],
     ['My Patients', 'My Patients'],
