@@ -29,4 +29,18 @@ describe('TrustNetworkView', () => {
 
     expect(region.textContent).not.toMatch(/diagnos|prescrib|automated escalation|staff scoring|league table/i);
   });
+
+  it('renders a fixed-day ward trend rollup for every trust-network ward', () => {
+    render(<TrustNetworkView />);
+
+    const region = screen.getByLabelText('England Trust Network');
+    const wardTrendPanels = within(region).getAllByRole('article', { name: /ward trend \(simulation\) for/i });
+
+    expect(wardTrendPanels.length).toBeGreaterThan(50);
+    expect(within(region).getAllByText('Ward trend (simulation)').length).toBe(wardTrendPanels.length);
+    expect(region.textContent).toMatch(/Fictional cohort: \d+ patients/);
+    expect(region.textContent).toMatch(/Respiratory rate/);
+    expect(region.textContent).toMatch(/Review-support flags: \d+ then -> \d+ now/);
+    expect(region.textContent).toMatch(/human review required; review-support cue only/i);
+  });
 });
