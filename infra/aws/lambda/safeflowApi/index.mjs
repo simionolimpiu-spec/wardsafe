@@ -10,6 +10,7 @@ import {
 } from '../../../../server/auditEventProvider.js';
 import { createCorsHeaders, isOriginAllowed } from '../../../../server/corsConfig.js';
 import { buildEpisodes, compareDays, getPatientDay } from '../../../../src/domain/longitudinalJourney.js';
+import { buildWardLongitudinalRollup, compareWardDays } from '../../../../src/domain/wardLongitudinalRollup.js';
 import { createSimulationReadinessReport } from '../../../../server/readinessReport.js';
 import {
   allowsSimulationPreviewFallback,
@@ -182,6 +183,8 @@ export function createSafeFlowApiHandler({
       const longitudinalDayMatch = path.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/days\/(-?\d+)$/);
       const longitudinalEpisodesMatch = path.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/episodes$/);
       const longitudinalCompareMatch = path.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/compare$/);
+      const wardLongitudinalRollupMatch = path.match(/^\/api\/simulation\/longitudinal\/wards\/([^/]+)\/rollup$/);
+      const wardLongitudinalCompareMatch = path.match(/^\/api\/simulation\/longitudinal\/wards\/([^/]+)\/compare$/);
 
       if (method === 'POST' && suggestionActionMatch) {
         if (!databaseMode) {
@@ -290,6 +293,37 @@ export function createSafeFlowApiHandler({
             simulationOnly: true,
             safetyBoundary: safetyBoundary(),
             comparison: compareDays(decodeURIComponent(longitudinalCompareMatch[1]), dayA, dayB)
+          }
+        }));
+      }
+
+      if (method === 'GET' && wardLongitudinalRollupMatch) {
+        return respond(200, buildSimulationOutputEnvelope({
+          source: 'ward-longitudinal-rollup-engine',
+          payload: {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            safetyBoundary: safetyBoundary(),
+            rollup: buildWardLongitudinalRollup(
+              decodeURIComponent(wardLongitudinalRollupMatch[1]),
+              event.queryStringParameters?.day
+            )
+          }
+        }));
+      }
+
+      if (method === 'GET' && wardLongitudinalCompareMatch) {
+        return respond(200, buildSimulationOutputEnvelope({
+          source: 'ward-longitudinal-rollup-engine',
+          payload: {
+            product: 'SafeFlow',
+            simulationOnly: true,
+            safetyBoundary: safetyBoundary(),
+            comparison: compareWardDays(
+              decodeURIComponent(wardLongitudinalCompareMatch[1]),
+              event.queryStringParameters?.from,
+              event.queryStringParameters?.to
+            )
           }
         }));
       }
