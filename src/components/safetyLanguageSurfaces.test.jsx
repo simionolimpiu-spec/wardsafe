@@ -95,6 +95,8 @@ describe('safety language surface scans', () => {
     const { container } = render(<TrustNetworkView />);
 
     expect(screen.getByRole('heading', { name: /england trust network/i })).toBeInTheDocument();
+    expect(screen.getAllByText('Ward trend (simulation)').length).toBeGreaterThan(50);
+    expect(screen.getAllByText(/human review required; review-support cue only/i).length).toBeGreaterThan(50);
 
     const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
       checkedLabel: 'Two-Trust Network render'

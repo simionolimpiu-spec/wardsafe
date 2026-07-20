@@ -5,6 +5,7 @@ import {
   getInterTrustJourneys,
   getPatientTimeline
 } from '../data/trustNetwork/index.js';
+import { compareWardDays } from '../domain/wardLongitudinalRollup.js';
 
 function JourneyPatientTimeline({ patientId }) {
   const timeline = getPatientTimeline(patientId);
@@ -43,6 +44,71 @@ function trustPatientCount(trustId) {
   return getWardsForTrust(trustId).reduce((total, ward) => total + getPatientsForWard(ward.id).length, 0);
 }
 
+const WARD_TREND_DAYS = Object.freeze({ then: 1, now: 90 });
+const WARD_OBSERVATION_LABELS = Object.freeze({
+  respRate: 'Respiratory rate',
+  spo2: 'SpO2',
+  heartRate: 'Heart rate',
+  systolicBp: 'Systolic BP',
+  tempC: 'Temperature (C)'
+});
+
+function formatAverage(value) {
+  return typeof value === 'number' ? value.toFixed(1) : '—';
+}
+
+function formatDelta(value) {
+  if (typeof value !== 'number') return '—';
+  if (value === 0) return '0.0';
+  return `${value > 0 ? '+' : ''}${value.toFixed(1)}`;
+}
+
+function WardTrendRollup({ ward }) {
+  const trend = compareWardDays(ward.id, WARD_TREND_DAYS.then, WARD_TREND_DAYS.now);
+
+  return (
+    <article className="trust-network-ward-trend" aria-label={`Ward trend (simulation) for ${ward.name}`}>
+      <header className="trust-network-ward-trend-head">
+        <div>
+          <strong>Ward trend (simulation)</strong>
+          <h4>{ward.name}</h4>
+        </div>
+        <span>{trend.dayA} -&gt; {trend.dayB}</span>
+      </header>
+      <p className="trust-network-ward-trend-meta">
+        Fictional cohort: {getPatientsForWard(ward.id).length} patients · average observation change
+      </p>
+      <table className="trust-network-ward-trend-table" aria-label={`Average observations for ${ward.name}`}>
+        <thead>
+          <tr>
+            <th scope="col">Observation</th>
+            <th scope="col">Then</th>
+            <th scope="col">Now</th>
+            <th scope="col">Delta</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(WARD_OBSERVATION_LABELS).map(([key, label]) => {
+            const change = trend.averages[key];
+            return (
+              <tr key={key}>
+                <th scope="row">{label}</th>
+                <td>{formatAverage(change.then)}</td>
+                <td>{formatAverage(change.now)}</td>
+                <td>{formatDelta(change.delta)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p className="trust-network-ward-trend-flags">
+        <strong>Review-support flags:</strong> {trend.reviewFlagCount.then} then -&gt; {trend.reviewFlagCount.now} now
+      </p>
+      <small className="trust-network-ward-trend-note">{trend.trendNote}</small>
+    </article>
+  );
+}
+
 export function TrustNetworkView() {
   const journeys = getInterTrustJourneys();
 
@@ -63,6 +129,11 @@ export function TrustNetworkView() {
             <small>
               {getWardsForTrust(trust.id).length} wards · {trustPatientCount(trust.id)} fictional patients · source: {trust.wardSource}
             </small>
+            <div className="trust-network-ward-trends">
+              {getWardsForTrust(trust.id).map((ward) => (
+                <WardTrendRollup key={ward.id} ward={ward} />
+              ))}
+            </div>
           </article>
         ))}
       </div>
