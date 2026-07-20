@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   trustNetwork,
   getWardsForTrust,
@@ -45,6 +46,13 @@ function trustPatientCount(trustId) {
 }
 
 const WARD_TREND_DAYS = Object.freeze({ then: 1, now: 90 });
+const WARD_TREND_PRESETS = Object.freeze([
+  { value: '1-30', label: 'Day 1 vs Day 30', then: 1, now: 30 },
+  { value: '1-90', label: 'Day 1 vs Day 90', then: 1, now: 90 },
+  { value: '1-180', label: 'Day 1 vs Day 180', then: 1, now: 180 },
+  { value: '1-365', label: 'Day 1 vs Day 365', then: 1, now: 365 },
+  { value: '1-1300', label: 'Day 1 vs Day 1300', then: 1, now: 1300 }
+]);
 const WARD_OBSERVATION_LABELS = Object.freeze({
   respRate: 'Respiratory rate',
   spo2: 'SpO2',
@@ -64,7 +72,17 @@ function formatDelta(value) {
 }
 
 function WardTrendRollup({ ward }) {
-  const trend = compareWardDays(ward.id, WARD_TREND_DAYS.then, WARD_TREND_DAYS.now);
+  const [dayA, setDayA] = useState(WARD_TREND_DAYS.then);
+  const [dayB, setDayB] = useState(WARD_TREND_DAYS.now);
+  const selectedPreset = WARD_TREND_PRESETS.find((preset) => preset.then === dayA && preset.now === dayB);
+  const selectedValue = selectedPreset?.value ?? '1-90';
+  const trend = compareWardDays(ward.id, dayA, dayB);
+
+  function handlePresetChange(event) {
+    const preset = WARD_TREND_PRESETS.find((option) => option.value === event.target.value) ?? WARD_TREND_DAYS;
+    setDayA(preset.then);
+    setDayB(preset.now);
+  }
 
   return (
     <article className="trust-network-ward-trend" aria-label={`Ward trend (simulation) for ${ward.name}`}>
@@ -73,7 +91,20 @@ function WardTrendRollup({ ward }) {
           <strong>Ward trend (simulation)</strong>
           <h4>{ward.name}</h4>
         </div>
-        <span>{trend.dayA} -&gt; {trend.dayB}</span>
+        <div className="trust-network-ward-trend-range">
+          <label htmlFor={`ward-trend-range-${ward.id}`}>Compare fictional days</label>
+          <select
+            id={`ward-trend-range-${ward.id}`}
+            aria-label={`Compare fictional ward days for ${ward.name}`}
+            onChange={handlePresetChange}
+            value={selectedValue}
+          >
+            {WARD_TREND_PRESETS.map((preset) => (
+              <option key={preset.value} value={preset.value}>{preset.label}</option>
+            ))}
+          </select>
+          <span>{trend.dayA} -&gt; {trend.dayB}</span>
+        </div>
       </header>
       <p className="trust-network-ward-trend-meta">
         Fictional cohort: {getPatientsForWard(ward.id).length} patients · average observation change

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { TrustNetworkView } from './TrustNetworkView.jsx';
 
 describe('TrustNetworkView', () => {
@@ -30,7 +30,7 @@ describe('TrustNetworkView', () => {
     expect(region.textContent).not.toMatch(/diagnos|prescrib|automated escalation|staff scoring|league table/i);
   });
 
-  it('renders a fixed-day ward trend rollup for every trust-network ward', () => {
+  it('renders a default-day ward trend rollup for every trust-network ward', () => {
     render(<TrustNetworkView />);
 
     const region = screen.getByLabelText('England Trust Network');
@@ -42,5 +42,21 @@ describe('TrustNetworkView', () => {
     expect(region.textContent).toMatch(/Respiratory rate/);
     expect(region.textContent).toMatch(/Review-support flags: \d+ then -> \d+ now/);
     expect(region.textContent).toMatch(/human review required; review-support cue only/i);
+  });
+
+  it('recomputes a ward trend when its day preset changes', () => {
+    render(<TrustNetworkView />);
+
+    const region = screen.getByLabelText('England Trust Network');
+    const panel = within(region).getAllByRole('article', { name: /ward trend \(simulation\) for/i })[0];
+    const rangeSelect = within(panel).getByRole('combobox', { name: /compare fictional ward days/i });
+    const respiratoryRateRow = within(panel).getByRole('row', { name: /respiratory rate/i });
+    const defaultRow = respiratoryRateRow.textContent;
+
+    expect(panel).toHaveTextContent('1 -> 90');
+    fireEvent.change(rangeSelect, { target: { value: '1-180' } });
+
+    expect(panel).toHaveTextContent('1 -> 180');
+    expect(within(panel).getByRole('row', { name: /respiratory rate/i }).textContent).not.toBe(defaultRow);
   });
 });
