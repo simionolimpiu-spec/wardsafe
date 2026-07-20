@@ -65,9 +65,13 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
     ['Observations', 'Observations'],
     [/^Tasks/, 'Tasks'],
     [/^Escalations/, 'Escalations'],
+    ['Hospital insights', 'Hospital insights'],
     ['Handover', 'Handover and Discharge Readiness'],
     ['Discharges', 'Discharges'],
     ['Reports', 'Reports'],
+    ['Competency Passport', 'Portable Competency Passport'],
+    ['Learning Hub', 'Learning Hub'],
+    ['Patient Journey Twin', 'Patient Journey Twin'],
     ['Audit Trail', 'Audit and Learning'],
     ['Settings', 'Settings']
   ];
