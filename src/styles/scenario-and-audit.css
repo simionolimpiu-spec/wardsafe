@@ -354,6 +354,207 @@
   margin-bottom: 0;
 }
 
+.score-comparison-panel {
+  background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 72%);
+  border: 1px solid #cfe0f6;
+  border-left: 4px solid var(--color-brand);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  padding: var(--space-6);
+}
+
+.score-comparison-heading {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: space-between;
+}
+
+.score-comparison-heading h3 {
+  color: var(--color-brand-dark);
+  margin: 0;
+}
+
+.score-comparison-heading p:last-child,
+.score-comparison-snapshot-note,
+.score-comparison-note,
+.score-comparison-convention,
+.score-comparison-boundary {
+  color: #53657a;
+  margin: var(--space-1) 0 0;
+}
+
+.score-comparison-select {
+  display: grid;
+  gap: 6px;
+  min-width: min(100%, 260px);
+}
+
+.score-comparison-select span {
+  color: var(--color-brand-dark);
+  font-size: var(--text-xs);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.score-comparison-select select {
+  background: #fff;
+  border: 1px solid #b9cde5;
+  border-radius: var(--radius-md);
+  color: var(--color-brand-dark);
+  font: inherit;
+  min-height: 42px;
+  padding: 8px 12px;
+}
+
+.score-comparison-snapshot-note {
+  margin-top: 0;
+}
+
+.score-comparison-snapshot-note strong,
+.score-comparison-note strong,
+.score-comparison-convention strong {
+  color: var(--color-brand-dark);
+}
+
+.score-comparison-observations {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0;
+}
+
+.score-comparison-observations div {
+  background: #fff;
+  border: 1px solid #dbe7f5;
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.score-comparison-observations dt {
+  color: #617083;
+  font-size: var(--text-xs);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.score-comparison-observations dd {
+  color: var(--color-brand-dark);
+  font-size: var(--text-lg);
+  font-weight: 900;
+  margin: 4px 0 0;
+}
+
+.score-comparison-observations small {
+  color: #617083;
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.score-comparison-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.score-comparison-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbfe 100%);
+  border: 1px solid #dbe7f5;
+  border-left: 4px solid var(--color-info);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.score-comparison-card:nth-child(2) {
+  border-left-color: var(--color-warning);
+}
+
+.score-comparison-card-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: var(--space-3);
+  justify-content: space-between;
+}
+
+.score-comparison-card-heading h4 {
+  color: var(--color-brand-dark);
+  margin: 0;
+}
+
+.score-comparison-card-heading span {
+  color: var(--color-brand);
+  font-size: var(--text-3xl);
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.score-comparison-total-label {
+  color: #617083;
+  font-size: var(--text-xs);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin: -8px 0 0;
+  text-transform: uppercase;
+}
+
+.score-comparison-points {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.score-comparison-points li {
+  align-items: baseline;
+  border-bottom: 1px solid #e7eef7;
+  display: flex;
+  gap: var(--space-3);
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.score-comparison-points li span {
+  color: #41516a;
+}
+
+.score-comparison-points li strong {
+  color: var(--color-brand-dark);
+  text-align: right;
+}
+
+.score-comparison-convention {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.score-comparison-note {
+  background: #fff;
+  border-left: 3px solid var(--color-info);
+  margin-top: 0;
+  padding: 10px 12px;
+}
+
+.score-comparison-boundary {
+  color: var(--color-brand-dark);
+  font-size: var(--text-xs);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
 .evidence-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
