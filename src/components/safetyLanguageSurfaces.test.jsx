@@ -85,6 +85,26 @@ describe('safety language surface scans', () => {
     });
   });
 
+  it('keeps the scoring systems comparison panel boundary-safe', () => {
+    const { container } = render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('region', { name: /scoring systems comparison \(simulation\)/i });
+
+    expect(within(panel).getByRole('combobox', { name: /fictional observation snapshot/i })).toBeInTheDocument();
+    expect(within(panel).getByRole('heading', { name: /scoring systems comparison/i })).toBeInTheDocument();
+    expect(within(panel).getByRole('heading', { name: /NEWS2 - England convention/i })).toBeInTheDocument();
+    expect(within(panel).getByRole('heading', { name: /MEWS-style variant/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/Simulation only - fictional observations - human review required/i)).toBeInTheDocument();
+
+    const result = scanBoundaryAwareSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library scoring systems comparison render'
+    });
+
+    expect(result).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
