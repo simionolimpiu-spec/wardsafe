@@ -128,6 +128,34 @@ export const discoveryScenarios = [
     ],
     evidenceExpected: ['Oxygen saturation trend', 'Observation timestamps', 'Human-review wording'],
     hazards: ['Overstating the change', 'Hiding the trend in vague wording', 'Using treatment language']
+  },
+  // Evidence: Hamada 2025 BMJ Open Qual; see international-comparative-synthesis.md.
+  {
+    id: 'scenario-respiratory-rate-first',
+    title: 'Respiratory-rate-first review',
+    wardContext: 'Fictional ward patient with other vital signs recorded, but respiratory rate not counted and auto-filled; a subtle respiratory-rate trend is the earliest review cue.',
+    reviewPrompt: 'Can the reviewer see that the respiratory rate is missing or auto-filled rather than actually counted, and that its subtle trend is the key early cue for human review without giving treatment advice?',
+    successSignals: [
+      'The missing or uncounted respiratory rate is visible within one minute',
+      'The respiratory rate trend is shown as a review cue, not a clinical conclusion',
+      'SBAR wording supports escalation documentation without clinical instruction'
+    ],
+    evidenceExpected: ['Respiratory rate trend', 'Missing RR count', 'Other vitals recorded', 'Latest SBAR note'],
+    hazards: ['Respiratory rate hidden inside the narrative', 'Auto-filled respiratory rate mistaken for a real count', 'Wording drifting into treatment advice']
+  },
+  // Evidence: Sprogis 2021 Intensive & Critical Care Nursing; Allen 2017 Journal of Clinical Nursing; see international-comparative-synthesis.md.
+  {
+    id: 'scenario-premet-worried-criterion',
+    title: 'Pre-MET worried/concern escalation criterion',
+    wardContext: 'Fictional ward patient whose NEWS2 remains below the escalation threshold while the nurse documents being worried about a change.',
+    reviewPrompt: "Does the board make the nurse's documented concern visible and ready for human review and escalation before objective thresholds trigger, without overstating urgency or implying a clinical conclusion?",
+    successSignals: [
+      "The nurse's documented concern is visible on the board",
+      'Escalation on concern is supported even with a sub-threshold NEWS2',
+      'The audit trail separates the concern flag from objective observations'
+    ],
+    evidenceExpected: ['NEWS2 (sub-threshold)', 'Documented nurse concern', 'Escalation status', 'Latest SBAR note'],
+    hazards: ['Concern flag buried behind the objective score', 'Hierarchy implied: the nurse cannot escalate without a number', 'Wording implying a clinical conclusion']
   }
 ];
 
