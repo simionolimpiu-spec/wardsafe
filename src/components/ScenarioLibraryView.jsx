@@ -1,5 +1,5 @@
 import { ClipboardCheck, FileSearch, ShieldCheck } from 'lucide-react';
-import { discoveryScenarios, initialHazardControls } from '../data/scenarioLibrary.js';
+import { discoveryScenarios, initialHazardControls, staffingContextNote } from '../data/scenarioLibrary.js';
 
 export function ScenarioLibraryView() {
   return (
@@ -35,6 +35,14 @@ export function ScenarioLibraryView() {
         <ul>
           {initialHazardControls.map((control) => <li key={control}>{control}</li>)}
         </ul>
+      </aside>
+
+      <aside className="scenario-staffing-context" aria-label="Staffing and skill-mix context">
+        <h3>{staffingContextNote.title}</h3>
+        <ul>
+          {staffingContextNote.points.map((point) => <li key={point}>{point}</li>)}
+        </ul>
+        <p><small><strong>Evidence:</strong> {staffingContextNote.evidence}</small></p>
       </aside>
     </section>
   );

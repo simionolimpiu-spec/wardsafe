@@ -14,6 +14,7 @@ import { ReportsView } from './ReportsView.jsx';
 import { WardSafetyBoard } from './WardSafetyBoard.jsx';
 import { WardQualitySafetyReviewDrawer } from './WardQualitySafetyReviewDrawer.jsx';
 import { AppShell } from './AppShell.jsx';
+import { ScenarioLibraryView } from './ScenarioLibraryView.jsx';
 import { getDemoScenarioOptions } from '../data/demoScenarios.js';
 
 const chartMocks = vi.hoisted(() => {
@@ -58,6 +59,24 @@ describe('safety language surface scans', () => {
     expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
     const result = scanBoundaryAwareSafetyLanguage(container.textContent ?? '', {
       checkedLabel: 'AppShell render'
+    });
+
+    expect(result).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the Scenario Library staffing context panel boundary-safe', () => {
+    const { container } = render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('complementary', { name: /staffing and skill-mix context/i });
+
+    expect(within(panel).getByRole('heading', { name: /staffing & skill-mix context/i })).toBeInTheDocument();
+    expect(within(panel).getAllByRole('listitem')).toHaveLength(4);
+    expect(within(panel).getByText(/Aiken et al\. 2016/i)).toBeInTheDocument();
+
+    const result = scanBoundaryAwareSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library staffing context render'
     });
 
     expect(result).toMatchObject({

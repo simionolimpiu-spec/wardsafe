@@ -196,3 +196,14 @@ export const initialHazardControls = [
   'Unsafe wording, including diagnosis or treatment instruction, must be rejected or replaced by fallback wording.',
   'Audit trail language is framed for learning, not blame.'
 ];
+
+export const staffingContextNote = {
+  title: 'Staffing & skill-mix context',
+  points: [
+    'In simulation-only review, the same fictional deterioration may be harder to catch when patient-to-nurse ratios are higher.',
+    'A richer professional-nurse skill mix is associated with better recognition-and-response; see the evidence line below.',
+    'SafeFlow supplements adequate professional staffing and is never a substitute for it.',
+    'This panel makes no staffing-level recommendation and no clinical claim; human review and clinical judgement remain central.'
+  ],
+  evidence: 'Aiken et al. 2016, BMJ Quality & Safety (6-country skill-mix study); see international-comparative-synthesis.md'
+};
