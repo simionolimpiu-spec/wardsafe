@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
-import { discoveryScenarios } from './scenarioLibrary.js';
+import { discoveryScenarios, staffingContextNote } from './scenarioLibrary.js';
 
 const DISALLOWED_VISIBLE_WORDING = /\b(action|diagnos(?:is|e|es|ing|tic))\b/i;
 const NEW_SCENARIO_IDS = new Set([
@@ -225,6 +225,32 @@ describe('deterioration learning scenario copy', () => {
         });
       }
     }
+  });
+
+  it('keeps the staffing context note shaped and strictly boundary-safe', () => {
+    expect(staffingContextNote.title).toEqual(expect.any(String));
+    expect(staffingContextNote.title.trim()).not.toBe('');
+    expect(Array.isArray(staffingContextNote.points)).toBe(true);
+    expect(staffingContextNote.points.length).toBeGreaterThan(0);
+    for (const point of staffingContextNote.points) {
+      expect(point).toEqual(expect.any(String));
+      expect(point.trim()).not.toBe('');
+    }
+    expect(staffingContextNote.evidence).toEqual(expect.any(String));
+    expect(staffingContextNote.evidence.trim()).not.toBe('');
+
+    const safetyScan = scanStrictSafetyLanguage([
+      staffingContextNote.title,
+      ...staffingContextNote.points,
+      staffingContextNote.evidence
+    ].join('\n'), {
+      checkedLabel: 'staffing context note'
+    });
+
+    expect(safetyScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
   });
 });
 
