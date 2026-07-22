@@ -5,7 +5,9 @@ import { discoveryScenarios } from './scenarioLibrary.js';
 const DISALLOWED_VISIBLE_WORDING = /\b(action|diagnos(?:is|e|es|ing|tic))\b/i;
 const NEW_SCENARIO_IDS = new Set([
   'scenario-respiratory-rate-first',
-  'scenario-premet-worried-criterion'
+  'scenario-premet-worried-criterion',
+  'scenario-alarm-fatigue-triage',
+  'scenario-graded-assertiveness-speakup'
 ]);
 
 describe('deterioration learning scenario copy', () => {
@@ -136,10 +138,70 @@ describe('deterioration learning scenario copy', () => {
     assertScenarioCopy(visibleCopy, /worried|documented concern/i, 'scenario-premet-worried-criterion');
   });
 
+  it('locks the visible copy for scenario-alarm-fatigue-triage', () => {
+    const scenario = getScenario('scenario-alarm-fatigue-triage');
+    const visibleCopy = formatScenarioCopy(scenario);
+
+    expect(visibleCopy).toMatchInlineSnapshot(`
+      "title: Alarm-fatigue / tiered-alarm triage
+      wardContext: Fictional ward patient on a continuous-monitoring and deterioration-alerting stream where most alerts are non-actionable noise and one genuine early-deterioration cue risks being missed.
+      reviewPrompt: Can the reviewer separate the actionable deterioration cue from non-actionable alarm noise and see a tiered/triaged view of which alerts warrant human review, without the tool making the clinical decision or auto-escalating?
+      successSignals:
+      - Non-actionable alarms are visibly distinguished from the actionable cue within one minute
+      - The genuine early cue is not buried by alarm volume
+      - Escalation/review remains a human decision, documented via SBAR without clinical instruction
+      evidenceExpected:
+      - Alarm stream
+      - Actionable vs non-actionable flag
+      - Observation trend behind the alert
+      - Latest SBAR note
+      hazards:
+      - Genuine cue lost in alarm noise
+      - Tool implying it has auto-triaged clinically
+      - Alarm count treated as urgency without review"
+    `);
+
+    assertScenarioCopy(
+      formatScenarioCopy(scenario, { includeHazards: false }),
+      /alarm-fatigue|actionable.*cue/i,
+      'scenario-alarm-fatigue-triage'
+    );
+  });
+
+  it('locks the visible copy for scenario-graded-assertiveness-speakup', () => {
+    const scenario = getScenario('scenario-graded-assertiveness-speakup');
+    const visibleCopy = formatScenarioCopy(scenario);
+
+    expect(visibleCopy).toMatchInlineSnapshot(`
+      "title: Graded-assertiveness / speak-up escalation scripting
+      wardContext: Fictional ward patient where a more junior nurse needs to escalate a concern up the hierarchy to a senior or doctor, with a structured concern statement available for review.
+      reviewPrompt: Can the reviewer see a clear, documentable escalation script ready for human review that lets a nurse voice a concern up the hierarchy without the tool overstating urgency or making a clinical judgement?
+      successSignals:
+      - A graded, structured escalation/SBAR script is visible and editable
+      - Speaking-up is framed as legitimate regardless of grade/hierarchy
+      - The audit trail records the concern being raised and by whom, non-punitively
+      evidenceExpected:
+      - Structured escalation/SBAR script
+      - Documented concern + owner
+      - Escalation status
+      - Communication-openness cue
+      hazards:
+      - Hierarchy implied: junior nurse must stay silent without a number
+      - Script drifting into clinical instruction/diagnosis
+      - Audit trail feeling blame-oriented rather than just-culture"
+    `);
+
+    assertScenarioCopy(
+      formatScenarioCopy(scenario, { includeHazards: false }),
+      /graded-assertiveness|speak-up|escalation script/i,
+      'scenario-graded-assertiveness-speakup'
+    );
+  });
+
   it('keeps the discovery scenario collection complete and uniquely identified', () => {
     const expectedKeys = ['id', 'title', 'wardContext', 'reviewPrompt', 'successSignals', 'evidenceExpected', 'hazards'];
 
-    expect(discoveryScenarios).toHaveLength(12);
+    expect(discoveryScenarios).toHaveLength(14);
     expect(new Set(discoveryScenarios.map((scenario) => scenario.id)).size).toBe(discoveryScenarios.length);
 
     for (const scenario of discoveryScenarios) {
@@ -153,7 +215,7 @@ describe('deterioration learning scenario copy', () => {
       expect(scenario.hazards.length).toBeGreaterThan(0);
 
       if (NEW_SCENARIO_IDS.has(scenario.id)) {
-        const safetyScan = scanStrictSafetyLanguage(formatScenarioCopy(scenario), {
+        const safetyScan = scanStrictSafetyLanguage(formatScenarioCopy(scenario, { includeHazards: false }), {
           checkedLabel: scenario.id
         });
 
@@ -188,16 +250,23 @@ function assertScenarioCopy(visibleCopy, reasonPattern, checkedLabel) {
   });
 }
 
-function formatScenarioCopy(scenario = {}) {
-  return [
+function formatScenarioCopy(scenario = {}, { includeHazards = true } = {}) {
+  const copy = [
     `title: ${scenario.title}`,
     `wardContext: ${scenario.wardContext}`,
     `reviewPrompt: ${scenario.reviewPrompt}`,
     'successSignals:',
     ...(Array.isArray(scenario.successSignals) ? scenario.successSignals : []).map((item) => `- ${item}`),
     'evidenceExpected:',
-    ...(Array.isArray(scenario.evidenceExpected) ? scenario.evidenceExpected : []).map((item) => `- ${item}`),
-    'hazards:',
-    ...(Array.isArray(scenario.hazards) ? scenario.hazards : []).map((item) => `- ${item}`)
-  ].join('\n');
+    ...(Array.isArray(scenario.evidenceExpected) ? scenario.evidenceExpected : []).map((item) => `- ${item}`)
+  ];
+
+  if (includeHazards) {
+    copy.push(
+      'hazards:',
+      ...(Array.isArray(scenario.hazards) ? scenario.hazards : []).map((item) => `- ${item}`)
+    );
+  }
+
+  return copy.join('\n');
 }

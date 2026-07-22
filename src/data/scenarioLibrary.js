@@ -156,6 +156,34 @@ export const discoveryScenarios = [
     ],
     evidenceExpected: ['NEWS2 (sub-threshold)', 'Documented nurse concern', 'Escalation status', 'Latest SBAR note'],
     hazards: ['Concern flag buried behind the objective score', 'Hierarchy implied: the nurse cannot escalate without a number', 'Wording implying a clinical conclusion']
+  },
+  // Evidence: Pan 2026 J Nurs Manag; see international-comparative-synthesis.md.
+  {
+    id: 'scenario-alarm-fatigue-triage',
+    title: 'Alarm-fatigue / tiered-alarm triage',
+    wardContext: 'Fictional ward patient on a continuous-monitoring and deterioration-alerting stream where most alerts are non-actionable noise and one genuine early-deterioration cue risks being missed.',
+    reviewPrompt: 'Can the reviewer separate the actionable deterioration cue from non-actionable alarm noise and see a tiered/triaged view of which alerts warrant human review, without the tool making the clinical decision or auto-escalating?',
+    successSignals: [
+      'Non-actionable alarms are visibly distinguished from the actionable cue within one minute',
+      'The genuine early cue is not buried by alarm volume',
+      'Escalation/review remains a human decision, documented via SBAR without clinical instruction'
+    ],
+    evidenceExpected: ['Alarm stream', 'Actionable vs non-actionable flag', 'Observation trend behind the alert', 'Latest SBAR note'],
+    hazards: ['Genuine cue lost in alarm noise', 'Tool implying it has auto-triaged clinically', 'Alarm count treated as urgency without review']
+  },
+  // Evidence: Pozzobon 2025 BMJ Open Qual; Chua 2023 Journal of Clinical Nursing; see international-comparative-synthesis.md.
+  {
+    id: 'scenario-graded-assertiveness-speakup',
+    title: 'Graded-assertiveness / speak-up escalation scripting',
+    wardContext: 'Fictional ward patient where a more junior nurse needs to escalate a concern up the hierarchy to a senior or doctor, with a structured concern statement available for review.',
+    reviewPrompt: 'Can the reviewer see a clear, documentable escalation script ready for human review that lets a nurse voice a concern up the hierarchy without the tool overstating urgency or making a clinical judgement?',
+    successSignals: [
+      'A graded, structured escalation/SBAR script is visible and editable',
+      'Speaking-up is framed as legitimate regardless of grade/hierarchy',
+      'The audit trail records the concern being raised and by whom, non-punitively'
+    ],
+    evidenceExpected: ['Structured escalation/SBAR script', 'Documented concern + owner', 'Escalation status', 'Communication-openness cue'],
+    hazards: ['Hierarchy implied: junior nurse must stay silent without a number', 'Script drifting into clinical instruction/diagnosis', 'Audit trail feeling blame-oriented rather than just-culture']
   }
 ];
 
