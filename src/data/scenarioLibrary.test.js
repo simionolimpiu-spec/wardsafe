@@ -7,7 +7,8 @@ const NEW_SCENARIO_IDS = new Set([
   'scenario-respiratory-rate-first',
   'scenario-premet-worried-criterion',
   'scenario-alarm-fatigue-triage',
-  'scenario-graded-assertiveness-speakup'
+  'scenario-graded-assertiveness-speakup',
+  'scenario-family-concern-marthas-rule'
 ]);
 
 describe('deterioration learning scenario copy', () => {
@@ -198,10 +199,40 @@ describe('deterioration learning scenario copy', () => {
     );
   });
 
+  it("locks the visible copy for scenario-family-concern-marthas-rule", () => {
+    const scenario = getScenario('scenario-family-concern-marthas-rule');
+    const visibleCopy = formatScenarioCopy(scenario);
+
+    expect(visibleCopy).toMatchInlineSnapshot(`
+      "title: Family concern / Martha's Rule pathway review
+      wardContext: Fictional ward patient whose relative has raised a concern that the patient is 'not themselves' and may be deteriorating, while observations remain unremarkable; the ward advertises a Martha's-Rule-style patient/family escalation pathway but the family was not initially aware of it.
+      reviewPrompt: Can the reviewer see the relative's concern as a legitimate, visible escalation trigger alongside staff observations, and see whether the family has been made aware of the patient/family escalation pathway for human review, without overstating urgency or making a clinical judgement?
+      successSignals:
+      - The family-raised concern is visible on the board with the same legitimacy as a staff concern
+      - Awareness of the patient/family escalation pathway is a visible, documentable step
+      - Escalation remains a human decision documented via SBAR without clinical instruction
+      evidenceExpected:
+      - Documented family concern
+      - Pathway awareness check
+      - Observation trend
+      - Escalation status
+      hazards:
+      - Family concern treated as less credible than a staff observation
+      - Pathway advertised but awareness never checked
+      - Wording implying a clinical conclusion or automated escalation"
+    `);
+
+    assertScenarioCopy(
+      formatScenarioCopy(scenario, { includeHazards: false }),
+      /family concern|Martha's Rule|patient\/family escalation pathway/i,
+      'scenario-family-concern-marthas-rule'
+    );
+  });
+
   it('keeps the discovery scenario collection complete and uniquely identified', () => {
     const expectedKeys = ['id', 'title', 'wardContext', 'reviewPrompt', 'successSignals', 'evidenceExpected', 'hazards'];
 
-    expect(discoveryScenarios).toHaveLength(14);
+    expect(discoveryScenarios).toHaveLength(15);
     expect(new Set(discoveryScenarios.map((scenario) => scenario.id)).size).toBe(discoveryScenarios.length);
 
     for (const scenario of discoveryScenarios) {
