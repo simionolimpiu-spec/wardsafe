@@ -184,6 +184,20 @@ export const discoveryScenarios = [
     ],
     evidenceExpected: ['Structured escalation/SBAR script', 'Documented concern + owner', 'Escalation status', 'Communication-openness cue'],
     hazards: ['Hierarchy implied: junior nurse must stay silent without a number', 'Script drifting into clinical instruction/diagnosis', 'Audit trail feeling blame-oriented rather than just-culture']
+  },
+  // Evidence: NHS England Martha's Rule programme data 2024-26; Frontiers in Health Services 2026 awareness evaluation; see evidence-horizon-scan.md.
+  {
+    id: 'scenario-family-concern-marthas-rule',
+    title: "Family concern / Martha's Rule pathway review",
+    wardContext: "Fictional ward patient whose relative has raised a concern that the patient is 'not themselves' and may be deteriorating, while observations remain unremarkable; the ward advertises a Martha's-Rule-style patient/family escalation pathway but the family was not initially aware of it.",
+    reviewPrompt: "Can the reviewer see the relative's concern as a legitimate, visible escalation trigger alongside staff observations, and see whether the family has been made aware of the patient/family escalation pathway for human review, without overstating urgency or making a clinical judgement?",
+    successSignals: [
+      'The family-raised concern is visible on the board with the same legitimacy as a staff concern',
+      'Awareness of the patient/family escalation pathway is a visible, documentable step',
+      'Escalation remains a human decision documented via SBAR without clinical instruction'
+    ],
+    evidenceExpected: ['Documented family concern', 'Pathway awareness check', 'Observation trend', 'Escalation status'],
+    hazards: ['Family concern treated as less credible than a staff observation', 'Pathway advertised but awareness never checked', 'Wording implying a clinical conclusion or automated escalation']
   }
 ];
 
