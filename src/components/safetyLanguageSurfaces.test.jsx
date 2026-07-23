@@ -4,7 +4,7 @@ import { getDemoScenarioById } from '../data/demoScenarios.js';
 import { simulatedPatients, wardSummary } from '../data/simulatedPatients.js';
 import { buildHeuristicCues } from '../domain/heuristicCueEngine.js';
 import { evaluatePotassiumSafetyGap } from '../domain/safetyRules.js';
-import { scanBoundaryAwareSafetyLanguage } from '../domain/safetyLanguage.js';
+import { scanBoundaryAwareSafetyLanguage, scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
 import { getHospitalInsightsSnapshot } from '../services/hospitalInsightsService.js';
 import { getWardQualitySafetyReviewSnapshot } from '../services/wardQualitySafetyReviewService.js';
 import { HospitalInsightsView } from './HospitalInsightsView.jsx';
@@ -77,6 +77,35 @@ describe('safety language surface scans', () => {
 
     const result = scanBoundaryAwareSafetyLanguage(panel.textContent ?? '', {
       checkedLabel: 'Scenario Library staffing context render'
+    });
+
+    expect(result).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the Scenario Library bias-awareness panel boundary-safe', () => {
+    const { container } = render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('complementary', { name: /notice your thinking/i });
+
+    expect(within(panel).getByRole('heading', { name: /notice your thinking/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/optional reflective teaching prompt/i)).toBeInTheDocument();
+    expect(within(panel).getAllByRole('listitem')).toHaveLength(5);
+    expect(within(panel).getByText(/Croskerry/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/does not score the scenario/i)).toBeInTheDocument();
+
+    const strictResult = scanStrictSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library bias-awareness render'
+    });
+
+    expect(strictResult).toMatchObject({
+      passed: true,
+      violations: []
+    });
+
+    const result = scanBoundaryAwareSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library bias-awareness render'
     });
 
     expect(result).toMatchObject({

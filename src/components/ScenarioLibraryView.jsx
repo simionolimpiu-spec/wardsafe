@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { ClipboardCheck, FileSearch, ShieldCheck } from 'lucide-react';
-import { discoveryScenarios, initialHazardControls, staffingContextNote } from '../data/scenarioLibrary.js';
+import {
+  biasAwarenessCues,
+  discoveryScenarios,
+  initialHazardControls,
+  staffingContextNote
+} from '../data/scenarioLibrary.js';
 import {
   SCORE_COMPARISON_PARAMETERS,
   SCORE_COMPARISON_SNAPSHOTS,
@@ -94,6 +99,18 @@ export function ScenarioLibraryView() {
           {staffingContextNote.points.map((point) => <li key={point}>{point}</li>)}
         </ul>
         <p><small><strong>Evidence:</strong> {staffingContextNote.evidence}</small></p>
+      </aside>
+
+      <aside className="scenario-bias-awareness" aria-label="Notice your thinking">
+        <h3>{biasAwarenessCues.title}</h3>
+        <p className="scenario-bias-awareness-intro">Optional reflective teaching prompt for simulation review.</p>
+        <ul>
+          {biasAwarenessCues.points.map((point) => <li key={point}>{point}</li>)}
+        </ul>
+        <p><small><strong>Evidence:</strong> {biasAwarenessCues.evidence}</small></p>
+        <p className="scenario-bias-awareness-boundary">
+          This prompt does not score the scenario or change or validate a clinical decision; human review and clinical judgement remain central.
+        </p>
       </aside>
     </section>
   );
