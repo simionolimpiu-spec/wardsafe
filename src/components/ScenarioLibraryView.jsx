@@ -6,6 +6,7 @@ import {
   initialHazardControls,
   paceAssertivenessLadder,
   pearlsDebriefPrompts,
+  newToServiceContextNote,
   safetyTwoReflectionPrompts,
   staffingContextNote
 } from '../data/scenarioLibrary.js';
@@ -102,6 +103,18 @@ export function ScenarioLibraryView() {
           {staffingContextNote.points.map((point) => <li key={point}>{point}</li>)}
         </ul>
         <p><small><strong>Evidence:</strong> {staffingContextNote.evidence}</small></p>
+      </aside>
+
+      <aside className="scenario-new-to-service-context" aria-label="Inclusive practice: new to this ward?">
+        <h3>{newToServiceContextNote.title}</h3>
+        <p className="scenario-new-to-service-intro">Optional simulation-only informational context about review-prompt legibility.</p>
+        <ul>
+          {newToServiceContextNote.points.map((point) => <li key={point}>{point}</li>)}
+        </ul>
+        <p><small><strong>Evidence:</strong> {newToServiceContextNote.evidence}</small></p>
+        <p className="scenario-new-to-service-boundary">
+          This panel is about review-prompt legibility, not HR, immigration, pastoral-care, or welfare support; human review and clinical judgement remain central.
+        </p>
       </aside>
 
       <aside className="scenario-bias-awareness" aria-label="Notice your thinking">

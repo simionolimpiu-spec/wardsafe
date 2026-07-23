@@ -3,6 +3,7 @@ import { scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
 import {
   biasAwarenessCues,
   discoveryScenarios,
+  newToServiceContextNote,
   paceAssertivenessLadder,
   pearlsDebriefPrompts,
   safetyTwoReflectionPrompts,
@@ -283,6 +284,34 @@ describe('deterioration learning scenario copy', () => {
       staffingContextNote.evidence
     ].join('\n'), {
       checkedLabel: 'staffing context note'
+    });
+
+    expect(safetyScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the new-to-service context note shaped, inclusive and strictly boundary-safe', () => {
+    expect(newToServiceContextNote.title).toBe('Inclusive practice: new to this ward?');
+    expect(Array.isArray(newToServiceContextNote.points)).toBe(true);
+    expect(newToServiceContextNote.points).toEqual([
+      'Explicit, written review criteria are equally available to every reviewer, regardless of how long they have worked on this ward.',
+      'If an escalation norm here is unwritten or assumed, that is worth surfacing rather than assuming everyone already knows it.',
+      'A reviewer new to this service is not a lesser judge of a family or staff concern.',
+      'SafeFlow supplements, and never substitutes for, proper preceptorship, pastoral support, and local induction.'
+    ]);
+    expect(newToServiceContextNote.evidence).toMatch(/Rajpoot et al\. 2024/i);
+    expect(newToServiceContextNote.evidence).toMatch(/Pastoral Care Quality Award/i);
+    expect(newToServiceContextNote.evidence).toMatch(/Accelerated Preceptorship/i);
+    expect(newToServiceContextNote.evidence).toMatch(/ien-transition-findings-note\.md/i);
+
+    const safetyScan = scanStrictSafetyLanguage([
+      newToServiceContextNote.title,
+      ...newToServiceContextNote.points,
+      newToServiceContextNote.evidence
+    ].join('\n'), {
+      checkedLabel: 'new-to-service context note'
     });
 
     expect(safetyScan).toMatchObject({
