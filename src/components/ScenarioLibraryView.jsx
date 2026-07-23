@@ -6,6 +6,7 @@ import {
   initialHazardControls,
   paceAssertivenessLadder,
   pearlsDebriefPrompts,
+  safetyTwoReflectionPrompts,
   staffingContextNote
 } from '../data/scenarioLibrary.js';
 import {
@@ -136,6 +137,18 @@ export function ScenarioLibraryView() {
         <p><small><strong>Evidence:</strong> {paceAssertivenessLadder.evidence}</small></p>
         <p className="scenario-pace-ladder-boundary">
           Simulation-only reference material. The PACE ladder is not a clinical checklist, scoring mechanism, or instruction to act; it does not change or validate a clinical decision. Human review and clinical judgement remain central.
+        </p>
+      </aside>
+
+      <aside className="scenario-safety-two" aria-label="What went well (Safety-II)">
+        <h3>{safetyTwoReflectionPrompts.title}</h3>
+        <p className="scenario-safety-two-intro">Optional reflective teaching prompt for noticing adaptive and resilient practice in simulation review.</p>
+        <ul>
+          {safetyTwoReflectionPrompts.points.map((point) => <li key={point}>{point}</li>)}
+        </ul>
+        <p><small><strong>Evidence:</strong> {safetyTwoReflectionPrompts.evidence}</small></p>
+        <p className="scenario-safety-two-boundary">
+          Simulation-only reflective teaching prompt. It complements the existing hazard review; it does not replace attention to hazards or what went wrong. It is not a data-capture form, scoring mechanism, or clinical tool; nothing is entered, stored, or transmitted here. Human review and clinical judgement remain central.
         </p>
       </aside>
     </section>
