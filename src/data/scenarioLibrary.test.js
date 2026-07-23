@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
-import { biasAwarenessCues, discoveryScenarios, pearlsDebriefPrompts, staffingContextNote } from './scenarioLibrary.js';
+import { biasAwarenessCues, discoveryScenarios, paceAssertivenessLadder, pearlsDebriefPrompts, staffingContextNote } from './scenarioLibrary.js';
 
 const DISALLOWED_VISIBLE_WORDING = /\b(action|diagnos(?:is|e|es|ing|tic))\b/i;
 const NEW_SCENARIO_IDS = new Set([
@@ -330,6 +330,34 @@ describe('deterioration learning scenario copy', () => {
       pearlsDebriefPrompts.evidence
     ].join('\n'), {
       checkedLabel: 'PEARLS debrief prompts'
+    });
+
+    expect(safetyScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the PACE assertiveness ladder shaped, cited and strictly boundary-safe', () => {
+    expect(paceAssertivenessLadder.title).toBe('Speaking up: the PACE ladder');
+    expect(Array.isArray(paceAssertivenessLadder.points)).toBe(true);
+    expect(paceAssertivenessLadder.points).toEqual([
+      'Probe - a gentle, open question to check shared understanding',
+      'Alert - a clear, direct statement of the concern',
+      'Challenge - an assertive statement that the current approach should change, with the reason stated',
+      'Emergency - in the framework, an immediate-risk cue for safety-critical escalation when the concern remains unheard'
+    ]);
+    expect(paceAssertivenessLadder.evidence).toMatch(/Bromiley/i);
+    expect(paceAssertivenessLadder.evidence).toMatch(/Clinical Human Factors Group/i);
+    expect(paceAssertivenessLadder.evidence).toMatch(/PACE/i);
+    expect(paceAssertivenessLadder.evidence).toMatch(/evidence-horizon-scan\.md/i);
+
+    const safetyScan = scanStrictSafetyLanguage([
+      paceAssertivenessLadder.title,
+      ...paceAssertivenessLadder.points,
+      paceAssertivenessLadder.evidence
+    ].join('\n'), {
+      checkedLabel: 'PACE assertiveness ladder'
     });
 
     expect(safetyScan).toMatchObject({
