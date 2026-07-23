@@ -291,6 +291,7 @@
 .scenario-columns ul,
 .hazard-controls ul,
 .scenario-staffing-context ul,
+.scenario-new-to-service-context ul,
 .scenario-bias-awareness ul,
 .scenario-pace-ladder ul {
   margin: 0;
@@ -300,6 +301,7 @@
 .scenario-columns li,
 .hazard-controls li,
 .scenario-staffing-context li,
+.scenario-new-to-service-context li,
 .scenario-bias-awareness li,
 .scenario-pace-ladder li {
   margin: 6px 0;
@@ -355,6 +357,35 @@
 
 .scenario-staffing-context p {
   color: #53657a;
+  margin-bottom: 0;
+}
+
+.scenario-new-to-service-context {
+  background: linear-gradient(180deg, var(--color-info-bg) 0%, #ffffff 68%);
+  border: 1px solid #cfe0f6;
+  border-left: 4px solid var(--color-info);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-top: var(--space-4);
+  padding: var(--space-5);
+}
+
+.scenario-new-to-service-context h3 {
+  color: var(--color-info);
+  font-size: var(--text-lg);
+  margin-top: 0;
+}
+
+.scenario-new-to-service-intro,
+.scenario-new-to-service-context p {
+  color: #53657a;
+}
+
+.scenario-new-to-service-context li {
+  color: #17436f;
+}
+
+.scenario-new-to-service-boundary {
   margin-bottom: 0;
 }
 

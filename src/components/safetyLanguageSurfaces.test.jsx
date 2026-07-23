@@ -85,6 +85,27 @@ describe('safety language surface scans', () => {
     });
   });
 
+  it('keeps the Scenario Library new-to-service context panel strictly boundary-safe', () => {
+    render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('complementary', { name: /inclusive practice: new to this ward/i });
+
+    expect(within(panel).getByRole('heading', { name: /inclusive practice: new to this ward/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/optional simulation-only informational context/i)).toBeInTheDocument();
+    expect(within(panel).getAllByRole('listitem')).toHaveLength(4);
+    expect(within(panel).getByText(/Rajpoot et al\. 2024/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/supplements, and never substitutes for, proper preceptorship/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/not HR, immigration, pastoral-care, or welfare support/i)).toBeInTheDocument();
+
+    const strictResult = scanStrictSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library new-to-service context render'
+    });
+
+    expect(strictResult).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
   it('keeps the Scenario Library bias-awareness panel boundary-safe', () => {
     const { container } = render(<ScenarioLibraryView />);
     const panel = screen.getByRole('complementary', { name: /notice your thinking/i });

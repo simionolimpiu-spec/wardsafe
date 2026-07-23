@@ -222,6 +222,17 @@ export const staffingContextNote = {
   evidence: 'Aiken et al. 2016, BMJ Quality & Safety (6-country skill-mix study); see international-comparative-synthesis.md'
 };
 
+export const newToServiceContextNote = {
+  title: 'Inclusive practice: new to this ward?',
+  points: [
+    'Explicit, written review criteria are equally available to every reviewer, regardless of how long they have worked on this ward.',
+    'If an escalation norm here is unwritten or assumed, that is worth surfacing rather than assuming everyone already knows it.',
+    'A reviewer new to this service is not a lesser judge of a family or staff concern.',
+    'SafeFlow supplements, and never substitutes for, proper preceptorship, pastoral support, and local induction.'
+  ],
+  evidence: 'Rajpoot et al. 2024, "Transitioning experiences of internationally educated nurses in host countries: A narrative systematic review"; NHS England Pastoral Care Quality Award and NHS Employers Accelerated Preceptorship model; see ien-transition-findings-note.md'
+};
+
 export const biasAwarenessCues = {
   title: 'Notice your thinking',
   points: [
