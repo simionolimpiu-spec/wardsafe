@@ -4,6 +4,7 @@ import {
   biasAwarenessCues,
   discoveryScenarios,
   initialHazardControls,
+  paceAssertivenessLadder,
   pearlsDebriefPrompts,
   staffingContextNote
 } from '../data/scenarioLibrary.js';
@@ -123,6 +124,18 @@ export function ScenarioLibraryView() {
         <p><small><strong>Evidence:</strong> {pearlsDebriefPrompts.evidence}</small></p>
         <p className="scenario-pearls-debrief-boundary">
           Simulation-only reflective teaching prompt. It is not a data-capture form, scoring mechanism, or clinical tool; nothing is entered, stored, or transmitted here. Human review and clinical judgement remain central.
+        </p>
+      </aside>
+
+      <aside className="scenario-pace-ladder" aria-label="Speaking up: the PACE ladder">
+        <h3>{paceAssertivenessLadder.title}</h3>
+        <p className="scenario-pace-ladder-intro">Optional communication reference for reviewing the graded-assertiveness / speak-up scenario.</p>
+        <ul>
+          {paceAssertivenessLadder.points.map((point) => <li key={point}>{point}</li>)}
+        </ul>
+        <p><small><strong>Evidence:</strong> {paceAssertivenessLadder.evidence}</small></p>
+        <p className="scenario-pace-ladder-boundary">
+          Simulation-only reference material. The PACE ladder is not a clinical checklist, scoring mechanism, or instruction to act; it does not change or validate a clinical decision. Human review and clinical judgement remain central.
         </p>
       </aside>
     </section>

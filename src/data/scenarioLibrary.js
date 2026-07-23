@@ -244,3 +244,14 @@ export const pearlsDebriefPrompts = {
   ],
   evidence: 'Rudolph et al., "Debriefing with Good Judgment"; PEARLS framework (Eppich & Cheng); INACSL Healthcare Simulation Standards of Best Practice; see evidence-horizon-scan.md, section 6'
 };
+
+export const paceAssertivenessLadder = {
+  title: 'Speaking up: the PACE ladder',
+  points: [
+    'Probe - a gentle, open question to check shared understanding',
+    'Alert - a clear, direct statement of the concern',
+    'Challenge - an assertive statement that the current approach should change, with the reason stated',
+    'Emergency - in the framework, an immediate-risk cue for safety-critical escalation when the concern remains unheard'
+  ],
+  evidence: 'Martin Bromiley and the Clinical Human Factors Group Learning Hub; PACE (Probe, Alert, Challenge, Emergency) graded-assertiveness framework; see evidence-horizon-scan.md, section 2'
+};

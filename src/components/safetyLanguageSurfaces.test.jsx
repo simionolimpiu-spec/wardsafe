@@ -134,6 +134,26 @@ describe('safety language surface scans', () => {
     });
   });
 
+  it('keeps the Scenario Library PACE ladder panel strictly boundary-safe', () => {
+    render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('complementary', { name: /speaking up: the pace ladder/i });
+
+    expect(within(panel).getByRole('heading', { name: /speaking up: the pace ladder/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/optional communication reference/i)).toBeInTheDocument();
+    expect(within(panel).getAllByRole('listitem')).toHaveLength(4);
+    expect(within(panel).getByText(/Bromiley/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/not a clinical checklist, scoring mechanism, or instruction to act/i)).toBeInTheDocument();
+
+    const strictResult = scanStrictSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library PACE ladder render'
+    });
+
+    expect(strictResult).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
   it('keeps the scoring systems comparison panel boundary-safe', () => {
     const { container } = render(<ScenarioLibraryView />);
     const panel = screen.getByRole('region', { name: /scoring systems comparison \(simulation\)/i });
