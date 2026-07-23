@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
-import { biasAwarenessCues, discoveryScenarios, paceAssertivenessLadder, pearlsDebriefPrompts, staffingContextNote } from './scenarioLibrary.js';
+import {
+  biasAwarenessCues,
+  discoveryScenarios,
+  paceAssertivenessLadder,
+  pearlsDebriefPrompts,
+  safetyTwoReflectionPrompts,
+  staffingContextNote
+} from './scenarioLibrary.js';
 
 const DISALLOWED_VISIBLE_WORDING = /\b(action|diagnos(?:is|e|es|ing|tic))\b/i;
 const NEW_SCENARIO_IDS = new Set([
@@ -358,6 +365,34 @@ describe('deterioration learning scenario copy', () => {
       paceAssertivenessLadder.evidence
     ].join('\n'), {
       checkedLabel: 'PACE assertiveness ladder'
+    });
+
+    expect(safetyScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the Safety-II reflection prompts shaped, cited and strictly boundary-safe', () => {
+    expect(safetyTwoReflectionPrompts.title).toBe('What went well (Safety-II)');
+    expect(Array.isArray(safetyTwoReflectionPrompts.points)).toBe(true);
+    expect(safetyTwoReflectionPrompts.points).toEqual([
+      'What did the reviewer, ward, or system do well in this fictional scenario that helped it go right?',
+      'What adjustment or workaround kept the review safe, even if it is not written in a policy?',
+      'What would you want to repeat next time, not just what would you want to fix?',
+      'Who noticed something and said so - and how did the system make that easy or hard?'
+    ]);
+    expect(safetyTwoReflectionPrompts.evidence).toMatch(/Hollnagel/i);
+    expect(safetyTwoReflectionPrompts.evidence).toMatch(/Safety-II/i);
+    expect(safetyTwoReflectionPrompts.evidence).toMatch(/Learning from Excellence/i);
+    expect(safetyTwoReflectionPrompts.evidence).toMatch(/evidence-horizon-scan\.md/i);
+
+    const safetyScan = scanStrictSafetyLanguage([
+      safetyTwoReflectionPrompts.title,
+      ...safetyTwoReflectionPrompts.points,
+      safetyTwoReflectionPrompts.evidence
+    ].join('\n'), {
+      checkedLabel: 'Safety-II reflection prompts'
     });
 
     expect(safetyScan).toMatchObject({

@@ -255,3 +255,14 @@ export const paceAssertivenessLadder = {
   ],
   evidence: 'Martin Bromiley and the Clinical Human Factors Group Learning Hub; PACE (Probe, Alert, Challenge, Emergency) graded-assertiveness framework; see evidence-horizon-scan.md, section 2'
 };
+
+export const safetyTwoReflectionPrompts = {
+  title: 'What went well (Safety-II)',
+  points: [
+    'What did the reviewer, ward, or system do well in this fictional scenario that helped it go right?',
+    'What adjustment or workaround kept the review safe, even if it is not written in a policy?',
+    'What would you want to repeat next time, not just what would you want to fix?',
+    'Who noticed something and said so - and how did the system make that easy or hard?'
+  ],
+  evidence: 'Erik Hollnagel on Safety-II and resilient performance; Learning from Excellence movement (Adrian Plunkett); see evidence-horizon-scan.md, section 4'
+};

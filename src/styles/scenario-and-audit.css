@@ -445,6 +445,35 @@
   margin-bottom: 0;
 }
 
+.scenario-safety-two {
+  background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 68%);
+  border: 1px solid #cfe0f6;
+  border-left: 4px solid var(--color-success);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-top: var(--space-4);
+  padding: var(--space-5);
+}
+
+.scenario-safety-two h3 {
+  color: var(--color-brand-dark);
+  font-size: var(--text-lg);
+  margin-top: 0;
+}
+
+.scenario-safety-two-intro,
+.scenario-safety-two p {
+  color: #53657a;
+}
+
+.scenario-safety-two li {
+  color: #17436f;
+}
+
+.scenario-safety-two-boundary {
+  margin-bottom: 0;
+}
+
 .score-comparison-panel {
   background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 72%);
   border: 1px solid #cfe0f6;

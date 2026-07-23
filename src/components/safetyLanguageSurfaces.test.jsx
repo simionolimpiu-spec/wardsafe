@@ -154,6 +154,28 @@ describe('safety language surface scans', () => {
     });
   });
 
+  it('keeps the Scenario Library Safety-II reflection panel strictly boundary-safe', () => {
+    render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('complementary', { name: /what went well \(safety-ii\)/i });
+
+    expect(within(panel).getByRole('heading', { name: /what went well \(safety-ii\)/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/optional reflective teaching prompt/i)).toBeInTheDocument();
+    expect(within(panel).getAllByRole('listitem')).toHaveLength(4);
+    expect(within(panel).getByText(/Hollnagel/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/Learning from Excellence/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/does not replace attention to hazards/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/not a data-capture form, scoring mechanism, or clinical tool/i)).toBeInTheDocument();
+
+    const strictResult = scanStrictSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library Safety-II reflection render'
+    });
+
+    expect(strictResult).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
   it('keeps the scoring systems comparison panel boundary-safe', () => {
     const { container } = render(<ScenarioLibraryView />);
     const panel = screen.getByRole('region', { name: /scoring systems comparison \(simulation\)/i });
