@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
-import { biasAwarenessCues, discoveryScenarios, staffingContextNote } from './scenarioLibrary.js';
+import { biasAwarenessCues, discoveryScenarios, pearlsDebriefPrompts, staffingContextNote } from './scenarioLibrary.js';
 
 const DISALLOWED_VISIBLE_WORDING = /\b(action|diagnos(?:is|e|es|ing|tic))\b/i;
 const NEW_SCENARIO_IDS = new Set([
@@ -303,6 +303,33 @@ describe('deterioration learning scenario copy', () => {
       biasAwarenessCues.evidence
     ].join('\n'), {
       checkedLabel: 'bias awareness cues'
+    });
+
+    expect(safetyScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the PEARLS debrief prompts shaped, named and strictly boundary-safe', () => {
+    expect(pearlsDebriefPrompts.title).toBe('Structured debrief (PEARLS)');
+    expect(Array.isArray(pearlsDebriefPrompts.points)).toBe(true);
+    expect(pearlsDebriefPrompts.points).toEqual([
+      'Reactions - what was your immediate reaction to this fictional scenario?',
+      'Description - in your own words, what happened in this review?',
+      'Analysis - what supported or challenged a timely, human-led review here?',
+      'Summary - what would you carry into a real ward review?'
+    ]);
+    expect(pearlsDebriefPrompts.evidence).toMatch(/Rudolph/i);
+    expect(pearlsDebriefPrompts.evidence).toMatch(/PEARLS/i);
+    expect(pearlsDebriefPrompts.evidence).toMatch(/evidence-horizon-scan\.md/i);
+
+    const safetyScan = scanStrictSafetyLanguage([
+      pearlsDebriefPrompts.title,
+      ...pearlsDebriefPrompts.points,
+      pearlsDebriefPrompts.evidence
+    ].join('\n'), {
+      checkedLabel: 'PEARLS debrief prompts'
     });
 
     expect(safetyScan).toMatchObject({

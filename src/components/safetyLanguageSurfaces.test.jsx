@@ -114,6 +114,26 @@ describe('safety language surface scans', () => {
     });
   });
 
+  it('keeps the Scenario Library PEARLS debrief panel strictly boundary-safe', () => {
+    render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('complementary', { name: /structured debrief \(pearls\)/i });
+
+    expect(within(panel).getByRole('heading', { name: /structured debrief \(pearls\)/i })).toBeInTheDocument();
+    expect(within(panel).getByText(/facilitated simulation debrief/i)).toBeInTheDocument();
+    expect(within(panel).getAllByRole('listitem')).toHaveLength(4);
+    expect(within(panel).getByText(/Rudolph/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/not a data-capture form, scoring mechanism, or clinical tool/i)).toBeInTheDocument();
+
+    const strictResult = scanStrictSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library PEARLS debrief render'
+    });
+
+    expect(strictResult).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
   it('keeps the scoring systems comparison panel boundary-safe', () => {
     const { container } = render(<ScenarioLibraryView />);
     const panel = screen.getByRole('region', { name: /scoring systems comparison \(simulation\)/i });

@@ -233,3 +233,14 @@ export const biasAwarenessCues = {
   ],
   evidence: 'Croskerry on cognitive dispositions to respond and cognitive debiasing; see evidence-horizon-scan.md, section 7'
 };
+
+export const pearlsDebriefPrompts = {
+  title: 'Structured debrief (PEARLS)',
+  points: [
+    'Reactions - what was your immediate reaction to this fictional scenario?',
+    'Description - in your own words, what happened in this review?',
+    'Analysis - what supported or challenged a timely, human-led review here?',
+    'Summary - what would you carry into a real ward review?'
+  ],
+  evidence: 'Rudolph et al., "Debriefing with Good Judgment"; PEARLS framework (Eppich & Cheng); INACSL Healthcare Simulation Standards of Best Practice; see evidence-horizon-scan.md, section 6'
+};

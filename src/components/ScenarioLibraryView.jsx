@@ -4,6 +4,7 @@ import {
   biasAwarenessCues,
   discoveryScenarios,
   initialHazardControls,
+  pearlsDebriefPrompts,
   staffingContextNote
 } from '../data/scenarioLibrary.js';
 import {
@@ -110,6 +111,18 @@ export function ScenarioLibraryView() {
         <p><small><strong>Evidence:</strong> {biasAwarenessCues.evidence}</small></p>
         <p className="scenario-bias-awareness-boundary">
           This prompt does not score the scenario or change or validate a clinical decision; human review and clinical judgement remain central.
+        </p>
+      </aside>
+
+      <aside className="scenario-pearls-debrief" aria-label="Structured debrief (PEARLS)">
+        <h3>{pearlsDebriefPrompts.title}</h3>
+        <p className="scenario-pearls-debrief-intro">Optional reflective teaching prompt for a facilitated simulation debrief.</p>
+        <ul>
+          {pearlsDebriefPrompts.points.map((point) => <li key={point}>{point}</li>)}
+        </ul>
+        <p><small><strong>Evidence:</strong> {pearlsDebriefPrompts.evidence}</small></p>
+        <p className="scenario-pearls-debrief-boundary">
+          Simulation-only reflective teaching prompt. It is not a data-capture form, scoring mechanism, or clinical tool; nothing is entered, stored, or transmitted here. Human review and clinical judgement remain central.
         </p>
       </aside>
     </section>
