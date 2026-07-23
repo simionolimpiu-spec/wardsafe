@@ -27,6 +27,11 @@ This index groups the demo pack by audience so a reader can start in the right p
 - **`build-readiness/evaluation-feedback-capture-sheet.md`** — the in-session capture sheet (the framework in `evaluation-framework.md` takes precedence if the two ever differ).
 - **`evaluation-framework.md`** — measures, pre/post forms, SUS, data handling, pre-registered thresholds.
 
+## For ward-level rollout / training
+
+- **`facilitator-quick-start-guide.md`** - a single-page guide for a colleague running a first SafeFlow practice session on their ward: session script, recommended first scenarios, common questions.
+- **`build-readiness/super-user-train-the-trainer-concept.md`** - the concept doc behind the facilitator role: what it is (training/onboarding convenience), what it explicitly is not (no accounts, no permissions, no authority inside the tool).
+
 ## For governance / safety / IG
 
 - **`safety-boundary.md`** — what SafeFlow does and does not do, in boundary terms.
