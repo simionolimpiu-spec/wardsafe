@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
-import { discoveryScenarios, staffingContextNote } from './scenarioLibrary.js';
+import { biasAwarenessCues, discoveryScenarios, staffingContextNote } from './scenarioLibrary.js';
 
 const DISALLOWED_VISIBLE_WORDING = /\b(action|diagnos(?:is|e|es|ing|tic))\b/i;
 const NEW_SCENARIO_IDS = new Set([
@@ -276,6 +276,33 @@ describe('deterioration learning scenario copy', () => {
       staffingContextNote.evidence
     ].join('\n'), {
       checkedLabel: 'staffing context note'
+    });
+
+    expect(safetyScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the bias-awareness cues shaped, named and strictly boundary-safe', () => {
+    expect(biasAwarenessCues.title).toBe('Notice your thinking');
+    expect(Array.isArray(biasAwarenessCues.points)).toBe(true);
+    expect(biasAwarenessCues.points).toEqual([
+      'Anchoring — am I fixed on the first read of this fictional scenario?',
+      'Premature closure — have I stopped looking too soon?',
+      'Confirmation bias — am I only noticing details that fit my first impression?',
+      'Availability bias — am I over-weighting a recent or memorable case?',
+      'Framing effect — is the way this scenario is presented shaping what I notice?'
+    ]);
+    expect(biasAwarenessCues.evidence).toMatch(/Croskerry/i);
+    expect(biasAwarenessCues.evidence).toMatch(/evidence-horizon-scan\.md/i);
+
+    const safetyScan = scanStrictSafetyLanguage([
+      biasAwarenessCues.title,
+      ...biasAwarenessCues.points,
+      biasAwarenessCues.evidence
+    ].join('\n'), {
+      checkedLabel: 'bias awareness cues'
     });
 
     expect(safetyScan).toMatchObject({

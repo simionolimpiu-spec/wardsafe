@@ -221,3 +221,15 @@ export const staffingContextNote = {
   ],
   evidence: 'Aiken et al. 2016, BMJ Quality & Safety (6-country skill-mix study); see international-comparative-synthesis.md'
 };
+
+export const biasAwarenessCues = {
+  title: 'Notice your thinking',
+  points: [
+    'Anchoring — am I fixed on the first read of this fictional scenario?',
+    'Premature closure — have I stopped looking too soon?',
+    'Confirmation bias — am I only noticing details that fit my first impression?',
+    'Availability bias — am I over-weighting a recent or memorable case?',
+    'Framing effect — is the way this scenario is presented shaping what I notice?'
+  ],
+  evidence: 'Croskerry on cognitive dispositions to respond and cognitive debiasing; see evidence-horizon-scan.md, section 7'
+};
