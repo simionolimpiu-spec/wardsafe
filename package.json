@@ -51,9 +51,10 @@
     "vitest": "^4.0.0"
   },
   "overrides": {
-    "brace-expansion": "5.0.7",
+    "brace-expansion": "5.0.8",
     "fast-uri": "3.1.4",
-    "esbuild": "0.28.1"
+    "esbuild": "0.28.1",
+    "postcss": "8.5.23"
   },
   "allowScripts": {
     "esbuild@0.28.1": true
