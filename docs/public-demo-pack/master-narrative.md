@@ -22,6 +22,10 @@ It is not a live patient record, not a prescribing tool, and not an autonomous e
 
 Primary audiences are nursing educators, ward leaders, digital safety leads, and stakeholders who need to understand the shape of the workflow before any governed pilot is considered.
 
+### Why this matters
+
+SafeFlow's practice areas are grounded in the UK's own patient-safety inquiry record, not invented from scratch. A 2024 national investigation found that between 5% and 26% of incidents resulting in severe harm or death involve patient deterioration that was not sufficiently recognised or responded to. Earlier public inquiries found that warning signs went unpicked-up, staff generally remained passive rather than raising concerns, and organisations were poor at listening to patients, families, and staff. SafeFlow does not claim to have solved any of this. It is a simulation-only prototype for rehearsing the structured review, human-factors awareness, and speak-up behaviours that this record shows matter - full citations are in `evidence-base-references.md`.
+
 ### SafeFlow Quality Intelligence
 
 SafeFlow Quality Intelligence is a simulation-only extension that assembles the review cues, deterioration-pattern flags, and verified learning evidence already generated elsewhere in SafeFlow into structured, exportable reports of the kind a Band 6/7 nurse currently prepares by hand for ward audits, safety huddles, and revalidation. It surfaces what changed, what needs checking, and what learning has been verified - it stays ward-level, simulation-only, and human review required, and it does not create person-level comparisons or replace the EPR, RRT/Call-for-Concern, or any live clinical or quality system.
