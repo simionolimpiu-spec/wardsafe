@@ -319,6 +319,56 @@
   color: #41516a;
 }
 
+.scenario-panel-summary {
+  align-items: center;
+  border-radius: var(--radius-md);
+  color: var(--color-brand-dark);
+  cursor: pointer;
+  display: flex;
+  gap: var(--space-3);
+  list-style: none;
+  margin: calc(var(--space-2) * -1);
+  padding: var(--space-2);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.scenario-panel-summary::-webkit-details-marker {
+  display: none;
+}
+
+.scenario-panel-summary::before {
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  content: "";
+  flex: 0 0 9px;
+  height: 9px;
+  margin: 0 6px 0 4px;
+  transform: rotate(-45deg);
+  transition: transform 150ms ease;
+  width: 9px;
+}
+
+.scenario-panel-details[open] > .scenario-panel-summary::before {
+  transform: rotate(45deg);
+}
+
+.scenario-panel-summary:hover {
+  background: rgb(255 255 255 / 60%);
+}
+
+.scenario-panel-summary:focus-visible {
+  outline: 3px solid rgb(34 107 185 / 35%);
+  outline-offset: 3px;
+}
+
+.scenario-panel-summary h3 {
+  margin: 0;
+}
+
+.scenario-panel-details[open] > .scenario-panel-summary {
+  margin-bottom: var(--space-4);
+}
+
 .hazard-controls {
   background: linear-gradient(180deg, var(--color-warning-bg) 0%, #ffffff 68%);
   border: 1px solid #f4d18d;
@@ -335,6 +385,10 @@
   margin-top: 0;
 }
 
+.hazard-controls .scenario-panel-summary {
+  color: var(--color-warning);
+}
+
 .scenario-staffing-context {
   background: linear-gradient(180deg, var(--color-info-bg) 0%, #ffffff 68%);
   border: 1px solid #cfe0f6;
@@ -349,6 +403,11 @@
   color: var(--color-info);
   font-size: var(--text-lg);
   margin-top: 0;
+}
+
+.scenario-staffing-context .scenario-panel-summary,
+.scenario-new-to-service-context .scenario-panel-summary {
+  color: var(--color-info);
 }
 
 .scenario-staffing-context li {
@@ -511,10 +570,13 @@
   border-left: 4px solid var(--color-brand);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
-  display: grid;
-  gap: var(--space-4);
   margin: var(--space-6) 0;
   padding: var(--space-6);
+}
+
+.score-comparison-content {
+  display: grid;
+  gap: var(--space-4);
 }
 
 .score-comparison-heading {
@@ -525,7 +587,7 @@
   justify-content: space-between;
 }
 
-.score-comparison-heading h3 {
+.score-comparison-panel .scenario-panel-summary h3 {
   color: var(--color-brand-dark);
   margin: 0;
 }
