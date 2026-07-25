@@ -67,14 +67,14 @@
   border-radius: var(--radius-pill);
   color: var(--color-info);
   font-size: var(--text-xs);
-  font-weight: 800;
+  font-weight: var(--font-weight-semibold);
   padding: 5px 10px;
 }
 
 .hospital-insights-chart-summary {
   color: var(--color-brand-dark);
   font-size: var(--text-sm);
-  font-weight: 800;
+  font-weight: var(--font-weight-semibold);
   margin: 0;
 }
 
