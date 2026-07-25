@@ -222,6 +222,19 @@ export const staffingContextNote = {
   evidence: 'Aiken et al. 2016, BMJ Quality & Safety (6-country skill-mix study); see international-comparative-synthesis.md'
 };
 
+export const facilitatorSessionNote = {
+  title: 'Running a training session?',
+  points: [
+    'Pick three or four scenarios rather than working through all of them; a first session runs for about 20-30 minutes.',
+    'Open every session by saying aloud that this is simulation-only and that no patient here is real.',
+    'Run any baseline task before showing SafeFlow, or the before-and-after comparison is meaningless.',
+    'Ask what felt different from how the ward actually works, not only what people liked.',
+    'Close by restating that this is a discussion aid, not a replacement for local escalation policy, professional judgement, or existing NHS pathways.',
+    'See the facilitator quick-start guide at docs/public-demo-pack/facilitator-quick-start-guide.md for the full session script.'
+  ],
+  evidence: 'SafeFlow facilitator quick-start guide (docs/public-demo-pack/facilitator-quick-start-guide.md); super-user / train-the-trainer concept doc, Part B'
+};
+
 export const newToServiceContextNote = {
   title: 'Inclusive practice: new to this ward?',
   points: [

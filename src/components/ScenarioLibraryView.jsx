@@ -3,6 +3,7 @@ import { ClipboardCheck, FileSearch, ShieldCheck } from 'lucide-react';
 import {
   biasAwarenessCues,
   discoveryScenarios,
+  facilitatorSessionNote,
   initialHazardControls,
   paceAssertivenessLadder,
   pearlsDebriefPrompts,
@@ -48,6 +49,21 @@ export function ScenarioLibraryView() {
           </article>
         ))}
       </div>
+
+      <aside className="scenario-facilitator-session" aria-label="Running a training session?">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{facilitatorSessionNote.title}</h3>
+          </summary>
+          <ul>
+            {facilitatorSessionNote.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {facilitatorSessionNote.evidence}</small></p>
+          <p className="scenario-facilitator-session-boundary">
+            Facilitator notes are a training and onboarding convenience only: they confer no permissions, no accounts, and no authority inside SafeFlow, and every reviewer's structured observation carries equal weight.
+          </p>
+        </details>
+      </aside>
 
       <section className="score-comparison-panel" aria-label="Scoring systems comparison (simulation)">
         <details className="scenario-panel-details" name="scenario-library-panels">
