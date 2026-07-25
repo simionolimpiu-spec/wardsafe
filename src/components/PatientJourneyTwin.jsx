@@ -66,7 +66,7 @@ export function PatientJourneyTwin({ patient = null } = {}) {
       <div className="section-heading twin-header">
         <Sparkles aria-hidden="true" size={22} />
         <div>
-          <p className="eyebrow">Simulation Patient Twin</p>
+          <p className="eyebrow">Simulation longitudinal review</p>
           <h2 id="patient-journey-twin-title">Patient Journey Twin</h2>
           <p className="twin-boundary-note">
             Simulation-only longitudinal journey for review and learning. Fictional patient data. Not a live

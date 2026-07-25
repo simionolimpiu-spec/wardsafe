@@ -84,8 +84,8 @@ Verified learning evidence is the approved narrative home for future Mia's M10 r
 
 | Status | Gap | Why it is still red | Next step |
 |---|---|---|---|
-| RED | The timeline surface in the app still mixes the primary Twin name with the simulation qualifier. | This lane is docs-only. | Raise a Mia task to standardise the visible label in `src/components/PatientJourneyTwin.jsx`. |
-| RED | The broader docs tree still contains older wording outside this alignment set. | This pass only revised the public demo pack and control board targets. | Schedule a separate cleanup pass for the remaining docs. |
+| GREEN | The timeline surface in the app mixed the primary Twin name with a competing "Simulation Patient Twin" label. | Closed by SF-275. | The eyebrow is now a descriptive category ("Simulation longitudinal review"), consistent with every other view; the h2 keeps the approved primary name and the simulation qualifier stays in the boundary note. |
+| GREEN | The broader docs tree was not covered by the automated wording scan. | Closed by SF-275. | The scan now gates every stakeholder-facing doc (23 files to 62). All 49 previously-unscanned tracked markdown files were checked first: 48 were already clean, and the single flag was a scanner false positive on an "Out Of Scope" declaration, fixed in the scanner rather than by weakening the copy. CONTROL.md and `docs/superpowers/**` are deliberately left ungated (high-churn tracker / historical records) - both verified clean. |
 | RED | The white paper baseline lives in the Aurora strategy pack outside the repo. | The repo now mirrors it, but the source copy is not versioned here. | Copy the baseline into the repo later if we want a versioned product source. |
 
 ## Discrepancy Table
@@ -97,7 +97,7 @@ Verified learning evidence is the approved narrative home for future Mia's M10 r
 | `docs/public-demo-pack/safety-boundary.md` | The boundary section still uses clinical-label wording. | The master narrative and approved terminology list. | Rewrite the boundary bullets so they say what SafeFlow does and does not do without clinical-label phrasing. | GREEN |
 | `SF-217 Ward Quality & Safety Review export` | The export now has an approved narrative home in this master narrative. | No current conflict; the wording is defined here. | Use the SafeFlow Quality Intelligence subsection and approved terminology list as the controlled wording source. | GREEN |
 | `CONTROL.md` | The board still had older wording in the risk register and status rows. | The master narrative. | Rewrite the affected rows so the control board uses the same review-support language as the docs. | GREEN |
-| `src/components/PatientJourneyTwin.jsx` | The visible timeline surface mixes the primary name and the simulation qualifier. | The approved terminology list. | Suggested Mia task: standardise the surface label and keep the simulation qualifier in the boundary note. | RED |
+| `src/components/PatientJourneyTwin.jsx` | The visible timeline surface mixed the primary name and the simulation qualifier. | The approved terminology list. | Closed by SF-275: the eyebrow now reads "Simulation longitudinal review" (a descriptive category, matching every other view) instead of presenting "Simulation Patient Twin" as a competing product name; the h2 keeps the approved primary name and the simulation qualifier remains in the boundary note directly beneath. | GREEN |
 
 ## Control Rule
 
