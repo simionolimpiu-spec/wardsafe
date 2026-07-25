@@ -3,6 +3,7 @@ import { scanStrictSafetyLanguage } from '../domain/safetyLanguage.js';
 import {
   biasAwarenessCues,
   discoveryScenarios,
+  facilitatorSessionNote,
   newToServiceContextNote,
   paceAssertivenessLadder,
   pearlsDebriefPrompts,
@@ -284,6 +285,35 @@ describe('deterioration learning scenario copy', () => {
       staffingContextNote.evidence
     ].join('\n'), {
       checkedLabel: 'staffing context note'
+    });
+
+    expect(safetyScan).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
+  it('keeps the facilitator session note shaped, cited and strictly boundary-safe', () => {
+    expect(facilitatorSessionNote.title).toBe('Running a training session?');
+    expect(Array.isArray(facilitatorSessionNote.points)).toBe(true);
+    expect(facilitatorSessionNote.points).toEqual([
+      'Pick three or four scenarios rather than working through all of them; a first session runs for about 20-30 minutes.',
+      'Open every session by saying aloud that this is simulation-only and that no patient here is real.',
+      'Run any baseline task before showing SafeFlow, or the before-and-after comparison is meaningless.',
+      'Ask what felt different from how the ward actually works, not only what people liked.',
+      'Close by restating that this is a discussion aid, not a replacement for local escalation policy, professional judgement, or existing NHS pathways.',
+      'See the facilitator quick-start guide at docs/public-demo-pack/facilitator-quick-start-guide.md for the full session script.'
+    ]);
+    expect(facilitatorSessionNote.evidence).toBe(
+      'SafeFlow facilitator quick-start guide (docs/public-demo-pack/facilitator-quick-start-guide.md); super-user / train-the-trainer concept doc, Part B'
+    );
+
+    const safetyScan = scanStrictSafetyLanguage([
+      facilitatorSessionNote.title,
+      ...facilitatorSessionNote.points,
+      facilitatorSessionNote.evidence
+    ].join('\n'), {
+      checkedLabel: 'facilitator session note'
     });
 
     expect(safetyScan).toMatchObject({

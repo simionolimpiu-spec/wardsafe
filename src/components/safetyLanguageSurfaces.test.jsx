@@ -85,6 +85,31 @@ describe('safety language surface scans', () => {
     });
   });
 
+  it('keeps the Scenario Library facilitator session panel strictly boundary-safe and informational only', () => {
+    render(<ScenarioLibraryView />);
+    const panel = screen.getByRole('complementary', { name: /running a training session/i });
+    const details = panel.querySelector('details');
+
+    expect(within(panel).getByRole('heading', { name: /running a training session/i })).toBeInTheDocument();
+    expect(within(panel).getAllByRole('listitem')).toHaveLength(6);
+    expect(within(panel).getByText(/simulation-only and that no patient here is real/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/baseline task before showing SafeFlow/i)).toBeInTheDocument();
+    expect(within(panel).getAllByText(/facilitator-quick-start-guide\.md/i)).toHaveLength(2);
+    expect(within(panel).getByText(/confer no permissions, no accounts, and no authority inside SafeFlow/i)).toBeInTheDocument();
+    expect(within(panel).getByText(/every reviewer's structured observation carries equal weight/i)).toBeInTheDocument();
+    expect(details).toHaveAttribute('name', 'scenario-library-panels');
+    expect(details).not.toHaveAttribute('open');
+
+    const strictResult = scanStrictSafetyLanguage(panel.textContent ?? '', {
+      checkedLabel: 'Scenario Library facilitator session render'
+    });
+
+    expect(strictResult).toMatchObject({
+      passed: true,
+      violations: []
+    });
+  });
+
   it('keeps the Scenario Library new-to-service context panel strictly boundary-safe', () => {
     render(<ScenarioLibraryView />);
     const panel = screen.getByRole('complementary', { name: /inclusive practice: new to this ward/i });
