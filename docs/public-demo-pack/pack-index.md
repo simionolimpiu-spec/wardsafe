@@ -26,6 +26,8 @@ This index groups the demo pack by audience so a reader can start in the right p
 - **`build-readiness/evaluation-session-facilitation-script.md`** — the minute-by-minute facilitator runbook.
 - **`build-readiness/evaluation-feedback-capture-sheet.md`** — the in-session capture sheet (the framework in `evaluation-framework.md` takes precedence if the two ever differ).
 - **`evaluation-framework.md`** — measures, pre/post forms, SUS, data handling, pre-registered thresholds.
+- **`build-readiness/evaluation-recruitment-checklist.md`** — the operational checklist for actually getting a session booked: ethics-scope decision, recruitment, scheduling, on-the-day, and immediately-afterwards steps.
+- **`../evaluation-reports/`** — where session write-ups go, with a report template keyed to the pre-registered thresholds.
 
 ## For ward-level rollout / training
 

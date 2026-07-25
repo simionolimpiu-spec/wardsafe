@@ -28,9 +28,10 @@ Confirm that everything needed to run SafeFlow's first simulation evaluation ses
 - [x] Run plan, facilitator script, and capture sheet written and cross-referenced.
 - [x] A working, reachable demo to evaluate (live static build).
 - [x] Consent scoped to participants only; simulated data only; no identifiable patient data.
-- [ ] **Schedule a date and recruit 3–6 participants.** (The only remaining step — an operational one, not a design one.)
+- [x] Recruitment/scheduling checklist, report folder, and report template in place (SF-277) — see `evaluation-recruitment-checklist.md` and `docs/evaluation-reports/`.
+- [ ] **Schedule a date and recruit 3–6 participants.** (The only remaining step — an operational one, not a design one. Work through `evaluation-recruitment-checklist.md`.)
 - [ ] Run the session; collect anonymous results against the SF-220 thresholds.
-- [ ] Write up findings (usability/usefulness only) and feed into the roadmap.
+- [ ] Write up findings (usability/usefulness only) using `docs/evaluation-reports/session-report-template.md` and feed into the roadmap.
 
 ## Boundary
 
