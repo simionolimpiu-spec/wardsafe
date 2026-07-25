@@ -21,8 +21,8 @@ const SUMMARY_CARD_ICONS = {
 };
 
 const CHART_COLORS = {
-  brand: '#005eb8',
-  brandDark: '#003087',
+  brand: '#176b75',
+  brandDark: '#0b3640',
   average: '#617083',
   grid: '#dbe7f5',
   text: '#53657a',
@@ -314,7 +314,7 @@ function buildTrendChartConfig(trendChartData) {
           label: trendChartData.seriesLabel,
           data: trendChartData.points.map((point) => Math.round(point.riskScore * 100)),
           borderColor: CHART_COLORS.brand,
-          backgroundColor: 'rgba(0, 94, 184, 0.14)',
+          backgroundColor: 'rgba(23, 107, 117, 0.14)',
           pointBackgroundColor: CHART_COLORS.brandDark,
           pointBorderColor: CHART_COLORS.brandDark,
           pointRadius: 4,
