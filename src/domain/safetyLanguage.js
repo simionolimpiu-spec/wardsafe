@@ -113,7 +113,7 @@ const STRICT_ALLOWED_BOUNDARY_PATTERNS = [
 ];
 
 const DOCUMENTATION_BOUNDARY_CONTEXT_PATTERN =
-  /\b(no|not|never|without|avoid|do not|does not|must not|should not|reject|rejected|prohibited|boundary|guardrail|checklist|claims?|wording|excluded?)\b|\bwhat it is not\b|\blanguage to avoid\b|\bnot be positioned\b|\bout of scope\b/i;
+  /\b(no|not|never|without|avoid|do not|does not|must not|should not|reject|rejected|prohibited|boundary|guardrail|checklist|claims?|wording|excluded?)\b|\bwhat it is not\b|\blanguage to avoid\b|\bincorrect language\b|\bnot be positioned\b|\bout of scope\b|\bbefore any\b|\bwould require\b/i;
 
 export function scanStrictSafetyLanguage(value, { checkedLabel = 'generated output' } = {}) {
   return buildScanResult({

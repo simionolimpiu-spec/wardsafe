@@ -46,6 +46,10 @@ This index groups the demo pack by audience so a reader can start in the right p
 - **`build-readiness/architecture-options.md`** and **`build-readiness/technology-stack.md`** — mock/readiness AWS direction only (no live deployment or SDK wiring).
 - **`build-readiness/nhs-integration-readiness.md`** — onboarding path, relevant APIs, FHIR/SNOMED implications (research only; no integration authorised).
 
+## Product provenance
+
+- **`../product/`** — dated, versioned product baselines, preserved unaltered for provenance. These are **not** current-state documents; the master narrative and `CONTROL.md` are. Start with `../product/README.md`.
+
 ## Boundaries that apply to everything here
 
 Simulation-only. Fictional data only. No real patient data. No diagnosis, prescribing, automated escalation, or staff scoring/ranking. Never names a competitor product. Human review required throughout. Nothing in this pack is in clinical use.

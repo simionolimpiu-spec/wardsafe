@@ -44,6 +44,11 @@ const DOCUMENTATION_FILES = [
   // (historical plan/spec records) - both verified clean, but gating them would fail CI on
   // routine bookkeeping rather than on a real wording regression.
   'MODEL_CARD.md',
+  // SF-279: docs/product/README.md is a live document and is gated. The dated baselines beside it
+  // are deliberately NOT gated - they are immutable provenance records, and gating them would
+  // eventually force a choice between failing CI and rewriting history. Reasoning is in that
+  // README. The 1 July 2026 baseline was scanned at commit time and passed clean regardless.
+  'docs/product/README.md',
   'docs/public-demo-pack/README.md',
   'docs/public-demo-pack/clinical-safety-case-outline.md',
   'docs/public-demo-pack/discovery-workshop-pack.md',
