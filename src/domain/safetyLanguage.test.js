@@ -83,6 +83,7 @@ const DOCUMENTATION_FILES = [
   'docs/public-demo-pack/build-readiness/international-comparative-synthesis.md',
   'docs/public-demo-pack/build-readiness/nhs-integration-readiness.md',
   'docs/public-demo-pack/build-readiness/public-simulation-preview.md',
+  'docs/public-demo-pack/build-readiness/rcn-search-2026-07-27-findings.md',
   'docs/public-demo-pack/build-readiness/security-and-assurance.md',
   'docs/public-demo-pack/build-readiness/super-user-train-the-trainer-concept.md',
   'docs/public-demo-pack/build-readiness/technology-stack.md',
