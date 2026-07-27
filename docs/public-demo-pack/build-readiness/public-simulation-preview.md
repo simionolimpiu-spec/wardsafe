@@ -1,6 +1,14 @@
 # SafeFlow Public Simulation Preview
 
-This note describes the current shareable SafeFlow simulation preview and a separate static preview path. SafeFlow is a simulation-only prototype for structured review support. It uses fictional data only, does not connect to live NHS systems, and does not replace any live clinical or quality system.
+This note describes the SafeFlow simulation previews. SafeFlow is a simulation-only prototype for structured review support. It uses fictional data only, does not connect to live NHS systems, and does not replace any live clinical or quality system.
+
+## Which URL do I share?
+
+**https://simionolimpiu-spec.github.io/wardsafe/**
+
+That is the live, publicly reachable, shareable simulation preview, and the one every other document in this pack points to. It needs no password and no token. Verified reachable (HTTP 200) on 27 July 2026.
+
+Do **not** share the AWS Amplify URL further down this page. It sits behind Amplify Basic Auth, returns `401 Unauthorized` without credentials, and is documented here as deployment infrastructure rather than as the demo link.
 
 ## Preview Goal
 
@@ -9,9 +17,11 @@ This note describes the current shareable SafeFlow simulation preview and a sepa
 - Keep all preview data fictional and simulation-only.
 - Keep human review explicit throughout the UI and API.
 
-## Current AWS Preview Deployment
+## AWS Preview Deployment (credentialled infrastructure — not the shareable demo)
 
-The current documented hosted preview remains the AWS preview below. It is the only preview described in this note as active:
+This section documents the AWS-hosted preview stack, which is where the backend API lives. It is **not** the link to share: Amplify Basic Auth gates the frontend, so the URL below returns `401 Unauthorized` to anyone without credentials. The shareable demo is the static GitHub Pages site described in the next section.
+
+Retained here because the backend stack and Lambda Function URL are real, in use, and need documenting:
 
 - Frontend: `https://preview.d3etfd425b4rlk.amplifyapp.com/`
 - Backend API: `https://nlork7u5ziyhwbjmoplexuw4rq0tnwah.lambda-url.eu-west-2.on.aws/`
@@ -22,10 +32,10 @@ The current documented hosted preview remains the AWS preview below. It is the o
 
 Amplify Basic Auth is enabled, and the API requires `X-SafeFlow-Preview-Token`. Do not commit or post the Basic Auth password or preview access token; share them only through a private channel with named reviewers.
 
-## Static GitHub Pages Simulation Preview
+## Static GitHub Pages Simulation Preview — the shareable demo
 
 Current published location: https://simionolimpiu-spec.github.io/wardsafe/
-Simulation-only, fictional data, not for clinical use.
+Simulation-only, fictional data, not for clinical use. Open to anyone with the link; no password, no token.
 
 This static site auto-deploys on every push to `codex/safeflow-prototype` via `.github/workflows/deploy-pages.yml`.
 The base branch now includes `.github/workflows/deploy-pages.yml`, which builds the static SPA with the `/wardsafe/` base path. This path is separate from the AWS preview:
