@@ -1,0 +1,2345 @@
+[
+  {
+    "pmid": "12387650",
+    "doi": "10.1001/jama.288.16.1987",
+    "title": "Hospital nurse staffing and patient mortality, nurse burnout, and job dissatisfaction.",
+    "journal": "JAMA",
+    "journalAbbrev": "JAMA",
+    "year": 2002,
+    "authors": [
+      "Aiken",
+      "Clarke",
+      "Sloane",
+      "Sochalski",
+      "Silber"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Burnout, Professional",
+      "Cross-Sectional Studies",
+      "Female",
+      "Health Services Research",
+      "Hospital Bed Capacity, 100 to 299",
+      "Hospital Mortality",
+      "Hospitals, General",
+      "Humans",
+      "Job Satisfaction",
+      "Male",
+      "Middle Aged",
+      "Nursing Research",
+      "Nursing Service, Hospital",
+      "Nursing Staff, Hospital",
+      "Odds Ratio",
+      "Outcome and Process Assessment, Health Care",
+      "Pennsylvania",
+      "Personnel Staffing and Scheduling",
+      "Surgical Procedures, Operative",
+      "United States",
+      "Workforce",
+      "Workload"
+    ],
+    "articleTypes": [
+      "Evaluation Study",
+      "Journal Article",
+      "Research Support, U.S. Gov't, P.H.S."
+    ],
+    "language": null,
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs",
+      "staffing-context"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "12544057",
+    "doi": "10.1097/00000446-200301000-00020",
+    "title": "Failure to rescue.",
+    "journal": "The American journal of nursing",
+    "journalAbbrev": "Am J Nurs",
+    "year": 2003,
+    "authors": [
+      "Clarke",
+      "Aiken"
+    ],
+    "meshTerms": [
+      "Hospital Mortality",
+      "Humans",
+      "Nursing Assessment",
+      "Nursing Evaluation Research",
+      "Nursing Service, Hospital",
+      "Nursing Staff, Hospital",
+      "Outcome Assessment, Health Care",
+      "Personnel Staffing and Scheduling",
+      "Postoperative Complications",
+      "Quality Indicators, Health Care",
+      "Risk Adjustment"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "17472872",
+    "doi": "10.1016/j.gtc.2007.02.001",
+    "title": "Nutritional assessment.",
+    "journal": "Gastroenterology clinics of North America",
+    "journalAbbrev": "Gastroenterol Clin North Am",
+    "year": 2007,
+    "authors": [
+      "DeLegge",
+      "Drake"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Malnutrition",
+      "Mass Screening",
+      "Nutrition Assessment",
+      "Nutritional Status",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "19948370",
+    "doi": "10.1016/j.nedt.2009.10.020",
+    "title": "The 'five rights' of clinical reasoning: an educational model to enhance nursing students' ability to identify and manage clinically 'at risk' patients.",
+    "journal": "Nurse education today",
+    "journalAbbrev": "Nurse Educ Today",
+    "year": 2010,
+    "authors": [
+      "Levett-Jones",
+      "Hoffman",
+      "Dempsey",
+      "Jeong",
+      "Noble",
+      "Norton",
+      "Roche",
+      "Hickey"
+    ],
+    "meshTerms": [
+      "Acute Disease",
+      "Clinical Competence",
+      "Cues",
+      "Education, Nursing, Baccalaureate",
+      "Humans",
+      "Judgment",
+      "Logic",
+      "Models, Educational",
+      "Models, Nursing",
+      "Nursing Assessment",
+      "Nursing Process",
+      "Patient Rights",
+      "Problem Solving",
+      "Risk Assessment",
+      "Students, Nursing",
+      "Thinking",
+      "Time Factors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": null,
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "20074192",
+    "doi": "10.1111/j.1745-7599.2009.00470.x",
+    "title": "Dysphagia and aspiration pneumonia in older adults.",
+    "journal": "Journal of the American Academy of Nurse Practitioners",
+    "journalAbbrev": "J Am Acad Nurse Pract",
+    "year": 2010,
+    "authors": [
+      "Sue Eisenstadt"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Deglutition Disorders",
+      "Evidence-Based Practice",
+      "Gagging",
+      "Geriatric Assessment",
+      "Geriatric Nursing",
+      "Humans",
+      "Medical History Taking",
+      "Nurse Practitioners",
+      "Nurse's Role",
+      "Nursing Assessment",
+      "Nursing Homes",
+      "Physical Examination",
+      "Pneumonia, Aspiration",
+      "Primary Prevention",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": null,
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "21556200",
+    "doi": "10.3390/ijerph8020514",
+    "title": "Hospital malnutrition: prevalence, identification and impact on patients and the healthcare system.",
+    "journal": "International journal of environmental research and public health",
+    "journalAbbrev": "Int J Environ Res Public Health",
+    "year": 2011,
+    "authors": [
+      "Barker",
+      "Gout",
+      "Crowe"
+    ],
+    "meshTerms": [
+      "Delivery of Health Care",
+      "Hospitals",
+      "Humans",
+      "Malnutrition",
+      "Mass Screening",
+      "Prevalence"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": null,
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "22122869",
+    "doi": "10.1016/j.clnu.2011.11.001",
+    "title": "Malnutrition and its impact on cost of hospitalization, length of stay, readmission and 3-year mortality.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2011,
+    "authors": [
+      "Lim",
+      "Ong",
+      "Chan",
+      "Loke",
+      "Ferguson"
+    ],
+    "meshTerms": [
+      "Case-Control Studies",
+      "Cohort Studies",
+      "Costs and Cost Analysis",
+      "Health Care Costs",
+      "Hospitalization",
+      "Humans",
+      "Length of Stay",
+      "Malnutrition",
+      "Mortality",
+      "Patient Readmission",
+      "Prevalence",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "25583148",
+    "doi": "10.1016/j.resuscitation.2014.12.029",
+    "title": "Validation of the National Early Warning Score in the prehospital setting.",
+    "journal": "Resuscitation",
+    "journalAbbrev": "Resuscitation",
+    "year": 2015,
+    "authors": [
+      "Silcock",
+      "Corfield",
+      "Gowens",
+      "Rooney"
+    ],
+    "meshTerms": [
+      "Critical Care",
+      "Health Status Indicators",
+      "Hospital Mortality",
+      "Hospitalization",
+      "Humans",
+      "Predictive Value of Tests",
+      "ROC Curve",
+      "Reproducibility of Results",
+      "Triage",
+      "United Kingdom"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": null,
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "26616276",
+    "doi": "10.1002/bjs.10031",
+    "title": "Importance of teamwork, communication and culture on failure-to-rescue in the elderly.",
+    "journal": "The British journal of surgery",
+    "journalAbbrev": "Br J Surg",
+    "year": 2016,
+    "authors": [
+      "Ghaferi",
+      "Dimick"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Clinical Competence",
+      "Communication",
+      "Delivery of Health Care",
+      "Failure to Rescue, Health Care",
+      "Forecasting",
+      "Humans",
+      "Interprofessional Relations",
+      "Patient Care Team",
+      "Quality Improvement",
+      "Surgical Procedures, Operative"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, N.I.H., Extramural",
+      "Research Support, Non-U.S. Gov't",
+      "Research Support, U.S. Gov't, P.H.S.",
+      "Review"
+    ],
+    "language": null,
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "26895569",
+    "doi": "10.1097/JNN.0000000000000189",
+    "title": "Nursing Bedside Dysphagia Screen: Is it Valid?",
+    "journal": "The Journal of neuroscience nursing",
+    "journalAbbrev": "J Neurosci Nurs",
+    "year": 2016,
+    "authors": [
+      "Campbell",
+      "Carter",
+      "Kring",
+      "Martinez"
+    ],
+    "meshTerms": [
+      "Deglutition Disorders",
+      "Female",
+      "Humans",
+      "Male",
+      "Nursing Diagnosis",
+      "Nursing Staff, Hospital",
+      "Pneumonia, Aspiration",
+      "Stroke"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "27224683",
+    "doi": "10.1097/JNN.0000000000000200",
+    "title": "Nursing Interventions for Identifying and Managing Acute Dysphagia are Effective for Improving Patient Outcomes: A Systematic Review Update.",
+    "journal": "The Journal of neuroscience nursing",
+    "journalAbbrev": "J Neurosci Nurs",
+    "year": 2016,
+    "authors": [
+      "Hines",
+      "Kynoch",
+      "Munday"
+    ],
+    "meshTerms": [
+      "Acute Disease",
+      "Deglutition Disorders",
+      "Humans",
+      "Malnutrition",
+      "Mass Screening",
+      "Nurse's Role",
+      "Pneumonia, Aspiration",
+      "Stroke"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "27900413",
+    "doi": "10.1007/s00101-016-0237-5",
+    "title": "Recommendations of the German Association of Anesthesiology and Intensive Care Medicine (DGAI) on structured patient handover in the perioperative setting : The SBAR concept.",
+    "journal": "Der Anaesthesist",
+    "journalAbbrev": "Anaesthesist",
+    "year": 2016,
+    "authors": [
+      "von Dossow",
+      "Zwissler"
+    ],
+    "meshTerms": [
+      "Communication",
+      "Continuity of Patient Care",
+      "Critical Care",
+      "Humans",
+      "Interdisciplinary Communication",
+      "Interprofessional Relations",
+      "Operating Rooms",
+      "Patient Care Team",
+      "Patient Handoff",
+      "Perioperative Care"
+    ],
+    "articleTypes": [
+      "Guideline",
+      "Journal Article"
+    ],
+    "language": null,
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28509730",
+    "doi": "10.1097/CCM.0000000000002425",
+    "title": "American College of Critical Care Medicine Clinical Practice Parameters for Hemodynamic Support of Pediatric and Neonatal Septic Shock.",
+    "journal": "Critical care medicine",
+    "journalAbbrev": "Crit Care Med",
+    "year": 2017,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28523364",
+    "doi": "10.1007/s00101-017-0320-6",
+    "title": "[Structured patient handovers in perioperative medicine : Rationale and implementation in clinical practice].",
+    "journal": "Der Anaesthesist",
+    "journalAbbrev": "Anaesthesist",
+    "year": 2017,
+    "authors": [
+      "Merkel",
+      "von Dossow",
+      "Zwi&#xdf;ler"
+    ],
+    "meshTerms": [
+      "Clinical Protocols",
+      "Communication",
+      "Critical Care",
+      "Humans",
+      "Operating Rooms",
+      "Patient Handoff",
+      "Patient Transfer",
+      "Perioperative Care"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": null,
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28618137",
+    "doi": "10.1111/jocn.13922",
+    "title": "The impact of aspiration pneumonia and nasogastric feeding on clinical outcomes in stroke patients: A retrospective cohort study.",
+    "journal": "Journal of clinical nursing",
+    "journalAbbrev": "J Clin Nurs",
+    "year": 2017,
+    "authors": [
+      "Schwarz",
+      "Coccetti",
+      "Murdoch",
+      "Cardell"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Aged, 80 and over",
+      "Deglutition Disorders",
+      "Female",
+      "Humans",
+      "Incidence",
+      "Intubation, Gastrointestinal",
+      "Length of Stay",
+      "Male",
+      "Middle Aged",
+      "Pneumonia, Aspiration",
+      "Retrospective Studies",
+      "Risk Assessment",
+      "Severity of Illness Index",
+      "Stroke"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": null,
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28676896",
+    "doi": "10.1007/s00134-017-4867-0",
+    "title": "The impact of frailty on intensive care unit outcomes: a systematic review and meta-analysis.",
+    "journal": "Intensive care medicine",
+    "journalAbbrev": "Intensive Care Med",
+    "year": 2017,
+    "authors": [
+      "Muscedere",
+      "Waters",
+      "Varambally",
+      "Bagshaw",
+      "Boyd",
+      "Maslove",
+      "Sibley",
+      "Rockwood"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Age Factors",
+      "Critical Illness",
+      "Frailty",
+      "Hospital Mortality",
+      "Humans",
+      "Intensive Care Units",
+      "Length of Stay",
+      "Observational Studies as Topic",
+      "Prevalence",
+      "Prospective Studies",
+      "Risk Factors",
+      "Severity of Illness Index",
+      "Treatment Outcome"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "language": null,
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "29557884",
+    "doi": "10.1097/SLA.0000000000002744",
+    "title": "Association Between Hospital Staffing Models and Failure to Rescue.",
+    "journal": "Annals of surgery",
+    "journalAbbrev": "Ann Surg",
+    "year": 2019,
+    "authors": [
+      "Ward",
+      "Dimick",
+      "Zhang",
+      "Campbell",
+      "Ghaferi"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Clinical Audit",
+      "Cross-Sectional Studies",
+      "Failure to Rescue, Health Care",
+      "Female",
+      "Health Workforce",
+      "Hospital Mortality",
+      "Humans",
+      "Male",
+      "Michigan",
+      "Middle Aged",
+      "Patient Safety",
+      "Personnel Staffing and Scheduling",
+      "Quality Improvement",
+      "Quality Indicators, Health Care",
+      "Retrospective Studies",
+      "Surgical Procedures, Operative"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs",
+      "staffing-context"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "30076123",
+    "doi": "10.1016/j.jamda.2018.06.009",
+    "title": "Frailty and Clinical Outcomes in Heart Failure: A Systematic Review and Meta-analysis.",
+    "journal": "Journal of the American Medical Directors Association",
+    "journalAbbrev": "J Am Med Dir Assoc",
+    "year": 2018,
+    "authors": [
+      "Zhang",
+      "Yuan",
+      "Gong",
+      "Tse",
+      "Li"
+    ],
+    "meshTerms": [
+      "Frailty",
+      "Heart Failure",
+      "Heart-Assist Devices",
+      "Hospitalization",
+      "Humans"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "31021360",
+    "doi": "10.1007/s12603-019-1176-z",
+    "title": "Malnutrition Screening and Assessment in Hospitalised Older People: a Review.",
+    "journal": "The journal of nutrition, health & aging",
+    "journalAbbrev": "J Nutr Health Aging",
+    "year": 2019,
+    "authors": [
+      "Dent",
+      "Hoogendijk",
+      "Visvanathan",
+      "Wright"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Female",
+      "Geriatric Assessment",
+      "Hospitalization",
+      "Humans",
+      "Male",
+      "Malnutrition",
+      "Mass Screening",
+      "Nutrition Assessment"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "31268580",
+    "doi": "10.1002/lary.28174",
+    "title": "Hospital volume and failure to rescue after vestibular schwannoma resection.",
+    "journal": "The Laryngoscope",
+    "journalAbbrev": "Laryngoscope",
+    "year": 2019,
+    "authors": [
+      "Andresen",
+      "Gourin",
+      "Stewart",
+      "Sun"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Failure to Rescue, Health Care",
+      "Female",
+      "Hospital Mortality",
+      "Hospitals, High-Volume",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Neuroma, Acoustic",
+      "Postoperative Complications"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "31633738",
+    "doi": "10.1001/jamainternmed.2019.4446",
+    "title": "Effect of the Tailored, Family-Involved Hospital Elder Life Program on Postoperative Delirium and Function in Older Adults: A Randomized Clinical Trial.",
+    "journal": "JAMA internal medicine",
+    "journalAbbrev": "JAMA Intern Med",
+    "year": 2020,
+    "authors": [
+      "Wang",
+      "Yue",
+      "Xie",
+      "Carter",
+      "Li",
+      "Gartaganis",
+      "Chen",
+      "Inouye"
+    ],
+    "meshTerms": [
+      "Activities of Daily Living",
+      "Aged",
+      "China",
+      "Cognition",
+      "Delirium",
+      "Female",
+      "Hospitalization",
+      "Hospitals",
+      "Humans",
+      "Incidence",
+      "Male",
+      "Postoperative Complications",
+      "Retrospective Studies",
+      "Single-Blind Method"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, N.I.H., Extramural",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": null,
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "31882232",
+    "doi": "10.1016/j.clnu.2019.11.041",
+    "title": "Nutritional risk screening (NRS 2002) is a strong and modifiable predictor risk score for short-term and long-term clinical outcomes: secondary analysis of a prospective randomised trial.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2019,
+    "authors": [
+      "Hersberger",
+      "Bargetzi",
+      "Bargetzi",
+      "Tribolet",
+      "Fehr"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Length of Stay",
+      "Malnutrition",
+      "Mortality",
+      "Nutrition Assessment",
+      "Nutritional Support",
+      "Patient Readmission",
+      "Prognosis",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "32414401",
+    "doi": "10.1186/s13054-020-02951-1",
+    "title": "Trauma complications and in-hospital mortality: failure-to-rescue.",
+    "journal": "Critical care (London, England)",
+    "journalAbbrev": "Crit Care",
+    "year": 2020,
+    "authors": [
+      "Abe",
+      "Komori",
+      "Shiraishi",
+      "Sugiyama",
+      "Iriyama",
+      "Kainoh",
+      "Saitoh"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Aged, 80 and over",
+      "Cohort Studies",
+      "Elective Surgical Procedures",
+      "Failure to Rescue, Health Care",
+      "Female",
+      "Hospital Mortality",
+      "Humans",
+      "Japan",
+      "Male",
+      "Middle Aged",
+      "Postoperative Complications",
+      "Retrospective Studies",
+      "Wounds and Injuries"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": null,
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "32986957",
+    "doi": "10.1161/CIRCHEARTFAILURE.119.006798",
+    "title": "Multidisciplinary Cardiac Rehabilitation and Long-Term Prognosis in Patients With Heart Failure.",
+    "journal": "Circulation. Heart failure",
+    "journalAbbrev": "Circ Heart Fail",
+    "year": 2020,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "33242267",
+    "doi": "10.12968/bjon.2020.29.21.1248",
+    "title": "Recognition and management of sepsis: the nurse's role.",
+    "journal": "British journal of nursing (Mark Allen Publishing)",
+    "journalAbbrev": "Br J Nurs",
+    "year": 2020,
+    "authors": [
+      "Bleakley",
+      "Cole"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Nurse's Role",
+      "Sepsis"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": null,
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "33309843",
+    "doi": "10.1016/j.ajic.2020.12.002",
+    "title": "Evaluation of hospital nurse-to-patient staffing ratios and sepsis bundles on patient outcomes.",
+    "journal": "American journal of infection control",
+    "journalAbbrev": "Am J Infect Control",
+    "year": 2020,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "sepsis-screen",
+      "staffing-context"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "33736927",
+    "doi": "10.1016/j.soncn.2021.151135",
+    "title": "Disseminated Intravascular Coagulation.",
+    "journal": "Seminars in oncology nursing",
+    "journalAbbrev": "Semin Oncol Nurs",
+    "year": 2021,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "33775748",
+    "doi": "10.1016/j.jvs.2021.02.047",
+    "title": "Association between hospital volume and failure-to-rescue for open repairs of juxtarenal aneurysms.",
+    "journal": "Journal of vascular surgery",
+    "journalAbbrev": "J Vasc Surg",
+    "year": 2021,
+    "authors": [
+      "Mehta",
+      "O'Donnell",
+      "Garg",
+      "Siracuse",
+      "Mohebali",
+      "Schermerhorn",
+      "Takayama",
+      "Patel"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aortic Aneurysm, Abdominal",
+      "Blood Vessel Prosthesis Implantation",
+      "Databases, Factual",
+      "Failure to Rescue, Health Care",
+      "Female",
+      "Hospital Mortality",
+      "Hospitals, High-Volume",
+      "Hospitals, Low-Volume",
+      "Humans",
+      "Male",
+      "Postoperative Complications",
+      "Retrospective Studies",
+      "Risk Assessment",
+      "Risk Factors",
+      "Time Factors"
+    ],
+    "articleTypes": [
+      "Comparative Study",
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34302312",
+    "doi": "10.1111/jocn.15973",
+    "title": "Evaluation of the effectiveness of delirium prevention care protocol for the patients with hip fracture: A randomised controlled study.",
+    "journal": "Journal of clinical nursing",
+    "journalAbbrev": "J Clin Nurs",
+    "year": 2021,
+    "authors": [
+      "Unal",
+      "Guvenc",
+      "Naharci"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Delirium",
+      "Female",
+      "Hip Fractures",
+      "Humans",
+      "Incidence",
+      "Intensive Care Units",
+      "Male",
+      "Sleep"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34343047",
+    "doi": "10.12968/bjcn.2021.26.8.396",
+    "title": "Use of the National Early Warning Score in community nursing: a scoping review.",
+    "journal": "British journal of community nursing",
+    "journalAbbrev": "Br J Community Nurs",
+    "year": 2021,
+    "authors": [
+      "Phillips"
+    ],
+    "meshTerms": [
+      "Clinical Deterioration",
+      "Community Health Nursing",
+      "Critical Illness",
+      "Early Warning Score",
+      "Humans"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Scoping Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34379473",
+    "doi": "10.12968/bjon.2021.30.15.920",
+    "title": "Sepsis knowledge, skills and attitudes among ward-based nurses.",
+    "journal": "British journal of nursing",
+    "journalAbbrev": "Br J Nurs",
+    "year": 2021,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34599691",
+    "doi": "10.1007/s00134-021-06506-y",
+    "title": "Surviving sepsis campaign: international guidelines for management of sepsis and septic shock 2021.",
+    "journal": "Intensive care medicine",
+    "journalAbbrev": "Intensive Care Med",
+    "year": 2021,
+    "authors": [
+      "Evans",
+      "Rhodes",
+      "Alhazzani",
+      "Antonelli",
+      "Coopersmith",
+      "French",
+      "Machado",
+      "Mcintyre"
+    ],
+    "meshTerms": [
+      "Critical Care",
+      "Humans",
+      "Sepsis",
+      "Shock, Septic"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": null,
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34605781",
+    "doi": "10.1097/CCM.0000000000005337",
+    "title": "Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021.",
+    "journal": "Critical care medicine",
+    "journalAbbrev": "Crit Care Med",
+    "year": 2021,
+    "authors": [
+      "Evans",
+      "Rhodes",
+      "Alhazzani",
+      "Antonelli",
+      "Coopersmith"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34622831",
+    "doi": "10.1097/MD.0000000000027325",
+    "title": "Validation of the National Early Warning Score (NEWS)-2 for adults in the emergency department in a tertiary-level clinic in Colombia: Cohort study.",
+    "journal": "Medicine",
+    "journalAbbrev": "Medicine (Baltimore)",
+    "year": 2021,
+    "authors": [
+      "Vergara",
+      "Forero",
+      "Bastidas",
+      "Garcia"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Clinical Deterioration",
+      "Colombia",
+      "Early Warning Score",
+      "Emergency Service, Hospital",
+      "Hospital Mortality",
+      "Triage"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study",
+      "Validation Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34663229",
+    "doi": "10.1186/s12877-021-02493-3",
+    "title": "Diagnostic accuracy and clinical applicability of the Swedish version of the 4AT assessment test for delirium detection, in a mixed patient population and setting.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2021,
+    "authors": [
+      "Johansson",
+      "Tsevis",
+      "Nasic",
+      "Gillsjo",
+      "Bogdanovic"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Delirium",
+      "Geriatric Assessment",
+      "Humans",
+      "Reproducibility of Results",
+      "Sensitivity and Specificity",
+      "Sweden"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "35045340",
+    "doi": "10.1016/j.jhin.2022.01.004",
+    "title": "Impact of sepsis education for healthcare professionals and students on learning and patient outcomes: a systematic review.",
+    "journal": "The Journal of hospital infection",
+    "journalAbbrev": "J Hosp Infect",
+    "year": 2022,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "35215559",
+    "doi": "10.3390/nu14040910",
+    "title": "Malnutrition in Hospitalized Old Patients: Screening and Diagnosis, Clinical Outcomes, and Management.",
+    "journal": "Nutrients",
+    "journalAbbrev": "Nutrients",
+    "year": 2022,
+    "authors": [
+      "Bellanti",
+      "Lo Buglio",
+      "Quiete",
+      "Vendemiale"
+    ],
+    "meshTerms": [
+      "Hospitalization",
+      "Humans",
+      "Length of Stay",
+      "Malnutrition",
+      "Mass Screening",
+      "Nutrition Assessment",
+      "Nutritional Status",
+      "Prevalence"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "35776738",
+    "doi": "10.1371/journal.pone.0270711",
+    "title": "Sepsis assessment and management in critically Ill adults: A systematic review.",
+    "journal": "PloS one",
+    "journalAbbrev": "PLoS One",
+    "year": 2022,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "35854358",
+    "doi": "10.1186/s13063-022-06448-w",
+    "title": "Decreasing delirium through music listening (DDM) in critically ill, mechanically ventilated older adults in the intensive care unit: a two-arm, parallel-group, randomized clinical trial.",
+    "journal": "Trials",
+    "journalAbbrev": "Trials",
+    "year": 2022,
+    "authors": [
+      "Seyffert",
+      "Moiz",
+      "Coghlan",
+      "Balozian",
+      "Khan"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Critical Illness",
+      "Delirium",
+      "Humans",
+      "Intensive Care Units",
+      "Music",
+      "Respiration, Artificial"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36584541",
+    "doi": "10.1016/j.ajp.2022.103374",
+    "title": "Diagnostic accuracy of the 4AT for delirium: A systematic review and meta-analysis.",
+    "journal": "Asian journal of psychiatry",
+    "journalAbbrev": "Asian J Psychiatr",
+    "year": 2022,
+    "authors": [
+      "Hou",
+      "Zhang",
+      "Cao",
+      "Chen",
+      "Wang"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Sensitivity and Specificity",
+      "Delirium"
+    ],
+    "articleTypes": [
+      "Meta-Analysis",
+      "Systematic Review",
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36593448",
+    "doi": "10.1186/s12877-022-03642-y",
+    "title": "Association between Clinical Frailty Scale (CFS) and clinical presentation and outcomes in older inpatients with COVID-19.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2023,
+    "authors": [
+      "Marti-Pastor",
+      "Moreno-Perez",
+      "Lobato-Martinez",
+      "Valero-Sempere",
+      "Amo-Lozano"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "COVID-19",
+      "Frailty",
+      "Retrospective Studies",
+      "Inpatients",
+      "Frail Elderly",
+      "Geriatric Assessment"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36598761",
+    "doi": "10.1001/jamacardio.2022.4903",
+    "title": "Frailty and Effects of a Multidomain Physical Rehabilitation Intervention Among Older Patients Hospitalized for Acute Heart Failure: A Secondary Analysis of a Randomized Clinical Trial.",
+    "journal": "JAMA cardiology",
+    "journalAbbrev": "JAMA Cardiol",
+    "year": 2023,
+    "authors": [
+      "Pandey",
+      "Kitzman",
+      "Nelson",
+      "Pastva",
+      "Duncan",
+      "Whellan",
+      "Mentz",
+      "Chen"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Female",
+      "Aged",
+      "Male",
+      "Frailty",
+      "Quality of Life",
+      "Hospitalization",
+      "Heart Failure",
+      "Exercise Therapy"
+    ],
+    "articleTypes": [
+      "Randomized Controlled Trial",
+      "Multicenter Study",
+      "Journal Article",
+      "Research Support, N.I.H., Extramural",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": null,
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36621563",
+    "doi": "10.1016/j.cjca.2023.01.001",
+    "title": "Failure to Rescue: A Quality Metric for Cardiac Surgery and Cardiovascular Critical Care.",
+    "journal": "The Canadian journal of cardiology",
+    "journalAbbrev": "Can J Cardiol",
+    "year": 2023,
+    "authors": [
+      "Gross",
+      "Adams",
+      "Patel",
+      "Varghese"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hospital Mortality",
+      "Cardiac Surgical Procedures",
+      "Postoperative Complications",
+      "Critical Care",
+      "Hospitals"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36731308",
+    "doi": "10.1016/j.ijnurstu.2023.104436",
+    "title": "Frontline Nurses' clinical judgment in recognizing, understanding, and responding to patient deterioration: A qualitative study.",
+    "journal": "International journal of nursing studies",
+    "journalAbbrev": "Int J Nurs Stud",
+    "year": 2023,
+    "authors": [
+      "Dresser",
+      "Teel",
+      "Peltzer"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Humans",
+      "Judgment",
+      "Qualitative Research",
+      "Hospitals",
+      "Academic Medical Centers",
+      "Nurses"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36914194",
+    "doi": "10.1136/bmjopen-2022-066131",
+    "title": "Performance of digital early warning score (NEWS2) in a cardiac specialist setting: retrospective cohort study.",
+    "journal": "BMJ open",
+    "journalAbbrev": "BMJ Open",
+    "year": 2023,
+    "authors": [
+      "Alhmoud",
+      "Bonnici",
+      "Melley",
+      "Patel",
+      "Banerjee"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Early Warning Score",
+      "Retrospective Studies",
+      "COVID-19",
+      "Pandemics",
+      "Cohort Studies",
+      "Heart Arrest"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": null,
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "37128953",
+    "doi": "10.1111/wvn.12649",
+    "title": "Incidence of postoperative delirium in older adults undergoing surgical procedures: A systematic literature review and meta-analysis.",
+    "journal": "Worldviews on evidence-based nursing",
+    "journalAbbrev": "Worldviews Evid Based Nurs",
+    "year": 2023,
+    "authors": [
+      "Igwe",
+      "Nealon",
+      "O'Shaughnessy",
+      "Bowden",
+      "Chang"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Emergence Delirium",
+      "Delirium",
+      "Postoperative Complications",
+      "Incidence",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Systematic Review",
+      "Meta-Analysis",
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "37478809",
+    "doi": "10.1016/j.clnu.2023.06.023",
+    "title": "ESPEN guideline on nutritional support for polymorbid medical inpatients.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2023,
+    "authors": [
+      "Wunderle",
+      "Gomes",
+      "Schuetz",
+      "Stumpf",
+      "Austin"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hospitalization",
+      "Inpatients",
+      "Malnutrition",
+      "Nutritional Support",
+      "Practice Guidelines as Topic"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "37527704",
+    "doi": "10.1016/j.arr.2023.102025",
+    "title": "Delirium assessment tools among hospitalized older adults: A systematic review and metaanalysis of diagnostic accuracy.",
+    "journal": "Ageing research reviews",
+    "journalAbbrev": "Ageing Res Rev",
+    "year": 2023,
+    "authors": [
+      "Lin",
+      "Su",
+      "Huang",
+      "Chen",
+      "Traynor",
+      "Chang",
+      "Liu",
+      "Lai"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Female",
+      "Aged",
+      "Delirium",
+      "Reproducibility of Results",
+      "Sensitivity and Specificity",
+      "Diagnostic and Statistical Manual of Mental Disorders"
+    ],
+    "articleTypes": [
+      "Meta-Analysis",
+      "Systematic Review",
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": null,
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "37730667",
+    "doi": "10.1186/s13326-023-00296-6",
+    "title": "Development and validation of the early warning system scores ontology.",
+    "journal": "Journal of biomedical semantics",
+    "journalAbbrev": "J Biomed Semantics",
+    "year": 2023,
+    "authors": [
+      "Zayas",
+      "Whorton",
+      "Sexton",
+      "Mabry",
+      "Dowland",
+      "Brochhausen"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Child",
+      "Humans",
+      "Early Warning Score",
+      "Software"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "37931891",
+    "doi": "10.1016/j.resuscitation.2023.110032",
+    "title": "Evaluating the performance of the National Early Warning Score in different diagnostic groups.",
+    "journal": "Resuscitation",
+    "journalAbbrev": "Resuscitation",
+    "year": 2023,
+    "authors": [
+      "Price",
+      "Prytherch",
+      "Kostakis",
+      "Briggs"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Early Warning Score",
+      "Intensive Care Units",
+      "Hospitalization",
+      "Hospitals",
+      "Hospital Mortality"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38309229",
+    "doi": "10.1016/j.clnu.2024.01.008",
+    "title": "ESPEN practical guideline: Nutritional support for polymorbid medical inpatients.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2024,
+    "authors": [
+      "Wunderle",
+      "Gomes",
+      "Schuetz",
+      "Stumpf",
+      "Austin"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hospitalization",
+      "Hospitals",
+      "Inpatients",
+      "Malnutrition",
+      "Nutritional Support"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Practice Guideline"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38493521",
+    "doi": "10.1016/j.injury.2024.111450",
+    "title": "The clinical frailty scale as a predictor of orthopaedic outcomes: a narrative review.",
+    "journal": "Injury",
+    "journalAbbrev": "Injury",
+    "year": 2024,
+    "authors": [
+      "Jones",
+      "Hathaway",
+      "Glossop",
+      "Bhachoo",
+      "Hoade"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Frail Elderly",
+      "Frailty",
+      "Geriatric Assessment",
+      "Length of Stay",
+      "Orthopedic Procedures",
+      "Prognosis"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38541274",
+    "doi": "10.3390/ijerph21030273",
+    "title": "Frailty in an Adult Acute Hospital Population: Predictors, Prevalence, and Outcomes.",
+    "journal": "International journal of environmental research and public health",
+    "journalAbbrev": "Int J Environ Res Public Health",
+    "year": 2024,
+    "authors": [
+      "O'Caoimh",
+      "Morrison",
+      "Costello",
+      "Flannery",
+      "Small"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Male",
+      "Aged",
+      "Frailty",
+      "Prevalence",
+      "Frail Elderly",
+      "Length of Stay",
+      "Geriatric Assessment"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38582013",
+    "doi": "10.1016/j.clnu.2024.03.008",
+    "title": "Validity of nutrition screening tools for risk of malnutrition among hospitalized adult patients: A systematic review and meta-analysis.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2024,
+    "authors": [
+      "Cortes-Aguilar",
+      "Malih",
+      "Abbate",
+      "Fresneda",
+      "Yanez"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Malnutrition",
+      "Nutrition Assessment",
+      "Hospitalization",
+      "Mass Screening",
+      "Nutritional Status",
+      "Inpatients",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Systematic Review",
+      "Journal Article",
+      "Meta-Analysis"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38757369",
+    "doi": "10.1111/acem.14935",
+    "title": "Delirium detection in the emergency department: A diagnostic accuracy meta-analysis of history, physical examination, laboratory tests, and screening instruments.",
+    "journal": "Academic emergency medicine",
+    "journalAbbrev": "Acad Emerg Med",
+    "year": 2024,
+    "authors": [
+      "Carpenter",
+      "Lee",
+      "Kennedy",
+      "Arendts",
+      "Schnitker"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Humans",
+      "Delirium",
+      "Emergency Service, Hospital",
+      "Geriatric Assessment",
+      "Medical History Taking",
+      "Physical Examination",
+      "Sensitivity and Specificity"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "39116825",
+    "doi": "10.1016/j.jss.2024.07.052",
+    "title": "Complication Timing, Failure to Rescue, and Readmission After Inpatient Pediatric Surgery.",
+    "journal": "The Journal of surgical research",
+    "journalAbbrev": "J Surg Res",
+    "year": 2024,
+    "authors": [
+      "Hickner",
+      "Portuondo",
+      "Mehl",
+      "Shah",
+      "Raval",
+      "Massarweh"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Readmission",
+      "Postoperative Complications",
+      "Female",
+      "Male",
+      "Child",
+      "Child, Preschool",
+      "Adolescent",
+      "Infant",
+      "Time Factors",
+      "Patient Discharge",
+      "Retrospective Studies",
+      "Failure to Rescue, Health Care",
+      "Surgical Procedures, Operative",
+      "Infant, Newborn",
+      "United States"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, U.S. Gov't, Non-P.H.S."
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "39299664",
+    "doi": "10.1016/j.jstrokecerebrovasdis.2024.108016",
+    "title": "Frailty among stroke patients and its effects on hospital outcomes.",
+    "journal": "Journal of stroke and cerebrovascular diseases",
+    "journalAbbrev": "J Stroke Cerebrovasc Dis",
+    "year": 2024,
+    "authors": [
+      "Baker",
+      "Rubens",
+      "Appunni",
+      "Saxena",
+      "Ramamoorthy"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Frailty",
+      "Retrospective Studies",
+      "Hospital Mortality",
+      "Stroke",
+      "Frail Elderly",
+      "Acute Kidney Injury"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40069742",
+    "doi": "10.1186/s12916-025-03943-0",
+    "title": "Modifications to the National Early Warning Score 2: a Scoping Review.",
+    "journal": "BMC medicine",
+    "journalAbbrev": "BMC Med",
+    "year": 2025,
+    "authors": [
+      "Riccalton",
+      "Threlfall",
+      "Ananthakrishnan",
+      "Cong",
+      "Milne-Ives"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Early Warning Score",
+      "United Kingdom"
+    ],
+    "articleTypes": [
+      "Scoping Review",
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40138535",
+    "doi": "10.1097/CCE.0000000000001232",
+    "title": "Multicenter Development and Prospective Validation of eCARTv5: A Gradient-Boosted Machine-Learning Early Warning Score.",
+    "journal": "Critical care explorations",
+    "journalAbbrev": "Crit Care Explor",
+    "year": 2025,
+    "authors": [
+      "Churpek",
+      "Carey",
+      "Snyder",
+      "Winslow",
+      "Gilbert",
+      "Shah"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Machine Learning",
+      "Early Warning Score",
+      "Intensive Care Units",
+      "Clinical Deterioration"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study",
+      "Validation Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40144447",
+    "doi": "10.7759/cureus.79538",
+    "title": "Predictive and Prognostic Importance of National Early Warning Score 2 (NEWS2) in Emergency Room Patients.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Thomas",
+      "Mohan",
+      "Varghese",
+      "Kumar",
+      "Trikkur"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40165150",
+    "doi": "10.1186/s12890-025-03595-z",
+    "title": "The impact of frailty on clinical outcomes among individuals with COPD: a systematic review and meta-analysis.",
+    "journal": "BMC pulmonary medicine",
+    "journalAbbrev": "BMC Pulm Med",
+    "year": 2025,
+    "authors": [
+      "Cherian",
+      "Masoudian",
+      "Thavorn",
+      "Sandoz",
+      "Shorr"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Humans",
+      "Disease Progression",
+      "Dyspnea",
+      "Frailty",
+      "Hospitalization",
+      "Pulmonary Disease, Chronic Obstructive",
+      "Quality of Life"
+    ],
+    "articleTypes": [
+      "Comparative Study",
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40198074",
+    "doi": "10.1001/jamanetworkopen.2025.3443",
+    "title": "Post-Intensive Care Syndrome and Caregiver Burden: A Post Hoc Analysis of a Randomized Clinical Trial.",
+    "journal": "JAMA network open",
+    "journalAbbrev": "JAMA Netw Open",
+    "year": 2025,
+    "authors": [
+      "Ahn",
+      "LaNoue",
+      "Su",
+      "Moale",
+      "Scheunemann"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Caregivers",
+      "Critical Illness",
+      "Aged",
+      "Intensive Care Units",
+      "Delirium",
+      "Caregiver Burden",
+      "Stress Disorders, Post-Traumatic"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Randomized Controlled Trial",
+      "Multicenter Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40425395",
+    "doi": "10.1016/j.bja.2025.04.026",
+    "title": "Postoperative outcomes in older patients living with frailty and multimorbidity in the UK: SNAP-3, a snapshot observational study.",
+    "journal": "British journal of anaesthesia",
+    "journalAbbrev": "Br J Anaesth",
+    "year": 2025,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40884900",
+    "doi": "10.1016/j.ienj.2025.101666",
+    "title": "Effectiveness of the Situation-Background-Assessment-Recommendation method in emergencies with simulation-based education for nursing and paramedic students.",
+    "journal": "International emergency nursing",
+    "journalAbbrev": "Int Emerg Nurs",
+    "year": 2025,
+    "authors": [
+      "Erbas",
+      "Keskin Kiziltepe",
+      "Kilic"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Simulation Training",
+      "Students, Nursing",
+      "Clinical Competence",
+      "Patient Handoff",
+      "Allied Health Personnel",
+      "Paramedics"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40917463",
+    "doi": "10.15766/mep_2374-8265.11544",
+    "title": "Simulation-Based Peer Feedback Module for Pediatric Rapid Response Team Handoffs.",
+    "journal": "MedEdPORTAL",
+    "journalAbbrev": "MedEdPORTAL",
+    "year": 2025,
+    "authors": [
+      "Herriman",
+      "Jani",
+      "Patel",
+      "Palama",
+      "Elangovan"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Handoff",
+      "Pediatrics",
+      "Internship and Residency",
+      "Simulation Training",
+      "Hospital Rapid Response Team",
+      "Clinical Competence"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40951245",
+    "doi": "10.7759/cureus.89957",
+    "title": "Effectiveness of Nursing Documentation Frameworks (SBAR, SOAP, and PIE) in Enhancing Clinical Handoffs and Patient Safety.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Hidalgo Tapia",
+      "Leon Yosa",
+      "Olalla Garcia",
+      "Clavijo Morocho",
+      "Sanmartin Calle"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41142216",
+    "doi": "10.1016/j.resplu.2025.101120",
+    "title": "Predictive performance and temporal dynamics of national early warning score 2 (NEWS2) in detecting clinical deterioration in general ward: A large-scale validation study in Singapore.",
+    "journal": "Resuscitation plus",
+    "journalAbbrev": "Resusc Plus",
+    "year": 2025,
+    "authors": [
+      "Chen",
+      "Sun",
+      "Kuek",
+      "Chew",
+      "Tan",
+      "Ho"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41196019",
+    "doi": "10.1097/NNE.0000000000002047",
+    "title": "Perceptions of Effective Nursing Handover Education: A Mixed-Methods Study.",
+    "journal": "Nurse educator",
+    "journalAbbrev": "Nurse Educ",
+    "year": 2025,
+    "authors": [
+      "Lee"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Handoff",
+      "Students, Nursing",
+      "Nursing Education Research",
+      "Qualitative Research",
+      "Curriculum",
+      "Clinical Competence",
+      "Communication"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41618411",
+    "doi": "10.1186/s13643-026-03088-y",
+    "title": "Does the use of National Early Warning Scores (NEWS or NEWS2) in healthcare settings improve patient outcomes: a systematic review.",
+    "journal": "Systematic reviews",
+    "journalAbbrev": "Syst Rev",
+    "year": 2026,
+    "authors": [
+      "Scott",
+      "Jackson",
+      "Dawson",
+      "Knight",
+      "Savovic"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Early Warning Score",
+      "Hospital Mortality",
+      "Prognosis"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42338059",
+    "doi": "10.1002/nop2.70655",
+    "title": "Shift Transition Communication Among Nurses: A Systematic Review of ISBAR and SBAR-Based Structured Handover Tools.",
+    "journal": "Nursing open",
+    "journalAbbrev": "Nurs Open",
+    "year": 2026,
+    "authors": [
+      "Rasiya",
+      "Raheem"
+    ],
+    "meshTerms": [
+      "Patient Handoff",
+      "Humans",
+      "Communication",
+      "Patient Safety",
+      "Patient Transfer"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  }
+]

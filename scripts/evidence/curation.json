@@ -1,0 +1,517 @@
+{
+  "12387650": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs",
+      "staffing-context"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "12544057": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "17472872": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "19948370": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "20074192": {
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "21556200": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "22122869": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "25583148": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "26616276": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "26895569": {
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "27224683": {
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "27900413": {
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28509730": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28523364": {
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28618137": {
+    "cueTypes": [
+      "dysphagia-swallow-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28676896": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "29557884": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs",
+      "staffing-context"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "30076123": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31021360": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31268580": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31633738": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31882232": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "32414401": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "32986957": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "33242267": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "33309843": {
+    "cueTypes": [
+      "sepsis-screen",
+      "staffing-context"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "33736927": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "33775748": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34302312": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34343047": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34379473": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34599691": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34605781": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34622831": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34663229": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "35045340": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "35215559": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "35776738": {
+    "cueTypes": [
+      "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "35854358": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36584541": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36593448": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36598761": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36621563": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36731308": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36914194": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "37128953": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "37478809": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "37527704": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "37730667": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "37931891": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38309229": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38493521": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38541274": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38582013": {
+    "cueTypes": [
+      "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38757369": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39116825": {
+    "cueTypes": [
+      "escalation",
+      "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39299664": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40069742": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40138535": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40144447": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40165150": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40198074": {
+    "cueTypes": [
+      "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40425395": {
+    "cueTypes": [
+      "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40884900": {
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40917463": {
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40951245": {
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41142216": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41196019": {
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41618411": {
+    "cueTypes": [
+      "deteriorating-obs",
+      "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42338059": {
+    "cueTypes": [
+      "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  }
+}

@@ -1,8 +1,9 @@
-# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282/SF-283/SF-283b)
+# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282/SF-283/SF-283b/SF-284)
 
-Status: architecture decided, extraction pipeline built and quality-filtered, 70 records ingested
-and consolidated. Bibliographic only — no SafeFlow summaries or cue-type links yet (see Status and
-next steps). Simulation-only prototype. Fictional patients only. Not for clinical use.
+Status: architecture decided, extraction pipeline built and quality-filtered, 70 records ingested,
+consolidated and cue-linked, query layer built and tested. Still bibliographic only — no
+SafeFlow summaries yet, so nothing is citable in a stakeholder document (see Status and next
+steps). Simulation-only prototype. Fictional patients only. Not for clinical use.
 `master-narrative.md` remains the controlled wording source.
 
 ## Purpose
@@ -172,10 +173,37 @@ than ingested: one conference-proceedings collection and five non-English record
 filter, plus one topical mismatch (a nanotechnology paper wrongly harvested against the
 malnutrition search) caught by manual read — see `evidence-corpus-excluded.json`.
 
+**Built (SF-284): the cue-type mapping and query layer.** `src/domain/evidenceCorpus.js` exposes a
+19-entry `CUE_TYPES` taxonomy (7 mapped to `heuristicCueEngine.js`'s existing signal categories, 8
+mapped to named `scenarioLibrary.js` panels and the Martha's Rule scenario, 4 reserved for AHP/
+medical cue types the corpus supports but the app has not built yet) and `getEvidenceForCue(cueType)`
+— the only query the module exposes, and the only one it is allowed to expose: it takes a cue type
+string and nothing else, never a patient, scenario, or flag ID. `evidenceCorpus.test.js` locks this
+structurally, not just by convention — it greps the module's own source for forbidden identifiers
+(`patientId`, `scenarioId`, `flagId` and variants) and pins the query function's arity to one
+parameter, so a future edit that widens the API to accept a second, identifier-shaped argument fails
+CI rather than merging quietly. All 70 records are curated (`scripts/evidence/curation.json`,
+merged onto the bibliographic corpus by `scripts/evidence/publish.mjs` into
+`src/data/evidenceCorpus.json`, which the app actually imports) with cue types assigned at the
+level of the topical search bucket each record was harvested under — honest about its own
+precision, not hand-tuned per record. Three papers specifically about nurse staffing and
+failure-to-rescue/sepsis outcomes (Aiken 2002, Ward 2018, Lasater 2020) are additionally tagged
+`staffing-context` by PMID, not inferred. Curation is kept in its own file rather than written into
+the bibliographic corpus directly, so that a future ingestion wave re-running `consolidate.mjs`
+can never silently wipe out cue links.
+
+**A hard line the module enforces on itself:** `isCitable()` returns `false` for every record right
+now, because none has a `safeflowSummary` yet — `evidenceCorpus.test.js` asserts the citable count
+is exactly zero today, deliberately, so that the day someone writes the first summary this test
+starts failing and forces a conscious decision rather than letting citability drift in unnoticed.
+
 Outstanding:
 
 1. Further scale-up toward hundreds — 70 is the first two combined waves, not the target size.
-2. The cue-type mapping and query layer (SF-284), with tests that lock the patient-level boundary.
-3. SafeFlow-written summaries, each carrying an explicit verification level. No record currently
-   has a `safeflowSummary` or `verification` value — the corpus is bibliographic only until this is
-   done, and must not be presented as more than that in the interim.
+2. SafeFlow-written summaries, each carrying an explicit verification level. No record currently
+   has a `safeflowSummary` or `verification` above `metadata-only` — the corpus is bibliographic
+   only until this is done, and must not be presented as more than that in the interim.
+3. UI wiring — nothing in the app currently calls `getEvidenceForCue()` yet. The query layer exists
+   and is tested; no cue panel displays its results. That is a deliberate, separate next step, not
+   an oversight — showing unsummarised bibliographic citations next to a teaching cue before
+   `isCitable()` can return true for any of them would be premature.
