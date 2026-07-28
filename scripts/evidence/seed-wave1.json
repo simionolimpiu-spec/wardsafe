@@ -5,7 +5,7 @@
     "title": "Hospital nurse staffing and patient mortality, nurse burnout, and job dissatisfaction.",
     "journal": "JAMA",
     "journalAbbrev": "JAMA",
-    "year": null,
+    "year": 2002,
     "authors": [
       "Aiken",
       "Clarke",
@@ -43,7 +43,8 @@
       "Evaluation Study",
       "Journal Article",
       "Research Support, U.S. Gov't, P.H.S."
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "19948370",
@@ -51,7 +52,7 @@
     "title": "The 'five rights' of clinical reasoning: an educational model to enhance nursing students' ability to identify and manage clinically 'at risk' patients.",
     "journal": "Nurse education today",
     "journalAbbrev": "Nurse Educ Today",
-    "year": null,
+    "year": 2010,
     "authors": [
       "Levett-Jones",
       "Hoffman",
@@ -84,7 +85,8 @@
     "articleTypes": [
       "Journal Article",
       "Review"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "32414401",
@@ -92,7 +94,7 @@
     "title": "Trauma complications and in-hospital mortality: failure-to-rescue.",
     "journal": "Critical care (London, England)",
     "journalAbbrev": "Crit Care",
-    "year": null,
+    "year": 2020,
     "authors": [
       "Abe",
       "Komori",
@@ -122,7 +124,8 @@
     "articleTypes": [
       "Journal Article",
       "Research Support, Non-U.S. Gov't"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "26616276",
@@ -130,7 +133,7 @@
     "title": "Importance of teamwork, communication and culture on failure-to-rescue in the elderly.",
     "journal": "The British journal of surgery",
     "journalAbbrev": "Br J Surg",
-    "year": null,
+    "year": 2016,
     "authors": [
       "Ghaferi",
       "Dimick"
@@ -154,29 +157,8 @@
       "Research Support, Non-U.S. Gov't",
       "Research Support, U.S. Gov't, P.H.S.",
       "Review"
-    ]
-  },
-  {
-    "pmid": "27885969",
-    "doi": "10.1186/s13054-016-1208-6",
-    "title": "36th International Symposium on Intensive Care and Emergency Medicine : Brussels, Belgium. 15-18 March 2016.",
-    "journal": "Critical care (London, England)",
-    "journalAbbrev": "Crit Care",
-    "year": null,
-    "authors": [
-      "Bateman",
-      "Sharpe",
-      "Jagger",
-      "Ellis",
-      "Sol&#xe9;-Viol&#xe1;n",
-      "L&#xf3;pez-Rodr&#xed;guez",
-      "Herrera-Ramos",
-      "Ru&#xed;z-Hern&#xe1;ndez"
     ],
-    "meshTerms": [],
-    "articleTypes": [
-      "Conference Proceedings"
-    ]
+    "language": null
   },
   {
     "pmid": "36914194",
@@ -184,7 +166,7 @@
     "title": "Performance of digital early warning score (NEWS2) in a cardiac specialist setting: retrospective cohort study.",
     "journal": "BMJ open",
     "journalAbbrev": "BMJ Open",
-    "year": null,
+    "year": 2023,
     "authors": [
       "Alhmoud",
       "Bonnici",
@@ -204,7 +186,8 @@
     "articleTypes": [
       "Journal Article",
       "Research Support, Non-U.S. Gov't"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "25583148",
@@ -212,7 +195,7 @@
     "title": "Validation of the National Early Warning Score in the prehospital setting.",
     "journal": "Resuscitation",
     "journalAbbrev": "Resuscitation",
-    "year": null,
+    "year": 2015,
     "authors": [
       "Silcock",
       "Corfield",
@@ -233,7 +216,8 @@
     ],
     "articleTypes": [
       "Journal Article"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "20074192",
@@ -241,7 +225,7 @@
     "title": "Dysphagia and aspiration pneumonia in older adults.",
     "journal": "Journal of the American Academy of Nurse Practitioners",
     "journalAbbrev": "J Am Acad Nurse Pract",
-    "year": null,
+    "year": 2010,
     "authors": [
       "Sue Eisenstadt"
     ],
@@ -266,7 +250,8 @@
     "articleTypes": [
       "Journal Article",
       "Review"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "28618137",
@@ -274,7 +259,7 @@
     "title": "The impact of aspiration pneumonia and nasogastric feeding on clinical outcomes in stroke patients: A retrospective cohort study.",
     "journal": "Journal of clinical nursing",
     "journalAbbrev": "J Clin Nurs",
-    "year": null,
+    "year": 2017,
     "authors": [
       "Schwarz",
       "Coccetti",
@@ -301,50 +286,8 @@
     ],
     "articleTypes": [
       "Journal Article"
-    ]
-  },
-  {
-    "pmid": "22763869",
-    "doi": "10.1007/s00115-012-3611-9",
-    "title": "[Dysphagia diagnostics and therapy of acute stroke: federal survey of certified stroke units].",
-    "journal": "Der Nervenarzt",
-    "journalAbbrev": "Nervenarzt",
-    "year": null,
-    "authors": [
-      "Suntrup",
-      "Meisel",
-      "Dziewas",
-      "Ende",
-      "Reichmann",
-      "Heuschmann",
-      "Ickenstein"
     ],
-    "meshTerms": [
-      "Adult",
-      "Aged",
-      "Aged, 80 and over",
-      "Causality",
-      "Certification",
-      "Comorbidity",
-      "Deglutition Disorders",
-      "Female",
-      "Germany",
-      "Humans",
-      "Incidence",
-      "Intensive Care Units",
-      "Male",
-      "Middle Aged",
-      "Practice Patterns, Physicians'",
-      "Risk Factors",
-      "Stroke",
-      "Survival Analysis",
-      "Survival Rate",
-      "Treatment Outcome"
-    ],
-    "articleTypes": [
-      "Journal Article",
-      "Multicenter Study"
-    ]
+    "language": null
   },
   {
     "pmid": "37527704",
@@ -352,7 +295,7 @@
     "title": "Delirium assessment tools among hospitalized older adults: A systematic review and metaanalysis of diagnostic accuracy.",
     "journal": "Ageing research reviews",
     "journalAbbrev": "Ageing Res Rev",
-    "year": null,
+    "year": 2023,
     "authors": [
       "Lin",
       "Su",
@@ -377,7 +320,8 @@
       "Systematic Review",
       "Journal Article",
       "Research Support, Non-U.S. Gov't"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "31633738",
@@ -385,7 +329,7 @@
     "title": "Effect of the Tailored, Family-Involved Hospital Elder Life Program on Postoperative Delirium and Function in Older Adults: A Randomized Clinical Trial.",
     "journal": "JAMA internal medicine",
     "journalAbbrev": "JAMA Intern Med",
-    "year": null,
+    "year": 2020,
     "authors": [
       "Wang",
       "Yue",
@@ -416,7 +360,8 @@
       "Journal Article",
       "Research Support, N.I.H., Extramural",
       "Research Support, Non-U.S. Gov't"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "34599691",
@@ -424,7 +369,7 @@
     "title": "Surviving sepsis campaign: international guidelines for management of sepsis and septic shock 2021.",
     "journal": "Intensive care medicine",
     "journalAbbrev": "Intensive Care Med",
-    "year": null,
+    "year": 2021,
     "authors": [
       "Evans",
       "Rhodes",
@@ -444,7 +389,8 @@
     "articleTypes": [
       "Journal Article",
       "Research Support, Non-U.S. Gov't"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "33242267",
@@ -452,7 +398,7 @@
     "title": "Recognition and management of sepsis: the nurse's role.",
     "journal": "British journal of nursing (Mark Allen Publishing)",
     "journalAbbrev": "Br J Nurs",
-    "year": null,
+    "year": 2020,
     "authors": [
       "Bleakley",
       "Cole"
@@ -464,7 +410,8 @@
     ],
     "articleTypes": [
       "Journal Article"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "36598761",
@@ -472,7 +419,7 @@
     "title": "Frailty and Effects of a Multidomain Physical Rehabilitation Intervention Among Older Patients Hospitalized for Acute Heart Failure: A Secondary Analysis of a Randomized Clinical Trial.",
     "journal": "JAMA cardiology",
     "journalAbbrev": "JAMA Cardiol",
-    "year": null,
+    "year": 2023,
     "authors": [
       "Pandey",
       "Kitzman",
@@ -500,7 +447,8 @@
       "Journal Article",
       "Research Support, N.I.H., Extramural",
       "Research Support, Non-U.S. Gov't"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "28676896",
@@ -508,7 +456,7 @@
     "title": "The impact of frailty on intensive care unit outcomes: a systematic review and meta-analysis.",
     "journal": "Intensive care medicine",
     "journalAbbrev": "Intensive Care Med",
-    "year": null,
+    "year": 2017,
     "authors": [
       "Muscedere",
       "Waters",
@@ -539,7 +487,8 @@
       "Journal Article",
       "Meta-Analysis",
       "Systematic Review"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "27900413",
@@ -547,7 +496,7 @@
     "title": "Recommendations of the German Association of Anesthesiology and Intensive Care Medicine (DGAI) on structured patient handover in the perioperative setting : The SBAR concept.",
     "journal": "Der Anaesthesist",
     "journalAbbrev": "Anaesthesist",
-    "year": null,
+    "year": 2016,
     "authors": [
       "von Dossow",
       "Zwissler"
@@ -567,7 +516,8 @@
     "articleTypes": [
       "Guideline",
       "Journal Article"
-    ]
+    ],
+    "language": null
   },
   {
     "pmid": "28523364",
@@ -575,7 +525,7 @@
     "title": "[Structured patient handovers in perioperative medicine : Rationale and implementation in clinical practice].",
     "journal": "Der Anaesthesist",
     "journalAbbrev": "Anaesthesist",
-    "year": null,
+    "year": 2017,
     "authors": [
       "Merkel",
       "von Dossow",
@@ -594,32 +544,8 @@
     "articleTypes": [
       "Journal Article",
       "Review"
-    ]
-  },
-  {
-    "pmid": "23815057",
-    "doi": null,
-    "title": "[Intraprofessional communication during shift change].",
-    "journal": "Revista de enfermeria (Barcelona, Spain)",
-    "journalAbbrev": "Rev Enferm",
-    "year": null,
-    "authors": [
-      "Mart&#xed;n P&#xe9;rez",
-      "V&#xe1;zquez Calatayud",
-      "Lizarraga Urs&#xfa;a",
-      "Oroviogoicoechea Ortega"
     ],
-    "meshTerms": [
-      "Humans",
-      "Interdisciplinary Communication",
-      "Patient Handoff",
-      "Personnel Staffing and Scheduling",
-      "Surveys and Questionnaires"
-    ],
-    "articleTypes": [
-      "English Abstract",
-      "Journal Article"
-    ]
+    "language": null
   },
   {
     "pmid": "21556200",
@@ -627,7 +553,7 @@
     "title": "Hospital malnutrition: prevalence, identification and impact on patients and the healthcare system.",
     "journal": "International journal of environmental research and public health",
     "journalAbbrev": "Int J Environ Res Public Health",
-    "year": null,
+    "year": 2011,
     "authors": [
       "Barker",
       "Gout",
@@ -644,6 +570,7 @@
     "articleTypes": [
       "Journal Article",
       "Review"
-    ]
+    ],
+    "language": null
   }
 ]

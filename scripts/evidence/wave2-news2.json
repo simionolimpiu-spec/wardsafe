@@ -1,0 +1,229 @@
+[
+  {
+    "pmid": "41142216",
+    "doi": "10.1016/j.resplu.2025.101120",
+    "title": "Predictive performance and temporal dynamics of national early warning score 2 (NEWS2) in detecting clinical deterioration in general ward: A large-scale validation study in Singapore.",
+    "journal": "Resuscitation plus",
+    "journalAbbrev": "Resusc Plus",
+    "year": 2025,
+    "authors": [
+      "Chen",
+      "Sun",
+      "Kuek",
+      "Chew",
+      "Tan",
+      "Ho"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "37730667",
+    "doi": "10.1186/s13326-023-00296-6",
+    "title": "Development and validation of the early warning system scores ontology.",
+    "journal": "Journal of biomedical semantics",
+    "journalAbbrev": "J Biomed Semantics",
+    "year": 2023,
+    "authors": [
+      "Zayas",
+      "Whorton",
+      "Sexton",
+      "Mabry",
+      "Dowland",
+      "Brochhausen"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Child",
+      "Humans",
+      "Early Warning Score",
+      "Software"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "34343047",
+    "doi": "10.12968/bjcn.2021.26.8.396",
+    "title": "Use of the National Early Warning Score in community nursing: a scoping review.",
+    "journal": "British journal of community nursing",
+    "journalAbbrev": "Br J Community Nurs",
+    "year": 2021,
+    "authors": [
+      "Phillips"
+    ],
+    "meshTerms": [
+      "Clinical Deterioration",
+      "Community Health Nursing",
+      "Critical Illness",
+      "Early Warning Score",
+      "Humans"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Scoping Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40138535",
+    "doi": "10.1097/CCE.0000000000001232",
+    "title": "Multicenter Development and Prospective Validation of eCARTv5: A Gradient-Boosted Machine-Learning Early Warning Score.",
+    "journal": "Critical care explorations",
+    "journalAbbrev": "Crit Care Explor",
+    "year": 2025,
+    "authors": [
+      "Churpek",
+      "Carey",
+      "Snyder",
+      "Winslow",
+      "Gilbert",
+      "Shah"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Machine Learning",
+      "Early Warning Score",
+      "Intensive Care Units",
+      "Clinical Deterioration"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study",
+      "Validation Study"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40144447",
+    "doi": "10.7759/cureus.79538",
+    "title": "Predictive and Prognostic Importance of National Early Warning Score 2 (NEWS2) in Emergency Room Patients.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Thomas",
+      "Mohan",
+      "Varghese",
+      "Kumar",
+      "Trikkur"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "34622831",
+    "doi": "10.1097/MD.0000000000027325",
+    "title": "Validation of the National Early Warning Score (NEWS)-2 for adults in the emergency department in a tertiary-level clinic in Colombia: Cohort study.",
+    "journal": "Medicine",
+    "journalAbbrev": "Medicine (Baltimore)",
+    "year": 2021,
+    "authors": [
+      "Vergara",
+      "Forero",
+      "Bastidas",
+      "Garcia"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Clinical Deterioration",
+      "Colombia",
+      "Early Warning Score",
+      "Emergency Service, Hospital",
+      "Hospital Mortality",
+      "Triage"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study",
+      "Validation Study"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40069742",
+    "doi": "10.1186/s12916-025-03943-0",
+    "title": "Modifications to the National Early Warning Score 2: a Scoping Review.",
+    "journal": "BMC medicine",
+    "journalAbbrev": "BMC Med",
+    "year": 2025,
+    "authors": [
+      "Riccalton",
+      "Threlfall",
+      "Ananthakrishnan",
+      "Cong",
+      "Milne-Ives"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Early Warning Score",
+      "United Kingdom"
+    ],
+    "articleTypes": [
+      "Scoping Review",
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41618411",
+    "doi": "10.1186/s13643-026-03088-y",
+    "title": "Does the use of National Early Warning Scores (NEWS or NEWS2) in healthcare settings improve patient outcomes: a systematic review.",
+    "journal": "Systematic reviews",
+    "journalAbbrev": "Syst Rev",
+    "year": 2026,
+    "authors": [
+      "Scott",
+      "Jackson",
+      "Dawson",
+      "Knight",
+      "Savovic"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Early Warning Score",
+      "Hospital Mortality",
+      "Prognosis"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "37931891",
+    "doi": "10.1016/j.resuscitation.2023.110032",
+    "title": "Evaluating the performance of the National Early Warning Score in different diagnostic groups.",
+    "journal": "Resuscitation",
+    "journalAbbrev": "Resuscitation",
+    "year": 2023,
+    "authors": [
+      "Price",
+      "Prytherch",
+      "Kostakis",
+      "Briggs"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Early Warning Score",
+      "Intensive Care Units",
+      "Hospitalization",
+      "Hospitals",
+      "Hospital Mortality"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  }
+]

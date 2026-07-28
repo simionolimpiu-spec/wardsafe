@@ -1,0 +1,235 @@
+[
+  {
+    "pmid": "36731308",
+    "doi": "10.1016/j.ijnurstu.2023.104436",
+    "title": "Frontline Nurses' clinical judgment in recognizing, understanding, and responding to patient deterioration: A qualitative study.",
+    "journal": "International journal of nursing studies",
+    "journalAbbrev": "Int J Nurs Stud",
+    "year": 2023,
+    "authors": [
+      "Dresser",
+      "Teel",
+      "Peltzer"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Humans",
+      "Judgment",
+      "Qualitative Research",
+      "Hospitals",
+      "Academic Medical Centers",
+      "Nurses"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "36621563",
+    "doi": "10.1016/j.cjca.2023.01.001",
+    "title": "Failure to Rescue: A Quality Metric for Cardiac Surgery and Cardiovascular Critical Care.",
+    "journal": "The Canadian journal of cardiology",
+    "journalAbbrev": "Can J Cardiol",
+    "year": 2023,
+    "authors": [
+      "Gross",
+      "Adams",
+      "Patel",
+      "Varghese"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hospital Mortality",
+      "Cardiac Surgical Procedures",
+      "Postoperative Complications",
+      "Critical Care",
+      "Hospitals"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "31268580",
+    "doi": "10.1002/lary.28174",
+    "title": "Hospital volume and failure to rescue after vestibular schwannoma resection.",
+    "journal": "The Laryngoscope",
+    "journalAbbrev": "Laryngoscope",
+    "year": 2019,
+    "authors": [
+      "Andresen",
+      "Gourin",
+      "Stewart",
+      "Sun"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Failure to Rescue, Health Care",
+      "Female",
+      "Hospital Mortality",
+      "Hospitals, High-Volume",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Neuroma, Acoustic",
+      "Postoperative Complications"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "29557884",
+    "doi": "10.1097/SLA.0000000000002744",
+    "title": "Association Between Hospital Staffing Models and Failure to Rescue.",
+    "journal": "Annals of surgery",
+    "journalAbbrev": "Ann Surg",
+    "year": 2019,
+    "authors": [
+      "Ward",
+      "Dimick",
+      "Zhang",
+      "Campbell",
+      "Ghaferi"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Clinical Audit",
+      "Cross-Sectional Studies",
+      "Failure to Rescue, Health Care",
+      "Female",
+      "Health Workforce",
+      "Hospital Mortality",
+      "Humans",
+      "Male",
+      "Michigan",
+      "Middle Aged",
+      "Patient Safety",
+      "Personnel Staffing and Scheduling",
+      "Quality Improvement",
+      "Quality Indicators, Health Care",
+      "Retrospective Studies",
+      "Surgical Procedures, Operative"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "12544057",
+    "doi": "10.1097/00000446-200301000-00020",
+    "title": "Failure to rescue.",
+    "journal": "The American journal of nursing",
+    "journalAbbrev": "Am J Nurs",
+    "year": 2003,
+    "authors": [
+      "Clarke",
+      "Aiken"
+    ],
+    "meshTerms": [
+      "Hospital Mortality",
+      "Humans",
+      "Nursing Assessment",
+      "Nursing Evaluation Research",
+      "Nursing Service, Hospital",
+      "Nursing Staff, Hospital",
+      "Outcome Assessment, Health Care",
+      "Personnel Staffing and Scheduling",
+      "Postoperative Complications",
+      "Quality Indicators, Health Care",
+      "Risk Adjustment"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39116825",
+    "doi": "10.1016/j.jss.2024.07.052",
+    "title": "Complication Timing, Failure to Rescue, and Readmission After Inpatient Pediatric Surgery.",
+    "journal": "The Journal of surgical research",
+    "journalAbbrev": "J Surg Res",
+    "year": 2024,
+    "authors": [
+      "Hickner",
+      "Portuondo",
+      "Mehl",
+      "Shah",
+      "Raval",
+      "Massarweh"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Readmission",
+      "Postoperative Complications",
+      "Female",
+      "Male",
+      "Child",
+      "Child, Preschool",
+      "Adolescent",
+      "Infant",
+      "Time Factors",
+      "Patient Discharge",
+      "Retrospective Studies",
+      "Failure to Rescue, Health Care",
+      "Surgical Procedures, Operative",
+      "Infant, Newborn",
+      "United States"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, U.S. Gov't, Non-P.H.S."
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "33775748",
+    "doi": "10.1016/j.jvs.2021.02.047",
+    "title": "Association between hospital volume and failure-to-rescue for open repairs of juxtarenal aneurysms.",
+    "journal": "Journal of vascular surgery",
+    "journalAbbrev": "J Vasc Surg",
+    "year": 2021,
+    "authors": [
+      "Mehta",
+      "O'Donnell",
+      "Garg",
+      "Siracuse",
+      "Mohebali",
+      "Schermerhorn",
+      "Takayama",
+      "Patel"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aortic Aneurysm, Abdominal",
+      "Blood Vessel Prosthesis Implantation",
+      "Databases, Factual",
+      "Failure to Rescue, Health Care",
+      "Female",
+      "Hospital Mortality",
+      "Hospitals, High-Volume",
+      "Hospitals, Low-Volume",
+      "Humans",
+      "Male",
+      "Postoperative Complications",
+      "Retrospective Studies",
+      "Risk Assessment",
+      "Risk Factors",
+      "Time Factors"
+    ],
+    "articleTypes": [
+      "Comparative Study",
+      "Journal Article"
+    ],
+    "language": "eng"
+  }
+]

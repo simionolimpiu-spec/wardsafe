@@ -1,0 +1,37 @@
+[
+  {
+    "pmid": "27885969",
+    "title": "36th International Symposium on Intensive Care and Emergency Medicine : Brussels, Belgium. 15-18 March 2016.",
+    "reason": "article type Conference Proceedings is secondary/non-primary content"
+  },
+  {
+    "pmid": "22763869",
+    "title": "[Dysphagia diagnostics and therapy of acute stroke: federal survey of certified stroke units].",
+    "reason": "non-English record"
+  },
+  {
+    "pmid": "23815057",
+    "title": "[Intraprofessional communication during shift change].",
+    "reason": "non-English record"
+  },
+  {
+    "pmid": "26841942",
+    "title": "[Recommendations of the German Society of Anaesthesiology and Intensive Care Medicine on structured patient handover in the perioperative phase : SBAR concept].",
+    "reason": "non-English (language=\"ger\")"
+  },
+  {
+    "pmid": "31758214",
+    "title": "[Postoperative remote monitoring].",
+    "reason": "non-English (language=\"ger\")"
+  },
+  {
+    "pmid": "35301868",
+    "title": "[Patient handover from anaesthesia to postanaesthesia unit: An analysis of the current situation in three Swiss hospitals].",
+    "reason": "non-English (language=\"ger\")"
+  },
+  {
+    "pmid": "30175361",
+    "title": "A flexible SERS-active film for studying the effect of non-metallic nanostructures on Raman enhancement.",
+    "reason": "topical mismatch: nanotechnology/Raman spectroscopy paper, not malnutrition-related; wrong PMID in the originally harvested search list, caught manually before extraction"
+  }
+]

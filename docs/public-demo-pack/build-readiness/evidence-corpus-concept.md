@@ -1,7 +1,9 @@
-# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282)
+# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282/SF-283/SF-283b)
 
-Status: concept + first implementation. Simulation-only prototype. Fictional patients only. Not for
-clinical use. `master-narrative.md` remains the controlled wording source.
+Status: architecture decided, extraction pipeline built and quality-filtered, 70 records ingested
+and consolidated. Bibliographic only — no SafeFlow summaries or cue-type links yet (see Status and
+next steps). Simulation-only prototype. Fictional patients only. Not for clinical use.
+`master-narrative.md` remains the controlled wording source.
 
 ## Purpose
 
@@ -107,19 +109,43 @@ Approved scope covers all four:
   anticoagulation. Note this sits closest to the prescribing boundary SafeFlow must not cross:
   records here support teaching that medication is a deterioration factor, never what to give.
 
-## Quality filtering — needed, and not yet built
+## Quality filtering — built (SF-283b)
 
-The first extraction run surfaced two problems that make it clear raw search output cannot go
-straight into the corpus:
+The first extraction run surfaced two problems that made it clear raw search output cannot go
+straight into the corpus. Both are now enforced in code in `extract-records.mjs`, not just
+documented:
 
-- **Conference proceedings.** PMID 27885969 is the collected abstracts of a critical-care symposium,
-  not a study. It matched three separate searches. Records whose `articleTypes` indicate congress or
-  conference material must be excluded.
-- **Language.** PMID 22763869 is German, PMID 23815057 Spanish. Not disqualifying in principle, but
-  a record nobody on the team can read cannot honestly be summarised, and must not be marked
-  `abstract-read`.
+- **Conference proceedings and other secondary content.** PMID 27885969 is the collected abstracts
+  of a critical-care symposium, not a study, and it matched three separate searches. Records whose
+  `articleTypes` include Conference Proceedings, Comment, Editorial, News, Newspaper Article,
+  Retracted Publication or Retraction of Publication are excluded automatically.
+- **Language.** A record nobody on the team can read cannot honestly be summarised, and must not be
+  marked `abstract-read`. Records where `language !== 'eng'` are excluded automatically. Three were
+  caught this way: PMID 31758214 and 26841942 (German), PMID 35301868 (German, Swiss handover
+  study).
 
-Inclusion criteria therefore need defining before scale-up, not after.
+Excluded records are never silently dropped — they are written to a companion `*-excluded.json`
+file with pmid, title and reason, consolidated into `evidence-corpus-excluded.json`.
+
+**A third problem the automated filter cannot catch: topical mismatch from a bad source ID.**
+PMID 30175361, harvested against the malnutrition search, turned out on inspection to be a
+nanotechnology paper about Raman spectroscopy — a transcription error somewhere in the original
+horizon-scan search, not a malnutrition source at all. Caught by reading the title before writing
+the record, not by any field-level rule, and excluded manually with that reasoning recorded. This
+is the argument for keeping a human read of every batch even after the automated filter exists:
+type and language checks catch format problems, not whether the paper is actually about anything
+relevant.
+
+## Year enrichment — built (SF-283b)
+
+Some PubMed metadata records carry a `publication_date.year` field and some do not — inconsistent
+across records, with older records less likely to have it (e.g. the 2002 Aiken *JAMA* paper lacked
+it entirely). Where present, the extractor uses it directly. Where absent, a separate script,
+`scripts/evidence/enrich-years.mjs`, looks the DOI up in Crossref (`api.crossref.org`) — a public,
+unauthenticated, non-copyrighted bibliographic registry — and reads only the publication year from
+the response. Records without a DOI, or whose DOI Crossref does not recognise, keep `year: null`
+rather than receiving a guessed value. Every record in the consolidated corpus currently has a
+year.
 
 ## What this does not claim
 
@@ -130,16 +156,26 @@ is evidence about the problem, not evidence about the product.
 
 ## Status and next steps
 
-Built so far (SF-283): the licence-safe extractor, and a first verified extraction of 20 records
-across all four disciplines, including Aiken et al. (2002, *JAMA*) — the landmark staffing,
-mortality and failure-to-rescue study — the NEWS2 prehospital and cardiac validation papers, the
-Surviving Sepsis 2021 guidelines, frailty in ICU, delirium assessment tools, dysphagia and
-aspiration, and hospital malnutrition.
+Built so far (SF-283, SF-283b): the licence-safe extractor with an automated quality filter
+(article-type and language exclusion), a year-enrichment script (Crossref, DOI-keyed), a
+consolidation script (`scripts/evidence/consolidate.mjs`) that merges every ingestion wave into
+one deduplicated corpus, and **70 verified records** across all four disciplines in
+`scripts/evidence/evidence-corpus.json` — every one with a real publication year, none carrying an
+abstract (checked programmatically, not just by field whitelist: the consolidated file was grepped
+for the literal string "abstract" and returned zero matches). Notable records include Aiken et al.
+(2002, *JAMA*) — the landmark staffing, mortality and failure-to-rescue study — the Surviving
+Sepsis Campaign 2021 guidelines, multiple NEWS2 validation studies spanning Singapore, Colombia and
+India, the eCARTv5 machine-learning early warning score (with FDA clearance), 4AT delirium
+screening validation in Swedish and general ED populations, ESPEN's 2023/2024 polymorbid nutrition
+guidelines, and five SBAR/structured-handover studies. Seven records were found and excluded rather
+than ingested: one conference-proceedings collection and five non-English records via the automated
+filter, plus one topical mismatch (a nanotechnology paper wrongly harvested against the
+malnutrition search) caught by manual read — see `evidence-corpus-excluded.json`.
 
 Outstanding:
 
-1. Year enrichment (the PubMed payload lacks it; currently null by design rather than guessed).
-2. Inclusion/exclusion criteria and an automated quality filter.
-3. Scale-up toward hundreds, in waves, per discipline.
-4. The cue-type mapping and query layer (SF-284), with tests that lock the patient-level boundary.
-5. SafeFlow-written summaries, each carrying an explicit verification level.
+1. Further scale-up toward hundreds — 70 is the first two combined waves, not the target size.
+2. The cue-type mapping and query layer (SF-284), with tests that lock the patient-level boundary.
+3. SafeFlow-written summaries, each carrying an explicit verification level. No record currently
+   has a `safeflowSummary` or `verification` value — the corpus is bibliographic only until this is
+   done, and must not be presented as more than that in the interim.
