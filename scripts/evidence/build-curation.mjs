@@ -55,6 +55,31 @@ const BUCKETS = {
   malnutrition: {
     cueTypes: ['malnutrition-screening'],
     pmids: ['21556200', '35215559', '38582013', '31021360', '37478809', '38309229', '22122869', '31882232', '17472872']
+  },
+  // SF-285 (wave 3) - pharmacy/medication safety, previously uncovered discipline.
+  medicationSafety: {
+    cueTypes: ['medication-safety'],
+    pmids: ['41840386', '41108444', '38038490', '30337496', '24145589', '22114827', '41748493', '39737368', '39613715', '38357842', '37872107', '37813103', '31970884']
+  },
+  // SF-285 (wave 3) - physio: falls prevention + hospital-associated deconditioning/mobility.
+  physioMobility: {
+    cueTypes: ['falls-mobility'],
+    pmids: ['41827168', '40576643', '36355032', '30612584', '28926152', '28729323', '28647551', '26456639', '41232925', '40847496', '39497271', '36751897', '35142397', '33750320', '32902637', '31389854', '28940784']
+  },
+  // SF-285 (wave 3) - OT: functional decline / discharge readiness after acute admission.
+  otDischarge: {
+    cueTypes: ['functional-decline'],
+    pmids: ['41805229', '41737501', '39999957', '39649111', '38581603']
+  },
+  // SF-285 (wave 3) - acute kidney injury recognition, previously uncovered medical topic.
+  aki: {
+    cueTypes: ['aki-recognition'],
+    pmids: ['26734153', '34446340', '28239173']
+  },
+  // SF-285 (wave 3) - nurses' intuition/worry as an early-deterioration signal.
+  nurseIntuition: {
+    cueTypes: ['nurse-intuition'],
+    pmids: ['25990249']
   }
 };
 

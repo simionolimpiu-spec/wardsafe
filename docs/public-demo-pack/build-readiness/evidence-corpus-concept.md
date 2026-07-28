@@ -1,8 +1,8 @@
-# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282/SF-283/SF-283b/SF-284)
+# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282/SF-283/SF-283b/SF-284/SF-285)
 
-Status: architecture decided, extraction pipeline built and quality-filtered, 70 records ingested,
-consolidated and cue-linked, query layer built and tested. Still bibliographic only — no
-SafeFlow summaries yet, so nothing is citable in a stakeholder document (see Status and next
+Status: architecture decided, extraction pipeline built and quality-filtered, 109 records ingested,
+consolidated and cue-linked across all four disciplines, query layer built and tested. Still
+bibliographic only — no SafeFlow summaries yet, so nothing is citable in a stakeholder document (see Status and next
 steps). Simulation-only prototype. Fictional patients only. Not for clinical use.
 `master-narrative.md` remains the controlled wording source.
 
@@ -173,16 +173,42 @@ than ingested: one conference-proceedings collection and five non-English record
 filter, plus one topical mismatch (a nanotechnology paper wrongly harvested against the
 malnutrition search) caught by manual read — see `evidence-corpus-excluded.json`.
 
+**Built (SF-285, wave 3): the first three-discipline coverage gap closed.** 39 further records were
+ingested, taking the corpus to **109**, and closing three areas that had zero records before this
+session: pharmacy/medication safety (13 records — UK NRLS high-risk-medication error data, Danish
+and Australian high-risk-medication registries, deprescribing in frailty/dementia, discharge
+medication reconciliation), acute kidney injury (3 records — a UK district-general-hospital
+multidisciplinary "ABCDE" AKI-recognition QI project, the ADQI 16 consensus on acute kidney disease,
+and the Taiwan AKI-TASK Force nomenclature consensus), and nurses' worry/intuition as a
+deterioration signal (1 record — Douw et al. 2015's systematic review of what triggers nurses'
+"worry or concern" ahead of measurable vital-sign change, the exact literature gap flagged in an
+earlier RCN search pass and distinct from the family-concern/Martha's Rule scenario). It also
+substantially extended two disciplines already covered: physio (17 records — falls prevention and
+hospital-associated deconditioning/mobility loss) and OT (5 records — functional decline and early
+supported discharge). Thirteen further candidate records were found and manually excluded rather
+than ingested — a pediatric-population duplicate pair, an ambulatory-oncology setting, a
+vestibular-condition-specific study too narrow to generalise, a single case report, two
+niche-population (HSCT) surveys, two records off-topic for the bucket they matched, a
+conference-proceedings compilation that PubMed mistagged as "Journal Article" (so the automated
+filter could not catch it — same class of gap as the wave-1 bad-PMID lesson), and a false-positive
+AKI search match. Every exclusion and its reason is logged, this time in a dedicated
+`scripts/evidence/wave3-manual-exclusions.json` rather than silently dropped, because none of these
+would have been caught by the automated article-type/language filter. Five new reserved cue types
+were added to `CUE_TYPES` to carry this material (`medication-safety`, `falls-mobility`,
+`functional-decline`, `aki-recognition`, `nurse-intuition`) — reserved in the same sense as the four
+added in SF-284: the corpus has supporting evidence, the app has not built a cue panel for them yet.
+
 **Built (SF-284): the cue-type mapping and query layer.** `src/domain/evidenceCorpus.js` exposes a
-19-entry `CUE_TYPES` taxonomy (7 mapped to `heuristicCueEngine.js`'s existing signal categories, 8
-mapped to named `scenarioLibrary.js` panels and the Martha's Rule scenario, 4 reserved for AHP/
-medical cue types the corpus supports but the app has not built yet) and `getEvidenceForCue(cueType)`
+`CUE_TYPES` taxonomy (7 mapped to `heuristicCueEngine.js`'s existing signal categories, 8
+mapped to named `scenarioLibrary.js` panels and the Martha's Rule scenario, and — after SF-285 added
+five more — 9 reserved for AHP/medical/pharmacy cue types the corpus supports but the app has not
+built yet, 24 entries in total) and `getEvidenceForCue(cueType)`
 — the only query the module exposes, and the only one it is allowed to expose: it takes a cue type
 string and nothing else, never a patient, scenario, or flag ID. `evidenceCorpus.test.js` locks this
 structurally, not just by convention — it greps the module's own source for forbidden identifiers
 (`patientId`, `scenarioId`, `flagId` and variants) and pins the query function's arity to one
 parameter, so a future edit that widens the API to accept a second, identifier-shaped argument fails
-CI rather than merging quietly. All 70 records are curated (`scripts/evidence/curation.json`,
+CI rather than merging quietly. All 109 records are curated (`scripts/evidence/curation.json`,
 merged onto the bibliographic corpus by `scripts/evidence/publish.mjs` into
 `src/data/evidenceCorpus.json`, which the app actually imports) with cue types assigned at the
 level of the topical search bucket each record was harvested under — honest about its own
@@ -199,7 +225,13 @@ starts failing and forces a conscious decision rather than letting citability dr
 
 Outstanding:
 
-1. Further scale-up toward hundreds — 70 is the first two combined waves, not the target size.
+1. Further scale-up toward hundreds — 109 (three combined waves) has just crossed the low end of
+   the stated target and is not yet the target size. Remaining known gaps after SF-285: the corpus
+   still has no medical-discipline coverage beyond sepsis/frailty/delirium/AKI (e.g. acute
+   confusional states outside delirium screening tools, VTE/anticoagulation-specific scenarios
+   beyond the medication-safety bucket), and each new topical bucket so far has been sized to "a
+   handful of strong records," not exhaustively searched — later waves could still deepen existing
+   buckets rather than only opening new ones.
 2. SafeFlow-written summaries, each carrying an explicit verification level. No record currently
    has a `safeflowSummary` or `verification` above `metadata-only` — the corpus is bibliographic
    only until this is done, and must not be presented as more than that in the interim.

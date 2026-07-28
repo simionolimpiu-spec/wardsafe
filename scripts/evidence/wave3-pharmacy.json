@@ -1,0 +1,418 @@
+[
+  {
+    "pmid": "41840386",
+    "doi": "10.1186/s12877-026-07354-5",
+    "title": "Deprescribing preventive medications in older adults with advanced frailty, dementia, or limited life expectancy: a systematic review and meta-analysis.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2026,
+    "authors": [
+      "Das",
+      "Shendage",
+      "Maiti",
+      "Bhatta",
+      "Mondal",
+      "Aadityan",
+      "Sukumaran",
+      "Shukla"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Deprescriptions",
+      "Dementia",
+      "Aged",
+      "Life Expectancy",
+      "Frailty",
+      "Frail Elderly",
+      "Randomized Controlled Trials as Topic",
+      "Polypharmacy"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review",
+      "Meta-Analysis"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41108444",
+    "doi": "10.1007/s11096-025-02033-8",
+    "title": "Implementing a clinical pharmacy intervention for older adult inpatients with chronic non-cancer pain: a feasibility study.",
+    "journal": "International journal of clinical pharmacy",
+    "journalAbbrev": "Int J Clin Pharm",
+    "year": 2025,
+    "authors": [
+      "Abderhalden",
+      "Lang",
+      "Meyer-Massetti",
+      "M&#xfc;ller",
+      "Cadisch",
+      "Bertschi",
+      "Goetschi"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Feasibility Studies",
+      "Aged",
+      "Male",
+      "Female",
+      "Pharmacy Service, Hospital",
+      "Aged, 80 and over",
+      "Chronic Pain",
+      "Pharmacists",
+      "Inpatients",
+      "Switzerland"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "38038490",
+    "doi": "10.1111/jgs.18684",
+    "title": "Medication use quality and safety in older adults: 2022 update.",
+    "journal": "Journal of the American Geriatrics Society",
+    "journalAbbrev": "J Am Geriatr Soc",
+    "year": 2023,
+    "authors": [
+      "Gray",
+      "Brandt",
+      "Schmader",
+      "Hanlon"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Deprescriptions",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Patient Safety",
+      "Aged, 80 and over",
+      "Canada",
+      "Retrospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review",
+      "Research Support, Non-U.S. Gov't",
+      "Research Support, U.S. Gov't, P.H.S.",
+      "Research Support, N.I.H., Extramural"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "30337496",
+    "doi": "10.1136/bmjqs-2018-008418",
+    "title": "Community-acquired and hospital-acquired medication harm among older inpatients and impact of a state-wide medication management intervention.",
+    "journal": "BMJ quality & safety",
+    "journalAbbrev": "BMJ Qual Saf",
+    "year": 2018,
+    "authors": [
+      "Pellegrin",
+      "Lozano",
+      "Miyamura",
+      "Lynn",
+      "Krenk",
+      "Jolson-Oakes",
+      "Ciarleglio",
+      "McInnis"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Community Pharmacy Services",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Female",
+      "Hawaii",
+      "Humans",
+      "Male",
+      "Medication Therapy Management",
+      "Patient Transfer",
+      "Pharmacy Service, Hospital",
+      "Risk Adjustment"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, U.S. Gov't, P.H.S."
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "24145589",
+    "doi": "10.3810/hp.2013.10.1080",
+    "title": "Elderly patients with type 2 diabetes mellitus-the need for high-quality, inpatient diabetes care.",
+    "journal": "Hospital practice (1995)",
+    "journalAbbrev": "Hosp Pract (1995)",
+    "year": 2013,
+    "authors": [
+      "Bourdel-Marchasson",
+      "Sinclair"
+    ],
+    "meshTerms": [
+      "Accidental Falls",
+      "Aged",
+      "Aged, 80 and over",
+      "Diabetes Mellitus, Type 2",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Geriatric Nursing",
+      "Hospitalization",
+      "Humans",
+      "Hyperglycemia",
+      "Hypoglycemic Agents",
+      "Inpatients",
+      "Insulin",
+      "Malnutrition",
+      "Nutritional Status",
+      "Patient Safety",
+      "Platelet Aggregation Inhibitors",
+      "Practice Guidelines as Topic",
+      "Quality of Health Care",
+      "United Kingdom",
+      "Warfarin"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "22114827",
+    "doi": "10.1016/j.amjmed.2011.06.009",
+    "title": "Anticoagulation-associated adverse drug events.",
+    "journal": "The American journal of medicine",
+    "journalAbbrev": "Am J Med",
+    "year": 2011,
+    "authors": [
+      "Piazza",
+      "Nguyen",
+      "Cios",
+      "Labreche",
+      "Hohlfelder",
+      "Fanikos",
+      "Fiumara",
+      "Goldhaber"
+    ],
+    "meshTerms": [
+      "Adverse Drug Reaction Reporting Systems",
+      "Aged",
+      "Anticoagulants",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Female",
+      "Humans",
+      "Inpatients",
+      "Male",
+      "Medication Errors",
+      "Middle Aged",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, N.I.H., Extramural",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41748493",
+    "doi": "10.1111/ajag.70141",
+    "title": "Development of a High-Risk Medication List for Australian Residential Aged Care: A Modified Delphi Study.",
+    "journal": "Australasian journal on ageing",
+    "journalAbbrev": "Australas J Ageing",
+    "year": 2026,
+    "authors": [
+      "Cross",
+      "Chaudhry",
+      "Goordeen",
+      "Breen",
+      "Clark",
+      "Daly",
+      "Bell"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Delphi Technique",
+      "Australia",
+      "Homes for the Aged",
+      "Consensus",
+      "Risk Factors",
+      "Potentially Inappropriate Medication List",
+      "Nursing Home Residents",
+      "Risk Assessment",
+      "Aged",
+      "Female",
+      "Nursing Homes",
+      "Polypharmacy"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39737368",
+    "doi": "10.1016/j.rcsop.2024.100531",
+    "title": "High-risk medication errors: Insight from the UK National Reporting and learning system.",
+    "journal": "Exploratory research in clinical and social pharmacy",
+    "journalAbbrev": "Explor Res Clin Soc Pharm",
+    "year": 2024,
+    "authors": [
+      "Alrowily",
+      "Alfaraidy",
+      "Almutairi",
+      "Alamri",
+      "Alrowily",
+      "Abutaleb",
+      "Zaitoun",
+      "Sarawi"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39613715",
+    "doi": "10.1016/j.farma.2024.10.016",
+    "title": "Criteria for medication reconciliation in major orthopedic surgery in high-risk patients: A consensus based on the Delphi method.",
+    "journal": "Farmacia hospitalaria",
+    "journalAbbrev": "Farm Hosp",
+    "year": 2024,
+    "authors": [
+      "Cavalheiro",
+      "Cotrina Luque",
+      "Duarte",
+      "BSilva",
+      "Pereira",
+      "Capoulas",
+      "Santos"
+    ],
+    "meshTerms": [
+      "Delphi Technique",
+      "Humans",
+      "Medication Reconciliation",
+      "Orthopedic Procedures",
+      "Medication Errors",
+      "Polypharmacy"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Consensus Statement"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "38357842",
+    "doi": "10.1002/pds.5735",
+    "title": "Identifying high-risk medications and error types in Danish patient safety database using disproportionality analysis.",
+    "journal": "Pharmacoepidemiology and drug safety",
+    "journalAbbrev": "Pharmacoepidemiol Drug Saf",
+    "year": 2024,
+    "authors": [
+      "Tchijevitch",
+      "Birkeland",
+      "Bogh",
+      "Hallas"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Safety",
+      "Adverse Drug Reaction Reporting Systems",
+      "Medication Errors",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Pharmacovigilance",
+      "Denmark"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "37872107",
+    "doi": "10.1111/bcp.15928",
+    "title": "Exploring the challenges faced by foundation doctors when prescribing high risk medicines safely during the on-call period: A qualitative study.",
+    "journal": "British journal of clinical pharmacology",
+    "journalAbbrev": "Br J Clin Pharmacol",
+    "year": 2023,
+    "authors": [
+      "Alanzi",
+      "Tully",
+      "Lewis"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Medication Errors",
+      "Drug Prescriptions",
+      "Clinical Competence",
+      "Practice Patterns, Physicians'",
+      "Physicians"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "37813103",
+    "doi": "10.1093/ajhp/zxad243",
+    "title": "Prevented harm and cost avoidance with pharmacist intervention while utilizing a discharge medication reconciliation tool.",
+    "journal": "American journal of health-system pharmacy",
+    "journalAbbrev": "Am J Health Syst Pharm",
+    "year": 2024,
+    "authors": [
+      "Hoffman",
+      "Walls",
+      "Prusch",
+      "Roberts"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Medication Reconciliation",
+      "Patient Discharge",
+      "Pharmacists",
+      "Retrospective Studies",
+      "Hospitals, Teaching",
+      "Pharmacy Service, Hospital"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "31970884",
+    "doi": "10.1111/1742-6723.13439",
+    "title": "Comprehensive identification of medication-related problems occurring prior to, during and after emergency department presentation: An Australian multicentre, prospective, observational study.",
+    "journal": "Emergency medicine Australasia",
+    "journalAbbrev": "Emerg Med Australas",
+    "year": 2020,
+    "authors": [
+      "Taylor",
+      "Mitri",
+      "Harding",
+      "Taylor",
+      "Weeks",
+      "Abbott",
+      "Lambros",
+      "Lawrence"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Australia",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Emergency Service, Hospital",
+      "Humans",
+      "Pharmacists",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  }
+]

@@ -237,6 +237,48 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "22114827",
+    "doi": "10.1016/j.amjmed.2011.06.009",
+    "title": "Anticoagulation-associated adverse drug events.",
+    "journal": "The American journal of medicine",
+    "journalAbbrev": "Am J Med",
+    "year": 2011,
+    "authors": [
+      "Piazza",
+      "Nguyen",
+      "Cios",
+      "Labreche",
+      "Hohlfelder",
+      "Fanikos",
+      "Fiumara",
+      "Goldhaber"
+    ],
+    "meshTerms": [
+      "Adverse Drug Reaction Reporting Systems",
+      "Aged",
+      "Anticoagulants",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Female",
+      "Humans",
+      "Inpatients",
+      "Male",
+      "Medication Errors",
+      "Middle Aged",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, N.I.H., Extramural",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "22122869",
     "doi": "10.1016/j.clnu.2011.11.001",
     "title": "Malnutrition and its impact on cost of hospitalization, length of stay, readmission and 3-year mortality.",
@@ -270,6 +312,49 @@
     "language": "eng",
     "cueTypes": [
       "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "24145589",
+    "doi": "10.3810/hp.2013.10.1080",
+    "title": "Elderly patients with type 2 diabetes mellitus-the need for high-quality, inpatient diabetes care.",
+    "journal": "Hospital practice (1995)",
+    "journalAbbrev": "Hosp Pract (1995)",
+    "year": 2013,
+    "authors": [
+      "Bourdel-Marchasson",
+      "Sinclair"
+    ],
+    "meshTerms": [
+      "Accidental Falls",
+      "Aged",
+      "Aged, 80 and over",
+      "Diabetes Mellitus, Type 2",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Geriatric Nursing",
+      "Hospitalization",
+      "Humans",
+      "Hyperglycemia",
+      "Hypoglycemic Agents",
+      "Inpatients",
+      "Insulin",
+      "Malnutrition",
+      "Nutritional Status",
+      "Patient Safety",
+      "Platelet Aggregation Inhibitors",
+      "Practice Guidelines as Topic",
+      "Quality of Health Care",
+      "United Kingdom",
+      "Warfarin"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -311,6 +396,86 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "25990249",
+    "doi": "10.1186/s13054-015-0950-5",
+    "title": "Nurses' worry or concern and early recognition of deteriorating patients on general wards in acute care hospitals: a systematic review.",
+    "journal": "Critical care (London, England)",
+    "journalAbbrev": "Crit Care",
+    "year": 2015,
+    "authors": [
+      "Douw",
+      "Schoonhoven",
+      "Holwerda",
+      "Huisman-de Waal",
+      "van Zanten",
+      "van Achterberg",
+      "van der Hoeven"
+    ],
+    "meshTerms": [
+      "Blood Circulation",
+      "Body Temperature",
+      "Confusion",
+      "Consciousness Disorders",
+      "Early Diagnosis",
+      "Humans",
+      "Nursing Assessment",
+      "Nursing Staff, Hospital",
+      "Pain",
+      "Psychomotor Agitation",
+      "Respiration"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "nurse-intuition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "26456639",
+    "doi": "10.1071/AH14168",
+    "title": "Point prevalence of suboptimal footwear features among ambulant older hospital patients: implications for fall prevention.",
+    "journal": "Australian health review : a publication of the Australian Hospital Association",
+    "journalAbbrev": "Aust Health Rev",
+    "year": 2016,
+    "authors": [
+      "Chari",
+      "McRae",
+      "Stewart",
+      "Webster",
+      "Fenn",
+      "Haines"
+    ],
+    "meshTerms": [
+      "Accident Prevention",
+      "Accidental Falls",
+      "Aged",
+      "Cross-Sectional Studies",
+      "Female",
+      "Geriatric Assessment",
+      "Humans",
+      "Male",
+      "Prevalence",
+      "Queensland",
+      "Risk Factors",
+      "Shoes",
+      "Walking"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "26616276",
     "doi": "10.1002/bjs.10031",
     "title": "Importance of teamwork, communication and culture on failure-to-rescue in the elderly.",
@@ -345,6 +510,29 @@
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "26734153",
+    "doi": "10.1136/bmjquality.u200370.w326",
+    "title": "Acute Kidney Injury: It's as easy as ABCDE.",
+    "journal": "BMJ quality improvement reports",
+    "journalAbbrev": "BMJ Qual Improv Rep",
+    "year": 2012,
+    "authors": [
+      "Forde",
+      "McCaughan",
+      "Leonard"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "aki-recognition"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -450,6 +638,41 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "28239173",
+    "doi": "10.1038/nrneph.2017.2",
+    "title": "Acute kidney disease and renal recovery: consensus report of the Acute Disease Quality Initiative (ADQI) 16 Workgroup.",
+    "journal": "Nature reviews. Nephrology",
+    "journalAbbrev": "Nat Rev Nephrol",
+    "year": 2017,
+    "authors": [
+      "Chawla",
+      "Bellomo",
+      "Bihorac",
+      "Goldstein",
+      "Siew",
+      "Bagshaw",
+      "Forni",
+      "Kane-Gill"
+    ],
+    "meshTerms": [
+      "Acute Kidney Injury",
+      "Humans",
+      "Remission Induction",
+      "Renal Insufficiency, Chronic"
+    ],
+    "articleTypes": [
+      "Consensus Statement",
+      "Journal Article",
+      "Practice Guideline"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "aki-recognition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "28509730",
     "doi": "10.1097/CCM.0000000000002425",
     "title": "American College of Critical Care Medicine Clinical Practice Parameters for Hemodynamic Support of Pediatric and Neonatal Septic Shock.",
@@ -543,6 +766,51 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "28647551",
+    "doi": "10.1016/j.apmr.2017.05.018",
+    "title": "Factors Predicting Falls and Mobility Outcomes in Patients With Stroke Returning Home After Rehabilitation Who Are at Risk of Falling.",
+    "journal": "Archives of physical medicine and rehabilitation",
+    "journalAbbrev": "Arch Phys Med Rehabil",
+    "year": 2017,
+    "authors": [
+      "Ng",
+      "Hill",
+      "Batchelor",
+      "Burton"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Accidental Falls",
+      "Disability Evaluation",
+      "Executive Function",
+      "Exercise",
+      "Muscle Strength",
+      "Patient Discharge",
+      "Physical Therapy Modalities",
+      "Postural Balance",
+      "Socioeconomic Factors",
+      "Stroke Rehabilitation",
+      "Walking Speed"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "28676896",
     "doi": "10.1007/s00134-017-4867-0",
     "title": "The impact of frailty on intensive care unit outcomes: a systematic review and meta-analysis.",
@@ -583,6 +851,119 @@
     "language": null,
     "cueTypes": [
       "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28729323",
+    "doi": "10.1136/bmjopen-2017-016628",
+    "title": "Gait outcomes of older adults receiving subacute hospital rehabilitation following orthopaedic trauma: a longitudinal cohort study.",
+    "journal": "BMJ open",
+    "journalAbbrev": "BMJ Open",
+    "year": 2017,
+    "authors": [
+      "Mathew",
+      "Varghese",
+      "Kuys",
+      "Heesch",
+      "McPhail"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Australia",
+      "Female",
+      "Fractures, Bone",
+      "Gait",
+      "Humans",
+      "Length of Stay",
+      "Linear Models",
+      "Longitudinal Studies",
+      "Male",
+      "Orthopedics",
+      "Patient Discharge",
+      "Sex Factors",
+      "Tertiary Care Centers"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28926152",
+    "doi": "10.1111/jocn.14075",
+    "title": "The patients' perspective of sustaining a fall in hospital: A qualitative study.",
+    "journal": "Journal of clinical nursing",
+    "journalAbbrev": "J Clin Nurs",
+    "year": 2017,
+    "authors": [
+      "Gettens",
+      "Fulbrook",
+      "Jessup",
+      "Low Choy"
+    ],
+    "meshTerms": [
+      "Accidental Falls",
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Health Knowledge, Attitudes, Practice",
+      "Humans",
+      "Inpatients",
+      "Male",
+      "Medical Staff, Hospital",
+      "Nursing Staff, Hospital",
+      "Qualitative Research"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28940784",
+    "doi": "10.1111/ggi.13164",
+    "title": "Cognitive impairment has no impact on hospital-associated dysphagia in aspiration pneumonia patients.",
+    "journal": "Geriatrics & gerontology international",
+    "journalAbbrev": "Geriatr Gerontol Int",
+    "year": 2017,
+    "authors": [
+      "Maeda",
+      "Wakabayashi",
+      "Shamoto",
+      "Akagi"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Cognitive Dysfunction",
+      "Deglutition Disorders",
+      "Female",
+      "Hospitalization",
+      "Humans",
+      "Male",
+      "Pneumonia, Aspiration",
+      "Retrospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -668,6 +1049,90 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "30337496",
+    "doi": "10.1136/bmjqs-2018-008418",
+    "title": "Community-acquired and hospital-acquired medication harm among older inpatients and impact of a state-wide medication management intervention.",
+    "journal": "BMJ quality & safety",
+    "journalAbbrev": "BMJ Qual Saf",
+    "year": 2018,
+    "authors": [
+      "Pellegrin",
+      "Lozano",
+      "Miyamura",
+      "Lynn",
+      "Krenk",
+      "Jolson-Oakes",
+      "Ciarleglio",
+      "McInnis"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Community Pharmacy Services",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Female",
+      "Hawaii",
+      "Humans",
+      "Male",
+      "Medication Therapy Management",
+      "Patient Transfer",
+      "Pharmacy Service, Hospital",
+      "Risk Adjustment"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, U.S. Gov't, P.H.S."
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "30612584",
+    "doi": "10.1186/s12984-018-0478-4",
+    "title": "Dynamic balance and instrumented gait variables are independent predictors of falls following stroke.",
+    "journal": "Journal of neuroengineering and rehabilitation",
+    "journalAbbrev": "J Neuroeng Rehabil",
+    "year": 2019,
+    "authors": [
+      "Bower",
+      "Thilarajah",
+      "Pua",
+      "Williams",
+      "Tan",
+      "Mentiplay",
+      "Denehy",
+      "Clark"
+    ],
+    "meshTerms": [
+      "Accidental Falls",
+      "Aged",
+      "Australia",
+      "Female",
+      "Gait",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Postural Balance",
+      "Prospective Studies",
+      "Stroke",
+      "Stroke Rehabilitation"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "31021360",
     "doi": "10.1007/s12603-019-1176-z",
     "title": "Malnutrition Screening and Assessment in Hospitalised Older People: a Review.",
@@ -735,6 +1200,48 @@
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "31389854",
+    "doi": "10.1519/JPT.0000000000000238",
+    "title": "Evaluating Effectiveness of an Acute Rehabilitation Program in Hospital-Associated Deconditioning.",
+    "journal": "Journal of geriatric physical therapy (2001)",
+    "journalAbbrev": "J Geriatr Phys Ther",
+    "year": 2020,
+    "authors": [
+      "Suriyaarachchi",
+      "Chu",
+      "Bishop",
+      "Thew",
+      "Matthews",
+      "Cowan",
+      "Gunawardene",
+      "Duque"
+    ],
+    "meshTerms": [
+      "Activities of Daily Living",
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Hospitalization",
+      "Hospitals",
+      "Humans",
+      "Inpatients",
+      "Length of Stay",
+      "Male",
+      "Patient Discharge",
+      "Retrospective Studies",
+      "Treatment Outcome"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -822,6 +1329,45 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "31970884",
+    "doi": "10.1111/1742-6723.13439",
+    "title": "Comprehensive identification of medication-related problems occurring prior to, during and after emergency department presentation: An Australian multicentre, prospective, observational study.",
+    "journal": "Emergency medicine Australasia",
+    "journalAbbrev": "Emerg Med Australas",
+    "year": 2020,
+    "authors": [
+      "Taylor",
+      "Mitri",
+      "Harding",
+      "Taylor",
+      "Weeks",
+      "Abbott",
+      "Lambros",
+      "Lawrence"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Australia",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Emergency Service, Hospital",
+      "Humans",
+      "Pharmacists",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "32414401",
     "doi": "10.1186/s13054-020-02951-1",
     "title": "Trauma complications and in-hospital mortality: failure-to-rescue.",
@@ -862,6 +1408,40 @@
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "32902637",
+    "doi": "10.1093/ageing/afaa103",
+    "title": "Changes in muscle strength and physical function in older patients during and after hospitalisation: a prospective repeated-measures cohort study.",
+    "journal": "Age and ageing",
+    "journalAbbrev": "Age Ageing",
+    "year": 2021,
+    "authors": [
+      "Hartley",
+      "Romero-Ortuno",
+      "Wellwood",
+      "Deaton"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Cohort Studies",
+      "Geriatric Assessment",
+      "Hospitalization",
+      "Humans",
+      "Mobility Limitation",
+      "Muscle Strength",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -949,6 +1529,40 @@
     "language": "eng",
     "cueTypes": [
       "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "33750320",
+    "doi": "10.1186/s12877-021-02111-2",
+    "title": "A qualitative study exploring the lived experiences of deconditioning in hospital in Ontario, Canada.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2021,
+    "authors": [
+      "Guilcher",
+      "Everall",
+      "Cadel",
+      "Li",
+      "Kuluski"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Caregivers",
+      "Hospitals",
+      "Humans",
+      "Ontario",
+      "Qualitative Research",
+      "Rural Population"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1078,6 +1692,43 @@
     "language": "eng",
     "cueTypes": [
       "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "34446340",
+    "doi": "10.1016/j.jfma.2021.08.005",
+    "title": "Nomenclature and diagnostic criteria for acute kidney injury - 2020 consensus of the Taiwan AKI-task force.",
+    "journal": "Journal of the Formosan Medical Association",
+    "journalAbbrev": "J Formos Med Assoc",
+    "year": 2021,
+    "authors": [
+      "Yang",
+      "Chiou",
+      "Shiao",
+      "Lin",
+      "Chan",
+      "Wu",
+      "Sun",
+      "Wang"
+    ],
+    "meshTerms": [
+      "Acute Kidney Injury",
+      "Biomarkers",
+      "Creatinine",
+      "Humans",
+      "Prognosis",
+      "Taiwan"
+    ],
+    "articleTypes": [
+      "Review",
+      "Journal Article",
+      "Consensus Statement"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "aki-recognition"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1230,6 +1881,36 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "35142397",
+    "doi": "10.1002/gps.5687",
+    "title": "Hospital-associated deconditioning: Not only physical, but also cognitive.",
+    "journal": "International journal of geriatric psychiatry",
+    "journalAbbrev": "Int J Geriatr Psychiatry",
+    "year": 2022,
+    "authors": [
+      "Chen",
+      "Almirall-Sanchez",
+      "Mockler",
+      "Adrion",
+      "Dominguez-Vivero",
+      "Romero-Ortuno"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Hospitalization"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "35215559",
     "doi": "10.3390/nu14040910",
     "title": "Malnutrition in Hospitalized Old Patients: Screening and Diagnosis, Clinical Outcomes, and Management.",
@@ -1313,6 +1994,43 @@
     "language": "eng",
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36355032",
+    "doi": "10.1002/14651858.CD005955.pub3",
+    "title": "Exercise for acutely hospitalised older medical patients.",
+    "journal": "The Cochrane database of systematic reviews",
+    "journalAbbrev": "Cochrane Database Syst Rev",
+    "year": 2022,
+    "authors": [
+      "Hartley",
+      "Keating",
+      "Jeffs",
+      "Raymond",
+      "Smith"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Humans",
+      "Male",
+      "Activities of Daily Living",
+      "Delirium",
+      "Exercise",
+      "Quality of Life"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1486,6 +2204,35 @@
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36751897",
+    "doi": "10.7748/nop.2023.e1396",
+    "title": "Recognising, reducing and preventing deconditioning in hospitalised older people.",
+    "journal": "Nursing older people",
+    "journalAbbrev": "Nurs Older People",
+    "year": 2023,
+    "authors": [
+      "Swinnerton",
+      "Price"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Hospitalization",
+      "Hospitals",
+      "Frailty",
+      "Sarcopenia"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1665,6 +2412,68 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "37813103",
+    "doi": "10.1093/ajhp/zxad243",
+    "title": "Prevented harm and cost avoidance with pharmacist intervention while utilizing a discharge medication reconciliation tool.",
+    "journal": "American journal of health-system pharmacy",
+    "journalAbbrev": "Am J Health Syst Pharm",
+    "year": 2024,
+    "authors": [
+      "Hoffman",
+      "Walls",
+      "Prusch",
+      "Roberts"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Medication Reconciliation",
+      "Patient Discharge",
+      "Pharmacists",
+      "Retrospective Studies",
+      "Hospitals, Teaching",
+      "Pharmacy Service, Hospital"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "37872107",
+    "doi": "10.1111/bcp.15928",
+    "title": "Exploring the challenges faced by foundation doctors when prescribing high risk medicines safely during the on-call period: A qualitative study.",
+    "journal": "British journal of clinical pharmacology",
+    "journalAbbrev": "Br J Clin Pharmacol",
+    "year": 2023,
+    "authors": [
+      "Alanzi",
+      "Tully",
+      "Lewis"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Medication Errors",
+      "Drug Prescriptions",
+      "Clinical Competence",
+      "Practice Patterns, Physicians'",
+      "Physicians"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "37931891",
     "doi": "10.1016/j.resuscitation.2023.110032",
     "title": "Evaluating the performance of the National Early Warning Score in different diagnostic groups.",
@@ -1692,6 +2501,43 @@
     "cueTypes": [
       "deteriorating-obs",
       "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38038490",
+    "doi": "10.1111/jgs.18684",
+    "title": "Medication use quality and safety in older adults: 2022 update.",
+    "journal": "Journal of the American Geriatrics Society",
+    "journalAbbrev": "J Am Geriatr Soc",
+    "year": 2023,
+    "authors": [
+      "Gray",
+      "Brandt",
+      "Schmader",
+      "Hanlon"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Deprescriptions",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Patient Safety",
+      "Aged, 80 and over",
+      "Canada",
+      "Retrospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review",
+      "Research Support, Non-U.S. Gov't",
+      "Research Support, U.S. Gov't, P.H.S.",
+      "Research Support, N.I.H., Extramural"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1725,6 +2571,39 @@
     "language": "eng",
     "cueTypes": [
       "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38357842",
+    "doi": "10.1002/pds.5735",
+    "title": "Identifying high-risk medications and error types in Danish patient safety database using disproportionality analysis.",
+    "journal": "Pharmacoepidemiology and drug safety",
+    "journalAbbrev": "Pharmacoepidemiol Drug Saf",
+    "year": 2024,
+    "authors": [
+      "Tchijevitch",
+      "Birkeland",
+      "Bogh",
+      "Hallas"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Safety",
+      "Adverse Drug Reaction Reporting Systems",
+      "Medication Errors",
+      "Drug-Related Side Effects and Adverse Reactions",
+      "Pharmacovigilance",
+      "Denmark"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1793,6 +2672,48 @@
     "language": "eng",
     "cueTypes": [
       "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38581603",
+    "doi": "10.1007/s41999-024-00972-5",
+    "title": "Exploring home rehabilitation therapists' experiences of supporting older persons to physical exercise after acute hospitalization: a qualitative interview study.",
+    "journal": "European geriatric medicine",
+    "journalAbbrev": "Eur Geriatr Med",
+    "year": 2024,
+    "authors": [
+      "Sandlund",
+      "Sandberg",
+      "Lindblom",
+      "Frisendahl",
+      "Bostrom",
+      "Welmer"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Qualitative Research",
+      "Male",
+      "Female",
+      "Aged",
+      "Hospitalization",
+      "Sweden",
+      "Home Care Services",
+      "Exercise Therapy",
+      "Physical Therapists",
+      "Exercise",
+      "Middle Aged",
+      "Interviews as Topic",
+      "Attitude of Health Personnel",
+      "Adult"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "functional-decline"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1943,6 +2864,192 @@
     "language": "eng",
     "cueTypes": [
       "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "39497271",
+    "doi": "10.1093/ageing/afae241",
+    "title": "New horizons in hospital-associated deconditioning: a global condition of body and mind.",
+    "journal": "Age and ageing",
+    "journalAbbrev": "Age Ageing",
+    "year": 2024,
+    "authors": [
+      "Welch",
+      "Chen",
+      "Hartley",
+      "Naughton",
+      "Martinez-Velilla",
+      "Stein",
+      "Romero-Ortuno"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Frailty",
+      "Aged",
+      "Hospitalization",
+      "Sarcopenia",
+      "Frail Elderly",
+      "Risk Factors",
+      "Geriatric Assessment",
+      "Cognition"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "39613715",
+    "doi": "10.1016/j.farma.2024.10.016",
+    "title": "Criteria for medication reconciliation in major orthopedic surgery in high-risk patients: A consensus based on the Delphi method.",
+    "journal": "Farmacia hospitalaria",
+    "journalAbbrev": "Farm Hosp",
+    "year": 2024,
+    "authors": [
+      "Cavalheiro",
+      "Cotrina Luque",
+      "Duarte",
+      "BSilva",
+      "Pereira",
+      "Capoulas",
+      "Santos"
+    ],
+    "meshTerms": [
+      "Delphi Technique",
+      "Humans",
+      "Medication Reconciliation",
+      "Orthopedic Procedures",
+      "Medication Errors",
+      "Polypharmacy"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Consensus Statement"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "39649111",
+    "doi": "10.2147/CIA.S465393",
+    "title": "An Early Supported Discharge (ESD) Model of Care for Older Adults Admitted to Hospital: A Descriptive Cohort Study.",
+    "journal": "Clinical interventions in aging",
+    "journalAbbrev": "Clin Interv Aging",
+    "year": 2024,
+    "authors": [
+      "Williams",
+      "Whiston",
+      "Morrissey",
+      "O'Riordan",
+      "O'Connor",
+      "Hartigan",
+      "Devlin",
+      "Galvin"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Patient Discharge",
+      "Female",
+      "Male",
+      "Aged, 80 and over",
+      "Ireland",
+      "Quality of Life",
+      "Frailty",
+      "Geriatric Assessment",
+      "Functional Status",
+      "Cohort Studies",
+      "Hospitalization",
+      "Frail Elderly"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "39737368",
+    "doi": "10.1016/j.rcsop.2024.100531",
+    "title": "High-risk medication errors: Insight from the UK National Reporting and learning system.",
+    "journal": "Exploratory research in clinical and social pharmacy",
+    "journalAbbrev": "Explor Res Clin Soc Pharm",
+    "year": 2024,
+    "authors": [
+      "Alrowily",
+      "Alfaraidy",
+      "Almutairi",
+      "Alamri",
+      "Alrowily",
+      "Abutaleb",
+      "Zaitoun",
+      "Sarawi"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "39999957",
+    "doi": "10.1111/jep.70042",
+    "title": "Healthcare Professionals' Perspectives on the Impact of a Multicomponent Intervention for Older People With Frailty Discharged From Hospital-A Theory-Based Evaluation.",
+    "journal": "Journal of evaluation in clinical practice",
+    "journalAbbrev": "J Eval Clin Pract",
+    "year": 2025,
+    "authors": [
+      "Rasmussen",
+      "Nilsson",
+      "Holst",
+      "Villumsen",
+      "Andreasen"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Female",
+      "Male",
+      "Aged",
+      "Patient Discharge",
+      "Frail Elderly",
+      "Frailty",
+      "Attitude of Health Personnel",
+      "Health Personnel",
+      "Interviews as Topic",
+      "Qualitative Research",
+      "Middle Aged",
+      "Self Efficacy",
+      "Motivation"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "functional-decline"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -2134,6 +3241,82 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "40576643",
+    "doi": "10.1111/jgs.19613",
+    "title": "A Multimodal Fall Prevention Intervention in the Setting of the Emergency Department.",
+    "journal": "Journal of the American Geriatrics Society",
+    "journalAbbrev": "J Am Geriatr Soc",
+    "year": 2025,
+    "authors": [
+      "Niznik",
+      "Small",
+      "Kelley",
+      "McMullen",
+      "Anton",
+      "Roberts",
+      "Lourduraj",
+      "Casey"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Accidental Falls",
+      "Aged",
+      "Male",
+      "Female",
+      "Emergency Service, Hospital",
+      "Retrospective Studies",
+      "Aged, 80 and over",
+      "Quality Improvement",
+      "Risk Factors",
+      "Occupational Therapy",
+      "Physical Therapy Modalities"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40847496",
+    "doi": "10.1080/09638288.2025.2549796",
+    "title": "Promoting functional independence and reducing the risk of hospital-associated deconditioning for acutely hospitalised older adults: a group concept mapping service evaluation.",
+    "journal": "Disability and rehabilitation",
+    "journalAbbrev": "Disabil Rehabil",
+    "year": 2025,
+    "authors": [
+      "Robinson",
+      "Wilson",
+      "Norris",
+      "Fallen-Bailey",
+      "Dick",
+      "Hackett"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Hospitalization",
+      "Female",
+      "Male",
+      "Activities of Daily Living",
+      "Aged, 80 and over",
+      "Independent Living"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "40884900",
     "doi": "10.1016/j.ienj.2025.101666",
     "title": "Effectiveness of the Situation-Background-Assessment-Recommendation method in emergencies with simulation-based education for nursing and paramedic students.",
@@ -2224,6 +3407,45 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "41108444",
+    "doi": "10.1007/s11096-025-02033-8",
+    "title": "Implementing a clinical pharmacy intervention for older adult inpatients with chronic non-cancer pain: a feasibility study.",
+    "journal": "International journal of clinical pharmacy",
+    "journalAbbrev": "Int J Clin Pharm",
+    "year": 2025,
+    "authors": [
+      "Abderhalden",
+      "Lang",
+      "Meyer-Massetti",
+      "M&#xfc;ller",
+      "Cadisch",
+      "Bertschi",
+      "Goetschi"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Feasibility Studies",
+      "Aged",
+      "Male",
+      "Female",
+      "Pharmacy Service, Hospital",
+      "Aged, 80 and over",
+      "Chronic Pain",
+      "Pharmacists",
+      "Inpatients",
+      "Switzerland"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "41142216",
     "doi": "10.1016/j.resplu.2025.101120",
     "title": "Predictive performance and temporal dynamics of national early warning score 2 (NEWS2) in detecting clinical deterioration in general ward: A large-scale validation study in Singapore.",
@@ -2281,6 +3503,48 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "41232925",
+    "doi": "10.1016/j.jamda.2025.105973",
+    "title": "Deconditioning of Long-Term Care Residents After Acute Hospitalization for a Hip Fracture in Ontario: A Retrospective, Population-Based Cohort Study.",
+    "journal": "Journal of the American Medical Directors Association",
+    "journalAbbrev": "J Am Med Dir Assoc",
+    "year": 2025,
+    "authors": [
+      "Li",
+      "Engel",
+      "Fremont",
+      "Timite",
+      "Okamoto",
+      "Fisher",
+      "Kobewka",
+      "Papp"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hip Fractures",
+      "Retrospective Studies",
+      "Female",
+      "Male",
+      "Ontario",
+      "Aged, 80 and over",
+      "Long-Term Care",
+      "Hospitalization",
+      "Aged",
+      "Length of Stay",
+      "Activities of Daily Living"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "41618411",
     "doi": "10.1186/s13643-026-03088-y",
     "title": "Does the use of National Early Warning Scores (NEWS or NEWS2) in healthcare settings improve patient outcomes: a systematic review.",
@@ -2308,6 +3572,183 @@
     "cueTypes": [
       "deteriorating-obs",
       "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41737501",
+    "doi": "10.1093/haschl/qxag029",
+    "title": "The role of declining therapy volumes in skilled nursing facility outcomes: a mediation analysis.",
+    "journal": "Health affairs scholar",
+    "journalAbbrev": "Health Aff Sch",
+    "year": 2026,
+    "authors": [
+      "Prusynski",
+      "Humbert",
+      "Amaravadi",
+      "Burke",
+      "Saliba",
+      "Leland",
+      "Freburger",
+      "Mroz"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41748493",
+    "doi": "10.1111/ajag.70141",
+    "title": "Development of a High-Risk Medication List for Australian Residential Aged Care: A Modified Delphi Study.",
+    "journal": "Australasian journal on ageing",
+    "journalAbbrev": "Australas J Ageing",
+    "year": 2026,
+    "authors": [
+      "Cross",
+      "Chaudhry",
+      "Goordeen",
+      "Breen",
+      "Clark",
+      "Daly",
+      "Bell"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Delphi Technique",
+      "Australia",
+      "Homes for the Aged",
+      "Consensus",
+      "Risk Factors",
+      "Potentially Inappropriate Medication List",
+      "Nursing Home Residents",
+      "Risk Assessment",
+      "Aged",
+      "Female",
+      "Nursing Homes",
+      "Polypharmacy"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41805229",
+    "doi": "10.1097/CCM.0000000000007094",
+    "title": "Days Alive and at Home After Critical Illness Hospitalization Among Older Adults and Its Association With Delivery of In-Hospital Rehabilitation.",
+    "journal": "Critical care medicine",
+    "journalAbbrev": "Crit Care Med",
+    "year": 2026,
+    "authors": [
+      "Kim",
+      "Murphy",
+      "O'Leary",
+      "Leo-Summers",
+      "Falvey",
+      "Gill",
+      "Krumholz",
+      "Ferrante"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Female",
+      "Aged",
+      "Retrospective Studies",
+      "Male",
+      "Critical Illness",
+      "United States",
+      "Aged, 80 and over",
+      "Medicare",
+      "Intensive Care Units",
+      "Hospitalization",
+      "Aging in Place"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41827168",
+    "doi": "10.3390/jcm15051749",
+    "title": "Fear of Falling, Balance Disturbances, and Health-Related Quality of Life in Post-Stroke Inpatients: A Preliminary Cross-Sectional Study.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": [
+      "Krysiak",
+      "Mi&#x15b;",
+      "Mi&#x15b;",
+      "Druszcz",
+      "Paprocka-Borowicz",
+      "Rosi&#x144;czuk",
+      "Dymarek"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41840386",
+    "doi": "10.1186/s12877-026-07354-5",
+    "title": "Deprescribing preventive medications in older adults with advanced frailty, dementia, or limited life expectancy: a systematic review and meta-analysis.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2026,
+    "authors": [
+      "Das",
+      "Shendage",
+      "Maiti",
+      "Bhatta",
+      "Mondal",
+      "Aadityan",
+      "Sukumaran",
+      "Shukla"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Deprescriptions",
+      "Dementia",
+      "Aged",
+      "Life Expectancy",
+      "Frailty",
+      "Frail Elderly",
+      "Randomized Controlled Trials as Topic",
+      "Polypharmacy"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review",
+      "Meta-Analysis"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "medication-safety"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null

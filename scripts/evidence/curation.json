@@ -45,9 +45,23 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "22114827": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "22122869": {
     "cueTypes": [
       "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "24145589": {
+    "cueTypes": [
+      "medication-safety"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -60,10 +74,31 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "25990249": {
+    "cueTypes": [
+      "nurse-intuition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "26456639": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "26616276": {
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "26734153": {
+    "cueTypes": [
+      "aki-recognition"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -89,6 +124,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "28239173": {
+    "cueTypes": [
+      "aki-recognition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "28509730": {
     "cueTypes": [
       "sepsis-screen"
@@ -110,9 +152,37 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "28647551": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "28676896": {
     "cueTypes": [
       "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28729323": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28926152": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28940784": {
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -133,6 +203,20 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "30337496": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "30612584": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "31021360": {
     "cueTypes": [
       "malnutrition-screening"
@@ -144,6 +228,13 @@
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31389854": {
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -162,10 +253,24 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "31970884": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "32414401": {
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "32902637": {
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -199,6 +304,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "33750320": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "33775748": {
     "cueTypes": [
       "escalation",
@@ -225,6 +337,13 @@
   "34379473": {
     "cueTypes": [
       "sepsis-screen"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "34446340": {
+    "cueTypes": [
+      "aki-recognition"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -265,6 +384,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "35142397": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "35215559": {
     "cueTypes": [
       "malnutrition-screening"
@@ -282,6 +408,13 @@
   "35854358": {
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36355032": {
+    "cueTypes": [
+      "falls-mobility"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -323,6 +456,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "36751897": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "36914194": {
     "cueTypes": [
       "deteriorating-obs",
@@ -360,6 +500,20 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "37813103": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "37872107": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "37931891": {
     "cueTypes": [
       "deteriorating-obs",
@@ -368,9 +522,23 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "38038490": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "38309229": {
     "cueTypes": [
       "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38357842": {
+    "cueTypes": [
+      "medication-safety"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -385,6 +553,13 @@
   "38541274": {
     "cueTypes": [
       "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38581603": {
+    "cueTypes": [
+      "functional-decline"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -414,6 +589,41 @@
   "39299664": {
     "cueTypes": [
       "frailty-assessment"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39497271": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39613715": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39649111": {
+    "cueTypes": [
+      "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39737368": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39999957": {
+    "cueTypes": [
+      "functional-decline"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -463,6 +673,20 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "40576643": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40847496": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "40884900": {
     "cueTypes": [
       "handover"
@@ -484,6 +708,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41108444": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "41142216": {
     "cueTypes": [
       "deteriorating-obs",
@@ -499,10 +730,52 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41232925": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "41618411": {
     "cueTypes": [
       "deteriorating-obs",
       "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41737501": {
+    "cueTypes": [
+      "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41748493": {
+    "cueTypes": [
+      "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41805229": {
+    "cueTypes": [
+      "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41827168": {
+    "cueTypes": [
+      "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41840386": {
+    "cueTypes": [
+      "medication-safety"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null

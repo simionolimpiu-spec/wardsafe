@@ -51,7 +51,13 @@ export const CUE_TYPES = Object.freeze([
   Object.freeze({ id: 'dysphagia-swallow-screen', builtInApp: false, source: null }),
   Object.freeze({ id: 'delirium-screening', builtInApp: false, source: null }),
   Object.freeze({ id: 'frailty-assessment', builtInApp: false, source: null }),
-  Object.freeze({ id: 'malnutrition-screening', builtInApp: false, source: null })
+  Object.freeze({ id: 'malnutrition-screening', builtInApp: false, source: null }),
+  // Reserved - added in SF-285 (wave 3 scale-up: pharmacy, physio/OT, AKI, nurse intuition).
+  Object.freeze({ id: 'medication-safety', builtInApp: false, source: null }),
+  Object.freeze({ id: 'falls-mobility', builtInApp: false, source: null }),
+  Object.freeze({ id: 'functional-decline', builtInApp: false, source: null }),
+  Object.freeze({ id: 'aki-recognition', builtInApp: false, source: null }),
+  Object.freeze({ id: 'nurse-intuition', builtInApp: false, source: null })
 ]);
 
 const CUE_TYPE_IDS = new Set(CUE_TYPES.map((c) => c.id));

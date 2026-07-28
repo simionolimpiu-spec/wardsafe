@@ -1,0 +1,82 @@
+[
+  {
+    "pmid": "26734153",
+    "doi": "10.1136/bmjquality.u200370.w326",
+    "title": "Acute Kidney Injury: It's as easy as ABCDE.",
+    "journal": "BMJ quality improvement reports",
+    "journalAbbrev": "BMJ Qual Improv Rep",
+    "year": 2012,
+    "authors": [
+      "Forde",
+      "McCaughan",
+      "Leonard"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "34446340",
+    "doi": "10.1016/j.jfma.2021.08.005",
+    "title": "Nomenclature and diagnostic criteria for acute kidney injury - 2020 consensus of the Taiwan AKI-task force.",
+    "journal": "Journal of the Formosan Medical Association",
+    "journalAbbrev": "J Formos Med Assoc",
+    "year": 2021,
+    "authors": [
+      "Yang",
+      "Chiou",
+      "Shiao",
+      "Lin",
+      "Chan",
+      "Wu",
+      "Sun",
+      "Wang"
+    ],
+    "meshTerms": [
+      "Acute Kidney Injury",
+      "Biomarkers",
+      "Creatinine",
+      "Humans",
+      "Prognosis",
+      "Taiwan"
+    ],
+    "articleTypes": [
+      "Review",
+      "Journal Article",
+      "Consensus Statement"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "28239173",
+    "doi": "10.1038/nrneph.2017.2",
+    "title": "Acute kidney disease and renal recovery: consensus report of the Acute Disease Quality Initiative (ADQI) 16 Workgroup.",
+    "journal": "Nature reviews. Nephrology",
+    "journalAbbrev": "Nat Rev Nephrol",
+    "year": 2017,
+    "authors": [
+      "Chawla",
+      "Bellomo",
+      "Bihorac",
+      "Goldstein",
+      "Siew",
+      "Bagshaw",
+      "Forni",
+      "Kane-Gill"
+    ],
+    "meshTerms": [
+      "Acute Kidney Injury",
+      "Humans",
+      "Remission Induction",
+      "Renal Insufficiency, Chronic"
+    ],
+    "articleTypes": [
+      "Consensus Statement",
+      "Journal Article",
+      "Practice Guideline"
+    ],
+    "language": "eng"
+  }
+]
