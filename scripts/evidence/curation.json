@@ -5,8 +5,8 @@
       "deteriorating-obs",
       "staffing-context"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "This landmark US hospital study linked higher patient-to-nurse ratios to higher risk-adjusted 30-day mortality and a higher rate of failure-to-rescue - death following a complication that might have been caught and escalated in time. Each additional patient per nurse also raised the odds of nurse burnout and job dissatisfaction, outcomes that plausibly feed back into how reliably deterioration gets noticed and escalated. SafeFlow references this study to ground the idea that safe escalation and staffing levels are linked, not purely a matter of individual vigilance."
   },
   "12544057": {
     "cueTypes": [
@@ -350,8 +350,8 @@
       "sepsis-screen",
       "staffing-context"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "Using 2017 US hospital data, this study found each additional patient per nurse was associated with 12% higher in-hospital mortality and 7% higher 60-day mortality and readmission for sepsis patients, even after accounting for hospitals' adherence to sepsis-bundle protocols. Protocol adherence mattered, but its effect on outcomes was clearly smaller than the effect attributed to staffing levels in this analysis. SafeFlow surfaces staffing context alongside clinical cues because this evidence suggests workload is a first-order factor in sepsis outcomes, not just a background variable."
   },
   "33736927": {
     "cueTypes": [
@@ -465,8 +465,8 @@
     "cueTypes": [
       "electrolyte-review"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "This updated Joint British Diabetes Societies guideline on adult diabetic ketoacidosis management highlights the high prevalence of hypoglycaemia and hypokalaemia seen with the previous protocol, and now recommends slowing the insulin infusion rate once glucose falls below 14 mmol/L. It also flags the newer risk of euglycaemic ketoacidosis in patients on SGLT2 inhibitors, a presentation that is easy to miss because blood glucose can look reassuring. SafeFlow's electrolyte-review cue points to this guideline because potassium and glucose trends in DKA management are a recurring source of harm that structured review can catch early."
   },
   "35746992": {
     "cueTypes": [
@@ -479,8 +479,8 @@
     "cueTypes": [
       "sepsis-screen"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "This systematic review of nurses' knowledge, attitudes and practice around sepsis found generally adequate knowledge but persistent misconceptions, including the belief that sepsis is simply inevitable in critically ill patients, alongside low confidence in promptly recognising and escalating it. Barriers reported spanned individual, patient, physician and system levels, and the review found education, simulation, and structured screening tools were the main interventions shown to help. SafeFlow's sepsis-screen prompts are designed in that spirit - as a structured aid rather than a substitute for clinical judgement."
   },
   "35854358": {
     "cueTypes": [
@@ -694,8 +694,8 @@
     "cueTypes": [
       "documentation"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "In a prospective controlled trial across a Chinese tertiary ICU, introducing an automated documentation quality-control system cut false vital-sign entries from 9% to 1.33%, incomplete medication records from 3.33% to 1.67%, and missed assessment entries from 8% to 1.33%, while also cutting review time per record from over four minutes to about a minute. SafeFlow's documentation cue draws on this as evidence that structured, technology-supported checks can meaningfully reduce the everyday documentation gaps that make later reviews harder."
   },
   "39032563": {
     "cueTypes": [
@@ -923,8 +923,8 @@
       "deteriorating-obs",
       "score-comparison"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "In a large Singapore validation cohort of nearly 59,000 ward admissions, NEWS2 discriminated overall clinical deterioration well (AUROC 0.90) and mortality especially strongly (AUROC 0.96), but its ability to flag unplanned ICU admission or code-blue activation was only moderate. Performance also varied across prediction windows from 4 to 72 hours, meaning the same score behaves differently depending on which outcome and time horizon a ward team is watching for. SafeFlow uses this as a reminder that a 'normal' trending NEWS2 score is not equally reassuring for every kind of deterioration."
   },
   "41196019": {
     "cueTypes": [
@@ -1007,8 +1007,8 @@
     "cueTypes": [
       "discharge"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "This UK quality improvement project on a respiratory ward found that a structured weekend continuity checklist cut missed blood-test handovers from 20% to 2% and took discharge-summary completion from 55% to 100% across two Plan-Do-Study-Act cycles. It is a small single-ward study, but it shows how a simple structured tool can close specific, recurring discharge and handover gaps around reduced-staffing periods. SafeFlow's discharge cue reflects the same underlying risk: continuity information is most likely to be dropped exactly when staffing is thinnest."
   },
   "41535764": {
     "cueTypes": [
@@ -1162,8 +1162,8 @@
     "cueTypes": [
       "handover"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "This 2026 systematic review of fifteen studies on SBAR and ISBAR-based handover tools found they were generally associated with improved communication, safer patient transfers and fewer reported adverse events, with structured training improving adherence. Findings were mixed in some complex or context-specific settings, so the review describes only a moderate level of certainty in the evidence rather than a guaranteed fix. SafeFlow treats structured handover prompts the same way - a support for consistent communication, not a guarantee against every gap."
   },
   "42338922": {
     "cueTypes": [
