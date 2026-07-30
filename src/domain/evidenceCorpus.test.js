@@ -64,8 +64,19 @@ describe('evidence corpus content — licence safety', () => {
     }
   });
 
-  it('the published corpus file contains no occurrence of the literal string "abstract" in any value', () => {
-    const serialised = JSON.stringify(evidenceCorpus).toLowerCase();
+  it('the published corpus file contains no occurrence of the literal string "abstract" in any value, aside from the "abstract-read" verification-level label', () => {
+    // "abstract-read" is a legitimate, schema-defined verification-level value
+    // (alongside "metadata-only" and "full-text-read") — it records that a
+    // human read the PubMed abstract in-conversation to write an original
+    // safeflowSummary, never that abstract text was pasted into the corpus.
+    // Stripping just that enum label before the scan keeps the real safety
+    // property intact: any OTHER occurrence of "abstract" (e.g. abstract text
+    // accidentally pasted into a title, summary, or any other field) still
+    // fails this test.
+    const serialised = JSON.stringify(evidenceCorpus)
+      .toLowerCase()
+      .split('"abstract-read"')
+      .join('""');
     expect(serialised).not.toContain('abstract');
   });
 
@@ -90,12 +101,20 @@ describe('evidence corpus content — curation integrity', () => {
     }
   });
 
-  it('no record is citable yet — the corpus is bibliographic-only until summaries are written', () => {
-    // This test is EXPECTED to start failing the day the first safeflowSummary
-    // is written, which is the point: it forces a conscious update here
-    // rather than letting citability drift in unnoticed.
+  it('tracks citable-record count deliberately as summaries are written', () => {
+    // This count is EXPECTED to grow every time a safeflowSummary is added.
+    // The point of asserting an exact number (not just >0) is to force a
+    // conscious update here rather than letting citability drift in unnoticed.
+    // SF-289 (first wave, self-authored): 8 SafeFlow-voice summaries covering
+    // 9 built-in-app cue types (deteriorating-obs and score-comparison share
+    // one record; escalation/deteriorating-obs/staffing-context share another;
+    // sepsis-screen/staffing-context share a third). The remaining 6 built-in
+    // cue types (new-to-service, bias-awareness, pearls-debrief, pace-ladder,
+    // safety-ii, family-concern) now have linked evidence records (SF-290,
+    // wave 6) but none has a safeflowSummary yet, so the citable count stays
+    // at 8 — writing summaries for those 6 is separate future work.
     const citableCount = evidenceCorpus.filter(isCitable).length;
-    expect(citableCount).toBe(0);
+    expect(citableCount).toBe(8);
   });
 });
 
