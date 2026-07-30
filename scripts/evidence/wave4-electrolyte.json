@@ -1,0 +1,74 @@
+[
+  {
+    "pmid": "42225499",
+    "doi": "10.1016/j.jos.2026.05.002",
+    "title": "Perioperative hyponatremia and the risk of balance-function deterioration during rehabilitation after cephalomedullary nailing for hip fracture in older adults: A retrospective cohort study.",
+    "journal": "Journal of orthopaedic science",
+    "journalAbbrev": "J Orthop Sci",
+    "year": 2026,
+    "authors": [
+      "Sun",
+      "Li",
+      "Zhang",
+      "Chen",
+      "Jiang"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41357015",
+    "doi": "10.7759/cureus.96131",
+    "title": "Decoding Hyponatremia: A Systematic Review of Diagnostic Pathways and Therapeutic Approaches Applied When Correction Fails.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Kaur",
+      "Venkatachalapathi",
+      "Mumtaz",
+      "Butt",
+      "Mashhour",
+      "Shetty",
+      "Zafar",
+      "Wazir"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "35224769",
+    "doi": "10.1111/dme.14788",
+    "title": "The management of diabetic ketoacidosis in adults-An updated guideline from the Joint British Diabetes Society for Inpatient Care.",
+    "journal": "Diabetic medicine",
+    "journalAbbrev": "Diabet Med",
+    "year": 2022,
+    "authors": [
+      "Dhatariya"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Child",
+      "Diabetes Mellitus",
+      "Diabetic Ketoacidosis",
+      "Glucose",
+      "Hospitalization",
+      "Humans",
+      "Inpatients",
+      "Insulin",
+      "Sodium-Glucose Transporter 2 Inhibitors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Practice Guideline"
+    ],
+    "language": "eng"
+  }
+]

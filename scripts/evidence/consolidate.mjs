@@ -34,7 +34,16 @@ function loadAll(files) {
 }
 
 function main() {
-  const recordFiles = waveFiles('.json').filter((f) => !f.endsWith('-excluded.json'));
+  // SF-287: wave3-manual-exclusions.json (pmid/title/reason triples logged during
+  // manual screening, not licence-safe extract-records.mjs output) was slipping
+  // through this filter and being loaded as if it were record data, because it
+  // ends in "...exclusions.json" rather than the "-excluded.json" suffix this
+  // filter checked for - it doesn't end in "-excluded.json" so `!f.endsWith(...)`
+  // was true and it got treated as a record file. Caught by an unexplained jump
+  // from 109 to 140 records (should have been 127) when wave 4 was consolidated.
+  // Fixed by excluding any file with "exclu" in the name, not just the one exact
+  // suffix, so this class of collision can't recur under a different filename.
+  const recordFiles = waveFiles('.json').filter((f) => !f.toLowerCase().includes('exclu'));
   const excludedFiles = waveFiles('-excluded.json');
 
   const allRecords = loadAll(recordFiles);

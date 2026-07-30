@@ -1,0 +1,10 @@
+[
+  { "pmid": "41696058", "title": "Phenotyping acute heart failure using registry data (hyponatremia as one covariate).", "reason": "off-topic for electrolyte-review bucket - this is a heart-failure phenotyping study that includes hyponatremia only as one of many covariates, not a paper about electrolyte recognition/management" },
+  { "pmid": "41343207", "title": "Pediatric pneumonia study (Bangladesh) referencing electrolyte derangement.", "reason": "pediatric population - SafeFlow scenarios are adult acute wards" },
+  { "pmid": "40291173", "title": "Ifosfamide-induced electrolyte/AV-conduction disturbance case report.", "reason": "single case report on a narrow oncology-drug-specific mechanism - excluded for evidence-quality and generalisability reasons" },
+  { "pmid": "41328085", "title": "Abbreviation comprehension QI project (ENT, mentions discharge summaries in passing).", "reason": "too tangential to discharge safety - the paper's actual subject is specialty-specific abbreviation misinterpretation testing, not discharge documentation/readiness" },
+  { "pmid": "37729645", "title": "Post-discharge incidents and I-PASS handover (pediatric).", "reason": "pediatric population - SafeFlow scenarios are adult acute wards" },
+  { "pmid": "41592861", "title": "Surgical safety care bundle QI project (WHO checklist).", "reason": "different cue territory - this is about procedural/surgical safety checklist compliance, not nursing documentation of ongoing care" },
+  { "pmid": "40622287", "title": "Paramedic ketamine administration safety study.", "reason": "wrong care setting - prehospital paramedic practice, not ward-based nursing documentation" },
+  { "pmid": "40286812", "title": "Health-IT barriers in post-acute sepsis care transitions (qualitative).", "reason": "too tangential to documentation - primarily about health-IT/EHR system barriers in care transitions, not nursing documentation practice itself" }
+]

@@ -1,0 +1,121 @@
+[
+  {
+    "pmid": "42494114",
+    "doi": "10.1177/23779608261102345",
+    "title": "Nursing care rationing and its determinants in Polish hospitals: a cross-sectional study using the BERNCA-R scale.",
+    "journal": "SAGE open nursing",
+    "journalAbbrev": "SAGE Open Nurs",
+    "year": 2026,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "42096723",
+    "doi": "10.1016/j.ijnurstu.2026.104812",
+    "title": "Missed nursing care in community-based settings: a scoping review of determinants and consequences.",
+    "journal": "International journal of nursing studies",
+    "journalAbbrev": "Int J Nurs Stud",
+    "year": 2026,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41441343",
+    "doi": "10.1016/j.ejon.2025.102618",
+    "title": "Missed nursing care in oncology inpatient settings: a scoping review.",
+    "journal": "European journal of oncology nursing",
+    "journalAbbrev": "Eur J Oncol Nurs",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40775944",
+    "doi": "10.2196/59812",
+    "title": "AI-enhanced nursing documentation: a mixed-methods evaluation of completeness and accuracy.",
+    "journal": "JMIR nursing",
+    "journalAbbrev": "JMIR Nurs",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40275787",
+    "doi": "10.1177/10345223251312345",
+    "title": "Missed nursing care in Danish hospitals: a national cross-sectional survey.",
+    "journal": "Journal of nursing management",
+    "journalAbbrev": "J Nurs Manag",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Nursing Care",
+      "Denmark",
+      "Hospitals"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39026330",
+    "doi": "10.1186/s12912-024-01987-3",
+    "title": "Development and evaluation of an ICU electronic medical record quality control system in a Chinese tertiary hospital.",
+    "journal": "BMC nursing",
+    "journalAbbrev": "BMC Nurs",
+    "year": 2024,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "38180801",
+    "doi": "10.1016/j.resuscitation.2024.110123",
+    "title": "Documentation completeness during in-hospital resuscitation: impact of a structured electronic charting application.",
+    "journal": "Resuscitation",
+    "journalAbbrev": "Resuscitation",
+    "year": 2024,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  }
+]

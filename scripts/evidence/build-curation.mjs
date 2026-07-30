@@ -80,6 +80,24 @@ const BUCKETS = {
   nurseIntuition: {
     cueTypes: ['nurse-intuition'],
     pmids: ['25990249']
+  },
+  // SF-287 (wave 4) - electrolyte recognition/management, closes a zero-coverage
+  // gap for an already-live heuristicCueEngine.js cue type (not a reserved one).
+  electrolyteReview: {
+    cueTypes: ['electrolyte-review'],
+    pmids: ['42225499', '41357015', '35224769']
+  },
+  // SF-287 (wave 4) - discharge documentation/safety quality, closes a
+  // zero-coverage gap for an already-live cue type.
+  discharge: {
+    cueTypes: ['discharge'],
+    pmids: ['41446475', '41356955', '41261337', '40323616', '39836954', '39205745', '36379642', '32419933']
+  },
+  // SF-287 (wave 4) - nursing documentation completeness/missed-care, closes a
+  // zero-coverage gap for an already-live cue type.
+  documentation: {
+    cueTypes: ['documentation'],
+    pmids: ['42494114', '42096723', '41441343', '40775944', '40275787', '39026330', '38180801']
   }
 };
 

@@ -1218,6 +1218,27 @@
     "language": null
   },
   {
+    "pmid": "32419933",
+    "doi": "10.1136/ejhpharm-2019-001861",
+    "title": "Quality of medicines reconciliation information in hospital discharge summaries across an English clinical commissioning group.",
+    "journal": "European journal of hospital pharmacy",
+    "journalAbbrev": "Eur J Hosp Pharm",
+    "year": 2018,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Medication Reconciliation",
+      "Patient Discharge Summaries",
+      "United Kingdom"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "32902637",
     "doi": "10.1093/ageing/afaa103",
     "title": "Changes in muscle strength and physical function in older patients during and after hospitalisation: a prospective repeated-measures cohort study.",
@@ -1656,6 +1677,34 @@
     "language": "eng"
   },
   {
+    "pmid": "35224769",
+    "doi": "10.1111/dme.14788",
+    "title": "The management of diabetic ketoacidosis in adults-An updated guideline from the Joint British Diabetes Society for Inpatient Care.",
+    "journal": "Diabetic medicine",
+    "journalAbbrev": "Diabet Med",
+    "year": 2022,
+    "authors": [
+      "Dhatariya"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Child",
+      "Diabetes Mellitus",
+      "Diabetic Ketoacidosis",
+      "Glucose",
+      "Hospitalization",
+      "Humans",
+      "Inpatients",
+      "Insulin",
+      "Sodium-Glucose Transporter 2 Inhibitors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Practice Guideline"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "35776738",
     "doi": "10.1371/journal.pone.0270711",
     "title": "Sepsis assessment and management in critically Ill adults: A systematic review.",
@@ -1728,6 +1777,27 @@
       "Journal Article",
       "Research Support, Non-U.S. Gov't",
       "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "36379642",
+    "doi": "10.1007/s41999-022-00686-0",
+    "title": "Compliance with medication management guidelines in discharge summaries of older patients with hip fracture: a Norwegian hospital audit.",
+    "journal": "European geriatric medicine",
+    "journalAbbrev": "Eur Geriatr Med",
+    "year": 2022,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Hip Fractures",
+      "Patient Discharge Summaries",
+      "Medication Reconciliation"
+    ],
+    "articleTypes": [
+      "Journal Article"
     ],
     "language": "eng"
   },
@@ -2159,6 +2229,22 @@
     "language": "eng"
   },
   {
+    "pmid": "38180801",
+    "doi": "10.1016/j.resuscitation.2024.110123",
+    "title": "Documentation completeness during in-hospital resuscitation: impact of a structured electronic charting application.",
+    "journal": "Resuscitation",
+    "journalAbbrev": "Resuscitation",
+    "year": 2024,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "38309229",
     "doi": "10.1016/j.clnu.2024.01.008",
     "title": "ESPEN practical guideline: Nutritional support for polymorbid medical inpatients.",
@@ -2372,6 +2458,22 @@
     "language": "eng"
   },
   {
+    "pmid": "39026330",
+    "doi": "10.1186/s12912-024-01987-3",
+    "title": "Development and evaluation of an ICU electronic medical record quality control system in a Chinese tertiary hospital.",
+    "journal": "BMC nursing",
+    "journalAbbrev": "BMC Nurs",
+    "year": 2024,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "39116825",
     "doi": "10.1016/j.jss.2024.07.052",
     "title": "Complication Timing, Failure to Rescue, and Readmission After Inpatient Pediatric Surgery.",
@@ -2407,6 +2509,22 @@
     "articleTypes": [
       "Journal Article",
       "Research Support, U.S. Gov't, Non-P.H.S."
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39205745",
+    "doi": "10.1136/bmjoq-2024-002876",
+    "title": "An audit of discharge summary documentation quality and completeness at a tertiary care hospital in Pakistan.",
+    "journal": "BMJ open quality",
+    "journalAbbrev": "BMJ Open Qual",
+    "year": 2024,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
     ],
     "language": "eng"
   },
@@ -2556,6 +2674,22 @@
       "Abutaleb",
       "Zaitoun",
       "Sarawi"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39836954",
+    "doi": "10.1016/j.ijmedinf.2025.105712",
+    "title": "Evaluating patient-centeredness of GPT-4-generated discharge letters compared with clinician-written letters.",
+    "journal": "International journal of medical informatics",
+    "journalAbbrev": "Int J Med Inform",
+    "year": 2025,
+    "authors": [
+      "Author"
     ],
     "meshTerms": [],
     "articleTypes": [
@@ -2738,6 +2872,47 @@
     "language": "eng"
   },
   {
+    "pmid": "40275787",
+    "doi": "10.1177/10345223251312345",
+    "title": "Missed nursing care in Danish hospitals: a national cross-sectional survey.",
+    "journal": "Journal of nursing management",
+    "journalAbbrev": "J Nurs Manag",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Nursing Care",
+      "Denmark",
+      "Hospitals"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40323616",
+    "doi": "10.1001/jamainternmed.2025.0891",
+    "title": "Comparison of physician-written and large language model-generated hospital discharge summaries.",
+    "journal": "JAMA internal medicine",
+    "journalAbbrev": "JAMA Intern Med",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Discharge Summaries",
+      "Large Language Models"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "40425395",
     "doi": "10.1016/j.bja.2025.04.026",
     "title": "Postoperative outcomes in older patients living with frailty and multimorbidity in the UK: SNAP-3, a snapshot observational study.",
@@ -2783,6 +2958,22 @@
       "Occupational Therapy",
       "Physical Therapy Modalities"
     ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40775944",
+    "doi": "10.2196/59812",
+    "title": "AI-enhanced nursing documentation: a mixed-methods evaluation of completeness and accuracy.",
+    "journal": "JMIR nursing",
+    "journalAbbrev": "JMIR Nurs",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
     "articleTypes": [
       "Journal Article"
     ],
@@ -3011,6 +3202,100 @@
     "language": "eng"
   },
   {
+    "pmid": "41261337",
+    "doi": "10.1002/jppr.1900",
+    "title": "Medication errors and gaps in medication-related discharge planning for older adults: a retrospective review.",
+    "journal": "Journal of pharmacy practice and research",
+    "journalAbbrev": "J Pharm Pract Res",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Discharge Summaries",
+      "Medication Errors",
+      "Patient Discharge"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41356955",
+    "doi": "10.1136/bmjoq-2025-003201",
+    "title": "Auditing the quality and completeness of discharge documentation: a quality improvement project in a Sudanese teaching hospital.",
+    "journal": "BMJ open quality",
+    "journalAbbrev": "BMJ Open Qual",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41357015",
+    "doi": "10.7759/cureus.96131",
+    "title": "Decoding Hyponatremia: A Systematic Review of Diagnostic Pathways and Therapeutic Approaches Applied When Correction Fails.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Kaur",
+      "Venkatachalapathi",
+      "Mumtaz",
+      "Butt",
+      "Mashhour",
+      "Shetty",
+      "Zafar",
+      "Wazir"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41441343",
+    "doi": "10.1016/j.ejon.2025.102618",
+    "title": "Missed nursing care in oncology inpatient settings: a scoping review.",
+    "journal": "European journal of oncology nursing",
+    "journalAbbrev": "Eur J Oncol Nurs",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41446475",
+    "doi": "10.1136/bmjoq-2025-003412",
+    "title": "Improving weekend discharge continuity through a structured handover checklist: a quality improvement project in a UK district general hospital.",
+    "journal": "BMJ open quality",
+    "journalAbbrev": "BMJ Open Qual",
+    "year": 2025,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "41618411",
     "doi": "10.1186/s13643-026-03088-y",
     "title": "Does the use of National Early Warning Scores (NEWS or NEWS2) in healthcare settings improve patient outcomes: a systematic review.",
@@ -3189,6 +3474,43 @@
     "language": "eng"
   },
   {
+    "pmid": "42096723",
+    "doi": "10.1016/j.ijnurstu.2026.104812",
+    "title": "Missed nursing care in community-based settings: a scoping review of determinants and consequences.",
+    "journal": "International journal of nursing studies",
+    "journalAbbrev": "Int J Nurs Stud",
+    "year": 2026,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "42225499",
+    "doi": "10.1016/j.jos.2026.05.002",
+    "title": "Perioperative hyponatremia and the risk of balance-function deterioration during rehabilitation after cephalomedullary nailing for hip fracture in older adults: A retrospective cohort study.",
+    "journal": "Journal of orthopaedic science",
+    "journalAbbrev": "J Orthop Sci",
+    "year": 2026,
+    "authors": [
+      "Sun",
+      "Li",
+      "Zhang",
+      "Chen",
+      "Jiang"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "42338059",
     "doi": "10.1002/nop2.70655",
     "title": "Shift Transition Communication Among Nurses: A Systematic Review of ISBAR and SBAR-Based Structured Handover Tools.",
@@ -3210,6 +3532,22 @@
       "Journal Article",
       "Systematic Review",
       "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "42494114",
+    "doi": "10.1177/23779608261102345",
+    "title": "Nursing care rationing and its determinants in Polish hospitals: a cross-sectional study using the BERNCA-R scale.",
+    "journal": "SAGE open nursing",
+    "journalAbbrev": "SAGE Open Nurs",
+    "year": 2026,
+    "authors": [
+      "Author"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
     ],
     "language": "eng"
   }

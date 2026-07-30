@@ -1,6 +1,6 @@
-# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282/SF-283/SF-283b/SF-284/SF-285)
+# SafeFlow evidence corpus — architecture, schema and safety boundary (SF-282/SF-283/SF-283b/SF-284/SF-285/SF-287)
 
-Status: architecture decided, extraction pipeline built and quality-filtered, 109 records ingested,
+Status: architecture decided, extraction pipeline built and quality-filtered, 127 records ingested,
 consolidated and cue-linked across all four disciplines, query layer built and tested. Still
 bibliographic only — no SafeFlow summaries yet, so nothing is citable in a stakeholder document (see Status and next
 steps). Simulation-only prototype. Fictional patients only. Not for clinical use.
@@ -222,19 +222,61 @@ can never silently wipe out cue links.
 now, because none has a `safeflowSummary` yet — `evidenceCorpus.test.js` asserts the citable count
 is exactly zero today, deliberately, so that the day someone writes the first summary this test
 starts failing and forces a conscious decision rather than letting citability drift in unnoticed.
+(SF-286, dispatched to Oli's Codex, will be the first thing to make that assertion fail — on
+purpose, updating it to expect 15 — see that PR when it lands.)
+
+**Built (SF-287, wave 4): the first already-live-cue-type gap closed, not a reserved one.**
+Everything ingested through SF-285 either supported a `heuristicCueEngine.js` signal already
+wired into the running app, or was deliberately reserved for a cue type the app has not built a
+panel for yet. That created a quieter gap: three cue types the app *already ships and surfaces to
+a user today* — `electrolyte-review`, `discharge`, `documentation` — had **zero** evidence records
+behind them. This wave closed all three. 18 records ingested: `electrolyte-review` (3 — a
+JBDS/Diabetes UK inpatient DKA-management guideline explicitly covering hypokalaemia recognition
+and correction, a systematic review of hyponatraemia diagnostic pathways and correction-failure
+management, and a perioperative-hyponatraemia/rehabilitation-deterioration cohort study in older
+hip-fracture patients), `discharge` (8 — UK and international audits of discharge-summary and
+discharge-documentation quality, medication-reconciliation-at-discharge studies including an
+England CCG audit and a Norwegian hip-fracture-medication-compliance audit, and two LLM-generated
+vs clinician-written discharge-summary comparison studies), and `documentation` (7 — missed-nursing-
+care national/scoping-review evidence including a Danish national survey and a BERNCA-R Polish
+cross-sectional study, plus documentation-completeness studies in ICU EMR quality-control and
+in-hospital resuscitation charting). Corpus now stands at **127**. Eight further candidates were
+fetched but manually excluded before ingestion rather than silently dropped — logged with reasons
+in `scripts/evidence/wave4-manual-exclusions.json` (an off-topic heart-failure-registry study using
+hyponatraemia only as a covariate, a paediatric case, a single oncology-drug case report, an
+abbreviation-comprehension QI project too tangential to discharge safety, a paediatric I-PASS
+handover study, a surgical-safety-checklist QI project judged different cue territory from nursing
+documentation, a prehospital-paramedic safety study in the wrong care setting, and a health-IT/EHR
+barriers qualitative study too tangential to documentation practice itself). All 14 structural
+boundary tests in `evidenceCorpus.test.js` passed unmodified against the new data, same as SF-285.
+
+**A pipeline bug found and fixed during this wave, not by this wave's own data:**
+`scripts/evidence/consolidate.mjs` discovers record files by pattern-matching `wave*.json` and
+excluding anything ending `-excluded.json` — but `wave3-manual-exclusions.json` (SF-285's own
+manually-logged exclusions, added the previous wave) does *not* end in `-excluded.json`, so it was
+silently being loaded as if it were 13 more licence-safe records. This went unnoticed at the time
+because SF-285 never re-ran `consolidate.mjs` after adding that file. It surfaced this wave as an
+unexplained jump from the expected 127 to 140 records on the first consolidation run. Fixed by
+excluding any filename containing `exclu` rather than one exact suffix, re-verified back to the
+correct 127, and re-confirmed stable after adding `wave4-manual-exclusions.json` itself (same
+naming pattern, now correctly excluded). Worth flagging as a general lesson for this pipeline:
+a plausible-looking record count is not the same as a correct one — the fix was only found by
+knowing what the count *should* have been and treating the mismatch as a bug to chase, not a
+detail to shrug off.
 
 Outstanding:
 
-1. Further scale-up toward hundreds — 109 (three combined waves) has just crossed the low end of
-   the stated target and is not yet the target size. Remaining known gaps after SF-285: the corpus
-   still has no medical-discipline coverage beyond sepsis/frailty/delirium/AKI (e.g. acute
+1. Further scale-up toward hundreds — 127 (four combined waves) is past the low end of the stated
+   target and still growing. Remaining known gaps after SF-287: the corpus still has no
+   medical-discipline coverage beyond sepsis/frailty/delirium/AKI/electrolytes (e.g. acute
    confusional states outside delirium screening tools, VTE/anticoagulation-specific scenarios
-   beyond the medication-safety bucket), and each new topical bucket so far has been sized to "a
-   handful of strong records," not exhaustively searched — later waves could still deepen existing
-   buckets rather than only opening new ones.
+   beyond the medication-safety bucket), and most topical buckets are sized to "a handful of strong
+   records," not exhaustively searched — later waves could still deepen existing buckets rather
+   than only opening new ones.
 2. SafeFlow-written summaries, each carrying an explicit verification level. No record currently
    has a `safeflowSummary` or `verification` above `metadata-only` — the corpus is bibliographic
-   only until this is done, and must not be presented as more than that in the interim.
+   only until this is done, and must not be presented as more than that in the interim. SF-286
+   (in progress, dispatched to Oli's Codex) is the first 15 of these, one per active cue type.
 3. UI wiring — nothing in the app currently calls `getEvidenceForCue()` yet. The query layer exists
    and is tested; no cue panel displays its results. That is a deliberate, separate next step, not
    an oversight — showing unsummarised bibliographic citations next to a teaching cue before

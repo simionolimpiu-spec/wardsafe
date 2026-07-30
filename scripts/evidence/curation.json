@@ -268,6 +268,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "32419933": {
+    "cueTypes": [
+      "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "32902637": {
     "cueTypes": [
       "falls-mobility"
@@ -398,6 +405,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "35224769": {
+    "cueTypes": [
+      "electrolyte-review"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "35776738": {
     "cueTypes": [
       "sepsis-screen"
@@ -415,6 +429,13 @@
   "36355032": {
     "cueTypes": [
       "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36379642": {
+    "cueTypes": [
+      "discharge"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -529,6 +550,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "38180801": {
+    "cueTypes": [
+      "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "38309229": {
     "cueTypes": [
       "malnutrition-screening"
@@ -578,10 +606,24 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "39026330": {
+    "cueTypes": [
+      "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "39116825": {
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39205745": {
+    "cueTypes": [
+      "discharge"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -617,6 +659,13 @@
   "39737368": {
     "cueTypes": [
       "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39836954": {
+    "cueTypes": [
+      "discharge"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -666,6 +715,20 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "40275787": {
+    "cueTypes": [
+      "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40323616": {
+    "cueTypes": [
+      "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "40425395": {
     "cueTypes": [
       "frailty-assessment"
@@ -676,6 +739,13 @@
   "40576643": {
     "cueTypes": [
       "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40775944": {
+    "cueTypes": [
+      "documentation"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -737,6 +807,41 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41261337": {
+    "cueTypes": [
+      "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41356955": {
+    "cueTypes": [
+      "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41357015": {
+    "cueTypes": [
+      "electrolyte-review"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41441343": {
+    "cueTypes": [
+      "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41446475": {
+    "cueTypes": [
+      "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "41618411": {
     "cueTypes": [
       "deteriorating-obs",
@@ -780,9 +885,30 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "42096723": {
+    "cueTypes": [
+      "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42225499": {
+    "cueTypes": [
+      "electrolyte-review"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "42338059": {
     "cueTypes": [
       "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42494114": {
+    "cueTypes": [
+      "documentation"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
