@@ -8,10 +8,24 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "12414468": {
+    "cueTypes": [
+      "bias-awareness"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "12544057": {
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "12915363": {
+    "cueTypes": [
+      "bias-awareness"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -66,6 +80,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "23802513": {
+    "cueTypes": [
+      "bias-awareness"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "24145589": {
     "cueTypes": [
       "medication-safety"
@@ -81,9 +102,23 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "25710312": {
+    "cueTypes": [
+      "pearls-debrief"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "25990249": {
     "cueTypes": [
       "nurse-intuition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "26294709": {
+    "cueTypes": [
+      "safety-ii"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -148,6 +183,13 @@
   "28239173": {
     "cueTypes": [
       "aki-recognition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28272591": {
+    "cueTypes": [
+      "family-concern"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -245,6 +287,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "30928243": {
+    "cueTypes": [
+      "family-concern"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "31021360": {
     "cueTypes": [
       "malnutrition-screening"
@@ -255,6 +304,13 @@
   "31116760": {
     "cueTypes": [
       "abdominal-pain"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31135684": {
+    "cueTypes": [
+      "pearls-debrief"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -284,6 +340,20 @@
   "31633738": {
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31698289": {
+    "cueTypes": [
+      "pace-ladder"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31745509": {
+    "cueTypes": [
+      "safety-ii"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -440,6 +510,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "34888450": {
+    "cueTypes": [
+      "family-concern"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "35045340": {
     "cueTypes": [
       "sepsis-screen"
@@ -464,6 +541,13 @@
   "35224769": {
     "cueTypes": [
       "electrolyte-review"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "35238154": {
+    "cueTypes": [
+      "family-concern"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -506,6 +590,13 @@
   "36379642": {
     "cueTypes": [
       "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36473743": {
+    "cueTypes": [
+      "family-concern"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -690,6 +781,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "38832236": {
+    "cueTypes": [
+      "new-to-service"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "39026330": {
     "cueTypes": [
       "documentation"
@@ -708,6 +806,13 @@
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39180439": {
+    "cueTypes": [
+      "new-to-service"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -743,6 +848,20 @@
   "39649111": {
     "cueTypes": [
       "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39696521": {
+    "cueTypes": [
+      "pearls-debrief"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39732664": {
+    "cueTypes": [
+      "pace-ladder"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -809,6 +928,13 @@
   "40198074": {
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40229754": {
+    "cueTypes": [
+      "safety-ii"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1091,6 +1217,20 @@
   "41966040": {
     "cueTypes": [
       "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42011540": {
+    "cueTypes": [
+      "new-to-service"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42014213": {
+    "cueTypes": [
+      "pace-ladder"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null

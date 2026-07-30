@@ -47,6 +47,31 @@
     "language": null
   },
   {
+    "pmid": "12414468",
+    "doi": "10.1111/j.1553-2712.2002.tb01574.x",
+    "title": "Achieving quality in clinical decision making: cognitive strategies and detection of bias.",
+    "journal": "Academic emergency medicine : official journal of the Society for Academic Emergency Medicine",
+    "journalAbbrev": "Acad Emerg Med",
+    "year": 2002,
+    "authors": [
+      "Croskerry"
+    ],
+    "meshTerms": [
+      "Decision Making",
+      "Emergency Medical Services",
+      "Emergency Service, Hospital",
+      "Humans",
+      "Judgment",
+      "Pattern Recognition, Automated",
+      "Quality of Health Care"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "12544057",
     "doi": "10.1097/00000446-200301000-00020",
     "title": "Failure to rescue.",
@@ -72,6 +97,30 @@
     ],
     "articleTypes": [
       "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "12915363",
+    "doi": "10.1097/00001888-200308000-00003",
+    "title": "The importance of cognitive errors in diagnosis and strategies to minimize them.",
+    "journal": "Academic medicine : journal of the Association of American Medical Colleges",
+    "journalAbbrev": "Acad Med",
+    "year": 2003,
+    "authors": [
+      "Croskerry"
+    ],
+    "meshTerms": [
+      "Cognition",
+      "Decision Support Techniques",
+      "Diagnostic Errors",
+      "Humans"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't",
+      "Research Support, U.S. Gov't, P.H.S.",
+      "Review"
     ],
     "language": "eng"
   },
@@ -311,6 +360,30 @@
     "language": "eng"
   },
   {
+    "pmid": "23802513",
+    "doi": "10.1056/NEJMp1303712",
+    "title": "From mindless to mindful practice--cognitive bias and clinical decision making.",
+    "journal": "The New England journal of medicine",
+    "journalAbbrev": "N Engl J Med",
+    "year": 2013,
+    "authors": [
+      "Croskerry"
+    ],
+    "meshTerms": [
+      "Cognition",
+      "Decision Making",
+      "Diagnosis, Differential",
+      "Diagnostic Errors",
+      "Humans",
+      "Prejudice",
+      "Thinking"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "24145589",
     "doi": "10.3810/hp.2013.10.1080",
     "title": "Elderly patients with type 2 diabetes mellitus-the need for high-quality, inpatient diabetes care.",
@@ -379,6 +452,33 @@
     "language": null
   },
   {
+    "pmid": "25710312",
+    "doi": "10.1097/SIH.0000000000000072",
+    "title": "Promoting Excellence and Reflective Learning in Simulation (PEARLS): development and rationale for a blended approach to health care simulation debriefing.",
+    "journal": "Simulation in healthcare : journal of the Society for Simulation in Healthcare",
+    "journalAbbrev": "Simul Healthc",
+    "year": 2015,
+    "authors": [
+      "Eppich",
+      "Cheng"
+    ],
+    "meshTerms": [
+      "Clinical Competence",
+      "Education, Medical",
+      "Educational Measurement",
+      "Formative Feedback",
+      "Humans",
+      "Learning",
+      "Patient Simulation",
+      "Simulation Training"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "25990249",
     "doi": "10.1186/s13054-015-0950-5",
     "title": "Nurses' worry or concern and early recognition of deteriorating patients on general wards in acute care hospitals: a systematic review.",
@@ -410,6 +510,30 @@
     "articleTypes": [
       "Journal Article",
       "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "26294709",
+    "doi": "10.1093/intqhc/mzv063",
+    "title": "Resilient health care: turning patient safety on its head.",
+    "journal": "International journal for quality in health care : journal of the International Society for Quality in Health Care",
+    "journalAbbrev": "Int J Qual Health Care",
+    "year": 2015,
+    "authors": [
+      "Braithwaite",
+      "Wears",
+      "Hollnagel"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Medical Errors",
+      "Patient Safety",
+      "Quality of Health Care",
+      "Safety Management"
+    ],
+    "articleTypes": [
+      "Journal Article"
     ],
     "language": "eng"
   },
@@ -677,6 +801,37 @@
       "Consensus Statement",
       "Journal Article",
       "Practice Guideline"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "28272591",
+    "doi": "10.12788/jhm.2697",
+    "title": "Condition Help: A Patient- and Family-Initiated Rapid Response System.",
+    "journal": "Journal of hospital medicine",
+    "journalAbbrev": "J Hosp Med",
+    "year": 2017,
+    "authors": [
+      "Eden",
+      "Rack",
+      "Chen",
+      "Bump"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Family",
+      "Female",
+      "Hospital Rapid Response Team",
+      "Humans",
+      "Male",
+      "Medical Errors",
+      "Middle Aged",
+      "Patient Safety",
+      "Professional-Patient Relations"
+    ],
+    "articleTypes": [
+      "Journal Article"
     ],
     "language": "eng"
   },
@@ -1120,6 +1275,45 @@
     "language": "eng"
   },
   {
+    "pmid": "30928243",
+    "doi": "10.1016/j.aucc.2019.01.002",
+    "title": "Evaluation of a patient and family activated escalation system: Ryan's Rule.",
+    "journal": "Australian critical care : official journal of the Confederation of Australian Critical Care Nurses",
+    "journalAbbrev": "Aust Crit Care",
+    "year": 2019,
+    "authors": [
+      "Dwyer",
+      "Flenady",
+      "Kahl",
+      "Quinney"
+    ],
+    "meshTerms": [
+      "Adolescent",
+      "Adult",
+      "Aged",
+      "Aged, 80 and over",
+      "Child",
+      "Child, Preschool",
+      "Clinical Deterioration",
+      "Female",
+      "Hospital Rapid Response Team",
+      "Humans",
+      "Infant",
+      "Infant, Newborn",
+      "Male",
+      "Middle Aged",
+      "Patient Safety",
+      "Quality Assurance, Health Care",
+      "Queensland",
+      "Retrospective Studies"
+    ],
+    "articleTypes": [
+      "Evaluation Study",
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "31021360",
     "doi": "10.1007/s12603-019-1176-z",
     "title": "Malnutrition Screening and Assessment in Hospitalised Older People: a Review.",
@@ -1180,6 +1374,37 @@
       "Tertiary Care Centers",
       "Wounds and Injuries",
       "Young Adult"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "31135684",
+    "doi": "10.1097/SIH.0000000000000381",
+    "title": "PEARLS for Systems Integration: A Modified PEARLS Framework for Debriefing Systems-Focused Simulations.",
+    "journal": "Simulation in healthcare : journal of the Society for Simulation in Healthcare",
+    "journalAbbrev": "Simul Healthc",
+    "year": 2019,
+    "authors": [
+      "Dube",
+      "Reid",
+      "Kaba",
+      "Cheng",
+      "Eppich",
+      "Grant",
+      "Stone"
+    ],
+    "meshTerms": [
+      "Clinical Competence",
+      "Educational Measurement",
+      "Formative Feedback",
+      "Humans",
+      "Patient Safety",
+      "Quality Improvement",
+      "Simulation Training",
+      "Systems Integration"
     ],
     "articleTypes": [
       "Journal Article"
@@ -1313,6 +1538,62 @@
       "Research Support, Non-U.S. Gov't"
     ],
     "language": null
+  },
+  {
+    "pmid": "31698289",
+    "doi": "10.1016/j.nedt.2019.104252",
+    "title": "'Speaking up for safety': A graded assertiveness intervention for first year nursing students in preparation for clinical placement: Thematic analysis.",
+    "journal": "Nurse education today",
+    "journalAbbrev": "Nurse Educ Today",
+    "year": 2019,
+    "authors": [
+      "Hanson",
+      "Walsh",
+      "Mason",
+      "Wadsworth",
+      "Framp",
+      "Watson"
+    ],
+    "meshTerms": [
+      "Assertiveness",
+      "Curriculum",
+      "Education, Nursing, Baccalaureate",
+      "Faculty, Nursing",
+      "Female",
+      "Humans",
+      "Interviews as Topic",
+      "Male",
+      "Midwifery",
+      "Obstetric Nursing",
+      "Patient Safety",
+      "Queensland",
+      "Students, Nursing",
+      "Surveys and Questionnaires",
+      "Young Adult"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "31745509",
+    "doi": "10.1097/pq9.0000000000000206",
+    "title": "Impact of Positive Feedback on Antimicrobial Stewardship in a Pediatric Intensive Care Unit: A Quality Improvement Project.",
+    "journal": "Pediatric quality & safety",
+    "journalAbbrev": "Pediatr Qual Saf",
+    "year": 2019,
+    "authors": [
+      "Jones",
+      "Isaac",
+      "Price",
+      "Plunkett"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
   },
   {
     "pmid": "31882232",
@@ -1880,6 +2161,27 @@
     "language": "eng"
   },
   {
+    "pmid": "34888450",
+    "doi": "10.7861/fhj.2021-0134",
+    "title": "When patients (and families) raise the alarm: Patient and family activated rapid response as a safety strategy for hospitals.",
+    "journal": "Future healthcare journal",
+    "journalAbbrev": "Future Healthc J",
+    "year": 2021,
+    "authors": [
+      "Bucknall",
+      "Quinney",
+      "Booth",
+      "McKinney",
+      "Subbe",
+      "Odell"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "35045340",
     "doi": "10.1016/j.jhin.2022.01.004",
     "title": "Impact of sepsis education for healthcare professionals and students on learning and patient outcomes: a systematic review.",
@@ -1973,6 +2275,30 @@
     "articleTypes": [
       "Journal Article",
       "Practice Guideline"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "35238154",
+    "doi": "10.1111/ans.17584",
+    "title": "Can you hear me? Analysis of a Queensland patient-initiated escalation process and the importance of communication in surgical care.",
+    "journal": "ANZ journal of surgery",
+    "journalAbbrev": "ANZ J Surg",
+    "year": 2022,
+    "authors": [
+      "Flynn",
+      "Flynn",
+      "Gifford",
+      "Smith"
+    ],
+    "meshTerms": [
+      "Communication",
+      "Humans",
+      "Queensland",
+      "Retrospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article"
     ],
     "language": "eng"
   },
@@ -2113,6 +2439,33 @@
     ],
     "articleTypes": [
       "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "36473743",
+    "doi": "10.1016/j.iccn.2022.103363",
+    "title": "Paediatric family activated rapid response interventions; qualitative systematic review.",
+    "journal": "Intensive & critical care nursing",
+    "journalAbbrev": "Intensive Crit Care Nurs",
+    "year": 2022,
+    "authors": [
+      "Cresham Fox",
+      "Taylor",
+      "Marufu",
+      "Hendron",
+      "Manning"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Child",
+      "Health Personnel",
+      "Delivery of Health Care",
+      "Family"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
     ],
     "language": "eng"
   },
@@ -2828,6 +3181,26 @@
     "language": "eng"
   },
   {
+    "pmid": "38832236",
+    "doi": "10.1016/j.ijnsa.2024.100195",
+    "title": "Transitioning experiences of internationally educated nurses in host countries: A narrative systematic review.",
+    "journal": "International journal of nursing studies advances",
+    "journalAbbrev": "Int J Nurs Stud Adv",
+    "year": 2024,
+    "authors": [
+      "Rajpoot",
+      "Merriman",
+      "Rafferty",
+      "Henshall"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
     "pmid": "39026330",
     "doi": "10.1186/s12912-024-01987-3",
     "title": "Development and evaluation of an ICU electronic medical record quality control system in a Chinese tertiary hospital.",
@@ -2917,6 +3290,34 @@
     "articleTypes": [
       "Journal Article",
       "Research Support, U.S. Gov't, Non-P.H.S."
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39180439",
+    "doi": "10.1111/inr.13038",
+    "title": "The impact of bridging education programs on internationally educated nurses becoming registered nurses in high-income countries: A mixed-methods systematic review.",
+    "journal": "International nursing review",
+    "journalAbbrev": "Int Nurs Rev",
+    "year": 2024,
+    "authors": [
+      "Cubelo",
+      "Parviainen",
+      "Kohanova"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Nurses, International",
+      "Developed Countries",
+      "Female",
+      "Adult",
+      "Male",
+      "Middle Aged",
+      "Developing Countries"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
     ],
     "language": "eng"
   },
@@ -3063,6 +3464,55 @@
     ],
     "articleTypes": [
       "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39696521",
+    "doi": "10.1186/s41077-024-00320-4",
+    "title": "PEARLS debriefing for social justice and equity: integrating health advocacy in simulation-based education.",
+    "journal": "Advances in simulation (London, England)",
+    "journalAbbrev": "Adv Simul (Lond)",
+    "year": 2024,
+    "authors": [
+      "Soilis",
+      "Kinsella",
+      "Eppich",
+      "Cheng",
+      "Beavers",
+      "Bhanji"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39732664",
+    "doi": "10.1186/s12913-024-12138-x",
+    "title": "Classification of influencing factors of speaking-up behaviour in hospitals: a systematic review.",
+    "journal": "BMC health services research",
+    "journalAbbrev": "BMC Health Serv Res",
+    "year": 2024,
+    "authors": [
+      "van Dongen",
+      "Guldenmund",
+      "Grossmann",
+      "Groeneweg"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Safety",
+      "Hospitals",
+      "Communication",
+      "Health Personnel",
+      "Quality of Health Care",
+      "Attitude of Health Personnel"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
     ],
     "language": "eng"
   },
@@ -3314,6 +3764,33 @@
       "Journal Article",
       "Randomized Controlled Trial",
       "Multicenter Study"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40229754",
+    "doi": "10.1186/s12913-025-12680-2",
+    "title": "Strategies and tools to learn from work that goes well within healthcare patient safety practices: a mixed methods systematic review.",
+    "journal": "BMC health services research",
+    "journalAbbrev": "BMC Health Serv Res",
+    "year": 2025,
+    "authors": [
+      "Birkeli",
+      "Lindahl",
+      "Hammersboen",
+      "Deilkas",
+      "Ballangrud"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Safety",
+      "Health Personnel",
+      "Learning",
+      "Safety Management"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
     ],
     "language": "eng"
   },
@@ -4386,6 +4863,56 @@
     ],
     "articleTypes": [
       "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "42011540",
+    "doi": "10.1155/jonm/7378466",
+    "title": "Wraparound Supports: The Key to the Transition and Integration of Internationally Educated Registered Nurses in Rural Alberta, Canada.",
+    "journal": "Journal of nursing management",
+    "journalAbbrev": "J Nurs Manag",
+    "year": 2026,
+    "authors": [
+      "Sedgwick",
+      "Kelley"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Alberta",
+      "Qualitative Research",
+      "Nurses, International",
+      "Rural Health Services",
+      "Interviews as Topic",
+      "Nurses",
+      "Social Support"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "42014213",
+    "doi": "10.1016/j.siny.2026.101738",
+    "title": "Psychological safety in healthcare - helping everyone to speak up.",
+    "journal": "Seminars in fetal & neonatal medicine",
+    "journalAbbrev": "Semin Fetal Neonatal Med",
+    "year": 2026,
+    "authors": [
+      "Patole"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Psychological Safety",
+      "Whistleblowing",
+      "Leadership",
+      "Patient Care Team",
+      "Organizational Culture"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
     ],
     "language": "eng"
   },

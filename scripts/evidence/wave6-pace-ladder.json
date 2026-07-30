@@ -1,0 +1,38 @@
+[
+  {
+    "pmid": "31698289",
+    "doi": "10.1016/j.nedt.2019.104252",
+    "title": "'Speaking up for safety': A graded assertiveness intervention for first year nursing students in preparation for clinical placement: Thematic analysis.",
+    "journal": "Nurse education today",
+    "journalAbbrev": "Nurse Educ Today",
+    "year": 2019,
+    "authors": ["Hanson", "Walsh", "Mason", "Wadsworth", "Framp", "Watson"],
+    "meshTerms": ["Assertiveness", "Curriculum", "Education, Nursing, Baccalaureate", "Faculty, Nursing", "Female", "Humans", "Interviews as Topic", "Male", "Midwifery", "Obstetric Nursing", "Patient Safety", "Queensland", "Students, Nursing", "Surveys and Questionnaires", "Young Adult"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "39732664",
+    "doi": "10.1186/s12913-024-12138-x",
+    "title": "Classification of influencing factors of speaking-up behaviour in hospitals: a systematic review.",
+    "journal": "BMC health services research",
+    "journalAbbrev": "BMC Health Serv Res",
+    "year": 2024,
+    "authors": ["van Dongen", "Guldenmund", "Grossmann", "Groeneweg"],
+    "meshTerms": ["Humans", "Patient Safety", "Hospitals", "Communication", "Health Personnel", "Quality of Health Care", "Attitude of Health Personnel"],
+    "articleTypes": ["Journal Article", "Systematic Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42014213",
+    "doi": "10.1016/j.siny.2026.101738",
+    "title": "Psychological safety in healthcare - helping everyone to speak up.",
+    "journal": "Seminars in fetal & neonatal medicine",
+    "journalAbbrev": "Semin Fetal Neonatal Med",
+    "year": 2026,
+    "authors": ["Patole"],
+    "meshTerms": ["Humans", "Psychological Safety", "Whistleblowing", "Leadership", "Patient Care Team", "Organizational Culture"],
+    "articleTypes": ["Journal Article", "Review"],
+    "language": "eng"
+  }
+]

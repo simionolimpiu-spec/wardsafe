@@ -1,0 +1,38 @@
+[
+  {
+    "pmid": "38832236",
+    "doi": "10.1016/j.ijnsa.2024.100195",
+    "title": "Transitioning experiences of internationally educated nurses in host countries: A narrative systematic review.",
+    "journal": "International journal of nursing studies advances",
+    "journalAbbrev": "Int J Nurs Stud Adv",
+    "year": 2024,
+    "authors": ["Rajpoot", "Merriman", "Rafferty", "Henshall"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article", "Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42011540",
+    "doi": "10.1155/jonm/7378466",
+    "title": "Wraparound Supports: The Key to the Transition and Integration of Internationally Educated Registered Nurses in Rural Alberta, Canada.",
+    "journal": "Journal of nursing management",
+    "journalAbbrev": "J Nurs Manag",
+    "year": 2026,
+    "authors": ["Sedgwick", "Kelley"],
+    "meshTerms": ["Humans", "Alberta", "Qualitative Research", "Nurses, International", "Rural Health Services", "Interviews as Topic", "Nurses", "Social Support"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "39180439",
+    "doi": "10.1111/inr.13038",
+    "title": "The impact of bridging education programs on internationally educated nurses becoming registered nurses in high-income countries: A mixed-methods systematic review.",
+    "journal": "International nursing review",
+    "journalAbbrev": "Int Nurs Rev",
+    "year": 2024,
+    "authors": ["Cubelo", "Parviainen", "Kohanova"],
+    "meshTerms": ["Humans", "Nurses, International", "Developed Countries", "Female", "Adult", "Male", "Middle Aged", "Developing Countries"],
+    "articleTypes": ["Journal Article", "Systematic Review"],
+    "language": "eng"
+  }
+]
