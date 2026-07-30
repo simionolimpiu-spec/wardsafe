@@ -141,6 +141,36 @@ const BUCKETS = {
   cellulitisSsti: {
     cueTypes: ['cellulitis-ssti'],
     pmids: ['39032563', '31528278', '42102539', '41938482']
+  },
+  // SF-290 (wave 6) - closes the 6-cue-type gap SF-289 found and documented:
+  // built-in-app cue types (scenarioLibrary.js panels, all builtInApp:true)
+  // that had zero linked evidence records. Each cue's existing `evidence:`
+  // string in scenarioLibrary.js already named specific sources - this wave
+  // verifies and links those exact sources (plus supporting literature)
+  // rather than searching cold.
+  newToService: {
+    cueTypes: ['new-to-service'],
+    pmids: ['38832236', '42011540', '39180439']
+  },
+  biasAwareness: {
+    cueTypes: ['bias-awareness'],
+    pmids: ['12915363', '23802513', '12414468']
+  },
+  pearlsDebrief: {
+    cueTypes: ['pearls-debrief'],
+    pmids: ['25710312', '31135684', '39696521']
+  },
+  paceLadder: {
+    cueTypes: ['pace-ladder'],
+    pmids: ['31698289', '39732664', '42014213']
+  },
+  safetyTwo: {
+    cueTypes: ['safety-ii'],
+    pmids: ['26294709', '31745509', '40229754']
+  },
+  familyConcern: {
+    cueTypes: ['family-concern'],
+    pmids: ['36473743', '34888450', '28272591', '35238154', '30928243']
   }
 };
 

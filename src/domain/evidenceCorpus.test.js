@@ -105,14 +105,14 @@ describe('evidence corpus content — curation integrity', () => {
     // This count is EXPECTED to grow every time a safeflowSummary is added.
     // The point of asserting an exact number (not just >0) is to force a
     // conscious update here rather than letting citability drift in unnoticed.
-    // SF-286 (first wave, self-authored): 8 SafeFlow-voice summaries covering
+    // SF-289 (first wave, self-authored): 8 SafeFlow-voice summaries covering
     // 9 built-in-app cue types (deteriorating-obs and score-comparison share
     // one record; escalation/deteriorating-obs/staffing-context share another;
     // sepsis-screen/staffing-context share a third). The remaining 6 built-in
     // cue types (new-to-service, bias-awareness, pearls-debrief, pace-ladder,
-    // safety-ii, family-concern) have no linked evidence records yet — no
-    // ingestion wave has searched for supporting literature for those
-    // scenario-library pedagogical frameworks.
+    // safety-ii, family-concern) now have linked evidence records (SF-290,
+    // wave 6) but none has a safeflowSummary yet, so the citable count stays
+    // at 8 — writing summaries for those 6 is separate future work.
     const citableCount = evidenceCorpus.filter(isCitable).length;
     expect(citableCount).toBe(8);
   });

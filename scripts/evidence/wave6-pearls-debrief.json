@@ -1,0 +1,38 @@
+[
+  {
+    "pmid": "25710312",
+    "doi": "10.1097/SIH.0000000000000072",
+    "title": "Promoting Excellence and Reflective Learning in Simulation (PEARLS): development and rationale for a blended approach to health care simulation debriefing.",
+    "journal": "Simulation in healthcare : journal of the Society for Simulation in Healthcare",
+    "journalAbbrev": "Simul Healthc",
+    "year": 2015,
+    "authors": ["Eppich", "Cheng"],
+    "meshTerms": ["Clinical Competence", "Education, Medical", "Educational Measurement", "Formative Feedback", "Humans", "Learning", "Patient Simulation", "Simulation Training"],
+    "articleTypes": ["Journal Article", "Research Support, Non-U.S. Gov't"],
+    "language": "eng"
+  },
+  {
+    "pmid": "31135684",
+    "doi": "10.1097/SIH.0000000000000381",
+    "title": "PEARLS for Systems Integration: A Modified PEARLS Framework for Debriefing Systems-Focused Simulations.",
+    "journal": "Simulation in healthcare : journal of the Society for Simulation in Healthcare",
+    "journalAbbrev": "Simul Healthc",
+    "year": 2019,
+    "authors": ["Dube", "Reid", "Kaba", "Cheng", "Eppich", "Grant", "Stone"],
+    "meshTerms": ["Clinical Competence", "Educational Measurement", "Formative Feedback", "Humans", "Patient Safety", "Quality Improvement", "Simulation Training", "Systems Integration"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "39696521",
+    "doi": "10.1186/s41077-024-00320-4",
+    "title": "PEARLS debriefing for social justice and equity: integrating health advocacy in simulation-based education.",
+    "journal": "Advances in simulation (London, England)",
+    "journalAbbrev": "Adv Simul (Lond)",
+    "year": 2024,
+    "authors": ["Soilis", "Kinsella", "Eppich", "Cheng", "Beavers", "Bhanji"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]

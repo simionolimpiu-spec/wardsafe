@@ -8,10 +8,24 @@
     "verification": "abstract-read",
     "safeflowSummary": "This landmark US hospital study linked higher patient-to-nurse ratios to higher risk-adjusted 30-day mortality and a higher rate of failure-to-rescue - death following a complication that might have been caught and escalated in time. Each additional patient per nurse also raised the odds of nurse burnout and job dissatisfaction, outcomes that plausibly feed back into how reliably deterioration gets noticed and escalated. SafeFlow references this study to ground the idea that safe escalation and staffing levels are linked, not purely a matter of individual vigilance."
   },
+  "12414468": {
+    "cueTypes": [
+      "bias-awareness"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "12544057": {
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "12915363": {
+    "cueTypes": [
+      "bias-awareness"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -66,6 +80,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "23802513": {
+    "cueTypes": [
+      "bias-awareness"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "24145589": {
     "cueTypes": [
       "medication-safety"
@@ -81,9 +102,23 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "25710312": {
+    "cueTypes": [
+      "pearls-debrief"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "25990249": {
     "cueTypes": [
       "nurse-intuition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "26294709": {
+    "cueTypes": [
+      "safety-ii"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -148,6 +183,13 @@
   "28239173": {
     "cueTypes": [
       "aki-recognition"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28272591": {
+    "cueTypes": [
+      "family-concern"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -245,6 +287,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "30928243": {
+    "cueTypes": [
+      "family-concern"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "31021360": {
     "cueTypes": [
       "malnutrition-screening"
@@ -255,6 +304,13 @@
   "31116760": {
     "cueTypes": [
       "abdominal-pain"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31135684": {
+    "cueTypes": [
+      "pearls-debrief"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -284,6 +340,20 @@
   "31633738": {
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31698289": {
+    "cueTypes": [
+      "pace-ladder"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31745509": {
+    "cueTypes": [
+      "safety-ii"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -440,6 +510,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "34888450": {
+    "cueTypes": [
+      "family-concern"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "35045340": {
     "cueTypes": [
       "sepsis-screen"
@@ -467,6 +544,13 @@
     ],
     "verification": "abstract-read",
     "safeflowSummary": "This updated Joint British Diabetes Societies guideline on adult diabetic ketoacidosis management highlights the high prevalence of hypoglycaemia and hypokalaemia seen with the previous protocol, and now recommends slowing the insulin infusion rate once glucose falls below 14 mmol/L. It also flags the newer risk of euglycaemic ketoacidosis in patients on SGLT2 inhibitors, a presentation that is easy to miss because blood glucose can look reassuring. SafeFlow's electrolyte-review cue points to this guideline because potassium and glucose trends in DKA management are a recurring source of harm that structured review can catch early."
+  },
+  "35238154": {
+    "cueTypes": [
+      "family-concern"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
   },
   "35746992": {
     "cueTypes": [
@@ -506,6 +590,13 @@
   "36379642": {
     "cueTypes": [
       "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36473743": {
+    "cueTypes": [
+      "family-concern"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -690,6 +781,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "38832236": {
+    "cueTypes": [
+      "new-to-service"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "39026330": {
     "cueTypes": [
       "documentation"
@@ -708,6 +806,13 @@
     "cueTypes": [
       "escalation",
       "deteriorating-obs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39180439": {
+    "cueTypes": [
+      "new-to-service"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -743,6 +848,20 @@
   "39649111": {
     "cueTypes": [
       "functional-decline"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39696521": {
+    "cueTypes": [
+      "pearls-debrief"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39732664": {
+    "cueTypes": [
+      "pace-ladder"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -809,6 +928,13 @@
   "40198074": {
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40229754": {
+    "cueTypes": [
+      "safety-ii"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1091,6 +1217,20 @@
   "41966040": {
     "cueTypes": [
       "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42011540": {
+    "cueTypes": [
+      "new-to-service"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42014213": {
+    "cueTypes": [
+      "pace-ladder"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
