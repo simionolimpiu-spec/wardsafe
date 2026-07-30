@@ -12,16 +12,16 @@
  * (Aiken 2002, Ward 2018, Lasater 2020) - these are known by PMID, not
  * inferred.
  *
- * verification stays 'metadata-only' for every record here. Reading an
- * abstract to judge topical relevance during ingestion (which happened for
- * all 70 records) is not the same as writing a trustworthy SafeFlow summary
- * grounded in that reading - no safeflowSummary exists yet, so no record
- * has earned a higher verification level. See evidence-corpus-concept.md.
+ * verification defaults to 'metadata-only' for a record the first time it
+ * appears here. Once a SafeFlow summary is written for a pmid (curation.json
+ * hand-edited directly, outside this script - see SF-286), re-running this
+ * script preserves that summary and its verification level rather than
+ * wiping it - see the merge-safe note on main() below.
  *
  * Usage: node scripts/evidence/build-curation.mjs
  */
 
-import { writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
 const BUCKETS = {
   failureToRescue: {
@@ -90,9 +90,24 @@ const STAFFING_CONTEXT_PMIDS = new Set([
   '33309843'  // Lasater 2020 - nurse-to-patient ratios and sepsis bundles
 ]);
 
+/**
+ * Merge-safe by design: this script is re-run every time a new ingestion wave
+ * adds buckets, and by SF-286 a separate process (SafeFlow-authored summaries)
+ * hand-edits curation.json directly to add safeflowSummary/verification. A
+ * naive rebuild-from-scratch would silently wipe that work back to
+ * metadata-only/null every time the buckets change - so any existing
+ * safeflowSummary/verification for a pmid is preserved, and only cueTypes
+ * (and pmids with no prior curation at all) are (re)computed from BUCKETS.
+ */
 function main() {
+  let existing = {};
+  if (existsSync('scripts/evidence/curation.json')) {
+    existing = JSON.parse(readFileSync('scripts/evidence/curation.json', 'utf8'));
+  }
+
   const curation = {};
   let assigned = 0;
+  let preserved = 0;
 
   for (const bucket of Object.values(BUCKETS)) {
     for (const pmid of bucket.pmids) {
@@ -100,17 +115,20 @@ function main() {
       if (STAFFING_CONTEXT_PMIDS.has(pmid)) {
         cueTypes.push('staffing-context');
       }
+      const prior = existing[pmid];
+      const hasSummary = prior && typeof prior.safeflowSummary === 'string' && prior.safeflowSummary.trim().length > 0;
       curation[pmid] = {
         cueTypes,
-        verification: 'metadata-only',
-        safeflowSummary: null
+        verification: hasSummary ? prior.verification : 'metadata-only',
+        safeflowSummary: hasSummary ? prior.safeflowSummary : null
       };
+      if (hasSummary) preserved += 1;
       assigned += 1;
     }
   }
 
   writeFileSync('scripts/evidence/curation.json', JSON.stringify(curation, null, 2));
-  console.log(`curation built for ${assigned} pmids -> scripts/evidence/curation.json`);
+  console.log(`curation built for ${assigned} pmids (${preserved} existing safeflowSummary preserved) -> scripts/evidence/curation.json`);
 }
 
 main();
