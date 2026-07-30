@@ -38,6 +38,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "20491968": {
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "21556200": {
     "cueTypes": [
       "malnutrition-screening"
@@ -96,6 +103,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "26625651": {
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "26734153": {
     "cueTypes": [
       "aki-recognition"
@@ -120,6 +134,13 @@
   "27900413": {
     "cueTypes": [
       "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "28008467": {
+    "cueTypes": [
+      "abdominal-pain"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -217,9 +238,23 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "30774326": {
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "31021360": {
     "cueTypes": [
       "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31116760": {
+    "cueTypes": [
+      "abdominal-pain"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -235,6 +270,13 @@
   "31389854": {
     "cueTypes": [
       "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "31528278": {
+    "cueTypes": [
+      "cellulitis-ssti"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -256,6 +298,13 @@
   "31970884": {
     "cueTypes": [
       "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "32072800": {
+    "cueTypes": [
+      "copd-exacerbation"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -355,6 +404,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "34483249": {
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "34599691": {
     "cueTypes": [
       "sepsis-screen"
@@ -412,6 +468,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "35746992": {
+    "cueTypes": [
+      "abdominal-pain"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "35776738": {
     "cueTypes": [
       "sepsis-screen"
@@ -422,6 +485,13 @@
   "35854358": {
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "36281377": {
+    "cueTypes": [
+      "uti-urosepsis"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -550,9 +620,23 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "38158264": {
+    "cueTypes": [
+      "heart-failure-decompensation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "38180801": {
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "38276080": {
+    "cueTypes": [
+      "pneumonia-lrti"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -613,6 +697,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "39032563": {
+    "cueTypes": [
+      "cellulitis-ssti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "39116825": {
     "cueTypes": [
       "escalation",
@@ -666,6 +757,13 @@
   "39836954": {
     "cueTypes": [
       "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "39890244": {
+    "cueTypes": [
+      "abdominal-pain"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -729,6 +827,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "40332986": {
+    "cueTypes": [
+      "heart-failure-decompensation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "40425395": {
     "cueTypes": [
       "frailty-assessment"
@@ -743,9 +848,30 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "40700033": {
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40720743": {
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "40775944": {
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "40818565": {
+    "cueTypes": [
+      "uti-urosepsis"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -774,6 +900,13 @@
   "40951245": {
     "cueTypes": [
       "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41028496": {
+    "cueTypes": [
+      "stroke-tia"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -807,9 +940,23 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41243862": {
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "41261337": {
     "cueTypes": [
       "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41267720": {
+    "cueTypes": [
+      "uti-urosepsis"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -828,6 +975,27 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41390271": {
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41400901": {
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41404246": {
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "41441343": {
     "cueTypes": [
       "documentation"
@@ -842,10 +1010,24 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41535764": {
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "41618411": {
     "cueTypes": [
       "deteriorating-obs",
       "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41682872": {
+    "cueTypes": [
+      "heart-failure-decompensation"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -871,6 +1053,13 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41813030": {
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "41827168": {
     "cueTypes": [
       "falls-mobility"
@@ -885,9 +1074,51 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "41899169": {
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41938482": {
+    "cueTypes": [
+      "cellulitis-ssti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "41966040": {
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "42096723": {
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42098479": {
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42102539": {
+    "cueTypes": [
+      "cellulitis-ssti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42167099": {
+    "cueTypes": [
+      "chest-pain-acs"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -899,6 +1130,34 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "42233608": {
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42251293": {
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42291831": {
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42304196": {
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "42338059": {
     "cueTypes": [
       "handover"
@@ -906,9 +1165,79 @@
     "verification": "metadata-only",
     "safeflowSummary": null
   },
+  "42338922": {
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42339000": {
+    "cueTypes": [
+      "heart-failure-decompensation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42356222": {
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42367434": {
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42467253": {
+    "cueTypes": [
+      "abdominal-pain"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42488537": {
+    "cueTypes": [
+      "chest-pain-acs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
   "42494114": {
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42502304": {
+    "cueTypes": [
+      "pneumonia-lrti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42505912": {
+    "cueTypes": [
+      "chest-pain-acs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42509630": {
+    "cueTypes": [
+      "chest-pain-acs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  "42513578": {
+    "cueTypes": [
+      "pneumonia-lrti"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null

@@ -98,6 +98,49 @@ const BUCKETS = {
   documentation: {
     cueTypes: ['documentation'],
     pmids: ['42494114', '42096723', '41441343', '40775944', '40275787', '39026330', '38180801']
+  },
+  // SF-wave5 - top-10 admission-cause scale-up (NNUH/JPUH/QEH ward dedup analysis).
+  // Ten new cue types, none previously covered: each closes a zero-coverage gap
+  // for a distinct reason patients end up on the corresponding ward types.
+  copdExacerbation: {
+    cueTypes: ['copd-exacerbation'],
+    pmids: ['41813030', '41390271', '32072800', '30774326', '26625651']
+  },
+  pneumoniaLrti: {
+    cueTypes: ['pneumonia-lrti'],
+    pmids: ['38276080', '42513578', '42502304']
+  },
+  heartFailureDecompensation: {
+    cueTypes: ['heart-failure-decompensation'],
+    pmids: ['42339000', '41682872', '40332986', '38158264']
+  },
+  utiUrosepsis: {
+    cueTypes: ['uti-urosepsis'],
+    pmids: ['41267720', '42233608', '41966040', '40818565', '40700033', '40720743', '36281377']
+  },
+  fallsFragilityFracture: {
+    cueTypes: ['falls-fragility-fracture'],
+    pmids: ['42367434', '42304196', '42291831', '42098479', '41400901']
+  },
+  strokeTia: {
+    cueTypes: ['stroke-tia'],
+    pmids: ['42338922', '41243862', '41028496', '34483249', '20491968']
+  },
+  chestPainAcs: {
+    cueTypes: ['chest-pain-acs'],
+    pmids: ['42509630', '42505912', '42488537', '42167099']
+  },
+  abdominalPain: {
+    cueTypes: ['abdominal-pain'],
+    pmids: ['42467253', '39890244', '35746992', '31116760', '28008467']
+  },
+  giBleed: {
+    cueTypes: ['gi-bleed'],
+    pmids: ['42356222', '42251293', '41899169', '41535764', '41404246']
+  },
+  cellulitisSsti: {
+    cueTypes: ['cellulitis-ssti'],
+    pmids: ['39032563', '31528278', '42102539', '41938482']
   }
 };
 

@@ -1,0 +1,50 @@
+[
+  {
+    "pmid": "42509630",
+    "doi": "10.15441/ceem.26.035",
+    "title": "Pilot Evaluation of a Novel Artificial Intelligence (AI) Heart Rate Variability (HRV)-Guided Risk Stratification for Chest Pain in the Emergency Department: A Randomized Controlled Trial.",
+    "journal": "Clinical and experimental emergency medicine",
+    "journalAbbrev": "Clin Exp Emerg Med",
+    "year": 2026,
+    "authors": ["Wang", "Li", "Pasupathi", "Chan", "Birthylon", "Fook-Chong", "Zhang", "Lim"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42505912",
+    "doi": "10.3390/jcdd13070335",
+    "title": "Predictive Performance of the HEART Score for Acute Coronary Syndrome with Significant Coronary Stenosis in Patients with Non-ST-Elevation Acute Chest Pain.",
+    "journal": "Journal of cardiovascular development and disease",
+    "journalAbbrev": "J Cardiovasc Dev Dis",
+    "year": 2026,
+    "authors": ["Martins", "Amado", "Vazão", "Pereira", "Santos", "Cabral", "Domingues", "Durão"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42488537",
+    "doi": "10.3389/fcvm.2026.1762236",
+    "title": "Chest pain unit implementation in a multidisciplinary hospital: a retrospective observational study.",
+    "journal": "Frontiers in cardiovascular medicine",
+    "journalAbbrev": "Front Cardiovasc Med",
+    "year": 2026,
+    "authors": ["Umbetzhanova", "Derbissalina", "Vakpayev", "Bekbergenova", "Koikov"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42167099",
+    "doi": "10.1016/j.jacadv.2026.102827",
+    "title": "Acute Coronary Syndrome Risk Prediction Using Portable Cable-Free ECG Device Combined With Clinical Risk Assessment.",
+    "journal": "JACC. Advances",
+    "journalAbbrev": "JACC Adv",
+    "year": 2026,
+    "authors": ["Shvilkin", "Zdolšek", "Zlatić", "Jelić", "Atanasoski", "Miletić", "Bojović", "Hadžievski"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]

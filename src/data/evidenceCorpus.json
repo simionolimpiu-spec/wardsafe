@@ -206,6 +206,49 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "20491968",
+    "doi": "10.1111/j.1365-2524.2010.00917.x",
+    "title": "'After the stroke': patients' and carers' experiences of healthcare after stroke in Scotland.",
+    "journal": "Health & social care in the community",
+    "journalAbbrev": "Health Soc Care Community",
+    "year": 2010,
+    "authors": [
+      "Salisbury",
+      "Wilkie",
+      "Bulley",
+      "Shiels"
+    ],
+    "meshTerms": [
+      "Adaptation, Psychological",
+      "Adult",
+      "Aged",
+      "Electric Stimulation Therapy",
+      "Female",
+      "Humans",
+      "Interview, Psychological",
+      "Male",
+      "Middle Aged",
+      "Psychometrics",
+      "Qualitative Research",
+      "Quality of Life",
+      "Scotland",
+      "Stress, Psychological",
+      "Stroke",
+      "Stroke Rehabilitation",
+      "Time Factors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "21556200",
     "doi": "10.3390/ijerph8020514",
     "title": "Hospital malnutrition: prevalence, identification and impact on patients and the healthcare system.",
@@ -515,6 +558,42 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "26625651",
+    "doi": null,
+    "title": "Patients Hospitalised with an Acute Exacerbation of COPD: Is There a Need for a Discharge Bundle of Care?",
+    "journal": "Irish medical journal",
+    "journalAbbrev": "Ir Med J",
+    "year": 2015,
+    "authors": [
+      "Migone",
+      "O'Connor",
+      "Kelly",
+      "McDonnell T J"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Female",
+      "Guideline Adherence",
+      "Hospitalization",
+      "Humans",
+      "Ireland",
+      "Male",
+      "Patient Discharge",
+      "Patient Readmission",
+      "Practice Guidelines as Topic",
+      "Pulmonary Disease, Chronic Obstructive"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "26734153",
     "doi": "10.1136/bmjquality.u200370.w326",
     "title": "Acute Kidney Injury: It's as easy as ABCDE.",
@@ -633,6 +712,46 @@
     "language": null,
     "cueTypes": [
       "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "28008467",
+    "doi": "10.1007/s00464-016-5380-1",
+    "title": "Readmissions after laparoscopic cholecystectomy in a UK District General Hospital.",
+    "journal": "Surgical endoscopy",
+    "journalAbbrev": "Surg Endosc",
+    "year": 2016,
+    "authors": [
+      "Awolaran",
+      "Gana",
+      "Samuel",
+      "Oaikhinan"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Cholecystectomy, Laparoscopic",
+      "Female",
+      "Follow-Up Studies",
+      "Hospitals, District",
+      "Hospitals, General",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Patient Readmission",
+      "Postoperative Complications",
+      "Retrospective Studies",
+      "United Kingdom"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "abdominal-pain"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1133,6 +1252,52 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "30774326",
+    "doi": "10.2147/COPD.S178147",
+    "title": "Efficacy of a home discharge care bundle after acute exacerbation of COPD.",
+    "journal": "International journal of chronic obstructive pulmonary disease",
+    "journalAbbrev": "Int J Chron Obstruct Pulmon Dis",
+    "year": 2019,
+    "authors": [
+      "Cousse",
+      "Gillibert",
+      "Salaün",
+      "Thiberville",
+      "Cuvelier",
+      "Patout"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Delivery of Health Care, Integrated",
+      "Disease Progression",
+      "Female",
+      "France",
+      "Home Care Services",
+      "Humans",
+      "Length of Stay",
+      "Male",
+      "Middle Aged",
+      "Patient Care Bundles",
+      "Patient Discharge",
+      "Patient Readmission",
+      "Program Evaluation",
+      "Pulmonary Disease, Chronic Obstructive",
+      "Retrospective Studies",
+      "Severity of Illness Index",
+      "Time Factors",
+      "Treatment Outcome"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "31021360",
     "doi": "10.1007/s12603-019-1176-z",
     "title": "Malnutrition Screening and Assessment in Hospitalised Older People: a Review.",
@@ -1163,6 +1328,48 @@
     "language": "eng",
     "cueTypes": [
       "malnutrition-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "31116760",
+    "doi": "10.1371/journal.pone.0216740",
+    "title": "The disease spectrum of adult patients at a tertiary care center emergency department in Lebanon.",
+    "journal": "PloS one",
+    "journalAbbrev": "PLoS One",
+    "year": 2019,
+    "authors": [
+      "Hitti",
+      "Geha",
+      "Hadid",
+      "Bachir"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Aged, 80 and over",
+      "Cardiovascular Diseases",
+      "Communicable Diseases",
+      "Emergency Medical Services",
+      "Emergency Service, Hospital",
+      "Female",
+      "Humans",
+      "Infections",
+      "Lebanon",
+      "Male",
+      "Middle Aged",
+      "Retrospective Studies",
+      "Tertiary Care Centers",
+      "Wounds and Injuries",
+      "Young Adult"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "abdominal-pain"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1242,6 +1449,31 @@
     "language": "eng",
     "cueTypes": [
       "falls-mobility"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "31528278",
+    "doi": "10.1080/20009666.2019.1651482",
+    "title": "Acute bacterial skin and soft tissue infections: new drugs in ID armamentarium.",
+    "journal": "Journal of community hospital internal medicine perspectives",
+    "journalAbbrev": "J Community Hosp Intern Med Perspect",
+    "year": 2019,
+    "authors": [
+      "Tirupathi",
+      "Areti",
+      "Salim",
+      "Palabindala",
+      "Jonnalagadda"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "cellulitis-ssti"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1363,6 +1595,50 @@
     "language": "eng",
     "cueTypes": [
       "medication-safety"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "32072800",
+    "doi": "10.4081/monaldi.2020.1176",
+    "title": "Use of inhaled devices during a hospital exacerbation of COPD: a summary of an interdisciplinary audit held at ICS Maugeri Pavia, Italy (March-June 2019).",
+    "journal": "Monaldi archives for chest disease = Archivio Monaldi per le malattie del torace",
+    "journalAbbrev": "Monaldi Arch Chest Dis",
+    "year": 2020,
+    "authors": [
+      "Vitacca",
+      "Lastoria",
+      "Delmastro",
+      "Fiorenza",
+      "De Cata",
+      "Fusar Poli",
+      "Gilè",
+      "Prometti"
+    ],
+    "meshTerms": [
+      "Administration, Inhalation",
+      "Adrenergic beta-Agonists",
+      "Aged, 80 and over",
+      "Bronchodilator Agents",
+      "Clinical Audit",
+      "Disease Progression",
+      "Drug Therapy, Combination",
+      "Hospitalization",
+      "Humans",
+      "Italy",
+      "Muscarinic Antagonists",
+      "Nebulizers and Vaporizers",
+      "Patient Care Team",
+      "Pulmonary Disease, Chronic Obstructive"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "copd-exacerbation"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -1760,6 +2036,42 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "34483249",
+    "doi": "10.1097/MEJ.0000000000000875",
+    "title": "Factors associated with delayed revascularization in patients with ischemic stroke: a prospective study in one French region.",
+    "journal": "European journal of emergency medicine : official journal of the European Society for Emergency Medicine",
+    "journalAbbrev": "Eur J Emerg Med",
+    "year": 2022,
+    "authors": [
+      "Laurent",
+      "Bonnaud",
+      "Gaudron",
+      "Lahondère",
+      "Godillon",
+      "Vannier",
+      "Bouilleau",
+      "De Toffol"
+    ],
+    "meshTerms": [
+      "Adolescent",
+      "Brain Ischemia",
+      "Emergency Medical Services",
+      "Humans",
+      "Ischemic Stroke",
+      "Prospective Studies",
+      "Stroke"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "34599691",
     "doi": "10.1007/s00134-021-06506-y",
     "title": "Surviving sepsis campaign: international guidelines for management of sepsis and septic shock 2021.",
@@ -2004,6 +2316,31 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "35746992",
+    "doi": "10.7759/cureus.25145",
+    "title": "Quantitative Assessment of Secondary Healthcare Utilisation by Patients With Functional Abdominal Pain.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2022,
+    "authors": [
+      "MacVicar",
+      "Insch",
+      "Summers",
+      "Bruce",
+      "Ramsay"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "abdominal-pain"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "35776738",
     "doi": "10.1371/journal.pone.0270711",
     "title": "Sepsis assessment and management in critically Ill adults: A systematic review.",
@@ -2053,6 +2390,34 @@
     "language": "eng",
     "cueTypes": [
       "delirium-screening"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "36281377",
+    "doi": "10.1016/j.heliyon.2022.e11049",
+    "title": "Urine testing is associated with inappropriate antibiotic use and increased length of stay in emergency department patients.",
+    "journal": "Heliyon",
+    "journalAbbrev": "Heliyon",
+    "year": 2022,
+    "authors": [
+      "Childers",
+      "Liotta",
+      "Brennan",
+      "Wang",
+      "Kattoula",
+      "Tran",
+      "Montilla-Guedez",
+      "Castillo"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "uti-urosepsis"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -2628,6 +2993,44 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "38158264",
+    "doi": "10.1016/j.hlc.2023.11.021",
+    "title": "Early Discharge to Clinic-Based Therapy of Patients Presenting With Decompensated Heart Failure (EDICT-HF): Study Protocol for a Multi-Centre Randomised Controlled Trial.",
+    "journal": "Heart, lung & circulation",
+    "journalAbbrev": "Heart Lung Circ",
+    "year": 2023,
+    "authors": [
+      "Ranasinghe",
+      "Koh",
+      "Vogrin",
+      "Nelson",
+      "Cohen",
+      "Voskoboinik",
+      "Nanayakkara",
+      "Haikerwal"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Heart Failure",
+      "Patient Discharge",
+      "Stroke Volume",
+      "Prospective Studies",
+      "Ventricular Function, Left",
+      "Victoria",
+      "Randomized Controlled Trials as Topic"
+    ],
+    "articleTypes": [
+      "Clinical Trial Protocol",
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "heart-failure-decompensation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "38180801",
     "doi": "10.1016/j.resuscitation.2024.110123",
     "title": "Documentation completeness during in-hospital resuscitation: impact of a structured electronic charting application.",
@@ -2644,6 +3047,33 @@
     "language": "eng",
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "38276080",
+    "doi": "10.3390/jcm13020574",
+    "title": "Diagnosis and Therapy of Community-Acquired Pneumonia in the Emergency Department: A Retrospective Observational Study and Medical Audit.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2024,
+    "authors": [
+      "Lüthi-Corridori",
+      "Roth",
+      "Boesing",
+      "Jaun",
+      "Tarr",
+      "Leuppi-Taegtmeyer",
+      "Leuppi"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "pneumonia-lrti"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -2918,6 +3348,49 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "39032563",
+    "doi": "10.1016/j.jhin.2024.06.016",
+    "title": "The quality of antimicrobial prescribing in skin and soft tissue management in Australian hospitals: an analysis of the National Antimicrobial Prescribing Survey data.",
+    "journal": "The Journal of hospital infection",
+    "journalAbbrev": "J Hosp Infect",
+    "year": 2024,
+    "authors": [
+      "Park",
+      "Thursky",
+      "Zosky-Shiller",
+      "James",
+      "Cheah",
+      "Hall",
+      "Ierano"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Australia",
+      "Retrospective Studies",
+      "Soft Tissue Infections",
+      "Guideline Adherence",
+      "Drug Prescriptions",
+      "Hospitals",
+      "Practice Patterns, Physicians'",
+      "Anti-Bacterial Agents",
+      "Male",
+      "Female",
+      "Anti-Infective Agents",
+      "Surveys and Questionnaires",
+      "Antimicrobial Stewardship",
+      "Drug Utilization"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "cellulitis-ssti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "39116825",
     "doi": "10.1016/j.jss.2024.07.052",
     "title": "Complication Timing, Failure to Rescue, and Readmission After Inpatient Pediatric Surgery.",
@@ -3183,6 +3656,49 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "39890244",
+    "doi": "10.1016/S2589-7500(24)00250-4",
+    "title": "Diagnoses supported by a computerised diagnostic decision support system versus conventional diagnoses in emergency patients (DDX-BRO): a multicentre, multiple-period, double-blind, cluster-randomised, crossover superiority trial.",
+    "journal": "The Lancet. Digital health",
+    "journalAbbrev": "Lancet Digit Health",
+    "year": 2025,
+    "authors": [
+      "Hautz",
+      "Marcin",
+      "Hautz",
+      "Schauber",
+      "Krummrey",
+      "Müller",
+      "Sauter",
+      "Lambrigger"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Male",
+      "Female",
+      "Double-Blind Method",
+      "Middle Aged",
+      "Emergency Service, Hospital",
+      "Cross-Over Studies",
+      "Adult",
+      "Switzerland",
+      "Decision Support Systems, Clinical",
+      "Aged",
+      "Diagnostic Errors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "abdominal-pain"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "39999957",
     "doi": "10.1111/jep.70042",
     "title": "Healthcare Professionals' Perspectives on the Impact of a Multicomponent Intervention for Older People With Frailty Discharged From Hospital-A Theory-Based Evaluation.",
@@ -3441,6 +3957,41 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "40332986",
+    "doi": "10.1080/00325481.2025.2503696",
+    "title": "A comprehensive review of inpatient heart failure management for the hospitalist.",
+    "journal": "Postgraduate medicine",
+    "journalAbbrev": "Postgrad Med",
+    "year": 2025,
+    "authors": [
+      "Rajesh",
+      "Kovacik",
+      "Wasef",
+      "Lohr",
+      "Kasprowicz"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Heart Failure",
+      "Hospitalists",
+      "Diuretics",
+      "Hospitalization",
+      "Inpatients",
+      "Patient Discharge",
+      "Practice Guidelines as Topic"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "heart-failure-decompensation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "40425395",
     "doi": "10.1016/j.bja.2025.04.026",
     "title": "Postoperative outcomes in older patients living with frailty and multimorbidity in the UK: SNAP-3, a snapshot observational study.",
@@ -3502,6 +4053,89 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "40700033",
+    "doi": "10.2196/68044",
+    "title": "Impact of Diagnostic Stewardship on Urine Culture Ordering in Saudi Arabia: Prospective Pre- and Postintervention Study.",
+    "journal": "JMIR medical informatics",
+    "journalAbbrev": "JMIR Med Inform",
+    "year": 2025,
+    "authors": [
+      "Alghamdi",
+      "Alkazemi",
+      "Ibrahim",
+      "Alraey",
+      "Alaboud",
+      "Farooqi",
+      "Aatif Khan",
+      "Allam"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Saudi Arabia",
+      "Male",
+      "Female",
+      "Prospective Studies",
+      "Antimicrobial Stewardship",
+      "Middle Aged",
+      "Adult",
+      "Urinalysis",
+      "Anti-Bacterial Agents",
+      "Decision Support Systems, Clinical",
+      "Aged",
+      "Urinary Tract Infections"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40720743",
+    "doi": "10.1093/cid/ciaf411",
+    "title": "Implementation of Diagnostic Stewardship to Improve Urinary Tract Infection Antibiotic Use Across 3 Medical Centers.",
+    "journal": "Clinical infectious diseases : an official publication of the Infectious Diseases Society of America",
+    "journalAbbrev": "Clin Infect Dis",
+    "year": 2026,
+    "authors": [
+      "Claeys",
+      "Brown",
+      "Pineles",
+      "Evans",
+      "Cao",
+      "Trautner",
+      "Crnich",
+      "Balasubramanian"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Urinary Tract Infections",
+      "Anti-Bacterial Agents",
+      "Antimicrobial Stewardship",
+      "Aged",
+      "Male",
+      "Female",
+      "Middle Aged",
+      "Aged, 80 and over",
+      "United States",
+      "Hospitals, Veterans"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "40775944",
     "doi": "10.2196/59812",
     "title": "AI-enhanced nursing documentation: a mixed-methods evaluation of completeness and accuracy.",
@@ -3518,6 +4152,42 @@
     "language": "eng",
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "40818565",
+    "doi": "10.1016/j.ajic.2025.08.007",
+    "title": "Modification of nursing-initiated standing order sets results in a nonsignificant decline in inappropriate urinalyses in an adult emergency department.",
+    "journal": "American journal of infection control",
+    "journalAbbrev": "Am J Infect Control",
+    "year": 2025,
+    "authors": [
+      "Liu",
+      "Guerrero-Wooley",
+      "Zhou",
+      "Pappas"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Emergency Service, Hospital",
+      "Male",
+      "Female",
+      "Middle Aged",
+      "Aged",
+      "Adult",
+      "Urinalysis",
+      "Aged, 80 and over",
+      "Anti-Bacterial Agents",
+      "Bacteriuria"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "uti-urosepsis"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -3643,6 +4313,43 @@
     "language": "eng",
     "cueTypes": [
       "handover"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41028496",
+    "doi": "10.1007/s10072-025-08416-z",
+    "title": "Functional neurological disorders among hospitalized patients in a resource-limited setting: current situation in Colombia and paths to improvement.",
+    "journal": "Neurological sciences : official journal of the Italian Neurological Society and of the Italian Society of Clinical Neurophysiology",
+    "journalAbbrev": "Neurol Sci",
+    "year": 2025,
+    "authors": [
+      "Marín-Medina",
+      "Ortega-Quintero",
+      "Arenas-Vargas",
+      "Arias-Botero",
+      "Ramírez-Molina"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Female",
+      "Male",
+      "Colombia",
+      "Adult",
+      "Middle Aged",
+      "Retrospective Studies",
+      "Young Adult",
+      "Nervous System Diseases",
+      "Hospitalization",
+      "Resource-Limited Settings"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "stroke-tia"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -3786,6 +4493,49 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "41243862",
+    "doi": "10.1080/02813432.2025.2588126",
+    "title": "Stroke recognition and early care pathways following telephone triage in out-of-hours primary care: a register-based study from the Central Denmark Region.",
+    "journal": "Scandinavian journal of primary health care",
+    "journalAbbrev": "Scand J Prim Health Care",
+    "year": 2025,
+    "authors": [
+      "Gude",
+      "Huibers",
+      "Lock",
+      "Pedersen",
+      "Blauenfeldt"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Triage",
+      "Denmark",
+      "Male",
+      "Female",
+      "After-Hours Care",
+      "Retrospective Studies",
+      "Primary Health Care",
+      "Aged",
+      "Telephone",
+      "Stroke",
+      "Ischemic Attack, Transient",
+      "Registries",
+      "Time-to-Treatment",
+      "General Practitioners",
+      "Critical Pathways",
+      "Thrombolytic Therapy"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "41261337",
     "doi": "10.1002/jppr.1900",
     "title": "Medication errors and gaps in medication-related discharge planning for older adults: a retrospective review.",
@@ -3807,6 +4557,28 @@
     "language": "eng",
     "cueTypes": [
       "discharge"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41267720",
+    "doi": "10.7759/cureus.95002",
+    "title": "Antibiotic Stewardship in Lower Urinary Tract Infections Among the Elderly at a District General Hospital.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Mithrakumar",
+      "Barua"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "uti-urosepsis"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -3862,6 +4634,111 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "41390271",
+    "doi": "10.1016/j.jcjq.2025.11.004",
+    "title": "Rapid Implementation of Guideline-Based Care for Acute Exacerbations of COPD in a Low-Resource Setting: An Improvement Brief.",
+    "journal": "Joint Commission journal on quality and patient safety",
+    "journalAbbrev": "Jt Comm J Qual Patient Saf",
+    "year": 2025,
+    "authors": [
+      "Saqib"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Pulmonary Disease, Chronic Obstructive",
+      "Quality Improvement",
+      "Guideline Adherence",
+      "Pakistan",
+      "Practice Guidelines as Topic",
+      "Electronic Health Records",
+      "Male",
+      "Female",
+      "Middle Aged",
+      "Aged",
+      "Developing Countries",
+      "Patient Discharge",
+      "Tertiary Care Centers",
+      "Patient Education as Topic",
+      "Anti-Bacterial Agents"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41400901",
+    "doi": "10.1007/s11657-025-01642-0",
+    "title": "Effectiveness of an integrated hospital-community care pathway for fragility fractures' secondary prevention: the PROMOTER-II study.",
+    "journal": "Archives of osteoporosis",
+    "journalAbbrev": "Arch Osteoporos",
+    "year": 2025,
+    "authors": [
+      "Bogliolo",
+      "Grignaschi",
+      "Klersy",
+      "Perotti",
+      "Carbonare",
+      "Balduzzi",
+      "Milanesi",
+      "Giuffrè"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Female",
+      "Male",
+      "Aged",
+      "Osteoporotic Fractures",
+      "Secondary Prevention",
+      "Middle Aged",
+      "Italy",
+      "Delivery of Health Care, Integrated",
+      "Aged, 80 and over",
+      "Bone Density Conservation Agents",
+      "Hospitalization",
+      "Community Health Services",
+      "Critical Pathways"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41404246",
+    "doi": "10.7759/cureus.96795",
+    "title": "Diagnostic Performance of AIMS65, Glasgow-Blatchford, and Pre-endoscopy Rockall Scores in Predicting Clinical Outcomes Among Upper Gastrointestinal Bleeding Patients in the Emergency Department.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Nik Pa",
+      "Abu Bakar",
+      "Sabardin",
+      "Abd Samat"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "41441343",
     "doi": "10.1016/j.ejon.2025.102618",
     "title": "Missed nursing care in oncology inpatient settings: a scoping review.",
@@ -3905,6 +4782,45 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "41535764",
+    "doi": "10.1186/s12876-026-04613-y",
+    "title": "Effectiveness of the ABC score in predicting 30-day mortality in upper and lower gastrointestinal bleeding at Muhimbili National Hospital, Tanzania: a single-center retrospective cohort study.",
+    "journal": "BMC gastroenterology",
+    "journalAbbrev": "BMC Gastroenterol",
+    "year": 2026,
+    "authors": [
+      "Ahmed",
+      "Kombole",
+      "Hassan",
+      "Ahmed"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Retrospective Studies",
+      "Tanzania",
+      "Female",
+      "Gastrointestinal Hemorrhage",
+      "Male",
+      "Middle Aged",
+      "Aged",
+      "Risk Assessment",
+      "ROC Curve",
+      "Adult",
+      "Predictive Value of Tests",
+      "Severity of Illness Index"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Validation Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "41618411",
     "doi": "10.1186/s13643-026-03088-y",
     "title": "Does the use of National Early Warning Scores (NEWS or NEWS2) in healthcare settings improve patient outcomes: a systematic review.",
@@ -3932,6 +4848,34 @@
     "cueTypes": [
       "deteriorating-obs",
       "score-comparison"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41682872",
+    "doi": "10.3390/jcm15031194",
+    "title": "Ten-Year Trends in Clinical Profiles, Management, and Outcomes of De Novo Acute Heart Failure.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": [
+      "Ruiz-Ruiz",
+      "Rodríguez-Torres",
+      "Navarro-Puerto",
+      "Lora-Pablos",
+      "Menéndez-Orenga",
+      "Guerra-Vales",
+      "Gómez-Morales",
+      "Calderón"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "heart-failure-decompensation"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -4047,6 +4991,44 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "41813030",
+    "doi": "10.1136/bmjresp-2025-003178",
+    "title": "Barriers to implementing a pharmacist-led COPD CARE bundle in rural settings: a qualitative evaluation.",
+    "journal": "BMJ open respiratory research",
+    "journalAbbrev": "BMJ Open Respir Res",
+    "year": 2026,
+    "authors": [
+      "Portillo",
+      "Maurer",
+      "Do",
+      "Jacobson",
+      "Ku",
+      "Parham",
+      "Erdelt",
+      "Vande Hey"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Pulmonary Disease, Chronic Obstructive",
+      "Pharmacists",
+      "United States",
+      "Rural Health Services",
+      "Patient Care Bundles",
+      "Qualitative Research",
+      "Rural Population",
+      "United States Department of Veterans Affairs"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "copd-exacerbation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "41827168",
     "doi": "10.3390/jcm15051749",
     "title": "Fear of Falling, Balance Disturbances, and Health-Related Quality of Life in Post-Stroke Inpatients: A Preliminary Cross-Sectional Study.",
@@ -4114,6 +5096,90 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "41899169",
+    "doi": "10.3390/jcm15062245",
+    "title": "Systemic Inflammation Response Index (SIRI) and Aggregate Index of Systemic Inflammation (AISI) as Predictors of Mortality in Patients with Upper Gastrointestinal Bleeding.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": [
+      "Erdoğan",
+      "İnan",
+      "Ateş",
+      "Kılıç"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41938482",
+    "doi": "10.1016/j.jvscit.2026.102191",
+    "title": "Stewart Treves syndrome as a catastrophic sequela of chronic lymphedema: Clinical spectrum, management challenges, and outcomes.",
+    "journal": "Journal of vascular surgery cases and innovative techniques",
+    "journalAbbrev": "J Vasc Surg Cases Innov Tech",
+    "year": 2026,
+    "authors": [
+      "Elkiran",
+      "Elsaadany",
+      "Elkiran",
+      "Elghamrey",
+      "Eldin",
+      "Morshed",
+      "Elshabrawy"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "cellulitis-ssti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "41966040",
+    "doi": "10.4140/TCP.n.2026.88",
+    "title": "Beyond Resistance: Prioritizing Safety in Antimicrobial Stewardship for Older Adults.",
+    "journal": "The Senior care pharmacist",
+    "journalAbbrev": "Sr Care Pharm",
+    "year": 2026,
+    "authors": [
+      "Chahine",
+      "Watanabe",
+      "Dong",
+      "Andrade"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Antimicrobial Stewardship",
+      "Anti-Bacterial Agents",
+      "Aged",
+      "Pharmacists",
+      "Drug Interactions",
+      "Drug Resistance, Bacterial",
+      "Polypharmacy"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "42096723",
     "doi": "10.1016/j.ijnurstu.2026.104812",
     "title": "Missed nursing care in community-based settings: a scoping review of determinants and consequences.",
@@ -4131,6 +5197,116 @@
     "language": "eng",
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42098479",
+    "doi": "10.1007/s00402-026-06331-2",
+    "title": "Second contralateral hip fractures reduce survival, mobility and daily activity: a matched pair analysis.",
+    "journal": "Archives of orthopaedic and trauma surgery",
+    "journalAbbrev": "Arch Orthop Trauma Surg",
+    "year": 2026,
+    "authors": [
+      "Blattner",
+      "Sabath",
+      "Röttinger",
+      "Lisitano",
+      "Mayr",
+      "Fenwick"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Female",
+      "Retrospective Studies",
+      "Hip Fractures",
+      "Male",
+      "Matched-Pair Analysis",
+      "Activities of Daily Living",
+      "Aged, 80 and over",
+      "Aged",
+      "Proximal Femoral Fractures"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42102539",
+    "doi": "10.1016/j.jemermed.2026.03.023",
+    "title": "Comparing Cellulitis Diagnostic Accuracy Between Emergency Physicians and Dermatologists Under Teledermatology Conditions.",
+    "journal": "The Journal of emergency medicine",
+    "journalAbbrev": "J Emerg Med",
+    "year": 2026,
+    "authors": [
+      "Gladhill",
+      "Schwei",
+      "Griffin",
+      "Glinert",
+      "Haleem",
+      "Hess",
+      "Keenan",
+      "McBride"
+    ],
+    "meshTerms": [
+      "Adult",
+      "Aged",
+      "Female",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Cellulitis",
+      "Dermatologists",
+      "Dermatology",
+      "Diagnostic Errors",
+      "Emergency Medicine",
+      "Emergency Room Visits",
+      "Emergency Service, Hospital",
+      "Physicians",
+      "Telemedicine"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Comparative Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "cellulitis-ssti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42167099",
+    "doi": "10.1016/j.jacadv.2026.102827",
+    "title": "Acute Coronary Syndrome Risk Prediction Using Portable Cable-Free ECG Device Combined With Clinical Risk Assessment.",
+    "journal": "JACC. Advances",
+    "journalAbbrev": "JACC Adv",
+    "year": 2026,
+    "authors": [
+      "Shvilkin",
+      "Zdolšek",
+      "Zlatić",
+      "Jelić",
+      "Atanasoski",
+      "Miletić",
+      "Bojović",
+      "Hadžievski"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "chest-pain-acs"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -4156,6 +5332,136 @@
     "language": "eng",
     "cueTypes": [
       "electrolyte-review"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42233608",
+    "doi": "10.1080/14787210.2026.2684771",
+    "title": "Antibiotic resistance in UTIs among elderly residents of long-term care facilities.",
+    "journal": "Expert review of anti-infective therapy",
+    "journalAbbrev": "Expert Rev Anti Infect Ther",
+    "year": 2026,
+    "authors": [
+      "Llor",
+      "Kjær"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Long-Term Care",
+      "Anti-Bacterial Agents",
+      "Urinary Tract Infections",
+      "Nursing Home Residents",
+      "Drug Resistance, Multiple, Bacterial",
+      "Aged",
+      "Drug Resistance, Bacterial"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "uti-urosepsis"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42251293",
+    "doi": "10.1186/s12876-026-04963-7",
+    "title": "Validation of the C-WATCH score for predicting severity in patients with upper gastrointestinal bleeding at a tertiary public hospital in Lima, Peru.",
+    "journal": "BMC gastroenterology",
+    "journalAbbrev": "BMC Gastroenterol",
+    "year": 2026,
+    "authors": [
+      "Espinoza-Ríos",
+      "Ruiz-Cortez",
+      "Santiago",
+      "Tenorio"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Peru",
+      "Male",
+      "Female",
+      "Gastrointestinal Hemorrhage",
+      "Prospective Studies",
+      "Middle Aged",
+      "Severity of Illness Index",
+      "Hospitals, Public",
+      "Tertiary Care Centers",
+      "Risk Assessment",
+      "Aged",
+      "ROC Curve",
+      "Predictive Value of Tests",
+      "Recurrence",
+      "Blood Transfusion"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Validation Study"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42291831",
+    "doi": "10.3389/fragi.2026.1837212",
+    "title": "Underuse of osteoporosis treatments before and after hip fracture: longitudinal findings from the Gruppo Italiano di Ortogeriatria (GIOG 2.0) study.",
+    "journal": "Frontiers in aging",
+    "journalAbbrev": "Front Aging",
+    "year": 2026,
+    "authors": [
+      "Ferrara",
+      "Guo",
+      "Cucini",
+      "Ornago",
+      "Tassistro",
+      "Pinardi",
+      "Finazzi",
+      "Mazzola"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42304196",
+    "doi": "10.1111/dom.71000",
+    "title": "Type 2 Diabetes Is Associated With Increased Complications and Mortality After Hip Fracture in Older Adults Aged 60 Years or Older.",
+    "journal": "Diabetes, obesity & metabolism",
+    "journalAbbrev": "Diabetes Obes Metab",
+    "year": 2026,
+    "authors": [
+      "Zou",
+      "Chandran",
+      "Xiong",
+      "Lee",
+      "Chow",
+      "Fong",
+      "Lau",
+      "Cheung"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-fragility-fracture"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null
@@ -4191,6 +5497,182 @@
     "safeflowSummary": null
   },
   {
+    "pmid": "42338922",
+    "doi": "10.3389/fstro.2026.1818548",
+    "title": "Closing the stroke care gap: a collaborative, self-sustainable telemedicine enabled model from rural Nepal.",
+    "journal": "Frontiers in stroke",
+    "journalAbbrev": "Front Stroke",
+    "year": 2026,
+    "authors": [
+      "Paudel",
+      "Khanal",
+      "Thapa",
+      "Paudel",
+      "Gumbinger",
+      "Hamal",
+      "Tunkl"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "stroke-tia"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42339000",
+    "doi": "10.15420/cfr.2025.50",
+    "title": "A Contemporary Perspective on Acute Decompensated Heart Failure Classification: A State-of-the-art Review from an International Expert Group.",
+    "journal": "Cardiac failure review",
+    "journalAbbrev": "Card Fail Rev",
+    "year": 2026,
+    "authors": [
+      "Chioncel",
+      "Mebazaa",
+      "Collins",
+      "Cotter",
+      "Bozkurt",
+      "Volterrani",
+      "Ponikowski",
+      "Geavlete"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "heart-failure-decompensation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42356222",
+    "doi": "10.3390/medicina62061210",
+    "title": "Prognostic Value of BUN-Based Ratios for Mortality and Prolonged Hospitalization in Acute Upper Gastrointestinal Bleeding: Comparison with Established Risk Scores.",
+    "journal": "Medicina (Kaunas, Lithuania)",
+    "journalAbbrev": "Medicina (Kaunas)",
+    "year": 2026,
+    "authors": [
+      "İnan",
+      "Erdoğan",
+      "Keskin",
+      "Özden",
+      "Karpuzcu",
+      "Ateş",
+      "Kılıç"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Male",
+      "Female",
+      "Gastrointestinal Hemorrhage",
+      "Blood Urea Nitrogen",
+      "Aged",
+      "Retrospective Studies",
+      "Prognosis",
+      "Hospital Mortality",
+      "Middle Aged",
+      "ROC Curve",
+      "Aged, 80 and over",
+      "Length of Stay",
+      "Cohort Studies",
+      "Risk Assessment",
+      "Hemoglobins"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "gi-bleed"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42367434",
+    "doi": "10.7759/cureus.109830",
+    "title": "Management of Fragility Femoral Fractures: A UK Regional Multicentre Audit of the British Orthopaedic Association Standards for Trauma (BOAST) Guidelines.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2026,
+    "authors": [
+      "Ormiston",
+      "Pearce",
+      "Hancock",
+      "Kondi",
+      "Abdellatif",
+      "White",
+      "Moore",
+      "Edwards"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "falls-fragility-fracture"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42467253",
+    "doi": "10.1007/s00423-026-04151-x",
+    "title": "Leukoglycemic index and inflammatory markers in acute abdominal pain: Comparison of non-specific pain and acute appendicitis severity.",
+    "journal": "Langenbeck's archives of surgery",
+    "journalAbbrev": "Langenbecks Arch Surg",
+    "year": 2026,
+    "authors": [
+      "Erinmez",
+      "Güler",
+      "Kurt"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "abdominal-pain"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42488537",
+    "doi": "10.3389/fcvm.2026.1762236",
+    "title": "Chest pain unit implementation in a multidisciplinary hospital: a retrospective observational study.",
+    "journal": "Frontiers in cardiovascular medicine",
+    "journalAbbrev": "Front Cardiovasc Med",
+    "year": 2026,
+    "authors": [
+      "Umbetzhanova",
+      "Derbissalina",
+      "Vakpayev",
+      "Bekbergenova",
+      "Koikov"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "chest-pain-acs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
     "pmid": "42494114",
     "doi": "10.1177/23779608261102345",
     "title": "Nursing care rationing and its determinants in Polish hospitals: a cross-sectional study using the BERNCA-R scale.",
@@ -4207,6 +5689,109 @@
     "language": "eng",
     "cueTypes": [
       "documentation"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42502304",
+    "doi": "10.7759/cureus.112901",
+    "title": "An Audit Assessing Compliance With CURB-65 (Confusion, Urea, Respiratory Rate, Blood Pressure, and Age ≥65 Years) Documentation in Adult Patients Admitted With Community-Acquired Pneumonia at a Tertiary Institution in Trinidad and Tobago.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2026,
+    "authors": [
+      "Ramlogan",
+      "Basdeo",
+      "Bhagaloo",
+      "De Freitas"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "pneumonia-lrti"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42505912",
+    "doi": "10.3390/jcdd13070335",
+    "title": "Predictive Performance of the HEART Score for Acute Coronary Syndrome with Significant Coronary Stenosis in Patients with Non-ST-Elevation Acute Chest Pain.",
+    "journal": "Journal of cardiovascular development and disease",
+    "journalAbbrev": "J Cardiovasc Dev Dis",
+    "year": 2026,
+    "authors": [
+      "Martins",
+      "Amado",
+      "Vazão",
+      "Pereira",
+      "Santos",
+      "Cabral",
+      "Domingues",
+      "Durão"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "chest-pain-acs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42509630",
+    "doi": "10.15441/ceem.26.035",
+    "title": "Pilot Evaluation of a Novel Artificial Intelligence (AI) Heart Rate Variability (HRV)-Guided Risk Stratification for Chest Pain in the Emergency Department: A Randomized Controlled Trial.",
+    "journal": "Clinical and experimental emergency medicine",
+    "journalAbbrev": "Clin Exp Emerg Med",
+    "year": 2026,
+    "authors": [
+      "Wang",
+      "Li",
+      "Pasupathi",
+      "Chan",
+      "Birthylon",
+      "Fook-Chong",
+      "Zhang",
+      "Lim"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "chest-pain-acs"
+    ],
+    "verification": "metadata-only",
+    "safeflowSummary": null
+  },
+  {
+    "pmid": "42513578",
+    "doi": "10.3390/jcm15145664",
+    "title": "Predictive Value of SMART-COP for Adverse Outcomes in Older ICU Patients with Community-Acquired Pneumonia: A Comparison with CURB-65, SOFA, and APACHE II.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": [
+      "Karcioglu",
+      "Atli",
+      "Degdas"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng",
+    "cueTypes": [
+      "pneumonia-lrti"
     ],
     "verification": "metadata-only",
     "safeflowSummary": null

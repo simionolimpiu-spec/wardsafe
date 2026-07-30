@@ -1,0 +1,62 @@
+[
+  {
+    "pmid": "42367434",
+    "doi": "10.7759/cureus.109830",
+    "title": "Management of Fragility Femoral Fractures: A UK Regional Multicentre Audit of the British Orthopaedic Association Standards for Trauma (BOAST) Guidelines.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2026,
+    "authors": ["Ormiston", "Pearce", "Hancock", "Kondi", "Abdellatif", "White", "Moore", "Edwards"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42304196",
+    "doi": "10.1111/dom.71000",
+    "title": "Type 2 Diabetes Is Associated With Increased Complications and Mortality After Hip Fracture in Older Adults Aged 60 Years or Older.",
+    "journal": "Diabetes, obesity & metabolism",
+    "journalAbbrev": "Diabetes Obes Metab",
+    "year": 2026,
+    "authors": ["Zou", "Chandran", "Xiong", "Lee", "Chow", "Fong", "Lau", "Cheung"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42291831",
+    "doi": "10.3389/fragi.2026.1837212",
+    "title": "Underuse of osteoporosis treatments before and after hip fracture: longitudinal findings from the Gruppo Italiano di Ortogeriatria (GIOG 2.0) study.",
+    "journal": "Frontiers in aging",
+    "journalAbbrev": "Front Aging",
+    "year": 2026,
+    "authors": ["Ferrara", "Guo", "Cucini", "Ornago", "Tassistro", "Pinardi", "Finazzi", "Mazzola"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42098479",
+    "doi": "10.1007/s00402-026-06331-2",
+    "title": "Second contralateral hip fractures reduce survival, mobility and daily activity: a matched pair analysis.",
+    "journal": "Archives of orthopaedic and trauma surgery",
+    "journalAbbrev": "Arch Orthop Trauma Surg",
+    "year": 2026,
+    "authors": ["Blattner", "Sabath", "Röttinger", "Lisitano", "Mayr", "Fenwick"],
+    "meshTerms": ["Humans", "Female", "Retrospective Studies", "Hip Fractures", "Male", "Matched-Pair Analysis", "Activities of Daily Living", "Aged, 80 and over", "Aged", "Proximal Femoral Fractures"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41400901",
+    "doi": "10.1007/s11657-025-01642-0",
+    "title": "Effectiveness of an integrated hospital-community care pathway for fragility fractures' secondary prevention: the PROMOTER-II study.",
+    "journal": "Archives of osteoporosis",
+    "journalAbbrev": "Arch Osteoporos",
+    "year": 2025,
+    "authors": ["Bogliolo", "Grignaschi", "Klersy", "Perotti", "Carbonare", "Balduzzi", "Milanesi", "Giuffrè"],
+    "meshTerms": ["Humans", "Female", "Male", "Aged", "Osteoporotic Fractures", "Secondary Prevention", "Middle Aged", "Italy", "Delivery of Health Care, Integrated", "Aged, 80 and over", "Bone Density Conservation Agents", "Hospitalization", "Community Health Services", "Critical Pathways"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]

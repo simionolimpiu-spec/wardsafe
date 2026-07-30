@@ -1,0 +1,86 @@
+[
+  {
+    "pmid": "41267720",
+    "doi": "10.7759/cureus.95002",
+    "title": "Antibiotic Stewardship in Lower Urinary Tract Infections Among the Elderly at a District General Hospital.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": ["Mithrakumar", "Barua"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42233608",
+    "doi": "10.1080/14787210.2026.2684771",
+    "title": "Antibiotic resistance in UTIs among elderly residents of long-term care facilities.",
+    "journal": "Expert review of anti-infective therapy",
+    "journalAbbrev": "Expert Rev Anti Infect Ther",
+    "year": 2026,
+    "authors": ["Llor", "Kjær"],
+    "meshTerms": ["Humans", "Long-Term Care", "Anti-Bacterial Agents", "Urinary Tract Infections", "Nursing Home Residents", "Drug Resistance, Multiple, Bacterial", "Aged", "Drug Resistance, Bacterial"],
+    "articleTypes": ["Journal Article", "Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41966040",
+    "doi": "10.4140/TCP.n.2026.88",
+    "title": "Beyond Resistance: Prioritizing Safety in Antimicrobial Stewardship for Older Adults.",
+    "journal": "The Senior care pharmacist",
+    "journalAbbrev": "Sr Care Pharm",
+    "year": 2026,
+    "authors": ["Chahine", "Watanabe", "Dong", "Andrade"],
+    "meshTerms": ["Humans", "Antimicrobial Stewardship", "Anti-Bacterial Agents", "Aged", "Pharmacists", "Drug Interactions", "Drug Resistance, Bacterial", "Polypharmacy"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "40818565",
+    "doi": "10.1016/j.ajic.2025.08.007",
+    "title": "Modification of nursing-initiated standing order sets results in a nonsignificant decline in inappropriate urinalyses in an adult emergency department.",
+    "journal": "American journal of infection control",
+    "journalAbbrev": "Am J Infect Control",
+    "year": 2025,
+    "authors": ["Liu", "Guerrero-Wooley", "Zhou", "Pappas"],
+    "meshTerms": ["Humans", "Emergency Service, Hospital", "Male", "Female", "Middle Aged", "Aged", "Adult", "Urinalysis", "Aged, 80 and over", "Anti-Bacterial Agents", "Bacteriuria"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "40700033",
+    "doi": "10.2196/68044",
+    "title": "Impact of Diagnostic Stewardship on Urine Culture Ordering in Saudi Arabia: Prospective Pre- and Postintervention Study.",
+    "journal": "JMIR medical informatics",
+    "journalAbbrev": "JMIR Med Inform",
+    "year": 2025,
+    "authors": ["Alghamdi", "Alkazemi", "Ibrahim", "Alraey", "Alaboud", "Farooqi", "Aatif Khan", "Allam"],
+    "meshTerms": ["Humans", "Saudi Arabia", "Male", "Female", "Prospective Studies", "Antimicrobial Stewardship", "Middle Aged", "Adult", "Urinalysis", "Anti-Bacterial Agents", "Decision Support Systems, Clinical", "Aged", "Urinary Tract Infections"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "40720743",
+    "doi": "10.1093/cid/ciaf411",
+    "title": "Implementation of Diagnostic Stewardship to Improve Urinary Tract Infection Antibiotic Use Across 3 Medical Centers.",
+    "journal": "Clinical infectious diseases : an official publication of the Infectious Diseases Society of America",
+    "journalAbbrev": "Clin Infect Dis",
+    "year": 2026,
+    "authors": ["Claeys", "Brown", "Pineles", "Evans", "Cao", "Trautner", "Crnich", "Balasubramanian"],
+    "meshTerms": ["Humans", "Urinary Tract Infections", "Anti-Bacterial Agents", "Antimicrobial Stewardship", "Aged", "Male", "Female", "Middle Aged", "Aged, 80 and over", "United States", "Hospitals, Veterans"],
+    "articleTypes": ["Journal Article", "Multicenter Study"],
+    "language": "eng"
+  },
+  {
+    "pmid": "36281377",
+    "doi": "10.1016/j.heliyon.2022.e11049",
+    "title": "Urine testing is associated with inappropriate antibiotic use and increased length of stay in emergency department patients.",
+    "journal": "Heliyon",
+    "journalAbbrev": "Heliyon",
+    "year": 2022,
+    "authors": ["Childers", "Liotta", "Brennan", "Wang", "Kattoula", "Tran", "Montilla-Guedez", "Castillo"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]

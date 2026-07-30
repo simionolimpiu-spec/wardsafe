@@ -1,0 +1,62 @@
+[
+  {
+    "pmid": "42338922",
+    "doi": "10.3389/fstro.2026.1818548",
+    "title": "Closing the stroke care gap: a collaborative, self-sustainable telemedicine enabled model from rural Nepal.",
+    "journal": "Frontiers in stroke",
+    "journalAbbrev": "Front Stroke",
+    "year": 2026,
+    "authors": ["Paudel", "Khanal", "Thapa", "Paudel", "Gumbinger", "Hamal", "Tunkl"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41243862",
+    "doi": "10.1080/02813432.2025.2588126",
+    "title": "Stroke recognition and early care pathways following telephone triage in out-of-hours primary care: a register-based study from the Central Denmark Region.",
+    "journal": "Scandinavian journal of primary health care",
+    "journalAbbrev": "Scand J Prim Health Care",
+    "year": 2025,
+    "authors": ["Gude", "Huibers", "Lock", "Pedersen", "Blauenfeldt"],
+    "meshTerms": ["Humans", "Triage", "Denmark", "Male", "Female", "After-Hours Care", "Retrospective Studies", "Primary Health Care", "Aged", "Telephone", "Stroke", "Ischemic Attack, Transient", "Registries", "Time-to-Treatment", "General Practitioners", "Critical Pathways", "Thrombolytic Therapy"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41028496",
+    "doi": "10.1007/s10072-025-08416-z",
+    "title": "Functional neurological disorders among hospitalized patients in a resource-limited setting: current situation in Colombia and paths to improvement.",
+    "journal": "Neurological sciences : official journal of the Italian Neurological Society and of the Italian Society of Clinical Neurophysiology",
+    "journalAbbrev": "Neurol Sci",
+    "year": 2025,
+    "authors": ["Marín-Medina", "Ortega-Quintero", "Arenas-Vargas", "Arias-Botero", "Ramírez-Molina"],
+    "meshTerms": ["Humans", "Female", "Male", "Colombia", "Adult", "Middle Aged", "Retrospective Studies", "Young Adult", "Nervous System Diseases", "Hospitalization", "Resource-Limited Settings"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "34483249",
+    "doi": "10.1097/MEJ.0000000000000875",
+    "title": "Factors associated with delayed revascularization in patients with ischemic stroke: a prospective study in one French region.",
+    "journal": "European journal of emergency medicine : official journal of the European Society for Emergency Medicine",
+    "journalAbbrev": "Eur J Emerg Med",
+    "year": 2022,
+    "authors": ["Laurent", "Bonnaud", "Gaudron", "Lahondère", "Godillon", "Vannier", "Bouilleau", "De Toffol"],
+    "meshTerms": ["Adolescent", "Brain Ischemia", "Emergency Medical Services", "Humans", "Ischemic Stroke", "Prospective Studies", "Stroke"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "20491968",
+    "doi": "10.1111/j.1365-2524.2010.00917.x",
+    "title": "'After the stroke': patients' and carers' experiences of healthcare after stroke in Scotland.",
+    "journal": "Health & social care in the community",
+    "journalAbbrev": "Health Soc Care Community",
+    "year": 2010,
+    "authors": ["Salisbury", "Wilkie", "Bulley", "Shiels"],
+    "meshTerms": ["Adaptation, Psychological", "Adult", "Aged", "Electric Stimulation Therapy", "Female", "Humans", "Interview, Psychological", "Male", "Middle Aged", "Psychometrics", "Qualitative Research", "Quality of Life", "Scotland", "Stress, Psychological", "Stroke", "Stroke Rehabilitation", "Time Factors"],
+    "articleTypes": ["Journal Article", "Research Support, Non-U.S. Gov't"],
+    "language": "eng"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "pmid": "42339000",
+    "doi": "10.15420/cfr.2025.50",
+    "title": "A Contemporary Perspective on Acute Decompensated Heart Failure Classification: A State-of-the-art Review from an International Expert Group.",
+    "journal": "Cardiac failure review",
+    "journalAbbrev": "Card Fail Rev",
+    "year": 2026,
+    "authors": ["Chioncel", "Mebazaa", "Collins", "Cotter", "Bozkurt", "Volterrani", "Ponikowski", "Geavlete"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article", "Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41682872",
+    "doi": "10.3390/jcm15031194",
+    "title": "Ten-Year Trends in Clinical Profiles, Management, and Outcomes of De Novo Acute Heart Failure.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": ["Ruiz-Ruiz", "Rodríguez-Torres", "Navarro-Puerto", "Lora-Pablos", "Menéndez-Orenga", "Guerra-Vales", "Gómez-Morales", "Calderón"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "40332986",
+    "doi": "10.1080/00325481.2025.2503696",
+    "title": "A comprehensive review of inpatient heart failure management for the hospitalist.",
+    "journal": "Postgraduate medicine",
+    "journalAbbrev": "Postgrad Med",
+    "year": 2025,
+    "authors": ["Rajesh", "Kovacik", "Wasef", "Lohr", "Kasprowicz"],
+    "meshTerms": ["Humans", "Heart Failure", "Hospitalists", "Diuretics", "Hospitalization", "Inpatients", "Patient Discharge", "Practice Guidelines as Topic"],
+    "articleTypes": ["Journal Article", "Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "38158264",
+    "doi": "10.1016/j.hlc.2023.11.021",
+    "title": "Early Discharge to Clinic-Based Therapy of Patients Presenting With Decompensated Heart Failure (EDICT-HF): Study Protocol for a Multi-Centre Randomised Controlled Trial.",
+    "journal": "Heart, lung & circulation",
+    "journalAbbrev": "Heart Lung Circ",
+    "year": 2023,
+    "authors": ["Ranasinghe", "Koh", "Vogrin", "Nelson", "Cohen", "Voskoboinik", "Nanayakkara", "Haikerwal"],
+    "meshTerms": ["Humans", "Heart Failure", "Patient Discharge", "Stroke Volume", "Prospective Studies", "Ventricular Function, Left", "Victoria", "Randomized Controlled Trials as Topic"],
+    "articleTypes": ["Clinical Trial Protocol", "Journal Article"],
+    "language": "eng"
+  }
+]

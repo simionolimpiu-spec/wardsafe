@@ -57,7 +57,20 @@ export const CUE_TYPES = Object.freeze([
   Object.freeze({ id: 'falls-mobility', builtInApp: false, source: null }),
   Object.freeze({ id: 'functional-decline', builtInApp: false, source: null }),
   Object.freeze({ id: 'aki-recognition', builtInApp: false, source: null }),
-  Object.freeze({ id: 'nurse-intuition', builtInApp: false, source: null })
+  Object.freeze({ id: 'nurse-intuition', builtInApp: false, source: null }),
+  // Reserved - added in wave 5 (top-10 admission-cause scale-up, derived from an
+  // NNUH/JPUH/QEH ward dedup analysis): the commonest reasons patients end up on
+  // the corresponding adult ward types, none previously covered by the corpus.
+  Object.freeze({ id: 'copd-exacerbation', builtInApp: false, source: null }),
+  Object.freeze({ id: 'pneumonia-lrti', builtInApp: false, source: null }),
+  Object.freeze({ id: 'heart-failure-decompensation', builtInApp: false, source: null }),
+  Object.freeze({ id: 'uti-urosepsis', builtInApp: false, source: null }),
+  Object.freeze({ id: 'falls-fragility-fracture', builtInApp: false, source: null }),
+  Object.freeze({ id: 'stroke-tia', builtInApp: false, source: null }),
+  Object.freeze({ id: 'chest-pain-acs', builtInApp: false, source: null }),
+  Object.freeze({ id: 'abdominal-pain', builtInApp: false, source: null }),
+  Object.freeze({ id: 'gi-bleed', builtInApp: false, source: null }),
+  Object.freeze({ id: 'cellulitis-ssti', builtInApp: false, source: null })
 ]);
 
 const CUE_TYPE_IDS = new Set(CUE_TYPES.map((c) => c.id));

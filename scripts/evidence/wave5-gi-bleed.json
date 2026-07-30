@@ -1,0 +1,62 @@
+[
+  {
+    "pmid": "42356222",
+    "doi": "10.3390/medicina62061210",
+    "title": "Prognostic Value of BUN-Based Ratios for Mortality and Prolonged Hospitalization in Acute Upper Gastrointestinal Bleeding: Comparison with Established Risk Scores.",
+    "journal": "Medicina (Kaunas, Lithuania)",
+    "journalAbbrev": "Medicina (Kaunas)",
+    "year": 2026,
+    "authors": ["İnan", "Erdoğan", "Keskin", "Özden", "Karpuzcu", "Ateş", "Kılıç"],
+    "meshTerms": ["Humans", "Male", "Female", "Gastrointestinal Hemorrhage", "Blood Urea Nitrogen", "Aged", "Retrospective Studies", "Prognosis", "Hospital Mortality", "Middle Aged", "ROC Curve", "Aged, 80 and over", "Length of Stay", "Cohort Studies", "Risk Assessment", "Hemoglobins"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42251293",
+    "doi": "10.1186/s12876-026-04963-7",
+    "title": "Validation of the C-WATCH score for predicting severity in patients with upper gastrointestinal bleeding at a tertiary public hospital in Lima, Peru.",
+    "journal": "BMC gastroenterology",
+    "journalAbbrev": "BMC Gastroenterol",
+    "year": 2026,
+    "authors": ["Espinoza-Ríos", "Ruiz-Cortez", "Santiago", "Tenorio"],
+    "meshTerms": ["Humans", "Peru", "Male", "Female", "Gastrointestinal Hemorrhage", "Prospective Studies", "Middle Aged", "Severity of Illness Index", "Hospitals, Public", "Tertiary Care Centers", "Risk Assessment", "Aged", "ROC Curve", "Predictive Value of Tests", "Recurrence", "Blood Transfusion"],
+    "articleTypes": ["Journal Article", "Validation Study"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41899169",
+    "doi": "10.3390/jcm15062245",
+    "title": "Systemic Inflammation Response Index (SIRI) and Aggregate Index of Systemic Inflammation (AISI) as Predictors of Mortality in Patients with Upper Gastrointestinal Bleeding.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": ["Erdoğan", "İnan", "Ateş", "Kılıç"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41535764",
+    "doi": "10.1186/s12876-026-04613-y",
+    "title": "Effectiveness of the ABC score in predicting 30-day mortality in upper and lower gastrointestinal bleeding at Muhimbili National Hospital, Tanzania: a single-center retrospective cohort study.",
+    "journal": "BMC gastroenterology",
+    "journalAbbrev": "BMC Gastroenterol",
+    "year": 2026,
+    "authors": ["Ahmed", "Kombole", "Hassan", "Ahmed"],
+    "meshTerms": ["Humans", "Retrospective Studies", "Tanzania", "Female", "Gastrointestinal Hemorrhage", "Male", "Middle Aged", "Aged", "Risk Assessment", "ROC Curve", "Adult", "Predictive Value of Tests", "Severity of Illness Index"],
+    "articleTypes": ["Journal Article", "Validation Study"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41404246",
+    "doi": "10.7759/cureus.96795",
+    "title": "Diagnostic Performance of AIMS65, Glasgow-Blatchford, and Pre-endoscopy Rockall Scores in Predicting Clinical Outcomes Among Upper Gastrointestinal Bleeding Patients in the Emergency Department.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": ["Nik Pa", "Abu Bakar", "Sabardin", "Abd Samat"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]
