@@ -144,8 +144,8 @@
     "cueTypes": [
       "bias-awareness"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "Croskerry's foundational 2003 paper catalogues the specific cognitive biases - which he termed \"cognitive dispositions to respond\" - that drive diagnostic error, and argues these are addressable through deliberate \"cognitive debiasing\" strategies rather than accepted as an unavoidable cost of fast clinical judgement. The strategy given the most weight is metacognition: consciously stepping back from the immediate problem to examine one's own reasoning process before committing to a decision. SafeFlow's bias-awareness cue draws on this framework - naming the specific bias at play (anchoring, premature closure, and so on) is what makes the reflective step-back concrete rather than a vague exhortation to \"think again\"."
   },
   {
     "pmid": "17472872",
@@ -555,8 +555,8 @@
     "cueTypes": [
       "pearls-debrief"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "Eppich and Cheng's 2015 paper is the original description of PEARLS (Promoting Excellence And Reflective Learning in Simulation), a blended debriefing framework that deliberately combines three distinct facilitation strategies - learner self-assessment first, then a facilitated focused discussion, and only then directive feedback or teaching where a knowledge gap remains. The framework includes a scripted debriefing tool specifically so facilitators new to debriefing have concrete language to fall back on, rather than needing to improvise a structured conversation from scratch. SafeFlow's structured-debrief prompts follow this same self-assessment-first, teach-last sequence, on the basis that a debrief which starts by telling people what went wrong teaches less than one that starts by asking them."
   },
   {
     "pmid": "25990249",
@@ -624,8 +624,8 @@
     "cueTypes": [
       "safety-ii"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "Braithwaite, Wears and Hollnagel's 2015 paper is the source of the Safety-I/Safety-II distinction SafeFlow's \"what went well\" strand is built on: where Safety-I looks backwards to find and fix what went wrong, Safety-II asks what let performance go right on the vast majority of shifts where nothing did. The authors' central claim is that healthcare is resilient largely because clinicians are constantly, invisibly adjusting what they do to match shifting conditions - and that naming and reinforcing those adjustments, not just auditing failures, is what improves safety going forward. SafeFlow's debrief prompts for \"what went well\" are a direct, ward-level application of this: surfacing the adjustments a nurse made that kept a shift safe, not only the moments that nearly went wrong."
   },
   {
     "pmid": "26456639",
@@ -1827,8 +1827,8 @@
     "cueTypes": [
       "pace-ladder"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "PACE itself (Probe-Alert-Challenge-Emergency) is Clinical Human Factors Group training material rather than a peer-reviewed paper, so this record links the closest matching primary research instead: a 2019 qualitative study of a graded-assertiveness communication module taught to first-year nursing students before their first clinical placement. Students and staff reported that rehearsing an escalating framework for \"speaking up\" in a low-stakes classroom setting built confidence and a sense of permission to advocate, well before they faced a real ward hierarchy under pressure. This supports SafeFlow's own graded-ladder design: giving reviewers scripted, escalating language for raising a concern is a rehearsal aid, not just a reminder that they are allowed to speak up."
   },
   {
     "pmid": "31745509",
@@ -2552,8 +2552,8 @@
     "cueTypes": [
       "family-concern"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "Bucknall and colleagues' 2021 paper reviews family-activated rapid response systems - mechanisms that let a patient or relative alert a hospital's critical care outreach team directly, bypassing the ward's usual escalation chain, when their concerns about deterioration are not being acted on by the primary team. The UK's own version, the \"Call for Concern\" model championed by the Royal Berkshire Hospital, predates Martha's Rule and is one of the precedents the newer national policy draws on; the authors note implementation is genuinely difficult and depends on both staff and family understanding when and how to use it. SafeFlow's family-concern scenario is grounded in this literature: family escalation is framed as a distinct, legitimate safety channel, not merely a variant of staff intuition."
   },
   {
     "pmid": "35045340",
@@ -3766,8 +3766,8 @@
     "cueTypes": [
       "new-to-service"
     ],
-    "verification": "metadata-only",
-    "safeflowSummary": null
+    "verification": "abstract-read",
+    "safeflowSummary": "A 2024 systematic review of 17 studies (16 qualitative) found that internationally educated nurses' integration into host health systems is too often treated as a one-way process - new starters expected to adapt to the ward, rather than the ward adapting to them - and that a mismatch between pre-migration expectations and on-the-ground reality is a recurring theme across settings. The review's authors call for a comprehensive, collaborative organisational response that addresses discrimination, racism, and communication or language barriers directly, since these - not just clinical unfamiliarity - are what most affects job satisfaction and retention. For SafeFlow, this supports treating a \"new to this ward\" flag as a prompt for the team to adapt its own practice, not just a note that the new starter needs extra supervision."
   },
   {
     "pmid": "39026330",
