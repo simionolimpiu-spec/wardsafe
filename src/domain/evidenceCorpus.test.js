@@ -108,13 +108,16 @@ describe('evidence corpus content — curation integrity', () => {
     // SF-289 (first wave, self-authored): 8 SafeFlow-voice summaries covering
     // 9 built-in-app cue types (deteriorating-obs and score-comparison share
     // one record; escalation/deteriorating-obs/staffing-context share another;
-    // sepsis-screen/staffing-context share a third). The remaining 6 built-in
-    // cue types (new-to-service, bias-awareness, pearls-debrief, pace-ladder,
-    // safety-ii, family-concern) now have linked evidence records (SF-290,
-    // wave 6) but none has a safeflowSummary yet, so the citable count stays
-    // at 8 — writing summaries for those 6 is separate future work.
+    // sepsis-screen/staffing-context share a third).
+    // SF-291 (second wave, self-authored): 6 more summaries, one per record
+    // from SF-290's wave 6 - closes out every remaining built-in-app cue type
+    // (new-to-service, bias-awareness, pearls-debrief, pace-ladder, safety-ii,
+    // family-concern). All 15 built-in-app cue types now have at least one
+    // citable record; the 19 reserved (builtInApp:false) cue types still have
+    // none - writing summaries for those is separate future work, gated on
+    // those disciplines getting their own cue panels built in the app first.
     const citableCount = evidenceCorpus.filter(isCitable).length;
-    expect(citableCount).toBe(8);
+    expect(citableCount).toBe(14);
   });
 });
 
