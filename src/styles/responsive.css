@@ -142,10 +142,13 @@
   }
 }
 
-@media (max-width: 1180px) {
-  .redesign-topbar { grid-template-columns: 1fr auto; }
+@media (max-width: 1400px) {
+  .redesign-topbar { grid-template-columns: minmax(220px, 1fr) minmax(0, auto); }
   .topbar-context { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
   .app-shell-redesign .topbar-actions { grid-column: 2; grid-row: 1; }
+}
+
+@media (max-width: 1180px) {
   .board-summary-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 

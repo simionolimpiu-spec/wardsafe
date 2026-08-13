@@ -8,6 +8,12 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByText(/^NHS$/)).toHaveCount(0);
   expect(await page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('Inter');
 
+  const pageWidth = await page.locator('html').evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth
+  }));
+  expect(pageWidth.scrollWidth).toBeLessThanOrEqual(pageWidth.clientWidth + 1);
+
   const overflowingMetrics = await page.locator('.board-summary-cards').evaluate((grid) => {
     const gridRect = grid.getBoundingClientRect();
     return Array.from(grid.children)
