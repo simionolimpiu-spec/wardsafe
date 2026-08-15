@@ -20,3 +20,16 @@ cdk.out/
 # Only manifest.json (counts + timing) is committed - the CSVs can reach
 # millions of rows at full 1300-day scale and are not repo-appropriate.
 data/exports/longitudinal/*.csv
+
+# Public case corpus: harvester working files, regenerate via
+# node scripts/build-case-corpus.mjs
+#
+# .cache/ is raw fetched judiciary.uk HTML — Crown copyright, reproduced
+# under the Open Government Licence. It is a local fetch cache, not corpus
+# content, and at full-crawl scale is ~5,000 pages of third-party HTML.
+# candidates.* are derived screening outputs, not adjudicated records.
+# The corpus itself — cases/, excluded/, schema.json and the protocol,
+# manifest and verification log — IS committed.
+data/public-case-corpus/.cache/
+data/public-case-corpus/candidates.jsonl
+data/public-case-corpus/candidates-ranked.md

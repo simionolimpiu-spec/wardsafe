@@ -1,0 +1,160 @@
+{
+  "id": "pfd-2024-0284",
+  "source": {
+    "type": "pfd",
+    "ref": "2024-0284",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/david-scott-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2024/05/David-Scott-Prevention-of-future-deaths-report-2024-0284_Published.pdf",
+    "report_date": "2024-05-26",
+    "published_date": null,
+    "category": "Hospital Death (Clinical Procedures and medical management) related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "David Scott",
+    "age": 68,
+    "date_of_death": "2023-10-07",
+    "cause_of_death": "Naturally occurring disease contributed to by malnutrition and in part by a delay in the initial diagnosis and treatment of peripheral vascular disease"
+  },
+
+  "authority": {
+    "coroner_name": "Charlotte Keighley",
+    "coroner_area": "Cheshire",
+    "recipients": ["Warrington Hospital"],
+    "primary_organisation": "Warrington and Halton Teaching Hospitals NHS Foundation Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "attendance",
+      "date": "2023-02-02",
+      "end_date": "2023-02-02",
+      "setting": "Warrington Hospital",
+      "presentation": "Non-healing wound to knee and leg pain; attended on GP advice, GP having liaised with the hospital about their concerns",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "On the 2nd February 2023, David Scott attended Warrington Hospital with a history of a non-healing wound to his knee and leg pain. He was diagnosed with a right knee wound infection and discharged with antibiotics."
+    },
+    {
+      "seq": 2,
+      "contact_type": "attendance",
+      "date": "2023-02-09",
+      "end_date": "2023-02-09",
+      "setting": "Physiotherapy",
+      "presentation": "Physiotherapist review; re-examined the existing x-rays",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 7,
+      "evidence": "On the 9th February 2023, David was seen by the physiotherapist who reviewed his x-rays and noted some vascular calcification, it was identified that David presented with risk factors for peripheral vascular disease and so it was requested that further investigations be carried out which resulted in an urgent referral being made to the vascular team on the 8th March 2023."
+    },
+    {
+      "seq": 3,
+      "contact_type": "attendance",
+      "date": "2023-04-04",
+      "end_date": null,
+      "setting": "Accident and Emergency Department, Warrington Hospital",
+      "presentation": "Knee wound increased in size, no signs of healing, pain, struggling with mobility; no communication received about the urgent referral made 27 days earlier",
+      "outcome": "admitted",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 54,
+      "evidence": "By the 4th April 2023, David's knee wound had increased in size, showing no signs of healing, he was in pain and struggling with his mobility. At this time he had not had any communication in respect of the referral and so attended the Accident and Emergency Department at Warrington Hospital."
+    },
+    {
+      "seq": 4,
+      "contact_type": "intra_admission",
+      "date": "2023-04-14",
+      "end_date": "2023-04-21",
+      "setting": "Warrington Hospital",
+      "presentation": "Deterioration in knee wound, appearing black and more inflamed, further blackened wounds on heel and ankle",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 10,
+      "evidence": "During the period of deterioration, David's wounds were not reviewed by the tissue viability nursing team as no referral had been actioned. On the 18th April 2023, David was treated with antibiotics for infection and when he was seen by the vascular surgeon on the 21st April, the condition of his leg had deteriorated to the point of ischaemic gangrene which had become so severe that he required an above the knee amputation as his leg was beyond repair."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "prior_specialist_advice_not_followed": false,
+    "test_ordered_not_chased": true,
+    "test_not_ordered": false,
+    "risk_assessment_not_updated_after_event": false,
+    "patient_concern_not_escalated": false,
+    "family_concern_not_escalated": false,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": true,
+    "specialist_input_not_sought": true,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": false,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": true
+  },
+
+  "what_was_missed": "Vascular calcification was visible on the x-ray taken at the first attendance on 2 February 2023 but was not recorded in the radiology report; a physiotherapist reviewing the same images seven days later identified it and the risk factors for peripheral vascular disease, but the resulting urgent referral then went 27 days without communication and the diagnosis was not confirmed until 7 April.",
+
+  "coroner_concerns": [
+    {
+      "quote": "When Mr Scott attended Warrington Hospital on the 2nd February 2023, having been advised to do so by his GP and the GP having liaised with the hospital in respect of their concerns relating to a non-healing wound on Mr Scott's knee, an x-ray was taken which showed evidence of vascular calcification which was not noted in the x-ray report. Mr Scott was diagnosed with a right knee wound infection and discharged with antibiotics.",
+      "box": "5",
+      "theme": "record_system"
+    },
+    {
+      "quote": "Seven days later a physiotherapist reviewed Mr Scott and considered the x-rays as part of his review. The physiotherapist noted some vascular calcification on the x-ray, which raised concerns of peripheral vascular disease given Mr Scott's clinical presentation and history.",
+      "box": "5",
+      "theme": "record_system"
+    },
+    {
+      "quote": "I am concerned that a finding that 'could be normal' and so conversely 'could be abnormal' was not recorded.",
+      "box": "5",
+      "theme": "guidance_adherence"
+    },
+    {
+      "quote": "I am further concerned and that something of this nature, would not be expected to be noted in the x-ray report, it appearing to be considered standard practice for it not to be reported by both a Consultant in Emergency Medicine and Consultant Radiologist within Warrington Hospital. This does not appear to be consistent with expected standards and poses a risk that future deaths may occur.",
+      "box": "5",
+      "theme": "guidance_adherence"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": true,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "Attendance 2 February 2023; physiotherapy review 9 February 2023; A&E attendance 4 April 2023; in-patient deterioration from 14 April 2023 — four separately-assessed contacts over the same non-healing wound."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "He was diagnosed with a right knee wound infection and discharged with antibiotics."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "an x-ray was taken which showed evidence of vascular calcification which was not noted in the x-ray report."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "During the period of deterioration, David's wounds were not reviewed by the tissue viability nursing team as no referral had been actioned. […] At this time he had not had any communication in respect of the referral and so attended the Accident and Emergency Department."
+      }
+    ],
+    "exclusion_reason": null,
+    "adjacent_theme": false,
+    "sensitive_handling": false,
+    "adjudication_note": "Among the strongest cases in the corpus. The answer was physically present in the imaging on 2 February 2023 and was seen by a physiotherapist on 9 February; the patient died on 7 October. Three distinct carry-forward failures compound: (i) an abnormality visible on the x-ray not entered into the report, so it did not exist as far as the record was concerned; (ii) an urgent referral made 8 March that generated no communication to the patient for 27 days, such that his own re-attendance at A&E was what restarted the process; (iii) a tissue viability referral never actioned during active deterioration. Note the coroner's finding that non-reporting of this kind 'appear[s] to be considered standard practice' at the Trust — this is not a lapse by one radiologist but a settled local convention, which is precisely the class of failure invisible to episode-level review."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published PDF text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.1"
+  }
+}

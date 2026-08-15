@@ -1,0 +1,131 @@
+{
+  "id": "pfd-2024-0166",
+  "source": {
+    "type": "pfd",
+    "ref": "2024-0166",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/robert-prowse-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2024/04/Robert-Prowse-Prevention-of-future-deaths-report-2024-0166_Published.pdf",
+    "report_date": "2024-03-25",
+    "published_date": null,
+    "category": "Emergency services related deaths (2019 onwards)",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Robert Andrew Prowse",
+    "age": 86,
+    "date_of_death": "2023-09-19",
+    "cause_of_death": "1a Urosepsis; 2 Frailty of Old Age"
+  },
+
+  "authority": {
+    "coroner_name": "Guy Davies",
+    "coroner_area": "Cornwall and the Isles of Scilly",
+    "recipients": ["Secretary of State for Health & Social Care"],
+    "primary_organisation": "South Western Ambulance Service NHS Foundation Trust / Royal Cornwall Hospitals NHS Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "intra_admission",
+      "date": "2023-09-19",
+      "end_date": "2023-09-19",
+      "setting": "Rapid Assessment and Treatment Centre (triage centre adjacent to Treliske ED)",
+      "presentation": "Evidence of sepsis noted on assessment",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "There it was noted that Robert displayed evidence of sepsis but it was determined that his condition was not immediately life threatening. Robert was given fluids but not antibiotics and then returned to the ambulance parked outside ED."
+    },
+    {
+      "seq": 2,
+      "contact_type": "attendance",
+      "date": "2023-09-19",
+      "end_date": "2023-09-19",
+      "setting": "Emergency Department, Royal Cornwall Hospital Truro (Treliske)",
+      "presentation": "Transferred to ED at 11:05 after a handover delay of one hour 25 minutes",
+      "outcome": "died",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 0,
+      "evidence": "Robert remained in the ambulance attended by the paramedic crew until later transfer to ED at 11:05 hours. […] Robert was then subject to tests and sepsis was identified. Robert was found deceased at 13:00 hours. Antibiotics had been prescribed but Robert died before they could be administered."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": false,
+    "prior_specialist_advice_not_followed": false,
+    "test_ordered_not_chased": false,
+    "test_not_ordered": false,
+    "risk_assessment_not_updated_after_event": false,
+    "patient_concern_not_escalated": false,
+    "family_concern_not_escalated": false,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": false,
+    "specialist_input_not_sought": false,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": false,
+    "record_system_did_not_surface": false,
+    "guidance_existed_not_followed": false
+  },
+
+  "what_was_missed": null,
+
+  "coroner_concerns": [
+    {
+      "quote": "Robert's death followed an ambulance delay, attributable to a systemic failure, which is likely to have contributed to Robert's death by preventing lifesaving treatment.",
+      "box": "5",
+      "theme": "staffing_resource"
+    },
+    {
+      "quote": "there is a direct link between patients waiting in the hospital for discharge to social care, and patients being cared for inside ambulances and Emergency Departments.",
+      "box": "5",
+      "theme": "staffing_resource"
+    },
+    {
+      "quote": "The court noted that two reports have been issued by this court in November 2023 addressed to the Health Secretary raised the same concerns regarding ambulance delays. A response to those reports is still awaited.",
+      "box": "5",
+      "theme": "governance_reporting"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": false,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "Assessment at the Rapid Assessment and Treatment Centre, then transfer to ED at 11:05 hours — two separately-assessed points within a single unbroken episode of care."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "it was determined that his condition was not immediately life threatening. Robert was given fluids but not antibiotics and then returned to the ambulance parked outside ED."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "There it was noted that Robert displayed evidence of sepsis"
+      },
+      {
+        "criterion": "C4",
+        "met": false,
+        "evidence": "The coroner's sixteen matters of concern address ambulance response and handover delays, ED crowding, and the link between delayed discharge to social care and ambulance availability. No concern is directed at the triage decision to give fluids but not antibiotics, or at the failure to carry the noted sepsis forward. 'The court found that the delay was not caused by any individual failing but was attributable to a systemic failure discussed in the concerns set out below.'"
+      }
+    ],
+    "exclusion_reason": "E7_mechanism_not_identified",
+    "adjacent_theme": false,
+    "sensitive_handling": false,
+    "adjudication_note": "This case required a new exclusion code and is the reason protocol v1.1 exists.\n\nOn the facts, C1–C3 are all met: sepsis was noted at the triage centre, the assessment was closed as not immediately life-threatening, and the patient was returned to an ambulance where he waited another 85 minutes before the same finding was made again in ED and antibiotics were prescribed too late. That reads like the pattern.\n\nBut C4 asks what the *coroner* identified, not what we can see. This coroner's concern is capacity, not continuity — sixteen numbered concerns about ambulance response times, handover delays, ED crowding and social care discharge, and none about the triage-to-ED information handoff. He expressly finds the delay 'was not caused by any individual failing.'\n\nExcluding it is the right call and the discipline matters. If the corpus includes cases where *we* can discern the pattern but the coroner named something else, then every case rests on our interpretation rather than on an independent judicial finding — and the corpus stops being evidence and becomes an argument. The whole value of PFD reports as a source is that someone other than us decided what went wrong.\n\nRecorded here in full because the near-miss is instructive, and because a reviewer who reads this case and disagrees with the exclusion should be able to see exactly what was weighed."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published PDF text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.1"
+  }
+}

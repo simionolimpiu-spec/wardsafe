@@ -1,0 +1,202 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "wardsafe/public-case-corpus/case",
+  "title": "Public Case Corpus — case record",
+  "description": "One documented care trajectory drawn from a published UK public record (coroner's PFD report, PHSO decision, or HSSIB investigation). Public-record derived. NOT patient data. See README.md.",
+  "type": "object",
+  "required": [
+    "id",
+    "source",
+    "inclusion",
+    "contacts",
+    "coroner_concerns",
+    "extraction"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable corpus id, derived from source ref. e.g. pfd-2026-0069",
+      "pattern": "^(pfd|phso|hssib)-[0-9]{4}-[0-9]{4}$"
+    },
+
+    "source": {
+      "type": "object",
+      "required": ["type", "ref", "url", "report_date"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["pfd", "phso", "hssib"] },
+        "ref": { "type": "string", "description": "Publisher's reference, e.g. 2026-0069" },
+        "url": { "type": "string", "format": "uri" },
+        "pdf_url": { "type": ["string", "null"], "format": "uri" },
+        "report_date": { "type": "string", "format": "date" },
+        "published_date": { "type": ["string", "null"], "format": "date" },
+        "category": { "type": ["string", "null"] },
+        "response_published": {
+          "type": "boolean",
+          "description": "Whether the recipient organisation's response is published alongside. A non-response is itself a finding."
+        }
+      }
+    },
+
+    "subject": {
+      "type": "object",
+      "description": "Named because the source is a published judicial record. See README dignity note.",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": ["string", "null"] },
+        "age": { "type": ["integer", "null"] },
+        "date_of_death": { "type": ["string", "null"], "format": "date" },
+        "cause_of_death": { "type": ["string", "null"] }
+      }
+    },
+
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "coroner_name": { "type": ["string", "null"] },
+        "coroner_area": { "type": ["string", "null"] },
+        "recipients": { "type": "array", "items": { "type": "string" } },
+        "primary_organisation": {
+          "type": ["string", "null"],
+          "description": "The Trust or body whose care is in question. Used for repeat-organisation analysis."
+        }
+      }
+    },
+
+    "contacts": {
+      "type": "array",
+      "minItems": 2,
+      "description": "The trajectory. Ordered. Only contacts stated in the source; do not reconstruct.",
+      "items": {
+        "type": "object",
+        "required": ["seq", "contact_type", "outcome"],
+        "additionalProperties": false,
+        "properties": {
+          "seq": { "type": "integer", "minimum": 1 },
+          "contact_type": {
+            "enum": ["attendance", "admission", "readmission", "intra_admission", "primary_care", "ambulance"]
+          },
+          "date": { "type": ["string", "null"], "format": "date" },
+          "end_date": { "type": ["string", "null"], "format": "date" },
+          "setting": { "type": ["string", "null"] },
+          "presentation": { "type": ["string", "null"] },
+          "outcome": {
+            "enum": ["discharged", "admitted", "transferred", "not_escalated", "not_investigated", "died", "unstated"]
+          },
+          "closed_as_appropriate": {
+            "type": ["boolean", "null"],
+            "description": "C2. Was this closure treated as correct at the time?"
+          },
+          "interval_days_from_previous": {
+            "type": ["integer", "null"],
+            "description": "null if the source does not state both dates. Never estimate."
+          },
+          "evidence": { "type": "string", "description": "Verbatim source passage supporting this contact." }
+        }
+      }
+    },
+
+    "pattern_flags": {
+      "type": "object",
+      "description": "The failure mechanisms. Multi-label. These are the candidate training signals.",
+      "additionalProperties": false,
+      "properties": {
+        "information_not_carried_forward": { "type": "boolean" },
+        "prior_specialist_advice_not_followed": { "type": "boolean" },
+        "test_ordered_not_chased": { "type": "boolean" },
+        "test_not_ordered": { "type": "boolean" },
+        "risk_assessment_not_updated_after_event": { "type": "boolean" },
+        "patient_concern_not_escalated": { "type": "boolean" },
+        "family_concern_not_escalated": { "type": "boolean" },
+        "patient_declined_treatment_not_explored": { "type": "boolean" },
+        "working_diagnosis_not_revisited": { "type": "boolean" },
+        "specialist_input_not_sought": { "type": "boolean" },
+        "discharge_reversed_by_later_result": { "type": "boolean" },
+        "incident_not_logged": { "type": "boolean" },
+        "record_system_did_not_surface": { "type": "boolean" },
+        "guidance_existed_not_followed": { "type": "boolean" }
+      }
+    },
+
+    "what_was_missed": {
+      "type": ["string", "null"],
+      "description": "One sentence, source-grounded: the thing that was knowable and was not acted on."
+    },
+
+    "coroner_concerns": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Verbatim. This is what makes the case citable.",
+      "items": {
+        "type": "object",
+        "required": ["quote"],
+        "additionalProperties": false,
+        "properties": {
+          "quote": { "type": "string" },
+          "box": { "type": ["string", "null"], "description": "Which numbered box of the Reg 28 form" },
+          "theme": {
+            "type": ["string", "null"],
+            "enum": [
+              "record_system", "communication", "escalation", "guidance_adherence",
+              "specialist_access", "governance_reporting", "staffing_resource", null
+            ]
+          }
+        }
+      }
+    },
+
+    "inclusion": {
+      "type": "object",
+      "required": ["meets_strict", "criteria_met"],
+      "additionalProperties": false,
+      "properties": {
+        "meets_strict": { "type": "boolean" },
+        "criteria_met": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["criterion", "met", "evidence"],
+            "additionalProperties": false,
+            "properties": {
+              "criterion": { "enum": ["C1", "C2", "C3", "C4"] },
+              "met": { "type": "boolean" },
+              "evidence": { "type": "string", "description": "Verbatim quote from source." }
+            }
+          }
+        },
+        "exclusion_reason": {
+          "type": ["string", "null"],
+          "enum": ["E1_single_episode", "E2_point_failure", "E3_no_prior_information", "E4_recognised_at_time", "E5_insufficient_detail", "E6_out_of_scope_setting", "E7_mechanism_not_identified", null]
+        },
+        "adjacent_theme": {
+          "type": "boolean",
+          "description": "The coroner's identified mechanism is the same one WardSafe addresses. Usually set on excluded cases, where it marks them citable as supporting material but NOT counted toward the 100. May also be set on an included case whose PFD is additionally directed at a national guidance gap.",
+          "default": false
+        },
+        "sensitive_handling": {
+          "type": "boolean",
+          "description": "Child death, maternal/neonatal death, a case involving a second death, or comparable. NOT for use in any pitch, deck, demo, or public-facing material. Cite by reference only, and only where the full report will be read. Rationale must be stated in adjudication_note.",
+          "default": false
+        },
+        "adjudication_note": { "type": ["string", "null"] }
+      }
+    },
+
+    "extraction": {
+      "type": "object",
+      "required": ["method", "extracted_at"],
+      "additionalProperties": false,
+      "properties": {
+        "method": { "enum": ["manual", "assisted", "automated"] },
+        "extracted_at": { "type": "string", "format": "date" },
+        "extracted_by": { "type": ["string", "null"] },
+        "verified": { "type": "boolean", "default": false },
+        "verified_at": { "type": ["string", "null"], "format": "date" },
+        "verified_by": { "type": ["string", "null"] },
+        "protocol_version": { "type": "string" }
+      }
+    }
+  }
+}

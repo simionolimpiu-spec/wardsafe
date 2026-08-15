@@ -1,0 +1,143 @@
+{
+  "id": "pfd-2025-0579",
+  "source": {
+    "type": "pfd",
+    "ref": "2025-0579",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/ernest-gray-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2025/11/Ernest-Gray-Prevention-of-future-deaths-report-2025-0579_Published.pdf",
+    "report_date": "2025-11-07",
+    "published_date": null,
+    "category": "Hospital Death (Clinical Procedures and medical management) related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Ernest Roy Gray",
+    "age": 95,
+    "date_of_death": "2023-11-24",
+    "cause_of_death": "Natural causes; pneumonia, following ongoing delirium and intravascular dryness after a recent myocardial infarction on a background of heart failure, chronic kidney failure and hypertension"
+  },
+
+  "authority": {
+    "coroner_name": "Patricia Harding",
+    "coroner_area": "Kent and Medway",
+    "recipients": ["East Kent Hospitals University NHS Foundation Trust"],
+    "primary_organisation": "East Kent Hospitals University NHS Foundation Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "admission",
+      "date": "2023-11-06",
+      "end_date": "2023-11-15",
+      "setting": "QEQM Hospital",
+      "presentation": "Myocardial infarction; from 8 November agitated and confused, diagnosed with hyperactive delirium and heart failure",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "On 6th November 2023 Mr. Gray had been admitted to QEQM hospital after he suffered a myocardial infarction. On 8th November 2023 he presented as agitated & confused and was diagnosed with hyperactive delirium and heart failure"
+    },
+    {
+      "seq": 2,
+      "contact_type": "intra_admission",
+      "date": "2023-11-11",
+      "end_date": "2023-11-11",
+      "setting": "QEQM Hospital",
+      "presentation": "Aggressive; throwing things from a table and trying to hit staff; refused all medications",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 5,
+      "evidence": "On 11th November 2023 he was aggressive, throwing things from a table and trying to hit staff. He refused all medications but was calm in the afternoon. His behaviour could be characterised as experiencing episodes of agitation followed by periods of calm when he became apologetic."
+    },
+    {
+      "seq": 3,
+      "contact_type": "admission",
+      "date": "2023-11-19",
+      "end_date": "2023-11-24",
+      "setting": "William Harvey Hospital",
+      "presentation": "Became unwell; diagnosed with hyperactive delirium and heart failure",
+      "outcome": "died",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 4,
+      "evidence": "Within three hours of the interview Ernest Gray became unwell and was taken to hospital where he was diagnosed with hyperactive delirium and heart failure. […] Mr. Gray died 4 days later."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "prior_specialist_advice_not_followed": false,
+    "test_ordered_not_chased": false,
+    "test_not_ordered": false,
+    "risk_assessment_not_updated_after_event": true,
+    "patient_concern_not_escalated": false,
+    "family_concern_not_escalated": true,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": true,
+    "specialist_input_not_sought": false,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": false,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": false
+  },
+
+  "what_was_missed": "Documented episodes of agitation and violence during the admission, and the clinical fact that resolving hyperactive delirium can still fluctuate, were both known to the ward but were not communicated to the family at discharge, and the patient's live-in partner and carer was never contacted at all.",
+
+  "coroner_concerns": [
+    {
+      "quote": "Mr. Gray's next of kin was his daughter but he lived with his 86 year old partner. His daughter was consulted in the discharge process but the hospital did not attempt to contact his partner who was his carer.",
+      "box": "5",
+      "theme": "communication"
+    },
+    {
+      "quote": "Although a number of persons from different disciplines were involved in planning Mr. Gray's discharge, there was no evidence of a holistic approach being taken of the discharge or in communication of the patient's ongoing needs following discharge",
+      "box": "5",
+      "theme": "communication"
+    },
+    {
+      "quote": "Mr. Gray's daughter was informed two days before the discharge that he had hyperactive delirium and that it would resolve itself but could take a few weeks. She was not made aware that Mr. Gray had at times been agitated and violent in hospital, nor was she told that although the hyperactive delirium was resolving it could fluctuate because it was likely triggered by a metabolic cause (renal function), heart failure or myocardial infarction. Neither she nor Mr. Gray's partner were informed as to how symptoms may manifest or what to do if Mr. Gray was symptomatic. Had they known that Mr. Gray may become aggressive or violent to others particularly his carers, an early discharge would not have been encouraged",
+      "box": "5",
+      "theme": "communication"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": true,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "Admitted 6 November 2023, discharged 15 November 2023; separately-assessed aggression episode 11 November 2023; taken to hospital again 19 November 2023, died 24 November 2023."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "Over the course of next few days he was medically optimised for discharge as his hyperactive delirium was resolving and there were no further incidents of aggression although he remained confused. He was discharged from hospital on 15th November 2023 to his family home."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "She was not made aware that Mr. Gray had at times been agitated and violent in hospital, nor was she told that although the hyperactive delirium was resolving it could fluctuate."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "Although a number of persons from different disciplines were involved in planning Mr. Gray's discharge, there was no evidence of a holistic approach being taken of the discharge or in communication of the patient's ongoing needs following discharge"
+      }
+    ],
+    "exclusion_reason": null,
+    "adjacent_theme": false,
+    "sensitive_handling": true,
+    "adjudication_note": "The coroner's C4 finding is close to a statement of the problem this corpus exists to document: 'a number of persons from different disciplines were involved… there was no evidence of a holistic approach.' Many people, each doing their part, no one holding the arc. The discharge decision was reasonable on the trajectory data — delirium resolving, no further aggression — and unreasonable on the whole record, which contained documented violence five days earlier and a known-fluctuating cause.\n\nSENSITIVE HANDLING REQUIRED. Between discharge and the second admission, Mr Gray's partner died and he was arrested; the coroner's inquest concerned his own death from natural causes and made no finding of criminal responsibility, and none is implied here. Two families are involved, both bereaved, and one of the deceased is not the subject of this report. Do not use this case in any pitch, deck, demo, or public-facing material. Do not summarise it in prose outside this corpus. It is retained because the C4 finding is unusually explicit and because excluding difficult cases to keep the corpus presentable would corrupt the denominator. Cite by reference only, and only where the full report will be read."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published PDF text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.1"
+  }
+}

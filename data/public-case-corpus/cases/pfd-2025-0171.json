@@ -1,0 +1,172 @@
+{
+  "id": "pfd-2025-0171",
+  "source": {
+    "type": "pfd",
+    "ref": "2025-0171",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/hailey-thompson-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2025/04/Hailey-Thompson-Prevention-of-Future-Deaths-Report-2025-0171.pdf",
+    "report_date": "2025-04-04",
+    "published_date": null,
+    "category": "Child Death (from 2015)",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Hailey Anne Thompson",
+    "age": 1,
+    "date_of_death": "2022-12-19",
+    "cause_of_death": "1a Sepsis, Pneumonia (Group A Streptococcus)"
+  },
+
+  "authority": {
+    "coroner_name": "Michael James Pemberton",
+    "coroner_area": "Manchester (West)",
+    "recipients": ["Ashton Medical Practice", "SSP Health", "Wigan Integrated Care Board"],
+    "primary_organisation": "Ashton Medical Practice / SSP Health"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "primary_care",
+      "date": "2022-12-07",
+      "end_date": "2022-12-07",
+      "setting": "GP — Ashton Medical Practice",
+      "presentation": "Bacterial tonsillitis; antibiotics prescribed",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "Hailey Anne Thompson attended her GP on 7th December 2022 and was prescribed antibiotics to treat bacterial tonsillitis. They were subsequently stopped after 3 days due to Hailey developing a rash, thought to be an allergic reaction."
+    },
+    {
+      "seq": 2,
+      "contact_type": "primary_care",
+      "date": "2022-12-10",
+      "end_date": null,
+      "setting": "Telephone — GP practice call centre",
+      "presentation": "Mother telephoned seeking advice following apparent allergic reaction to the prescribed antibiotics; call taken by an administrative care navigator, referred to a pharmacist",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 3,
+      "evidence": "The pharmacist to whom this was assigned was not competent to deal with a paediatric medication enquiry and sent a message back advising of this, albeit not on the medical records system where an auditable trail would exist."
+    },
+    {
+      "seq": 3,
+      "contact_type": "primary_care",
+      "date": "2022-12-16",
+      "end_date": "2022-12-16",
+      "setting": "GP",
+      "presentation": "Remained unwell; viral upper respiratory infection diagnosed",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 6,
+      "evidence": "Hailey remained unwell and was seen by her GP on 16th December 2022, and again on 18th December 2022 at the A&E department at the Royal Albert Edward Infirmary in Wigan. On both occasions a viral upper respiratory infection was diagnosed and therefore, antibiotics were not required."
+    },
+    {
+      "seq": 4,
+      "contact_type": "attendance",
+      "date": "2022-12-18",
+      "end_date": "2022-12-18",
+      "setting": "A&E, Royal Albert Edward Infirmary, Wigan",
+      "presentation": "Remained unwell; viral upper respiratory infection diagnosed",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 2,
+      "evidence": "and again on 18th December 2022 at the A&E department at the Royal Albert Edward Infirmary in Wigan. On both occasions a viral upper respiratory infection was diagnosed and therefore, antibiotics were not required."
+    },
+    {
+      "seq": 5,
+      "contact_type": "ambulance",
+      "date": "2022-12-19",
+      "end_date": "2022-12-19",
+      "setting": "Royal Albert Edward Infirmary, Wigan",
+      "presentation": "Found unresponsive at home",
+      "outcome": "died",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 1,
+      "evidence": "On the morning of 19th December 2022, Hailey was found unresponsive at home. She was transported to the Royal Albert Edward Infirmary in Wigan by ambulance. Efforts to resuscitate her were unsuccessful and she was declared deceased."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "prior_specialist_advice_not_followed": false,
+    "test_ordered_not_chased": false,
+    "test_not_ordered": false,
+    "risk_assessment_not_updated_after_event": false,
+    "patient_concern_not_escalated": false,
+    "family_concern_not_escalated": true,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": true,
+    "specialist_input_not_sought": true,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": true,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": false
+  },
+
+  "what_was_missed": "A discontinued antibiotic course and the mother's call about the reaction were never reviewed by a clinician competent to assess them; the pharmacist's reply stating he was not competent to advise was sent outside the medical records system, so no trace of the unresolved query existed at the two subsequent contacts, at each of which a viral cause was diagnosed afresh.",
+
+  "coroner_concerns": [
+    {
+      "quote": "The pharmacist to whom this was assigned was not competent to deal with a paediatric medication enquiry and sent a message back advising of this, albeit not on the medical records system where an auditable trail would exist. On the evidence, the pharmacist was not provided with feedback directly on the need to use the medical records system or involved in the lessons learned process as they were not directly employed by the practice.",
+      "box": "5",
+      "theme": "record_system"
+    },
+    {
+      "quote": "A further concern arose during the course of evidence from the primary care practice manager that a care navigator may not have a clear pathway on whom to refer a task or action to, or triage tool to recognise that a reported allergic reaction to a medication may require urgent consideration by a doctor to assess any risk of anaphylactic shock.",
+      "box": "5",
+      "theme": "escalation"
+    },
+    {
+      "quote": "These issues are important as I had no reassurance that an administrative member of staff who spoke with a patient contacting the practice, had a clear pathway or guidance on whom the required task should be referred to.",
+      "box": "5",
+      "theme": "escalation"
+    },
+    {
+      "quote": "Instead, the task could be allocated using judgement (although as above, guidance to apply this was not clear) to a clinician who could not in fact assist, which occurred in this case. […] In my opinion, there is a risk that an urgent need for appropriate clinical referral may not occur in the above circumstances.",
+      "box": "5",
+      "theme": "escalation"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": true,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "GP 7 December 2022; telephone contact with the practice following the reaction; GP 16 December 2022; A&E 18 December 2022; found unresponsive 19 December 2022 — five contacts in twelve days over the same continuing illness."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "On both occasions a viral upper respiratory infection was diagnosed and therefore, antibiotics were not required."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "There was a missed opportunity for this to be reviewed at primary care level […] The pharmacist to whom this was assigned was not competent to deal with a paediatric medication enquiry and sent a message back advising of this, albeit not on the medical records system where an auditable trail would exist."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "sent a message back advising of this, albeit not on the medical records system where an auditable trail would exist. […] a care navigator may not have a clear pathway on whom to refer a task or action to, or triage tool to recognise that a reported allergic reaction to a medication may require urgent consideration by a doctor"
+      }
+    ],
+    "exclusion_reason": null,
+    "adjacent_theme": false,
+    "sensitive_handling": true,
+    "adjudication_note": "CAUSATION NOT ESTABLISHED — record this whenever the case is cited. The coroner states the missed primary-care review 'did not contribute to her death', and the jury 'found that there was a missed opportunity to review the antibiotics, which was not causative in this case'. The PFD was issued because of the risk to future patients, not because this failure killed this child. Any use of this case that implies otherwise misrepresents the source and would be indefensible.\n\nWith that stated, the case meets C1–C4 cleanly and is included on the pattern, not on causation. The mechanism is unusually stark: a clinician recognised he was not competent to answer the query and said so — but said so off-system. The single most important fact in the trajectory, that an unresolved paediatric medication question was still open, was therefore invisible to the GP on 16 December and to A&E on 18 December, each of whom assessed a child presenting for the third and fourth time and each of whom reached a fresh viral diagnosis. Five contacts in twelve days, no cumulative view at any of them.\n\nThis case also demonstrates that the pattern is not hospital-specific: the trajectory here spans GP, a non-clinical call centre, a contracted pharmacist, and an A&E department, with no shared record between them.\n\nSENSITIVE HANDLING — child death, aged 22 months, parents living. Cite by reference only."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published PDF text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.1"
+  }
+}

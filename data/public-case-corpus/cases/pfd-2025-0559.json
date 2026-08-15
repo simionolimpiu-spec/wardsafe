@@ -1,0 +1,172 @@
+{
+  "id": "pfd-2025-0559",
+  "source": {
+    "type": "pfd",
+    "ref": "2025-0559",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/jennifer-cahill-and-agnes-cahill-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2025/11/Jennifer-Cahill-and-Agnes-Cahill-Prevention-of-future-deaths-report-2025-0559_Published.pdf",
+    "report_date": "2025-11-05",
+    "published_date": null,
+    "category": "Hospital Death (Clinical Procedures and medical management) related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Jennifer Rose Cahill and Agnes Lily Wren Cahill",
+    "age": null,
+    "date_of_death": "2024-06-04",
+    "cause_of_death": "Jennifer: 1a Multiorgan failure with disseminated intravascular coagulation; 1b Cardiac arrest due to post-partum haemorrhage; 1c Perineal tear and atony during term delivery. Agnes (d. 7 June 2024): 1a Multi-organ insult following hypoxic ischaemic encephalopathy; 1b Cord compression and meconium aspiration syndrome leading to pulmonary hypertension"
+  },
+
+  "authority": {
+    "coroner_name": "Joanne Kearsley",
+    "coroner_area": "Manchester North",
+    "recipients": [
+      "Secretary of State for Health and Social Care",
+      "Royal College of Midwives",
+      "Nursing and Midwifery Council",
+      "Royal College of Obstetricians",
+      "National Institute for Health and Care Excellence",
+      "NHS England"
+    ],
+    "primary_organisation": "Manchester University NHS Foundation Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "primary_care",
+      "date": null,
+      "end_date": null,
+      "setting": "Consultant Obstetrician appointment, following first antenatal appointment",
+      "presentation": "Referred because of complications in first pregnancy — post-partum haemorrhage requiring iron and blood transfusion, Group B Streptococcal positive",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "I heard evidence that the advice provided to Jen by the Consultant Obstetrician was for active management of the third stage of labour and intravenous antibiotics in hospital. This was based on the fact it was assumed Jen would deliver her child in hospital. There was no conversation as to whether it was Jen's intention to deliver her child in hospital. This was early in the pregnancy, and no definitive plan had been made."
+    },
+    {
+      "seq": 2,
+      "contact_type": "primary_care",
+      "date": "2024-03-05",
+      "end_date": "2024-03-05",
+      "setting": "Obstetric appointment with ST4 Trainee in Obstetrics",
+      "presentation": "Referred from community midwife in February 2024 to discuss consideration of a home birth",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "Jen was seen on the 5th March 2024 by an ST4 Trainee in Obstetrics. I found this appointment lacked any exploration with Jen as to why she wanted a home birth, there was no consideration as to whether she had any concerns and how these could be managed."
+    },
+    {
+      "seq": 3,
+      "contact_type": "primary_care",
+      "date": "2024-05-31",
+      "end_date": null,
+      "setting": "Community midwifery antenatal care",
+      "presentation": "Haemoglobin reduced to 97 despite iron treatment; second increased PCR test",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "Her haemoglobin level had reduced to 97 by the end of May 2024, despite treatment with iron. In addition, she had a second increased PCR test which should have led to a referral to obstetrics and an offer to induce her labour. These emerging risks were not discussed with Jen in terms of any increased risk around a home birth."
+    },
+    {
+      "seq": 4,
+      "contact_type": "attendance",
+      "date": "2024-06-02",
+      "end_date": "2024-06-02",
+      "setting": "Home birth attended by two on-call community midwives",
+      "presentation": "Labour; midwives on call had not been involved in her antenatal care",
+      "outcome": "transferred",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": null,
+      "evidence": "On the 2nd June 2024 two midwives were on call for home births. I heard evidence that intrapartum care is the smallest part of a community Midwife role. The midwives on call had not been involved in Jen's antenatal care. I found the omissions in her antenatal care meant the midwives were placed in a detrimental position."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "prior_specialist_advice_not_followed": true,
+    "test_ordered_not_chased": false,
+    "test_not_ordered": false,
+    "risk_assessment_not_updated_after_event": true,
+    "patient_concern_not_escalated": true,
+    "family_concern_not_escalated": false,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": true,
+    "specialist_input_not_sought": true,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": false,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": true
+  },
+
+  "what_was_missed": "An early-pregnancy obstetric plan made on the unexamined assumption of a hospital birth hardened into a fixed reference point that every later appointment deferred to; the required out-of-guidance care plan was never opened, so emerging risks in late pregnancy — falling haemoglobin and a second raised PCR that should have prompted obstetric referral — were never folded back into the birth plan or discussed with her.",
+
+  "coroner_concerns": [
+    {
+      "quote": "Having heard all the evidence I found that her subsequent antenatal appointments relied heavily on the outcome of this appointment and what was perceived to be a definitive plan.",
+      "box": "4",
+      "theme": "record_system"
+    },
+    {
+      "quote": "There was a failure in Jen's antenatal care as she was not referred to a senior midwife for completion of an out of guidance care plan. I heard evidence this was a critical plan for women having an out of guidance home birth.",
+      "box": "4",
+      "theme": "escalation"
+    },
+    {
+      "quote": "This document should have been robust.and should have also been continually updated to include the fact that Jen had emerging risk factors. Her haemoglobin level had reduced to 97 by the end of May 2024, despite treatment with iron. In addition, she had a second increased PCR test which should have led to a referral to obstetrics and an offer to induce her labour. These emerging risks were not discussed with Jen in terms of any increased risk around a home birth.",
+      "box": "4",
+      "theme": "record_system"
+    },
+    {
+      "quote": "Terminology around pregnancies describes them as 'high' or 'low risk pregnancy' and leads women to consider that pregnancy encompasses all stages through to delivery of a child. Practice does not personalise or individualise risk so women can fully understand what the level of risk is for them in actually being pregnant, or what the level of risk is for them in giving birth.",
+      "box": "5",
+      "theme": "communication"
+    },
+    {
+      "quote": "The lack of national data collection means there is no data to evidence the number of women who are transferred in during labour or after birth, maternal or neonatal outcomes, number of women who are considered out of guidance.",
+      "box": "5",
+      "theme": "governance_reporting"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": true,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "First antenatal appointment and consultant obstetric referral; community midwife contact February 2024; ST4 obstetric appointment 5 March 2024; ongoing antenatal care to end of May 2024; labour 2 June 2024 — a sequence of separately-closed appointments across one pregnancy."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "Even though her pregnancy was recorded as low risk on the computer system, given her past history she was referred for a further obstetric appointment to discuss her consideration of a home birth. […] I found this appointment lacked any exploration with Jen as to why she wanted a home birth."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "In 2021 her first pregnancy had resulted in complications at the time of delivery. She had a Post Partum Haemorrhage for which she received an iron and also a blood transfusion. She was also positive for Group B Streptococcal. […] Her haemoglobin level had reduced to 97 by the end of May 2024, despite treatment with iron. In addition, she had a second increased PCR test which should have led to a referral to obstetrics."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "Having heard all the evidence I found that her subsequent antenatal appointments relied heavily on the outcome of this appointment and what was perceived to be a definitive plan. […] This document should have been robust.and should have also been continually updated to include the fact that Jen had emerging risk factors."
+      }
+    ],
+    "exclusion_reason": null,
+    "adjacent_theme": true,
+    "sensitive_handling": true,
+    "adjudication_note": "PROTOCOL POINT — this case forced a clarification to how C4 is tested, now recorded in protocol v1.1. The coroner's ten numbered *matters of concern* are entirely about the absence of national guidance on home births; none of them names a carry-forward failure. On a narrow reading of C4 this would exclude, as Robert Prowse (2024-0166) did. But C4 asks whether the coroner *identified* a longitudinal failure, and here she plainly did — in the findings of fact at box 4, at length and unambiguously. The matters of concern are addressed to national bodies about guidance because that is what national bodies can fix; the findings of fact are where the trajectory failure lives. C4 is therefore tested against the whole report, not the concerns box alone. Prowse still excludes, because there the coroner made no such finding anywhere and expressly found no individual failing.\n\nOn the substance, the coroner's phrase 'relied heavily on… what was perceived to be a definitive plan' is the sharpest articulation of the anchoring mechanism anywhere in the corpus so far. A provisional early decision, made on an assumption nobody tested, became the fixed point every later appointment deferred to rather than re-opened. The out-of-guidance care plan that should have been the living document was never started, so there was no artefact in which accumulating risk could be recorded — and by 2 June the two midwives attending had never met her and inherited a picture the record did not contain.\n\nMarked adjacent_theme: true as well as meets_strict: true — unusual, and deliberate. The case is a genuine instance of the pattern AND its PFD is directed at a national guidance gap, so it is citable in both registers.\n\nSENSITIVE HANDLING — a mother and her newborn daughter, both died, findings of neglect, recent and high-profile, family legally represented. Do not use in any pitch, deck or demo. Cite by reference only, and only where the full report will be read."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published PDF text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.1"
+  }
+}
