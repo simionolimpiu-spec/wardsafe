@@ -2,7 +2,8 @@
   background: linear-gradient(180deg, rgba(245, 248, 252, 0.92) 0%, rgba(245, 248, 252, 1) 100%);
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
-  min-height: 100vh;
+  min-height: 100vh;   /* fallback */
+  min-height: 100dvh;  /* A11Y-005 */
 }
 
 .workspace-main {
@@ -86,6 +87,8 @@
   min-width: 220px;
 }
 
+/* A11Y-002: on the dark topbar this label was #617083 = 1.89:1. The token
+ * resolves to #dbeaf7 (7.81:1) there; light surfaces keep the muted grey. */
 .demo-scenario-control span {
   color: #617083;
   font-size: var(--text-xs);
@@ -341,7 +344,8 @@
   border-right: 1px solid #d7e3f4;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
+  min-height: 100vh;   /* fallback */
+  min-height: 100dvh;  /* A11Y-005 */
   padding: 18px 16px;
 }
 
@@ -717,7 +721,9 @@
 .notification-button { background: transparent; border: 1px solid rgba(255, 255, 255, 0.38); border-radius: 50%; color: #fff; height: 38px; justify-content: center; width: 38px; }
 .notification-button:hover { background: rgba(255, 255, 255, 0.14); }
 .user-chip { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.24); border-radius: var(--radius-pill); color: #fff; font-size: var(--text-sm); font-weight: var(--font-weight-semibold); gap: var(--space-2); padding: var(--space-3) var(--space-4); white-space: nowrap; }
-.user-chip small { color: #dbeaf7; font-size: 0.68rem; font-weight: 700; }
+/* A11Y-007: was 0.68rem (~10.9px), below the 12px floor and hostile on the
+ * older low-resolution displays common on ward machines. */
+.user-chip small { color: var(--color-on-dark-muted); font-size: var(--text-xs); font-weight: 700; }
 .app-shell-redesign .topbar-actions > .secondary-action { background: #fff; border-color: #fff; color: var(--sf-blue-ink); }
 .app-shell-redesign .safety-banner { border-radius: 0; box-shadow: none; margin: 0; }
 .app-shell-redesign .workspace-nav { background: var(--sf-grey-0); border-right-color: var(--sf-grey-200); grid-template-rows: auto minmax(0, 1fr) auto auto; padding: 20px 16px; }
@@ -733,6 +739,29 @@
 .nav-safety-card > svg { color: var(--sf-blue); flex: 0 0 auto; margin-top: 2px; }
 .nav-safety-card strong { display: block; font-size: var(--text-sm); }
 .nav-safety-card p { color: var(--sf-grey-500); font-size: var(--text-xs); margin: 3px 0 8px; }
-.nav-safety-card button { background: transparent; border: 0; color: var(--sf-blue); display: inline; font-size: var(--text-xs); font-weight: var(--font-weight-bold); min-height: 0; padding: 0; text-decoration: underline; }
+/* A11Y-006: was display:inline / min-height:0 / padding:0, giving a ~78x15px
+ * target against the 24x24 minimum (SC 2.5.8). The inline-in-text exception
+ * does not apply — this is a standalone control in a card. Keeps the link
+ * appearance, gains a real hit area. */
+.nav-safety-card button { background: transparent; border: 0; color: var(--sf-blue); cursor: pointer; display: inline-flex; align-items: center; font-size: var(--text-xs); font-weight: var(--font-weight-bold); min-height: 24px; margin-left: -4px; padding: var(--space-1) var(--space-1); text-decoration: underline; }
 .app-shell-redesign .nav-context { border-top-color: var(--sf-grey-200); color: var(--sf-grey-500); }
 .app-shell-redesign .nav-context span { color: var(--sf-blue-ink); font-weight: 700; }
+
+/* A11Y-002: the ward selector was updated to an on-dark token when the dark
+ * topbar landed; the scenario selector was missed. Both now use the same
+ * token, 7.81:1 on --sf-blue-deep. */
+.redesign-topbar .demo-scenario-control span,
+.redesign-topbar .demo-scenario-control small {
+  color: var(--color-on-dark-muted);
+}
+
+.redesign-topbar .demo-scenario-control select {
+  border: 2px solid #fff;
+  min-height: 44px;
+}
+
+/* A11Y-001 support: the topbar is a dark surface, so keyboard focus inside it
+ * uses the white ring defined in tokens.css. */
+.redesign-topbar {
+  scroll-padding-top: 88px; /* SC 2.4.11 — focus must not sit under the header */
+}

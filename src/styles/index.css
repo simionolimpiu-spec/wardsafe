@@ -1,4 +1,5 @@
 @import './tokens.css';
+@import './motion.css';
 @import './shell.css';
 @import './board.css';
 @import './panel.css';

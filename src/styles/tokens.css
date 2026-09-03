@@ -64,8 +64,16 @@
   --shadow-sm: 0 1px 5px rgba(16, 32, 51, 0.08);
   --shadow-md: -18px 0 40px rgba(8, 26, 53, 0.18);
   --shadow-lg: 0 20px 55px rgba(8, 26, 53, 0.26);
+  /* Focus ring is surface-aware. #0b3640 measures 12.19:1 on our light
+   * surfaces but only 1.36:1 on the dark topbar (--sf-blue-deep), which failed
+   * SC 1.4.11. Dark surfaces opt in to the white ring via
+   * .on-dark-surface below. See docs/accessibility/wcag-2-2-aa-evidence.md */
   --color-focus-ring: var(--sf-blue-ink);
   --color-focus-ring-halo: rgba(255, 255, 255, 0.96);
+  --color-focus-ring-on-dark: #ffffff;
+  --color-focus-ring-halo-on-dark: rgba(11, 54, 64, 0.9);
+  /* On-dark text token. 7.81:1 on --sf-blue-deep. */
+  --color-on-dark-muted: #dbeaf7;
   --color-badge-accent: #d81b60;
   --color-success: var(--sf-green);
   --color-success-bg: var(--sf-green-soft);
@@ -86,13 +94,29 @@
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100vh;   /* fallback for browsers without dvh */
+  min-height: 100dvh;  /* A11Y-005: dynamic browser chrome on mobile */
 }
 
 button,
 input,
 textarea {
   font: inherit;
+}
+
+/* A11Y-009: numeric data uses tabular figures so columns do not jog as values
+ * change and a column can be scanned vertically.
+ *
+ * font-variant-numeric inherits, so setting it on `table` covers every th/td
+ * for free. Matching each cell individually — and with an attribute selector —
+ * made style resolution measurably more expensive on our largest table
+ * (TrustNetworkView), enough to push its jsdom tests past the 60s timeout.
+ * Same visual result, a fraction of the selector-matching cost. */
+table,
+time,
+output,
+.is-numeric {
+  font-variant-numeric: tabular-nums;
 }
 
 :where(
@@ -110,4 +134,53 @@ textarea {
   outline: 3px solid var(--color-focus-ring);
   outline-offset: 3px;
   box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
+/* A11Y-001: dark surfaces flip the focus ring to white (9.57:1 on
+ * --sf-blue-deep) so the indicator stays visible. Applied to the topbar and
+ * anything else that opts in with .on-dark-surface.
+ *
+ * `!important` is deliberate, and is the one place in this file that uses it.
+ * `:where()` contributes zero specificity, so this rule scores 0,1,0 — which
+ * component-level rules beat. `.demo-scenario-control select:focus-visible`
+ * (0,2,1) in shell.css did exactly that and silently restored the invisible
+ * 1.36:1 ring on the topbar; `.secondary-action:focus-visible` (0,2,0) would
+ * have done the same for any action button placed there. Enumerating those
+ * conflicts is brittle: the next component added to the topbar reintroduces
+ * the bug. A visible focus indicator on a dark surface is a conformance
+ * guarantee, not a style preference, so it wins outright. */
+.redesign-topbar :where(
+  button, a, input, textarea, select, summary,
+  [role="button"], [role="link"], [role="tab"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible,
+.on-dark-surface :where(
+  button, a, input, textarea, select, summary,
+  [role="button"], [role="link"], [role="tab"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 3px solid var(--color-focus-ring-on-dark) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo-on-dark) !important;
+}
+
+/* A11Y-003: skip link. First focusable element in the document; visually
+ * hidden until focused, then pinned to the top-left above all content. */
+.skip-link {
+  background: var(--sf-grey-0);
+  border: 2px solid var(--color-brand-dark);
+  border-radius: var(--radius-md);
+  color: var(--color-brand-dark);
+  font-weight: var(--font-weight-bold);
+  left: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  position: fixed;
+  text-decoration: none;
+  top: var(--space-4);
+  transform: translateY(-160%);
+  z-index: 1000;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
 }

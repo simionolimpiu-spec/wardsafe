@@ -1,5 +1,6 @@
 import { Bell, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { DURATION, EASE, motion } from '../motion/index.jsx';
 import { DemoScenarioSelector } from './DemoScenarioSelector.jsx';
 import { SafetyBanner } from './SafetyBanner.jsx';
 import { WorkspaceNav } from './WorkspaceNav.jsx';
@@ -55,7 +56,11 @@ export function AppShell({
   const subtitle = viewSubtitles[activeView] ?? 'Ward workspace';
 
   return (
-    <main className={`app-shell app-shell-redesign ${compactMode ? 'compact-mode' : ''} ${isPresentationMode ? 'presentation-mode' : ''}`}>
+    <div className={`app-shell app-shell-redesign ${compactMode ? 'compact-mode' : ''} ${isPresentationMode ? 'presentation-mode' : ''}`}>
+      {/* A11Y-003 (SC 2.4.1 Bypass Blocks): first focusable element in the
+          document, so a keyboard user can jump the 16-item workspace nav
+          instead of tabbing it on every view change. */}
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <WorkspaceNav
         activeView={activeView}
         currentWardName={currentWardName}
@@ -112,9 +117,49 @@ export function AppShell({
           </div>
         </header>
         {activeView !== 'hospital-insights' && <SafetyBanner />}
-        <div className="workspace-content">{children}</div>
+        {/* A11Y-003: the <main> landmark now wraps only the content region.
+            It previously wrapped the whole shell including the navigation,
+            which left screen-reader users no landmark to jump to. */}
+        {/* View transition.
+         *
+         * Deliberately NOT a full fade and NOT wrapped in AnimatePresence.
+         *
+         * `mode="wait"` would hold the incoming view back by the outgoing
+         * view's exit duration, and a 0 -> 1 opacity fade would leave the new
+         * view unreadable for the length of the transition. On a ward safety
+         * board both are the wrong trade: the nurse asked for this view and
+         * should be able to read it immediately.
+         *
+         * It is also a POSITIONAL transition only — a 6px rise, no opacity.
+         * Browsers pause requestAnimationFrame in a backgrounded tab, so an
+         * opacity-based entrance leaves content stuck at its initial value
+         * until the tab is focused. Verified: with the pane hidden,
+         * document.visibilityState === 'hidden' and the animation had not
+         * started. For a view that may sit on a wall-mounted ward display, or
+         * open in a background tab, that is unacceptable if it means dimmed
+         * clinical content. Animating only `y` means the worst case is content
+         * resting 6px low at full opacity — invisible as a defect, and always
+         * readable. MotionProvider drops it entirely under
+         * prefers-reduced-motion.
+         *
+         * It animates <main> itself rather than a wrapper div on purpose.
+         * print.css uses `.workspace-content > :not(.review-report-overlay)`
+         * to hide everything but the report when a clinician prints; an extra
+         * wrapper would break that direct-child selector and blank the
+         * printed page. No new node, no regression. */}
+        <motion.main
+          animate={{ y: 0 }}
+          className="workspace-content"
+          id="main-content"
+          initial={{ y: 6 }}
+          key={activeView}
+          tabIndex={-1}
+          transition={{ duration: DURATION.fast, ease: EASE.decelerate }}
+        >
+          {children}
+        </motion.main>
       </div>
-    </main>
+    </div>
   );
 }
 
