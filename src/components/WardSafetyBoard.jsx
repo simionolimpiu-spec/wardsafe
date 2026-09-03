@@ -6,10 +6,10 @@ function HandoverProgress({ patient }) {
   return (
     <div
       aria-label={`Handover progress ${progress} percent for ${patient.name}`}
-      className="progress-ring"
-      style={{ '--progress': `${progress}%` }}
+      className="handover-progress"
     >
       <span>{progress}%</span>
+      <progress aria-hidden="true" max="100" value={progress}>{progress}%</progress>
     </div>
   );
 }

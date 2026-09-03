@@ -223,7 +223,7 @@ function buildSignalSnapshot({ signals, suggestions } = {}) {
   };
 }
 
-export default function App() {
+export default function App({ onPathwayChange, onSignOut } = {}) {
   const { state, dispatch, reset } = useSimulationWorkspace();
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
   const demoScenarioOptions = useMemo(() => getDemoScenarioSelectionOptions(), []);
@@ -632,12 +632,16 @@ export default function App() {
   return (
     <AppShell
       activeView={state.selectedView}
+      carePathway="ward-care"
       compactMode={state.settings.compactMode}
+      currentLocationName={state.hospitalName}
       currentWardName={state.currentWardName}
       dateLabel={state.wardSummary.dateLabel}
       escalationCount={selectActiveEscalationCount(state)}
       isPresentationMode={isPresentationMode}
       onNavigate={navigate}
+      onCarePathwayChange={onPathwayChange}
+      onSignOut={onSignOut}
       onScenarioChange={changeDemoScenario}
       scenarioDescription={state.scenarioDescription}
       scenarioOptions={demoScenarioOptions}

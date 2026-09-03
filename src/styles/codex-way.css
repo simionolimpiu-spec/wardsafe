@@ -1,0 +1,990 @@
+/* Codex Way: accessible, data-dense clinical simulation shell. */
+
+html {
+  scroll-padding-top: 88px;
+}
+
+body {
+  background: #eef3f6;
+}
+
+.skip-link {
+  background: #fff;
+  border: 2px solid var(--sf-blue-ink);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-blue-ink);
+  font-weight: 700;
+  left: 16px;
+  padding: 10px 14px;
+  position: fixed;
+  top: 12px;
+  transform: translateY(-180%);
+  z-index: 100;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Simulation access gate */
+.access-shell {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(42, 129, 137, 0.2), transparent 31rem),
+    linear-gradient(135deg, #0b3740 0%, #124c56 48%, #176b75 100%);
+  color: #fff;
+  display: grid;
+  gap: clamp(32px, 6vw, 88px);
+  grid-template-columns: minmax(0, 1.12fr) minmax(340px, 480px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(28px, 6vw, 88px);
+  place-items: center;
+}
+
+.access-introduction {
+  display: grid;
+  gap: clamp(28px, 5vh, 52px);
+  max-width: 760px;
+  width: 100%;
+}
+
+.access-brand,
+.access-brand-mark,
+.access-kicker,
+.access-card-heading,
+.access-lock,
+.access-human-review {
+  align-items: center;
+  display: flex;
+}
+
+.access-brand {
+  gap: 12px;
+}
+
+.access-brand-mark {
+  background: #fff;
+  border-radius: 12px;
+  color: var(--sf-blue-deep);
+  font-size: 1rem;
+  font-weight: 700;
+  height: 46px;
+  justify-content: center;
+  width: 46px;
+}
+
+.access-brand strong,
+.access-brand span {
+  display: block;
+}
+
+.access-brand strong {
+  font-size: 1.25rem;
+}
+
+.access-brand span {
+  color: #cce4e7;
+  font-size: var(--text-sm);
+  margin-top: 2px;
+}
+
+.access-copy {
+  max-width: 690px;
+}
+
+.access-kicker {
+  color: #cce4e7;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  gap: 8px;
+  letter-spacing: 0.06em;
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+
+.access-copy h1 {
+  font-size: clamp(2.45rem, 5vw, 4.6rem);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  margin: 0;
+  max-width: 13ch;
+}
+
+.access-copy > p:last-child {
+  color: #e7f2f3;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  margin: 24px 0 0;
+  max-width: 60ch;
+}
+
+.access-benefits {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.access-benefits > div {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  min-height: 138px;
+  padding: 18px;
+}
+
+.access-benefits dt {
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.access-benefits dd {
+  color: #d7eaec;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin: 8px 0 0;
+}
+
+.access-boundary {
+  border-left: 3px solid #8fd1d7;
+  color: #d7eaec;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 70ch;
+  padding-left: 14px;
+}
+
+.access-card {
+  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 28px 70px rgba(3, 28, 33, 0.28);
+  color: var(--sf-grey-900);
+  padding: clamp(24px, 4vw, 42px);
+  width: min(100%, 480px);
+}
+
+.access-card-heading {
+  gap: 13px;
+}
+
+.access-lock {
+  background: var(--sf-blue-soft);
+  border-radius: 12px;
+  color: var(--sf-blue-deep);
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.access-card-heading p {
+  color: var(--sf-blue);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 3px;
+  text-transform: uppercase;
+}
+
+.access-card h2 {
+  color: var(--sf-blue-ink);
+  font-size: clamp(1.65rem, 3vw, 2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.access-card-intro,
+.access-note {
+  color: var(--sf-grey-500);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.access-card-intro {
+  margin: 18px 0 24px;
+}
+
+.access-card form,
+.access-field {
+  display: grid;
+}
+
+.access-card form {
+  gap: 18px;
+}
+
+.access-field {
+  gap: 7px;
+}
+
+.access-field label {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.access-field input {
+  background: #fff;
+  border: 1px solid #8799aa;
+  border-radius: 10px;
+  color: var(--sf-grey-900);
+  min-height: 48px;
+  padding: 11px 13px;
+  width: 100%;
+}
+
+.access-field input[aria-invalid='true'] {
+  border: 2px solid var(--sf-red);
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 54px;
+}
+
+.password-visibility {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: var(--sf-blue-deep);
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  width: 44px;
+}
+
+.access-field-error {
+  color: var(--sf-red);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.access-error-summary {
+  background: var(--sf-red-soft);
+  border: 2px solid var(--sf-red);
+  border-radius: 10px;
+  color: #7d1812;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+}
+
+.access-error-summary ul {
+  margin: 8px 0 0;
+  padding-left: 22px;
+}
+
+.access-error-summary a {
+  color: #7d1812;
+  font-weight: 700;
+}
+
+.access-note {
+  margin: -2px 0 0;
+}
+
+.access-submit {
+  background: var(--sf-blue-deep);
+  border: 2px solid var(--sf-blue-deep);
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 50px;
+  padding: 11px 16px;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.access-submit:hover {
+  background: var(--sf-blue-ink);
+  border-color: var(--sf-blue-ink);
+  transform: translateY(-1px);
+}
+
+.access-human-review {
+  border-top: 1px solid var(--sf-grey-200);
+  color: var(--sf-blue-deep);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  gap: 8px;
+  justify-content: center;
+  margin: 24px 0 0;
+  padding-top: 18px;
+}
+
+/* Compact product shell */
+.app-shell-redesign {
+  grid-template-columns: 232px minmax(0, 1fr);
+}
+
+.app-shell-redesign .workspace-nav {
+  height: 100vh;
+  overflow: hidden;
+  padding: 16px 12px 14px;
+  position: sticky;
+  top: 0;
+}
+
+.app-shell-redesign .nav-brand {
+  min-height: 56px;
+  padding: 0 6px 14px;
+}
+
+.app-shell-redesign .nav-brand .brand-mark {
+  height: 36px;
+  width: 36px;
+}
+
+.app-shell-redesign .nav-brand strong {
+  font-size: var(--text-base);
+}
+
+.app-shell-redesign .workspace-nav > nav {
+  align-content: start;
+  display: grid;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 12px 3px;
+  scrollbar-color: var(--sf-grey-200) transparent;
+  scrollbar-width: thin;
+}
+
+.nav-group {
+  display: grid;
+  gap: 3px;
+}
+
+.nav-group-title {
+  color: var(--sf-grey-500);
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  margin: 0;
+  padding: 5px 10px;
+  text-transform: uppercase;
+}
+
+.workspace-content:focus {
+  outline: none;
+}
+
+.app-shell-redesign .workspace-nav nav button {
+  font-size: var(--text-sm);
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 10px;
+}
+
+.app-shell-redesign .workspace-nav nav button > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-shell-redesign .workspace-nav .nav-close,
+.mobile-nav-trigger,
+.nav-scrim {
+  display: none;
+}
+
+.app-shell-redesign .nav-safety-card {
+  margin: 8px 3px 10px;
+  padding: 12px;
+}
+
+.app-shell-redesign .nav-context {
+  padding: 12px 6px 0;
+}
+
+.redesign-topbar {
+  gap: 16px;
+  grid-template-columns: minmax(190px, 1fr) auto;
+  min-height: 68px;
+  padding: 10px 22px;
+  position: relative;
+  z-index: 12;
+}
+
+.redesign-topbar .shell-brand .brand-mark {
+  display: none;
+}
+
+.shell-brand h1 {
+  font-size: var(--text-lg);
+}
+
+.shell-brand h1:focus {
+  outline: none;
+}
+
+.shell-brand > div > span {
+  margin-top: 2px;
+}
+
+.topbar-actions {
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.notification-button,
+.review-tools-menu > summary,
+.user-chip,
+.mobile-nav-trigger {
+  min-height: 42px;
+}
+
+.notification-button {
+  border-radius: 9px;
+  height: 42px;
+  width: 42px;
+}
+
+.review-tools-menu,
+.user-menu {
+  position: relative;
+}
+
+.review-tools-menu > summary,
+.user-menu > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.review-tools-menu > summary::-webkit-details-marker,
+.user-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.review-tools-menu > summary {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9px;
+  color: #fff;
+  display: flex;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  gap: 7px;
+  padding: 8px 11px;
+}
+
+.review-tools-popover,
+.user-menu-popover {
+  background: #fff;
+  border: 1px solid var(--sf-grey-200);
+  border-radius: 12px;
+  box-shadow: var(--sf-shadow-2);
+  color: var(--sf-blue-ink);
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 30;
+}
+
+.review-tools-popover {
+  min-width: 260px;
+}
+
+.review-tools-popover > * {
+  justify-content: flex-start;
+  margin: 0;
+  min-height: 42px;
+  width: 100%;
+}
+
+.app-shell-redesign .review-tools-popover > .secondary-action {
+  background: #fff;
+  border-color: var(--sf-grey-200);
+  color: var(--sf-blue-ink);
+}
+
+.user-chip {
+  border-radius: 9px;
+  padding: 8px 11px;
+}
+
+.user-menu-popover {
+  min-width: 210px;
+}
+
+.user-menu-popover strong,
+.user-menu-popover span {
+  display: block;
+}
+
+.user-menu-popover span {
+  color: var(--sf-grey-500);
+  font-size: var(--text-sm);
+}
+
+.user-menu-popover button {
+  align-items: center;
+  background: var(--sf-grey-50);
+  border: 1px solid var(--sf-grey-200);
+  border-radius: 8px;
+  color: var(--sf-blue-ink);
+  display: flex;
+  font-weight: 700;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+  min-height: 42px;
+}
+
+.app-shell-redesign .topbar-context {
+  align-items: end;
+  background: #fff;
+  border-bottom: 1px solid var(--sf-grey-200);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(480px, 1fr) auto;
+  justify-content: stretch;
+  min-height: 66px;
+  padding: 9px 22px;
+}
+
+.app-shell-redesign .demo-scenario-control {
+  align-items: end;
+  display: grid;
+  gap: 4px 8px;
+  grid-template-columns: auto minmax(145px, 0.8fr) auto minmax(190px, 1fr);
+  min-width: 0;
+}
+
+.app-shell-redesign .demo-scenario-control label {
+  align-self: center;
+  margin: 0;
+}
+
+.app-shell-redesign .demo-scenario-control label span {
+  color: var(--sf-grey-500);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.app-shell-redesign .demo-scenario-control select {
+  min-height: 40px;
+}
+
+.app-shell-redesign .demo-scenario-control small {
+  align-self: center;
+  grid-column: 1 / -1;
+  line-height: 1.25;
+  max-width: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-shell-redesign .date-stepper {
+  background: var(--sf-grey-50);
+  border-color: var(--sf-grey-200);
+  color: var(--sf-blue-ink);
+}
+
+.app-shell-redesign .date-stepper button {
+  color: var(--sf-blue-deep);
+}
+
+.app-shell-redesign .date-stepper button:hover {
+  background: var(--sf-blue-soft);
+}
+
+.app-shell-redesign .safety-banner {
+  align-items: center;
+  background: #edf7f7;
+  border-bottom: 1px solid var(--sf-blue-border);
+  border-left: 0;
+  display: flex;
+  gap: 10px;
+  min-height: 48px;
+  padding: 8px 22px;
+}
+
+.app-shell-redesign .safety-banner div {
+  align-items: baseline;
+  display: flex;
+  gap: 9px;
+}
+
+.app-shell-redesign .safety-banner strong {
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.app-shell-redesign .safety-banner span {
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+
+.app-shell-redesign .workspace-content {
+  padding: 18px 22px 28px;
+}
+
+.app-shell-redesign .dashboard-layout {
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 380px);
+}
+
+.app-shell-redesign .ward-board,
+.app-shell-redesign .patient-panel,
+.app-shell-redesign .operational-view {
+  border-radius: 12px;
+}
+
+.app-shell-redesign .ward-board,
+.app-shell-redesign .patient-panel {
+  padding: 16px;
+}
+
+.app-shell-redesign .board-header {
+  gap: 12px;
+}
+
+.app-shell-redesign .board-header h2 {
+  font-size: var(--text-xl);
+}
+
+.app-shell-redesign .date-chip {
+  font-size: var(--text-xs);
+  padding: 6px 9px;
+}
+
+.app-shell-redesign .board-summary-cards {
+  gap: 8px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 12px 0 14px;
+}
+
+.app-shell-redesign .summary-card {
+  gap: 9px;
+  min-height: 68px;
+  padding: 10px;
+}
+
+.app-shell-redesign .summary-card-icon {
+  border-radius: 8px;
+  height: 32px;
+  width: 32px;
+}
+
+.app-shell-redesign .summary-card strong {
+  font-size: var(--text-xl);
+}
+
+.app-shell-redesign .patient-table {
+  font-size: 0.82rem;
+  min-width: 1060px;
+}
+
+.app-shell-redesign .patient-table th,
+.app-shell-redesign .patient-table td {
+  padding: 10px;
+}
+
+.handover-progress {
+  display: grid;
+  gap: 5px;
+  min-width: 78px;
+}
+
+.handover-progress span {
+  color: var(--sf-blue-ink);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.handover-progress progress {
+  accent-color: var(--sf-blue);
+  height: 7px;
+  width: 78px;
+}
+
+.architecture-strip {
+  display: none;
+}
+
+@media (max-width: 1380px) {
+  .redesign-topbar {
+    display: grid;
+    grid-template-columns: minmax(190px, 1fr) auto;
+  }
+
+  .app-shell-redesign .topbar-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .app-shell-redesign .topbar-context {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .app-shell-redesign .board-summary-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1120px) {
+  .app-shell-redesign {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell-redesign .workspace-nav {
+    box-shadow: 18px 0 50px rgba(7, 37, 43, 0.25);
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    height: 100vh;
+    left: 0;
+    max-width: 330px;
+    position: fixed;
+    top: 0;
+    transform: translateX(-105%);
+    transition: transform 180ms ease;
+    visibility: hidden;
+    width: min(88vw, 330px);
+    z-index: 60;
+  }
+
+  .app-shell-redesign .workspace-nav.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .app-shell-redesign .workspace-nav > nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-height: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 12px 3px;
+    scroll-snap-type: none;
+  }
+
+  .app-shell-redesign .workspace-nav .nav-group {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-shell-redesign .workspace-nav .nav-close {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--sf-grey-200);
+    border-radius: 8px;
+    color: var(--sf-blue-ink);
+    display: inline-flex;
+    height: 42px;
+    justify-content: center;
+    margin-left: auto;
+    width: 42px;
+  }
+
+  .mobile-nav-trigger {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 9px;
+    color: #fff;
+    display: inline-flex;
+    justify-content: center;
+    width: 42px;
+  }
+
+  .nav-scrim {
+    background: rgba(3, 28, 33, 0.52);
+    border: 0;
+    display: block;
+    inset: 0;
+    position: fixed;
+    z-index: 55;
+  }
+
+  .redesign-topbar {
+    grid-template-columns: auto minmax(150px, 1fr) auto;
+  }
+
+  .app-shell-redesign .topbar-actions {
+    grid-column: 3;
+  }
+}
+
+@media (max-width: 900px) {
+  .access-shell {
+    grid-template-columns: 1fr;
+    padding: 32px 20px;
+  }
+
+  .access-introduction {
+    gap: 24px;
+  }
+
+  .access-copy h1 {
+    font-size: clamp(2.2rem, 9vw, 3.6rem);
+  }
+
+  .access-benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .access-benefits > div {
+    min-height: 0;
+  }
+
+  .app-shell-redesign .topbar-context {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell-redesign .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell-redesign .patient-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 680px) {
+  .redesign-topbar {
+    align-items: center;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 10px 14px;
+  }
+
+  .app-shell-redesign .topbar-actions {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    grid-column: 3;
+    grid-row: 1;
+    width: auto;
+  }
+
+  .app-shell-redesign .topbar-actions > * {
+    flex: 0 0 auto;
+    min-height: 42px;
+    min-width: 42px;
+    width: auto;
+  }
+
+  .shell-brand {
+    display: block;
+  }
+
+  .shell-brand > div > span,
+  .user-chip span,
+  .user-chip small,
+  .review-tools-menu > summary span {
+    display: none;
+  }
+
+  .review-tools-menu > summary,
+  .user-chip {
+    justify-content: center;
+    width: 42px;
+  }
+
+  .user-chip > svg:last-child,
+  .review-tools-menu > summary > svg:last-child {
+    display: none;
+  }
+
+  .app-shell-redesign .topbar-context {
+    display: grid;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+
+  .app-shell-redesign .demo-scenario-control {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell-redesign .demo-scenario-control label {
+    margin-top: 3px;
+  }
+
+  .app-shell-redesign .demo-scenario-control small {
+    white-space: normal;
+  }
+
+  .app-shell-redesign .safety-banner {
+    align-items: flex-start;
+    order: 0;
+    padding: 10px 14px;
+  }
+
+  .app-shell-redesign .safety-banner div {
+    align-items: flex-start;
+    display: grid;
+    gap: 2px;
+  }
+
+  .app-shell-redesign .workspace-content {
+    padding: 12px 10px 20px;
+  }
+
+  .app-shell-redesign .board-summary-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app-shell-redesign .summary-card {
+    min-width: 0;
+  }
+
+  .app-shell-redesign .ward-board,
+  .app-shell-redesign .patient-panel,
+  .app-shell-redesign .operational-view {
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .review-tools-popover,
+  .user-menu-popover {
+    position: fixed;
+    right: 12px;
+    top: 64px;
+    width: min(300px, calc(100vw - 24px));
+  }
+}
+
+@media (max-width: 430px) {
+  .access-shell {
+    place-items: start stretch;
+  }
+
+  .access-benefits {
+    display: none;
+  }
+
+  .app-shell-redesign .board-summary-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .access-submit:hover {
+    transform: none;
+  }
+}
