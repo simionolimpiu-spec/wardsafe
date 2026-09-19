@@ -4,6 +4,15 @@ import { wardSummary } from '../data/simulatedPatients.js';
 import { BoardSummaryCards } from './BoardSummaryCards.jsx';
 
 describe('BoardSummaryCards', () => {
+  it('shows missing metrics explicitly and keeps recorded zeroes', () => {
+    const { container, rerender } = render(<BoardSummaryCards summary={{ metrics: {} }} />);
+    expect(screen.getAllByText('Not recorded')).toHaveLength(5);
+    rerender(<BoardSummaryCards summary={{ metrics: { patients: 0, handoverCompletePercent: 0 } }} />);
+    expect(screen.getByText('0')).toHaveClass('sf-numeric');
+    expect(screen.getByText('0%')).toHaveClass('sf-numeric');
+    expect(container.querySelectorAll('.sf-badge--critical, .sf-tone-critical')).toHaveLength(0);
+  });
+
   it('computes the five board summaries from ward summary metrics', () => {
     render(<BoardSummaryCards summary={wardSummary} />);
     const cards = screen.getByRole('region', { name: /ward summary cards/i });

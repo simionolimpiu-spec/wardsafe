@@ -45,7 +45,7 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
         <table aria-label="Ward patient list" className="patient-table">
           <thead>
             <tr>
-              <th scope="col">Patient ID / Fictional label</th>
+              <th scope="col">Fictional label</th>
               <th scope="col">Risk</th>
               <th scope="col">Escalation status</th>
               <th scope="col">Next action</th>
@@ -61,7 +61,7 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
                 <WardBoardPatientCell patient={patient} selected={patient.id === selectedPatientId} onSelectPatient={onSelectPatient} />
                 <WardBoardStatusCell kind="risk" value={patient.risk}>
                   {patient.riskFlags?.length > 0 && (
-                    <ul className="sf-board-flags" aria-label={`Risk flags for ${patient.name}`}>
+                    <ul className="sf-board-flags">
                       {patient.riskFlags.map((flag) => (
                         <li key={flag}><Badge tone="neutral" variant="outline">{flag}</Badge></li>
                       ))}

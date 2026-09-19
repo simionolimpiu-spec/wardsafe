@@ -7,7 +7,7 @@ import { ClinicalValue } from './ClinicalValue.jsx';
 import { PatientBanner } from './PatientBanner.jsx';
 import { REVIEW_CUE_BOUNDARY, ReviewCue, ReviewCueGroup } from './ReviewCue.jsx';
 import { SafetyStatus } from './SafetyStatus.jsx';
-import { escalationStatus, reviewPriorityStatus, riskStatus } from './clinicalStates.js';
+import { dischargeReadinessStatus, escalationStatus, news2BandStatus, reviewPriorityStatus, riskStatus } from './clinicalStates.js';
 
 const cue = {
   id: 'cue-1',
@@ -27,6 +27,23 @@ const cue = {
 const UNSAFE = /diagnos|prescrib|administer|treatment recommendation|AI decision|AI decided|automatic escalation|autonomous/i;
 
 describe('clinical state mapping', () => {
+  it('maps recorded discharge booleans and leaves missing or unknown values neutral', () => {
+    expect(dischargeReadinessStatus(true)).toEqual({ state: 'success', label: 'Ready' });
+    expect(dischargeReadinessStatus(false)).toEqual({ state: 'review', label: 'Needs review' });
+    for (const value of [null, undefined, '', 'true', 'unknown']) {
+      expect(dischargeReadinessStatus(value)).toEqual({ state: 'neutral', label: 'Not recorded' });
+    }
+  });
+
+  it('maps existing NEWS2 band labels without deriving a band from numbers', () => {
+    expect(news2BandStatus('normal')).toEqual({ state: 'neutral', label: 'Normal band' });
+    expect(news2BandStatus('watch')).toEqual({ state: 'warning', label: 'Watch band' });
+    expect(news2BandStatus('high')).toEqual({ state: 'warning', label: 'High band' });
+    for (const value of [undefined, null, '', 'unknown', 6]) {
+      expect(news2BandStatus(value)).toEqual({ state: 'neutral', label: 'Not recorded' });
+    }
+  });
+
   it('maps only existing data values and reserves critical for high risk and active escalation', () => {
     expect(riskStatus('High').state).toBe('critical');
     expect(riskStatus('Medium').state).toBe('warning');

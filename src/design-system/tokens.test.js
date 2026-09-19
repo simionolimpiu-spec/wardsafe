@@ -108,7 +108,7 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
     expect(reduced).toMatch(/transition-duration:\s*0\.01ms !important/);
   });
 
-  it.each(['src/design-system/design-system.css', 'src/styles/panel.css'])(
+  it.each(['src/design-system/design-system.css', 'src/styles/panel.css', 'src/styles/board.css'])(
     '%s uses tokens only (no raw colour values)',
     (file) => {
       const css = readFileSync(resolve(ROOT, file), 'utf8');
@@ -119,5 +119,13 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
   it('does not animate clinical content with keyframes in design-system styles', () => {
     const css = readFileSync(resolve(ROOT, 'src/design-system/design-system.css'), 'utf8');
     expect(css).not.toMatch(/@keyframes|animation:/);
+  });
+
+  it('keeps board styles on semantic tokens and limits transitions to interaction feedback', () => {
+    const css = readFileSync(resolve(ROOT, 'src/styles/board.css'), 'utf8');
+    expect(css).not.toMatch(/var\(--(?:color-|space-|text-|font-weight-|sf-(?:blue|red|amber|green|grey|shadow)-?)/);
+    expect(css).not.toMatch(/@keyframes|animation:/);
+    const ring = css.match(/\.progress-ring\s*\{([^}]+)\}/)[1];
+    expect(ring).not.toMatch(/transition|animation/);
   });
 });
