@@ -118,6 +118,44 @@
   padding-left: var(--sf-space-3);
 }
 
+/* ---------- Ward board cells ---------- */
+.sf-ward-patient-cell__button {
+  background: transparent;
+  border: 0;
+  border-radius: var(--sf-radius-xs);
+  color: var(--sf-action);
+  cursor: pointer;
+  display: grid;
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  gap: var(--sf-space-1);
+  line-height: var(--sf-line-height-sm);
+  min-height: var(--sf-target-min);
+  min-width: var(--sf-target-min);
+  padding: var(--sf-space-1) var(--sf-space-2);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: var(--sf-space-1);
+  transition: background-color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-ward-patient-cell__button:hover {
+  background: var(--sf-action-subtle);
+}
+
+.sf-ward-patient-cell__name {
+  color: var(--sf-text-primary);
+  font-weight: var(--sf-font-weight-regular);
+}
+
+.sf-ward-status-cell .sf-badge {
+  white-space: normal;
+}
+
+.sf-ward-status-cell .sf-badge__label {
+  overflow: visible;
+}
+
 /* ---------- Safety status ---------- */
 .sf-safety-status {
   align-items: flex-start;

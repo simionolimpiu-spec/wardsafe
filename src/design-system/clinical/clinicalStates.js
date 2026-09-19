@@ -57,6 +57,25 @@ export function escalationStatus(escalation) {
   return map[escalation] ?? status('neutral', escalation ? `Escalation ${escalation}` : 'Escalation not recorded');
 }
 
+/** Recorded boolean only; missing readiness must never imply ready. */
+export function dischargeReadinessStatus(ready) {
+  if (ready === true) return status('success', 'Ready');
+  if (ready === false) return status('review', 'Needs review');
+  return status('neutral', 'Not recorded');
+}
+
+/** Presentation of the existing getNews2Band output, never a calculation.
+ * NEWS2 bands use text and neutral/amber; red remains for risk/escalation.
+ */
+export function news2BandStatus(band) {
+  const map = {
+    normal: status('neutral', 'Normal band'),
+    watch: status('warning', 'Watch band'),
+    high: status('warning', 'High band')
+  };
+  return map[band] ?? status('neutral', 'Not recorded');
+}
+
 /** task.status: 'Due' | 'Done'. */
 export function taskStatus(taskState) {
   const map = {
