@@ -27,3 +27,11 @@ export { SimulationLabel } from './clinical/SimulationLabel.jsx';
 export { InformationPanel } from './layout/InformationPanel.jsx';
 
 export { EmptyState } from './feedback/EmptyState.jsx';
+export {
+  REVIEW_CUE_BOUNDARY,
+  ReviewCue,
+  ReviewCueEvidence,
+  ReviewCueGroup,
+  ReviewCueMetadata,
+  ReviewCueRationale
+} from './clinical/ReviewCue.jsx';

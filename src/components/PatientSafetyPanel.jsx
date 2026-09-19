@@ -1,6 +1,6 @@
 import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { InformationPanel, PatientBanner, SafetyStatus } from '../design-system/index.js';
+import { InformationPanel, PatientBanner, ReviewCueGroup, SafetyStatus } from '../design-system/index.js';
 import { toPatientBannerModel } from '../domain/patientBannerModel.js';
 import { PotassiumSafetyGapView } from './PotassiumSafetyGapView.jsx';
 
@@ -215,109 +215,13 @@ function ReviewCuesSection({ flag, heuristicCues, reviewSignals, signalSnapshot 
   const displayCues = [...reviewSignals, ...heuristicDisplayCues];
 
   return (
-    <section aria-labelledby="patient-review-cues-heading" className="review-cue-section">
-      <h3 id="patient-review-cues-heading">Simulation Review Cues</h3>
-      <p>Simulation-only cues. Human review required.</p>
-      <p className="risk-support-boundary">Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p>
-      {(signalProviderNote || suggestionProviderNote) && (
-        <p className="risk-support-boundary">
-          {[signalProviderNote, suggestionProviderNote].filter(Boolean).join(' ')}
-        </p>
-      )}
-      {!hasSignalSnapshot && displayCues.length === 0 ? (
-        <p>No signal snapshot available yet.</p>
-      ) : displayCues.length > 0 ? (
-        <ul className="review-cue-stack">
-          {displayCues.map((signal) => (
-            <li key={signal.id}>
-              <ReviewSignalCard signal={signal} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No current simulation review cues for this patient.</p>
-      )}
-    </section>
+    <ReviewCueGroup
+      available={hasSignalSnapshot}
+      cues={displayCues}
+      headingId="patient-review-cues-heading"
+      sourceNotes={[signalProviderNote, suggestionProviderNote]}
+    />
   );
-}
-
-function ReviewSignalCard({ signal }) {
-  const showRationaleDisclosure = Boolean(signal.ruleId || signal.threshold);
-
-  return (
-    <article className={`integration-card review-cue-card review-cue-${signal.priority ?? 'review'}`}>
-      <Siren aria-hidden="true" size={18} />
-      <div>
-        <p className="review-cue-meta">
-          <span>{formatSignalCategory(signal.category)}</span>
-          <span>{formatSignalPriority(signal.priority)}</span>
-        </p>
-        <strong>{signal.title}</strong>
-        <p>{signal.explanation}</p>
-        {signal.evidence?.length > 0 && (
-          <ul className="review-cue-evidence">
-            {signal.evidence.map((item, index) => (
-              <li key={`${signal.id}-evidence-${index}`}>{item.label ?? 'Simulation signal'}</li>
-            ))}
-          </ul>
-        )}
-        {signal.freshness?.label && <p>{signal.freshness.label}</p>}
-        {signal.missingDataNotes?.length > 0 && (
-          <ul className="review-cue-notes">
-            {signal.missingDataNotes.map((note, index) => (
-              <li key={`${signal.id}-note-${index}`}>{note}</li>
-            ))}
-          </ul>
-        )}
-        <p>{signal.suggestedHumanReviewAction}</p>
-        {showRationaleDisclosure && (
-          <details className="review-cue-details">
-            <summary>Why flagged</summary>
-            <div className="review-cue-details-body">
-              {signal.ruleId && (
-                <p><span className="review-cue-detail-label">Rule</span> {signal.ruleId}</p>
-              )}
-              {signal.rationale && <p>{signal.rationale}</p>}
-              {signal.threshold && (
-                <p><span className="review-cue-detail-label">Threshold</span> {signal.threshold}</p>
-              )}
-            </div>
-          </details>
-        )}
-      </div>
-    </article>
-  );
-}
-
-function formatSignalCategory(category) {
-  const labels = {
-    documentation: 'Documentation',
-    'electrolyte-review': 'Electrolyte review',
-    'infection-review': 'Infection review',
-    'sepsis-screen': 'Sepsis screen',
-    'falls-risk': 'Falls risk',
-    'medication-timing': 'Medication timing',
-    'deteriorating-obs': 'Deteriorating observations',
-    escalation: 'Escalation',
-    handover: 'Handover',
-    discharge: 'Discharge',
-    learning: 'Learning',
-    heuristic: 'Heuristic',
-    'simulation-fallback': 'Fallback'
-  };
-
-  return labels[category] ?? 'Simulation cue';
-}
-
-function formatSignalPriority(priority) {
-  const labels = {
-    blocker: 'Blocker',
-    review: 'Review',
-    watch: 'Watch',
-    learning: 'Learning'
-  };
-
-  return labels[priority] ?? 'Review';
 }
 
 function formatPreviewSourceNote(metadata, label) {

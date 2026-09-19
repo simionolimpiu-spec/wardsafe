@@ -126,6 +126,7 @@
   --sf-critical-subtle: var(--sf-red-soft);
   --sf-critical-border: #efb7b2;
   --sf-critical-solid: var(--sf-red);
+  --sf-critical-hover: #8f1d14;
 
   --sf-neutral: #46525e;
   --sf-neutral-subtle: var(--sf-grey-100);
