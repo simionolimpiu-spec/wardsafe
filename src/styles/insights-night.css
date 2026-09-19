@@ -1,0 +1,189 @@
+/*
+ * Insights night zone (SF-297 prototype).
+ * Scoped to .sf-zone-night, which only non-clinical insight surfaces opt
+ * into. Tokens only: the night palette lives in tokens.css.
+ * Spec: docs/design/SAFeflow-DESIGN.md section 16.
+ */
+
+.sf-zone-night {
+  color: var(--sf-text-primary);
+}
+
+.app-shell-redesign .sf-zone-night.operational-view,
+.sf-zone-night.operational-view {
+  background:
+    radial-gradient(120% 60% at 0% 0%, var(--sf-night-glow) 0%, var(--sf-night-glow-edge) 60%),
+    var(--sf-background);
+  border-color: var(--sf-border);
+  box-shadow: var(--sf-elevation-2);
+}
+
+/* Heading */
+.sf-zone-night .view-heading {
+  border-bottom-color: var(--sf-border);
+}
+
+.sf-zone-night .view-heading h2 {
+  color: var(--sf-text-primary);
+  font-weight: var(--sf-font-weight-semibold);
+  letter-spacing: -0.01em;
+}
+
+.sf-zone-night .eyebrow {
+  color: var(--sf-action);
+  letter-spacing: 0.14em;
+}
+
+.sf-zone-night .hospital-insights-copy {
+  color: var(--sf-text-secondary);
+}
+
+.sf-zone-night .hospital-insights-entity strong {
+  color: var(--sf-text-primary);
+}
+
+.sf-zone-night .date-chip {
+  background: var(--sf-surface);
+  border-color: var(--sf-border);
+  color: var(--sf-text-secondary);
+}
+
+/* Safety banner and source note keep their wording; only colours change */
+.sf-zone-night .safety-banner {
+  background: var(--sf-surface);
+  border-color: var(--sf-border);
+  border-left-color: var(--sf-action);
+  color: var(--sf-text-secondary);
+}
+
+.sf-zone-night .insights-source-note {
+  background: var(--sf-surface);
+  border-color: var(--sf-border);
+  border-left-color: var(--sf-action);
+}
+
+.sf-zone-night .insights-source-pill {
+  background: var(--sf-success-subtle);
+  color: var(--sf-success);
+}
+
+.sf-zone-night .insights-source-note strong {
+  color: var(--sf-text-primary);
+}
+
+.sf-zone-night .insights-source-note small {
+  color: var(--sf-text-muted);
+}
+
+/* KPI cards: large tabular numerals, thin state bar, top highlight */
+.sf-zone-night .insights-summary-card {
+  background: var(--sf-surface);
+  border-color: var(--sf-border);
+  box-shadow: inset 0 1px 0 var(--sf-night-highlight);
+}
+
+.sf-zone-night .insights-summary-card.current { border-left-color: var(--sf-action); }
+.sf-zone-night .insights-summary-card.average { border-left-color: var(--sf-information-solid); }
+.sf-zone-night .insights-summary-card.best { border-left-color: var(--sf-success-solid); }
+.sf-zone-night .insights-summary-card.lowest { border-left-color: var(--sf-warning-solid); }
+.sf-zone-night .insights-summary-card.cues { border-left-color: var(--sf-review-solid); }
+
+.sf-zone-night .insights-summary-card-icon {
+  background: var(--sf-surface-raised);
+}
+
+.sf-zone-night .insights-summary-card span {
+  color: var(--sf-text-muted);
+  letter-spacing: 0.08em;
+}
+
+.sf-zone-night .insights-summary-card strong {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-value);
+  font-variant-numeric: var(--sf-font-numeric);
+  font-weight: var(--sf-font-weight-semibold);
+  letter-spacing: -0.02em;
+}
+
+.sf-zone-night .insights-summary-card small {
+  color: var(--sf-text-secondary);
+}
+
+/* Chart cards */
+.app-shell-redesign .sf-zone-night .hospital-insights-chart-card,
+.sf-zone-night .hospital-insights-chart-card {
+  background: var(--sf-surface);
+  border-color: var(--sf-border);
+  box-shadow: inset 0 1px 0 var(--sf-night-highlight);
+}
+
+.sf-zone-night .hospital-insights-chart-card h3 {
+  color: var(--sf-text-primary);
+}
+
+.sf-zone-night .hospital-insights-chart-card .section-heading p,
+.sf-zone-night .hospital-insights-chart-fallback {
+  color: var(--sf-text-muted);
+}
+
+.sf-zone-night .hospital-insights-chart-icon {
+  color: var(--sf-action);
+}
+
+.sf-zone-night .hospital-insights-chart-threshold {
+  background: var(--sf-information-subtle);
+  color: var(--sf-information);
+}
+
+.sf-zone-night .hospital-insights-chart-summary {
+  color: var(--sf-action);
+  font-variant-numeric: var(--sf-font-numeric);
+}
+
+/* Theme switch (lives in the insight view header) */
+.sf-theme-switch {
+  align-items: center;
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-pill);
+  color: var(--sf-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  gap: var(--sf-space-2);
+  min-height: var(--sf-target-min);
+  padding: 0 var(--sf-space-4);
+  transition:
+    background-color var(--sf-duration-fast) var(--sf-ease-standard),
+    color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-theme-switch:hover {
+  color: var(--sf-text-primary);
+}
+
+.sf-theme-switch[aria-pressed="true"] {
+  background: var(--sf-action-subtle);
+  border-color: var(--sf-action);
+  color: var(--sf-action);
+}
+
+.sf-theme-switch svg {
+  height: var(--sf-icon-sm);
+  width: var(--sf-icon-sm);
+}
+
+.hospital-insights-heading-actions {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sf-space-2);
+}
+
+@media (max-width: 860px) {
+  .hospital-insights-heading-actions {
+    align-items: flex-start;
+  }
+}
