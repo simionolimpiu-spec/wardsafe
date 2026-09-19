@@ -1,33 +1,7 @@
-.alert-list p {
-  background: #fff7e8;
-  border: 1px solid #f4d18d;
-  border-radius: var(--radius-md);
-  margin: var(--space-2) 0;
-  padding: var(--space-4);
-}
-
 .overview-risk-flags {
   flex-flow: row wrap;
   margin: var(--space-2) 0;
   padding: 0;
-}
-
-.call-button {
-  align-items: center;
-  background: var(--color-brand);
-  border: 0;
-  border-radius: var(--radius-md);
-  color: #fff;
-  display: inline-flex;
-  font-weight: var(--font-weight-bold);
-  gap: 6px;
-  padding: 9px 12px;
-}
-
-.call-button:focus-visible {
-  outline: 3px solid var(--color-focus-ring);
-  outline-offset: 3px;
-  box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
 }
 
 .panel-tabs {
@@ -117,17 +91,6 @@
   display: block;
 }
 
-.integration-card--muted {
-  background: #f8fbfe;
-  border-left-color: #cfdced;
-  box-shadow: none;
-  color: #617083;
-}
-
-.integration-card--muted strong {
-  color: #17436f;
-}
-
 .review-cue-section {
   background: linear-gradient(180deg, rgba(var(--sf-blue-rgb), 0.1) 0%, #ffffff 58%);
   border: 1px solid #cfe0f6;
@@ -160,12 +123,33 @@
   font-size: var(--text-xs);
 }
 
+/* SF-295 design-system patient panel layout */
+.sf-patient-panel-banner {
+  margin-bottom: var(--sf-space-4);
+}
+
+.sf-panel-section {
+  display: grid;
+  gap: var(--sf-space-2);
+  margin-bottom: var(--sf-space-4);
+}
+
+.sf-panel-section__title {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-lg);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-lg);
+  margin: 0;
+}
+
+.sf-panel-integrations {
+  margin-top: var(--sf-space-6);
+}
+
 /* O18 patient detail panel */
 .app-shell-redesign .patient-panel { align-self: start; position: sticky; top: 108px; }
 .app-shell-redesign .panel-heading { border-bottom: 0; }
 .app-shell-redesign .panel-heading h2 { color: var(--sf-blue-ink); }
-.panel-alert-strip { align-items: center; background: var(--sf-red-soft); border: 1px solid #efb7b2; border-left: 4px solid var(--sf-red); border-radius: var(--sf-radius-sm); color: var(--sf-red); display: flex; font-size: var(--text-sm); font-weight: var(--font-weight-semibold); gap: var(--space-3); margin: var(--space-6) 0; padding: var(--space-4) var(--space-5); }
-.panel-alert-strip svg { flex: 0 0 auto; }
 .panel-footer-actions { border-top: 1px solid var(--sf-grey-200); display: grid; gap: 10px; grid-template-columns: 1fr 1fr; margin-top: 20px; padding-top: 16px; }
 .panel-footer-actions .primary-action,
 .panel-footer-actions .danger-action { align-items: center; display: inline-flex; justify-content: center; margin: 0; min-height: 44px; }

@@ -1,5 +1,7 @@
-import { AlertTriangle, CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
+import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { InformationPanel, PatientBanner, SafetyStatus } from '../design-system/index.js';
+import { toPatientBannerModel } from '../domain/patientBannerModel.js';
 import { PotassiumSafetyGapView } from './PotassiumSafetyGapView.jsx';
 
 export function PatientSafetyPanel({
@@ -14,7 +16,9 @@ export function PatientSafetyPanel({
   onSaveDraft = () => {},
   heuristicCues = [],
   reviewSignals = [],
-  signalSnapshot = null
+  signalSnapshot = null,
+  wardName,
+  hospitalName
 }) {
   const [activeTab, setActiveTab] = useState('overview');
   const tabRefs = useRef([]);
@@ -24,6 +28,8 @@ export function PatientSafetyPanel({
     { id: 'tasks', label: `Tasks ${patient.tasks.length}` },
     { id: 'audit', label: 'Audit Trail' }
   ];
+  const bannerModel = toPatientBannerModel(patient, { wardName, hospitalName });
+  const isEscalationActive = patient.escalation === 'Active';
   const auditTrail = patient.auditTrail?.length ? patient.auditTrail : patient.responseHistory;
   const riskFlags = Array.isArray(patient.riskFlags) ? patient.riskFlags.filter(Boolean) : [];
   const canShowSafetyGapDetail = flag?.level !== 'none'
@@ -66,18 +72,16 @@ export function PatientSafetyPanel({
 
   return (
     <aside className="patient-panel" aria-label="Patient safety panel">
-      <div className="panel-heading">
-        <div>
-          <h2>{patient.id}</h2>
-          <p>{patient.name} - fictional scenario</p>
-        </div>
-        <span className={`risk risk-${patient.risk.toLowerCase()}`}>{patient.risk} risk</span>
-      </div>
-
-      <div aria-label="Patient review alert" className="panel-alert-strip" role="note">
-        <AlertTriangle aria-hidden="true" size={17} />
-        <span>{patient.escalation === 'Active' ? 'Active simulation review cue. Human review required.' : 'Simulation review status. Human review required.'}</span>
-      </div>
+      <PatientBanner {...bannerModel} className="sf-patient-panel-banner">
+        <SafetyStatus
+          aria-label="Patient review alert"
+          role="note"
+          state={isEscalationActive ? 'critical' : 'neutral'}
+          title={isEscalationActive ? 'Active simulation review cue. Human review required.' : 'Simulation review status. Human review required.'}
+        >
+          {isEscalationActive ? 'Escalation active - medical team informed.' : 'No active escalation.'}
+        </SafetyStatus>
+      </PatientBanner>
 
       <div className="panel-tabs" aria-label="Patient detail tabs" role="tablist">
         {tabs.map(({ id, label }, index) => (
@@ -110,7 +114,8 @@ export function PatientSafetyPanel({
         >
           {activeTab === 'overview' && (
             <>
-              <div className="alert-list">
+              <section aria-labelledby="patient-safety-context-heading" className="sf-panel-section">
+                <h3 className="sf-panel-section__title" id="patient-safety-context-heading">Safety context</h3>
                 {riskFlags.length > 0 && (
                   <ul className="flag-stack overview-risk-flags" aria-label={`Risk flags for ${patient.name}`}>
                     {riskFlags.map((riskFlag) => (
@@ -118,10 +123,12 @@ export function PatientSafetyPanel({
                     ))}
                   </ul>
                 )}
-                {patient.allergies.length > 0 && <p>Allergy: {patient.allergies.join(', ')}</p>}
-                {flag.level !== 'none' && <p>{flag.title}</p>}
-                <p>{patient.escalation === 'Active' ? 'Escalation active - medical team informed' : 'No active escalation'}</p>
-              </div>
+                {flag.level !== 'none' && (
+                  <SafetyStatus state="review" title={flag.title}>
+                    Rule-based simulation flag. Human review required.
+                  </SafetyStatus>
+                )}
+              </section>
               {canShowSafetyGapDetail && (
                 <PotassiumSafetyGapView
                   draftText={draftText}
@@ -192,13 +199,9 @@ export function PatientSafetyPanel({
         </button>
       </div>
 
-      <div className="integration-card integration-card--muted">
-        <CloudCog aria-hidden="true" size={22} />
-        <div>
-          <strong>FHIR-ready integrations</strong>
-          <span>Placeholder for approved EPR, observations, labs and documents.</span>
-        </div>
-      </div>
+      <InformationPanel className="sf-panel-integrations" icon={CloudCog} title="FHIR-ready integrations">
+        Placeholder for approved EPR, observations, labs and documents.
+      </InformationPanel>
     </aside>
   );
 }
