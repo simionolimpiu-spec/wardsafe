@@ -1,6 +1,6 @@
 # SafeFlow Design System
 
-Version 1.1 (SF-295 foundation, SF-296 ward board). This is the canonical UI specification for SafeFlow.
+Version 1.2 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype). This is the canonical UI specification for SafeFlow.
 
 Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
 
@@ -285,3 +285,24 @@ At 860px and below, identity, risk, escalation and next action remain the first 
 The board displays "Simulation-only", "Human review required", and "Not clinically validated and not for clinical decision-making". The application safety boundary remains unchanged. Inside the patient panel, the potassium safety-gap evidence grid always stacks into one column, including on wide workstations; its text and regions remain unchanged.
 
 The raw-colour guard covers `design-system.css`, `panel.css` and `board.css`.
+
+## 16. Insights night zone (SF-297 prototype)
+
+SafeFlow has two visual zones.
+
+| Zone | Screens | Look |
+| --- | --- | --- |
+| Clinical | Ward board, patient panel, handover, escalations, observations, tasks, discharges | Light, calm, restrained. Sections 2 to 15 apply in full |
+| Insight | Hospital Insights now. Trust Network, Patient Journey Twin and presentation mode are candidates | May use the night view: dark surfaces, larger numerals, richer charts, one-off chart entry motion |
+
+Rules for the night view:
+
+- Opt-in only, by adding `.sf-zone-night` to the insight view root. It is never applied to a clinical screen. `src/design-system/tokens.test.js` checks the clinical components for it.
+- The night palette lives in `tokens.css` under `.sf-zone-night`. It redefines the semantic layer, the legacy palette and the legacy `--color-*` aliases, because aliases resolve at `:root` and would otherwise stay light.
+- Styles live in `src/styles/insights-night.css` and use tokens only.
+- The simulation boundary, "Illustrative model output, not clinically validated", the data source note and every safety wording stay visible and unchanged. Only colours change.
+- Night text and state pairs meet WCAG AA. The contrast test covers them.
+- Charts may animate once on entry (600ms). No looping, pulsing or glow animation. Reduced motion turns it off.
+- Canvas charts cannot read CSS custom properties, so `HospitalInsightsView.jsx` mirrors the chart colours for both themes in one place.
+- Accents allowed only in this zone: one soft radial glow behind the view, a 1px top highlight on cards, cyan accent text. No glassmorphism, neon or gradients on data.
+- The user switches with the "Night view" toggle (`aria-pressed`). Presentation mode opens Hospital Insights in the night view by default.
