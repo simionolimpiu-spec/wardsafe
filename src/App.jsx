@@ -800,6 +800,7 @@ export default function App() {
             {state.selectedView === 'hospital-insights' && (
               <HospitalInsightsView
                 currentWardName={state.currentWardName}
+                defaultTheme={isPresentationMode ? 'night' : 'standard'}
                 hospitalName={state.hospitalName}
                 heuristicCues={heuristicCues}
                 patient={selectedPatient}
