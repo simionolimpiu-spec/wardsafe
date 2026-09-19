@@ -63,3 +63,57 @@ describe('PatientJourneyTwin', () => {
     expect(screen.getByRole('slider', { name: /journey day scrubber/i })).toHaveAttribute('aria-valuetext', 'Day 4 of 4');
   });
 });
+
+
+describe('PatientJourneyTwin night view (SF-298)', () => {
+  it('switches both ways without changing any content or hiding boundary and source notes', () => {
+    render(<PatientJourneyTwin />);
+    const view = screen.getByRole('region', { name: 'Patient Journey Twin', exact: true });
+    const toggle = within(view).getByRole('button', { name: 'Night view' });
+    const originalContent = view.textContent;
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view).not.toHaveClass('sf-zone-night');
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    expect(view).toHaveClass('sf-zone-night');
+    expect(view).toHaveAttribute('data-sf-theme', 'night');
+    expect(view.textContent).toBe(originalContent);
+    const notes = view.querySelectorAll('.twin-boundary-note, .twin-summary-chip, .twin-simulation-badge, .twin-review-note, .twin-change-note');
+    expect(notes.length).toBeGreaterThan(0);
+    for (const note of notes) expect(note).toBeVisible();
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    expect(view).not.toHaveClass('sf-zone-night');
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view.textContent).toBe(originalContent);
+  });
+
+  it('starts in night view when requested and retains the simulation boundaries', () => {
+    render(<PatientJourneyTwin defaultTheme="night" />);
+    const view = screen.getByRole('region', { name: 'Patient Journey Twin', exact: true });
+    expect(view).toHaveClass('sf-zone-night');
+    expect(view).toHaveAttribute('data-sf-theme', 'night');
+    expect(within(view).getByRole('button', { name: 'Night view' })).toHaveAttribute('aria-pressed', 'true');
+    for (const wording of ["Simulation-only","Fictional patient data","Not a live clinical record","Human review required","No live patient data"]) expect(view).toHaveTextContent(wording);
+  });
+
+  it('falls back for unknown themes and follows presentation-default changes', () => {
+    const { rerender } = render(<PatientJourneyTwin defaultTheme="unknown" />);
+    const view = screen.getByRole('region', { name: 'Patient Journey Twin', exact: true });
+    const toggle = within(view).getByRole('button', { name: 'Night view' });
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view).not.toHaveClass('sf-zone-night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    rerender(<PatientJourneyTwin defaultTheme="night" />);
+    expect(view).toHaveAttribute('data-sf-theme', 'night');
+    expect(view).toHaveClass('sf-zone-night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    rerender(<PatientJourneyTwin defaultTheme="unknown" />);
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view).not.toHaveClass('sf-zone-night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  });
+});

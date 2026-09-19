@@ -60,3 +60,57 @@ describe('TrustNetworkView', () => {
     expect(within(panel).getByRole('row', { name: /respiratory rate/i }).textContent).not.toBe(defaultRow);
   });
 });
+
+
+describe('TrustNetworkView night view (SF-298)', () => {
+  it('switches both ways without changing any content or hiding boundary and source notes', () => {
+    render(<TrustNetworkView />);
+    const view = screen.getByRole('region', { name: 'England Trust Network', exact: true });
+    const toggle = within(view).getByRole('button', { name: 'Night view' });
+    const originalContent = view.textContent;
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view).not.toHaveClass('sf-zone-night');
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    expect(view).toHaveClass('sf-zone-night');
+    expect(view).toHaveAttribute('data-sf-theme', 'night');
+    expect(view.textContent).toBe(originalContent);
+    const notes = view.querySelectorAll('.section-heading p, .trust-network-note, .review-report-summary-card > small, .trust-network-ward-trend-note, .trust-network-timeline > small, .trust-network-learning small');
+    expect(notes.length).toBeGreaterThan(0);
+    for (const note of notes) expect(note).toBeVisible();
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    expect(view).not.toHaveClass('sf-zone-night');
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view.textContent).toBe(originalContent);
+  });
+
+  it('starts in night view when requested and retains the simulation boundaries', () => {
+    render(<TrustNetworkView defaultTheme="night" />);
+    const view = screen.getByRole('region', { name: 'England Trust Network', exact: true });
+    expect(view).toHaveClass('sf-zone-night');
+    expect(view).toHaveAttribute('data-sf-theme', 'night');
+    expect(within(view).getByRole('button', { name: 'Night view' })).toHaveAttribute('aria-pressed', 'true');
+    for (const wording of ["Simulation-only","Human review required","Not a live cross-trust record","fictional patients","source:"]) expect(view).toHaveTextContent(wording);
+  });
+
+  it('falls back for unknown themes and follows presentation-default changes', () => {
+    const { rerender } = render(<TrustNetworkView defaultTheme="unknown" />);
+    const view = screen.getByRole('region', { name: 'England Trust Network', exact: true });
+    const toggle = within(view).getByRole('button', { name: 'Night view' });
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view).not.toHaveClass('sf-zone-night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    rerender(<TrustNetworkView defaultTheme="night" />);
+    expect(view).toHaveAttribute('data-sf-theme', 'night');
+    expect(view).toHaveClass('sf-zone-night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    rerender(<TrustNetworkView defaultTheme="unknown" />);
+    expect(view).toHaveAttribute('data-sf-theme', 'standard');
+    expect(view).not.toHaveClass('sf-zone-night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  });
+});

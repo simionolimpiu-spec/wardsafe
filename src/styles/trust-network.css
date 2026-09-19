@@ -319,7 +319,8 @@
 
 .trust-network-view .section-heading p,
 .trust-network-view .review-report-summary-card > span,
-.trust-network-view .review-report-summary-card > small {
+.trust-network-view .review-report-summary-card > small,
+.trust-network-view .trust-network-ward-trend-note {
   color: var(--sf-text-secondary);
 }
 

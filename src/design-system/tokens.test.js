@@ -108,7 +108,7 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
     expect(reduced).toMatch(/transition-duration:\s*0\.01ms !important/);
   });
 
-  it.each(['src/design-system/design-system.css', 'src/styles/panel.css', 'src/styles/board.css'])(
+  it.each(['src/design-system/design-system.css', 'src/styles/panel.css', 'src/styles/board.css', 'src/styles/trust-network.css'])(
     '%s uses tokens only (no raw colour values)',
     (file) => {
       const css = readFileSync(resolve(ROOT, file), 'utf8');
@@ -168,7 +168,19 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
       ['--sf-critical', '--sf-critical-subtle', TEXT],
       ['--color-brand-dark', '--sf-surface', TEXT],
       ['--sf-border-strong', '--sf-surface', NON_TEXT],
-      ['--sf-focus', '--sf-background', NON_TEXT]
+      ['--sf-focus', '--sf-background', NON_TEXT],
+      // SF-298: nested cards, neutral observation strips, selected chapters and controls.
+      ...['--sf-background', '--sf-surface', '--sf-surface-muted', '--sf-surface-raised', '--sf-surface-selected', '--sf-action-subtle', '--sf-success-subtle'].flatMap((background) => [
+        ['--sf-text-primary', background, TEXT],
+        ['--sf-text-secondary', background, TEXT],
+        ['--sf-text-muted', background, TEXT],
+        ['--sf-focus', background, NON_TEXT]
+      ]),
+      ...['--sf-background', '--sf-surface', '--sf-surface-muted'].map((background) => ['--sf-border-strong', background, NON_TEXT]),
+      ['--sf-action', '--sf-action-subtle', TEXT],
+      ['--sf-neutral', '--sf-neutral-subtle', TEXT],
+      ['--sf-simulation', '--sf-simulation-subtle', TEXT],
+      ...['--sf-blue', '--sf-green', '--sf-amber', '--sf-blue-deep', '--sf-red', '--sf-grey-500'].map((foreground) => [foreground, '--sf-surface', TEXT])
     ])('night %s on %s meets %s:1 contrast', (foreground, background, minimum) => {
       expect(contrast(night[foreground], night[background])).toBeGreaterThanOrEqual(minimum);
     });
