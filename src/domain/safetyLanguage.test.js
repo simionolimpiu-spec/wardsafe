@@ -21,6 +21,7 @@ const DOCUMENTATION_FILES = [
   'docs/demo-screenshot-checklist.md',
   'docs/ml-foundation-pr-summary.md',
   'docs/risk-support-technical-explainer.md',
+  'docs/design/SAFeflow-DESIGN.md',
   'docs/public-demo-pack/master-narrative.md',
   'docs/public-demo-pack/pack-index.md',
   'docs/public-demo-pack/quality-intelligence-one-pager.md',
