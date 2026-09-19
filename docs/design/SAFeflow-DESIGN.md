@@ -1,6 +1,6 @@
 # SafeFlow Design System
 
-Version 1.0 (SF-295). This is the canonical UI specification for SafeFlow.
+Version 1.1 (SF-295 foundation, SF-296 ward board). This is the canonical UI specification for SafeFlow.
 
 Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
 
@@ -53,6 +53,7 @@ New and migrated components use semantic tokens only. Palette tokens (`--sf-blue
 | `--sf-surface` | #FFFFFF | Panels, tables, cards |
 | `--sf-surface-raised` | #FFFFFF | Dialogs and drawers (with `--sf-elevation-2`) |
 | `--sf-surface-muted` | #F5F8FB | Inset areas, form wells, context strips |
+| `--sf-surface-selected` | #E8F3F4 | Selected board row, paired with a left bar and `aria-current` on its button |
 | `--sf-border` | #DBE3EC | Dividers and panel borders |
 | `--sf-border-strong` | #7A8795 | Input and control borders (3:1 on surface) |
 | `--sf-text-primary` | #14283D | Body text and values |
@@ -239,13 +240,48 @@ Priority presentation:
 - No new npm packages without a written case in the pull request: why existing code cannot do it, licence, maintenance and security.
 - Componentry, Cult UI and similar libraries may inform structure. They are not installed and their visual effects are not copied.
 
-Component inventory in v1:
+Component inventory in v1.1:
 
 | Layer | Components |
 | --- | --- |
 | Primitives | `Badge` |
-| Clinical | `clinicalStates`, `ClinicalStatusBadge`, `ClinicalValue`, `SafetyStatus`, `SimulationLabel`, `PatientIdentityBlock`, `PatientContextStrip`, `PatientBanner`, `ReviewCue`, `ReviewCueGroup`, `ReviewCueMetadata`, `ReviewCueEvidence`, `ReviewCueRationale` |
+| Clinical | `clinicalStates`, `ClinicalStatusBadge`, `ClinicalValue`, `SafetyStatus`, `SimulationLabel`, `PatientIdentityBlock`, `PatientContextStrip`, `PatientBanner`, `ReviewCue`, `ReviewCueGroup`, `ReviewCueMetadata`, `ReviewCueEvidence`, `ReviewCueRationale`, `WardBoardPatientCell`, `WardBoardStatusCell` |
 | Layout | `InformationPanel` |
 | Feedback | `EmptyState` |
 
-Planned for Phase 2: Ward Safety Board migration, ObservationTrend, TaskList, Timeline, button primitives, and migration of the remaining legacy CSS partials onto semantic tokens.
+Planned for Phase 2: ObservationTrend, TaskList, Timeline, button primitives, and migration of the remaining legacy CSS partials onto semantic tokens.
+
+## 15. Ward board
+
+The Ward Safety Board is the second design-system screen. It retains a native table with `th scope="col"`, inside a named, keyboard-focusable `.table-scroll` region. Column order is the same visually and in the DOM at every width:
+
+1. Fictional label: simulation identifier and display name together in `WardBoardPatientCell`. The existing header text is retained for accessibility-test compatibility. The button keeps `Open {name} ({id})` as its accessible name.
+2. Risk: one `ClinicalStatusBadge`, followed by recorded flags as neutral outline badges. No fallback flag is invented.
+3. Escalation status.
+4. Next action: the existing recorded text, unchanged.
+5. NEWS2: `ClinicalValue`, the recorded value and the existing band as visible text.
+6. Responsible fictional nurse.
+7. Handover %: static progress ring with its existing accessible label.
+8. Discharge-ready.
+
+`WardBoardStatusCell` wraps `ClinicalStatusBadge` for risk, escalation and discharge readiness. The existing `riskStatus` and `escalationStatus` mappings are unchanged. The new presentation mappers live only in `clinicalStates.js`:
+
+| Mapper | Recorded input | Presentation |
+| --- | --- | --- |
+| `dischargeReadinessStatus` | `true` / `false` | success, "Ready" / review, "Needs review" |
+| `dischargeReadinessStatus` | Missing or unknown | neutral, "Not recorded" |
+| `news2BandStatus` | Existing `getNews2Band` output `normal` | neutral, "Normal band" |
+| `news2BandStatus` | Existing `getNews2Band` output `watch` / `high` | warning, "Watch band" / "High band" |
+| `news2BandStatus` | Missing or unknown | neutral, "Not recorded" |
+
+`getNews2Band` remains unchanged. Missing NEWS2 bypasses band calculation and shows "Not recorded" without a band. No UI thresholds or new clinical calculations are introduced. Red remains reserved for High risk and active escalation; a NEWS2 band alone does not introduce another red state.
+
+Summary cards retain the five existing metric labels and display recorded values through `ClinicalValue` with tabular numerals. They use neutral styling and do not infer severity from aggregate counts. Missing metrics are explicit; a recorded zero remains zero.
+
+Selection combines `--sf-surface-selected`, a left bar and `aria-current="true"` on the open-patient button. Buttons retain 44px targets. The handover ring does not animate; row and control feedback use hover/focus transitions with duration tokens. No new tokens are required.
+
+At 860px and below, identity, risk, escalation and next action remain the first columns. Secondary columns remain accessible by scrolling within `.table-scroll`; table semantics and content are retained. Summary cards reflow to two columns and then one at 520px. Neither the board nor its cards may cause page-level horizontal scroll at 320px.
+
+The board displays "Simulation-only", "Human review required", and "Not clinically validated and not for clinical decision-making". The application safety boundary remains unchanged. Inside the patient panel, the potassium safety-gap evidence grid always stacks into one column, including on wide workstations; its text and regions remain unchanged.
+
+The raw-colour guard covers `design-system.css`, `panel.css` and `board.css`.
