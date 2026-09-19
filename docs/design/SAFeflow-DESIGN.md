@@ -1,6 +1,6 @@
 # SafeFlow Design System
 
-Version 1.2 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype). This is the canonical UI specification for SafeFlow.
+Version 1.3 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension). This is the canonical UI specification for SafeFlow.
 
 Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
 
@@ -286,23 +286,25 @@ The board displays "Simulation-only", "Human review required", and "Not clinical
 
 The raw-colour guard covers `design-system.css`, `panel.css` and `board.css`.
 
-## 16. Insights night zone (SF-297 prototype)
+## 16. Insights night zone (SF-297 prototype, SF-298 extension)
 
 SafeFlow has two visual zones.
 
 | Zone | Screens | Look |
 | --- | --- | --- |
 | Clinical | Ward board, patient panel, handover, escalations, observations, tasks, discharges | Light, calm, restrained. Sections 2 to 15 apply in full |
-| Insight | Hospital Insights now. Trust Network, Patient Journey Twin and presentation mode are candidates | May use the night view: dark surfaces, larger numerals, richer charts, one-off chart entry motion |
+| Insight | Hospital Insights, Trust Network and Patient Journey Twin. The presentation-mode shell remains unchanged | May use the night view: dark surfaces, larger numerals, richer charts, one-off chart entry motion |
 
 Rules for the night view:
 
 - Opt-in only, by adding `.sf-zone-night` to the insight view root. It is never applied to a clinical screen. `src/design-system/tokens.test.js` checks the clinical components for it.
 - The night palette lives in `tokens.css` under `.sf-zone-night`. It redefines the semantic layer, the legacy palette and the legacy `--color-*` aliases, because aliases resolve at `:root` and would otherwise stay light.
-- Styles live in `src/styles/insights-night.css` and use tokens only.
+- Scoped night styles live in `src/styles/insights-night.css` and use tokens only. Trust Network uses semantic tokens throughout `trust-network.css`, which is included in the raw-colour guard. Twin overrides are scoped to its insight root; the shared `scenario-and-audit.css` is unchanged.
 - The simulation boundary, "Illustrative model output, not clinically validated", the data source note and every safety wording stay visible and unchanged. Only colours change.
-- Night text and state pairs meet WCAG AA. The contrast test covers them.
+- Night text and state pairs meet 4.5:1 contrast; borders and focus rings meet 3:1. Token tests and desktop/mobile browser checks cover the SF-298 surfaces, including nested source and human-review notes.
 - Charts may animate once on entry (600ms). No looping, pulsing or glow animation. Reduced motion turns it off.
 - Canvas charts cannot read CSS custom properties, so `HospitalInsightsView.jsx` mirrors the chart colours for both themes in one place.
 - Accents allowed only in this zone: one soft radial glow behind the view, a 1px top highlight on cards, cyan accent text. No glassmorphism, neon or gradients on data.
-- The user switches with the "Night view" toggle (`aria-pressed`). Presentation mode opens Hospital Insights in the night view by default.
+- Each insight surface has a "Night view" toggle (`aria-pressed`), a `data-sf-theme` attribute and a `defaultTheme` prop. Unknown themes fall back to standard. Presentation mode opens Hospital Insights, Trust Network and Patient Journey Twin in night view by default; users can switch back.
+- Trust Network observation strips remain plain, neutral text, with no glow or added state coding. SF-298 introduces no animation; Twin sparklines and observation values remain static.
+- The existing clinical-screen exclusion test is retained in full. Browser checks also verify that presentation mode never applies the night zone to clinical screens.
