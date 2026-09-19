@@ -128,4 +128,62 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
     const ring = css.match(/\.progress-ring\s*\{([^}]+)\}/)[1];
     expect(ring).not.toMatch(/transition|animation/);
   });
+
+  describe('insights night zone (SF-297)', () => {
+    const nightBlock = TOKENS_CSS.match(/\.sf-zone-night\s*\{([\s\S]*?)\n\}/)?.[1] ?? '';
+    const night = {};
+    for (const [, name, value] of nightBlock.matchAll(/(--[\w-]+):\s*([^;]+);/g)) {
+      night[name] = value.trim();
+    }
+
+    it('redefines every legacy --color-* alias so none resolve to light values inside the zone', () => {
+      const aliases = Object.keys(rawTokens).filter((name) => name.startsWith('--color-') && name !== '--color-badge-accent');
+      for (const name of aliases) {
+        expect(night, name).toHaveProperty(name);
+      }
+    });
+
+    it('redefines every colour semantic token', () => {
+      const semanticColours = Object.keys(rawTokens).filter((name) => {
+        if (!/^--sf-(background|surface|border|text|action|information|success|warning|review|critical|neutral|simulation|disabled|focus)/.test(name)) return false;
+        if (['--sf-critical-hover', '--sf-focus-halo'].includes(name)) return false;
+        return /^(#|rgba?\()/.test(resolveToken(name));
+      });
+      expect(semanticColours.length).toBeGreaterThan(40);
+      for (const name of semanticColours) {
+        expect(night, name).toHaveProperty(name);
+      }
+    });
+
+    it.each([
+      ['--sf-text-primary', '--sf-background', TEXT],
+      ['--sf-text-primary', '--sf-surface', TEXT],
+      ['--sf-text-secondary', '--sf-surface', TEXT],
+      ['--sf-text-muted', '--sf-surface', TEXT],
+      ['--sf-text-muted', '--sf-surface-raised', TEXT],
+      ['--sf-action', '--sf-surface', TEXT],
+      ['--sf-information', '--sf-information-subtle', TEXT],
+      ['--sf-success', '--sf-success-subtle', TEXT],
+      ['--sf-warning', '--sf-warning-subtle', TEXT],
+      ['--sf-critical', '--sf-critical-subtle', TEXT],
+      ['--color-brand-dark', '--sf-surface', TEXT],
+      ['--sf-border-strong', '--sf-surface', NON_TEXT],
+      ['--sf-focus', '--sf-background', NON_TEXT]
+    ])('night %s on %s meets %s:1 contrast', (foreground, background, minimum) => {
+      expect(contrast(night[foreground], night[background])).toBeGreaterThanOrEqual(minimum);
+    });
+
+    it('is only applied by insight surfaces, never by clinical screens', () => {
+      const clinical = ['WardSafetyBoard.jsx', 'PatientSafetyPanel.jsx', 'HandoverDischargeView.jsx', 'EscalationsView.jsx', 'ObservationsView.jsx', 'TasksView.jsx', 'BoardSummaryCards.jsx'];
+      for (const file of clinical) {
+        const source = readFileSync(resolve(ROOT, 'src/components', file), 'utf8');
+        expect(source, file).not.toMatch(/sf-zone-night|defaultTheme/);
+      }
+    });
+
+    it('keeps insights-night.css on tokens only', () => {
+      const css = readFileSync(resolve(ROOT, 'src/styles/insights-night.css'), 'utf8');
+      expect(css.match(RAW_COLOUR) ?? []).toEqual([]);
+    });
+  });
 });
