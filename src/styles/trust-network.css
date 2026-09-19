@@ -1,13 +1,13 @@
 .trust-network-view .trust-network-note,
 .trust-network-view .trust-network-summary {
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.9rem;
 }
 
 .app-shell-redesign .trust-network-view {
-  border-color: var(--sf-grey-200);
-  border-radius: var(--sf-radius-lg);
-  box-shadow: var(--sf-shadow-1);
+  border-color: var(--sf-border);
+  border-radius: var(--sf-radius-md);
+  box-shadow: var(--sf-elevation-1);
 }
 
 .trust-network-journeys {
@@ -17,10 +17,10 @@
 }
 
 .trust-network-journey {
-  border: 1px solid var(--border-subtle, #d7dee3);
+  border: 1px solid var(--sf-border);
   border-radius: 12px;
   padding: 14px 16px;
-  background: var(--surface, #fff);
+  background: var(--sf-surface);
 }
 
 .trust-network-journey-head {
@@ -42,14 +42,14 @@
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 999px;
-  background: var(--accent-soft, #e7f3f0);
-  color: var(--accent-strong, #0b6b5b);
+  background: var(--sf-success-subtle);
+  color: var(--sf-success);
   white-space: nowrap;
 }
 
 .trust-network-outcome[data-outcome='discharge-with-package-of-care'] {
-  background: var(--warn-soft, #fbf1e6);
-  color: var(--warn-strong, #8a4b0a);
+  background: var(--sf-warning-subtle);
+  color: var(--sf-warning);
 }
 
 .trust-network-segments {
@@ -65,8 +65,8 @@
   gap: 10px;
   align-items: flex-start;
   padding: 8px 10px;
-  border-left: 3px solid var(--border-subtle, #d7dee3);
-  background: var(--surface-muted, #f5f8f9);
+  border-left: 3px solid var(--sf-border);
+  background: var(--sf-surface-muted);
   border-radius: 0 8px 8px 0;
 }
 
@@ -76,14 +76,14 @@
   font-weight: 700;
   padding: 3px 8px;
   border-radius: 6px;
-  background: #e4edf5;
-  color: #1d3b53;
+  background: var(--sf-information-subtle);
+  color: var(--sf-information);
   white-space: nowrap;
 }
 
 .trust-network-chip[data-trust='nnuh'] {
-  background: #efe6f6;
-  color: #4a2b63;
+  background: var(--sf-neutral-subtle);
+  color: var(--sf-neutral);
 }
 
 .trust-network-segment-body {
@@ -97,13 +97,13 @@
 }
 
 .trust-network-segment-body em {
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-style: normal;
   font-weight: 500;
 }
 
 .trust-network-segment-body small {
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.82rem;
 }
 
@@ -113,7 +113,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--accent-strong, #0b6b5b);
+  color: var(--sf-success);
   margin-bottom: 2px;
 }
 
@@ -121,18 +121,18 @@
   margin-top: 10px;
   padding: 10px 12px;
   border-radius: 8px;
-  background: var(--accent-soft, #e7f3f0);
-  border: 1px solid #bfe0d8;
+  background: var(--sf-success-subtle);
+  border: 1px solid var(--sf-border-strong);
 }
 
 .trust-network-learning strong {
   font-size: 0.85rem;
-  color: var(--accent-strong, #0b6b5b);
+  color: var(--sf-success);
 }
 
 .trust-network-learning small {
   display: block;
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.82rem;
   margin: 2px 0 6px;
 }
@@ -151,13 +151,13 @@
   margin: 8px 0;
   padding: 8px 10px;
   border-radius: 8px;
-  background: #f2f6fa;
-  border: 1px solid #dbe6ef;
+  background: var(--sf-surface-muted);
+  border: 1px solid var(--sf-border);
 }
 
 .trust-network-timeline > strong {
   font-size: 0.8rem;
-  color: #1d3b53;
+  color: var(--sf-information);
 }
 
 .trust-network-obs-row {
@@ -171,9 +171,9 @@
   font-size: 0.74rem;
   padding: 4px 8px;
   border-radius: 6px;
-  background: #fff;
-  border: 1px solid #dbe6ef;
-  color: #24323c;
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border);
+  color: var(--sf-text-primary);
   white-space: nowrap;
 }
 
@@ -181,12 +181,12 @@
   display: block;
   font-style: normal;
   font-weight: 700;
-  color: #4a5b66;
+  color: var(--sf-text-secondary);
   font-size: 0.68rem;
 }
 
 .trust-network-timeline > small {
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.78rem;
 }
 
@@ -198,9 +198,9 @@
 
 .trust-network-ward-trend {
   padding: 8px 10px;
-  border: 1px solid var(--border-subtle, #d7dee3);
+  border: 1px solid var(--sf-border);
   border-radius: 8px;
-  background: var(--surface-muted, #f5f8f9);
+  background: var(--sf-surface-muted);
 }
 
 .trust-network-ward-trend-head {
@@ -212,7 +212,7 @@
 
 .trust-network-ward-trend-head strong {
   display: block;
-  color: var(--accent-strong, #0b6b5b);
+  color: var(--sf-success);
   font-size: 0.68rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -225,7 +225,7 @@
 
 .trust-network-ward-trend-head span {
   flex: none;
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.72rem;
   font-weight: 700;
 }
@@ -237,17 +237,17 @@
 }
 
 .trust-network-ward-trend-range label {
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.64rem;
 }
 
 .trust-network-ward-trend-range select {
   max-width: 148px;
   padding: 3px 4px;
-  border: 1px solid var(--border-subtle, #d7dee3);
+  border: 1px solid var(--sf-border);
   border-radius: 4px;
-  background: var(--surface, #fff);
-  color: var(--text, #24323c);
+  background: var(--sf-surface);
+  color: var(--sf-text-primary);
   font-size: 0.68rem;
 }
 
@@ -258,7 +258,7 @@
 .trust-network-ward-trend-meta,
 .trust-network-ward-trend-flags,
 .trust-network-ward-trend-note {
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.72rem;
 }
 
@@ -275,12 +275,12 @@
 .trust-network-ward-trend-table th,
 .trust-network-ward-trend-table td {
   padding: 3px 4px;
-  border-top: 1px solid var(--border-subtle, #d7dee3);
+  border-top: 1px solid var(--sf-border);
   text-align: right;
 }
 
 .trust-network-ward-trend-table thead th {
-  color: var(--text-muted, #4a5b66);
+  color: var(--sf-text-secondary);
   font-size: 0.64rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -300,9 +300,43 @@
 }
 
 .trust-network-ward-trend-flags strong {
-  color: var(--text, #24323c);
+  color: var(--sf-text-primary);
 }
 
 .trust-network-ward-trend-note {
   display: block;
+}
+
+/* Shared report styles are scoped here to the insight surface. */
+.trust-network-view {
+  color: var(--sf-text-primary);
+}
+
+.trust-network-view > .section-heading {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.trust-network-view .section-heading p,
+.trust-network-view .review-report-summary-card > span,
+.trust-network-view .review-report-summary-card > small {
+  color: var(--sf-text-secondary);
+}
+
+.trust-network-view .review-report-summary-card {
+  background: var(--sf-surface);
+  border-color: var(--sf-border);
+  border-left-color: var(--sf-action);
+}
+
+.trust-network-view .review-report-summary-card strong {
+  color: var(--sf-text-primary);
+}
+
+.trust-network-view .trust-network-ward-trend-range span {
+  color: var(--sf-text-secondary);
+}
+
+.trust-network-ward-trend-range select {
+  border-color: var(--sf-border-strong);
 }

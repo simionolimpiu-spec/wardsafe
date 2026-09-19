@@ -187,3 +187,11 @@
     align-items: flex-start;
   }
 }
+
+/* SF-298: Trust Network stays a non-clinical, static insight surface. */
+.app-shell-redesign .sf-zone-night.trust-network-view,
+.sf-zone-night.trust-network-view {
+  --sf-border: var(--sf-border-strong);
+  background: var(--sf-background);
+  border-color: var(--sf-border);
+}

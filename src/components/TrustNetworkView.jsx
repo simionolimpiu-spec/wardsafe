@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { Moon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import {
   trustNetwork,
   getWardsForTrust,
@@ -140,16 +141,34 @@ function WardTrendRollup({ ward }) {
   );
 }
 
-export function TrustNetworkView() {
+export function TrustNetworkView({ defaultTheme = 'standard' } = {}) {
+  const [theme, setTheme] = useState(defaultTheme === 'night' ? 'night' : 'standard');
+  useEffect(() => {
+    setTheme(defaultTheme === 'night' ? 'night' : 'standard');
+  }, [defaultTheme]);
+  const isNight = theme === 'night';
   const journeys = getInterTrustJourneys();
 
   return (
-    <section className="review-report-section trust-network-view" aria-label="England Trust Network">
+    <section
+      className={['review-report-section', 'trust-network-view', isNight ? 'sf-zone-night' : ''].filter(Boolean).join(' ')}
+      data-sf-theme={theme}
+      aria-label="England Trust Network"
+    >
       <div className="section-heading">
         <div>
           <h2>England Trust Network (simulation)</h2>
           <p>{trustNetwork.boundaryNote}</p>
         </div>
+        <button
+          aria-pressed={isNight}
+          className="sf-theme-switch"
+          onClick={() => setTheme(isNight ? 'standard' : 'night')}
+          type="button"
+        >
+          <Moon aria-hidden="true" focusable="false" />
+          Night view
+        </button>
       </div>
 
       <div className="review-report-summary-grid">
