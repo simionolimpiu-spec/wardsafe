@@ -1,0 +1,337 @@
+/*
+ * SafeFlow design system component styles (SF-295).
+ * Semantic tokens only (defined in src/styles/tokens.css). No raw colours.
+ * Spec: docs/design/SAFeflow-DESIGN.md
+ */
+
+/* ---------- Tone utilities ---------- */
+.sf-tone-neutral { --sf-tone-fg: var(--sf-neutral); --sf-tone-bg: var(--sf-neutral-subtle); --sf-tone-border: var(--sf-neutral-border); --sf-tone-solid: var(--sf-neutral-solid); }
+.sf-tone-information { --sf-tone-fg: var(--sf-information); --sf-tone-bg: var(--sf-information-subtle); --sf-tone-border: var(--sf-information-border); --sf-tone-solid: var(--sf-information-solid); }
+.sf-tone-success { --sf-tone-fg: var(--sf-success); --sf-tone-bg: var(--sf-success-subtle); --sf-tone-border: var(--sf-success-border); --sf-tone-solid: var(--sf-success-solid); }
+.sf-tone-warning { --sf-tone-fg: var(--sf-warning); --sf-tone-bg: var(--sf-warning-subtle); --sf-tone-border: var(--sf-warning-border); --sf-tone-solid: var(--sf-warning-solid); }
+.sf-tone-review { --sf-tone-fg: var(--sf-review); --sf-tone-bg: var(--sf-review-subtle); --sf-tone-border: var(--sf-review-border); --sf-tone-solid: var(--sf-review-solid); }
+.sf-tone-critical { --sf-tone-fg: var(--sf-critical); --sf-tone-bg: var(--sf-critical-subtle); --sf-tone-border: var(--sf-critical-border); --sf-tone-solid: var(--sf-critical-solid); }
+.sf-tone-simulation { --sf-tone-fg: var(--sf-simulation); --sf-tone-bg: var(--sf-simulation-subtle); --sf-tone-border: var(--sf-simulation-border); --sf-tone-solid: var(--sf-simulation-border); }
+
+.sf-numeric {
+  font-variant-numeric: var(--sf-font-numeric);
+}
+
+/* ---------- Badge ---------- */
+.sf-badge {
+  align-items: center;
+  background: var(--sf-tone-bg);
+  border: var(--sf-border-width) solid var(--sf-tone-border);
+  border-radius: var(--sf-radius-xs);
+  color: var(--sf-tone-fg);
+  display: inline-flex;
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  gap: var(--sf-space-1);
+  line-height: var(--sf-line-height-sm);
+  max-width: 100%;
+  padding: 1px var(--sf-space-2);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.sf-badge__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sf-badge__icon {
+  flex: none;
+  height: 14px;
+  width: 14px;
+}
+
+.sf-badge--outline {
+  background: var(--sf-surface);
+}
+
+.sf-badge--simulation {
+  border-style: dashed;
+}
+
+.sf-badge--neutral { --sf-tone-fg: var(--sf-neutral); --sf-tone-bg: var(--sf-neutral-subtle); --sf-tone-border: var(--sf-neutral-border); }
+.sf-badge--information { --sf-tone-fg: var(--sf-information); --sf-tone-bg: var(--sf-information-subtle); --sf-tone-border: var(--sf-information-border); }
+.sf-badge--success { --sf-tone-fg: var(--sf-success); --sf-tone-bg: var(--sf-success-subtle); --sf-tone-border: var(--sf-success-border); }
+.sf-badge--warning { --sf-tone-fg: var(--sf-warning); --sf-tone-bg: var(--sf-warning-subtle); --sf-tone-border: var(--sf-warning-border); }
+.sf-badge--review { --sf-tone-fg: var(--sf-review); --sf-tone-bg: var(--sf-review-subtle); --sf-tone-border: var(--sf-review-border); }
+.sf-badge--critical { --sf-tone-fg: var(--sf-critical); --sf-tone-bg: var(--sf-critical-subtle); --sf-tone-border: var(--sf-critical-border); }
+.sf-badge--simulation { --sf-tone-fg: var(--sf-simulation); --sf-tone-bg: var(--sf-simulation-subtle); --sf-tone-border: var(--sf-simulation-border); }
+
+/* ---------- Clinical value ---------- */
+.sf-clinical-value {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sf-clinical-value__label {
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-sm);
+}
+
+.sf-clinical-value__reading {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sf-space-1);
+}
+
+.sf-clinical-value__value {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-md);
+  font-weight: var(--sf-font-weight-bold);
+  line-height: var(--sf-line-height-md);
+}
+
+.sf-clinical-value--observation .sf-clinical-value__value {
+  font-size: var(--sf-font-size-value);
+  line-height: var(--sf-line-height-2xl);
+}
+
+.sf-clinical-value__unit,
+.sf-clinical-value__context {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-sm);
+}
+
+.sf-clinical-value__missing {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-sm);
+  font-style: italic;
+}
+
+.sf-clinical-value__state {
+  color: var(--sf-tone-fg);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+}
+
+.sf-clinical-value--stated {
+  border-left: var(--sf-status-bar-width) solid var(--sf-tone-solid);
+  padding-left: var(--sf-space-3);
+}
+
+/* ---------- Safety status ---------- */
+.sf-safety-status {
+  align-items: flex-start;
+  background: var(--sf-tone-bg);
+  border: var(--sf-border-width) solid var(--sf-tone-border);
+  border-left: var(--sf-status-bar-width) solid var(--sf-tone-solid);
+  border-radius: var(--sf-radius-sm);
+  display: grid;
+  gap: var(--sf-space-2) var(--sf-space-3);
+  grid-template-columns: var(--sf-icon-md) minmax(0, 1fr) auto;
+  padding: var(--sf-space-3);
+}
+
+.sf-safety-status__icon {
+  color: var(--sf-tone-solid);
+  height: var(--sf-icon-md);
+  width: var(--sf-icon-md);
+}
+
+.sf-safety-status__title {
+  color: var(--sf-tone-fg);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-sm);
+  margin: 0;
+}
+
+.sf-safety-status__detail {
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-sm);
+  line-height: var(--sf-line-height-sm);
+  margin-top: 2px;
+}
+
+.sf-safety-status__detail p {
+  margin: 0;
+}
+
+.sf-safety-status__action {
+  align-self: center;
+}
+
+.sf-safety-status.sf-tone-neutral {
+  background: var(--sf-surface-muted);
+  border-color: var(--sf-border);
+}
+
+.sf-safety-status.sf-tone-neutral .sf-safety-status__title {
+  color: var(--sf-text-primary);
+}
+
+/* ---------- Patient banner ---------- */
+.sf-patient-banner {
+  display: grid;
+  gap: var(--sf-space-3);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.sf-patient-identity {
+  display: grid;
+  gap: var(--sf-space-1);
+}
+
+.sf-patient-identity__name-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sf-space-2) var(--sf-space-3);
+}
+
+.sf-patient-identity__name {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-2xl);
+  font-weight: var(--sf-font-weight-bold);
+  line-height: var(--sf-line-height-2xl);
+  margin: 0;
+}
+
+.sf-patient-identity__ids,
+.sf-patient-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sf-space-1) var(--sf-space-4);
+  margin: 0;
+}
+
+.sf-patient-context {
+  background: var(--sf-surface-muted);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  padding: var(--sf-space-2) var(--sf-space-3);
+}
+
+.sf-fact {
+  align-items: baseline;
+  display: flex;
+  gap: var(--sf-space-1);
+  min-width: 0;
+}
+
+.sf-fact dt {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-sm);
+}
+
+.sf-fact dd {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.sf-allergy-strip {
+  align-items: flex-start;
+  background: var(--sf-tone-bg);
+  border: var(--sf-border-width) solid var(--sf-tone-border);
+  border-left: var(--sf-status-bar-width) solid var(--sf-tone-solid);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-tone-fg);
+  display: flex;
+  font-size: var(--sf-font-size-sm);
+  gap: var(--sf-space-2);
+  line-height: var(--sf-line-height-sm);
+  margin: 0;
+  padding: var(--sf-space-2) var(--sf-space-3);
+}
+
+.sf-allergy-strip__icon {
+  flex: none;
+  height: var(--sf-icon-sm);
+  margin-top: 2px;
+  width: var(--sf-icon-sm);
+}
+
+.sf-allergy-strip.sf-tone-neutral {
+  background: var(--sf-surface-muted);
+  border-color: var(--sf-border);
+  color: var(--sf-text-secondary);
+}
+
+.sf-patient-banner__statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sf-space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Information panel ---------- */
+.sf-info-panel {
+  align-items: flex-start;
+  background: var(--sf-surface-muted);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-secondary);
+  display: flex;
+  font-size: var(--sf-font-size-sm);
+  gap: var(--sf-space-3);
+  line-height: var(--sf-line-height-sm);
+  padding: var(--sf-space-3);
+}
+
+.sf-info-panel__icon {
+  color: var(--sf-text-muted);
+  flex: none;
+  height: var(--sf-icon-md);
+  width: var(--sf-icon-md);
+}
+
+.sf-info-panel__title {
+  color: var(--sf-text-primary);
+  display: block;
+  font-weight: var(--sf-font-weight-semibold);
+}
+
+/* ---------- Empty state ---------- */
+.sf-state {
+  align-items: flex-start;
+  border: var(--sf-border-width) dashed var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-secondary);
+  display: flex;
+  gap: var(--sf-space-3);
+  padding: var(--sf-space-3) var(--sf-space-4);
+}
+
+.sf-state__icon {
+  color: var(--sf-text-muted);
+  flex: none;
+  height: var(--sf-icon-md);
+  width: var(--sf-icon-md);
+}
+
+.sf-state__title {
+  color: var(--sf-text-primary);
+  font-weight: var(--sf-font-weight-semibold);
+  margin: 0;
+}
+
+.sf-state__text,
+.sf-state__text p {
+  font-size: var(--sf-font-size-sm);
+  line-height: var(--sf-line-height-sm);
+  margin: 0;
+}
+
+@media (max-width: 620px) {
+  .sf-safety-status {
+    grid-template-columns: var(--sf-icon-md) minmax(0, 1fr);
+  }
+
+  .sf-safety-status__action {
+    grid-column: 1 / -1;
+  }
+}
