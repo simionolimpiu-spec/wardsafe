@@ -187,3 +187,70 @@
     align-items: flex-start;
   }
 }
+
+/* SF-298: Trust Network stays a non-clinical, static insight surface. */
+.app-shell-redesign .sf-zone-night.trust-network-view,
+.sf-zone-night.trust-network-view {
+  --sf-border: var(--sf-border-strong);
+  background: var(--sf-background);
+  border-color: var(--sf-border);
+}
+
+/* Keep the Twin's shared scenario stylesheet and clinical screens unchanged. */
+.twin-header {
+  flex-wrap: wrap;
+}
+
+.twin-header > div {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.twin-header > .sf-theme-switch {
+  flex: none;
+}
+
+.sf-zone-night.twin-view {
+  background: var(--sf-background);
+  border-color: var(--sf-border-strong);
+}
+
+.sf-zone-night.twin-view .twin-boundary-note,
+.sf-zone-night.twin-view .twin-patient-heading p {
+  color: var(--sf-text-secondary);
+}
+
+.sf-zone-night.twin-view .twin-summary-chip {
+  background: var(--sf-simulation-subtle);
+  color: var(--sf-simulation);
+}
+
+.sf-zone-night.twin-view .twin-patient-card {
+  background: var(--sf-surface);
+  border-color: var(--sf-border-strong);
+}
+
+.sf-zone-night.twin-view :is(
+  .twin-day-scrubber, .twin-then-now-panel, .twin-trend-panel,
+  .twin-day-scrubber-controls button, .twin-chapter,
+  .twin-location-phase-grid div, .twin-observation-table th,
+  .twin-observation-table td, .twin-trend-card, .twin-sparkline
+) {
+  border-color: var(--sf-border-strong);
+}
+
+.sf-zone-night.twin-view .twin-chapter:hover,
+.sf-zone-night.twin-view .twin-chapter--current,
+.sf-zone-night.twin-view .twin-day-scrubber-controls button:hover:not(:disabled) {
+  border-color: var(--sf-action);
+}
+
+.sf-zone-night.twin-view .twin-day-scrubber-controls button:disabled {
+  background: var(--sf-disabled-subtle);
+  color: var(--sf-text-muted);
+  opacity: 1;
+}
+
+.sf-zone-night.twin-view .twin-sparkline-baseline {
+  stroke: var(--sf-border-strong);
+}

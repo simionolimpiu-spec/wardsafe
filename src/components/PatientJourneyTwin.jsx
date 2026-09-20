@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Moon, Sparkles } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ALL_WARDS, TRUSTS } from '../data/trustNetwork/trusts.js';
 import {
@@ -31,7 +31,12 @@ const PHASE_LABELS = Object.freeze({
   readmission: 'Readmission'
 });
 
-export function PatientJourneyTwin({ patient = null } = {}) {
+export function PatientJourneyTwin({ patient = null, defaultTheme = 'standard' } = {}) {
+  const [theme, setTheme] = useState(defaultTheme === 'night' ? 'night' : 'standard');
+  useEffect(() => {
+    setTheme(defaultTheme === 'night' ? 'night' : 'standard');
+  }, [defaultTheme]);
+  const isNight = theme === 'night';
   const patientId = typeof patient?.id === 'string' && patient.id.trim() ? patient.id.trim() : DEFAULT_PATIENT_ID;
   const latestDay = getLatestDayForPatient(patient);
   const [selectedDay, setSelectedDay] = useState(latestDay);
@@ -62,7 +67,11 @@ export function PatientJourneyTwin({ patient = null } = {}) {
   }
 
   return (
-    <section className="workflow-view twin-view" aria-labelledby="patient-journey-twin-title">
+    <section
+      className={['workflow-view', 'twin-view', isNight ? 'sf-zone-night' : ''].filter(Boolean).join(' ')}
+      data-sf-theme={theme}
+      aria-labelledby="patient-journey-twin-title"
+    >
       <div className="section-heading twin-header">
         <Sparkles aria-hidden="true" size={22} />
         <div>
@@ -79,6 +88,15 @@ export function PatientJourneyTwin({ patient = null } = {}) {
             <span className="twin-summary-chip">No live patient data</span>
           </div>
         </div>
+        <button
+          aria-pressed={isNight}
+          className="sf-theme-switch"
+          onClick={() => setTheme(isNight ? 'standard' : 'night')}
+          type="button"
+        >
+          <Moon aria-hidden="true" focusable="false" />
+          Night view
+        </button>
       </div>
 
       <section className="twin-patient-card twin-longitudinal-card" aria-label="Longitudinal journey review">

@@ -750,7 +750,7 @@ export default function App() {
             {state.selectedView === 'observations' && (
               <ObservationsView patient={selectedPatient} onRecord={recordObservation} />
             )}
-            {state.selectedView === 'trust-network' && <TrustNetworkView />}
+            {state.selectedView === 'trust-network' && <TrustNetworkView defaultTheme={isPresentationMode ? 'night' : 'standard'} />}
             {state.selectedView === 'tasks' && (
               <TasksView
                 onAddTask={addTask}
@@ -814,7 +814,7 @@ export default function App() {
             )}
             {state.selectedView === 'learning-hub' && <LearningHubView />}
             {state.selectedView === 'twin' && (
-              <PatientJourneyTwin patient={selectedPatient} />
+              <PatientJourneyTwin patient={selectedPatient} defaultTheme={isPresentationMode ? 'night' : 'standard'} />
             )}
             {state.selectedView === 'audit' && (
               <AuditLearningView
