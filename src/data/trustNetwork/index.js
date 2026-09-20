@@ -101,7 +101,7 @@ const JOURNEY_DEFINITIONS = [
     summary: "Fictional patient whose home trust is James Paget relocates; a later episode is managed at Addenbrooke's with the journey/history available, and a learning copy returns to James Paget.",
     outcome: 'continues-at-new-trust',
     segments: [
-      { wardId: 'jpuh-ward-12', stage: 'admission', note: "Prior episode under James Paget Older People's Medicine; documented plan forms the portable history." },
+      { wardId: 'jpuh-ward-12', stage: 'admission', note: "Prior episode under James Paget Elderly Care; documented plan forms the portable history." },
       { wardId: 'cuh-c4', stage: 'relocation-care', note: "After relocating, a new episode is managed at Addenbrooke's frail-elderly ward with the portable history available for continuity." },
       { wardId: 'cuh-c5', stage: 'step-down', note: 'General medicine / nephrology review; continuing plan documented at the new home trust.' }
     ],
@@ -128,7 +128,7 @@ const JOURNEY_DEFINITIONS = [
     segments: [
       { wardId: 'qeh-tilney', stage: 'admission', note: "Prior general-medicine episode at Queen Elizabeth King's Lynn forms the portable history." },
       { wardId: 'esneft-brook', stage: 'relocation-care', note: 'After moving to East Suffolk, a new episode is assessed at Ipswich Acute Medical Unit (Brook Ward) with the history available.' },
-      { wardId: 'esneft-woodbridge', stage: 'step-down', note: "Older people's medicine review on Woodbridge Ward; community needs and discharge-readiness documented." },
+      { wardId: 'esneft-woodbridge', stage: 'step-down', note: "Elderly care review on Woodbridge Ward; community needs and discharge-readiness documented." },
       { wardId: 'esneft-woodbridge', stage: 'packages-of-care', note: 'Discharge home with a package of care near the new home; follow-up ownership documented (simulation-only, human-review-framed).' }
     ],
     learning: { returnedToTrustId: 'qeh', summary: "Learning copy of the cross-region episode returned to Queen Elizabeth King's Lynn for teaching.", teachingPoints: ['Continuity when a patient moves region', 'Arranging community packages near a new home', 'Feedback loop to the originating trust'] }

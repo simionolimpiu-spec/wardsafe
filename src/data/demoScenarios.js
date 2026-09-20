@@ -8,7 +8,7 @@ import {
 
 export const DEFAULT_DEMO_SCENARIO_ID = 'day-care-treatment-pathway';
 
-const HOSPITAL_NAME = 'Cityview Community Hospital';
+const HOSPITAL_NAME = 'James Paget University Hospital';
 
 const demoScenarioDefinitions = [
   {
@@ -395,9 +395,9 @@ const demoScenarioDefinitions = [
   },
   {
     id: 'community-falls-risk-review',
-    label: 'Community frailty falls-risk review',
-    description: 'Simulation comparison cues for a fictional community frailty falls-risk review.',
-    currentWardName: 'Community Frailty Team',
+    label: 'Elderly care falls-risk review',
+    description: 'Simulation comparison cues for a fictional elderly care falls-risk review.',
+    currentWardName: 'Ward 12',
     selectedPatientId: 'DCU-044',
     patientOverrides: {
       'DCU-044': {
@@ -409,14 +409,14 @@ const demoScenarioDefinitions = [
         dischargeReady: false,
         medicines: ['Metformin 500mg BD'],
         symptoms: ['Unsteady on standing', 'Reduced appetite'],
-        baseline: ['Lives alone', 'Uses frame', 'Community frailty follow-up'],
+        baseline: ['Lives alone', 'Uses frame', 'Elderly care follow-up'],
         currentState: ['Falls assessment overdue', 'Mobility support note open'],
         trajectory: ['Moving more slowly this week'],
         uncertainty: ['Falls prevention plan not visible'],
         responseHistory: ['08:35 home visit opened'],
         plan: '',
         sbar: {
-          situation: 'Community frailty follow-up with a falls-risk cue visible in the simulation record.',
+          situation: 'Elderly care follow-up with a falls-risk cue visible in the simulation record.',
           background: 'Lives alone and uses a frame for mobility.',
           assessment: 'Falls assessment is not yet documented and the review remains open.',
           recommendation: 'Document the visible falls assessment and confirm the next review step.'
@@ -450,7 +450,7 @@ const demoScenarioDefinitions = [
     id: 'community-medication-timing-review',
     label: 'Community medication-timing review',
     description: 'Simulation comparison cues for a fictional community follow-up with medication-timing review cues.',
-    currentWardName: 'Community Frailty Team',
+    currentWardName: 'Ward 12',
     selectedPatientId: 'DCU-052',
     patientOverrides: {
       'DCU-052': {

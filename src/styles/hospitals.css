@@ -1,0 +1,340 @@
+/* Hospitals & Wards surface — NHS-styled, traffic-light RAG. Simulation only. */
+:root {
+  --nhs-blue: #005EB8;
+  --nhs-dark-blue: #003087;
+  --nhs-bright-blue: #0072CE;
+  --nhs-green: #007F3B;
+  --nhs-amber: #FFB81C;
+  --nhs-red: #DA291C;
+  --nhs-pale: #F0F4F5;
+  --nhs-mid-grey: #4C6272;
+  --nhs-black: #231F20;
+}
+
+.hospitals-view {
+  font-family: 'Frutiger W01', Arial, Helvetica, sans-serif;
+  color: var(--nhs-black);
+}
+
+.service-evidence { margin: 1rem 0; padding: .75rem; border: 1px solid var(--nhs-mid-grey); border-radius: .5rem; overflow-wrap: anywhere; }
+.service-evidence summary { cursor: pointer; min-height: 44px; padding: .65rem .25rem; font-weight: 700; }
+.service-evidence summary:focus-visible { outline: 3px solid var(--nhs-blue); outline-offset: 3px; }
+.service-evidence li { margin-bottom: 1rem; }
+.service-evidence li p { margin: .35rem 0; }
+
+.hospitals-head h1 {
+  color: var(--nhs-dark-blue);
+  margin: 0.1rem 0 0.35rem;
+  font-size: 1.9rem;
+}
+.hospitals-head .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: var(--nhs-blue);
+  font-weight: 700;
+  margin: 0;
+}
+.hospitals-boundary {
+  color: var(--nhs-mid-grey);
+  font-size: 0.82rem;
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* Hospital selector tabs */
+.hospital-tabs {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 1.1rem 0 0.9rem;
+}
+.hospital-tab {
+  flex: 1 1 220px;
+  text-align: left;
+  border: 1px solid #d8dde0;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.hospital-tab strong { color: var(--nhs-dark-blue); font-size: 1.02rem; }
+.hospital-tab span { color: var(--nhs-mid-grey); font-size: 0.78rem; }
+.hospital-tab.is-active {
+  border-color: var(--nhs-blue);
+  box-shadow: inset 0 -3px 0 var(--nhs-blue);
+}
+.hospital-tab:hover { border-color: var(--nhs-bright-blue); }
+
+/* Hospital summary strip */
+.hospital-summary {
+  display: flex;
+  gap: 1.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--nhs-blue);
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.85rem 1.2rem;
+  margin-bottom: 1.1rem;
+}
+.hospital-summary > div { display: flex; flex-direction: column; }
+.hospital-summary strong { font-size: 1.3rem; line-height: 1.1; }
+.hospital-summary span { font-size: 0.72rem; opacity: 0.9; }
+.hospital-summary-rag { flex-direction: row !important; gap: 0.4rem; margin-left: auto; }
+.hospital-summary .chip {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* RAG colours */
+.rag-red, .chip.rag-red { background: var(--nhs-red); }
+.rag-amber, .chip.rag-amber { background: var(--nhs-amber); color: var(--nhs-black) !important; }
+.rag-green, .chip.rag-green { background: var(--nhs-green); }
+
+.rag-pill {
+  display: inline-block;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+}
+.rag-pill.rag-amber { color: var(--nhs-black); }
+
+/* Ward grid */
+.ward-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 0.8rem;
+}
+.ward-card {
+  text-align: left;
+  border: 1px solid #e2e6e8;
+  border-left: 4px solid var(--nhs-blue);
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.8rem 0.9rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+.ward-card:hover { box-shadow: 0 4px 14px rgba(0, 48, 135, 0.12); transform: translateY(-1px); }
+.ward-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.4rem; }
+.ward-card-head strong { color: var(--nhs-dark-blue); font-size: 0.98rem; }
+.ward-group-tag {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--nhs-mid-grey);
+  border: 1px solid #dfe4e6;
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+}
+.ward-card-specialty { margin: 0; font-size: 0.82rem; color: #3a4245; }
+.ward-card-metrics { display: flex; gap: 0.8rem; font-size: 0.78rem; color: var(--nhs-mid-grey); }
+.ward-card-staff { margin: 0.15rem 0 0; font-size: 0.72rem; color: var(--nhs-mid-grey); }
+
+/* RAG bar */
+.rag-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--nhs-pale);
+}
+.rag-bar-red { background: var(--nhs-red); }
+.rag-bar-amber { background: var(--nhs-amber); }
+.rag-bar-green { background: var(--nhs-green); }
+
+/* Ward detail */
+.back-link {
+  background: none;
+  border: none;
+  color: var(--nhs-blue);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  font-size: 0.85rem;
+}
+.ward-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-bottom: 2px solid var(--nhs-pale);
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.9rem;
+}
+.ward-detail-head h2 { margin: 0.1rem 0; color: var(--nhs-dark-blue); }
+.ward-specialty { margin: 0; color: var(--nhs-mid-grey); }
+.ward-detail-metrics { display: flex; gap: 1.2rem; }
+.ward-detail-metrics > div { display: flex; flex-direction: column; text-align: right; }
+.ward-detail-metrics strong { font-size: 1.25rem; color: var(--nhs-dark-blue); }
+.ward-detail-metrics span { font-size: 0.72rem; color: var(--nhs-mid-grey); }
+
+.ward-detail-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.1rem;
+  align-items: start;
+}
+@media (max-width: 900px) { .ward-detail-grid { grid-template-columns: 1fr; } }
+
+/* Staffing */
+.ward-staffing {
+  background: var(--nhs-pale);
+  border-radius: 10px;
+  padding: 0.9rem;
+}
+.ward-staffing h3 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--nhs-dark-blue); }
+.staff-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+.staff-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 0.05rem;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.35rem 0.55rem;
+}
+.staff-role { font-size: 0.72rem; color: var(--nhs-mid-grey); grid-column: 1 / -1; }
+.staff-name { font-weight: 600; font-size: 0.85rem; }
+.staff-band { font-size: 0.72rem; color: var(--nhs-blue); font-weight: 700; align-self: center; }
+.staffing-note { font-size: 0.72rem; color: var(--nhs-mid-grey); margin: 0.5rem 0 0; }
+
+/* Patient table */
+.ward-patients-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; }
+.ward-patients-head h3 { margin: 0 0 0.3rem; color: var(--nhs-dark-blue); font-size: 0.95rem; }
+.ward-patients-head .hint { margin: 0; font-size: 0.74rem; color: var(--nhs-mid-grey); }
+.hospitals-view .patient-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.hospitals-view .patient-table thead th {
+  text-align: left;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--nhs-mid-grey);
+  border-bottom: 2px solid var(--nhs-pale);
+  padding: 0.4rem 0.5rem;
+}
+.hospitals-view .patient-table tbody td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #eef1f2; vertical-align: middle; }
+.hospitals-view .patient-table tbody tr:hover { background: #fafcfd; }
+.cell-bed { color: var(--nhs-mid-grey); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cell-dx { color: #2c3336; }
+.cell-nurse { color: #3a4245; white-space: nowrap; }
+.cell-news2 { font-weight: 700; font-variant-numeric: tabular-nums; }
+.news2-red { color: var(--nhs-red); }
+.news2-amber { color: #805500; }
+.news2-green { color: var(--nhs-green); }
+
+/* Patient name + hover chart */
+.patient-name-chart { position: relative; display: inline-block; }
+.patient-name-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  color: var(--nhs-dark-blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.1rem 0.2rem;
+  border-radius: 4px;
+}
+.patient-name-trigger:hover, .patient-name-trigger:focus-visible {
+  text-decoration: underline;
+  outline: 2px solid var(--nhs-bright-blue);
+  outline-offset: 1px;
+}
+.patient-rag-marker { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.rag-red .patient-rag-marker { background: var(--nhs-red); }
+.rag-amber .patient-rag-marker { background: var(--nhs-amber); }
+.rag-green .patient-rag-marker { background: var(--nhs-green); }
+
+/* Popover */
+.patient-chart-popover {
+  position: absolute;
+  z-index: 40;
+  top: 100%;
+  left: 0;
+  margin-top: 0.35rem;
+  width: 320px;
+  background: #fff;
+  border: 1px solid #d8dde0;
+  border-radius: 12px;
+  box-shadow: 0 12px 34px rgba(0, 48, 135, 0.22);
+  padding: 0.8rem;
+}
+.patient-chart-popover-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--nhs-pale);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.patient-chart-popover-head strong { color: var(--nhs-dark-blue); display: block; }
+.patient-chart-sub { font-size: 0.74rem; color: var(--nhs-mid-grey); }
+.patient-chart-popover-body { display: flex; gap: 0.6rem; align-items: center; }
+
+/* Donut */
+.rag-donut svg { display: block; }
+.rag-donut-score { font-size: 34px; font-weight: 800; }
+.rag-donut-caption { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+.rag-donut-overall { font-size: 11px; font-weight: 800; }
+
+.rag-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.22rem; flex: 1; }
+.rag-legend li { display: grid; grid-template-columns: 12px 1fr auto; align-items: center; gap: 0.35rem; font-size: 0.72rem; }
+.rag-dot { width: 10px; height: 10px; border-radius: 2px; }
+.rag-legend-label { color: #2c3336; }
+.rag-legend-status { color: var(--nhs-mid-grey); font-weight: 700; }
+.patient-chart-footnote { font-size: 0.66rem; color: var(--nhs-mid-grey); margin: 0.55rem 0 0; }
+
+@media (max-width: 520px) {
+  .patient-chart-popover { width: 260px; }
+  .patient-chart-popover-body { flex-direction: column; align-items: flex-start; }
+}
+
+/* Keep the wide patient table inside its own scroll area, never the page body. */
+.ward-patients { min-width: 0; overflow-x: auto; }
+.hospitals-view .patient-table { min-width: 760px; }
+
+/* Flip the hover chart above the name when there is no room below. */
+.patient-chart-popover.is-above {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 0.35rem;
+}
+
+/* Readable, keyboard-accessible ward review controls. */
+.hospitals-view .ward-browser-tools, .ward-review-tools { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 16px 0; }
+.ward-browser-tools label, .ward-review-tools label { display: grid; gap: 6px; font-weight: 600; }
+.ward-browser-tools input, .ward-review-tools input, .ward-review-tools select { min-height: 44px; padding: 8px 12px; border: 1px solid #4C6272; border-radius: 6px; font: inherit; max-width: 100%; }
+.hospitals-view .patient-name-trigger, .hospitals-view .back-link { min-height: 44px; }
+.hospitals-view .patient-table { font-size: 1rem; }
+.hospitals-view .patient-table th { font-size: .85rem; }
+.hospitals-view .staff-role, .hospitals-view .staffing-note, .hospitals-view .ward-card-staff, .hospitals-view .ward-card-metrics { font-size: .875rem; }
+.simulation-dialog.patient-chart-dialog { width: min(620px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; }
+.patient-chart-dialog h2 { margin: 0; }
+.patient-chart-dialog .rag-legend li { font-size: .9rem; grid-template-columns: 12px 1fr auto; }
+.patient-chart-dialog .patient-chart-footnote { font-size: .875rem; color: #4C6272; }
+.patient-chart-dialog .rag-donut-caption { font-size: 12px; letter-spacing: 0; }
+.patient-chart-dialog .rag-donut-overall { font-size: 12px; }
+.rag-unknown { background: #4C6272; color: white; }
+.hospitals-view :focus-visible, .patient-chart-dialog :focus-visible { outline: 3px solid #005EB8; outline-offset: 3px; }
+@media (max-width: 520px) {
+  .patient-chart-dialog .patient-chart-popover-body { flex-direction: column; align-items: stretch; }
+  .patient-chart-dialog .rag-donut { align-self: center; }
+}

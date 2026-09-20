@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 
 export function ObservationsView({ patient, onRecord }) {
-  const [news2, setNews2] = useState(String(patient.news2));
+  const [news2, setNews2] = useState(String(patient.news2 ?? ''));
   const [error, setError] = useState('');
 
   useEffect(() => {
-    setNews2(String(patient.news2));
+    setNews2(String(patient.news2 ?? ''));
     setError('');
   }, [patient.id]);
 
   function submit(event) {
     event.preventDefault();
     const value = Number(news2);
-    if (!Number.isInteger(value) || value < 0 || value > 20) {
+    if (!news2.trim() || !Number.isInteger(value) || value < 0 || value > 20) {
       setError('NEWS2 must be a whole number from 0 to 20.');
       return;
     }
@@ -26,6 +26,10 @@ export function ObservationsView({ patient, onRecord }) {
     });
   }
 
+  if (patient.observationScale && patient.observationScale !== 'NEWS2') return <section className="operational-view" aria-label="Specialty observations">
+    <h2>Observations</h2><p>{patient.name} · {patient.observationScale}</p>
+    <p>Adult NEWS2 is not used for this patient group. The specialty observation chart is not implemented in this prototype; no score is generated.</p>
+  </section>;
   return (
     <section className="operational-view" aria-labelledby="observations-title">
       <header className="view-heading">
@@ -36,7 +40,7 @@ export function ObservationsView({ patient, onRecord }) {
         <strong>{patient.id}</strong>
       </header>
       <div className="observation-summary">
-        <strong>Current NEWS2 {patient.news2}</strong>
+        <strong>Current NEWS2 {patient.news2 ?? 'not recorded'}</strong>
         <span>{patient.currentState.join(' | ')}</span>
       </div>
       <form className="inline-form" onSubmit={submit}>
@@ -44,6 +48,7 @@ export function ObservationsView({ patient, onRecord }) {
           NEWS2
           <input
             aria-describedby={error ? 'news2-error' : undefined}
+            aria-invalid={Boolean(error)}
             id="news2-input"
             inputMode="numeric"
             onChange={(event) => setNews2(event.target.value)}

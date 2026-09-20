@@ -44,7 +44,7 @@ export const JPUH_WARDS = freezeWards('jpuh', [
   { id: 'jpuh-ward-11', name: 'Ward 11', specialty: 'Maternity', kind: 'maternity', wardGroup: 'specialty', simulatedBedCount: 22 },
   { id: 'jpuh-cds', name: 'Central Delivery Suite', specialty: 'Maternity — Delivery', kind: 'maternity', wardGroup: 'specialty', simulatedBedCount: 10 },
   { id: 'jpuh-anc', name: 'Antenatal Clinic', specialty: 'Maternity — Antenatal', kind: 'clinic', wardGroup: 'specialty', simulatedBedCount: 0 },
-  { id: 'jpuh-ward-12', name: 'Ward 12', specialty: "Older People's Medicine", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
+  { id: 'jpuh-ward-12', name: 'Ward 12', specialty: "Elderly Care", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
   { id: 'jpuh-ward-15', name: 'Ward 15', specialty: 'Respiratory', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
   { id: 'jpuh-ward-16', name: 'Ward 16 (Short Stay)', specialty: 'Short Stay Medical Unit', kind: 'assessment-unit', wardGroup: 'medical', simulatedBedCount: 24 },
   { id: 'jpuh-ward-17', name: 'Ward 17', specialty: 'Haematology', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 24 },
@@ -121,7 +121,7 @@ function representativeWards(trustId) {
     { id: `${trustId}-stroke`, name: 'Stroke Unit', specialty: 'Stroke', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
     { id: `${trustId}-gen-med`, name: 'General Medical Ward', specialty: 'General Medicine', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 30 },
     { id: `${trustId}-surgical`, name: 'General Surgical Ward', specialty: 'General Surgery', kind: 'inpatient-ward', wardGroup: 'surgical', simulatedBedCount: 28 },
-    { id: `${trustId}-elderly`, name: "Older People's Medicine Ward", specialty: "Older People's Medicine", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
+    { id: `${trustId}-elderly`, name: "Elderly Care Ward", specialty: "Elderly Care", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
     { id: `${trustId}-icu`, name: 'Critical Care Unit', specialty: 'Intensive Care / High Dependency', kind: 'critical-care', wardGroup: 'critical-care', simulatedBedCount: 14 },
     { id: `${trustId}-discharge`, name: 'Discharge Lounge', specialty: 'Discharge', kind: 'assessment-unit', wardGroup: 'medical', simulatedBedCount: 0 }
   ]);
@@ -166,7 +166,7 @@ export const ESNEFT_WARDS = freezeWards('esneft', [
   { id: 'esneft-stowupland', name: 'Stowupland Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
   { id: 'esneft-stradbroke', name: 'Stradbroke Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
   { id: 'esneft-waveney', name: 'Waveney Ward', specialty: 'Inpatient', kind: 'inpatient-ward', wardGroup: 'medical', simulatedBedCount: 28 },
-  { id: 'esneft-woodbridge', name: 'Woodbridge Ward', specialty: "Older People's Medicine", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
+  { id: 'esneft-woodbridge', name: 'Woodbridge Ward', specialty: "Elderly Care", kind: 'inpatient-ward', wardGroup: 'frailty', simulatedBedCount: 30 },
   { id: 'esneft-critical-care', name: 'Critical Care Unit', specialty: 'Intensive Care / High Dependency', kind: 'critical-care', wardGroup: 'critical-care', simulatedBedCount: 16 },
   { id: 'esneft-framlingham', name: 'Framlingham Ward', specialty: 'Neonatal Unit', kind: 'neonatal', wardGroup: 'specialty', simulatedBedCount: 20 }
 ]);

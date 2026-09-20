@@ -1,22 +1,14 @@
 /*
- * Mobile shell (SF-300). Tokens only.
- * Above 860px nothing here changes the desktop shell: the mobile controls are
- * hidden and .shell-context uses display: contents so the top bar grid is
- * unchanged. At 860px and below the sidebar becomes the More sheet, the top
- * bar collapses to brand plus ward context, and a bottom tab bar holds the
- * four most used clinical screens.
+ * Mobile shell (SF-300, reconciled with the SF-306 primary care shell).
+ * Tokens only. At 860px and below a bottom tab bar holds the four most used
+ * screens for the care setting. More opens the existing "SafeFlow workspace"
+ * drawer (codex-way.css), so the top-left menu button is hidden there.
  * Spec: docs/design/SAFeflow-DESIGN.md section 17.
  */
 
 .sf-mobile-tabbar,
-.sf-mobile-context-toggle,
-.sf-mobile-sheet-head,
-.sf-mobile-backdrop {
+.sf-mobile-context-toggle {
   display: none;
-}
-
-.shell-context {
-  display: contents;
 }
 
 @media (max-width: 860px) {
@@ -25,29 +17,13 @@
     padding-bottom: calc(var(--sf-mobile-tabbar-height) + var(--sf-space-4) + env(safe-area-inset-bottom, 0px));
   }
 
-  /* Compact top bar: brand on the left, ward context toggle on the right */
-  .app-shell-redesign .redesign-topbar {
-    align-items: center;
+  /* Simulation context folds behind the ward toggle so content comes first */
+  .app-shell-redesign .topbar-context {
+    display: none;
+  }
+
+  .app-shell-redesign .topbar-context.is-open {
     display: grid;
-    gap: var(--sf-space-3);
-    grid-template-columns: minmax(0, 1fr) auto;
-    min-height: 0;
-    padding: var(--sf-space-3) var(--sf-space-4);
-  }
-
-  .app-shell-redesign .shell-brand {
-    flex: none;
-    min-width: 0;
-    width: auto;
-  }
-
-  .app-shell-redesign .shell-brand h1 {
-    font-size: var(--sf-font-size-lg);
-  }
-
-  .app-shell-redesign .shell-brand .brand-mark {
-    height: 36px;
-    width: 36px;
   }
 
   .sf-mobile-context-toggle {
@@ -55,21 +31,17 @@
     background: transparent;
     border: var(--sf-border-width) solid currentColor;
     border-radius: var(--sf-radius-sm);
-    color: var(--sf-text-inverse);
+    color: var(--sf-text-on-shell);
     cursor: pointer;
     display: inline-flex;
     font: inherit;
     font-size: var(--sf-font-size-sm);
     font-weight: var(--sf-font-weight-semibold);
     gap: var(--sf-space-2);
-    max-width: 48vw;
+    justify-self: end;
+    max-width: 40vw;
     min-height: var(--sf-target-min);
     padding: 0 var(--sf-space-3);
-  }
-
-  .sf-mobile-context-toggle:focus-visible {
-    outline: 2px solid var(--sf-text-inverse);
-    outline-offset: 2px;
   }
 
   .sf-mobile-context-ward {
@@ -80,179 +52,27 @@
 
   .sf-mobile-context-toggle svg {
     flex: none;
-    height: var(--sf-icon-sm);
     transition: transform var(--sf-duration-fast) var(--sf-ease-standard);
-    width: var(--sf-icon-sm);
   }
 
   .sf-mobile-context-toggle[aria-expanded='true'] svg {
     transform: rotate(180deg);
   }
 
-  .shell-context {
-    display: none;
-  }
-
-  .shell-context.is-open {
-    display: grid;
-    gap: var(--sf-space-3);
-    grid-column: 1 / -1;
-    padding-top: var(--sf-space-1);
-  }
-
-  .app-shell-redesign .shell-context.is-open > .topbar-context,
-  .app-shell-redesign .shell-context.is-open > .topbar-actions {
-    grid-column: auto;
-    grid-row: auto;
-  }
-
-  .shell-context.is-open > .topbar-context {
-    display: grid;
-    gap: var(--sf-space-3);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-    width: 100%;
-  }
-
-  .shell-context.is-open > .topbar-actions {
-    display: flex;
-    flex-direction: row;
+  /* Page-level action rows reuse .topbar-actions; let them wrap on phones */
+  .app-shell-redesign .view-heading .topbar-actions {
     flex-wrap: wrap;
-    gap: var(--sf-space-2);
-    justify-content: flex-start;
-    width: 100%;
+    max-width: 100%;
   }
 
-  .shell-context.is-open > .topbar-actions > * {
-    flex: 1 1 160px;
-    min-height: var(--sf-target-min);
-    width: auto;
-  }
-
-  .shell-context.is-open .notification-button {
-    border-radius: var(--sf-radius-sm);
-    height: var(--sf-target-min);
-    width: 100%;
-  }
-
-  /* The boundary stays visible on every screen, in a compact form */
-  .app-shell-redesign .safety-banner {
-    gap: var(--sf-space-3);
-    padding: var(--sf-space-3) var(--sf-space-4);
-  }
-
-  .app-shell-redesign .safety-banner strong {
-    font-size: var(--sf-font-size-xs);
-    line-height: var(--sf-line-height-xs);
-  }
-
-  .app-shell-redesign .safety-banner span {
-    font-size: var(--sf-font-size-sm);
-    line-height: var(--sf-line-height-sm);
-  }
-
-  .app-shell-redesign .safety-banner svg {
-    height: var(--sf-icon-md);
-    width: var(--sf-icon-md);
-  }
-
-  /* Sidebar becomes the More sheet */
-  .app-shell-redesign .workspace-nav {
-    display: none;
-  }
-
-  .app-shell-redesign .workspace-nav.is-mobile-open {
-    background: var(--sf-surface);
-    border: var(--sf-border-width) solid var(--sf-border);
-    border-bottom: 0;
-    border-radius: var(--sf-radius-md) var(--sf-radius-md) 0 0;
-    bottom: calc(var(--sf-mobile-tabbar-height) + env(safe-area-inset-bottom, 0px));
-    box-shadow: var(--sf-elevation-2);
-    display: grid;
-    gap: var(--sf-space-3);
-    grid-template-rows: auto;
-    left: 0;
-    max-height: calc(100dvh - var(--sf-mobile-tabbar-height) - var(--sf-space-12));
-    min-height: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: var(--sf-space-4);
-    position: fixed;
-    right: 0;
-    z-index: var(--sf-z-mobile-sheet);
-  }
-
-  .app-shell-redesign .workspace-nav.is-mobile-open .nav-brand {
-    display: none;
-  }
-
-  .app-shell-redesign .workspace-nav.is-mobile-open .sf-mobile-sheet-head {
-    align-items: center;
-    display: flex;
-    gap: var(--sf-space-3);
-    justify-content: space-between;
-  }
-
-  .sf-mobile-sheet-head strong {
-    color: var(--sf-text-primary);
-    font-size: var(--sf-font-size-md);
-  }
-
-  .app-shell-redesign .workspace-nav .sf-mobile-sheet-close {
-    align-items: center;
-    background: var(--sf-surface);
-    border: var(--sf-border-width) solid var(--sf-border-strong);
-    border-radius: var(--sf-radius-pill);
-    color: var(--sf-text-primary);
-    display: inline-flex;
-    font-size: var(--sf-font-size-sm);
-    font-weight: var(--sf-font-weight-semibold);
-    gap: var(--sf-space-2);
-    min-height: var(--sf-target-min);
-    padding: 0 var(--sf-space-4);
-    width: auto;
-  }
-
-  .app-shell-redesign .workspace-nav .sf-mobile-sheet-close::before {
-    display: none;
-  }
-
-  .app-shell-redesign .workspace-nav.is-mobile-open nav {
-    display: grid;
-    gap: var(--sf-space-1);
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    max-height: none;
-    overflow: visible;
-    padding: 0;
-    scroll-snap-type: none;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .app-shell-redesign .workspace-nav.is-mobile-open nav button {
-    min-height: 48px;
-    min-width: 0;
-    scroll-snap-align: none;
+  .app-shell-redesign .view-heading .topbar-actions > * {
+    max-width: 100%;
     white-space: normal;
   }
 
-  .app-shell-redesign .workspace-nav.is-mobile-open .nav-safety-card {
-    margin: 0;
-  }
-
-  .app-shell-redesign .workspace-nav.is-mobile-open .nav-safety-card button {
-    min-height: var(--sf-target-min);
-  }
-
-  .app-shell-redesign .workspace-nav.is-mobile-open .nav-context {
-    display: block;
-  }
-
-  .sf-mobile-backdrop {
-    background: var(--sf-mobile-scrim);
-    display: block;
-    inset: 0;
-    position: fixed;
-    z-index: var(--sf-z-mobile-scrim);
+  /* More in the tab bar opens the same drawer */
+  .app-shell-redesign .mobile-nav-trigger {
+    display: none;
   }
 
   /* Presentation mode is sized for a projector. On a phone it keeps its
@@ -279,7 +99,7 @@
     padding: var(--sf-space-3) var(--sf-space-4);
   }
 
-  /* Bottom tab bar */
+    /* Bottom tab bar */
   .sf-mobile-tabbar {
     background: var(--sf-surface);
     border-top: var(--sf-border-width) solid var(--sf-border-strong);
@@ -391,9 +211,7 @@
 }
 
 @media print {
-  .sf-mobile-tabbar,
-  .sf-mobile-context-toggle,
-  .sf-mobile-backdrop {
+  .sf-mobile-tabbar {
     display: none;
   }
 }

@@ -33,3 +33,4 @@ data/exports/longitudinal/*.csv
 data/public-case-corpus/.cache/
 data/public-case-corpus/candidates.jsonl
 data/public-case-corpus/candidates-ranked.md
+dist-offline/

@@ -37,7 +37,7 @@ describe('HospitalInsightsView', () => {
     render(
       <HospitalInsightsView
         currentWardName="Day Care Unit"
-        hospitalName="Cityview Community Hospital"
+        hospitalName="James Paget University Hospital"
         patient={patient}
       />
     );
@@ -66,8 +66,8 @@ describe('HospitalInsightsView', () => {
     const lowSignalPatient = simulatedPatients.find((entry) => entry.id === 'DCU-052');
     const baseline = render(
       <HospitalInsightsView
-        currentWardName="Community Frailty Team"
-        hospitalName="Cityview Community Hospital"
+        currentWardName="Ward 12"
+        hospitalName="James Paget University Hospital"
         patient={lowSignalPatient}
       />
     );
@@ -79,8 +79,8 @@ describe('HospitalInsightsView', () => {
 
     render(
       <HospitalInsightsView
-        currentWardName="Community Frailty Team"
-        hospitalName="Cityview Community Hospital"
+        currentWardName="Ward 12"
+        hospitalName="James Paget University Hospital"
         heuristicCues={[
           { ruleId: 'escalation-readiness-cue', severity: 'blocker' },
           { ruleId: 'documentation-gap', severity: 'review' }

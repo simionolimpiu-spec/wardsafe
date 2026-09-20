@@ -33,7 +33,7 @@ describe('Ward Safety Board design-system migration', () => {
     ['Medium', 'Monitoring', 0], ['Low', 'None', 0]
   ])('shows risk once and restricts red for %s risk / %s escalation', (risk, escalation, criticalCount) => {
     renderBoard({ patients: [{ ...simulatedPatients[0], risk, escalation, news2: 6 }] });
-    const row = screen.getByRole('button', { name: 'Open Patient 031 (DCU-031)' }).closest('tr');
+    const row = screen.getByRole('button', { name: 'Open Margaret Ainsworth (DCU-031)' }).closest('tr');
     const riskCell = row.querySelector('.sf-ward-status-cell--risk');
     expect(riskCell.querySelectorAll('.sf-clinical-status')).toHaveLength(1);
     expect(within(riskCell).getAllByText(`${risk} risk`)).toHaveLength(1);
@@ -63,7 +63,7 @@ describe('Ward Safety Board design-system migration', () => {
   it.each([[0, 'Normal band'], [2, 'Normal band'], [3, 'Watch band'], [4, 'Watch band'], [5, 'High band'], [6, 'High band']])(
     'shows recorded NEWS2 %s with the existing %s label', (news2, band) => {
       renderBoard({ patients: [{ ...simulatedPatients[0], news2 }] });
-      const row = screen.getByRole('button', { name: 'Open Patient 031 (DCU-031)' }).closest('tr');
+      const row = screen.getByRole('button', { name: 'Open Margaret Ainsworth (DCU-031)' }).closest('tr');
       const value = row.querySelector('.sf-clinical-value');
       expect(within(value).getByText(String(news2))).toHaveClass('sf-numeric');
       expect(within(value).getByText(band)).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('Ward Safety Board design-system migration', () => {
 
   it.each([null, undefined, ''])('shows missing NEWS2 (%s) explicitly without assigning a band', (news2) => {
     renderBoard({ patients: [{ ...simulatedPatients[0], news2 }] });
-    const row = screen.getByRole('button', { name: 'Open Patient 031 (DCU-031)' }).closest('tr');
+    const row = screen.getByRole('button', { name: 'Open Margaret Ainsworth (DCU-031)' }).closest('tr');
     const value = row.querySelector('.sf-clinical-value');
     expect(within(value).getByText('Not recorded')).toBeInTheDocument();
     expect(value).toHaveClass('sf-tone-neutral');
@@ -83,10 +83,10 @@ describe('Ward Safety Board design-system migration', () => {
   it('exposes selection without colour and preserves the open action name and callback', async () => {
     const onSelectPatient = vi.fn();
     renderBoard({ onSelectPatient });
-    const current = screen.getByRole('button', { name: 'Open Patient 031 (DCU-031)' });
+    const current = screen.getByRole('button', { name: 'Open Margaret Ainsworth (DCU-031)' });
     expect(current).toHaveAttribute('aria-current', 'true');
     expect(current.closest('tr')).toHaveClass('is-selected');
-    const next = screen.getByRole('button', { name: 'Open Patient 028 (DCU-028)' });
+    const next = screen.getByRole('button', { name: 'Open Harold Fothergill (DCU-028)' });
     expect(next).not.toHaveAttribute('aria-current');
     await userEvent.setup().click(next);
     expect(onSelectPatient).toHaveBeenCalledWith('DCU-028');
@@ -94,10 +94,10 @@ describe('Ward Safety Board design-system migration', () => {
 
   it('keeps the handover label and reports missing fields without inventing values', () => {
     const { rerender } = renderBoard();
-    expect(screen.getByLabelText('Handover progress 100 percent for Patient 052')).toHaveTextContent('100%');
+    expect(screen.getByLabelText('Handover progress 100 percent for Raymond Postlethwaite')).toHaveTextContent('100%');
     const patient = { ...simulatedPatients[0], nextAction: '', responsibleNurse: null, handoverComplete: null, dischargeReady: null };
     rerender(<WardSafetyBoard summary={wardSummary} patients={[patient]} onSelectPatient={() => {}} />);
-    const row = screen.getByRole('button', { name: 'Open Patient 031 (DCU-031)' }).closest('tr');
+    const row = screen.getByRole('button', { name: 'Open Margaret Ainsworth (DCU-031)' }).closest('tr');
     expect(within(row).getAllByText('Not recorded')).toHaveLength(4);
     expect(row.querySelector('.progress-ring')).toBeNull();
     expect(within(row).queryByText('Ready')).not.toBeInTheDocument();

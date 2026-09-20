@@ -9,6 +9,7 @@ export function DemoScenarioSelector({
   id = 'demo-scenario-select',
   onChange = () => {},
   options = DEFAULT_OPTIONS,
+  settingLabel = 'Ward',
   value = ''
 }) {
   const selection = useMemo(() => buildSelection(options), [options]);
@@ -50,7 +51,7 @@ export function DemoScenarioSelector({
   return (
     <div className="demo-scenario-control">
       <label htmlFor={wardSelectId}>
-        <span>Ward</span>
+        <span>{settingLabel}</span>
       </label>
       <select aria-describedby={descriptionId} id={wardSelectId} onChange={handleWardChange} value={wardId}>
         {selection.wardOptions.map((ward) => (

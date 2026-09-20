@@ -1,5 +1,6 @@
 @import './tokens.css';
 @import '../design-system/design-system.css';
+@import './motion.css';
 @import './shell.css';
 @import './board.css';
 @import './panel.css';
@@ -9,8 +10,13 @@
 @import './learning-hub.css';
 @import './scenario-and-audit.css';
 @import './trust-network.css';
+@import './hospitals.css';
 @import './forms-and-dialogs.css';
 @import './insights-night.css';
 @import './print.css';
 @import './responsive.css';
+@import './codex-way.css';
+@import './primary-care.css';
+@import './clinical-workspace.css';
+@import './day-surgery.css';
 @import './mobile-shell.css';

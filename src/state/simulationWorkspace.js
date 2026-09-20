@@ -1,6 +1,8 @@
 import { buildSimulationSignals } from '../domain/signalEngine.js';
 import { getDemoScenarioById, getDefaultDemoScenario } from '../data/demoScenarios.js';
 import { initialAuditEvents } from '../domain/workflowEvents.js';
+import { createHospitalWardScenario } from '../domain/hospitalWorkspace.js';
+import { observationsRag, overallRag } from '../domain/wardPopulation.js';
 
 const defaultSettings = {
   compactMode: false,
@@ -47,11 +49,17 @@ function withAudit(state, event) {
 }
 
 function updatePatient(state, patientId, update) {
+  const patients = state.patients.map((patient) => patient.id === patientId ? update(patient) : patient);
+  const wardSummary = state.selectedHospitalId ? { ...state.wardSummary, metrics: {
+    patients: patients.length,
+    activeEscalations: state.escalations.filter((item) => item.status === 'Active').length,
+    highNews: patients.every((patient) => patient.observationScale && patient.observationScale !== 'NEWS2') ? null : patients.filter((patient) => patient.news2 >= 5).length,
+    handoverCompletePercent: patients.length ? Math.round(patients.reduce((sum, patient) => sum + patient.handoverComplete, 0) / patients.length) : 0,
+    dischargeReadyToday: patients.filter((patient) => patient.dischargeReady).length
+  } } : state.wardSummary;
   return {
     ...state,
-    patients: state.patients.map((patient) =>
-      patient.id === patientId ? update(patient) : patient
-    )
+    patients, wardSummary
   };
 }
 
@@ -207,12 +215,34 @@ export function simulationReducer(state, action) {
     case 'patient/selected':
       return { ...state, selectedPatientId: action.payload.patientId };
 
-    case 'scenario/selected':
-      return {
-        ...buildSimulationState(getDemoScenarioById(action.payload.scenarioId)),
-        settings: { ...state.settings },
-        selectedView: state.selectedView
-      };
+    case 'draft/saved': {
+      const { patientId, text, savedAt } = action.payload;
+      if (!findPatient(state, patientId) || typeof text !== 'string') return state;
+      const key = `${state.selectedScenarioId}:${patientId}`;
+      return withAudit({
+        ...state,
+        drafts: { ...state.drafts, [key]: {
+          text, savedAt, version: (state.drafts?.[key]?.version ?? 0) + 1
+        } }
+      }, createWorkspaceAuditEvent(state, action, 'SBAR draft edited and saved',
+        'Fictional draft saved on this device.', patientId));
+    }
+
+    case 'scenario/selected': {
+      const next = state.workspaces?.[action.payload.scenarioId]
+        ?? buildSimulationState(getDemoScenarioById(action.payload.scenarioId));
+      return switchWorkspace(state, next, state.selectedView);
+    }
+
+    case 'workspace/wardOpened': {
+      const { hospitalId, wardId, patientId } = action.payload;
+      const scenario = createHospitalWardScenario(hospitalId, wardId, action.payload.date ?? state.activityDate);
+      if (!scenario) return state;
+      const next = scenario.id === state.selectedScenarioId ? state
+        : state.workspaces?.[scenario.id] ?? buildSimulationState(scenario);
+      return { ...switchWorkspace(state, next, 'board'),
+        selectedPatientId: next.patients.some((patient) => patient.id === patientId) ? patientId : next.selectedPatientId };
+    }
 
     case 'task/added': {
       const { patientId, label, owner, due } = action.payload;
@@ -261,8 +291,10 @@ export function simulationReducer(state, action) {
 
     case 'observation/added': {
       const { patientId, news2, respiratoryRate, oxygenSaturation } = action.payload;
+      if (news2 == null || !String(news2).trim() || !Number.isInteger(Number(news2)) || Number(news2) < 0 || Number(news2) > 20) return state;
       const patient = findPatient(state, patientId);
       if (!patient) return state;
+      if (patient.observationScale && patient.observationScale !== 'NEWS2') return state;
 
       const sequence = patient.observations.length + 1;
       const observation = {
@@ -275,6 +307,11 @@ export function simulationReducer(state, action) {
       const nextState = updatePatient(state, patientId, (patient) => ({
         ...patient,
         news2: Number(news2),
+        ...(patient.source === 'hospital-census' ? (() => {
+          const careDomains = { ...patient.careDomains, observations: observationsRag(Number(news2)) };
+          const rag = overallRag(Number(news2), careDomains);
+          return { careDomains, rag, risk: { red: 'High', amber: 'Medium', green: 'Low' }[rag] };
+        })() : {}),
         observations: [...patient.observations, observation]
       }));
       return withAudit(
@@ -546,6 +583,11 @@ function buildSimulationState(scenario) {
   return {
     version: SIMULATION_WORKSPACE_VERSION,
     selectedScenarioId: scenario.id,
+    selectedHospitalId: scenario.selectedHospitalId ?? null,
+    censusVersion: scenario.censusVersion ?? null,
+    activityDate: scenario.activityDate ?? null,
+    serviceProfile: scenario.serviceProfile ?? null,
+    selectedWardId: scenario.selectedWardId ?? null,
     selectedView: 'board',
     selectedPatientId: scenario.selectedPatientId,
     scenarioDescription: scenario.description,
@@ -560,5 +602,15 @@ function buildSimulationState(scenario) {
     },
     auditEvents,
     settings: { ...defaultSettings }
+  };
+}
+
+function switchWorkspace(state, next, selectedView) {
+  const { workspaces, drafts, settings, ...currentSnapshot } = state;
+  const { workspaces: _nested, drafts: _drafts, settings: _settings, ...nextSnapshot } = next;
+  return {
+    ...nextSnapshot, selectedView,
+    settings: { ...settings }, drafts: drafts ?? {},
+    workspaces: { ...workspaces, [state.selectedScenarioId]: currentSnapshot }
   };
 }

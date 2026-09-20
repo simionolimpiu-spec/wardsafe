@@ -99,7 +99,7 @@ describe('PatientBanner', () => {
           { label: 'Responsible nurse', value: 'Leanne Mitchell' }
         ]}
         displayName="DCU-031"
-        identifiers={[{ label: 'Name', value: 'Patient 031' }, { label: 'Age', value: 57 }]}
+        identifiers={[{ label: 'Name', value: 'Margaret Ainsworth' }, { label: 'Age', value: 57 }]}
         statuses={[riskStatus('High'), escalationStatus('Active')]}
         {...props}
       />
@@ -112,7 +112,7 @@ describe('PatientBanner', () => {
     const banner = screen.getByRole('region', { name: 'DCU-031' });
     expect(within(banner).getByRole('heading', { level: 2, name: 'DCU-031' })).toBeInTheDocument();
     expect(within(banner).getByText('Fictional scenario')).toBeInTheDocument();
-    expect(within(banner).getByText('Patient 031')).toBeInTheDocument();
+    expect(within(banner).getByText('Margaret Ainsworth')).toBeInTheDocument();
     expect(within(banner).getByText('Day Care Unit')).toBeInTheDocument();
     expect(banner).toHaveTextContent('Allergies: Penicillin, Latex');
     expect(within(banner).getByRole('list', { name: 'Current status' })).toHaveTextContent(/High risk.*Escalation active/);

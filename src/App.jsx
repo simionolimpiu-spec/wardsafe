@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
 import { getSimulationReviewReportSnapshot } from './services/simulationReviewReportService.js';
 import { getWardQualitySafetyReviewSnapshot } from './services/wardQualitySafetyReviewService.js';
@@ -6,7 +6,6 @@ import { createSbarDraft } from './domain/draftProvider.js';
 import { buildHeuristicCues } from './domain/heuristicCueEngine.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
-import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
 import { requestReadinessReport } from './services/readinessClient.js';
 import { requestSbarDraft } from './services/draftClient.js';
 import { requestRiskSuggestions, requestSignalTimeline } from './services/signalClient.js';
@@ -28,6 +27,8 @@ import { WardQualitySafetyReviewButton, WardQualitySafetyReviewDrawer } from './
 import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
 import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
 import { MyPatientsView } from './components/MyPatientsView.jsx';
+import { DaySurgeryBoard } from './components/DaySurgeryBoard.jsx';
+import { HospitalsView } from './components/hospitals/HospitalsView.jsx';
 import { ObservationsView } from './components/ObservationsView.jsx';
 import { TasksView } from './components/TasksView.jsx';
 import { EscalationsView } from './components/EscalationsView.jsx';
@@ -223,13 +224,14 @@ function buildSignalSnapshot({ signals, suggestions } = {}) {
   };
 }
 
-export default function App() {
-  const { state, dispatch, reset } = useSimulationWorkspace();
+export default function App({ onPathwayChange, onSignOut, initialView } = {}) {
+  const { state, dispatch, reset, commit, persistenceError } = useSimulationWorkspace(initialView);
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
   const demoScenarioOptions = useMemo(() => getDemoScenarioSelectionOptions(), []);
   const selectedScenario = useMemo(
-    () => demoScenarioOptions.find((option) => option.id === state.selectedScenarioId) ?? demoScenarioOptions[0] ?? null,
-    [demoScenarioOptions, state.selectedScenarioId]
+    () => demoScenarioOptions.find((option) => option.id === state.selectedScenarioId)
+      ?? (state.selectedHospitalId ? { id: state.selectedScenarioId, label: state.currentWardName, description: state.scenarioDescription } : demoScenarioOptions[0]) ?? null,
+    [demoScenarioOptions, state.selectedScenarioId, state.selectedHospitalId, state.currentWardName, state.scenarioDescription]
   );
   const reviewSignals = useMemo(
     () => selectPatientSimulationSignals(state, selectedPatient?.id),
@@ -242,8 +244,10 @@ export default function App() {
   );
   const allTasks = selectAllTasks(state);
   const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
-  const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges'].includes(state.selectedView);
+  const isDaySurgeryBoard = state.selectedView === 'board' && state.serviceProfile?.mode === 'day-surgery';
+  const showPatientPanel = !isDaySurgeryBoard && ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges'].includes(state.selectedView);
   const riskSupport = useMemo(() => {
+    if (selectedPatient.observationScale && selectedPatient.observationScale !== 'NEWS2') return null;
     return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
   }, [selectedPatient, potassiumFlag]);
   const hospitalInsights = useMemo(
@@ -280,8 +284,19 @@ export default function App() {
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
   }, [selectedPatient, potassiumFlag]);
-  const [draftText, setDraftText] = useState(initialDraft);
-  const [auditEvents, setAuditEvents] = useState(() => initialAuditEvents(selectedPatient));
+  const draftKey = `${state.selectedScenarioId}:${selectedPatient.id}`;
+  const [draftEdits, setDraftEdits] = useState({});
+  const draftText = draftEdits[draftKey] ?? state.drafts?.[draftKey]?.text ?? initialDraft;
+  const activeDraftKey = useRef(draftKey);
+  activeDraftKey.current = draftKey;
+  const draftRequest = useRef(null);
+  function setDraftText(text) {
+    draftRequest.current?.abort();
+    draftRequest.current = null;
+    setIsGeneratingDraft(false);
+    setDraftEdits((edits) => ({ ...edits, [draftKey]: text }));
+    setDraftStatus('Draft changes are not saved yet.');
+  }
   const [draftStatus, setDraftStatus] = useState('');
   const [isGeneratingDraft, setIsGeneratingDraft] = useState(false);
   const [isCheckingBackend, setIsCheckingBackend] = useState(false);
@@ -300,11 +315,13 @@ export default function App() {
   const [dialog, setDialog] = useState(null);
 
   useEffect(() => {
-    setDraftText(formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag })));
-    setAuditEvents(initialAuditEvents(selectedPatient));
+    draftRequest.current?.abort();
+    draftRequest.current = null;
+    setIsGeneratingDraft(false);
     setDraftStatus('');
     setServerAuditStatus('');
-  }, [selectedPatient?.id]);
+    return () => draftRequest.current?.abort();
+  }, [draftKey]);
 
   useEffect(() => {
     let cancelled = false;
@@ -345,31 +362,44 @@ export default function App() {
 
   function selectPatient(patientId) {
     const nextPatient = selectPatientFromState(state, patientId) ?? state.patients[0];
-    const nextFlag = evaluatePotassiumSafetyGap(nextPatient);
-    const nextDraft = createSbarDraft({ patient: nextPatient, flag: nextFlag });
     dispatch({ type: 'patient/selected', payload: { patientId: nextPatient.id } });
-    setDraftText(formatDraftSections(nextDraft));
-    setAuditEvents(initialAuditEvents(nextPatient));
     setDraftStatus('');
     setServerAuditStatus('');
   }
 
   async function generateProviderDraft() {
+    draftRequest.current?.abort();
+    const controller = new AbortController();
+    draftRequest.current = controller;
+    const requestKey = draftKey;
     setIsGeneratingDraft(true);
     setDraftStatus('');
-    const draft = await requestSbarDraft({ patient: selectedPatient, flag: potassiumFlag });
-    setDraftText(formatDraftSections(draft));
-    setDraftStatus(draft.provider === 'openai' ? 'OpenAI provider draft ready' : 'Deterministic fallback draft ready');
-    setIsGeneratingDraft(false);
+    try {
+      const draft = await requestSbarDraft({ patient: selectedPatient, flag: potassiumFlag, signal: controller.signal,
+        ...(state.settings.draftProvider === 'deterministic' || selectedPatient.source === 'hospital-census' ? { fetchImpl: null } : {}) });
+      if (controller.signal.aborted || activeDraftKey.current !== requestKey || draftRequest.current !== controller) return;
+      setDraftEdits((edits) => ({ ...edits, [requestKey]: formatDraftSections(draft) }));
+      setDraftStatus(`${draft.provider === 'openai' ? 'OpenAI provider draft ready' : 'Deterministic fallback draft ready'}. Human review required. Save to keep it on this device.`);
+    } catch {
+      if (!controller.signal.aborted && activeDraftKey.current === requestKey) setDraftStatus('Draft could not be generated. Your existing text is unchanged.');
+    } finally {
+      if (draftRequest.current === controller) {
+        draftRequest.current = null;
+        setIsGeneratingDraft(false);
+      }
+    }
   }
 
   function saveDraft() {
+    draftRequest.current?.abort();
+    draftRequest.current = null;
+    setIsGeneratingDraft(false);
     const label = 'SBAR draft edited and saved';
-    setAuditEvents((events) => [
-      createAuditEvent({ label, detail: draftText }),
-      ...events
-    ]);
-    setDraftStatus(label);
+    if (!commit({ type: 'draft/saved', payload: { patientId: selectedPatient.id, text: draftText, savedAt: new Date().toISOString() } })) {
+      setDraftStatus('SBAR draft not saved. Your text is still available in this page.');
+      return;
+    }
+    setDraftStatus(`${label} on this device only.`);
     mirrorServerAuditEvent({
       patientId: selectedPatient.id,
       eventType: 'draft.saved',
@@ -405,6 +435,7 @@ export default function App() {
   }
 
   function changeDemoScenario(scenarioId) {
+    draftRequest.current?.abort();
     dispatch({ type: 'scenario/selected', payload: { scenarioId } });
     setIsHospitalInsightsOpen(false);
     setIsReviewReportOpen(false);
@@ -599,6 +630,8 @@ export default function App() {
   }
 
   function confirmReset() {
+    draftRequest.current?.abort();
+    setDraftEdits({});
     reset();
     setDialog(null);
     setDraftStatus('Simulation reset to fictional defaults');
@@ -632,12 +665,18 @@ export default function App() {
   return (
     <AppShell
       activeView={state.selectedView}
+      carePathway="ward-care"
+      hospitalContext={state.selectedHospitalId ? { hospitalName: state.hospitalName, wardName: state.currentWardName } : null}
+      simulationUser={state.settings.simulationUser}
       compactMode={state.settings.compactMode}
+      currentLocationName={state.hospitalName}
       currentWardName={state.currentWardName}
       dateLabel={state.wardSummary.dateLabel}
       escalationCount={selectActiveEscalationCount(state)}
       isPresentationMode={isPresentationMode}
       onNavigate={navigate}
+      onCarePathwayChange={onPathwayChange}
+      onSignOut={onSignOut}
       onScenarioChange={changeDemoScenario}
       scenarioDescription={state.scenarioDescription}
       scenarioOptions={demoScenarioOptions}
@@ -729,9 +768,29 @@ export default function App() {
             <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
           </section>
         )}
+        {showPatientPanel && <section className="patient-action-bar" aria-label="Selected patient actions">
+          <label htmlFor="active-patient">Selected patient<select id="active-patient" value={selectedPatient.id} onChange={(event) => selectPatient(event.target.value)}>
+            {state.patients.map((patient) => <option key={patient.id} value={patient.id}>{patient.name} · {patient.bed ?? patient.id}</option>)}
+          </select></label>
+          <span className="patient-context-id">{selectedPatient.id}</span>
+          <div className="patient-shortcuts">
+            <button type="button" className="secondary-action" onClick={() => navigate('observations')}>Record observations</button>
+            <button type="button" className="secondary-action" onClick={() => navigate('tasks')}>Review tasks</button>
+            <button type="button" className="secondary-action" onClick={() => navigate('handover')}>Prepare handover</button>
+          </div>
+        </section>}
         <div className={`dashboard-layout ${showPatientPanel ? '' : 'full-width'}`}>
           <div>
-            {state.selectedView === 'board' && (
+            {state.selectedView === 'hospitals' && <HospitalsView currentWardName={state.selectedHospitalId ? state.currentWardName : `Training example: ${state.currentWardName}`} workspace={state}
+              onOpenWorkflow={() => navigate('board')}
+              onOpenWard={(hospitalId, wardId, patientId) => {
+                draftRequest.current?.abort();
+                dispatch({ type: 'workspace/wardOpened', payload: { hospitalId, wardId, patientId } });
+              }} />}
+            {isDaySurgeryBoard && <DaySurgeryBoard patients={state.patients} date={state.activityDate} selectedPatientId={selectedPatient.id}
+              onDateChange={(date) => dispatch({ type: 'workspace/wardOpened', payload: { hospitalId: state.selectedHospitalId, wardId: state.selectedWardId, date } })}
+              onReviewPatient={(patientId) => { selectPatient(patientId); navigate('handover'); }} />}
+            {state.selectedView === 'board' && !isDaySurgeryBoard && (
               <WardSafetyBoard
                 summary={state.wardSummary}
                 patients={state.patients}
@@ -846,6 +905,9 @@ export default function App() {
               isGeneratingDraft={isGeneratingDraft}
               onAddTask={addTask}
               onDraftChange={setDraftText}
+              draftSaveHint={state.drafts?.[draftKey]?.text === draftText
+                ? `Saved on this device · version ${state.drafts[draftKey].version}. Fictional data only.`
+                : 'Unsaved draft. Changes stay in this page until you save. Fictional data only.'}
               onGenerateDraft={generateProviderDraft}
               onRequestContact={requestContact}
               onSaveDraft={saveDraft}
@@ -874,6 +936,7 @@ export default function App() {
           onClose={() => setIsWardQualitySafetyReviewOpen(false)}
           snapshot={wardQualitySafetyReview}
         />
+        {persistenceError && <p className="status-message" role="alert">{persistenceError}</p>}
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
         {serverAuditStatus && <p className="backend-note" role="status">{serverAuditStatus}</p>}
       {dialog?.type === 'reset' && (

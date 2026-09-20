@@ -1,20 +1,30 @@
-const HOSPITAL_NAME = 'Cityview Community Hospital';
+import { FIRST_NAMES_FEMALE, FIRST_NAMES_MALE, SURNAMES } from '../clinical/nameBank.js';
+
+// Deterministic fictional British name for a simulated patient. Stable per sequence.
+function simulatedPatientName(sequence) {
+  const forenames = sequence % 2 === 0 ? FIRST_NAMES_FEMALE : FIRST_NAMES_MALE;
+  const forename = forenames[(sequence * 3) % forenames.length];
+  const surname = SURNAMES[(sequence * 7) % SURNAMES.length];
+  return `${forename} ${surname}`;
+}
+
+const HOSPITAL_NAME = 'James Paget University Hospital';
 const SIMULATION_LABEL = 'Simulation-only';
 const CLINICAL_USE = 'not for live clinical deployment';
 const SOURCE = 'ward simulation database fixture';
 
 const WARD_DEFINITIONS = [
-  { id: 'ward-surgical-alpha', name: 'Surgical Ward Alpha', wardType: 'surgical', wardGroup: 'core adult', bedCount: 28, code: 'SURG' },
-  { id: 'ward-general-medical-alpha', name: 'General Medical Ward Alpha', wardType: 'general medical', wardGroup: 'core adult', bedCount: 30, code: 'GMED' },
-  { id: 'ward-acute-medical-alpha', name: 'Acute Medical Unit Alpha', wardType: 'acute medical', wardGroup: 'core adult', bedCount: 32, code: 'AMU' },
-  { id: 'ward-day-care-alpha', name: 'Day Care Unit Alpha', wardType: 'day care', wardGroup: 'core adult', bedCount: 18, code: 'DCU' },
-  { id: 'ward-community-frailty-alpha', name: 'Community Frailty Team Alpha', wardType: 'community frailty team', wardGroup: 'community/frailty', bedCount: 0, code: 'CFT' },
-  { id: 'ward-rehab-alpha', name: 'Rehab Ward Alpha', wardType: 'rehab', wardGroup: 'community/frailty', bedCount: 24, code: 'REHAB' },
-  { id: 'ward-care-of-elderly-alpha', name: 'Care-of-the-Elderly Ward Alpha', wardType: 'care-of-the-elderly', wardGroup: 'community/frailty', bedCount: 26, code: 'COE' },
-  { id: 'ward-paediatrics-alpha', name: 'Paediatrics Ward Alpha', wardType: 'paediatrics', wardGroup: 'specialty', bedCount: 20, code: 'PAED' },
-  { id: 'ward-maternity-alpha', name: 'Maternity Ward Alpha', wardType: 'maternity', wardGroup: 'specialty', bedCount: 22, code: 'MAT' },
-  { id: 'ward-icu-hdu-alpha', name: 'ICU/HDU Alpha', wardType: 'ICU/HDU', wardGroup: 'specialty', bedCount: 16, code: 'ICU' },
-  { id: 'ward-ed-alpha', name: 'ED Alpha', wardType: 'ED', wardGroup: 'specialty', bedCount: 34, code: 'ED' }
+  { id: 'ward-05-mixed-surgery', name: 'Ward 5', wardType: 'surgical', wardGroup: 'surgical', bedCount: 28, code: 'W5' },
+  { id: 'ward-04-general-medicine', name: 'Ward 4', wardType: 'general medical', wardGroup: 'medical', bedCount: 30, code: 'W4' },
+  { id: 'ward-16-short-stay', name: 'Ward 16 (Short Stay)', wardType: 'acute medical', wardGroup: 'medical', bedCount: 24, code: 'W16' },
+  { id: 'ward-day-care-unit', name: 'Day Care Unit', wardType: 'day care', wardGroup: 'day care', bedCount: 18, code: 'DCU' },
+  { id: 'ward-01-stroke-unit', name: 'Ward 1', wardType: 'stroke', wardGroup: 'medical', bedCount: 28, code: 'W1' },
+  { id: 'ward-15-respiratory', name: 'Ward 15', wardType: 'respiratory', wardGroup: 'medical', bedCount: 28, code: 'W15' },
+  { id: 'ward-12-older-people', name: 'Ward 12', wardType: "elderly care", wardGroup: 'medical', bedCount: 30, code: 'W12' },
+  { id: 'ward-10-paediatrics', name: 'Ward 10', wardType: 'paediatrics', wardGroup: 'paediatrics', bedCount: 20, code: 'W10' },
+  { id: 'ward-11-maternity', name: 'Ward 11', wardType: 'maternity', wardGroup: 'maternity', bedCount: 22, code: 'W11' },
+  { id: 'ward-icu-hdu', name: 'ICU/HDU', wardType: 'ICU/HDU', wardGroup: 'critical care', bedCount: 16, code: 'ICU' },
+  { id: 'ward-emergency-department', name: 'Emergency Department', wardType: 'ED', wardGroup: 'emergency', bedCount: 34, code: 'ED' }
 ];
 
 const FLAG_CATEGORY_DEFINITIONS = [
@@ -131,12 +141,12 @@ const SCENARIO_THEMES = [
 
 const PRONOUNS = ['she/her', 'he/him', 'they/them'];
 const RESPONSIBLE_NURSES = [
-  'Fictional Nurse A',
-  'Fictional Nurse B',
-  'Fictional Nurse C',
-  'Fictional Nurse D',
-  'Fictional Nurse E',
-  'Fictional Nurse F'
+  'Leanne Mitchell',
+  'Aisha Khan',
+  'Tom Hughes',
+  'Rachel Lee',
+  'Mark Davies',
+  'Sophie Bennett'
 ];
 
 const WARD_CONTEXTS = {
@@ -144,9 +154,9 @@ const WARD_CONTEXTS = {
   'general medical': ['general medical review', 'nutrition note open', 'observation trend visible'],
   'acute medical': ['acute review bay', 'same-day review queue', 'handover ownership check'],
   'day care': ['day care pathway review', 'short-stay review', 'same-day discharge documentation'],
-  'community frailty team': ['home visit follow-up', 'mobility support review', 'community handover'],
-  rehab: ['rehab goal review', 'therapy handover', 'falls-risk documentation'],
-  'care-of-the-elderly': ['frailty review', 'family update note', 'discharge-readiness blocker'],
+  stroke: ['swallow screen status', 'thrombolysis observation review', 'early mobilisation note'],
+  respiratory: ['oxygen delivery note', 'inhaler technique note', 'sputum sample status'],
+  "elderly care": ['frailty review', 'family update note', 'discharge-readiness blocker'],
   paediatrics: ['paediatric observation review', 'family update note', 'sepsis-screen status'],
   maternity: ['maternity observation review', 'postnatal handover', 'feeding support note'],
   'ICU/HDU': ['high-dependency observation review', 'line review note', 'step-down readiness cue'],
@@ -381,7 +391,7 @@ function buildPatientJourneys(wards, flags) {
         id: patientId,
         patientId,
         patientRef: `${ward.code}-SIM-${String(wardSequence).padStart(3, '0')}`,
-        patientName: `Fictional Patient ${ward.code} ${String(wardSequence).padStart(3, '0')}`,
+        patientName: simulatedPatientName(sequence),
         wardId: ward.id,
         wardName: ward.name,
         wardType: ward.wardType,
@@ -726,7 +736,7 @@ function contextForWard(wardType, sequence) {
 function ageForWard(wardType, sequence) {
   if (wardType === 'paediatrics') return 4 + (sequence % 13);
   if (wardType === 'maternity') return 22 + (sequence % 19);
-  if (['community frailty team', 'care-of-the-elderly', 'rehab'].includes(wardType)) return 70 + (sequence % 22);
+  if (["elderly care", 'stroke'].includes(wardType)) return 70 + (sequence % 22);
   return 31 + (sequence % 58);
 }
 
@@ -751,7 +761,7 @@ function highestFlagSeverity(flagIds, flags) {
 }
 
 function severityForWard(baseSeverity, wardType, category) {
-  if (category === 'falls-risk' && ['community frailty team', 'rehab', 'care-of-the-elderly'].includes(wardType)) {
+  if (category === 'falls-risk' && ["elderly care", 'stroke'].includes(wardType)) {
     return 'moderate';
   }
   if (category === 'sepsis-screen' && wardType === 'day care') {
@@ -773,9 +783,7 @@ function findWard(wardId) {
 }
 
 function wardLabel(ward) {
-  return ward.name
-    .replace(/\s+Alpha$/i, '')
-    .replace(/\s+(Ward|Unit|Team)$/i, '');
+  return ward.name;
 }
 
 function slugify(value) {

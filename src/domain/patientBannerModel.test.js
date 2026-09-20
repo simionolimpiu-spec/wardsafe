@@ -7,7 +7,7 @@ describe('toPatientBannerModel', () => {
     const model = toPatientBannerModel(simulatedPatients[0], { wardName: 'Day Care Unit', hospitalName: 'Cityview' });
 
     expect(model.displayName).toBe('DCU-031');
-    expect(model.identifiers).toEqual([{ label: 'Name', value: 'Patient 031' }, { label: 'Age', value: 57 }]);
+    expect(model.identifiers).toEqual([{ label: 'Name', value: 'Margaret Ainsworth' }, { label: 'Age', value: 57 }]);
     expect(model.context.map((fact) => fact.value)).toEqual(['Day Care Unit', 'Cityview', 'Leanne Mitchell']);
     expect(model.allergies).toEqual(['Penicillin', 'Latex']);
     expect(model.statuses.map((status) => status.label)).toEqual(['High risk', 'Escalation active']);

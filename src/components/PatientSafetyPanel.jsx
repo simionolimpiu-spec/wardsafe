@@ -3,11 +3,13 @@ import { useRef, useState } from 'react';
 import { InformationPanel, PatientBanner, ReviewCueGroup, SafetyStatus } from '../design-system/index.js';
 import { toPatientBannerModel } from '../domain/patientBannerModel.js';
 import { PotassiumSafetyGapView } from './PotassiumSafetyGapView.jsx';
+import { SbarDraftEditor } from './SbarDraftEditor.jsx';
 
 export function PatientSafetyPanel({
   patient,
   flag,
   draftText = '',
+  draftSaveHint = 'Fictional draft. Save to keep changes on this device.',
   isGeneratingDraft = false,
   onAddTask = () => {},
   onDraftChange = () => {},
@@ -132,6 +134,7 @@ export function PatientSafetyPanel({
               {canShowSafetyGapDetail && (
                 <PotassiumSafetyGapView
                   draftText={draftText}
+                  draftSaveHint={draftSaveHint}
                   flag={flag}
                   isGeneratingDraft={isGeneratingDraft}
                   onDraftChange={onDraftChange}
@@ -157,7 +160,8 @@ export function PatientSafetyPanel({
           id="sbar-panel"
           role="tabpanel"
         >
-          {activeTab === 'sbar' && <SbarSummary patient={patient} />}
+          {activeTab === 'sbar' && <SbarDraftEditor draftText={draftText} draftSaveHint={draftSaveHint}
+            onDraftChange={onDraftChange} onSaveDraft={onSaveDraft} onGenerateDraft={onGenerateDraft} isGeneratingDraft={isGeneratingDraft} />}
         </div>
 
         <div

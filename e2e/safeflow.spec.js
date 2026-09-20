@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { navigateTo } from './shell.js';
+import { navigateTo, signIn } from './shell.js';
 
 test('Ward board reflows with readable states, keyboard access and a stacked patient panel', async ({ page }, testInfo) => {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await signIn(page);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const board = page.getByRole('region', { name: 'Ward Safety Board', exact: true });
   await expect(board).toBeVisible();
@@ -19,7 +19,7 @@ test('Ward board reflows with readable states, keyboard access and a stacked pat
         tableContained: table.getBoundingClientRect().right <= document.documentElement.clientWidth + 1,
         panelStacked: articles.every((article, i) => i === 0 || article.getBoundingClientRect().top >= articles[i - 1].getBoundingClientRect().bottom),
         targetHeight: document.querySelector('.sf-ward-patient-cell__button').getBoundingClientRect().height,
-        progressAnimation: getComputedStyle(document.querySelector('.progress-ring')).animationName
+        progressAnimation: getComputedStyle(document.querySelector('.handover-progress')).animationName
       };
     });
     expect(measurements.pageOverflow, `page width ${width}`).toBeLessThanOrEqual(1);
@@ -28,17 +28,22 @@ test('Ward board reflows with readable states, keyboard access and a stacked pat
     expect(measurements.panelStacked, `panel width ${width}`).toBe(true);
     expect(measurements.targetHeight).toBeGreaterThanOrEqual(44);
     expect(measurements.progressAnimation).toBe('none');
-    await expect(board.getByRole('columnheader')).toHaveText([
-      'Fictional label', 'Risk', 'Escalation status', 'Next action',
-      'NEWS2', 'Responsible fictional nurse', 'Handover %', 'Discharge-ready'
-    ]);
+    // Priority columns always come first. SF-306 compact mode hides the last
+    // three on narrow boards, with a Show all columns control.
+    const headers = await board.getByRole('columnheader').allInnerTexts();
+    expect(headers.slice(0, 5).map((h) => h.trim())).toEqual(['Fictional label', 'Risk', 'Escalation status', 'Next action', 'NEWS2']);
+    if (headers.length < 8) await expect(board.getByRole('button', { name: 'Show all columns' })).toBeVisible();
     await board.screenshot({ path: testInfo.outputPath(`ward-board-${width}.png`) });
   }
-  const current = board.getByRole('button', { name: 'Open Patient 031 (DCU-031)' });
+  await expect(board.getByRole('columnheader')).toHaveText([
+    'Fictional label', 'Risk', 'Escalation status', 'Next action',
+    'NEWS2', 'Responsible fictional nurse', 'Handover %', 'Discharge-ready'
+  ]);
+  const current = board.getByRole('button', { name: 'Open Margaret Ainsworth (DCU-031)' });
   await current.focus();
   await expect(current).toBeFocused();
   await expect(current).toHaveAttribute('aria-current', 'true');
-  const next = board.getByRole('button', { name: 'Open Patient 028 (DCU-028)' });
+  const next = board.getByRole('button', { name: 'Open Harold Fothergill (DCU-028)' });
   await page.keyboard.press('Tab');
   await expect(next).toBeFocused();
   await page.keyboard.press('Enter');
@@ -48,6 +53,10 @@ test('Ward board reflows with readable states, keyboard access and a stacked pat
 
 test('SafeFlow prototype journey stays within simulation safety boundaries', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.getByLabel('Work email').fill('review@example.test');
+  await page.getByLabel('Password', { exact: true }).fill('fictional-review');
+  await page.getByRole('button', { name: 'Enter simulation workspace' }).click();
+  await page.getByRole('button', { name: 'Open current ward workflow' }).click();
 
   await expect(page.getByRole('heading', { name: 'SafeFlow', exact: true })).toBeVisible();
   await expect(page.getByText(/Simulation only/i)).toBeVisible();

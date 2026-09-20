@@ -39,7 +39,7 @@ describe('demo scenarios', () => {
       }),
       expect.objectContaining({
         id: 'community-falls-risk-review',
-        label: 'Community frailty falls-risk review'
+        label: 'Elderly care falls-risk review'
       }),
       expect.objectContaining({
         id: 'community-medication-timing-review',
@@ -64,9 +64,9 @@ describe('demo scenarios', () => {
     ]));
     expect(libraryScenario).toEqual(expect.objectContaining({
       id: 'ward-sim-surgical-01',
-      currentWardName: 'Surgical Ward Alpha',
-      hospitalName: 'Cityview Community Hospital',
-      selectedPatientId: expect.stringMatching(/^WS-SURG-/)
+      currentWardName: 'Ward 5',
+      hospitalName: 'James Paget University Hospital',
+      selectedPatientId: expect.stringMatching(/^WS-W5-/)
     }));
     expect(libraryScenario.patients.length).toBeGreaterThanOrEqual(3);
     expect(libraryScenario.patients[0].riskFlags.length).toBeGreaterThan(0);

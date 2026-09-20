@@ -1,0 +1,66 @@
+/* Shared clinical workspace layer: readable records and direct patient actions. */
+.app-shell-redesign {
+  --clinical-border: #d8dde0;
+  --clinical-muted: #4c6272;
+  font-family: Inter, Arial, sans-serif;
+}
+.app-shell-redesign .workspace-main,
+.app-shell-redesign .workspace-content { min-width: 0; overflow-x: visible; }
+.app-shell-redesign .topbar-context { grid-template-columns: minmax(150px, .7fr) minmax(0, 2fr) auto; gap: 12px 20px; }
+.app-shell-redesign .simulation-date-note { grid-column: 1 / -1; margin: 0; font-size: .875rem; color: var(--clinical-muted); }
+.connected-ward-context { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; min-width: 0; }
+.connected-ward-context span { color: var(--clinical-muted); font-size: .875rem; }
+.connected-ward-context strong { font-size: 1.125rem; }
+.connected-ward-context button { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.patient-action-bar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 18px; padding: 16px; margin-bottom: 18px; border: 1px solid var(--clinical-border); border-left: 4px solid #005eb8; border-radius: 10px; background: white; }
+.patient-action-bar label { display: grid; gap: 6px; font-size: .875rem; font-weight: 600; }
+.patient-action-bar select { min-height: 44px; padding: 8px 12px; border: 1px solid #4c6272; border-radius: 6px; font: inherit; max-width: 100%; }
+.patient-context-id { align-self: center; font-size: .8rem; color: var(--clinical-muted); overflow-wrap: anywhere; max-width: 240px; }
+.patient-shortcuts { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.app-shell-redesign .primary-action, .app-shell-redesign .secondary-action, .app-shell-redesign .icon-action { min-height: 44px; }
+.app-shell-redesign .icon-action { min-width: 44px; }
+.app-shell-redesign .ward-board, .app-shell-redesign .patient-panel, .app-shell-redesign .operational-view,
+.app-shell-redesign .workflow-view, .app-shell-redesign .hospitals-view { border-radius: 12px; box-shadow: 0 2px 6px #10203308; }
+.app-shell-redesign .hospitals-view { font-family: inherit; }
+.app-shell-redesign .patient-panel .evidence-grid { grid-template-columns: minmax(0, 1fr); }
+.app-shell-redesign .patient-panel .evidence-grid article { min-width: 0; overflow-wrap: anywhere; }
+.app-shell-redesign .patient-panel h2 { font-size: 1.15rem; overflow-wrap: anywhere; }
+.app-shell-redesign .patient-panel .sbar-list dd { overflow-wrap: anywhere; min-width: 0; }
+.sbar-editor textarea { width: 100%; font: inherit; line-height: 1.6; min-height: 200px; padding: 12px; border: 1px solid #4c6272; border-radius: 6px; resize: vertical; }
+.sbar-editor p { color: #4c6272; font-size: .875rem; }
+.app-shell-redesign .ward-board { container-type: inline-size; }
+.app-shell-redesign .ward-board .patient-table { min-width: 720px; font-size: .9rem; }
+.app-shell-redesign .ward-board .patient-table td { overflow-wrap: anywhere; }
+.app-shell-redesign .ward-board .patient-table th { text-transform: none; letter-spacing: 0; font-size: .8rem; }
+.app-shell-redesign .ward-board .link-button { text-align: left; overflow-wrap: anywhere; min-height: 44px; }
+@container (max-width: 800px) {
+  .app-shell-redesign .ward-board .patient-table { min-width: 520px; }
+  .ward-board .compact-columns .patient-table th:nth-child(n+6), .ward-board .compact-columns .patient-table td:nth-child(n+6) { display: none; }
+  .app-shell-redesign .ward-board .all-columns .patient-table { min-width: 1000px; }
+}
+.board-column-controls { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; margin: 16px 0; font-size: .875rem; color: #4c6272; }
+.app-shell-redesign .ward-board .patient-table td:nth-child(2) { font-weight: 600; }
+.app-shell-redesign .inline-form input, .app-shell-redesign .inline-form select, .app-shell-redesign .inline-form textarea { min-height: 44px; font-size: 1rem; }
+.app-shell-redesign .record-list article { gap: 12px; padding: 16px; }
+.app-shell-redesign :focus-visible { outline: 3px solid #005eb8; outline-offset: 3px; }
+.app-shell-redesign .topbar :focus-visible { outline-color: #ffdd00; }
+@media (max-width: 1100px) {
+  .app-shell-redesign .dashboard-layout { grid-template-columns: minmax(0, 1fr); }
+  .app-shell-redesign .topbar-context { grid-template-columns: minmax(0, 1fr); }
+  .patient-shortcuts { margin-left: 0; }
+  .app-shell-redesign .demo-scenario-control { grid-template-columns: auto minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  .patient-action-bar { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .patient-action-bar select { width: 100%; }
+  .patient-shortcuts { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .app-shell-redesign .topbar-context { padding: 12px; }
+  .app-shell-redesign .workspace-content { padding: 12px; }
+  .connected-ward-context { grid-template-columns: minmax(0, 1fr); }
+  .connected-ward-context button { grid-column: 1; grid-row: auto; }
+  .ward-review-tools label, .ward-browser-tools label { width: 100%; }
+}
+@media print {
+  .patient-action-bar, .board-column-controls, .connected-ward-context button, .trust-network-ward-trends > select,
+  .trust-network-ward-trends > label { display: none; }
+}

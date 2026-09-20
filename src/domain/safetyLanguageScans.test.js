@@ -113,7 +113,7 @@ describe('safety language regression scans', () => {
       {
         patientId: 'SF-TL-BAD',
         patientRef: 'TL-BAD',
-        patientName: 'Fictional Patient Bad',
+        patientName: 'Bernard Dinsdale',
         wardName: 'Day Care Unit',
         simulationOnly: true,
         simulationLabel: 'Simulation-only',
