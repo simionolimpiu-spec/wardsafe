@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { navigateTo } from './shell.js';
 
 test('Ward board reflows with readable states, keyboard access and a stacked patient panel', async ({ page }, testInfo) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -67,8 +68,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   });
   expect(overflowingMetrics).toEqual([]);
 
-  const workspaceNav = page.getByRole('navigation', { name: /SafeFlow workspace/i });
-  await workspaceNav.getByRole('button', { name: 'Handover', exact: true }).click();
+  await navigateTo(page, 'Handover');
   await expect(page.getByRole('region', { name: /Handover and discharge readiness/i })).toBeVisible();
 
   await expect(page.getByRole('navigation', { name: /Prototype journey/i })).toHaveCount(0);
@@ -76,7 +76,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByRole('tab', { name: /^Scenarios$/i })).toHaveCount(0);
   await expect(page.getByRole('tab', { name: /Competency Passport/i })).toHaveCount(0);
   await expect(page.getByRole('tab', { name: /Learning Hub/i })).toHaveCount(0);
-  await workspaceNav.getByRole('button', { name: 'Ward Safety Board', exact: true }).click();
+  await navigateTo(page, 'Ward Safety Board');
   await expect(page.getByRole('row', { name: /DCU-031.*Electrolyte \/ AKI safety gap/i })).toBeVisible();
   await expect(page.getByRole('region', { name: /Potassium electrolyte safety gap/i })).toBeVisible();
   await expect(page.getByText(/does not prescribe/i)).toBeVisible();
@@ -86,11 +86,11 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await page.getByRole('button', { name: /Save SBAR draft/i }).click();
   await expect(page.getByText(/SBAR draft edited and saved/i)).toBeVisible();
 
-  await workspaceNav.getByRole('button', { name: 'Scenarios', exact: true }).click();
+  await navigateTo(page, 'Scenarios');
   await expect(page.getByRole('region', { name: /Discovery scenario library/i })).toBeVisible();
   await expect(page.getByText(/Initial hazard controls/i)).toBeVisible();
 
-  await workspaceNav.getByRole('button', { name: 'Trust Network', exact: true }).click();
+  await navigateTo(page, 'Trust Network');
   const trustNetworkView = page.getByRole('region', { name: /England Trust Network/i });
   await expect(trustNetworkView).toBeVisible();
   await expect(trustNetworkView.getByRole('heading', { name: /England Trust Network \(simulation\)/i })).toBeVisible();
@@ -128,7 +128,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   ];
 
   for (const [button, heading] of destinations) {
-    await workspaceNav.getByRole('button', { name: button, exact: typeof button === 'string' }).click();
+    await navigateTo(page, button);
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   }
 
