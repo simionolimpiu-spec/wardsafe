@@ -1,5 +1,50 @@
 import { expect, test } from '@playwright/test';
 
+test('Ward board reflows with readable states, keyboard access and a stacked patient panel', async ({ page }, testInfo) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const board = page.getByRole('region', { name: 'Ward Safety Board', exact: true });
+  await expect(board).toBeVisible();
+  await expect(page.locator('.patient-panel .potassium-view .evidence-grid > article')).toHaveCount(3);
+  for (const width of [320, 860, 1366, 1600]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const measurements = await page.evaluate(() => {
+      const grid = document.querySelector('.board-summary-cards');
+      const table = document.querySelector('.table-scroll');
+      const articles = [...document.querySelectorAll('.patient-panel .potassium-view .evidence-grid > article')];
+      return {
+        pageOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        cardsFit: [...grid.children].every((card) => card.getBoundingClientRect().right <= grid.getBoundingClientRect().right + 1 && card.scrollWidth <= card.clientWidth + 1),
+        tableContained: table.getBoundingClientRect().right <= document.documentElement.clientWidth + 1,
+        panelStacked: articles.every((article, i) => i === 0 || article.getBoundingClientRect().top >= articles[i - 1].getBoundingClientRect().bottom),
+        targetHeight: document.querySelector('.sf-ward-patient-cell__button').getBoundingClientRect().height,
+        progressAnimation: getComputedStyle(document.querySelector('.progress-ring')).animationName
+      };
+    });
+    expect(measurements.pageOverflow, `page width ${width}`).toBeLessThanOrEqual(1);
+    expect(measurements.cardsFit, `summary width ${width}`).toBe(true);
+    expect(measurements.tableContained, `table width ${width}`).toBe(true);
+    expect(measurements.panelStacked, `panel width ${width}`).toBe(true);
+    expect(measurements.targetHeight).toBeGreaterThanOrEqual(44);
+    expect(measurements.progressAnimation).toBe('none');
+    await expect(board.getByRole('columnheader')).toHaveText([
+      'Fictional label', 'Risk', 'Escalation status', 'Next action',
+      'NEWS2', 'Responsible fictional nurse', 'Handover %', 'Discharge-ready'
+    ]);
+    await board.screenshot({ path: testInfo.outputPath(`ward-board-${width}.png`) });
+  }
+  const current = board.getByRole('button', { name: 'Open Patient 031 (DCU-031)' });
+  await current.focus();
+  await expect(current).toBeFocused();
+  await expect(current).toHaveAttribute('aria-current', 'true');
+  const next = board.getByRole('button', { name: 'Open Patient 028 (DCU-028)' });
+  await page.keyboard.press('Tab');
+  await expect(next).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(next).toHaveAttribute('aria-current', 'true');
+  await expect(current).not.toHaveAttribute('aria-current', 'true');
+});
+
 test('SafeFlow prototype journey stays within simulation safety boundaries', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 

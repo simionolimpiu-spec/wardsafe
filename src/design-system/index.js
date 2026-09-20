@@ -6,8 +6,10 @@ export { Badge, BADGE_TONES } from './primitives/Badge.jsx';
 export {
   CLINICAL_STATES,
   REVIEW_CATEGORY_LABELS,
+  dischargeReadinessStatus,
   escalationStatus,
   getClinicalState,
+  news2BandStatus,
   reviewCategoryLabel,
   reviewPriorityStatus,
   riskStatus,
@@ -23,6 +25,8 @@ export {
 } from './clinical/PatientBanner.jsx';
 export { EscalationState, SafetyStatus } from './clinical/SafetyStatus.jsx';
 export { SimulationLabel } from './clinical/SimulationLabel.jsx';
+export { WardBoardPatientCell } from './clinical/WardBoardPatientCell.jsx';
+export { WardBoardStatusCell } from './clinical/WardBoardStatusCell.jsx';
 
 export { InformationPanel } from './layout/InformationPanel.jsx';
 

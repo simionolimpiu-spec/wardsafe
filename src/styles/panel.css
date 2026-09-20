@@ -100,6 +100,18 @@
   margin-top: var(--sf-space-6);
 }
 
+/* The patient panel stays narrow even on a wide workstation. */
+.patient-panel .potassium-view .evidence-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sf-space-3);
+  margin: var(--sf-space-4) 0;
+}
+
+.patient-panel .potassium-view .evidence-grid > article {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 /* O18 patient detail panel */
 .app-shell-redesign .patient-panel { align-self: start; position: sticky; top: 108px; }
 .app-shell-redesign .panel-heading { border-bottom: 0; }
