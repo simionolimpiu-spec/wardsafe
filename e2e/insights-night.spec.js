@@ -86,3 +86,35 @@ test('SF-298 insight night views retain readable content and stay off clinical s
     await expect(page.locator('.sf-zone-night')).toHaveCount(0);
   }
 });
+
+test('SF-299 trust network hospital cards stay top-aligned with inline review-support labels', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.getByRole('navigation', { name: /SafeFlow workspace/i })
+    .getByRole('button', { name: 'Trust Network', exact: true }).click();
+  const view = page.getByRole('region', { name: 'England Trust Network', exact: true });
+  for (const theme of ['standard', 'night']) {
+    if (theme === 'night') await view.getByRole('button', { name: 'Night view' }).click();
+    const layout = await view.evaluate((root) => {
+      const cards = [...root.querySelectorAll('.review-report-summary-card')].map((card) => {
+        const box = card.getBoundingClientRect();
+        const title = card.querySelector(':scope > strong').getBoundingClientRect();
+        return { titleOffset: title.top - box.top, slack: box.bottom - card.lastElementChild.getBoundingClientRect().bottom };
+      });
+      const label = root.querySelector('.trust-network-ward-trend-flags strong');
+      const line = label.parentElement;
+      return {
+        cards,
+        labelDisplay: getComputedStyle(label).display,
+        labelSize: parseFloat(getComputedStyle(label).fontSize),
+        lineSize: parseFloat(getComputedStyle(line).fontSize)
+      };
+    });
+    expect(layout.cards.length).toBeGreaterThan(1);
+    for (const card of layout.cards) {
+      expect(card.titleOffset).toBeLessThan(120);
+      expect(card.slack).toBeLessThan(48);
+    }
+    expect(layout.labelDisplay).toBe('inline');
+    expect(layout.labelSize).toBe(layout.lineSize);
+  }
+});

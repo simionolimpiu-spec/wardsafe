@@ -116,6 +116,13 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
     }
   );
 
+  it('keeps trust network hospital cards top-aligned with inline ward trend labels (SF-299)', () => {
+    const css = readFileSync(resolve(ROOT, 'src/styles/trust-network.css'), 'utf8');
+    expect(css).toMatch(/\.trust-network-view \.review-report-summary-grid \{\s*align-items: start;/);
+    expect(css).toMatch(/\.trust-network-view \.review-report-summary-card \{\s*align-content: start;/);
+    expect(css).toMatch(/\.trust-network-view \.trust-network-ward-trend-flags strong \{\s*display: inline;\s*font-size: inherit;/);
+  });
+
   it('does not animate clinical content with keyframes in design-system styles', () => {
     const css = readFileSync(resolve(ROOT, 'src/design-system/design-system.css'), 'utf8');
     expect(css).not.toMatch(/@keyframes|animation:/);
