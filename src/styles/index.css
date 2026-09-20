@@ -1,4 +1,5 @@
 @import './tokens.css';
+@import '../design-system/design-system.css';
 @import './shell.css';
 @import './board.css';
 @import './panel.css';

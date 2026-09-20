@@ -39,7 +39,6 @@
   --space-7: 24px;
   --space-8: 28px;
   --space-9: 32px;
-  --space-10: 36px;
   --space-11: 40px;
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -51,13 +50,9 @@
   --text-4xl: 2.25rem;
   --text-5xl: 2.75rem;
   --line-height-tight: 1.25;
-  --line-height-heading: 1.3;
   --line-height-body: 1.55;
-  --line-height-relaxed: 1.65;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  --radius-xs: 10px;
-  --radius-sm: 5px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-pill: 999px;
@@ -77,6 +72,141 @@
   --color-info-bg: var(--sf-blue-soft);
   --color-brand: var(--sf-blue);
   --color-brand-dark: var(--sf-blue-ink);
+
+  /*
+   * ---------------------------------------------------------------
+   * SafeFlow semantic layer (SF-295). Spec: docs/design/SAFeflow-DESIGN.md
+   * New and migrated components use these tokens only. They point at the
+   * palette above so existing screens keep their current appearance.
+   * ---------------------------------------------------------------
+   */
+
+  /* Surfaces and text */
+  --sf-background: #f5f8fc;
+  --sf-surface: var(--sf-grey-0);
+  --sf-surface-raised: var(--sf-grey-0);
+  --sf-surface-muted: var(--sf-grey-50);
+  --sf-surface-selected: var(--sf-blue-soft);
+  --sf-border: var(--sf-grey-200);
+  --sf-border-subtle: var(--sf-grey-100);
+  --sf-border-strong: #7a8795;
+  --sf-text-primary: var(--sf-grey-900);
+  --sf-text-secondary: #46525e;
+  --sf-text-muted: var(--sf-grey-500);
+  --sf-text-inverse: var(--sf-grey-0);
+
+  /* Action */
+  --sf-action: var(--sf-blue);
+  --sf-action-hover: var(--sf-blue-deep);
+  --sf-action-subtle: var(--sf-blue-soft);
+  --sf-action-border: var(--sf-blue-border);
+
+  /* Clinical states: text, subtle background, border, solid bar/icon */
+  --sf-information: #1e5a8c;
+  --sf-information-subtle: #e9f2f9;
+  --sf-information-border: #9cc1e0;
+  --sf-information-solid: #3e7cb1;
+
+  --sf-success: var(--sf-green);
+  --sf-success-subtle: var(--sf-green-soft);
+  --sf-success-border: #9fcdb2;
+  --sf-success-solid: #237a4b;
+
+  --sf-warning: var(--sf-amber);
+  --sf-warning-subtle: var(--sf-amber-soft);
+  --sf-warning-border: #e0a93b;
+  --sf-warning-solid: #b7791f;
+
+  --sf-review: var(--sf-amber);
+  --sf-review-subtle: #fffaf0;
+  --sf-review-border: #d9a441;
+  --sf-review-solid: #b7791f;
+
+  --sf-critical: var(--sf-red);
+  --sf-critical-subtle: var(--sf-red-soft);
+  --sf-critical-border: #efb7b2;
+  --sf-critical-solid: var(--sf-red);
+  --sf-critical-hover: #8f1d14;
+
+  --sf-neutral: #46525e;
+  --sf-neutral-subtle: var(--sf-grey-100);
+  --sf-neutral-border: #c3cbd3;
+  --sf-neutral-solid: #7a8795;
+
+  --sf-simulation: #55606b;
+  --sf-simulation-subtle: var(--sf-grey-50);
+  --sf-simulation-border: #7a8795;
+
+  --sf-disabled: #8a96a3;
+  --sf-disabled-subtle: var(--sf-grey-100);
+
+  --sf-focus: var(--color-focus-ring);
+  --sf-focus-halo: var(--color-focus-ring-halo);
+
+  /* Typography */
+  --sf-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sf-font-numeric: tabular-nums lining-nums;
+  --sf-font-size-xs: 0.75rem;
+  --sf-font-size-sm: 0.875rem;
+  --sf-font-size-md: 1rem;
+  --sf-font-size-lg: 1.125rem;
+  --sf-font-size-xl: 1.25rem;
+  --sf-font-size-2xl: 1.5rem;
+  --sf-font-size-value: 1.75rem;
+  --sf-line-height-xs: 1rem;
+  --sf-line-height-sm: 1.25rem;
+  --sf-line-height-md: 1.5rem;
+  --sf-line-height-lg: 1.625rem;
+  --sf-line-height-xl: 1.75rem;
+  --sf-line-height-2xl: 2rem;
+  --sf-line-height-tight: var(--line-height-tight);
+  --sf-font-weight-regular: 400;
+  --sf-font-weight-medium: 500;
+  --sf-font-weight-semibold: var(--font-weight-semibold);
+  --sf-font-weight-bold: var(--font-weight-bold);
+
+  /* Spacing (4px grid) and targets */
+  --sf-space-1: 4px;
+  --sf-space-2: 8px;
+  --sf-space-3: 12px;
+  --sf-space-4: 16px;
+  --sf-space-5: 20px;
+  --sf-space-6: 24px;
+  --sf-space-8: 32px;
+  --sf-space-10: 40px;
+  --sf-space-12: 48px;
+  --sf-target-min: 44px;
+  --sf-target-compact: 36px;
+
+  /* Shape and elevation */
+  --sf-radius-xs: 4px;
+  --sf-radius-pill: var(--radius-pill);
+  --sf-border-width: 1px;
+  --sf-status-bar-width: 4px;
+  --sf-elevation-0: none;
+  --sf-elevation-1: var(--sf-shadow-1);
+  --sf-elevation-2: var(--sf-shadow-2);
+
+  /* Icons */
+  --sf-icon-sm: 16px;
+  --sf-icon-md: 20px;
+  --sf-icon-lg: 24px;
+
+  /* Focus */
+  --sf-focus-width: 3px;
+  --sf-focus-offset: 3px;
+
+  /* Motion */
+  --sf-duration-fast: 120ms;
+  --sf-duration-base: 160ms;
+  --sf-duration-slow: 220ms;
+  --sf-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Breakpoints (reference values; media queries use literals) */
+  --sf-bp-sm: 620px;
+  --sf-bp-md: 860px;
+  --sf-bp-lg: 1050px;
+  --sf-bp-xl: 1180px;
 }
 
 * {
@@ -110,4 +240,21 @@ textarea {
   outline: 3px solid var(--color-focus-ring);
   outline-offset: 3px;
   box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sf-duration-fast: 0ms;
+    --sf-duration-base: 0ms;
+    --sf-duration-slow: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

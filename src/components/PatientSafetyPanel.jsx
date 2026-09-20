@@ -1,5 +1,7 @@
-import { AlertTriangle, CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
+import { CheckCircle2, CloudCog, Phone, Plus, Siren } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { InformationPanel, PatientBanner, ReviewCueGroup, SafetyStatus } from '../design-system/index.js';
+import { toPatientBannerModel } from '../domain/patientBannerModel.js';
 import { PotassiumSafetyGapView } from './PotassiumSafetyGapView.jsx';
 
 export function PatientSafetyPanel({
@@ -14,7 +16,9 @@ export function PatientSafetyPanel({
   onSaveDraft = () => {},
   heuristicCues = [],
   reviewSignals = [],
-  signalSnapshot = null
+  signalSnapshot = null,
+  wardName,
+  hospitalName
 }) {
   const [activeTab, setActiveTab] = useState('overview');
   const tabRefs = useRef([]);
@@ -24,6 +28,8 @@ export function PatientSafetyPanel({
     { id: 'tasks', label: `Tasks ${patient.tasks.length}` },
     { id: 'audit', label: 'Audit Trail' }
   ];
+  const bannerModel = toPatientBannerModel(patient, { wardName, hospitalName });
+  const isEscalationActive = patient.escalation === 'Active';
   const auditTrail = patient.auditTrail?.length ? patient.auditTrail : patient.responseHistory;
   const riskFlags = Array.isArray(patient.riskFlags) ? patient.riskFlags.filter(Boolean) : [];
   const canShowSafetyGapDetail = flag?.level !== 'none'
@@ -66,18 +72,16 @@ export function PatientSafetyPanel({
 
   return (
     <aside className="patient-panel" aria-label="Patient safety panel">
-      <div className="panel-heading">
-        <div>
-          <h2>{patient.id}</h2>
-          <p>{patient.name} - fictional scenario</p>
-        </div>
-        <span className={`risk risk-${patient.risk.toLowerCase()}`}>{patient.risk} risk</span>
-      </div>
-
-      <div aria-label="Patient review alert" className="panel-alert-strip" role="note">
-        <AlertTriangle aria-hidden="true" size={17} />
-        <span>{patient.escalation === 'Active' ? 'Active simulation review cue. Human review required.' : 'Simulation review status. Human review required.'}</span>
-      </div>
+      <PatientBanner {...bannerModel} className="sf-patient-panel-banner">
+        <SafetyStatus
+          aria-label="Patient review alert"
+          role="note"
+          state={isEscalationActive ? 'critical' : 'neutral'}
+          title={isEscalationActive ? 'Active simulation review cue. Human review required.' : 'Simulation review status. Human review required.'}
+        >
+          {isEscalationActive ? 'Escalation active - medical team informed.' : 'No active escalation.'}
+        </SafetyStatus>
+      </PatientBanner>
 
       <div className="panel-tabs" aria-label="Patient detail tabs" role="tablist">
         {tabs.map(({ id, label }, index) => (
@@ -110,7 +114,8 @@ export function PatientSafetyPanel({
         >
           {activeTab === 'overview' && (
             <>
-              <div className="alert-list">
+              <section aria-labelledby="patient-safety-context-heading" className="sf-panel-section">
+                <h3 className="sf-panel-section__title" id="patient-safety-context-heading">Safety context</h3>
                 {riskFlags.length > 0 && (
                   <ul className="flag-stack overview-risk-flags" aria-label={`Risk flags for ${patient.name}`}>
                     {riskFlags.map((riskFlag) => (
@@ -118,10 +123,12 @@ export function PatientSafetyPanel({
                     ))}
                   </ul>
                 )}
-                {patient.allergies.length > 0 && <p>Allergy: {patient.allergies.join(', ')}</p>}
-                {flag.level !== 'none' && <p>{flag.title}</p>}
-                <p>{patient.escalation === 'Active' ? 'Escalation active - medical team informed' : 'No active escalation'}</p>
-              </div>
+                {flag.level !== 'none' && (
+                  <SafetyStatus state="review" title={flag.title}>
+                    Rule-based simulation flag. Human review required.
+                  </SafetyStatus>
+                )}
+              </section>
               {canShowSafetyGapDetail && (
                 <PotassiumSafetyGapView
                   draftText={draftText}
@@ -192,13 +199,9 @@ export function PatientSafetyPanel({
         </button>
       </div>
 
-      <div className="integration-card integration-card--muted">
-        <CloudCog aria-hidden="true" size={22} />
-        <div>
-          <strong>FHIR-ready integrations</strong>
-          <span>Placeholder for approved EPR, observations, labs and documents.</span>
-        </div>
-      </div>
+      <InformationPanel className="sf-panel-integrations" icon={CloudCog} title="FHIR-ready integrations">
+        Placeholder for approved EPR, observations, labs and documents.
+      </InformationPanel>
     </aside>
   );
 }
@@ -212,109 +215,13 @@ function ReviewCuesSection({ flag, heuristicCues, reviewSignals, signalSnapshot 
   const displayCues = [...reviewSignals, ...heuristicDisplayCues];
 
   return (
-    <section aria-labelledby="patient-review-cues-heading" className="review-cue-section">
-      <h3 id="patient-review-cues-heading">Simulation Review Cues</h3>
-      <p>Simulation-only cues. Human review required.</p>
-      <p className="risk-support-boundary">Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p>
-      {(signalProviderNote || suggestionProviderNote) && (
-        <p className="risk-support-boundary">
-          {[signalProviderNote, suggestionProviderNote].filter(Boolean).join(' ')}
-        </p>
-      )}
-      {!hasSignalSnapshot && displayCues.length === 0 ? (
-        <p>No signal snapshot available yet.</p>
-      ) : displayCues.length > 0 ? (
-        <ul className="review-cue-stack">
-          {displayCues.map((signal) => (
-            <li key={signal.id}>
-              <ReviewSignalCard signal={signal} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No current simulation review cues for this patient.</p>
-      )}
-    </section>
+    <ReviewCueGroup
+      available={hasSignalSnapshot}
+      cues={displayCues}
+      headingId="patient-review-cues-heading"
+      sourceNotes={[signalProviderNote, suggestionProviderNote]}
+    />
   );
-}
-
-function ReviewSignalCard({ signal }) {
-  const showRationaleDisclosure = Boolean(signal.ruleId || signal.threshold);
-
-  return (
-    <article className={`integration-card review-cue-card review-cue-${signal.priority ?? 'review'}`}>
-      <Siren aria-hidden="true" size={18} />
-      <div>
-        <p className="review-cue-meta">
-          <span>{formatSignalCategory(signal.category)}</span>
-          <span>{formatSignalPriority(signal.priority)}</span>
-        </p>
-        <strong>{signal.title}</strong>
-        <p>{signal.explanation}</p>
-        {signal.evidence?.length > 0 && (
-          <ul className="review-cue-evidence">
-            {signal.evidence.map((item, index) => (
-              <li key={`${signal.id}-evidence-${index}`}>{item.label ?? 'Simulation signal'}</li>
-            ))}
-          </ul>
-        )}
-        {signal.freshness?.label && <p>{signal.freshness.label}</p>}
-        {signal.missingDataNotes?.length > 0 && (
-          <ul className="review-cue-notes">
-            {signal.missingDataNotes.map((note, index) => (
-              <li key={`${signal.id}-note-${index}`}>{note}</li>
-            ))}
-          </ul>
-        )}
-        <p>{signal.suggestedHumanReviewAction}</p>
-        {showRationaleDisclosure && (
-          <details className="review-cue-details">
-            <summary>Why flagged</summary>
-            <div className="review-cue-details-body">
-              {signal.ruleId && (
-                <p><span className="review-cue-detail-label">Rule</span> {signal.ruleId}</p>
-              )}
-              {signal.rationale && <p>{signal.rationale}</p>}
-              {signal.threshold && (
-                <p><span className="review-cue-detail-label">Threshold</span> {signal.threshold}</p>
-              )}
-            </div>
-          </details>
-        )}
-      </div>
-    </article>
-  );
-}
-
-function formatSignalCategory(category) {
-  const labels = {
-    documentation: 'Documentation',
-    'electrolyte-review': 'Electrolyte review',
-    'infection-review': 'Infection review',
-    'sepsis-screen': 'Sepsis screen',
-    'falls-risk': 'Falls risk',
-    'medication-timing': 'Medication timing',
-    'deteriorating-obs': 'Deteriorating observations',
-    escalation: 'Escalation',
-    handover: 'Handover',
-    discharge: 'Discharge',
-    learning: 'Learning',
-    heuristic: 'Heuristic',
-    'simulation-fallback': 'Fallback'
-  };
-
-  return labels[category] ?? 'Simulation cue';
-}
-
-function formatSignalPriority(priority) {
-  const labels = {
-    blocker: 'Blocker',
-    review: 'Review',
-    watch: 'Watch',
-    learning: 'Learning'
-  };
-
-  return labels[priority] ?? 'Review';
 }
 
 function formatPreviewSourceNote(metadata, label) {

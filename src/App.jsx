@@ -852,6 +852,8 @@ export default function App() {
               heuristicCues={heuristicCues}
               reviewSignals={reviewSignals}
               signalSnapshot={state.signalSnapshots?.[selectedPatient.id] ?? null}
+              wardName={state.currentWardName}
+              hospitalName={state.hospitalName}
             />
           )}
         </div>

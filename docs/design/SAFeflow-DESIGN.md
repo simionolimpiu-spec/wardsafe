@@ -1,0 +1,251 @@
+# SafeFlow Design System
+
+Version 1.0 (SF-295). This is the canonical UI specification for SafeFlow.
+
+Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
+
+- Tokens: `src/styles/tokens.css` (semantic layer at the top of the file)
+- Components: `src/design-system/` (`primitives/`, `clinical/`, `layout/`, `feedback/`)
+- Component styles: `src/design-system/design-system.css` (loaded by `src/styles/index.css`)
+- Project rules: `AGENTS.md` and `CONTROL.md`
+
+## 1. Product posture and safety boundary
+
+SafeFlow is a nurse-led, simulation-first clinical documentation and workflow prototype.
+
+Safety boundary for all UI work: simulation-only, fictional patient data only, no real patient data, not for live clinical deployment, no diagnosis, no prescribing, no treatment recommendation, no automatic escalation, and human review required for every cue. SafeFlow output is not clinically validated and not for clinical decision-making.
+
+The interface must make three things obvious at all times:
+
+1. The data is fictional and the product is a simulation.
+2. Clinical judgement stays with the nurse or clinician. SafeFlow surfaces information that needs human review.
+3. Safety-relevant information (identity, allergies, escalation state, review cues) is quick to find and quick to scan.
+
+### Branding boundary
+
+- SafeFlow is not an NHS product and carries no NHS endorsement. No NHS logo.
+- The action colour is the SafeFlow teal (`--sf-action`, #176B75). Do not use the NHS identity blue (#005EB8) as a brand colour.
+
+## 2. Clinical visual principles
+
+SafeFlow should feel modern, calm, precise and clinical: highly legible, information-dense, premium but restrained.
+
+1. Meaning before decoration. Colour, weight and position show state or hierarchy, or they are not used.
+2. Never colour alone. Every clinical state pairs colour with a text label, and with an icon where space allows.
+3. Red is scarce. Red means genuinely critical or high-risk information only.
+4. Scan first. Identity, safety context and current status sit at the top of every patient surface in a fixed order.
+5. Dense, not cluttered. Group with borders, spacing and type weight. No oversized cards.
+6. Quiet motion. Nothing moves around clinical information unless the user caused it.
+7. Accessible by default. WCAG 2.2 AA is the floor.
+8. Human review is visible. Anything rule-derived or generated is labelled as information requiring human review.
+
+Avoid: generic AI-dashboard styling, heavy gradients, glassmorphism, neon, decorative animation, meaningless charts, consumer-app styling (very round corners, playful colour), and colour-only clinical meaning.
+
+## 3. Colour
+
+### 3.1 Semantic tokens
+
+New and migrated components use semantic tokens only. Palette tokens (`--sf-blue`, `--sf-red`, `--sf-grey-*`) and legacy aliases (`--color-*`) remain for existing styles, and are the values the semantic layer points at.
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--sf-background` | #F5F8FC | App canvas |
+| `--sf-surface` | #FFFFFF | Panels, tables, cards |
+| `--sf-surface-raised` | #FFFFFF | Dialogs and drawers (with `--sf-elevation-2`) |
+| `--sf-surface-muted` | #F5F8FB | Inset areas, form wells, context strips |
+| `--sf-border` | #DBE3EC | Dividers and panel borders |
+| `--sf-border-strong` | #7A8795 | Input and control borders (3:1 on surface) |
+| `--sf-text-primary` | #14283D | Body text and values |
+| `--sf-text-secondary` | #46525E | Labels and supporting text |
+| `--sf-text-muted` | #5F6F7F | Metadata and timestamps (4.5:1 on surface) |
+| `--sf-text-inverse` | #FFFFFF | Text on action or critical fills |
+| `--sf-action` | #176B75 | Primary buttons, links, selected tabs |
+| `--sf-action-hover` | #124C56 | Hover and pressed action |
+| `--sf-information` | #1E5A8C | Neutral information, watch-priority cues |
+| `--sf-success` | #176B43 | Completed, ready, within expected state |
+| `--sf-warning` | #8A5A00 | Attention needed: allergies, blockers |
+| `--sf-review` | #8A5A00 | Information requiring human review |
+| `--sf-critical` | #B42318 | Genuinely critical or high-risk only |
+| `--sf-disabled` | #8A96A3 | Disabled text and icons |
+| `--sf-simulation` | #55606B | Simulation and fictional-data markers |
+| `--sf-focus` | #0B3640 | Focus ring (with white halo) |
+
+Each state colour has companions: `-subtle` (background), `-border` and `-solid` (bars and icons on white).
+
+### 3.2 Clinical state semantics
+
+| State | Colour | Meaning | Examples |
+| --- | --- | --- | --- |
+| `critical` | Red | Genuinely critical or high-risk | High risk patient, active escalation |
+| `warning` | Amber | Needs attention | Allergies, blocker-priority cue |
+| `review` | Amber, outline | Human review suggested | Review-priority cue |
+| `information` | Blue | Neutral information | Watch-priority cue, monitoring |
+| `success` | Green | Complete or ready | Task done, discharge ready |
+| `neutral` | Slate | No clinical meaning | Category tags, learning cues |
+| `simulation` | Slate, dashed | Fictional or simulated | Fictional scenario label |
+
+Rules:
+
+- Map data to states in one place: `src/design-system/clinical/clinicalStates.js`.
+- Only map to `critical` from existing fields that already mean critical or high risk (`risk === 'High'`, `escalation === 'Active'`). Do not add clinical thresholds in the UI.
+- Review cues never render red, at any priority. They are information requiring human review, not alarms.
+- Missing data is `neutral` with explicit text. Green never means "no data".
+
+### 3.3 Contrast
+
+- Text: 4.5:1 minimum. Large text (24px, or 18.66px bold): 3:1.
+- Control borders, focus rings and state icons: 3:1.
+- `src/design-system/tokens.test.js` checks the key semantic pairs.
+
+## 4. Typography
+
+- Family: Inter (bundled locally via `@fontsource/inter`, weights 400 to 700), then the system UI stack. No remote font requests.
+- Numerals: use `--sf-font-numeric` (tabular figures) for values, times, counts and identifiers.
+
+| Token | Size / line height | Use |
+| --- | --- | --- |
+| `--sf-font-size-xs` | 12px / 16px | Eyebrow labels only. Never clinical values |
+| `--sf-font-size-sm` | 14px / 20px | Metadata, badges, dense table cells |
+| `--sf-font-size-md` | 16px / 24px | Body text, form input |
+| `--sf-font-size-lg` | 18px / 26px | Section headings in panels |
+| `--sf-font-size-xl` | 20px / 28px | Panel and view titles |
+| `--sf-font-size-2xl` | 24px / 32px | Page titles, patient display name |
+| `--sf-font-size-value` | 28px / 32px | Headline observation values |
+
+Weights: `--sf-font-weight-regular` 400, `-medium` 500, `-semibold` 600, `-bold` 700. Do not use 800 or 900.
+
+Rules: 14px is the minimum for clinical text. A value and its unit are one unit, and the unit is never dropped. Sentence case for headings, buttons and labels.
+
+## 5. Spacing and sizing
+
+4px grid: `--sf-space-1` 4px, `-2` 8px, `-3` 12px, `-4` 16px, `-5` 20px, `-6` 24px, `-8` 32px, `-10` 40px, `-12` 48px.
+
+The legacy `--space-*` scale (4, 6, 8, 12, 16, 20...) stays for existing styles. New code uses `--sf-space-*`.
+
+- Interactive targets: `--sf-target-min` 44px. Dense desktop tables may use `--sf-target-compact` 36px. Never below 24px.
+- Related items: `--sf-space-2`. Groups: `--sf-space-4`. Sections: `--sf-space-6`.
+
+## 6. Shape and elevation
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--sf-radius-xs` | 4px | Badges, chips, inputs |
+| `--sf-radius-sm` | 8px | Buttons, cue cards, notices |
+| `--sf-radius-md` | 12px | Panels and drawers |
+| `--sf-radius-pill` | 999px | Count badges only |
+| `--sf-status-bar-width` | 4px | Left status bar on cues and notices |
+| `--sf-elevation-0` | none | Default: flat with a border |
+| `--sf-elevation-1` | subtle | Sticky panels |
+| `--sf-elevation-2` | medium | Dialogs, drawers |
+
+Depth comes from borders and background steps first. `--sf-radius-lg` (16px) and `--sf-radius-xl` (20px) are legacy and are not used by new components.
+
+## 7. Iconography
+
+- lucide-react only. Sizes: `--sf-icon-sm` 16px, `--sf-icon-md` 20px, `--sf-icon-lg` 24px.
+- Icons are decorative (`aria-hidden="true"`). Meaning always lives in adjacent text.
+- One icon per state, defined in `clinicalStates.js`.
+- Siren icons are for escalation only, never for review cues.
+
+## 8. Interaction states
+
+| State | Treatment |
+| --- | --- |
+| Hover | Background step or border darkening. No lift or scale on clinical content |
+| Focus | 3px `--sf-focus` outline, 3px offset, white halo (global rule in tokens.css) |
+| Active / selected | `--sf-action` text with a 3px underline (tabs) or `--sf-surface-selected` fill (rows) |
+| Disabled | `--sf-disabled` text on `--sf-disabled-subtle`, `cursor: not-allowed`, and an accessible reason where it matters |
+| Loading | Static text in a `role="status"` region. No spinners near clinical values |
+| Error (system) | Warning styling with text. Never critical red, so it is not mistaken for a clinical alert |
+
+## 9. Motion policy
+
+Tokens: `--sf-duration-fast` 120ms, `--sf-duration-base` 160ms, `--sf-duration-slow` 220ms, `--sf-ease-standard`.
+
+Allowed: hover and focus transitions, disclosure opening (chevron rotation), drawer and dialog open and close, navigation transitions, non-clinical loading transitions.
+
+Not allowed: flashing, pulsing or bouncing alerts, movement around observations or cues, animation that delays clinical information, continuous decorative animation, motion that changes perceived severity.
+
+`prefers-reduced-motion: reduce` sets all `--sf-duration-*` tokens to 0ms, and a global rule in tokens.css removes transitions and animations.
+
+## 10. Accessibility (WCAG 2.2 AA)
+
+- Semantic HTML: `aside`, `section` with headings, `dl` for label and value pairs, `article` for each cue, native `details` for disclosures.
+- Keyboard: every control is reachable. Tabs use roving tabindex with arrow keys, Home and End.
+- Names: regions and icon-only controls have accessible names.
+- Status: never colour alone. State text is always visible.
+- Live regions: status messages use `role="status"`. Review cues never use `role="alert"`.
+- Targets: 44px, see section 5. Reflow: no page-level horizontal scroll at 320px.
+
+## 11. Desktop, tablet and mobile
+
+| Width | Context | Behaviour |
+| --- | --- | --- |
+| 1180px and above | Ward workstation | Board and patient panel side by side. Panel is sticky |
+| 860 to 1179px | Bedside tablet | Single column. Patient panel follows the board |
+| Below 860px | Handheld | Single column. Patient banner content wraps and never truncates identity or allergies |
+
+Breakpoints in use: 520, 620, 860, 920, 960, 1050, 1180 and 1400px. New work uses `--sf-bp-sm` 620px, `--sf-bp-md` 860px, `--sf-bp-lg` 1050px and `--sf-bp-xl` 1180px, written as literals in media queries and documented here.
+
+At narrow widths, keep this order and move secondary content (SBAR, audit, integrations) behind tabs rather than shrinking it.
+
+## 12. Patient-context hierarchy
+
+Every patient surface opens with the patient banner, in this order:
+
+1. Identity: display name, simulation identifier, age
+2. Simulation context: the "Fictional scenario" label
+3. Location and context: ward, hospital and responsible nurse, where the data has them
+4. Allergies: always shown, as the list, "None recorded in this simulation record", or "Allergy information not available"
+5. Current safety and review status: risk, escalation state, and the human review line
+
+Rules: do not invent fields the data model does not hold (no NHS number, date of birth, bed or consultant until the data exists). Missing fields are omitted, not faked. The banner sits outside the tabs so it stays visible on every tab.
+
+## 13. Safety and review cue hierarchy
+
+A review cue is information requiring human review. It is never an AI decision, a diagnosis, a treatment recommendation or an automatic escalation.
+
+The review cue group always shows, in order:
+
+1. Title: "Simulation Review Cues"
+2. Boundary: "Simulation-only cues. Human review required." and "Simulation output for preview only. Not clinically validated and not for clinical decision-making."
+3. Provider notes where present
+4. The cues, in the order the signal engine returns them
+
+Each cue (`ReviewCue`) contains:
+
+1. `ReviewCueMetadata`: category and priority as text badges
+2. Title and explanation (wording comes from the signal engine and its output guard, and is never rewritten in the UI)
+3. `ReviewCueEvidence`: evidence to check, freshness and missing data, visible by default
+4. The human review action line
+5. `ReviewCueRationale`: a "Why flagged" disclosure with rule, rationale and threshold, when present
+
+Priority presentation:
+
+| Priority | State | Icon |
+| --- | --- | --- |
+| `blocker` | warning | Octagon alert |
+| `review` | review | Eye |
+| `watch` | information | Info |
+| `learning` | neutral | Graduation cap |
+
+## 14. Component conventions
+
+- Reusable components take data through props and never contain patient-specific data.
+- Components render only what they receive. Missing values show "Not recorded" or are omitted.
+- Class names use the `sf-` prefix with BEM-style parts (`sf-review-cue__title`).
+- Styles use semantic tokens only. `src/design-system/tokens.test.js` fails on raw colours in `design-system.css`.
+- Tone classes (`sf-tone-critical` and so on) set local `--sf-tone-*` properties that components read.
+- No new npm packages without a written case in the pull request: why existing code cannot do it, licence, maintenance and security.
+- Componentry, Cult UI and similar libraries may inform structure. They are not installed and their visual effects are not copied.
+
+Component inventory in v1:
+
+| Layer | Components |
+| --- | --- |
+| Primitives | `Badge` |
+| Clinical | `clinicalStates`, `ClinicalStatusBadge`, `ClinicalValue`, `SafetyStatus`, `SimulationLabel`, `PatientIdentityBlock`, `PatientContextStrip`, `PatientBanner`, `ReviewCue`, `ReviewCueGroup`, `ReviewCueMetadata`, `ReviewCueEvidence`, `ReviewCueRationale` |
+| Layout | `InformationPanel` |
+| Feedback | `EmptyState` |
+
+Planned for Phase 2: Ward Safety Board migration, ObservationTrend, TaskList, Timeline, button primitives, and migration of the remaining legacy CSS partials onto semantic tokens.

@@ -238,4 +238,58 @@ describe('PatientSafetyPanel', () => {
     expect(within(panel).getByRole('tabpanel', { name: /^sbar$/i })).toBeInTheDocument();
     expect(within(panel).getByText(/SBAR summary/i)).toBeInTheDocument();
   });
+
+  it('opens with the patient banner: identity, simulation context, location, allergies and status', () => {
+    render(
+      <PatientSafetyPanel
+        flag={{ level: 'none', title: 'No electrolyte safety gap currently flagged' }}
+        hospitalName="Cityview Community Hospital"
+        patient={clone(simulatedPatients[0])}
+        wardName="Day Care Unit"
+      />
+    );
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    const banner = within(panel).getByRole('region', { name: 'DCU-031' });
+    expect(within(banner).getByText('Fictional scenario')).toBeInTheDocument();
+    expect(within(banner).getByText('Day Care Unit')).toBeInTheDocument();
+    expect(within(banner).getByText('Cityview Community Hospital')).toBeInTheDocument();
+    expect(banner).toHaveTextContent('Allergies: Penicillin, Latex');
+    expect(within(banner).getByText('High risk')).toBeInTheDocument();
+    expect(within(banner).getByRole('note', { name: 'Patient review alert' })).toHaveTextContent(/human review required/i);
+    expect(banner.compareDocumentPosition(within(panel).getByRole('tablist'))).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it('keeps allergies visible on every tab', async () => {
+    const user = userEvent.setup();
+    renderPanel();
+
+    const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
+    for (const name of [/^sbar$/i, /tasks/i, /audit trail/i]) {
+      await user.click(within(panel).getByRole('tab', { name }));
+      expect(within(panel).getByRole('region', { name: 'DCU-031' })).toHaveTextContent('Allergies: Penicillin, Latex');
+    }
+  });
+
+  it('never styles simulation review cues as critical, including blockers', () => {
+    renderPanel({
+      reviewSignals: [
+        {
+          id: 'cue-blocker',
+          category: 'discharge',
+          priority: 'blocker',
+          title: 'Review suggested: discharge-readiness blocker',
+          explanation: 'Simulation-only cue.',
+          evidence: [{ label: 'Blocker: Medical plan unclear' }],
+          suggestedHumanReviewAction: 'Human review required: confirm which blocker remains.'
+        }
+      ],
+      signalSnapshot: { signalTimeline: [], riskSuggestions: [] }
+    });
+
+    const reviewCues = screen.getByRole('region', { name: /simulation review cues/i });
+    const cueArticle = within(reviewCues).getByRole('article');
+    expect(within(cueArticle).getByText('Blocker')).toBeInTheDocument();
+    expect(cueArticle.querySelector('.sf-tone-critical, [data-state="critical"]')).toBeNull();
+  });
 });
