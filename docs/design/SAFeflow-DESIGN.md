@@ -1,6 +1,6 @@
 # SafeFlow Design System
 
-Version 1.3 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension). This is the canonical UI specification for SafeFlow.
+Version 1.4 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension, SF-300 mobile shell). This is the canonical UI specification for SafeFlow.
 
 Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
 
@@ -184,7 +184,7 @@ Not allowed: flashing, pulsing or bouncing alerts, movement around observations 
 | --- | --- | --- |
 | 1180px and above | Ward workstation | Board and patient panel side by side. Panel is sticky |
 | 860 to 1179px | Bedside tablet | Single column. Patient panel follows the board |
-| Below 860px | Handheld | Single column. Patient banner content wraps and never truncates identity or allergies |
+| 860px and below | Handheld and portrait tablet | Mobile shell (section 17). Single column. Patient banner content wraps and never truncates identity or allergies |
 
 Breakpoints in use: 520, 620, 860, 920, 960, 1050, 1180 and 1400px. New work uses `--sf-bp-sm` 620px, `--sf-bp-md` 860px, `--sf-bp-lg` 1050px and `--sf-bp-xl` 1180px, written as literals in media queries and documented here.
 
@@ -308,3 +308,26 @@ Rules for the night view:
 - Each insight surface has a "Night view" toggle (`aria-pressed`), a `data-sf-theme` attribute and a `defaultTheme` prop. Unknown themes fall back to standard. Presentation mode opens Hospital Insights, Trust Network and Patient Journey Twin in night view by default; users can switch back.
 - Trust Network observation strips remain plain, neutral text, with no glow or added state coding. SF-298 introduces no animation; Twin sparklines and observation values remain static.
 - The existing clinical-screen exclusion test is retained in full. Browser checks also verify that presentation mode never applies the night zone to clinical screens.
+
+## 17. Mobile shell (SF-300)
+
+At 860px and below the app shell switches to a phone layout, so content is on screen straight away. Above 860px the desktop sidebar and top bar are unchanged.
+
+| Part | Phone behaviour |
+| --- | --- |
+| Simulation boundary | Always visible, compact type. Wording unchanged |
+| Top bar | Brand, current screen name and a ward toggle ("Ward and demo controls: <ward>"). The ward toggle opens the ward and review focus pickers, date stepper, notifications, user chip and report buttons |
+| Bottom tab bar | "Quick navigation": Board, Patients, Obs, Tasks, More. Fixed to the bottom, 64px tall, respects the safe area |
+| More sheet | The full "SafeFlow workspace" navigation (all 16 screens), the Safety first card and the ward context, in a bottom sheet |
+
+Rules:
+
+- Components: `src/components/MobileTabBar.jsx`, `WorkspaceNav.jsx` (sheet mode) and `AppShell.jsx`. Styles live in `src/styles/mobile-shell.css`, which uses tokens only and is in the raw-colour guard.
+- Everything stays in the DOM. The mobile panels are hidden by CSS, so desktop, print and unit tests see the same markup. `.shell-context` uses `display: contents` above 860px, so the desktop top bar grid does not change.
+- The current tab shows a top bar, heavier label and `aria-current="page"`. Never colour alone. More is marked current when the active screen is not one of the four tabs.
+- The More button has `aria-expanded` and `aria-controls="workspace-nav"`. Opening moves focus to the current screen in the list. Escape, Close menu or tapping the scrim closes it and returns focus to More. Choosing a screen closes it.
+- Tab and toggle targets are at least 44px. The task count badge uses the action colour, not red.
+- Content has bottom padding equal to the tab bar plus `--sf-space-4`, so the tab bar never covers the last item.
+- Presentation mode keeps its content and wording on a phone but drops its projector-sized padding, which pushed the page wider than the screen.
+- Tokens: `--sf-mobile-tabbar-height`, `--sf-mobile-scrim`, `--sf-z-mobile-scrim`, `--sf-z-mobile-sheet`, `--sf-z-mobile-tabbar`.
+- E2E: `e2e/mobile-shell.spec.js`. Other e2e specs reach screens through `e2e/shell.js`, which opens More only when the mobile shell is showing.
