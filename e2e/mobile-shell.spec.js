@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { navigateTo, openShellContext } from './shell.js';
 
 test('SF-300 mobile shell puts content first with bottom tabs and a More sheet', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -73,4 +74,52 @@ test('SF-300 desktop keeps the sidebar and full top bar', async ({ page }) => {
   await expect(page.getByRole('button', { name: /Ward and demo controls/ })).toBeHidden();
   await expect(page.getByRole('combobox', { name: 'Ward' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Presentation mode', exact: true })).toBeVisible();
+});
+
+test('SF-301 to SF-303 phone screens stay short, readable and on-screen', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  // SF-303: ward picker text on the dark bar meets 4.5:1
+  await openShellContext(page);
+  const lowContrast = await page.evaluate(() => {
+    const rgb = (v) => v.match(/[\d.]+/g).map(Number);
+    const lum = (v) => rgb(v).slice(0, 3).map((c) => c / 255)
+      .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
+      .reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
+    const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+    const bar = getComputedStyle(document.querySelector('.redesign-topbar')).backgroundColor;
+    return [...document.querySelectorAll('.redesign-topbar .demo-scenario-control span, .redesign-topbar .demo-scenario-control small')]
+      .filter((el) => ratio(getComputedStyle(el).color, bar) < 4.5).map((el) => el.textContent);
+  });
+  expect(lowContrast).toEqual([]);
+
+  // SF-301: Trust Network keeps extra ward trends collapsed
+  await navigateTo(page, 'Trust Network');
+  const view = page.getByRole('region', { name: 'England Trust Network', exact: true });
+  const firstMore = view.locator('details.trust-network-ward-trend-more').first();
+  await expect(firstMore).not.toHaveAttribute('open', '');
+  const collapsedHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+  expect(collapsedHeight).toBeLessThan(20000);
+  const summary = firstMore.locator('summary');
+  expect((await summary.boundingBox()).height).toBeGreaterThanOrEqual(44);
+  await summary.focus();
+  await page.keyboard.press('Enter');
+  await expect(firstMore).toHaveAttribute('open', '');
+  await expect(firstMore.getByRole('article').first()).toBeVisible();
+
+  // SF-301 and SF-302: no text under 12px and no page overflow on these screens
+  for (const name of ['Trust Network', 'Patient Journey Twin', 'Scenarios']) {
+    await navigateTo(page, name);
+    const result = await page.evaluate(() => {
+      let tiny = 0;
+      for (const el of document.querySelectorAll('.workspace-content *')) {
+        if (el.closest('details:not([open])') || !el.getBoundingClientRect().width) continue;
+        if (el.childNodes[0]?.nodeType === 3 && el.textContent.trim() && parseFloat(getComputedStyle(el).fontSize) < 12) tiny += 1;
+      }
+      return { tiny, overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    expect(result.tiny, name).toBe(0);
+    expect(result.overflow, name).toBeLessThanOrEqual(1);
+  }
 });
