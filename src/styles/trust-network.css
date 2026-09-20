@@ -334,6 +334,41 @@
   color: var(--sf-text-primary);
 }
 
+/*
+ * SF-299 layout fixes. Hospital cards differ a lot in height (ward count).
+ * Without these rules the shorter card stretches to its row and, being a
+ * grid itself, spreads its rows so the hospital name drifts far down.
+ */
+.trust-network-view .review-report-summary-grid {
+  align-items: start;
+}
+
+.trust-network-view .review-report-summary-card {
+  align-content: start;
+}
+
+/*
+ * The shared report card styles every nested strong and span as a card
+ * title or eyebrow. Inside a ward trend they are inline labels.
+ */
+.trust-network-view .trust-network-ward-trend-flags strong {
+  display: inline;
+  font-size: inherit;
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: inherit;
+}
+
+.trust-network-view .trust-network-ward-trend-head strong {
+  font-size: var(--sf-font-size-xs);
+  line-height: var(--sf-line-height-xs);
+}
+
+.trust-network-view .trust-network-ward-trend-range span {
+  font-weight: var(--sf-font-weight-semibold);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
 .trust-network-view .trust-network-ward-trend-range span {
   color: var(--sf-text-secondary);
 }
