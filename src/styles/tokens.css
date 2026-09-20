@@ -208,6 +208,11 @@
   --sf-bp-lg: 1050px;
   --sf-bp-xl: 1180px;
 
+  /* App shell top bar (SF-303). Text on the deep teal bar. */
+  --sf-shell-bar: var(--sf-blue-deep);
+  --sf-text-on-shell: var(--sf-grey-0);
+  --sf-text-on-shell-secondary: #dbeaf7;
+
   /* Mobile shell (SF-300). Spec: DESIGN.md section 17. */
   --sf-mobile-tabbar-height: 4rem;
   --sf-mobile-scrim: color-mix(in srgb, var(--sf-grey-900) 45%, transparent);
@@ -282,6 +287,9 @@
   --sf-text-secondary: #b6c8cf;
   --sf-text-muted: #8ea5ae;
   --sf-text-inverse: #0a1318;
+  --sf-shell-bar: #14252c;
+  --sf-text-on-shell: #e7f0f3;
+  --sf-text-on-shell-secondary: #b6c8cf;
   --sf-action: #5fd0d9;
   --sf-action-hover: #86eef6;
   --sf-action-subtle: #0f2a30;
