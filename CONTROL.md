@@ -84,6 +84,13 @@
 
 | ID | Status | Area | Work item | Next action |
 |---|---|---|---|---|
+| SF-307 | In progress | Architecture | Parent: SafeFlow Connect + Voice + Point of Care programme (10 phases). Phase 1 (architecture, domain and provider foundations) passed Claude review gates A to J on 20 September 2026. Phases 2 to 10 not started. Simulation only; no live integrations. | Branch `feature/connect-voice-poc-foundation` from `codex/safeflow-prototype` at be30246; commits 47dcbfa to aff387b plus this control update. Verified outside the Codex sandbox: focused 32 files / 145 tests passed; `npm test` 126 files / 859 tests passed; `npm run build` passed (existing chunk-size warning); `git diff --cached --check` clean per commit. Review record in `docs/project/progress.md`. Awaiting Oli approval before PR and before Phase 2. |
+| SF-308 | Done | Architecture docs | Canonical master spec `docs/architecture/safeflow-connect-voice-point-of-care-master.md`, `point-of-care-hardware-profile.md` (research classes, not endorsements) and `fhir-observation-mapping.md` (proposed mapping only, no live NHS APIs). All three added to the safety-language scan. | Commit 47dcbfa. |
+| SF-309 | Done | Connect | Role recipients, threads, communication events (message, structured-request, acknowledgement, task-link, system-event; no escalation or task kind), structured request lifecycle with human-only decisions, privacy-safe notifications, CommunicationProvider contract and in-memory simulation provider. AI drafts need a different human approver before sending; only the safeflow channel is enabled. | Commit a813e70. |
+| SF-310 | Done | Voice | SpeechProfile (rejects origin and scoring fields), SpeechCandidate (raw text kept, 0.85 threshold, exact safe-failure message), numeric speech safety (teen/ty confusables, units, separate confirmation), capture lifecycle (Saved needs an approved reliable candidate and confirmed numbers; ambient only single room with policy and no sensitive context; no audio retained), translation drafts with interpreter flag, layered lexicon, five provider contracts and simulation providers. No microphone, audio or network. | Commit e7ad12b. |
+| SF-311 | Done | Point of Care | PointOfCareSession (simulated badge only, wristband match against fictional lookup, inactivity lock and end clear the patient), action gating, observation candidates with unconfirmed device provenance and no score, DeviceObservationProvider and DocumentCaptureProvider contracts with fixture-only simulation. | Commit 924a3b3. |
+| SF-312 | Done | Shared | Capture provenance (always starts unconfirmed; confirmation needs reviewer and time), review statuses, provider contract guard (live providers fail closed), platform event registry (metadata only; human-decision events need a human actor; confirmation events need human-confirmed provenance). | Commit 835bd46. |
+| SF-313 | Done | Safety tests | Foundation boundary test: no network, microphone, speech APIs, storage, console, env, Date.now or Math.random in new source; no cross-pillar imports; every simulation provider passes its contract and refuses a live variant. | Commit aff387b. |
 | SF-101 | Closed | Release | PR #7 feature/minimal-role-aware-gui closed as superseded. | No merge planned. |
 | SF-104 | Done | AWS architecture | Mock/readiness AWS direction documented in `docs/public-demo-pack/build-readiness/architecture-options.md` and `docs/public-demo-pack/build-readiness/technology-stack.md` (Aurora, Step Functions, Bedrock/LLM draft provider, tokenised backend, RBAC/audit logging). | Merged via [PR #19](https://github.com/simionolimpiu-spec/wardsafe/pull/19) on 2 July 2026; squash merge commit `5384b54b7f71d61b9b614df7c753255edab39d18`. Keep as mock/readiness architecture only; no live AWS deployment or SDK wiring until explicit approval. |
 | SF-105 | Done | Docs alignment | `docs/public-demo-pack/master-narrative.md` is now the controlled description; `stakeholder-demo-pack.md`, `demo-script.md`, `safety-boundary.md`, and `README.md` are aligned to it. | Merged via PR [#44](https://github.com/simionolimpiu-spec/wardsafe/pull/44), squash commit `f7c918f`, 7 July 2026 (conflicts with #37/#40/#41 resolved in favour of newer base wording — the QI-lane master-narrative with SF-226 terms is the surviving version). App-copy naming cleanup remains a Mia follow-up. |
@@ -103,6 +110,16 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 
 | ID | Status | Area | Work item | Notes |
 |---|---|---|---|---|
+| SF-314 | Planned | Phase 2 | Connect simulation UI | Not started - requires human approval. |
+| SF-315 | Planned | Phase 3 | Voice dictation + TTS | Not started - requires human approval. |
+| SF-316 | Planned | Phase 4 | Point-of-Care bedside session | Not started - requires human approval. |
+| SF-317 | Planned | Phase 5 | Voice/device observation capture | Not started - requires human approval. |
+| SF-318 | Planned | Phase 6 | Nursing forms/documentation | Not started - requires human approval. |
+| SF-319 | Planned | Phase 7 | Accent/multilingual/speech safety | Not started - requires human approval. |
+| SF-320 | Planned | Phase 8 | AI-assisted communication/documentation | Not started - requires human approval. |
+| SF-321 | Planned | Phase 9 | External adapter simulations | Not started - requires human approval. |
+| SF-322 | Planned | Phase 10 | Hardening/evaluation/governance | Not started - requires human approval. |
+| SF-323 | Future discovery | Provenance | Reconcile capture provenance with SF-305 trust tiers after SF-305 merges. | Different capture and derivation dimensions; no reconciliation implemented. |
 | SF-201 | Done | UI | Full-screen / presentation mode — delivered by the M12 presentation mode (SF-239): toggle-able presentation mode with larger token-based legibility, a 4-step guided flow, and the simulation-only banner always visible. | Closed 12 July 2026 as delivered by SF-239 (PR [#54](https://github.com/simionolimpiu-spec/wardsafe/pull/54)). Any further full-screen polish is optional and would land as additive token CSS. |
 | SF-202 | Done | UI | Cleaner NHS-realistic v2 visual concept — calm / clinical-grade / accessible design direction (colour roles, type & spacing, component notes) for a graphic designer to build on; token-driven, additive, no behaviour or boundary change. | Concept in `docs/public-demo-pack/build-readiness/nhs-realistic-v2-concept.md` (PR [#56](https://github.com/simionolimpiu-spec/wardsafe/pull/56)). Any resulting restyle lands as additive token CSS after designer input. |
 | SF-204 | Closed (superseded) | AWS docs | AWS mock docs and architecture diagrams | Delivered by SF-104 (PR #19, `docs/public-demo-pack/build-readiness/architecture-options.md` + `technology-stack.md`). No further action. |
@@ -149,6 +166,7 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 
 ## Changelog
 
+- 20 September 2026: Added SF-307 to SF-323 (previous highest ID SF-306). Phase 1 Connect/Voice/Point-of-Care foundation implemented by Codex, reviewed by Claude (one correction round), verified and committed on `feature/connect-voice-poc-foundation`. Phases 2 to 10 planned only. No push to base, no PR yet, no Phase 2 work.
 - ID reconciliation note: SF-217 stayed with the Ward Quality & Safety Review export; the governance docs moved SF-217→SF-219, SF-218→SF-220, and SF-219→SF-221. The doc-only SNOMED/FHIR placeholder was advanced to SF-222 so it stays clear of the new board IDs.
 
 ## Authoring note (1 July 2026)
