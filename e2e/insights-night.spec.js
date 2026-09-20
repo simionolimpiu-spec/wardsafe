@@ -56,6 +56,8 @@ test('SF-298 insight night views retain readable content and stay off clinical s
     expect(await view.innerText()).toBe(originalText);
     await expect(toggle).toBeFocused();
     expect(await toggle.evaluate((element) => getComputedStyle(element).outlineStyle)).toBe('solid');
+    // Measure settled colours, not a colour transition in flight.
+    await page.evaluate(() => Promise.all(document.getAnimations().map((animation) => animation.finished)));
     expect(await nightReadability(view)).toEqual([]);
     await page.emulateMedia({ reducedMotion: 'reduce' });
     expect(await nightReadability(view)).toEqual([]);
