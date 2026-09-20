@@ -1,6 +1,6 @@
 # SafeFlow Design System
 
-Version 1.4 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension, SF-300 mobile shell). This is the canonical UI specification for SafeFlow.
+Version 1.5 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension, SF-300 mobile shell, SF-301 to SF-303 phone screens). This is the canonical UI specification for SafeFlow.
 
 Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
 
@@ -331,3 +331,11 @@ Rules:
 - Presentation mode keeps its content and wording on a phone but drops its projector-sized padding, which pushed the page wider than the screen.
 - Tokens: `--sf-mobile-tabbar-height`, `--sf-mobile-scrim`, `--sf-z-mobile-scrim`, `--sf-z-mobile-sheet`, `--sf-z-mobile-tabbar`.
 - E2E: `e2e/mobile-shell.spec.js`. Other e2e specs reach screens through `e2e/shell.js`, which opens More only when the mobile shell is showing.
+
+### 17.1 Phone screens (SF-301 to SF-303)
+
+- Trust Network: each hospital shows its first ward trend open. The rest sit behind one native `details` disclosure ("Show N more ward trends"), with a 44px summary. Every trend stays in the DOM with unchanged wording, and the first trend in each hospital keeps its human-review note visible. This applies at every width.
+- Long lists of repeated panels follow the same pattern: show the first, collapse the rest, never hide boundary or human-review wording on what is shown.
+- At 860px and below, Trust Network text is at least 12px (`--sf-font-size-xs`) and the ward day pickers are 44px tall.
+- At 620px and below, operational and workflow views and the Twin panels use `--sf-space-3` padding, so content gets the width. Wide tables and chapter strips keep their own sideways scroll inside the card. The page itself never scrolls sideways.
+- Text on the deep teal top bar uses `--sf-text-on-shell` or `--sf-text-on-shell-secondary` on `--sf-shell-bar`. Both pairs are in the token contrast tests. Light-surface greys are never used on the bar.

@@ -370,6 +370,26 @@
   }
 }
 
+/* SF-302: phones get the width back from nested card padding. Twin
+   chapter strips and observation tables keep their own sideways scroll. */
+@media (max-width: 620px) {
+  .app-shell-redesign .workspace-content {
+    padding: var(--sf-space-3);
+  }
+
+  .app-shell-redesign .operational-view,
+  .app-shell-redesign .workflow-view {
+    padding: var(--sf-space-3);
+  }
+
+  .twin-patient-card,
+  .twin-day-scrubber,
+  .twin-trend-panel,
+  .twin-then-now-panel {
+    padding: var(--sf-space-3);
+  }
+}
+
 @media print {
   .sf-mobile-tabbar,
   .sf-mobile-context-toggle,

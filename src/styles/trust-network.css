@@ -376,3 +376,83 @@
 .trust-network-ward-trend-range select {
   border-color: var(--sf-border-strong);
 }
+
+/* SF-301: remaining ward trends sit behind one disclosure per hospital */
+.trust-network-ward-trend-more > summary {
+  align-items: center;
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-action);
+  cursor: pointer;
+  display: flex;
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  gap: var(--sf-space-2);
+  list-style: none;
+  min-height: var(--sf-target-min);
+  padding: 0 var(--sf-space-3);
+}
+
+.trust-network-ward-trend-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.trust-network-ward-trend-more > summary::before {
+  border-color: transparent transparent transparent currentColor;
+  border-style: solid;
+  border-width: 5px 0 5px 7px;
+  content: '';
+  transition: transform var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.trust-network-ward-trend-more[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.trust-network-ward-trend-more > summary:hover {
+  background: var(--sf-action-subtle);
+}
+
+.trust-network-ward-trend-more > summary:focus-visible {
+  outline: 2px solid var(--sf-focus);
+  outline-offset: 2px;
+}
+
+.trust-network-ward-trend-more[open] > summary {
+  margin-bottom: var(--sf-space-2);
+}
+
+/* Phones: readable ward trend type and 44px day pickers */
+@media (max-width: 860px) {
+  .trust-network-view .trust-network-ward-trend-head strong,
+  .trust-network-ward-trend-range label,
+  .trust-network-ward-trend-range span,
+  .trust-network-ward-trend-meta,
+  .trust-network-ward-trend-flags,
+  .trust-network-ward-trend-note,
+  .trust-network-ward-trend-table,
+  .trust-network-ward-trend-table thead th {
+    font-size: var(--sf-font-size-xs);
+  }
+
+  .trust-network-ward-trend-head h4 {
+    font-size: var(--sf-font-size-sm);
+  }
+
+  .trust-network-type,
+  .trust-network-chip,
+  .trust-network-obs,
+  .trust-network-obs em {
+    font-size: var(--sf-font-size-xs);
+  }
+
+  .trust-network-ward-trend-range select {
+    font-size: var(--sf-font-size-sm);
+    min-height: var(--sf-target-min);
+  }
+
+  .trust-network-ward-trend-table th,
+  .trust-network-ward-trend-table td {
+    padding: var(--sf-space-1) var(--sf-space-2);
+  }
+}

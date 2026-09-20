@@ -141,6 +141,33 @@ function WardTrendRollup({ ward }) {
   );
 }
 
+/**
+ * SF-301: the first ward trend stays open; the rest sit behind one
+ * disclosure per hospital, so a card is not thousands of pixels long.
+ * Every ward trend stays in the DOM with unchanged wording.
+ */
+function WardTrendList({ wards }) {
+  const [first, ...rest] = wards;
+  if (!first) return null;
+  return (
+    <div className="trust-network-ward-trends">
+      <WardTrendRollup ward={first} />
+      {rest.length > 0 && (
+        <details className="trust-network-ward-trend-more">
+          <summary>
+            Show {rest.length} more ward {rest.length === 1 ? 'trend' : 'trends'}
+          </summary>
+          <div className="trust-network-ward-trends">
+            {rest.map((ward) => (
+              <WardTrendRollup key={ward.id} ward={ward} />
+            ))}
+          </div>
+        </details>
+      )}
+    </div>
+  );
+}
+
 export function TrustNetworkView({ defaultTheme = 'standard' } = {}) {
   const [theme, setTheme] = useState(defaultTheme === 'night' ? 'night' : 'standard');
   useEffect(() => {
@@ -179,11 +206,7 @@ export function TrustNetworkView({ defaultTheme = 'standard' } = {}) {
             <small>
               {getWardsForTrust(trust.id).length} wards · {trustPatientCount(trust.id)} fictional patients · source: {trust.wardSource}
             </small>
-            <div className="trust-network-ward-trends">
-              {getWardsForTrust(trust.id).map((ward) => (
-                <WardTrendRollup key={ward.id} ward={ward} />
-              ))}
-            </div>
+            <WardTrendList wards={getWardsForTrust(trust.id)} />
           </article>
         ))}
       </div>
