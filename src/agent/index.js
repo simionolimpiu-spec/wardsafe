@@ -1,8 +1,8 @@
-export { TRUST_TIERS, isTrustTier, INSTRUCTION_ELIGIBLE_ORIGINS } from './trustTiers.js';
+export { TRUST_TIERS, KNOWLEDGE_TIER, isTrustTier, INSTRUCTION_ELIGIBLE_ORIGINS } from './trustTiers.js';
 export { createProvenance, ProvenanceError } from './provenance.js';
 export { SIMULATION_REFERENCE_DATE, LAB_UNITS, createSourceFact, labFactsFromSimulatedPatient } from './clinicalFact.js';
 export { AGENT_EVENT_TYPES, ACTOR_KINDS, createAgentEvent, AgentEventError } from './agentEvent.js';
-export { createGeneratedSummary, isInstructionEligible, assertNotUsedAsInstruction, GeneratedContentBoundaryError } from './generatedContent.js';
+export { createGeneratedSummary, createGeneratedReview, isInstructionEligible, assertNotUsedAsInstruction, GeneratedContentBoundaryError } from './generatedContent.js';
 export { SESSION_STATUSES, createAgentSession } from './agentSession.js';
 export { createSystemInstruction } from './systemInstruction.js';
 export { wrapUntrusted, isUntrustedContent } from './untrustedContent.js';
@@ -10,3 +10,7 @@ export { validateAgainstSchema } from './toolSchema.js';
 export { createToolRegistry, ToolInvocationError } from './toolRegistry.js';
 export { createSimulatedPatientSource } from './tools/simulatedPatientSource.js';
 export { createSimulatedClinicalTools } from './tools/clinicalTools.js';
+export { buildReviewPrompt, PromptBoundaryError } from './ai/promptBoundary.js';
+export { REVIEW_RESPONSE_SCHEMA, parseAndValidateReview, ReviewResponseError } from './ai/reviewResponse.js';
+export { assertProvider, createReviewGenerator, ProviderPolicyError, ReviewGenerationError } from './ai/aiModelProvider.js';
+export { createMockAIModelProvider } from './ai/mockAIModelProvider.js';

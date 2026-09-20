@@ -87,11 +87,13 @@ describe('simulated read tools', () => {
   });
   it('returns only titles and bibliographic citations as untrusted guidance', async () => {
     const { invoke } = setup();
-    const { records } = await invoke('getRelevantGuidance', { cueType: 'electrolyte-review' });
+    const { records, trustTier } = await invoke('getRelevantGuidance', { cueType: 'electrolyte-review' });
+    expect(trustTier).toBe('reference-knowledge');
     const source = getEvidenceForCue('electrolyte-review');
     expect(records.length).toBeGreaterThan(0);
     expect(records.map(({ sourceId }) => sourceId)).toEqual(source.map(({ pmid }) => pmid));
     records.forEach((record, index) => {
+      expect(record).not.toHaveProperty('trustTier');
       expect(isUntrustedContent(record)).toBe(true);
       expect(isInstructionEligible(record)).toBe(false);
       expect(record.content).toContain(source[index].title);

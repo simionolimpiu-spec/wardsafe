@@ -4,8 +4,8 @@ import { CUE_TYPES, getEvidenceForCue, isValidCueType } from '../../domain/evide
 import { labFactsFromSimulatedPatient, LAB_UNITS } from '../clinicalFact.js';
 import { createProvenance } from '../provenance.js';
 import { timestampFrom } from '../domainValues.js';
-import { TRUST_TIERS } from '../trustTiers.js';
-import { sourceContent } from '../untrustedContent.js';
+import { KNOWLEDGE_TIER, TRUST_TIERS } from '../trustTiers.js';
+import { sourceContent, wrapUntrusted } from '../untrustedContent.js';
 
 const string = { type: 'string' };
 const number = { type: 'number' };
@@ -21,6 +21,7 @@ const patientInput = object({ patientId: { type: 'string', minLength: 1, pattern
 const provenance = object({ source: string, sourceRecordId: string, observedAt: string, observedAtLabel: string, importedAt: string, simulationOnly: yes });
 const fact = object({ factId: string, patientId: string, factType: analyteSchema, value: number, unit: string, trustTier: sourceTier, provenance, simulationOnly: yes });
 const content = (kind) => object({ content: string, kind: tier(kind), trustLevel: tier('untrusted-data'), source: string, sourceId: string, simulationOnly: yes, trustTier: sourceTier });
+const knowledgeContent = object({ content: string, kind: tier('retrieved-knowledge'), trustLevel: tier('untrusted-data'), source: string, sourceId: string, simulationOnly: yes });
 const signalFields = {
   id: string, category: string, priority: string, title: string, explanation: string,
   evidence: array(object({ id: string, label: string })), suggestedHumanReviewAction: string,
@@ -92,9 +93,9 @@ export function createSimulatedClinicalTools({ patientSource, now }) {
           ...item, trustTier: TRUST_TIERS.DETERMINISTIC_DERIVATION, simulationOnly: true, humanReviewRequired: true
         })) };
     }),
-    definition('getRelevantGuidance', envelope({ cueType: string, records: array(content('retrieved-knowledge')) }), ({ cueType }) => {
+    definition('getRelevantGuidance', envelope({ cueType: string, records: array(knowledgeContent) }, tier(KNOWLEDGE_TIER)), ({ cueType }) => {
       if (!isValidCueType(cueType)) throw new TypeError('Unknown simulation cue type.');
-      return { cueType, trustTier: TRUST_TIERS.SOURCE_FACT, records: getEvidenceForCue(cueType).map((record) => sourceContent({
+      return { cueType, trustTier: KNOWLEDGE_TIER, records: getEvidenceForCue(cueType).map((record) => wrapUntrusted({
         content: `${record.title}\n${record.journal ?? ''} (${record.year ?? ''}). PMID: ${record.pmid}${record.doi ? `. DOI: ${record.doi}` : ''}`,
         kind: 'retrieved-knowledge', source: 'safeflow-evidence-corpus', sourceId: record.pmid
       })) };

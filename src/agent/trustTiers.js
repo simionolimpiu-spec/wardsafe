@@ -10,3 +10,5 @@ export function isTrustTier(value) {
 }
 
 export const INSTRUCTION_ELIGIBLE_ORIGINS = Object.freeze(['system-authored']);
+
+export const KNOWLEDGE_TIER = 'reference-knowledge';

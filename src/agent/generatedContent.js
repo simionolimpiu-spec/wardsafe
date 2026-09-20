@@ -1,4 +1,4 @@
-import { frozenCopy, timestampFrom } from './domainValues.js';
+import { frozenCopy, isNonEmptyString, timestampFrom } from './domainValues.js';
 import { TRUST_TIERS } from './trustTiers.js';
 import { isInstructionEligible } from './systemInstruction.js';
 
@@ -26,6 +26,21 @@ export function createGeneratedSummary({ text, model, sourceEventIds, version = 
   });
   generatedSummaries.add(summary);
   return summary;
+}
+
+export function createGeneratedReview({ model, providerId, sourceEventIds, review }, { now }) {
+  if (!isNonEmptyString(model) || !isNonEmptyString(providerId)
+    || !Array.isArray(sourceEventIds) || !sourceEventIds.every(isNonEmptyString)
+    || !review || typeof review !== 'object' || Array.isArray(review)) {
+    throw new TypeError('Invalid generated simulation review.');
+  }
+  const generated = frozenCopy({
+    type: 'ai_generated_review', trusted: false, trustTier: TRUST_TIERS.AI_INTERPRETATION,
+    origin: 'model-generated', model, providerId, generatedAt: timestampFrom(now), sourceEventIds,
+    version: 1, content: { ...review, trustLevel: 'untrusted-data' }, simulationOnly: true
+  });
+  generatedSummaries.add(generated);
+  return generated;
 }
 
 // Internal boundary check; intentionally not re-exported by the public barrel.
