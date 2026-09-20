@@ -3,11 +3,19 @@ import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const directory = resolve('src/agent');
-const sources = readdirSync(directory).filter((name) => name.endsWith('.js') && !name.endsWith('.test.js'));
+const allFiles = readdirSync(directory, { recursive: true }).map((name) => name.replaceAll('\\', '/'));
+const sources = allFiles.filter((name) => name.endsWith('.js') && !name.endsWith('.test.js'));
 
 describe('agent source guards', () => {
   it('scans all domain source modules', () => {
+    expect(sources).toEqual(expect.arrayContaining(['tools/clinicalTools.js', 'tools/simulatedPatientSource.js']));
     expect(sources).toEqual(expect.arrayContaining(['trustTiers.js', 'provenance.js', 'clinicalFact.js', 'agentEvent.js', 'generatedContent.js', 'systemInstruction.js', 'agentSession.js', 'index.js']));
+  });
+  it('excludes public case corpus imports from every agent file', () => {
+    for (const name of allFiles.filter((file) => file.endsWith('.js'))) {
+      const source = readFileSync(join(directory, name), 'utf8');
+      expect(source).not.toMatch(/(?:from\s*|import\s*\(|require\s*\()\s*['"][^'"]*data\/public-case-corpus/);
+    }
   });
   it.each(sources)('%s has no network, environment or ambient randomness', (name) => {
     const source = readFileSync(join(directory, name), 'utf8');

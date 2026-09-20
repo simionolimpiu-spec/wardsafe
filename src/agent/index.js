@@ -5,3 +5,8 @@ export { AGENT_EVENT_TYPES, ACTOR_KINDS, createAgentEvent, AgentEventError } fro
 export { createGeneratedSummary, isInstructionEligible, assertNotUsedAsInstruction, GeneratedContentBoundaryError } from './generatedContent.js';
 export { SESSION_STATUSES, createAgentSession } from './agentSession.js';
 export { createSystemInstruction } from './systemInstruction.js';
+export { wrapUntrusted, isUntrustedContent } from './untrustedContent.js';
+export { validateAgainstSchema } from './toolSchema.js';
+export { createToolRegistry, ToolInvocationError } from './toolRegistry.js';
+export { createSimulatedPatientSource } from './tools/simulatedPatientSource.js';
+export { createSimulatedClinicalTools } from './tools/clinicalTools.js';
