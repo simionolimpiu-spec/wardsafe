@@ -1,6 +1,7 @@
-import { Bell, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { Bell, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DemoScenarioSelector } from './DemoScenarioSelector.jsx';
+import { MobileTabBar } from './MobileTabBar.jsx';
 import { SafetyBanner } from './SafetyBanner.jsx';
 import { WorkspaceNav } from './WorkspaceNav.jsx';
 
@@ -53,6 +54,29 @@ export function AppShell({
   const displayDate = useMemo(() => shiftDateLabel(dateLabel, dateOffset), [dateLabel, dateOffset]);
   const displayDateTime = useMemo(() => toDateTimeValue(displayDate), [displayDate]);
   const subtitle = viewSubtitles[activeView] ?? 'Ward workspace';
+  // SF-300 mobile shell. Both panels are CSS-hidden above 860px, where the
+  // desktop sidebar and full top bar show as before.
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isContextOpen, setIsContextOpen] = useState(false);
+  const moreButtonRef = useRef(null);
+  const navSheetRef = useRef(null);
+
+  const closeMobileNav = useCallback((returnFocus = true) => {
+    setIsMobileNavOpen(false);
+    if (returnFocus) moreButtonRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileNavOpen) return;
+    const sheet = navSheetRef.current;
+    const target = sheet?.querySelector('nav [aria-current="page"]') ?? sheet?.querySelector('nav button');
+    target?.focus();
+  }, [isMobileNavOpen]);
+
+  function handleNavigate(view) {
+    onNavigate(view);
+    if (isMobileNavOpen) closeMobileNav();
+  }
 
   return (
     <main className={`app-shell app-shell-redesign ${compactMode ? 'compact-mode' : ''} ${isPresentationMode ? 'presentation-mode' : ''}`}>
@@ -60,9 +84,15 @@ export function AppShell({
         activeView={activeView}
         currentWardName={currentWardName}
         escalationCount={escalationCount}
-        onNavigate={onNavigate}
+        isMobileOpen={isMobileNavOpen}
+        onMobileClose={() => closeMobileNav()}
+        onNavigate={handleNavigate}
+        ref={navSheetRef}
         taskCount={taskCount}
       />
+      {isMobileNavOpen && (
+        <div aria-hidden="true" className="sf-mobile-backdrop" onClick={() => closeMobileNav()} />
+      )}
       <div className="workspace-main">
         <header className="topbar redesign-topbar">
           <div className="shell-brand">
@@ -72,6 +102,18 @@ export function AppShell({
               <span>{subtitle}</span>
             </div>
           </div>
+          <button
+            aria-controls="shell-context"
+            aria-expanded={isContextOpen}
+            className="sf-mobile-context-toggle"
+            onClick={() => setIsContextOpen((value) => !value)}
+            type="button"
+          >
+            <span className="sr-only">Ward and demo controls:</span>{' '}
+            <span className="sf-mobile-context-ward">{currentWardName || 'Ward'}</span>
+            <ChevronDown aria-hidden="true" focusable="false" />
+          </button>
+          <div className={`shell-context${isContextOpen ? ' is-open' : ''}`} id="shell-context">
           <div className="topbar-context">
             <DemoScenarioSelector
               description={scenarioDescription}
@@ -110,10 +152,19 @@ export function AppShell({
             <span className="user-chip">Fictional Nurse <small>Charge Nurse</small></span>
             {topbarActions}
           </div>
+          </div>
         </header>
         {activeView !== 'hospital-insights' && <SafetyBanner />}
         <div className="workspace-content">{children}</div>
       </div>
+      <MobileTabBar
+        activeView={activeView}
+        isMoreOpen={isMobileNavOpen}
+        onNavigate={handleNavigate}
+        onToggleMore={() => (isMobileNavOpen ? closeMobileNav() : setIsMobileNavOpen(true))}
+        ref={moreButtonRef}
+        taskCount={taskCount ?? null}
+      />
     </main>
   );
 }

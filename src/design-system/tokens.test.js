@@ -108,7 +108,7 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
     expect(reduced).toMatch(/transition-duration:\s*0\.01ms !important/);
   });
 
-  it.each(['src/design-system/design-system.css', 'src/styles/panel.css', 'src/styles/board.css', 'src/styles/trust-network.css'])(
+  it.each(['src/design-system/design-system.css', 'src/styles/panel.css', 'src/styles/board.css', 'src/styles/trust-network.css', 'src/styles/mobile-shell.css'])(
     '%s uses tokens only (no raw colour values)',
     (file) => {
       const css = readFileSync(resolve(ROOT, file), 'utf8');

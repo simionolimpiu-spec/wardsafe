@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { navigateTo, openShellContext } from './shell.js';
 
 // Check the rendered cascade, including legacy/shared styles, not just token pairs.
 async function nightReadability(view) {
@@ -42,9 +43,8 @@ async function nightReadability(view) {
 
 test('SF-298 insight night views retain readable content and stay off clinical screens', async ({ page }, testInfo) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  const nav = page.getByRole('navigation', { name: /SafeFlow workspace/i });
   for (const [name, region] of [['Trust Network', 'England Trust Network'], ['Patient Journey Twin', 'Patient Journey Twin']]) {
-    await nav.getByRole('button', { name, exact: true }).click();
+    await navigateTo(page, name);
     const view = page.getByRole('region', { name: region, exact: true });
     const originalText = await view.innerText();
     const toggle = view.getByRole('button', { name: 'Night view' });
@@ -76,21 +76,21 @@ test('SF-298 insight night views retain readable content and stay off clinical s
     await expect(toggle).toHaveAttribute('aria-pressed', 'false');
   }
 
+  await openShellContext(page);
   await page.getByRole('button', { name: 'Presentation mode', exact: true }).click();
   for (const [name, region] of [['Trust Network', 'England Trust Network'], ['Patient Journey Twin', 'Patient Journey Twin']]) {
-    await nav.getByRole('button', { name, exact: true }).click();
+    await navigateTo(page, name);
     await expect(page.getByRole('region', { name: region, exact: true })).toHaveAttribute('data-sf-theme', 'night');
   }
   for (const name of ['Ward Safety Board', 'Observations', /^Tasks/, /^Escalations/, 'Handover', 'Discharges']) {
-    await nav.getByRole('button', { name, exact: typeof name === 'string' }).click();
+    await navigateTo(page, name);
     await expect(page.locator('.sf-zone-night')).toHaveCount(0);
   }
 });
 
 test('SF-299 trust network hospital cards stay top-aligned with inline review-support labels', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await page.getByRole('navigation', { name: /SafeFlow workspace/i })
-    .getByRole('button', { name: 'Trust Network', exact: true }).click();
+  await navigateTo(page, 'Trust Network');
   const view = page.getByRole('region', { name: 'England Trust Network', exact: true });
   for (const theme of ['standard', 'night']) {
     if (theme === 'night') await view.getByRole('button', { name: 'Night view' }).click();

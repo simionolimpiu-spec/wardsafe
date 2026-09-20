@@ -13,10 +13,12 @@ import {
   Stethoscope,
   UserRound,
   Waypoints,
-  ShieldAlert
+  ShieldAlert,
+  X
 } from 'lucide-react';
+import { forwardRef } from 'react';
 
-const navItems = [
+export const navItems = [
   { id: 'board', label: 'Ward Safety Board', icon: LayoutDashboard },
   { id: 'patients', label: 'My Patients', icon: UserRound },
   { id: 'observations', label: 'Observations', icon: Stethoscope },
@@ -35,21 +37,45 @@ const navItems = [
   { id: 'settings', label: 'Settings', icon: Settings }
 ];
 
-export function WorkspaceNav({
+export const WorkspaceNav = forwardRef(function WorkspaceNav({
   activeView = 'board',
   taskCount = 6,
   escalationCount = 2,
   onNavigate = () => {},
-  currentWardName = 'Day Care Unit'
-}) {
+  currentWardName = 'Day Care Unit',
+  id = 'workspace-nav',
+  isMobileOpen = false,
+  onMobileClose = () => {}
+}, ref) {
+  function handleKeyDown(event) {
+    if (isMobileOpen && event.key === 'Escape') {
+      event.stopPropagation();
+      onMobileClose();
+    }
+  }
+
   return (
-    <aside className="workspace-nav" aria-label="SafeFlow workspace">
+    <aside
+      aria-label="SafeFlow workspace"
+      className={`workspace-nav${isMobileOpen ? ' is-mobile-open' : ''}`}
+      id={id}
+      onKeyDown={handleKeyDown}
+      ref={ref}
+    >
       <div className="nav-brand">
         <span className="brand-mark" aria-hidden="true">SF</span>
         <div>
           <strong>SafeFlow Nursing</strong>
           <span>Simulation-only ward workspace</span>
         </div>
+      </div>
+
+      <div className="sf-mobile-sheet-head">
+        <strong>All screens</strong>
+        <button className="sf-mobile-sheet-close" onClick={onMobileClose} type="button">
+          <X aria-hidden="true" size={18} />
+          Close menu
+        </button>
       </div>
 
       <nav aria-label="SafeFlow workspace">
@@ -90,4 +116,4 @@ export function WorkspaceNav({
       </div>
     </aside>
   );
-}
+});

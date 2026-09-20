@@ -60,4 +60,57 @@ describe('AppShell', () => {
     await user.click(bell);
     expect(screen.queryByText('No simulation notifications recorded.')).not.toBeInTheDocument();
   });
+
+  it('offers mobile quick tabs and a More sheet over the full workspace navigation (SF-300)', async () => {
+    const user = userEvent.setup();
+    const onNavigate = vi.fn();
+    render(<AppShell activeView="board" currentWardName="Day Care Unit" dateLabel={wardSummary.dateLabel} onNavigate={onNavigate} taskCount={5} />);
+
+    const quick = screen.getByRole('navigation', { name: 'Quick navigation' });
+    expect(within(quick).getAllByRole('button').map((button) => button.textContent)).toEqual(['Board', 'Patients', 'Obs', 'Tasks5', 'More']);
+    expect(within(quick).getByRole('button', { name: 'Board' })).toHaveAttribute('aria-current', 'page');
+
+    const more = within(quick).getByRole('button', { name: 'More' });
+    expect(more).toHaveAttribute('aria-expanded', 'false');
+    expect(more).toHaveAttribute('aria-controls', 'workspace-nav');
+    await user.click(more);
+    expect(more).toHaveAttribute('aria-expanded', 'true');
+    const sheet = document.getElementById('workspace-nav');
+    expect(sheet).toHaveClass('is-mobile-open');
+    const workspace = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
+    expect(within(workspace).getByRole('button', { name: 'Ward Safety Board' })).toHaveFocus();
+
+    await user.keyboard('{Escape}');
+    expect(more).toHaveAttribute('aria-expanded', 'false');
+    expect(sheet).not.toHaveClass('is-mobile-open');
+    expect(more).toHaveFocus();
+
+    await user.click(more);
+    await user.click(within(workspace).getByRole('button', { name: 'Trust Network' }));
+    expect(onNavigate).toHaveBeenCalledWith('trust-network');
+    expect(more).toHaveAttribute('aria-expanded', 'false');
+
+    await user.click(within(quick).getByRole('button', { name: 'Obs' }));
+    expect(onNavigate).toHaveBeenLastCalledWith('observations');
+  });
+
+  it('marks More as current for screens outside the quick tabs', () => {
+    render(<AppShell activeView="handover" currentWardName="Day Care Unit" dateLabel={wardSummary.dateLabel} />);
+    const quick = screen.getByRole('navigation', { name: 'Quick navigation' });
+    expect(within(quick).getByRole('button', { name: 'More' })).toHaveClass('is-current');
+    expect(within(quick).queryByRole('button', { current: 'page' })).toBeNull();
+  });
+
+  it('keeps ward and demo controls in the DOM behind the mobile ward toggle', async () => {
+    const user = userEvent.setup();
+    render(<AppShell currentWardName="Day Care Unit" dateLabel={wardSummary.dateLabel} scenarioOptions={getDemoScenarioSelectionOptions()} selectedScenarioId="day-care-treatment-pathway" />);
+    const toggle = screen.getByRole('button', { name: /Ward and demo controls: Day Care Unit/ });
+    expect(toggle).toHaveAttribute('aria-controls', 'shell-context');
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(within(document.getElementById('shell-context')).getByRole('combobox', { name: 'Ward' })).toBeInTheDocument();
+    await user.click(toggle);
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(document.getElementById('shell-context')).toHaveClass('is-open');
+    expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
+  });
 });
