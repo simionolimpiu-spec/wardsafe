@@ -35,8 +35,18 @@ export function createAgentSession({ patientId, workspaceId }, { now, createId }
     },
     transition(nextStatus) {
       if (!transitions[status].includes(nextStatus)) throw new Error('Illegal simulation session transition.');
+      // SF-305: an AI interpretation can never close a session on its own. A
+      // human must complete review after the latest AI review before completion.
+      if (nextStatus === 'completed' && hasUnreviewedAiOutput(events)) {
+        throw new Error('Human review must follow the latest AI review before completion.');
+      }
       status = nextStatus;
       return status;
     }
   });
+}
+
+function hasUnreviewedAiOutput(events) {
+  const lastIndex = (type) => events.map(({ eventType }) => eventType).lastIndexOf(type);
+  return lastIndex('AI_REVIEW_GENERATED') > lastIndex('HUMAN_REVIEW_COMPLETED');
 }

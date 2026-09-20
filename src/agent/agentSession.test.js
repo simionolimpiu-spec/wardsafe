@@ -66,3 +66,43 @@ describe('append-only sessions', () => {
     expect(handle.append(eventInput).sequence).toBe(1);
   });
 });
+
+describe('human review gate (SF-305)', () => {
+  const human = { kind: 'human', ref: 'fictional-nurse-1' };
+  async function reviewedSession() {
+    const { createMockAIModelProvider, createReviewGenerator, buildReviewPrompt, createSystemInstruction } = await import('./index.js');
+    const handle = session();
+    const generator = createReviewGenerator({ provider: createMockAIModelProvider({ responses: [JSON.stringify({
+      cueCategory: 'documentation', title: 'Review cue: documentation completeness', interpretation: 'Review the fictional note for gaps.',
+      possibleRelevance: [], evidenceRefs: ['note-1'], uncertainty: 'Simulated context may be incomplete; human review required.',
+      suggestedReviewPrompt: 'Review according to local policy.'
+    })] }), now: () => '2026-06-17T14:00:00.000Z' });
+    const prompt = buildReviewPrompt({
+      instructions: [createSystemInstruction({ id: 'sys-1', text: 'Simulation review support only.' })],
+      task: 'Review the fictional record.',
+      untrusted: [(await import('./untrustedContent.js')).wrapUntrusted({ content: 'Fictional note.', kind: 'clinical-free-text', source: 'simulated-patient-record', sourceId: 'note-1' })]
+    });
+    await generator.generate({ session: handle, correlationId: 'c-1', prompt, sourceEventIds: ['id-1'] });
+    return handle;
+  }
+
+  it('cannot complete a session while AI output awaits human review', async () => {
+    const handle = await reviewedSession();
+    expect(handle.getStatus()).toBe('awaiting-human-review');
+    expect(() => handle.transition('completed')).toThrow(/Human review must follow/);
+    expect(handle.getStatus()).toBe('awaiting-human-review');
+  });
+
+  it('completes once a human has reviewed the latest AI output', async () => {
+    const handle = await reviewedSession();
+    handle.append({ eventType: 'HUMAN_REVIEW_COMPLETED', actor: human, payload: { decision: 'edited' }, correlationId: 'c-1' });
+    expect(handle.transition('completed')).toBe('completed');
+  });
+
+  it('blocks the open to completed shortcut after AI output', () => {
+    const handle = session();
+    expect(handle.transition('completed')).toBe('completed');
+    const second = session();
+    expect(() => second.append({ eventType: 'HUMAN_REVIEW_COMPLETED', actor: { kind: 'ai-model', ref: 'mock' }, payload: {}, correlationId: 'c' })).toThrow(/human actor/);
+  });
+});
