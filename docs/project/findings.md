@@ -13,3 +13,10 @@ Architecture discoveries and constraints. Newest first.
 - No docs/architecture folder existed.
 - Codex sandbox previously blocked git index writes in worktrees and Lambda bundling. Phase 1 uses a fresh clone (C:\Users\oli\Documents\wardsafe-cvp-foundation) so .git sits inside the Codex workspace. Claude reruns the full suite outside the sandbox.
 - git diff --check skips untracked files. Use git diff --cached --check after staging.
+
+## 2026-09-20 Phase 1 merge preparation (Claude)
+
+- ID collision: PR #99 (merged 12:01Z) used SF-307 for the phone top bar fix after Claude's ID check. This programme is renumbered to SF-308 (parent) to SF-324. The historical dispatch briefs keep their original numbers; CONTROL.md, task-plan and progress use the new ones.
+- Lesson: re-check the highest SF ID on the live base branch and open PRs immediately before writing CONTROL.md, not only at dispatch time.
+- SF-305 agent foundation merged in PR #100 (src/agent). Capture provenance (src/shared) and SF-305 trust tiers now coexist on the base. Reconciliation stays SF-324.
+- Base merged into the feature branch with a merge commit (branch already pushed, so no rebase).

@@ -8,7 +8,7 @@ Authoritative work tracking lives in CONTROL.md. This file holds the current pro
 - Codex (CLI on Oli's PC): primary implementer. Works only on the bounded task it is given.
 - Oli: approves every phase transition.
 
-## Programme: SafeFlow Connect + Voice + Point of Care (parent SF-307)
+## Programme: SafeFlow Connect + Voice + Point of Care (parent SF-308)
 
 | Phase | Scope | Status |
 |---|---|---|

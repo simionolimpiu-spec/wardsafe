@@ -2,7 +2,7 @@
 
 Implementation history, Codex dispatches, review rounds and verification. Newest first.
 
-## 2026-09-20 Phase 1 (SF-307)
+## 2026-09-20 Phase 1 (SF-308)
 
 - Claude inspected repo, CONTROL.md, conventions, SF-305 branch and safety scanner.
 - Created fresh clone and branch feature/connect-voice-poc-foundation from be30246.

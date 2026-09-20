@@ -17,6 +17,30 @@
     padding-bottom: calc(var(--sf-mobile-tabbar-height) + var(--sf-space-4) + env(safe-area-inset-bottom, 0px));
   }
 
+  /* Brand, context toggle and actions share one row without touching */
+  .app-shell-redesign .redesign-topbar {
+    column-gap: var(--sf-space-3);
+    grid-template-columns: auto minmax(var(--sf-target-min), 1fr) auto;
+  }
+
+  .app-shell-redesign .redesign-topbar > .shell-brand {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .app-shell-redesign .redesign-topbar > .sf-mobile-context-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: 100%;
+    min-width: var(--sf-target-min);
+  }
+
+  .app-shell-redesign .redesign-topbar > .topbar-actions {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
   /* Simulation context folds behind the ward toggle so content comes first */
   .app-shell-redesign .topbar-context {
     display: none;
@@ -39,7 +63,6 @@
     font-weight: var(--sf-font-weight-semibold);
     gap: var(--sf-space-2);
     justify-self: end;
-    max-width: 40vw;
     min-height: var(--sf-target-min);
     padding: 0 var(--sf-space-3);
   }
