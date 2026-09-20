@@ -102,3 +102,65 @@ describe('HospitalInsightsView', () => {
     expect(within(view).queryByText(/accuracy|precision|recall/i)).not.toBeInTheDocument();
   });
 });
+
+describe('HospitalInsightsView night view (SF-297 prototype)', () => {
+  const patient = simulatedPatients.find((entry) => entry.id === 'DCU-031');
+
+  beforeEach(() => {
+    chartMocks.instances.length = 0;
+    chartMocks.Chart.mockClear();
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(() => ({ canvas: {} }));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it('starts in the standard view and switches to the night zone with a pressed toggle', async () => {
+    const { default: userEvent } = await import('@testing-library/user-event');
+    const user = userEvent.setup();
+    render(<HospitalInsightsView patient={patient} />);
+
+    const view = screen.getByRole('region', { name: /hospital insights/i });
+    const toggle = within(view).getByRole('button', { name: 'Night view' });
+    expect(view).not.toHaveClass('sf-zone-night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    expect(chartMocks.instances[0].config.options.animation).toBe(false);
+
+    await user.click(toggle);
+
+    expect(view).toHaveClass('sf-zone-night');
+    expect(view).toHaveAttribute('data-sf-theme', 'night');
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    const nightBar = chartMocks.instances.at(-2).config;
+    expect(nightBar.data.datasets[0].backgroundColor).toBe('#5fd0d9');
+  });
+
+  it('keeps every simulation and validation boundary visible in the night view', () => {
+    render(<HospitalInsightsView defaultTheme="night" patient={patient} />);
+
+    const view = screen.getByRole('region', { name: /hospital insights/i });
+    expect(view).toHaveClass('sf-zone-night');
+    expect(within(view).getByText(/simulation only/i)).toBeInTheDocument();
+    expect(within(view).getByText(/fictional patient data only/i)).toBeInTheDocument();
+    expect(within(view).getAllByText(/illustrative model output, not clinically validated/i).length).toBeGreaterThan(0);
+    expect(within(view).getByText(/live systems: not connected/i)).toBeInTheDocument();
+  });
+
+  it('animates night charts once, and not at all when reduced motion is requested', () => {
+    const { unmount } = render(<HospitalInsightsView defaultTheme="night" patient={patient} />);
+    expect(chartMocks.instances[0].config.options.animation).toMatchObject({ duration: 600 });
+    unmount();
+    chartMocks.instances.length = 0;
+
+    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: true }));
+    render(<HospitalInsightsView defaultTheme="night" patient={patient} />);
+    expect(chartMocks.instances[0].config.options.animation).toBe(false);
+  });
+
+  it('falls back to the standard view for an unknown theme', () => {
+    render(<HospitalInsightsView defaultTheme="neon" patient={patient} />);
+    expect(screen.getByRole('region', { name: /hospital insights/i })).toHaveAttribute('data-sf-theme', 'standard');
+  });
+});

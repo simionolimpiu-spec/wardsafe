@@ -209,6 +209,113 @@
   --sf-bp-xl: 1180px;
 }
 
+/*
+ * ---------------------------------------------------------------
+ * Insights night zone (SF-297 prototype). Spec: DESIGN.md section 16.
+ * Applies ONLY inside non-clinical insight surfaces that opt in with the
+ * .sf-zone-night class. Clinical screens (ward board, patient panel,
+ * handover, escalation) never use it.
+ * Redefines the semantic layer and the legacy palette it points at, so
+ * both new and legacy rules inside the zone follow the night palette.
+ * ---------------------------------------------------------------
+ */
+.sf-zone-night {
+  color-scheme: dark;
+
+  /* Legacy palette used by existing insight styles */
+  --sf-blue: #5fd0d9;
+  --sf-blue-rgb: 95, 208, 217;
+  --sf-blue-deep: #86eef6;
+  --sf-blue-ink: #e7f0f3;
+  --sf-blue-mid: #5fd0d9;
+  --sf-blue-soft: #0f2a30;
+  --sf-blue-border: #23434a;
+  --sf-blue-selected: #133338;
+  --sf-red: #f4a39c;
+  --sf-red-soft: #3a1a18;
+  --sf-amber: #f2c76e;
+  --sf-amber-soft: #2a2210;
+  --sf-green: #7fd6a8;
+  --sf-green-soft: #10281c;
+  --sf-grey-0: #0f1c22;
+  --sf-grey-25: #0c171c;
+  --sf-grey-50: #0c171c;
+  --sf-grey-100: #14252c;
+  --sf-grey-200: #23343d;
+  --sf-grey-500: #8ea5ae;
+  --sf-grey-900: #e7f0f3;
+  --sf-shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 24px rgba(0, 0, 0, 0.35);
+  --sf-shadow-2: 0 18px 40px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --color-focus-ring: #86eef6;
+  --color-focus-ring-halo: rgba(10, 19, 24, 0.9);
+
+  /* Legacy --color-* aliases resolve at :root, so they are redefined here too */
+  --color-success: #7fd6a8;
+  --color-success-bg: #10281c;
+  --color-warning: #f2c76e;
+  --color-warning-bg: #2a2210;
+  --color-danger: #f4a39c;
+  --color-danger-bg: #3a1a18;
+  --color-info: #84bff0;
+  --color-info-bg: #11263a;
+  --color-brand: #5fd0d9;
+  --color-brand-dark: #e7f0f3;
+
+  /* Semantic layer */
+  --sf-background: #0a1318;
+  --sf-surface: #0f1c22;
+  --sf-surface-raised: #14252c;
+  --sf-surface-muted: #0c171c;
+  --sf-surface-selected: #133338;
+  --sf-border: #23343d;
+  --sf-border-subtle: #1a2a31;
+  --sf-border-strong: #5d7580;
+  --sf-text-primary: #e7f0f3;
+  --sf-text-secondary: #b6c8cf;
+  --sf-text-muted: #8ea5ae;
+  --sf-text-inverse: #0a1318;
+  --sf-action: #5fd0d9;
+  --sf-action-hover: #86eef6;
+  --sf-action-subtle: #0f2a30;
+  --sf-action-border: #2c5a61;
+  --sf-information: #84bff0;
+  --sf-information-subtle: #11263a;
+  --sf-information-border: #2b4d6b;
+  --sf-information-solid: #84bff0;
+  --sf-success: #7fd6a8;
+  --sf-success-subtle: #10281c;
+  --sf-success-border: #2d5a41;
+  --sf-success-solid: #7fd6a8;
+  --sf-warning: #f2c76e;
+  --sf-warning-subtle: #2a2210;
+  --sf-warning-border: #5e4a1c;
+  --sf-warning-solid: #f2c76e;
+  --sf-review: #f2c76e;
+  --sf-review-subtle: #241e10;
+  --sf-review-border: #5e4a1c;
+  --sf-review-solid: #f2c76e;
+  --sf-critical: #f4a39c;
+  --sf-critical-subtle: #3a1a18;
+  --sf-critical-border: #6b2f2a;
+  --sf-critical-solid: #f4a39c;
+  --sf-neutral: #b6c8cf;
+  --sf-neutral-subtle: #14252c;
+  --sf-neutral-border: #2f444d;
+  --sf-neutral-solid: #5d7580;
+  --sf-simulation: #b6c8cf;
+  --sf-simulation-subtle: #0c171c;
+  --sf-simulation-border: #5d7580;
+  --sf-disabled: #5d7580;
+  --sf-disabled-subtle: #14252c;
+  --sf-focus: #86eef6;
+
+  /* Night-only presentation accents (insight zone only) */
+  --sf-night-glow: rgba(95, 208, 217, 0.12);
+  --sf-night-glow-edge: rgba(95, 208, 217, 0);
+  --sf-night-highlight: rgba(255, 255, 255, 0.05);
+}
+
 * {
   box-sizing: border-box;
 }

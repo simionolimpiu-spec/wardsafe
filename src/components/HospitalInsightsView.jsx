@@ -1,6 +1,6 @@
 import Chart from 'chart.js/auto';
-import { AlertTriangle, ArrowDownRight, Award, BarChart3, Building2, ChevronRight, TrendingUp } from 'lucide-react';
-import { useEffect, useMemo, useRef } from 'react';
+import { AlertTriangle, ArrowDownRight, Award, BarChart3, Building2, ChevronRight, Moon, TrendingUp } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   buildSimulatedTrendFeatureSnapshot,
   scoreSimulatedTrend
@@ -20,15 +20,46 @@ const SUMMARY_CARD_ICONS = {
   cues: AlertTriangle
 };
 
-const CHART_COLORS = {
+// Canvas cannot read CSS custom properties, so chart colours mirror the
+// tokens in src/styles/tokens.css (standard) and the .sf-zone-night block.
+const STANDARD_CHART_COLORS = {
   brand: '#176b75',
   brandDark: '#0b3640',
   average: '#617083',
   grid: '#dbe7f5',
   text: '#53657a',
   backdrop: '#eef5ff',
-  warning: '#8a5a00'
+  warning: '#8a5a00',
+  fill: 'rgba(23, 107, 117, 0.14)'
 };
+
+const NIGHT_CHART_COLORS = {
+  brand: '#5fd0d9',
+  brandDark: '#86eef6',
+  average: '#8ea5ae',
+  grid: 'rgba(231, 240, 243, 0.08)',
+  text: '#b6c8cf',
+  backdrop: '#0f1c22',
+  warning: '#f2c76e',
+  fill: 'rgba(95, 208, 217, 0.16)'
+};
+
+export const INSIGHTS_THEMES = Object.freeze(['standard', 'night']);
+
+function prefersReducedMotion() {
+  return typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
+ * Night view may animate charts once on entry (insight zone only, DESIGN.md
+ * section 16). Standard view and reduced-motion users get no animation.
+ */
+function chartAnimation(theme) {
+  if (theme !== 'night' || prefersReducedMotion()) return false;
+  return { duration: 600, easing: 'easeOutQuart' };
+}
 
 export function HospitalInsightsView({
   currentWardName = 'Day Care Unit',
@@ -36,8 +67,14 @@ export function HospitalInsightsView({
   heuristicCues = [],
   patient = null,
   reviewSignals = [],
-  safetyFlag = null
+  safetyFlag = null,
+  defaultTheme = 'standard'
 }) {
+  const [theme, setTheme] = useState(INSIGHTS_THEMES.includes(defaultTheme) ? defaultTheme : 'standard');
+  useEffect(() => {
+    setTheme(INSIGHTS_THEMES.includes(defaultTheme) ? defaultTheme : 'standard');
+  }, [defaultTheme]);
+  const isNight = theme === 'night';
   const snapshot = useMemo(
     () => getHospitalInsightsSnapshot({ currentWardName, hospitalName }),
     [currentWardName, hospitalName]
@@ -68,12 +105,12 @@ export function HospitalInsightsView({
     [wardComparisonData.metricRows]
   );
   const wardChartConfig = useMemo(
-    () => buildWardComparisonChartConfig(percentageComparisonRows, wardComparisonData.seriesLabels),
-    [percentageComparisonRows, wardComparisonData.seriesLabels]
+    () => buildWardComparisonChartConfig(percentageComparisonRows, wardComparisonData.seriesLabels, theme),
+    [percentageComparisonRows, wardComparisonData.seriesLabels, theme]
   );
   const trendChartConfig = useMemo(
-    () => buildTrendChartConfig(trendChartData),
-    [trendChartData]
+    () => buildTrendChartConfig(trendChartData, theme),
+    [trendChartData, theme]
   );
   const wardFallbackText = useMemo(
     () => buildWardFallbackText(percentageComparisonRows),
@@ -85,7 +122,11 @@ export function HospitalInsightsView({
   );
 
   return (
-    <section className="operational-view hospital-insights-view" aria-labelledby="hospital-insights-title">
+    <section
+      aria-labelledby="hospital-insights-title"
+      className={['operational-view', 'hospital-insights-view', isNight ? 'sf-zone-night' : ''].filter(Boolean).join(' ')}
+      data-sf-theme={theme}
+    >
       <header className="view-heading hospital-insights-heading">
         <div>
           <p className="eyebrow">Simulation insight</p>
@@ -100,7 +141,18 @@ export function HospitalInsightsView({
             Current ward: <strong>{snapshot.currentWardName}</strong> | Hospital: <strong>{snapshot.hospitalName}</strong>
           </p>
         </div>
-        <p className="date-chip">{snapshot.sourceStatus?.lastUpdatedLabel ?? 'Static prototype data'}</p>
+        <div className="hospital-insights-heading-actions">
+          <p className="date-chip">{snapshot.sourceStatus?.lastUpdatedLabel ?? 'Static prototype data'}</p>
+          <button
+            aria-pressed={isNight}
+            className="sf-theme-switch"
+            onClick={() => setTheme(isNight ? 'standard' : 'night')}
+            type="button"
+          >
+            <Moon aria-hidden="true" focusable="false" />
+            Night view
+          </button>
+        </div>
       </header>
 
       <SafetyBanner />
@@ -228,7 +280,8 @@ function ChartCanvas({ ariaLabel, config }) {
   return <canvas ref={canvasRef} role="img" aria-label={ariaLabel} />;
 }
 
-function buildWardComparisonChartConfig(metricRows, seriesLabels) {
+function buildWardComparisonChartConfig(metricRows, seriesLabels, theme = 'standard') {
+  const CHART_COLORS = theme === 'night' ? NIGHT_CHART_COLORS : STANDARD_CHART_COLORS;
   const labels = metricRows.map((row) => row.metricLabel);
   const currentWardSeries = seriesLabels.find((series) => series.key === 'currentWard')?.label ?? 'Current ward';
   const hospitalAverageSeries = seriesLabels.find((series) => series.key === 'hospitalAverage')?.label ?? 'Hospital average';
@@ -260,7 +313,7 @@ function buildWardComparisonChartConfig(metricRows, seriesLabels) {
     },
     options: {
       indexAxis: 'y',
-      animation: false,
+      animation: chartAnimation(theme),
       maintainAspectRatio: false,
       responsive: true,
       plugins: {
@@ -304,7 +357,8 @@ function buildWardComparisonChartConfig(metricRows, seriesLabels) {
   };
 }
 
-function buildTrendChartConfig(trendChartData) {
+function buildTrendChartConfig(trendChartData, theme = 'standard') {
+  const CHART_COLORS = theme === 'night' ? NIGHT_CHART_COLORS : STANDARD_CHART_COLORS;
   return {
     type: 'line',
     data: {
@@ -314,7 +368,7 @@ function buildTrendChartConfig(trendChartData) {
           label: trendChartData.seriesLabel,
           data: trendChartData.points.map((point) => Math.round(point.riskScore * 100)),
           borderColor: CHART_COLORS.brand,
-          backgroundColor: 'rgba(23, 107, 117, 0.14)',
+          backgroundColor: CHART_COLORS.fill,
           pointBackgroundColor: CHART_COLORS.brandDark,
           pointBorderColor: CHART_COLORS.brandDark,
           pointRadius: 4,
@@ -325,7 +379,7 @@ function buildTrendChartConfig(trendChartData) {
       ]
     },
     options: {
-      animation: false,
+      animation: chartAnimation(theme),
       maintainAspectRatio: false,
       responsive: true,
       plugins: {
