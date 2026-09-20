@@ -17,7 +17,7 @@ export class ReviewResponseError extends Error {
 }
 
 // Rejection patterns only; these phrases must never become generated output.
-const bannedWording = /diagnos|prescrib|administer|give\s+potassium|replace\s+potassium|potassium\s+replacement|patient\s+needs|patient\s+requires|treatment\s+recommendation|safe\s+to\s+discharge|AI\s+decision|autonomous|start\s+(\w+\s+)?(infusion|antibiotic)|increase\s+dose|decrease\s+dose|stop\s+(the\s+)?medication/i;
+export const UNSAFE_MODEL_WORDING_PATTERN = /diagnos|prescrib|administer|give\s+potassium|replace\s+potassium|potassium\s+replacement|patient\s+needs|patient\s+requires|treatment\s+recommendation|safe\s+to\s+discharge|AI\s+decision|autonomous|start\s+(\w+\s+)?(infusion|antibiotic)|increase\s+dose|decrease\s+dose|stop\s+(the\s+)?medication/i;
 
 export function parseAndValidateReview(raw, { allowedEvidenceRefs } = {}) {
   let review;
@@ -38,7 +38,7 @@ export function parseAndValidateReview(raw, { allowedEvidenceRefs } = {}) {
     || review.evidenceRefs.some((ref) => !allowedEvidenceRefs.includes(ref))) {
     throw new ReviewResponseError('UNKNOWN_EVIDENCE_REF');
   }
-  if (Object.values(review).flat().some((value) => bannedWording.test(value))) {
+  if (Object.values(review).flat().some((value) => UNSAFE_MODEL_WORDING_PATTERN.test(value))) {
     throw new ReviewResponseError('UNSAFE_MODEL_WORDING');
   }
   return frozenCopy(review);

@@ -27,7 +27,7 @@ describe('agent source guards', () => {
     const source = readFileSync(join(directory, name), 'utf8');
     // The response validator must name rejected phrases in its detection regex.
     // Keep the exception to that single declaration; scan all other source text.
-    const checked = name === 'ai/reviewResponse.js' ? source.replace(/^const bannedWording = \/.*\/i;$/m, '') : source;
+    const checked = name === 'ai/reviewResponse.js' ? source.replace(/^export const UNSAFE_MODEL_WORDING_PATTERN = \/.*\/i;$/m, '') : source;
     expect(checked).not.toMatch(/diagnos|prescrib|administer|treatment recommendation|patient requires|safe to discharge/i);
   });
 });
