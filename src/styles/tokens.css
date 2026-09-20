@@ -207,6 +207,13 @@
   --sf-bp-md: 860px;
   --sf-bp-lg: 1050px;
   --sf-bp-xl: 1180px;
+
+  /* Mobile shell (SF-300). Spec: DESIGN.md section 17. */
+  --sf-mobile-tabbar-height: 4rem;
+  --sf-mobile-scrim: color-mix(in srgb, var(--sf-grey-900) 45%, transparent);
+  --sf-z-mobile-scrim: 30;
+  --sf-z-mobile-sheet: 40;
+  --sf-z-mobile-tabbar: 45;
 }
 
 /*
