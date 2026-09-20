@@ -44,6 +44,27 @@ describe('TrustNetworkView', () => {
     expect(region.textContent).toMatch(/human review required; review-support cue only/i);
   });
 
+  it('keeps the first ward trend open and the rest behind one disclosure per hospital (SF-301)', () => {
+    render(<TrustNetworkView />);
+    const region = screen.getByLabelText('England Trust Network');
+    const cards = region.querySelectorAll('.review-report-summary-card');
+    expect(cards.length).toBeGreaterThan(1);
+    for (const card of cards) {
+      const trends = card.querySelectorAll('article.trust-network-ward-trend');
+      const details = card.querySelector('details.trust-network-ward-trend-more');
+      expect(trends[0]).toBeVisible();
+      expect(trends[0].closest('details')).toBeNull();
+      if (trends.length > 1) {
+        expect(details).not.toHaveAttribute('open');
+        expect(within(details).getByText(`Show ${trends.length - 1} more ward ${trends.length === 2 ? 'trend' : 'trends'}`)).toBeInTheDocument();
+        expect(details.querySelectorAll('article.trust-network-ward-trend')).toHaveLength(trends.length - 1);
+        expect(trends[1]).not.toBeVisible();
+        details.open = true;
+        expect(trends[1]).toBeVisible();
+      }
+    }
+  });
+
   it('recomputes a ward trend when its day preset changes', () => {
     render(<TrustNetworkView />);
 
@@ -77,6 +98,13 @@ describe('TrustNetworkView night view (SF-298)', () => {
     expect(view).toHaveClass('sf-zone-night');
     expect(view).toHaveAttribute('data-sf-theme', 'night');
     expect(view.textContent).toBe(originalContent);
+    // SF-301: extra ward trends start collapsed by design. The first trend in
+    // every hospital keeps its human-review note visible; expanding the rest
+    // must show every note in night view too.
+    for (const card of view.querySelectorAll('.review-report-summary-card')) {
+      expect(card.querySelector('.trust-network-ward-trend-note')).toBeVisible();
+    }
+    view.querySelectorAll('details.trust-network-ward-trend-more').forEach((details) => { details.open = true; });
     const notes = view.querySelectorAll('.section-heading p, .trust-network-note, .review-report-summary-card > small, .trust-network-ward-trend-note, .trust-network-timeline > small, .trust-network-learning small');
     expect(notes.length).toBeGreaterThan(0);
     for (const note of notes) expect(note).toBeVisible();
