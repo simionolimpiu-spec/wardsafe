@@ -555,6 +555,12 @@ body {
   padding: 9px 22px;
 }
 
+.app-shell-redesign .workspace-main,
+.app-shell-redesign .workspace-content {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
 .app-shell-redesign .demo-scenario-control {
   align-items: end;
   display: grid;
@@ -684,7 +690,7 @@ body {
   font-size: var(--text-xl);
 }
 
-.app-shell-redesign .patient-table {
+.app-shell-redesign .patient-table:not(.hospital-patient-table) {
   font-size: 0.82rem;
   min-width: 1060px;
 }

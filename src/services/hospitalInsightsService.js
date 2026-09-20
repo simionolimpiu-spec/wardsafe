@@ -1,4 +1,4 @@
-const DEFAULT_HOSPITAL_NAME = 'Cityview Community Hospital';
+const DEFAULT_HOSPITAL_NAME = 'James Paget University Hospital';
 const DEFAULT_WARD_NAME = 'Day Care Unit';
 
 const SOURCE_STATUS = {

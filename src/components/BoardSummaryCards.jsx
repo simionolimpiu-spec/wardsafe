@@ -13,7 +13,7 @@ export function BoardSummaryCards({ summary }) {
     <section aria-label="Ward summary cards" className="board-summary-cards">
       {summaryCards.map((card) => {
         const Icon = card.icon;
-        const value = `${summary.metrics[card.valueKey]}${card.suffix ?? ''}`;
+        const value = summary.metrics[card.valueKey] == null ? 'Not applicable' : `${summary.metrics[card.valueKey]}${card.suffix ?? ''}`;
         return (
           <article className={`summary-card summary-card-${card.tone}`} key={card.label}>
             <div aria-hidden="true" className="summary-card-icon"><Icon size={19} /></div>

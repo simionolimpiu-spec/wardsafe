@@ -24,6 +24,7 @@ export function createApiHandler({
   suggestionProvider = createConfiguredSuggestionProvider({ env })
 } = {}) {
   return async function apiHandler(req, res) {
+    try {
     const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');
     const suggestionActionMatch = pathname.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
     const longitudinalDayMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/days\/(-?\d+)$/);
@@ -122,6 +123,10 @@ export function createApiHandler({
     }
 
     writeJson(res, 404, { error: 'Not found' });
+    } catch (error) {
+      const status = error.statusCode === 413 ? 413 : error instanceof SyntaxError || error instanceof URIError ? 400 : 503;
+      writeJson(res, status, { error: status === 413 ? 'Request body too large' : status === 400 ? 'Invalid request' : 'Simulation service unavailable' });
+    }
   };
 }
 
@@ -348,15 +353,28 @@ function normaliseAuditLimit(value) {
 
 async function readJson(req) {
   if (typeof req.json === 'function') {
-    return req.json();
+    const value = await req.json();
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new SyntaxError('Expected an object');
+    return value;
   }
 
   const chunks = [];
-  for await (const chunk of req) {
+  let size = 0;
+  const stream = typeof req.iterator === 'function' ? req.iterator({ destroyOnReturn: false }) : req;
+  for await (const chunk of stream) {
+    size += Buffer.byteLength(chunk);
+    if (size > 64 * 1024) {
+      const error = new Error('Request body too large');
+      error.statusCode = 413;
+      req.resume?.();
+      throw error;
+    }
     chunks.push(chunk);
   }
   const rawBody = Buffer.concat(chunks).toString('utf8');
-  return rawBody ? JSON.parse(rawBody) : {};
+  const value = rawBody ? JSON.parse(rawBody) : {};
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new SyntaxError('Expected an object');
+  return value;
 }
 
 function writeJson(res, statusCode, payload) {

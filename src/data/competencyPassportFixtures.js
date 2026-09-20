@@ -12,20 +12,20 @@ export const competencyPassportFixtures = [
         placementId: 'cp-001-day-care',
         placementLabel: 'Day Care Unit',
         placementWard: 'Day Care Unit',
-        placementTrust: 'Cityview Community Trust',
+        placementTrust: 'James Paget University Hospitals NHS Foundation Trust',
         period: '2026-05-04 to 2026-05-29'
       },
       {
         placementId: 'cp-001-amu',
         placementLabel: 'Acute Medical Unit',
         placementWard: 'Acute Medical Unit',
-        placementTrust: 'Cityview Community Trust',
+        placementTrust: 'James Paget University Hospitals NHS Foundation Trust',
         period: '2026-06-01 to 2026-06-19'
       },
       {
         placementId: 'cp-001-community',
-        placementLabel: 'Community Frailty Team',
-        placementWard: 'Community Frailty Team',
+        placementLabel: 'Ward 12',
+        placementWard: 'Ward 12',
         placementTrust: 'Riverbank Community Trust',
         period: '2026-06-22 to 2026-07-10'
       }
@@ -106,7 +106,7 @@ export const competencyPassportFixtures = [
         placementId: 'cp-002-surgical',
         placementLabel: 'Surgical Assessment Unit',
         placementWard: 'Surgical Assessment Unit',
-        placementTrust: 'Cityview Community Trust',
+        placementTrust: 'James Paget University Hospitals NHS Foundation Trust',
         period: '2026-05-11 to 2026-06-05'
       },
       {

@@ -177,7 +177,7 @@ const cuePatient = {
 
 const readyPatient = {
   id: 'DCU-099',
-  name: 'Patient 099',
+  name: 'Joan Winterbottom',
   handoverComplete: 100,
   dischargeReady: true,
   dischargeBlockers: [],

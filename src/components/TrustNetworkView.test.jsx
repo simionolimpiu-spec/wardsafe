@@ -30,13 +30,19 @@ describe('TrustNetworkView', () => {
     expect(region.textContent).not.toMatch(/diagnos|prescrib|automated escalation|staff scoring|league table/i);
   });
 
-  it('renders a default-day ward trend rollup for every trust-network ward', () => {
+  it('makes every ward available and renders only the selected comparison', () => {
     render(<TrustNetworkView />);
 
     const region = screen.getByLabelText('England Trust Network');
     const wardTrendPanels = within(region).getAllByRole('article', { name: /ward trend \(simulation\) for/i });
 
-    expect(wardTrendPanels.length).toBeGreaterThan(50);
+    expect(wardTrendPanels).toHaveLength(1);
+    const selector = screen.getByRole('combobox', { name: 'Ward to compare' });
+    const options = within(selector).getAllByRole('option');
+    expect(options.length).toBeGreaterThan(50);
+    fireEvent.change(selector, { target: { value: options.at(-1).value } });
+    expect(within(region).getAllByRole('article', { name: /ward trend \(simulation\) for/i })).toHaveLength(1);
+    expect(screen.getByRole('article', { name: `Ward trend (simulation) for ${options.at(-1).textContent}` })).toBeInTheDocument();
     expect(within(region).getAllByText('Ward trend (simulation)').length).toBe(wardTrendPanels.length);
     expect(region.textContent).toMatch(/Fictional cohort: \d+ patients/);
     expect(region.textContent).toMatch(/Respiratory rate/);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   trustNetwork,
   getWardsForTrust,
@@ -76,7 +76,7 @@ function WardTrendRollup({ ward }) {
   const [dayB, setDayB] = useState(WARD_TREND_DAYS.now);
   const selectedPreset = WARD_TREND_PRESETS.find((preset) => preset.then === dayA && preset.now === dayB);
   const selectedValue = selectedPreset?.value ?? '1-90';
-  const trend = compareWardDays(ward.id, dayA, dayB);
+  const trend = useMemo(() => compareWardDays(ward.id, dayA, dayB), [ward.id, dayA, dayB]);
 
   function handlePresetChange(event) {
     const preset = WARD_TREND_PRESETS.find((option) => option.value === event.target.value) ?? WARD_TREND_DAYS;
@@ -142,6 +142,9 @@ function WardTrendRollup({ ward }) {
 
 export function TrustNetworkView() {
   const journeys = getInterTrustJourneys();
+  const [selectedWardId, setSelectedWardId] = useState(() => getWardsForTrust(trustNetwork.trusts[0].id)[0].id);
+  const wards = trustNetwork.trusts.flatMap((trust) => getWardsForTrust(trust.id));
+  const selectedWard = wards.find((ward) => ward.id === selectedWardId);
 
   return (
     <section className="review-report-section trust-network-view" aria-label="England Trust Network">
@@ -160,14 +163,21 @@ export function TrustNetworkView() {
             <small>
               {getWardsForTrust(trust.id).length} wards · {trustPatientCount(trust.id)} fictional patients · source: {trust.wardSource}
             </small>
-            <div className="trust-network-ward-trends">
-              {getWardsForTrust(trust.id).map((ward) => (
-                <WardTrendRollup key={ward.id} ward={ward} />
-              ))}
-            </div>
           </article>
         ))}
       </div>
+
+      <section className="trust-network-ward-trends" aria-label="Ward comparison explorer">
+        <label htmlFor="network-ward">Ward to compare</label>
+        <select id="network-ward" value={selectedWardId} onChange={(event) => setSelectedWardId(event.target.value)}>
+          {trustNetwork.trusts.map((trust) => (
+            <optgroup key={trust.id} label={trust.name}>
+              {getWardsForTrust(trust.id).map((ward) => <option key={ward.id} value={ward.id}>{ward.name}</option>)}
+            </optgroup>
+          ))}
+        </select>
+        <WardTrendRollup key={selectedWard.id} ward={selectedWard} />
+      </section>
 
       <h3>Portable patient journeys across trusts</h3>
       <p className="trust-network-note">

@@ -1,4 +1,5 @@
 import { Download } from 'lucide-react';
+import { useState } from 'react';
 import { BoardSummaryCards } from './BoardSummaryCards.jsx';
 
 function HandoverProgress({ patient }) {
@@ -15,6 +16,7 @@ function HandoverProgress({ patient }) {
 }
 
 export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelectPatient, onExport = () => {} }) {
+  const [showAllColumns, setShowAllColumns] = useState(false);
   return (
     <section className="ward-board" aria-labelledby="ward-board-title">
       <div className="board-header">
@@ -27,7 +29,14 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
 
       <BoardSummaryCards summary={summary} />
 
-      <div className="table-scroll">
+      <div className="board-column-controls">
+        <span>On narrow screens, scroll the table to see more details.</span>
+        <button type="button" className="secondary-action" aria-pressed={showAllColumns} onClick={() => setShowAllColumns((value) => !value)}>
+          {showAllColumns ? 'Use compact columns' : 'Show all columns'}
+        </button>
+      </div>
+
+      <div className={`table-scroll ${showAllColumns ? 'all-columns' : 'compact-columns'}`} tabIndex={0} role="region" aria-label="Scrollable ward patient records">
         <table aria-label="Ward patient list" className="patient-table">
           <thead>
             <tr>
@@ -66,7 +75,7 @@ export function WardSafetyBoard({ summary, patients, selectedPatientId, onSelect
                 </td>
                 <td>
                   <span className={`news2-score news2-score-${getNews2Band(patient.news2)}`}>
-                    {patient.news2}
+                    {patient.news2 ?? 'Not applicable'}
                   </span>
                 </td>
                 <td>{patient.responsibleNurse}</td>

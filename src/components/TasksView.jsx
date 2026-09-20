@@ -1,5 +1,5 @@
 import { Check, Plus, RotateCcw } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export function TasksView({ tasks, patients, selectedPatientId, onAddTask, onChangeStatus }) {
   const [showForm, setShowForm] = useState(false);
@@ -9,6 +9,7 @@ export function TasksView({ tasks, patients, selectedPatientId, onAddTask, onCha
   const [owner, setOwner] = useState('');
   const [due, setDue] = useState('');
   const [error, setError] = useState('');
+  useEffect(() => { if (!showForm) setPatientId(selectedPatientId); }, [selectedPatientId, showForm]);
 
   const visibleTasks = useMemo(() => tasks.filter((task) => {
     if (statusFilter === 'All') return true;
@@ -46,7 +47,7 @@ export function TasksView({ tasks, patients, selectedPatientId, onAddTask, onCha
       </div>
       {showForm && (
         <form className="inline-form" onSubmit={submit}>
-          <label htmlFor="task-patient">Patient<select id="task-patient" onChange={(event) => setPatientId(event.target.value)} value={patientId}>{patients.map((patient) => <option key={patient.id} value={patient.id}>{patient.id}</option>)}</select></label>
+          <label htmlFor="task-patient">Patient<select id="task-patient" onChange={(event) => setPatientId(event.target.value)} value={patientId}>{patients.map((patient) => <option key={patient.id} value={patient.id}>{patient.name} · {patient.id}</option>)}</select></label>
           <label htmlFor="task-description">Task description<input id="task-description" onChange={(event) => setDescription(event.target.value)} value={description} /></label>
           <label htmlFor="task-owner">Owner<input id="task-owner" onChange={(event) => setOwner(event.target.value)} value={owner} /></label>
           <label htmlFor="task-due">Due time<input id="task-due" onChange={(event) => setDue(event.target.value)} type="time" value={due} /></label>

@@ -26,7 +26,7 @@ describe('patient timeline normalisation', () => {
       {
         patientId: 'SF-TL-900',
         patientRef: 'TL-Z900',
-        patientName: 'Fictional Patient Zeta',
+        patientName: 'Ruth Yarwood',
         wardName: 'Ward Test',
         simulationOnly: true,
         missingInformation: ['Transport booking not yet confirmed.'],
@@ -65,7 +65,7 @@ describe('patient timeline normalisation', () => {
     expect(patient).toMatchObject({
       patientId: 'SF-TL-900',
       patientRef: 'TL-Z900',
-      patientName: 'Fictional Patient Zeta',
+      patientName: 'Ruth Yarwood',
       wardName: 'Ward Test',
       simulationOnly: true,
       simulationLabel: 'Simulation-only'
@@ -109,7 +109,7 @@ describe('patient timeline normalisation', () => {
     expect(entries).toHaveLength(9);
     expect(entries[0]).toMatchObject({
       patientId: 'SF-TL-001',
-      patientName: 'Fictional Patient Alpha',
+      patientName: 'Iris Verity',
       type: 'vital',
       label: 'Baseline observations recorded',
       simulationOnly: true,
@@ -117,7 +117,7 @@ describe('patient timeline normalisation', () => {
     });
     expect(entries[entries.length - 1]).toMatchObject({
       patientId: 'SF-TL-002',
-      patientName: 'Fictional Patient Bravo',
+      patientName: 'Alan Nuttall',
       type: 'audit_event',
       label: 'Discharge education completed',
       simulationOnly: true

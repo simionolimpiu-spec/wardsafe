@@ -25,24 +25,23 @@ describe('AppShell', () => {
     const workspace = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
     ['Ward Safety Board', 'My Patients', 'Observations', 'Tasks', 'Escalations', 'Handover', 'Discharges', 'Reports', 'Scenarios', 'Hospital insights', 'Competency Passport', 'Learning Hub', 'Patient Journey Twin', 'Trust Network', 'Audit Trail', 'Settings']
       .forEach((label) => expect(within(workspace).getByRole('button', { name: new RegExp(label, 'i') })).toBeInTheDocument());
-    expect(screen.getByRole('combobox', { name: 'Ward' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Training scenario' })).toBeInTheDocument();
     expect(screen.getByRole('group', { name: /simulation date/i })).toBeInTheDocument();
     expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'SafeFlow' })).toBeInTheDocument();
   });
 
-  it('keeps the illustrative date stepper accessible and updates the time value', async () => {
-    const user = userEvent.setup();
+  it('shows the snapshot date without misleading date controls', async () => {
     render(<AppShell currentWardName={wardSummary.unitName} dateLabel={wardSummary.dateLabel} />);
 
     const dateGroup = screen.getByRole('group', { name: /simulation date/i });
     expect(dateGroup).toHaveAttribute('aria-describedby', 'simulation-date-note');
-    expect(screen.getByText(/illustrative simulation date stepper/i)).toBeInTheDocument();
+    expect(screen.getByText(/fictional snapshot date/i)).toBeInTheDocument();
     expect(screen.getByRole('time')).toHaveAttribute('dateTime', '2026-06-17');
 
-    await user.click(within(dateGroup).getByRole('button', { name: /next simulation date/i }));
+    expect(within(dateGroup).queryByRole('button')).not.toBeInTheDocument();
 
-    expect(screen.getByRole('time')).toHaveAttribute('dateTime', '2026-06-18');
+    expect(screen.getByRole('time')).toHaveAttribute('dateTime', '2026-06-17');
   });
 
   it('provides a human-readable simulation notification state', async () => {

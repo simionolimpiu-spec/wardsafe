@@ -14,7 +14,7 @@ export const wardSummary = {
 export const simulatedPatients = [
   {
     id: 'DCU-031',
-    name: 'Patient 031',
+    name: 'Margaret Ainsworth',
     age: 57,
     risk: 'High',
     riskFlags: ['Allergy (Penicillin)', 'Sepsis Concern', 'Electrolyte / AKI safety gap'],
@@ -64,7 +64,7 @@ export const simulatedPatients = [
   },
   {
     id: 'DCU-028',
-    name: 'Patient 028',
+    name: 'Harold Fothergill',
     age: 71,
     risk: 'Medium',
     riskFlags: ['Falls Risk'],
@@ -100,7 +100,7 @@ export const simulatedPatients = [
   },
   {
     id: 'DCU-017',
-    name: 'Patient 017',
+    name: 'Priya Chowdhury',
     age: 54,
     risk: 'Low',
     riskFlags: [],
@@ -136,7 +136,7 @@ export const simulatedPatients = [
   },
   {
     id: 'DCU-044',
-    name: 'Patient 044',
+    name: 'Dorothy Kirkbride',
     age: 71,
     risk: 'Low',
     riskFlags: ['Falls Risk', 'Diabetes'],
@@ -172,7 +172,7 @@ export const simulatedPatients = [
   },
   {
     id: 'DCU-052',
-    name: 'Patient 052',
+    name: 'Raymond Postlethwaite',
     age: 62,
     risk: 'Low',
     riskFlags: ['Anticoagulant'],

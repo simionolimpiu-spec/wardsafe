@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  Building2,
   BarChart3,
   BookOpenCheck,
   ClipboardList,
@@ -21,6 +22,7 @@ const wardNavGroups = [
   {
     label: 'Ward workflow',
     items: [
+      { id: 'hospitals', label: 'Hospitals & Wards', icon: Building2 },
       { id: 'board', label: 'Ward Safety Board', icon: LayoutDashboard },
       { id: 'patients', label: 'My Patients', icon: UserRound },
       { id: 'observations', label: 'Observations', icon: Stethoscope },
@@ -87,7 +89,7 @@ export function WorkspaceNav({
   escalationCount = 2,
   onNavigate = () => {},
   currentWardName = 'Day Care Unit',
-  currentLocationName = 'Cityview Community Hospital',
+  currentLocationName = 'James Paget University Hospital',
   closeButtonRef,
   isOpen = false,
   onClose = () => {},

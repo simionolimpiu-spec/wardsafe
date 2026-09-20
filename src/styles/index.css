@@ -9,8 +9,11 @@
 @import './learning-hub.css';
 @import './scenario-and-audit.css';
 @import './trust-network.css';
+@import './hospitals.css';
 @import './forms-and-dialogs.css';
 @import './print.css';
 @import './responsive.css';
 @import './codex-way.css';
 @import './primary-care.css';
+@import './clinical-workspace.css';
+@import './day-surgery.css';

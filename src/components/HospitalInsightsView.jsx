@@ -32,7 +32,7 @@ const CHART_COLORS = {
 
 export function HospitalInsightsView({
   currentWardName = 'Day Care Unit',
-  hospitalName = 'Cityview Community Hospital',
+  hospitalName = 'James Paget University Hospital',
   heuristicCues = [],
   patient = null,
   reviewSignals = [],

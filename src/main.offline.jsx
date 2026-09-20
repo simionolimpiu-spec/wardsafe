@@ -15,11 +15,15 @@ import '@fontsource/inter/latin-500.css';
 import '@fontsource/inter/latin-600.css';
 import '@fontsource/inter/latin-700.css';
 import App from './App.jsx';
+import { PrimaryCareApp } from './PrimaryCareApp.jsx';
+import { SimulationAccessGate } from './SimulationAccessGate.jsx';
+import { PRIMARY_CARE_PATHWAY } from './data/primaryCareScenarios.js';
+import { MotionProvider } from './motion/index.jsx';
 import './styles/index.css';
 
 // --- Offline API shim -------------------------------------------------------
 // The signal/audit/draft clients optionally enrich the simulation from a local
-// API server. In the offline build there is no server, and on a file:// origin
+// API server. In the offline build there is no server, and on a static origin
 // the browser blocks the request anyway — which works (every client already
 // treats a failure as "return null" and falls back to local computation) but
 // fills the console with CORS errors and adds a visible delay on first paint.
@@ -40,6 +44,12 @@ globalThis.fetch = (input, init) => {
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <MotionProvider>
+      <SimulationAccessGate>
+        {({ pathway, signOut, switchPathway }) => pathway === PRIMARY_CARE_PATHWAY
+          ? <PrimaryCareApp onPathwayChange={switchPathway} onSignOut={signOut} />
+          : <App onPathwayChange={switchPathway} onSignOut={signOut} initialView="hospitals" />}
+      </SimulationAccessGate>
+    </MotionProvider>
   </React.StrictMode>
 );

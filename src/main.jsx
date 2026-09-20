@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')).render(
       <SimulationAccessGate>
         {({ pathway, signOut, switchPathway }) => pathway === PRIMARY_CARE_PATHWAY
           ? <PrimaryCareApp onPathwayChange={switchPathway} onSignOut={signOut} />
-          : <App onPathwayChange={switchPathway} onSignOut={signOut} />}
+          : <App onPathwayChange={switchPathway} onSignOut={signOut} initialView="hospitals" />}
       </SimulationAccessGate>
     </MotionProvider>
   </React.StrictMode>

@@ -27,6 +27,26 @@ function createJsonResponse() {
 }
 
 describe('createApiHandler', () => {
+  it('returns controlled errors for malformed and non-object JSON', async () => {
+    const handler = createApiHandler({ env: {} });
+    for (const json of [async () => { throw new SyntaxError('bad JSON'); }, async () => null, async () => []]) {
+      const res = createJsonResponse();
+      await handler({ method: 'POST', url: '/api/drafts/sbar', json }, res);
+      expect(res.statusCode).toBe(400);
+      expect(JSON.parse(res.body)).toEqual({ error: 'Invalid request' });
+    }
+  });
+
+  it('rejects oversized streamed bodies before invoking a draft provider', async () => {
+    const provider = { createSbarDraft: vi.fn() };
+    const handler = createApiHandler({ env: {}, provider });
+    const res = createJsonResponse();
+    const req = { method: 'POST', url: '/api/drafts/sbar', async *[Symbol.asyncIterator]() { yield Buffer.alloc(65537); } };
+    await handler(req, res);
+    expect(res.statusCode).toBe(413);
+    expect(provider.createSbarDraft).not.toHaveBeenCalled();
+  });
+
   it('returns simulation readiness without exposing provider secrets', async () => {
     const provider = { id: 'deterministic', createSbarDraft: vi.fn() };
     const workspaceProvider = {

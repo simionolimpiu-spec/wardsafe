@@ -66,8 +66,8 @@ export const discoveryScenarios = [
   },
   {
     id: 'scenario-community-falls-risk',
-    title: 'Community frailty falls-risk review',
-    wardContext: 'Community frailty follow-up with an overdue falls assessment and mobility support note that still needs review.',
+    title: 'Elderly care falls-risk review',
+    wardContext: 'Elderly care follow-up with an overdue falls assessment and mobility support note that still needs review.',
     reviewPrompt: 'Can the team see the falls-risk cue, the mobility context and the open task without blending it into clinical advice?',
     successSignals: [
       'The falls-risk cue is visible on the card',

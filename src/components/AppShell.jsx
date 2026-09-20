@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, ChevronLeft, ChevronRight, ClipboardCheck, LogOut, Menu, UserRound } from 'lucide-react';
+import { Bell, ChevronDown, ClipboardCheck, LogOut, Menu, UserRound } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { DemoScenarioSelector } from './DemoScenarioSelector.jsx';
 import { SafetyBanner } from './SafetyBanner.jsx';
@@ -34,20 +34,11 @@ const viewSubtitles = {
   'primary-settings': 'Primary Care Settings'
 };
 
-function shiftDateLabel(dateLabel, offset) {
-  const match = String(dateLabel ?? '').match(/(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
-  if (!match || offset === 0) return dateLabel;
-  const date = new Date(`${match[2]} ${match[1]}, ${match[3]}`);
-  if (Number.isNaN(date.getTime())) return dateLabel;
-  date.setDate(date.getDate() + offset);
-  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', weekday: 'long', year: 'numeric' }).format(date);
-}
-
 export function AppShell({
   activeView = 'board',
   carePathway = 'ward-care',
   children,
-  currentLocationName = 'Cityview Community Hospital',
+  currentLocationName = 'James Paget University Hospital',
   currentWardName,
   dateLabel,
   escalationCount,
@@ -61,16 +52,17 @@ export function AppShell({
   taskCount,
   topbarActions = null,
   compactMode = false,
-  onSignOut
+  onSignOut,
+  hospitalContext = null,
+  simulationUser = 'Simulation reviewer'
 }) {
-  const [dateOffset, setDateOffset] = useState(0);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const mobileNavButtonRef = useRef(null);
   const mobileNavCloseRef = useRef(null);
   const mobileNavRef = useRef(null);
   const workspaceContentRef = useRef(null);
-  const displayDate = useMemo(() => shiftDateLabel(dateLabel, dateOffset), [dateLabel, dateOffset]);
+  const displayDate = dateLabel;
   const displayDateTime = useMemo(() => toDateTimeValue(displayDate), [displayDate]);
   const subtitle = viewSubtitles[activeView] ?? 'Ward workspace';
 
@@ -106,6 +98,7 @@ export function AppShell({
   useEffect(() => {
     if (!isMobileNavOpen) {
       workspaceContentRef.current?.focus({ preventScroll: true });
+      if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [activeView]);
 
@@ -182,7 +175,7 @@ export function AppShell({
               </details>
             )}
             <details className="user-menu">
-              <summary className="user-chip"><UserRound aria-hidden="true" size={17} /><span>Ruth Callaghan</span><small>Charge Nurse</small><ChevronDown aria-hidden="true" size={15} /></summary>
+              <summary className="user-chip"><UserRound aria-hidden="true" size={17} /><span>{simulationUser}</span><small>Simulation reviewer</small><ChevronDown aria-hidden="true" size={15} /></summary>
               <div className="user-menu-popover">
                 <strong>Prototype session</strong>
                 <span>Simulated identity, sample only</span>
@@ -199,20 +192,21 @@ export function AppShell({
               <option value="primary-care">Primary care</option>
             </select>
           </label>
-          <DemoScenarioSelector
+          {hospitalContext ? <div className="connected-ward-context">
+            <span>{hospitalContext.hospitalName}</span><strong>{hospitalContext.wardName}</strong>
+            <button type="button" className="secondary-action" onClick={() => onNavigate('hospitals')}>Change ward</button>
+          </div> : <DemoScenarioSelector
             description={scenarioDescription}
             onChange={onScenarioChange}
             options={scenarioOptions}
-            settingLabel={carePathway === 'primary-care' ? 'Practice' : 'Ward'}
+            settingLabel={carePathway === 'primary-care' ? 'Practice' : 'Training scenario'}
             value={selectedScenarioId}
-          />
+          />}
           <div aria-describedby="simulation-date-note" aria-label="Simulation date" className="date-stepper" role="group">
-            <button aria-label="Previous simulation date" onClick={() => setDateOffset((value) => value - 1)} type="button"><ChevronLeft aria-hidden="true" size={18} /></button>
             <time dateTime={displayDateTime} aria-live="polite">{displayDate}</time>
-            <button aria-label="Next simulation date" onClick={() => setDateOffset((value) => value + 1)} type="button"><ChevronRight aria-hidden="true" size={18} /></button>
           </div>
-          <p className="sr-only" id="simulation-date-note">
-            Illustrative simulation date stepper. It changes the displayed demo date only; it does not change live data.
+          <p className="simulation-date-note" id="simulation-date-note">
+            Fictional snapshot date. Select a review scenario to change the records.
           </p>
         </section>
         {activeView !== 'hospital-insights' && <SafetyBanner />}
