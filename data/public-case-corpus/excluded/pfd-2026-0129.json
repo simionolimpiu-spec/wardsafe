@@ -1,0 +1,149 @@
+{
+  "id": "pfd-2026-0129",
+  "source": {
+    "type": "pfd",
+    "ref": "2026-0129",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/caroline-adeyelu-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2026/03/Caroline-Adeyelu-Prevention-of-future-deaths-report-2026-0129_Published.pdf",
+    "report_date": "2026-03-05",
+    "published_date": "2026-03-09",
+    "category": "Other related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Caroline Alaba Omotayo Adeyelu",
+    "age": 64,
+    "date_of_death": "2022-10-30",
+    "cause_of_death": "Fatal stab wound to the chest; jury conclusion of unlawful killing"
+  },
+
+  "authority": {
+    "coroner_name": "Nadia Persaud",
+    "coroner_area": "East London",
+    "recipients": [
+      "North East London Foundation Trust",
+      "East London Foundation Trust",
+      "The Commissioner of Police of the Metropolis"
+    ],
+    "primary_organisation": "North East London Foundation Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "admission",
+      "date": null,
+      "end_date": null,
+      "setting": "East London Foundation Trust inpatient mental health care",
+      "presentation": "Acute transient psychosis",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "The subject was discharged with a diagnosis of acute transient psychosis."
+    },
+    {
+      "seq": 2,
+      "contact_type": "attendance",
+      "date": null,
+      "end_date": null,
+      "setting": "NELFT community mental health services",
+      "presentation": "Threat to kill made in early 2021; mental health team aware",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "The sharing of information by ELFT following the subject's threat to kill in early 2021 was inadequate. Although the mental health team was aware, they failed to notify the police."
+    },
+    {
+      "seq": 3,
+      "contact_type": "attendance",
+      "date": null,
+      "end_date": null,
+      "setting": "NELFT community mental health services",
+      "presentation": "Concerns raised by Caroline Adeyelu from 26 October 2022 onward",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "NELFT also responded inadequately to concerns that Caroline raised from 26 October 2022, onward. Concerns raised were not explored or escalated. A number of options were available to assist in keeping Caroline safe, but these were not taken."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "record_system_did_not_surface": true,
+    "risk_assessment_not_updated_after_event": true,
+    "family_concern_not_escalated": true,
+    "specialist_input_not_sought": false,
+    "working_diagnosis_not_revisited": false
+  },
+
+  "what_was_missed": "The Staying Well Plan created by one trust was never received by the trust that took over care, so the care co-ordinator did not know the documented warning signs; CPA reviews were missed, handover between care co-ordinators was neither written nor in person, and the subject's medical history was never reviewed.",
+
+  "coroner_concerns": [
+    {
+      "quote": "In addition, the Staying Well Plan created by ELFT was not received by NELFT. This possibly contributed to Caroline's death, as the care co-ordinator was unaware of the warning signs laid out in the Staying Well Plan.",
+      "box": "4",
+      "theme": "record_system"
+    },
+    {
+      "quote": "Care co-ordination by NELFT was inadequate. A proper relapse plan was not created; CPA reviews were missed and care co-ordinators lacked an in-person or written handover, resulting in gaps of vital information.",
+      "box": "4",
+      "theme": "communication"
+    },
+    {
+      "quote": "There was a serious failure to review the subject's medical history.",
+      "box": "4",
+      "theme": "record_system"
+    },
+    {
+      "quote": "The evidence at the inquest reflected very poor appreciation of the risks posed to Mrs Adeyelu by her mentally unwell adult son. This poor appreciation of risk was observed at all levels of clinical staff.",
+      "box": "5",
+      "theme": "escalation"
+    },
+    {
+      "quote": "The inquest heard concerns from multiple witnesses about the lack of effective communication systems in place between the mental health services and the Metropolitan Police Service, in circumstances where there are dual forensic and mental health concerns.",
+      "box": "5",
+      "theme": "communication"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": false,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "The assessment of the subject's risk to others and the management of that risk by NELFT and ELFT following the discharge in October 2020 was inadequate."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "The subject was discharged with a diagnosis of acute transient psychosis."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "In addition, the Staying Well Plan created by ELFT was not received by NELFT. This possibly contributed to Caroline's death, as the care co-ordinator was unaware of the warning signs laid out in the Staying Well Plan."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "Care co-ordination by NELFT was inadequate. A proper relapse plan was not created; CPA reviews were missed and care co-ordinators lacked an in-person or written handover, resulting in gaps of vital information."
+      }
+    ],
+    "exclusion_reason": "E8_deceased_not_the_patient",
+    "adjacent_theme": true,
+    "sensitive_handling": true,
+    "adjudication_note": "EXCLUDED ON A NEW GROUND, and the ground did not exist until this case. All four criteria are met on the face of the report — this is the only excluded record so far where C1-C4 are ALL true. The son made repeated contacts about one continuous psychotic illness; the October 2020 contact closed in a documented discharge; the information that mattered (the Staying Well Plan, a documented history of repeated violent incidents, the medical history) already existed; and the coroner's findings of fact name the carry-forward failure explicitly, in the exact terms this corpus exists to document: a care plan created by one trust never reached the trust that took over, so the person managing the case did not know the warning signs. Under the C1-C4 test alone this would be the strongest inclusion in the corpus. It is excluded because the deceased is NOT the patient whose care trajectory failed. Caroline Adeyelu was the mother of the patient; she was killed by him. The corpus documents patients whose own deterioration went unrecognised across contacts, and every argument built on it — that a ward tool surfacing prior context would have changed the outcome — assumes the person at risk is the person in front of the clinician. Here the failure was a risk-to-others forensic and safeguarding failure in community mental health, and the coroner's own matters of concern are about adult child-to-parent domestic abuse training and police liaison, not about ward documentation. Including it would hand a Trust the easiest possible rebuttal: that the corpus stretches its own definition to reach cases outside its domain, which under adjudication rule 4 is how a single contested case discredits the set. Retained as adjacent_theme because the mechanism is genuinely the same one WardSafe addresses and the Staying Well Plan quote is citable as supporting material for the general claim — but it must not be counted toward the 100. Also flagged sensitive_handling: unlawful killing, perpetrator a family member of the deceased; not for any pitch, deck, demo or public-facing material. RAISED FOR DECISION: the protocol has no rule on whether the deceased must be the patient. It has been implicit in all nine prior adjudications because every one of them happened to be a patient dying of their own unrecognised deterioration. This is the first case to test it, and the answer determines whether an entire class — mental health risk-to-others, safeguarding, and third-party harm cases — is in or out of scope. Recorded as excluded pending that decision; reverse it here if the decision goes the other way."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (orchestrator), adjudicated from the HTML permalink",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.2"
+  }
+}

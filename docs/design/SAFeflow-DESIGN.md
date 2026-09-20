@@ -1,6 +1,6 @@
 # SafeFlow Design System
 
-Version 1.5 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension, SF-300 mobile shell, SF-301 to SF-303 phone screens). This is the canonical UI specification for SafeFlow.
+Version 1.6 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension, SF-300 mobile shell, SF-301 to SF-303 phone screens, SF-306 primary care merge and NHS-style palette). This is the canonical UI specification for SafeFlow.
 
 Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
 
@@ -23,8 +23,8 @@ The interface must make three things obvious at all times:
 
 ### Branding boundary
 
-- SafeFlow is not an NHS product and carries no NHS endorsement. No NHS logo.
-- The action colour is the SafeFlow teal (`--sf-action`, #176B75). Do not use the NHS identity blue (#005EB8) as a brand colour.
+- SafeFlow is not an NHS product and carries no NHS endorsement. No NHS logo, lozenge or wordmark.
+- Palette (SF-306, Oli's decision, 20 September 2026): SafeFlow uses NHS-style colours, with NHS Blue #005EB8 as the action colour, for a familiar clinical look. Colour only. The always-visible safety banner must keep "Not affiliated with or endorsed by the NHS" and "not live NHS deployment", and `tokens.test.js` checks both.
 
 ## 2. Clinical visual principles
 
@@ -309,33 +309,31 @@ Rules for the night view:
 - Trust Network observation strips remain plain, neutral text, with no glow or added state coding. SF-298 introduces no animation; Twin sparklines and observation values remain static.
 - The existing clinical-screen exclusion test is retained in full. Browser checks also verify that presentation mode never applies the night zone to clinical screens.
 
-## 17. Mobile shell (SF-300)
+## 17. Mobile shell (SF-300, reconciled in SF-306)
 
-At 860px and below the app shell switches to a phone layout, so content is on screen straight away. Above 860px the desktop sidebar and top bar are unchanged.
+The shell comes from the SF-306 primary care work: skip link, one `main` landmark, a top bar with notifications, a Review tools menu and a user menu, a simulation context section (care setting, scenario or connected ward, snapshot date), and a navigation drawer below 1120px with a focus trap, `inert` background and Escape to close. SF-300 adds the phone layer on top.
 
-| Part | Phone behaviour |
-| --- | --- |
-| Simulation boundary | Always visible, compact type. Wording unchanged |
-| Top bar | Brand, current screen name and a ward toggle ("Ward and demo controls: <ward>"). The ward toggle opens the ward and review focus pickers, date stepper, notifications, user chip and report buttons |
-| Bottom tab bar | "Quick navigation": Board, Patients, Obs, Tasks, More. Fixed to the bottom, 64px tall, respects the safe area |
-| More sheet | The full "SafeFlow workspace" navigation (all 16 screens), the Safety first card and the ward context, in a bottom sheet |
+| Width | Navigation | Simulation context |
+| --- | --- | --- |
+| Above 1120px | Sidebar always visible | Always visible |
+| 861 to 1120px | Menu button opens the drawer | Always visible |
+| 860px and below | Bottom tab bar. More opens the same drawer. Menu button hidden | Folded behind the top bar context toggle |
 
 Rules:
 
-- Components: `src/components/MobileTabBar.jsx`, `WorkspaceNav.jsx` (sheet mode) and `AppShell.jsx`. Styles live in `src/styles/mobile-shell.css`, which uses tokens only and is in the raw-colour guard.
-- Everything stays in the DOM. The mobile panels are hidden by CSS, so desktop, print and unit tests see the same markup. `.shell-context` uses `display: contents` above 860px, so the desktop top bar grid does not change.
-- The current tab shows a top bar, heavier label and `aria-current="page"`. Never colour alone. More is marked current when the active screen is not one of the four tabs.
-- The More button has `aria-expanded` and `aria-controls="workspace-nav"`. Opening moves focus to the current screen in the list. Escape, Close menu or tapping the scrim closes it and returns focus to More. Choosing a screen closes it.
-- Tab and toggle targets are at least 44px. The task count badge uses the action colour, not red.
-- Content has bottom padding equal to the tab bar plus `--sf-space-4`, so the tab bar never covers the last item.
-- Presentation mode keeps its content and wording on a phone but drops its projector-sized padding, which pushed the page wider than the screen.
-- Tokens: `--sf-mobile-tabbar-height`, `--sf-mobile-scrim`, `--sf-z-mobile-scrim`, `--sf-z-mobile-sheet`, `--sf-z-mobile-tabbar`.
-- E2E: `e2e/mobile-shell.spec.js`. Other e2e specs reach screens through `e2e/shell.js`, which opens More only when the mobile shell is showing.
+- `src/components/MobileTabBar.jsx` ("Quick navigation"). Ward care tabs: Board, Patients, Obs, Tasks, More. Primary care tabs: Overview, Requests, Results, Tasks, More.
+- The current tab shows a top bar, heavier label and `aria-current="page"`, never colour alone. More is marked current when the screen is not one of the four tabs.
+- More has `aria-expanded` and `aria-controls="workspace-navigation"`. Focus moves to Close navigation on open and returns to whichever control opened the drawer.
+- The context toggle ("Simulation context: <ward>") has `aria-expanded` and `aria-controls="simulation-context"`. Above 860px it is hidden and the section is always open.
+- Targets are 44px or more. Content has bottom padding equal to the tab bar plus `--sf-space-4`.
+- Page action rows that reuse `.topbar-actions` wrap on phones, so the page never scrolls sideways.
+- Styles: `src/styles/mobile-shell.css`, tokens only, in the raw-colour guard, loaded last.
+- E2E: `e2e/mobile-shell.spec.js`. Specs sign in and navigate through `e2e/shell.js` (`signIn`, `navigateTo`, `openReviewTools`, `openSimulationContext`).
 
 ### 17.1 Phone screens (SF-301 to SF-303)
 
-- Trust Network: each hospital shows its first ward trend open. The rest sit behind one native `details` disclosure ("Show N more ward trends"), with a 44px summary. Every trend stays in the DOM with unchanged wording, and the first trend in each hospital keeps its human-review note visible. This applies at every width.
-- Long lists of repeated panels follow the same pattern: show the first, collapse the rest, never hide boundary or human-review wording on what is shown.
+- Trust Network compares one ward at a time through the SF-306 "Ward to compare" picker, which replaced the SF-301 per-hospital disclosure. The selected ward's human-review note is always visible.
+- Long lists of repeated panels show one item at a time or the first item with the rest collapsed. Never hide boundary or human-review wording on what is shown.
 - At 860px and below, Trust Network text is at least 12px (`--sf-font-size-xs`) and the ward day pickers are 44px tall.
 - At 620px and below, operational and workflow views and the Twin panels use `--sf-space-3` padding, so content gets the width. Wide tables and chapter strips keep their own sideways scroll inside the card. The page itself never scrolls sideways.
 - Text on the deep teal top bar uses `--sf-text-on-shell` or `--sf-text-on-shell-secondary` on `--sf-shell-bar`. Both pairs are in the token contrast tests. Light-surface greys are never used on the bar.

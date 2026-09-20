@@ -92,8 +92,15 @@ describe('SafeFlow semantic tokens (SF-295)', () => {
     expect(contrast(resolveToken(foreground), resolveToken(background))).toBeGreaterThanOrEqual(minimum);
   });
 
-  it('keeps the action colour distinct from the NHS identity blue', () => {
-    expect(resolveToken('--sf-action').toLowerCase()).not.toBe('#005eb8');
+  // SF-306: Oli chose the NHS-style palette (NHS Blue as a colour only).
+  // AGENTS.md still rules out the NHS logo and implied endorsement, so the
+  // not-affiliated boundary wording must stay in the always-visible banner.
+  it('pairs the NHS-style palette with visible not-affiliated wording and no NHS logo asset', () => {
+    const banner = readFileSync(resolve(ROOT, 'src/components/SafetyBanner.jsx'), 'utf8');
+    expect(banner).toMatch(/Not affiliated with or endorsed by the NHS/);
+    expect(banner).toMatch(/not live NHS deployment/);
+    const css = readFileSync(resolve(ROOT, 'src/styles/tokens.css'), 'utf8');
+    expect(css).not.toMatch(/nhs[-_]?logo|lozenge/i);
   });
 
   it('keeps critical and review visually distinct', () => {

@@ -7,7 +7,7 @@ export function SafetyBanner() {
       <div>
         <strong>Simulation only</strong>
         <span>
-          Public preview boundary. Fictional patient data only. Not clinical advice, not diagnosis, not prescribing, not live NHS deployment. Human review required.
+          Public preview boundary. Fictional patient data only. Not clinical advice, not diagnosis, not prescribing, not for live clinical use, and not live NHS deployment. Not affiliated with or endorsed by the NHS. Human review required.
         </span>
       </div>
     </section>

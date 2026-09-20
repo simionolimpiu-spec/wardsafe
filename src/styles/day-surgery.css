@@ -1,0 +1,24 @@
+.day-surgery-board { min-width: 0; }
+.app-shell-redesign .dashboard-layout.full-width { grid-template-columns: minmax(0, 1fr); }
+.day-surgery-board .view-heading { flex-wrap: wrap; gap: 16px; }
+.day-surgery-board label { display: grid; gap: 6px; }
+.day-surgery-board input, .day-surgery-board select, .day-surgery-board summary { min-height: 44px; font: inherit; }
+.day-flow-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 10px; margin: 20px 0; }
+.day-flow-metrics article { display: grid; align-content: start; gap: 6px; min-height: 110px; background: #f0f4f5; border: 1px solid #d8dde0; border-radius: 8px; padding: 14px; }
+.day-flow-metrics strong { font-size: 1.65rem; color: #003087; }
+.day-flow-metrics span { color: #4c6272; font-size: .875rem; }
+.service-boundary { border-left: 4px solid #005eb8; padding: 12px; background: #edf5fb; }
+.day-flow-table { max-width: 100%; overflow-x: auto; }
+.day-flow-table table { width: 100%; min-width: 850px; border-collapse: collapse; font-size: .9rem; }
+.day-flow-table th { text-align: left; background: #f0f4f5; padding: 12px; }
+.day-flow-table td { padding: 12px; vertical-align: top; border-bottom: 1px solid #d8dde0; max-width: 300px; overflow-wrap: anywhere; }
+.day-flow-table small { display: block; margin-top: 6px; color: #4c6272; }
+.day-flow-table tr.is-selected { background: #edf5fb; }
+.day-flow-table summary { padding: 10px 0; cursor: pointer; color: #005eb8; }
+.day-flow-table dl { display: grid; gap: 8px; }
+.day-flow-table dt { font-weight: 600; }
+.day-flow-table dd { margin: 3px 0 0; }
+.service-evidence { margin-top: 20px; padding: 16px; border: 1px solid #d8dde0; }
+.service-evidence summary { font-weight: 600; cursor: pointer; }
+.ward-profile-focus { font-weight: 600; }
+@media(max-width:600px) { .day-flow-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); } .day-surgery-board .ward-review-tools { display: grid; } }

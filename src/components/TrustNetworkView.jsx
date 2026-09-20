@@ -1,5 +1,5 @@
 import { Moon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   trustNetwork,
   getWardsForTrust,
@@ -77,7 +77,7 @@ function WardTrendRollup({ ward }) {
   const [dayB, setDayB] = useState(WARD_TREND_DAYS.now);
   const selectedPreset = WARD_TREND_PRESETS.find((preset) => preset.then === dayA && preset.now === dayB);
   const selectedValue = selectedPreset?.value ?? '1-90';
-  const trend = compareWardDays(ward.id, dayA, dayB);
+  const trend = useMemo(() => compareWardDays(ward.id, dayA, dayB), [ward.id, dayA, dayB]);
 
   function handlePresetChange(event) {
     const preset = WARD_TREND_PRESETS.find((option) => option.value === event.target.value) ?? WARD_TREND_DAYS;
@@ -141,33 +141,6 @@ function WardTrendRollup({ ward }) {
   );
 }
 
-/**
- * SF-301: the first ward trend stays open; the rest sit behind one
- * disclosure per hospital, so a card is not thousands of pixels long.
- * Every ward trend stays in the DOM with unchanged wording.
- */
-function WardTrendList({ wards }) {
-  const [first, ...rest] = wards;
-  if (!first) return null;
-  return (
-    <div className="trust-network-ward-trends">
-      <WardTrendRollup ward={first} />
-      {rest.length > 0 && (
-        <details className="trust-network-ward-trend-more">
-          <summary>
-            Show {rest.length} more ward {rest.length === 1 ? 'trend' : 'trends'}
-          </summary>
-          <div className="trust-network-ward-trends">
-            {rest.map((ward) => (
-              <WardTrendRollup key={ward.id} ward={ward} />
-            ))}
-          </div>
-        </details>
-      )}
-    </div>
-  );
-}
-
 export function TrustNetworkView({ defaultTheme = 'standard' } = {}) {
   const [theme, setTheme] = useState(defaultTheme === 'night' ? 'night' : 'standard');
   useEffect(() => {
@@ -175,6 +148,9 @@ export function TrustNetworkView({ defaultTheme = 'standard' } = {}) {
   }, [defaultTheme]);
   const isNight = theme === 'night';
   const journeys = getInterTrustJourneys();
+  const [selectedWardId, setSelectedWardId] = useState(() => getWardsForTrust(trustNetwork.trusts[0].id)[0].id);
+  const wards = trustNetwork.trusts.flatMap((trust) => getWardsForTrust(trust.id));
+  const selectedWard = wards.find((ward) => ward.id === selectedWardId);
 
   return (
     <section
@@ -206,10 +182,21 @@ export function TrustNetworkView({ defaultTheme = 'standard' } = {}) {
             <small>
               {getWardsForTrust(trust.id).length} wards · {trustPatientCount(trust.id)} fictional patients · source: {trust.wardSource}
             </small>
-            <WardTrendList wards={getWardsForTrust(trust.id)} />
           </article>
         ))}
       </div>
+
+      <section className="trust-network-ward-trends" aria-label="Ward comparison explorer">
+        <label htmlFor="network-ward">Ward to compare</label>
+        <select id="network-ward" value={selectedWardId} onChange={(event) => setSelectedWardId(event.target.value)}>
+          {trustNetwork.trusts.map((trust) => (
+            <optgroup key={trust.id} label={trust.name}>
+              {getWardsForTrust(trust.id).map((ward) => <option key={ward.id} value={ward.id}>{ward.name}</option>)}
+            </optgroup>
+          ))}
+        </select>
+        <WardTrendRollup key={selectedWard.id} ward={selectedWard} />
+      </section>
 
       <h3>Portable patient journeys across trusts</h3>
       <p className="trust-network-note">

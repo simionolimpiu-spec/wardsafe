@@ -4,6 +4,7 @@ import { buildApiUrl, createApiHeaders } from './apiBaseUrl.js';
 export async function requestSbarDraft({
   patient,
   flag,
+  signal,
   fetchImpl = globalThis.fetch,
   env = import.meta.env
 }) {
@@ -15,6 +16,7 @@ export async function requestSbarDraft({
   try {
     const response = await fetchImpl(buildApiUrl('/api/drafts/sbar', { env }), {
       method: 'POST',
+      signal,
       headers: createApiHeaders({ 'Content-Type': 'application/json' }, { env }),
       body: JSON.stringify({ patientId: patient.id })
     });

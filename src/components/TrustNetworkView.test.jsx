@@ -30,39 +30,24 @@ describe('TrustNetworkView', () => {
     expect(region.textContent).not.toMatch(/diagnos|prescrib|automated escalation|staff scoring|league table/i);
   });
 
-  it('renders a default-day ward trend rollup for every trust-network ward', () => {
+  it('makes every ward available and renders only the selected comparison', () => {
     render(<TrustNetworkView />);
 
     const region = screen.getByLabelText('England Trust Network');
     const wardTrendPanels = within(region).getAllByRole('article', { name: /ward trend \(simulation\) for/i });
 
-    expect(wardTrendPanels.length).toBeGreaterThan(50);
+    expect(wardTrendPanels).toHaveLength(1);
+    const selector = screen.getByRole('combobox', { name: 'Ward to compare' });
+    const options = within(selector).getAllByRole('option');
+    expect(options.length).toBeGreaterThan(50);
+    fireEvent.change(selector, { target: { value: options.at(-1).value } });
+    expect(within(region).getAllByRole('article', { name: /ward trend \(simulation\) for/i })).toHaveLength(1);
+    expect(screen.getByRole('article', { name: `Ward trend (simulation) for ${options.at(-1).textContent}` })).toBeInTheDocument();
     expect(within(region).getAllByText('Ward trend (simulation)').length).toBe(wardTrendPanels.length);
     expect(region.textContent).toMatch(/Fictional cohort: \d+ patients/);
     expect(region.textContent).toMatch(/Respiratory rate/);
     expect(region.textContent).toMatch(/Review-support flags: \d+ then -> \d+ now/);
     expect(region.textContent).toMatch(/human review required; review-support cue only/i);
-  });
-
-  it('keeps the first ward trend open and the rest behind one disclosure per hospital (SF-301)', () => {
-    render(<TrustNetworkView />);
-    const region = screen.getByLabelText('England Trust Network');
-    const cards = region.querySelectorAll('.review-report-summary-card');
-    expect(cards.length).toBeGreaterThan(1);
-    for (const card of cards) {
-      const trends = card.querySelectorAll('article.trust-network-ward-trend');
-      const details = card.querySelector('details.trust-network-ward-trend-more');
-      expect(trends[0]).toBeVisible();
-      expect(trends[0].closest('details')).toBeNull();
-      if (trends.length > 1) {
-        expect(details).not.toHaveAttribute('open');
-        expect(within(details).getByText(`Show ${trends.length - 1} more ward ${trends.length === 2 ? 'trend' : 'trends'}`)).toBeInTheDocument();
-        expect(details.querySelectorAll('article.trust-network-ward-trend')).toHaveLength(trends.length - 1);
-        expect(trends[1]).not.toBeVisible();
-        details.open = true;
-        expect(trends[1]).toBeVisible();
-      }
-    }
   });
 
   it('recomputes a ward trend when its day preset changes', () => {
@@ -98,13 +83,8 @@ describe('TrustNetworkView night view (SF-298)', () => {
     expect(view).toHaveClass('sf-zone-night');
     expect(view).toHaveAttribute('data-sf-theme', 'night');
     expect(view.textContent).toBe(originalContent);
-    // SF-301: extra ward trends start collapsed by design. The first trend in
-    // every hospital keeps its human-review note visible; expanding the rest
-    // must show every note in night view too.
-    for (const card of view.querySelectorAll('.review-report-summary-card')) {
-      expect(card.querySelector('.trust-network-ward-trend-note')).toBeVisible();
-    }
-    view.querySelectorAll('details.trust-network-ward-trend-more').forEach((details) => { details.open = true; });
+    // The selected ward's human-review note is always visible in both themes.
+    expect(view.querySelector('.trust-network-ward-trend-note')).toBeVisible();
     const notes = view.querySelectorAll('.section-heading p, .trust-network-note, .review-report-summary-card > small, .trust-network-ward-trend-note, .trust-network-timeline > small, .trust-network-learning small');
     expect(notes.length).toBeGreaterThan(0);
     for (const note of notes) expect(note).toBeVisible();

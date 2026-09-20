@@ -2,11 +2,11 @@ export const patientTimelineFixtures = [
   {
     patientId: 'SF-TL-001',
     patientRef: 'TL-A001',
-    patientName: 'Fictional Patient Alpha',
+    patientName: 'Iris Verity',
     wardName: 'Day Care Unit',
     simulationOnly: true,
     simulationLabel: 'Simulation-only',
-    source: 'fictional timeline fixture',
+    source: 'fictional patient timeline fixture',
     clinicalUse: 'not for live clinical deployment',
     missingInformation: [
       'Magnesium result not visible.',
@@ -72,11 +72,11 @@ export const patientTimelineFixtures = [
   {
     patientId: 'SF-TL-002',
     patientRef: 'TL-B002',
-    patientName: 'Fictional Patient Bravo',
+    patientName: 'Alan Nuttall',
     wardName: 'Acute Medical Unit',
     simulationOnly: true,
     simulationLabel: 'Simulation-only',
-    source: 'fictional timeline fixture',
+    source: 'fictional patient timeline fixture',
     clinicalUse: 'not for live clinical deployment',
     missingInformation: ['Transport booking not yet confirmed.'],
     limitations: [

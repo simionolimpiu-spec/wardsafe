@@ -21,6 +21,7 @@ describe('SafeFlow prototype', () => {
     expect(screen.getByText(/simulation only/i)).toBeInTheDocument();
     expect(screen.getByText(/fictional patient data only/i)).toBeInTheDocument();
     expect(screen.getByText(/not clinical advice/i)).toBeInTheDocument();
+    expect(screen.getByText(/not for live clinical use/i)).toBeInTheDocument();
     expect(screen.getAllByText(/human review required/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^NHS$/)).not.toBeInTheDocument();
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
@@ -51,16 +52,16 @@ describe('SafeFlow prototype', () => {
   it('renders a ward context selector in the main header', () => {
     render(<App />);
 
-    const wardSelector = screen.getByRole('combobox', { name: 'Ward' });
+    const wardSelector = screen.getByRole('combobox', { name: 'Training scenario' });
     const focusSelector = screen.getByRole('combobox', { name: 'Review focus' });
     expect(wardSelector).toBeInTheDocument();
     expect(focusSelector).toBeInTheDocument();
     expect(wardSelector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
     expect(focusSelector).toHaveAccessibleDescription(/current day care treatment pathway with documentation and review cues for the same fictional ward\./i);
-    expect(within(wardSelector).getByRole('option', { name: 'Day Care' })).toBeInTheDocument();
-    expect(within(wardSelector).getByRole('option', { name: 'Surgical' })).toBeInTheDocument();
-    expect(within(wardSelector).getByRole('option', { name: 'Paediatrics' })).toBeInTheDocument();
-    expect(within(wardSelector).getByRole('option', { name: 'Community Frailty' })).toBeInTheDocument();
+    expect(within(wardSelector).getByRole('option', { name: 'Day Care Unit' })).toBeInTheDocument();
+    expect(within(wardSelector).getByRole('option', { name: 'Ward 5' })).toBeInTheDocument();
+    expect(within(wardSelector).getByRole('option', { name: 'Ward 10' })).toBeInTheDocument();
+    expect(within(wardSelector).getByRole('option', { name: 'Ward 12' })).toBeInTheDocument();
     expect(within(focusSelector).getByRole('option', { name: 'Documentation' })).toBeInTheDocument();
     expect(within(focusSelector).getByRole('option', { name: 'Observation trend' })).toBeInTheDocument();
   });
@@ -145,7 +146,7 @@ describe('SafeFlow prototype', () => {
     expect(
       within(drawer).getByText(/^Patient view -> review cues -> ward comparison -> hospital insights -> future NHS\/AWS integration$/i)
     ).toBeInTheDocument();
-    expect(within(drawer).getByText(/Hospital benchmark: Cityview Community Hospital/i)).toBeInTheDocument();
+    expect(within(drawer).getByText(/Hospital benchmark: James Paget University Hospital/i)).toBeInTheDocument();
     expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Simulation source/i);
     expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Static prototype data/i);
     expect(within(drawer).getByRole('note', { name: /simulation data source status/i })).toHaveTextContent(/Live systems: not connected/i);
@@ -355,7 +356,7 @@ describe('SafeFlow prototype', () => {
     vi.stubGlobal('fetch', fetch);
     render(<App />);
 
-    await user.selectOptions(screen.getByRole('combobox', { name: 'Ward' }), 'ward-acute-medical-alpha');
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Training scenario' }), 'legacy-acute-medical-unit');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Review focus' }), 'legacy-amu-discharge-readiness-review');
 
     expect(await screen.findByRole('heading', { name: 'DCU-044' })).toBeInTheDocument();
@@ -385,7 +386,7 @@ describe('SafeFlow prototype', () => {
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
     expect(within(wardList).getByText('DCU-052')).toBeInTheDocument();
     expect(within(wardList).getByText(/Anticoagulant/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/handover progress 100 percent for Patient 052/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/handover progress 100 percent for Raymond Postlethwaite/i)).toBeInTheDocument();
   });
 
   it('shows the electrolyte risk flag only for the correlated fictional patient', async () => {
@@ -393,8 +394,8 @@ describe('SafeFlow prototype', () => {
     render(<App />);
 
     const wardList = screen.getByRole('table', { name: /ward patient list/i });
-    const patient031Row = within(wardList).getByRole('button', { name: /open Patient 031 \(DCU-031\)/i }).closest('tr');
-    const patient028Row = within(wardList).getByRole('button', { name: /open Patient 028 \(DCU-028\)/i }).closest('tr');
+    const patient031Row = within(wardList).getByRole('button', { name: /open Margaret Ainsworth \(DCU-031\)/i }).closest('tr');
+    const patient028Row = within(wardList).getByRole('button', { name: /open Harold Fothergill \(DCU-028\)/i }).closest('tr');
 
     expect(patient031Row).not.toBeNull();
     expect(patient028Row).not.toBeNull();
@@ -406,7 +407,7 @@ describe('SafeFlow prototype', () => {
     expect(within(overview).getByText(/^Electrolyte \/ AKI safety gap$/i)).toHaveClass('risk');
     expect(within(overview).getByRole('region', { name: /potassium electrolyte safety gap/i })).toBeInTheDocument();
 
-    await user.click(within(wardList).getByRole('button', { name: /open Patient 028 \(DCU-028\)/i }));
+    await user.click(within(wardList).getByRole('button', { name: /open Harold Fothergill \(DCU-028\)/i }));
 
     const updatedPanel = screen.getByRole('complementary', { name: /patient safety panel/i });
     expect(within(updatedPanel).queryByText(/^Electrolyte \/ AKI safety gap$/i)).not.toBeInTheDocument();
@@ -439,7 +440,7 @@ describe('SafeFlow prototype', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('button', { name: /open Patient 031/i }));
+    await user.click(screen.getByRole('button', { name: /open Margaret Ainsworth/i }));
 
     const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
     expect(within(panel).getByText('DCU-031')).toBeInTheDocument();
@@ -606,7 +607,7 @@ describe('SafeFlow prototype', () => {
     const panel = screen.getByRole('complementary', { name: /patient safety panel/i });
     const reviewCues = within(panel).getByRole('region', { name: /simulation review cues/i });
 
-    await user.click(screen.getByRole('button', { name: /open Patient 031/i }));
+    await user.click(screen.getByRole('button', { name: /open Margaret Ainsworth/i }));
 
     await within(reviewCues).findByText(/^Electrolyte review$/i);
     expect(reviewCues.textContent).toMatch(/Signals: private-lambda-signals-placeholder/i);
@@ -630,7 +631,7 @@ describe('SafeFlow prototype', () => {
     expect(within(scenarioRegion).getByText(/Discharge readiness blocker/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Surgical post-op deterioration review/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Paediatric sepsis-screen review/i)).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Community frailty falls-risk review/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByText(/Elderly care falls-risk review/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Community medication-timing review/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Initial hazard controls/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/No live patient data/i)).toBeInTheDocument();

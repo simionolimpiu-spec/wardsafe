@@ -168,7 +168,7 @@
         },
         "exclusion_reason": {
           "type": ["string", "null"],
-          "enum": ["E1_single_episode", "E2_point_failure", "E3_no_prior_information", "E4_recognised_at_time", "E5_insufficient_detail", "E6_out_of_scope_setting", "E7_mechanism_not_identified", null]
+          "enum": ["E1_single_episode", "E2_point_failure", "E3_no_prior_information", "E4_recognised_at_time", "E5_insufficient_detail", "E6_out_of_scope_setting", "E7_mechanism_not_identified", "E8_deceased_not_the_patient", null]
         },
         "adjacent_theme": {
           "type": "boolean",

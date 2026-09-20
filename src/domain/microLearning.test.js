@@ -9,7 +9,7 @@ describe('micro learning domain', () => {
     id: 'ward-communication-1',
     title: 'Ward communication check-in',
     ward: 'Day Care Unit',
-    trust: 'Cityview Community Hospital',
+    trust: 'James Paget University Hospital',
     professions: ['nursing', 'physiotherapy'],
     topic: 'handover',
     format: 'micro',
@@ -53,7 +53,7 @@ describe('micro learning domain', () => {
       id: 'ward-communication-1',
       title: 'Ward communication check-in',
       ward: 'Day Care Unit',
-      trust: 'Cityview Community Hospital',
+      trust: 'James Paget University Hospital',
       topic: 'handover',
       format: 'micro',
       questionCount: 2

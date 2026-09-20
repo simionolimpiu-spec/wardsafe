@@ -22,7 +22,7 @@ describe('DemoScenarioSelector', () => {
     expect(wardSelect).toHaveAccessibleDescription('Fictional patient and ward context.');
     expect(focusSelect).toHaveAccessibleDescription('Fictional patient and ward context.');
 
-    await user.selectOptions(wardSelect, 'ward-surgical-alpha');
+    await user.selectOptions(wardSelect, 'ward-05-mixed-surgery');
 
     expect(focusSelect).toHaveValue('documentation');
     expect(onChange).toHaveBeenLastCalledWith('ward-sim-surgical-01');

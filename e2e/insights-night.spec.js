@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { navigateTo, openShellContext } from './shell.js';
+import { navigateTo, openReviewTools, signIn } from './shell.js';
 
 // Check the rendered cascade, including legacy/shared styles, not just token pairs.
 async function nightReadability(view) {
@@ -42,7 +42,7 @@ async function nightReadability(view) {
 }
 
 test('SF-298 insight night views retain readable content and stay off clinical screens', async ({ page }, testInfo) => {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await signIn(page);
   for (const [name, region] of [['Trust Network', 'England Trust Network'], ['Patient Journey Twin', 'Patient Journey Twin']]) {
     await navigateTo(page, name);
     const view = page.getByRole('region', { name: region, exact: true });
@@ -76,7 +76,7 @@ test('SF-298 insight night views retain readable content and stay off clinical s
     await expect(toggle).toHaveAttribute('aria-pressed', 'false');
   }
 
-  await openShellContext(page);
+  await openReviewTools(page);
   await page.getByRole('button', { name: 'Presentation mode', exact: true }).click();
   for (const [name, region] of [['Trust Network', 'England Trust Network'], ['Patient Journey Twin', 'Patient Journey Twin']]) {
     await navigateTo(page, name);
@@ -89,7 +89,7 @@ test('SF-298 insight night views retain readable content and stay off clinical s
 });
 
 test('SF-299 trust network hospital cards stay top-aligned with inline review-support labels', async ({ page }) => {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await signIn(page);
   await navigateTo(page, 'Trust Network');
   const view = page.getByRole('region', { name: 'England Trust Network', exact: true });
   for (const theme of ['standard', 'night']) {

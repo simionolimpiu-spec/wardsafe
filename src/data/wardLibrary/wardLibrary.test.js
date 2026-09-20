@@ -20,9 +20,9 @@ const ALLOWED_WARD_TYPES = new Set([
   'general medical',
   'acute medical',
   'day care',
-  'community frailty team',
-  'rehab',
-  'care-of-the-elderly',
+  'stroke',
+  'respiratory',
+  "elderly care",
   'paediatrics',
   'maternity',
   'ICU/HDU',
@@ -100,7 +100,7 @@ describe('ward simulation database library', () => {
 
     for (const patient of wardLibrary.patientJourneys) {
       expect(wardIds.has(patient.wardId)).toBe(true);
-      expect(patient.patientName).toMatch(/^Fictional Patient /);
+      expect(patient.patientName).toMatch(/^[A-Z][a-z]+ [A-Za-z'-]+/);
       expect(patient.demographics).toEqual(expect.objectContaining({
         age: expect.any(Number),
         pronouns: expect.any(String),
@@ -179,7 +179,7 @@ describe('ward simulation database library', () => {
     const scenario = getWardLibraryDemoScenarioById('ward-sim-surgical-01');
     expect(scenario).toEqual(expect.objectContaining({
       id: 'ward-sim-surgical-01',
-      hospitalName: 'Cityview Community Hospital',
+      hospitalName: 'James Paget University Hospital',
       currentWardName: expect.any(String),
       selectedPatientId: expect.any(String),
       patients: expect.any(Array),
@@ -189,7 +189,7 @@ describe('ward simulation database library', () => {
     expect(scenario.patients.length).toBeGreaterThanOrEqual(3);
     expect(scenario.patients[0]).toEqual(expect.objectContaining({
       id: expect.any(String),
-      name: expect.stringMatching(/^Fictional Patient /),
+      name: expect.stringMatching(/^[A-Z][a-z]+ [A-Za-z'-]+/),
       riskFlags: expect.any(Array),
       sbar: expect.objectContaining({
         situation: expect.any(String),
@@ -205,7 +205,7 @@ describe('ward simulation database library', () => {
     expect(getWardOptions()).toEqual(
       wardLibrary.wards.map((ward) => ({
         id: ward.id,
-        label: ward.name.replace(/\s+Alpha$/i, '').replace(/\s+(Ward|Unit|Team)$/i, '')
+        label: ward.name
       }))
     );
   });

@@ -53,6 +53,11 @@ export function buildPatientTimelineEntries(fixtures = patientTimelineFixtures) 
     .sort(compareTimelineEntries);
 }
 
+const FALLBACK_TIMELINE_NAMES = [
+  'Iris Verity', 'Alan Nuttall', 'Ruth Yarwood', 'Bernard Dinsdale',
+  'Joan Winterbottom', 'Cyril Thistlethwaite'
+];
+
 function normalisePatientTimelineFixture(fixture = {}, index = 0) {
   const safeFixture = fixture ?? {};
   const patientId = safeText(
@@ -62,7 +67,7 @@ function normalisePatientTimelineFixture(fixture = {}, index = 0) {
   const patientRef = safeText(safeFixture.patientRef, patientId);
   const patientName = safeText(
     safeFixture.patientName ?? safeFixture.name,
-    `Fictional Patient ${index + 1}`
+    FALLBACK_TIMELINE_NAMES[index % FALLBACK_TIMELINE_NAMES.length]
   );
   const wardName = safeText(safeFixture.wardName, 'Ward Safety Board');
   const source = safeText(safeFixture.source, DEFAULT_SOURCE);

@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { getDemoScenarioSelectionOptions } from '../data/demoScenarios.js';
@@ -25,24 +25,23 @@ describe('AppShell', () => {
     const workspace = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
     ['Ward Safety Board', 'My Patients', 'Observations', 'Tasks', 'Escalations', 'Handover', 'Discharges', 'Reports', 'Scenarios', 'Hospital insights', 'Competency Passport', 'Learning Hub', 'Patient Journey Twin', 'Trust Network', 'Audit Trail', 'Settings']
       .forEach((label) => expect(within(workspace).getByRole('button', { name: new RegExp(label, 'i') })).toBeInTheDocument());
-    expect(screen.getByRole('combobox', { name: 'Ward' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Training scenario' })).toBeInTheDocument();
     expect(screen.getByRole('group', { name: /simulation date/i })).toBeInTheDocument();
     expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'SafeFlow' })).toBeInTheDocument();
   });
 
-  it('keeps the illustrative date stepper accessible and updates the time value', async () => {
-    const user = userEvent.setup();
+  it('shows the snapshot date without misleading date controls', async () => {
     render(<AppShell currentWardName={wardSummary.unitName} dateLabel={wardSummary.dateLabel} />);
 
     const dateGroup = screen.getByRole('group', { name: /simulation date/i });
     expect(dateGroup).toHaveAttribute('aria-describedby', 'simulation-date-note');
-    expect(screen.getByText(/illustrative simulation date stepper/i)).toBeInTheDocument();
+    expect(screen.getByText(/fictional snapshot date/i)).toBeInTheDocument();
     expect(screen.getByRole('time')).toHaveAttribute('dateTime', '2026-06-17');
 
-    await user.click(within(dateGroup).getByRole('button', { name: /next simulation date/i }));
+    expect(within(dateGroup).queryByRole('button')).not.toBeInTheDocument();
 
-    expect(screen.getByRole('time')).toHaveAttribute('dateTime', '2026-06-18');
+    expect(screen.getByRole('time')).toHaveAttribute('dateTime', '2026-06-17');
   });
 
   it('provides a human-readable simulation notification state', async () => {
@@ -61,7 +60,7 @@ describe('AppShell', () => {
     expect(screen.queryByText('No simulation notifications recorded.')).not.toBeInTheDocument();
   });
 
-  it('offers mobile quick tabs and a More sheet over the full workspace navigation (SF-300)', async () => {
+  it('offers mobile quick tabs whose More button opens the workspace drawer (SF-300)', async () => {
     const user = userEvent.setup();
     const onNavigate = vi.fn();
     render(<AppShell activeView="board" currentWardName="Day Care Unit" dateLabel={wardSummary.dateLabel} onNavigate={onNavigate} taskCount={5} />);
@@ -71,24 +70,18 @@ describe('AppShell', () => {
     expect(within(quick).getByRole('button', { name: 'Board' })).toHaveAttribute('aria-current', 'page');
 
     const more = within(quick).getByRole('button', { name: 'More' });
+    expect(more).toHaveAttribute('aria-controls', 'workspace-navigation');
     expect(more).toHaveAttribute('aria-expanded', 'false');
-    expect(more).toHaveAttribute('aria-controls', 'workspace-nav');
     await user.click(more);
     expect(more).toHaveAttribute('aria-expanded', 'true');
-    const sheet = document.getElementById('workspace-nav');
-    expect(sheet).toHaveClass('is-mobile-open');
-    const workspace = screen.getByRole('navigation', { name: /SafeFlow workspace/i });
-    expect(within(workspace).getByRole('button', { name: 'Ward Safety Board' })).toHaveFocus();
+    const drawer = document.getElementById('workspace-navigation');
+    expect(drawer).toHaveClass('is-open');
+    expect(drawer).toHaveAttribute('role', 'dialog');
+    expect(screen.getByRole('button', { name: 'Close navigation' })).toHaveFocus();
 
     await user.keyboard('{Escape}');
-    expect(more).toHaveAttribute('aria-expanded', 'false');
-    expect(sheet).not.toHaveClass('is-mobile-open');
-    expect(more).toHaveFocus();
-
-    await user.click(more);
-    await user.click(within(workspace).getByRole('button', { name: 'Trust Network' }));
-    expect(onNavigate).toHaveBeenCalledWith('trust-network');
-    expect(more).toHaveAttribute('aria-expanded', 'false');
+    expect(drawer).not.toHaveClass('is-open');
+    await waitFor(() => expect(more).toHaveFocus());
 
     await user.click(within(quick).getByRole('button', { name: 'Obs' }));
     expect(onNavigate).toHaveBeenLastCalledWith('observations');
@@ -101,16 +94,10 @@ describe('AppShell', () => {
     expect(within(quick).queryByRole('button', { current: 'page' })).toBeNull();
   });
 
-  it('keeps ward and demo controls in the DOM behind the mobile ward toggle', async () => {
-    const user = userEvent.setup();
-    render(<AppShell currentWardName="Day Care Unit" dateLabel={wardSummary.dateLabel} scenarioOptions={getDemoScenarioSelectionOptions()} selectedScenarioId="day-care-treatment-pathway" />);
-    const toggle = screen.getByRole('button', { name: /Ward and demo controls: Day Care Unit/ });
-    expect(toggle).toHaveAttribute('aria-controls', 'shell-context');
-    expect(toggle).toHaveAttribute('aria-expanded', 'false');
-    expect(within(document.getElementById('shell-context')).getByRole('combobox', { name: 'Ward' })).toBeInTheDocument();
-    await user.click(toggle);
-    expect(toggle).toHaveAttribute('aria-expanded', 'true');
-    expect(document.getElementById('shell-context')).toHaveClass('is-open');
-    expect(screen.getByRole('region', { name: /simulation safety boundary/i })).toBeInTheDocument();
+  it('switches the quick tabs to primary care screens in the primary care setting', () => {
+    render(<AppShell activeView="practice-overview" carePathway="primary-care" currentWardName="Fictional practice" dateLabel={wardSummary.dateLabel} taskCount={3} />);
+    const quick = screen.getByRole('navigation', { name: 'Quick navigation' });
+    expect(within(quick).getAllByRole('button').map((button) => button.textContent)).toEqual(['Overview', 'Requests', 'Results', 'Tasks3', 'More']);
+    expect(within(quick).getByRole('button', { name: 'Overview' })).toHaveAttribute('aria-current', 'page');
   });
 });

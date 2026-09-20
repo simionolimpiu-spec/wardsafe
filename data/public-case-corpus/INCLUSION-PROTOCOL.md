@@ -84,6 +84,13 @@ Exclude, and record the reason, where:
 | `E5_insufficient_detail` | Report too thin to adjudicate C1–C4 against source text |
 | `E6_out_of_scope_setting` | Non-hospital setting outside current scope (custody, road, workplace) |
 | `E7_mechanism_not_identified` | C1–C3 present on the facts, but the coroner identified a different failure and did not name the longitudinal one anywhere in the report *(v1.1)* |
+| `E8_deceased_not_the_patient` | C1–C4 all met, but the person who died is not the patient whose care trajectory failed — e.g. a third party harmed by a patient whose risk was not carried forward *(v1.2, provisional — see below)* |
+
+> **`E8` is provisional and needs a decision.** It was created by `excluded/pfd-2026-0129.json`, the first case where all four criteria are met and the case still looks wrong to include. The protocol never said the deceased must *be* the patient, because in the first nine adjudications they always were. That case — a mother killed by her son, whose Staying Well Plan was never transferred between the two trusts managing him, so his care co-ordinator did not know the documented warning signs — meets C1–C4 more cleanly than several included records.
+>
+> The argument for excluding is that every claim built on this corpus assumes the person at risk is the person in front of the clinician, and a risk-to-others safeguarding case invites the rebuttal that the corpus stretches its own definition to reach cases outside its domain. The argument for including is that the mechanism is identical and coroner-identified, which is the only test the protocol actually states.
+>
+> **The decision determines whether an entire class is in or out** — mental health risk-to-others, safeguarding, and third-party harm. Until it is made, such cases are excluded `E8` with `adjacent_theme: true` so none is lost, and the decision can be applied retrospectively either way.
 
 **Record every exclusion.** A corpus of 100 included cases is an anecdote. A corpus of 100 included cases drawn from a documented pool of N screened, with reasons for every rejection, is evidence. The denominator is the asset.
 

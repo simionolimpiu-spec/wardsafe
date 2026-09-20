@@ -3,7 +3,7 @@ import { evaluatePotassiumSafetyGap } from './safetyRules.js';
 
 const basePatient = {
   id: 'DCU-031',
-  name: 'Patient 031',
+  name: 'Margaret Ainsworth',
   medicines: ['Furosemide 40mg OD'],
   symptoms: ['Weakness', 'Poor oral intake'],
   labs: {
@@ -54,7 +54,7 @@ describe('evaluatePotassiumSafetyGap', () => {
   it('does not throw when lab arrays are missing', () => {
     const result = evaluatePotassiumSafetyGap({
       id: 'DCU-099',
-      name: 'Patient 099',
+      name: 'Joan Winterbottom',
       medicines: [],
       symptoms: [],
       labs: {},

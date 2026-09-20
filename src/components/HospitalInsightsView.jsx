@@ -63,7 +63,7 @@ function chartAnimation(theme) {
 
 export function HospitalInsightsView({
   currentWardName = 'Day Care Unit',
-  hospitalName = 'Cityview Community Hospital',
+  hospitalName = 'James Paget University Hospital',
   heuristicCues = [],
   patient = null,
   reviewSignals = [],

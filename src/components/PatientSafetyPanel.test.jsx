@@ -236,7 +236,7 @@ describe('PatientSafetyPanel', () => {
 
     expect(sbarTab).toHaveFocus();
     expect(within(panel).getByRole('tabpanel', { name: /^sbar$/i })).toBeInTheDocument();
-    expect(within(panel).getByText(/SBAR summary/i)).toBeInTheDocument();
+    expect(within(panel).getByRole('textbox', { name: 'Editable SBAR draft' })).toBeInTheDocument();
   });
 
   it('opens with the patient banner: identity, simulation context, location, allergies and status', () => {

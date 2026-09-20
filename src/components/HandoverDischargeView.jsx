@@ -17,7 +17,7 @@ export function HandoverDischargeView({ patient, riskSupport = null, onSaveHando
   function save(event) {
     event.preventDefault();
     const value = Number(completion);
-    if (!Number.isInteger(value) || value < 0 || value > 100) {
+    if (!completion.trim() || !Number.isInteger(value) || value < 0 || value > 100) {
       setError('Completion must be a whole number from 0 to 100.');
       return;
     }
@@ -42,6 +42,8 @@ export function HandoverDischargeView({ patient, riskSupport = null, onSaveHando
           <h2>Handover and Discharge Readiness</h2>
         </div>
       </div>
+
+      {patient.dayCase && <p className="service-boundary"><strong>Day surgery record: {patient.dayCase.stage}.</strong> {patient.dayCase.outcome} Destination: {patient.dayCase.destination}. This is the 14:00 fictional snapshot.</p>}
 
       <div className="workflow-grid">
         <article>

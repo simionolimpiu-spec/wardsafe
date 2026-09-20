@@ -254,3 +254,14 @@
 .sf-zone-night.twin-view .twin-sparkline-baseline {
   stroke: var(--sf-border-strong);
 }
+
+/* SF-306: the Trust Network ward picker keeps a visible border at night */
+.sf-zone-night.trust-network-view .trust-network-ward-trends > label {
+  color: var(--sf-text-secondary);
+}
+
+.sf-zone-night.trust-network-view .trust-network-ward-trends > select {
+  background: var(--sf-surface);
+  border-color: var(--sf-border-strong);
+  color: var(--sf-text-primary);
+}
