@@ -14,6 +14,9 @@ import {
 } from './safetyLanguage.js';
 
 const DOCUMENTATION_FILES = [
+  'docs/architecture/safeflow-connect-voice-point-of-care-master.md',
+  'docs/architecture/point-of-care-hardware-profile.md',
+  'docs/architecture/fhir-observation-mapping.md',
   'README.md',
   'AGENTS.md',
   'docs/codex-handoff.md',
