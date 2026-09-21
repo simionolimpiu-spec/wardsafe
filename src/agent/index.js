@@ -14,3 +14,4 @@ export { buildReviewPrompt, PromptBoundaryError } from './ai/promptBoundary.js';
 export { REVIEW_RESPONSE_SCHEMA, parseAndValidateReview, ReviewResponseError } from './ai/reviewResponse.js';
 export { assertProvider, createReviewGenerator, ProviderPolicyError, ReviewGenerationError } from './ai/aiModelProvider.js';
 export { createMockAIModelProvider } from './ai/mockAIModelProvider.js';
+export { createReviewRun, REVIEW_TOOLS, REVIEW_PERMISSIONS, REVIEW_LIMITS } from './reviewOrchestrator.js';
