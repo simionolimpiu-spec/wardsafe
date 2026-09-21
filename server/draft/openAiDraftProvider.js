@@ -1,4 +1,4 @@
-import { UNSAFE_MODEL_WORDING_PATTERN } from '../../src/agent/ai/reviewResponse.js';
+import { UNSAFE_MODEL_WORDING_PATTERN } from '../../src/agent/ai/unsafeModelWording.js';
 import { validateAgainstSchema } from '../../src/agent/toolSchema.js';
 
 export class DraftProviderSafetyError extends Error {

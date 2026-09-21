@@ -25,9 +25,9 @@ describe('agent source guards', () => {
   it.each(sources)('%s has no prohibited wording', (name) => {
     // Scanning all source text is stricter than scanning only string literals.
     const source = readFileSync(join(directory, name), 'utf8');
-    // The response validator must name rejected phrases in its detection regex.
+    // The wording validator must name rejected phrases in its detection regex.
     // Keep the exception to that single declaration; scan all other source text.
-    const checked = name === 'ai/reviewResponse.js' ? source.replace(/^export const UNSAFE_MODEL_WORDING_PATTERN = \/.*\/i;$/m, '') : source;
+    const checked = name === 'ai/unsafeModelWording.js' ? source.replace(/^export const UNSAFE_MODEL_WORDING_PATTERN = \/.*\/i;$/m, '') : source;
     expect(checked).not.toMatch(/diagnos|prescrib|administer|treatment recommendation|patient requires|safe to discharge/i);
   });
 });
