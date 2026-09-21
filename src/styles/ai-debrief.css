@@ -1,0 +1,43 @@
+.ai-debrief {
+  margin-block: var(--space-7);
+  padding: var(--space-6);
+  background: var(--sf-surface);
+  color: var(--sf-text-primary);
+  border: 1px solid var(--sf-border);
+  border-radius: var(--sf-radius-lg);
+  overflow-wrap: anywhere;
+}
+.ai-debrief h3, .ai-debrief h4, .ai-debrief h5 { margin-block: 0 var(--space-4); color: var(--sf-text-primary); }
+.ai-debrief h4, .ai-debrief h5 { font-size: 1rem; }
+.ai-debrief p { line-height: 1.6; }
+.ai-debrief-inputs, .ai-debrief-edit { display: grid; gap: var(--space-3); }
+.ai-debrief label { font-weight: 600; }
+.ai-debrief textarea, .ai-debrief select {
+  width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box;
+  padding: var(--space-4); font: inherit; color: var(--sf-text-primary);
+  background: var(--sf-surface); border: 1px solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+}
+.ai-debrief textarea { resize: vertical; }
+.ai-debrief button, .ai-debrief summary { min-height: 44px; font: inherit; }
+.ai-debrief button {
+  padding: var(--space-3) var(--space-5); cursor: pointer;
+  color: var(--sf-text-primary); background: var(--sf-surface);
+  border: 1px solid var(--sf-border-strong); border-radius: var(--sf-radius-sm);
+}
+.ai-debrief button:hover:not(:disabled), .ai-debrief button:active:not(:disabled) { background: var(--sf-surface-muted); }
+.ai-debrief-inputs > button, .ai-debrief-review > button { background: var(--sf-blue); color: var(--sf-grey-0); border-color: var(--sf-blue); }
+.ai-debrief-inputs > button:hover, .ai-debrief-review > button:hover:not(:disabled) { background: var(--sf-blue-deep); }
+.ai-debrief button:disabled { cursor: not-allowed; color: var(--sf-text-secondary); background: var(--sf-surface-muted); border-color: var(--sf-border); }
+.ai-debrief summary { cursor: pointer; padding-block: var(--space-3); }
+.ai-debrief :is(button, textarea, select, summary):focus-visible { outline: 3px solid var(--sf-action); outline-offset: 3px; }
+.ai-debrief-lines { list-style: none; padding: 0; display: grid; gap: var(--space-5); }
+.ai-debrief-line { padding: var(--space-5); border: 1px solid var(--sf-border); border-radius: var(--sf-radius-md); }
+.ai-debrief-label, .ai-debrief-provider { padding: var(--space-3); background: var(--sf-surface-muted); }
+.ai-debrief-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-block: var(--space-4); }
+.ai-debrief-review, .ai-debrief-safety, .ai-debrief-audit { margin-block-start: var(--space-6); }
+.ai-debrief-error { color: var(--sf-text-primary); border-inline-start: 4px solid var(--sf-red); padding: var(--space-4); }
+.ai-debrief table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.ai-debrief th, .ai-debrief td { text-align: left; padding: var(--space-3); border-bottom: 1px solid var(--sf-border); vertical-align: top; }
+.ai-debrief th:first-child { width: 36%; }
+@media (max-width: 600px) { .ai-debrief { padding: var(--space-4); } .ai-debrief-line { padding: var(--space-4); } }

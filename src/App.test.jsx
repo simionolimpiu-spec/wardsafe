@@ -626,13 +626,13 @@ describe('SafeFlow prototype', () => {
 
     const scenarioRegion = screen.getByRole('region', { name: /discovery scenario library/i });
     expect(scenarioRegion).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Electrolyte \/ AKI documentation gap/i)).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Sepsis escalation handover/i)).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Discharge readiness blocker/i)).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Surgical post-op deterioration review/i)).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Paediatric sepsis-screen review/i)).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Elderly care falls-risk review/i)).toBeInTheDocument();
-    expect(within(scenarioRegion).getByText(/Community medication-timing review/i)).toBeInTheDocument();
+    expect(within(scenarioRegion).getByRole('heading', { name: /Electrolyte \/ AKI documentation gap/i })).toBeInTheDocument();
+    expect(within(scenarioRegion).getByRole('heading', { name: /Sepsis escalation handover/i })).toBeInTheDocument();
+    expect(within(scenarioRegion).getByRole('heading', { name: /Discharge readiness blocker/i })).toBeInTheDocument();
+    expect(within(scenarioRegion).getByRole('heading', { name: /Surgical post-op deterioration review/i })).toBeInTheDocument();
+    expect(within(scenarioRegion).getByRole('heading', { name: /Paediatric sepsis-screen review/i })).toBeInTheDocument();
+    expect(within(scenarioRegion).getByRole('heading', { name: /Elderly care falls-risk review/i })).toBeInTheDocument();
+    expect(within(scenarioRegion).getByRole('heading', { name: /Community medication-timing review/i })).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/Initial hazard controls/i)).toBeInTheDocument();
     expect(within(scenarioRegion).getByText(/No live patient data/i)).toBeInTheDocument();
 

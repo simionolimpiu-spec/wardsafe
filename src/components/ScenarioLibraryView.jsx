@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ClipboardCheck, FileSearch, ShieldCheck } from 'lucide-react';
+import { AiDebriefPanel } from './AiDebriefPanel.jsx';
 import {
   biasAwarenessCues,
   discoveryScenarios,
@@ -31,6 +32,8 @@ export function ScenarioLibraryView() {
           <h2>Discovery Scenario Library</h2>
         </div>
       </div>
+
+      <AiDebriefPanel />
 
       <div className="scenario-grid">
         {discoveryScenarios.map((scenario) => (
