@@ -1,4 +1,6 @@
 import { simulatedPatients } from '../src/data/simulatedPatients.js';
+import { createServerDebrief, debriefProviderStatus } from './debriefProvider.js';
+import { getDebriefContext } from '../src/domain/aiDebrief.js';
 import { deterministicDraftProvider } from '../src/domain/draftProvider.js';
 import { buildEpisodes, compareDays, getPatientDay } from '../src/domain/longitudinalJourney.js';
 import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
@@ -18,6 +20,7 @@ import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
 export function createApiHandler({
   provider = deterministicDraftProvider,
   env = process.env,
+  debriefProvider,
   workspaceProvider = createConfiguredWorkspaceProvider({ env }),
   auditEventProvider = createConfiguredAuditEventProvider({ env }),
   signalProvider = createConfiguredSignalProvider({ env }),
@@ -42,6 +45,20 @@ export function createApiHandler({
 
     if (req.method === 'GET' && pathname === '/api/health') {
       writeJson(res, 200, { status: 'ok' });
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/simulation/debrief/status') {
+      writeJson(res, 200, debriefProviderStatus({ env, liveProvider: debriefProvider }));
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/simulation/debrief') {
+      const input = await readJson(req);
+      try { getDebriefContext(input); }
+      catch { writeJson(res, 400, { error: 'Provide only a known scenario id and up to 2,000 characters of fictional notes.' }); return; }
+      try { writeJson(res, 200, await createServerDebrief(input, { env, liveProvider: debriefProvider })); }
+      catch { writeJson(res, 503, { error: 'Debrief provider response rejected or unavailable. No live draft was shown.' }); }
       return;
     }
 
