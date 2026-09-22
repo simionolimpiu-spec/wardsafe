@@ -4,6 +4,7 @@ import { InformationPanel, PatientBanner, ReviewCueGroup, SafetyStatus } from '.
 import { toPatientBannerModel } from '../domain/patientBannerModel.js';
 import { PotassiumSafetyGapView } from './PotassiumSafetyGapView.jsx';
 import { SbarDraftEditor } from './SbarDraftEditor.jsx';
+import { AgentReviewPanel } from './AgentReviewPanel.jsx';
 
 export function PatientSafetyPanel({
   patient,
@@ -152,6 +153,7 @@ export function PatientSafetyPanel({
               <SbarSummary patient={patient} />
             </>
           )}
+          {patient.id === 'DCU-031' && <AgentReviewPanel key={patient.id} patient={patient} />}
         </div>
 
         <div
