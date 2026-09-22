@@ -951,6 +951,7 @@ describe('SafeFlow prototype', () => {
     ['Observations', 'Observations'],
     [/Tasks/, 'Tasks'],
     [/Escalations/, 'Escalations'],
+    ['Communication', 'Communication'],
     ['Handover', 'Handover and Discharge Readiness'],
     ['Discharges', 'Discharges'],
     ['Reports', 'Reports'],
