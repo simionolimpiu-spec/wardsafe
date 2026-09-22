@@ -1,4 +1,5 @@
 import {
+  MessagesSquare,
   AlertTriangle,
   Building2,
   BarChart3,
@@ -34,6 +35,7 @@ const wardNavGroups = [
     label: 'Coordination',
     items: [
       { id: 'hospital-insights', label: 'Hospital insights', icon: BarChart3 },
+      { id: 'communication', label: 'Communication', icon: MessagesSquare },
       { id: 'handover', label: 'Handover', icon: Waypoints },
       { id: 'discharges', label: 'Discharges', icon: ClipboardPlus },
       { id: 'reports', label: 'Reports', icon: FileText }
