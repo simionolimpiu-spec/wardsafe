@@ -20,7 +20,7 @@
 .agent-review-actions button { min-height: 44px; white-space: normal; }
 .agent-review label { display: block; font-weight: var(--font-weight-semibold); margin-block: var(--space-4); }
 .agent-review textarea { width: 100%; max-width: 100%; resize: vertical; padding: var(--space-4); }
-.agent-review :is(button, textarea, summary):focus-visible {
+.agent-review :is(button, textarea, summary, h4[tabindex]):focus-visible {
   outline: 3px solid var(--color-focus-ring);
   outline-offset: 3px;
 }

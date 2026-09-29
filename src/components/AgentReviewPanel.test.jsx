@@ -76,6 +76,71 @@ describe('AgentReviewPanel', () => {
     await user.click(screen.getByText(/Review session audit/));
     expect(screen.getByText('Stop reason: ITERATION_LIMIT')).toBeVisible();
   });
+  describe('keyboard focus follows the review', () => {
+    it('moves focus to the source facts when a run finishes and to the decision after a review is recorded', async () => {
+      const user = userEvent.setup();
+      render(<AgentReviewPanel patient={patient} createRun={factory()} />);
+      await user.click(screen.getByRole('button', { name: 'Run simulated review' }));
+      const view = within(panel());
+      expect(await view.findByRole('heading', { name: 'Source facts' })).toHaveFocus();
+      await user.click(view.getByRole('button', { name: 'Accept review' }));
+      expect(view.getByRole('heading', { name: 'Human decision' })).toHaveFocus();
+    });
+    it('keeps focus in the panel after rejecting a review', async () => {
+      const user = userEvent.setup();
+      render(<AgentReviewPanel patient={patient} createRun={factory()} />);
+      await user.click(screen.getByRole('button', { name: 'Run simulated review' }));
+      await user.click(await screen.findByRole('button', { name: 'Reject review' }));
+      expect(screen.getByRole('heading', { name: 'Human decision' })).toHaveFocus();
+    });
+    it('moves focus to the decision after an edited review is saved', async () => {
+      const user = userEvent.setup();
+      render(<AgentReviewPanel patient={patient} createRun={factory()} />);
+      await user.click(screen.getByRole('button', { name: 'Run simulated review' }));
+      await user.click(await screen.findByRole('button', { name: 'Edit review' }));
+      await user.clear(screen.getByLabelText('Your edited review'));
+      await user.type(screen.getByLabelText('Your edited review'), 'Checked the fictional lab timestamps.');
+      await user.click(screen.getByRole('button', { name: 'Save edited review' }));
+      expect(screen.getByRole('heading', { name: 'Human decision' })).toHaveFocus();
+    });
+    it('leaves focus on Save when an empty edit is refused', async () => {
+      const user = userEvent.setup();
+      render(<AgentReviewPanel patient={patient} createRun={factory()} />);
+      await user.click(screen.getByRole('button', { name: 'Run simulated review' }));
+      await user.click(await screen.findByRole('button', { name: 'Edit review' }));
+      await user.clear(screen.getByLabelText('Your edited review'));
+      const save = screen.getByRole('button', { name: 'Save edited review' });
+      await user.click(save);
+      expect(screen.queryByText('Human review recorded: edited.')).not.toBeInTheDocument();
+      expect(save).toHaveFocus();
+    });
+    it('returns focus to Edit review when the edit is cancelled', async () => {
+      const user = userEvent.setup();
+      render(<AgentReviewPanel patient={patient} createRun={factory()} />);
+      await user.click(screen.getByRole('button', { name: 'Run simulated review' }));
+      await user.click(await screen.findByRole('button', { name: 'Edit review' }));
+      await user.click(screen.getByRole('button', { name: 'Cancel edit' }));
+      expect(screen.getByRole('button', { name: 'Edit review' })).toHaveFocus();
+    });
+    it('moves focus to Retry when a run is cancelled', async () => {
+      const user = userEvent.setup();
+      const createRun = factory({}, { provider: createMockAIModelProvider({ responses: [{ hang: true }] }) });
+      render(<AgentReviewPanel patient={patient} createRun={createRun} />);
+      await user.click(screen.getByRole('button', { name: 'Run simulated review' }));
+      await user.click(screen.getByRole('button', { name: 'Cancel review' }));
+      expect(await screen.findByRole('button', { name: 'Retry simulated review' })).toHaveFocus();
+    });
+    it('does not take focus from somewhere else the reviewer has moved to', async () => {
+      let resolve;
+      const createRun = () => ({ cancel: vi.fn(), run: () => new Promise((done) => { resolve = done; }) });
+      const user = userEvent.setup();
+      render(<><button type="button">Elsewhere</button><AgentReviewPanel patient={patient} createRun={createRun} /></>);
+      await user.click(screen.getByRole('button', { name: 'Run simulated review' }));
+      screen.getByRole('button', { name: 'Elsewhere' }).focus();
+      await act(async () => { resolve({ status: 'cancelled', events: [] }); });
+      expect(screen.getByRole('button', { name: 'Elsewhere' })).toHaveFocus();
+    });
+  });
   it('cancels on unmount and ignores a late result', async () => {
     let resolve;
     const cancel = vi.fn();

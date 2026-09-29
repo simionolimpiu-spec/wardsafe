@@ -14,6 +14,14 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
   const prefix = useId();
   const activeRun = useRef(null);
   const mounted = useRef(true);
+  // WCAG 2.4.3: the control that was focused unmounts when a step finishes, so
+  // hand focus to the next sensible element instead of letting it fall to body.
+  const panelRef = useRef(null);
+  const pendingFocus = useRef(null);
+  const resultsHeading = useRef(null);
+  const decisionHeading = useRef(null);
+  const retryButton = useRef(null);
+  const editButton = useRef(null);
   const [result, setResult] = useState(null);
   const [running, setRunning] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -22,6 +30,7 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
   useEffect(() => {
     mounted.current = true;
     activeRun.current = null;
+    pendingFocus.current = null;
     setResult(null);
     setRunning(false);
     setEditing(false);
@@ -29,6 +38,17 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
     setError('');
     return () => { mounted.current = false; activeRun.current?.cancel(); activeRun.current = null; };
   }, [patient]);
+  useEffect(() => {
+    if (!pendingFocus.current) return;
+    const node = { results: resultsHeading, decision: decisionHeading, retry: retryButton, edit: editButton }[pendingFocus.current]?.current;
+    if (!node) return; // the target has not mounted yet, so keep waiting
+    pendingFocus.current = null;
+    // Only move focus when it was lost or is still inside this panel. Never take it
+    // from somewhere else the reviewer has since moved to.
+    const active = document.activeElement;
+    if (active && active !== document.body && !panelRef.current?.contains(active)) return;
+    node.focus();
+  });
 
   async function start() {
     if (running || result?.cue) return;
@@ -40,7 +60,10 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
       run = createRun(patient);
       activeRun.current = run;
       const next = await run.run();
-      if (mounted.current && activeRun.current === run) setResult(next);
+      if (mounted.current && activeRun.current === run) {
+        pendingFocus.current = next.cue ? 'results' : 'retry';
+        setResult(next);
+      }
     } catch {
       if (mounted.current && (!run || activeRun.current === run)) setError('The simulation review could not start. Try again.');
     } finally {
@@ -52,6 +75,7 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
     try {
       const next = activeRun.current.recordHumanReview({ decision, reviewerRef: 'fictional-demo-reviewer',
         editedText: decision === 'edited' ? editedText : '' });
+      pendingFocus.current = 'decision';
       setResult(next);
       setEditing(false);
       setError('');
@@ -71,20 +95,20 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
             : 'Ready to review the fictional record.';
 
   return (
-    <section className="agent-review" aria-labelledby={`${prefix}-heading`}>
+    <section className="agent-review" aria-labelledby={`${prefix}-heading`} ref={panelRef}>
       <h3 id={`${prefix}-heading`}>Simulated agent review</h3>
       <p>DCU-031 learning example · Mock AI · Simulation-only review</p>
       <p className="risk-support-boundary">Review support only. Not clinically validated and not for clinical decision-making.</p>
       <p aria-live="polite" aria-atomic="true">{status}</p>
       {!cue && <div className="agent-review-actions">
-        <button type="button" className="secondary-action" disabled={running} onClick={start}>
+        <button type="button" className="secondary-action" disabled={running} onClick={start} ref={retryButton}>
           {result || error ? 'Retry simulated review' : 'Run simulated review'}
         </button>
         {running && <button type="button" className="secondary-action" onClick={() => activeRun.current?.cancel()}>Cancel review</button>}
       </div>}
       {error && <p role="alert">{error}</p>}
       {cue && <>
-        <h4>Source facts</h4>
+        <h4 ref={resultsHeading} tabIndex={-1}>Source facts</h4>
         <ul>{potassiumFacts.map((fact) => <li key={fact.factId}>
           Potassium {fact.value} {fact.unit} at {fact.provenance.observedAtLabel}
         </li>)}</ul>
@@ -109,12 +133,13 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
           <p>Signal event: {cue.provenance.signalEventId}</p>
           <p>Generated event: {cue.provenance.generatedEventId}</p>
         </details>
-        <h4>Human decision</h4>
+        <h4 ref={decisionHeading} tabIndex={-1}>Human decision</h4>
         <p>Fictional demo reviewer. Recording a review does not change source facts or start clinical actions.</p>
         {result.status === 'awaiting-human-review' && <>
           <div className="agent-review-actions">
             <button type="button" className="secondary-action" onClick={() => record('accepted')}>Accept review</button>
-            <button type="button" className="secondary-action" onClick={() => { setEditedText(generated.interpretation); setEditing(true); }}>Edit review</button>
+            <button type="button" className="secondary-action" ref={editButton}
+              onClick={() => { setEditedText(generated.interpretation); setEditing(true); }}>Edit review</button>
             <button type="button" className="secondary-action" onClick={() => record('rejected')}>Reject review</button>
           </div>
           {editing && <form onSubmit={(event) => { event.preventDefault(); record('edited'); }}>
@@ -123,7 +148,8 @@ export function AgentReviewPanel({ patient, createRun = createPatientRun }) {
               onChange={(event) => setEditedText(event.target.value)} rows={4} />
             <div className="agent-review-actions">
               <button type="submit" className="primary-action">Save edited review</button>
-              <button type="button" className="secondary-action" onClick={() => setEditing(false)}>Cancel edit</button>
+              <button type="button" className="secondary-action"
+                onClick={() => { pendingFocus.current = 'edit'; setEditing(false); }}>Cancel edit</button>
             </div>
           </form>}
         </>}

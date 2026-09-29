@@ -10,6 +10,9 @@ test('DCU-031 review separates source evidence, AI draft and human decision', as
   await panel.getByRole('button', { name: 'Run simulated review' }).focus();
   await page.keyboard.press('Enter');
   await expect(panel.getByText('Human review required.', { exact: true })).toBeVisible();
+  // WCAG 2.4.3: the Run button unmounts when the review appears, so focus must land
+  // on the results instead of falling back to the top of the page.
+  await expect(panel.getByRole('heading', { name: 'Source facts' })).toBeFocused();
   await expect(panel.getByText(/Recorded potassium change: -0.6/)).toBeVisible();
   await panel.getByText('Why this review cue appeared', { exact: true }).click();
   await expect(panel.getByText('DCU-031:labs.potassium.0', { exact: true })).toBeVisible();
@@ -17,6 +20,7 @@ test('DCU-031 review separates source evidence, AI draft and human decision', as
   await panel.getByLabel('Your edited review').fill('Fictional values and source timestamps reviewed.');
   await panel.getByRole('button', { name: 'Save edited review' }).click();
   await expect(panel.getByText('Human review recorded: edited.', { exact: true })).toBeVisible();
+  await expect(panel.getByRole('heading', { name: 'Human decision' })).toBeFocused();
   await expect(panel.getByText('The original AI interpretation remains untrusted.')).toBeVisible();
   await panel.screenshot({ path: testInfo.outputPath('agent-review.png') });
   await panel.getByText(/Review session audit/).click();
