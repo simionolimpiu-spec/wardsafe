@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test';
+import { signIn } from './shell.js';
 
 test('DCU-031 review separates source evidence, AI draft and human decision', async ({ page }, testInfo) => {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  // SF-306: the app opens on the simulation access gate, so sign in and open
+  // the current ward board, where DCU-031 is the default selected patient.
+  await signIn(page);
   const panel = page.getByRole('region', { name: 'Simulated agent review' });
   await expect(panel).toBeVisible();
   await panel.getByRole('button', { name: 'Run simulated review' }).focus();
