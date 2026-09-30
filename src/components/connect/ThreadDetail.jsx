@@ -23,6 +23,10 @@ export function ThreadDetail({
   const [summary, setSummary] = useState('');
   const [requestType, setRequestType] = useState('review-request');
   const inputRef = useRef(null);
+  // WCAG 2.4.3: a control that disables or unmounts after its action would drop
+  // focus to the top of the page, so each action hands focus to a stable control.
+  const summaryRef = useRef(null);
+  const draftButtonRef = useRef(null);
   const recipient = resolveDemoRecipient(roleKey);
   const disabledReason = recipient.kind === 'person' ? '' : recipient.reason;
   const eligibleTasks = tasks.filter(
@@ -103,10 +107,13 @@ export function ThreadDetail({
         inputRef={inputRef}
         text={state.composerText}
         onChange={(text) => act('composer', { text })}
-        onSend={() => act('send-message', { roleKey })}
+        onSend={() => {
+          act('send-message', { roleKey });
+          inputRef.current?.focus();
+        }}
         disabledReason={disabledReason}
       />
-      <button type="button" onClick={() => act('draft')}>
+      <button type="button" ref={draftButtonRef} onClick={() => act('draft')}>
         Draft reply (simulation)
       </button>
       {state.drafts
@@ -116,10 +123,14 @@ export function ThreadDetail({
             key={draft.id}
             draft={draft}
             disabledReason={disabledReason}
-            onApprove={() =>
-              act('approve-draft', { draftId: draft.id, roleKey })
-            }
-            onDiscard={() => act('discard-draft', { draftId: draft.id })}
+            onApprove={() => {
+              act('approve-draft', { draftId: draft.id, roleKey });
+              draftButtonRef.current?.focus();
+            }}
+            onDiscard={() => {
+              act('discard-draft', { draftId: draft.id });
+              draftButtonRef.current?.focus();
+            }}
             onEdit={() => {
               act('edit-draft', { draftId: draft.id });
               inputRef.current?.focus();
@@ -134,6 +145,7 @@ export function ThreadDetail({
             event.preventDefault();
             act('create-request', { summary, requestType, roleKey });
             setSummary('');
+            summaryRef.current?.focus();
           }}
         >
           <label htmlFor="connect-request-type">Request type</label>
@@ -152,6 +164,7 @@ export function ThreadDetail({
           <label htmlFor="connect-summary">Request summary</label>
           <input
             id="connect-summary"
+            ref={summaryRef}
             value={summary}
             onChange={(event) => setSummary(event.target.value)}
             required

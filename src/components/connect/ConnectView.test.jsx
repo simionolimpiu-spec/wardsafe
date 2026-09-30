@@ -1,5 +1,5 @@
 import { StrictMode } from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it } from 'vitest';
 import { ConnectView } from './ConnectView.jsx';
@@ -127,6 +127,66 @@ it('keeps drafts out of the timeline until human approval and supports edit/disc
   );
   await user.click(screen.getByRole('button', { name: 'Discard' }));
   expect(screen.getByRole('status')).toHaveTextContent('Draft discarded');
+});
+it('keeps keyboard focus on a stable control after messages and requests', async () => {
+  const user = setup();
+  await user.type(screen.getByLabelText('Message'), 'Fictional handover note');
+  await user.click(screen.getByRole('button', { name: 'Send message', exact: true }));
+  expect(screen.getByLabelText('Message')).toHaveFocus();
+  await user.click(screen.getByText('New request', { selector: 'summary' }));
+  await user.type(screen.getByLabelText('Request summary'), 'Review fictional documentation');
+  await user.click(screen.getByRole('button', { name: 'Send request' }));
+  expect(screen.getByLabelText('Request summary')).toHaveFocus();
+});
+it('moves focus to the next request step and to the heading when the request is finished', async () => {
+  const user = setup();
+  await user.click(screen.getByText('New request', { selector: 'summary' }));
+  await user.type(screen.getByLabelText('Request summary'), 'Review fictional documentation');
+  await user.click(screen.getByRole('button', { name: 'Send request' }));
+  const steps = [
+    ['Simulate delivery', 'Simulate read'],
+    ['Simulate read', 'Acknowledge'],
+    ['Acknowledge', 'Accept'],
+    ['Accept', 'Start'],
+    ['Start', 'Complete']
+  ];
+  for (const [clicked, next] of steps) {
+    await user.click(screen.getByRole('button', { name: clicked, exact: true }));
+    expect(screen.getByRole('button', { name: next, exact: true })).toHaveFocus();
+  }
+  await user.click(screen.getByRole('button', { name: 'Complete', exact: true }));
+  expect(screen.getByRole('heading', { name: 'Review request' })).toHaveFocus();
+});
+it('moves focus to the request heading after a confirmed cancellation', async () => {
+  const user = setup();
+  await user.click(screen.getByText('New request', { selector: 'summary' }));
+  await user.type(screen.getByLabelText('Request summary'), 'Review fictional documentation');
+  await user.click(screen.getByRole('button', { name: 'Send request' }));
+  await user.click(screen.getByRole('button', { name: 'Cancel request' }));
+  await user.click(screen.getByRole('button', { name: 'Confirm cancellation' }));
+  expect(screen.getByRole('heading', { name: 'Review request' })).toHaveFocus();
+});
+it('returns focus to Draft reply after a draft is approved or discarded', async () => {
+  const user = setup();
+  const draftButton = () => screen.getByRole('button', { name: 'Draft reply (simulation)' });
+  await user.click(draftButton());
+  await user.click(screen.getByRole('button', { name: 'Approve and send' }));
+  expect(draftButton()).toHaveFocus();
+  await user.click(draftButton());
+  await user.click(screen.getByRole('button', { name: 'Discard' }));
+  expect(draftButton()).toHaveFocus();
+});
+it('does not take focus from somewhere else after a request moves on', async () => {
+  const user = setup();
+  await user.click(screen.getByText('New request', { selector: 'summary' }));
+  await user.type(screen.getByLabelText('Request summary'), 'Review fictional documentation');
+  await user.click(screen.getByRole('button', { name: 'Send request' }));
+  const other = screen.getByRole('button', { name: 'Draft reply (simulation)' });
+  other.focus();
+  // A DOM click does not move focus, so this is a step taken while focus is elsewhere.
+  await act(async () => { screen.getByRole('button', { name: 'Simulate delivery', exact: true }).click(); });
+  expect(screen.getByRole('status')).toHaveTextContent('Request delivered');
+  expect(other).toHaveFocus();
 });
 it('offers only existing tasks for the patient and an explicit empty state', async () => {
   const user = setup([

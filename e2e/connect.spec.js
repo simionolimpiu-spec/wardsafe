@@ -15,6 +15,8 @@ test('Connect keeps messages distinct, walks requests and reviews drafts on desk
     .getByLabel('Message', { exact: true })
     .fill('Please escalate this fictional handover concern');
   await view.getByRole('button', { name: 'Send message', exact: true }).click();
+  // WCAG 2.4.3: Send disables once the box is empty, so focus must stay in the composer.
+  await expect(view.getByLabel('Message', { exact: true })).toBeFocused();
   const event = view
     .locator('article')
     .filter({ hasText: 'Please escalate this fictional handover concern' });
@@ -37,6 +39,8 @@ test('Connect keeps messages distinct, walks requests and reviews drafts on desk
   ])
     await view.getByRole('button', { name, exact: true }).click();
   await expect(view.getByRole('status')).toHaveText('Request completed');
+  // The last step removes every action, so focus moves to the request heading.
+  await expect(view.getByRole('heading', { name: 'Review request' })).toBeFocused();
   await view.getByRole('button', { name: 'Draft reply (simulation)' }).click();
   await view.getByRole('button', { name: 'Approve and send' }).click();
   await expect(view.getByText(/Approved by Alex Morgan/)).toBeVisible();

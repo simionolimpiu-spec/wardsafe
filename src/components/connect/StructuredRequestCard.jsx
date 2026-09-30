@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { REQUEST_TRANSITIONS } from '../../connect/index.js';
 import { staffNames } from '../../connect/demoFixtures.js';
 import { Badge } from '../../design-system/index.js';
@@ -15,7 +15,20 @@ const labels = {
 export function StructuredRequestCard({ request, onTransition }) {
   const [confirming, setConfirming] = useState(false);
   const cancelRef = useRef(null);
+  const cardRef = useRef(null);
+  const headingRef = useRef(null);
+  const previousState = useRef(request.state);
   const allowed = REQUEST_TRANSITIONS[request.state];
+  // WCAG 2.4.3: the button that moved the request on is gone in the new state.
+  // Hand focus to the next step, or to the heading when the request is finished.
+  useEffect(() => {
+    if (previousState.current === request.state) return;
+    previousState.current = request.state;
+    const active = document.activeElement;
+    if (active && active !== document.body && !cardRef.current?.contains(active)) return;
+    const next = cardRef.current?.querySelector('.sf-connect__actions button');
+    (next ?? headingRef.current)?.focus();
+  }, [request.state]);
   function close() {
     setConfirming(false);
     cancelRef.current?.focus();
@@ -30,8 +43,9 @@ export function StructuredRequestCard({ request, onTransition }) {
     <section
       className="sf-connect__request"
       aria-label={`${humanLabel(request.type)} lifecycle`}
+      ref={cardRef}
     >
-      <h4>{humanLabel(request.type)}</h4>
+      <h4 ref={headingRef} tabIndex={-1}>{humanLabel(request.type)}</h4>
       <Badge>{humanLabel(request.state)}</Badge>
       <p>Recipient: {staffNames[request.recipientId]}</p>
       <details>
