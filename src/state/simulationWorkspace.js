@@ -1,12 +1,15 @@
 import { buildSimulationSignals } from '../domain/signalEngine.js';
-import { simulatedPatients } from '../data/simulatedPatients.js';
+import { getDemoScenarioById, getDefaultDemoScenario } from '../data/demoScenarios.js';
 import { initialAuditEvents } from '../domain/workflowEvents.js';
+import { createHospitalWardScenario } from '../domain/hospitalWorkspace.js';
+import { observationsRag, overallRag } from '../domain/wardPopulation.js';
 
 const defaultSettings = {
   compactMode: false,
   draftProvider: 'auto',
   simulationUser: 'Leanne Mitchell'
 };
+const SIMULATION_WORKSPACE_VERSION = 2;
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -46,11 +49,17 @@ function withAudit(state, event) {
 }
 
 function updatePatient(state, patientId, update) {
+  const patients = state.patients.map((patient) => patient.id === patientId ? update(patient) : patient);
+  const wardSummary = state.selectedHospitalId ? { ...state.wardSummary, metrics: {
+    patients: patients.length,
+    activeEscalations: state.escalations.filter((item) => item.status === 'Active').length,
+    highNews: patients.every((patient) => patient.observationScale && patient.observationScale !== 'NEWS2') ? null : patients.filter((patient) => patient.news2 >= 5).length,
+    handoverCompletePercent: patients.length ? Math.round(patients.reduce((sum, patient) => sum + patient.handoverComplete, 0) / patients.length) : 0,
+    dischargeReadyToday: patients.filter((patient) => patient.dischargeReady).length
+  } } : state.wardSummary;
   return {
     ...state,
-    patients: state.patients.map((patient) =>
-      patient.id === patientId ? update(patient) : patient
-    )
+    patients, wardSummary
   };
 }
 
@@ -101,6 +110,8 @@ function normaliseSignalSnapshot(snapshot) {
   const fallback = {
     signalTimeline: [],
     riskSuggestions: [],
+    signalSourceMetadata: null,
+    suggestionSourceMetadata: null,
     sourceFreshness: {
       state: 'unavailable',
       label: 'No signal freshness available.'
@@ -135,49 +146,59 @@ function normaliseSignalSnapshot(snapshot) {
     riskSuggestions: Array.isArray(snapshot.riskSuggestions)
       ? snapshot.riskSuggestions.map(normaliseSnapshotEntry).filter(Boolean)
       : [],
+    signalSourceMetadata: normaliseSourceMetadata(snapshot.signalSourceMetadata),
+    suggestionSourceMetadata: normaliseSourceMetadata(snapshot.suggestionSourceMetadata),
     sourceFreshness,
     missingDataNotes: normaliseTextList(snapshot.missingDataNotes),
     receivedAt:
       typeof snapshot.receivedAt === 'string' && snapshot.receivedAt.trim()
         ? snapshot.receivedAt.trim()
-        : null
+      : null
   };
 }
 
-export function createInitialSimulationState() {
-  const patients = clone(simulatedPatients).map((patient) => ({
-    ...patient,
-    observations: []
-  }));
-  const escalations = patients
-    .filter((patient) => patient.escalation !== 'None')
-    .map((patient, index) => ({
-      id: `escalation-${index + 1}`,
-      patientId: patient.id,
-      reason: patient.nextAction,
-      owner: patient.responsibleNurse,
-      status: patient.escalation === 'Active' ? 'Active' : 'Monitoring'
-    }));
-  const auditEvents = patients.flatMap((patient) =>
-    initialAuditEvents(patient).map((event) => ({
-      ...event,
-      patientId: patient.id
-    }))
-  ).reverse();
+function normaliseSourceMetadata(value) {
+  if (!isPlainObject(value)) {
+    return null;
+  }
+
+  const cloned = safeClone(value);
+  if (!isPlainObject(cloned)) {
+    return null;
+  }
+
+  const source = typeof cloned.source === 'string' && cloned.source.trim()
+    ? cloned.source.trim()
+    : null;
+  const provider = typeof cloned.provider === 'string' && cloned.provider.trim()
+    ? cloned.provider.trim()
+    : null;
+  const mode = typeof cloned.mode === 'string' && cloned.mode.trim()
+    ? cloned.mode.trim()
+    : 'simulation';
+  const explanation = typeof cloned.explanation === 'string' && cloned.explanation.trim()
+    ? cloned.explanation.trim()
+    : null;
+
+  if (!source || !provider || !explanation) {
+    return null;
+  }
 
   return {
-    version: 1,
-    selectedView: 'board',
-    selectedPatientId: patients[0]?.id ?? null,
-    patients,
-    escalations,
-    signalSnapshots: {},
-    intelligence: {
-      suggestionActions: []
-    },
-    auditEvents,
-    settings: { ...defaultSettings }
+    source,
+    provider,
+    mode,
+    clinicalUse: cloned.clinicalUse === false ? false : null,
+    validationStatus:
+      typeof cloned.validationStatus === 'string' && cloned.validationStatus.trim()
+        ? cloned.validationStatus.trim()
+        : 'not-clinically-validated',
+    explanation
   };
+}
+
+export function createInitialSimulationState(scenarioId = getDefaultDemoScenario().id) {
+  return buildSimulationState(getDemoScenarioById(scenarioId));
 }
 
 export function simulationReducer(state, action) {
@@ -193,6 +214,35 @@ export function simulationReducer(state, action) {
 
     case 'patient/selected':
       return { ...state, selectedPatientId: action.payload.patientId };
+
+    case 'draft/saved': {
+      const { patientId, text, savedAt } = action.payload;
+      if (!findPatient(state, patientId) || typeof text !== 'string') return state;
+      const key = `${state.selectedScenarioId}:${patientId}`;
+      return withAudit({
+        ...state,
+        drafts: { ...state.drafts, [key]: {
+          text, savedAt, version: (state.drafts?.[key]?.version ?? 0) + 1
+        } }
+      }, createWorkspaceAuditEvent(state, action, 'SBAR draft edited and saved',
+        'Fictional draft saved on this device.', patientId));
+    }
+
+    case 'scenario/selected': {
+      const next = state.workspaces?.[action.payload.scenarioId]
+        ?? buildSimulationState(getDemoScenarioById(action.payload.scenarioId));
+      return switchWorkspace(state, next, state.selectedView);
+    }
+
+    case 'workspace/wardOpened': {
+      const { hospitalId, wardId, patientId } = action.payload;
+      const scenario = createHospitalWardScenario(hospitalId, wardId, action.payload.date ?? state.activityDate);
+      if (!scenario) return state;
+      const next = scenario.id === state.selectedScenarioId ? state
+        : state.workspaces?.[scenario.id] ?? buildSimulationState(scenario);
+      return { ...switchWorkspace(state, next, 'board'),
+        selectedPatientId: next.patients.some((patient) => patient.id === patientId) ? patientId : next.selectedPatientId };
+    }
 
     case 'task/added': {
       const { patientId, label, owner, due } = action.payload;
@@ -241,8 +291,10 @@ export function simulationReducer(state, action) {
 
     case 'observation/added': {
       const { patientId, news2, respiratoryRate, oxygenSaturation } = action.payload;
+      if (news2 == null || !String(news2).trim() || !Number.isInteger(Number(news2)) || Number(news2) < 0 || Number(news2) > 20) return state;
       const patient = findPatient(state, patientId);
       if (!patient) return state;
+      if (patient.observationScale && patient.observationScale !== 'NEWS2') return state;
 
       const sequence = patient.observations.length + 1;
       const observation = {
@@ -255,6 +307,11 @@ export function simulationReducer(state, action) {
       const nextState = updatePatient(state, patientId, (patient) => ({
         ...patient,
         news2: Number(news2),
+        ...(patient.source === 'hospital-census' ? (() => {
+          const careDomains = { ...patient.careDomains, observations: observationsRag(Number(news2)) };
+          const rag = overallRag(Number(news2), careDomains);
+          return { careDomains, rag, risk: { red: 'High', amber: 'Medium', green: 'Low' }[rag] };
+        })() : {}),
         observations: [...patient.observations, observation]
       }));
       return withAudit(
@@ -500,4 +557,60 @@ export function selectPatientSimulationSignals(state, patientId = state.selected
       receivedAt: snapshot.receivedAt
     }
   });
+}
+
+function buildSimulationState(scenario) {
+  const patients = clone(scenario.patients).map((patient) => ({
+    ...patient,
+    observations: Array.isArray(patient.observations) ? patient.observations : []
+  }));
+  const escalations = patients
+    .filter((patient) => patient.escalation !== 'None')
+    .map((patient, index) => ({
+      id: `escalation-${index + 1}`,
+      patientId: patient.id,
+      reason: patient.nextAction,
+      owner: patient.responsibleNurse,
+      status: patient.escalation === 'Active' ? 'Active' : 'Monitoring'
+    }));
+  const auditEvents = patients.flatMap((patient) =>
+    initialAuditEvents(patient).map((event) => ({
+      ...event,
+      patientId: patient.id
+    }))
+  ).reverse();
+
+  return {
+    version: SIMULATION_WORKSPACE_VERSION,
+    selectedScenarioId: scenario.id,
+    selectedHospitalId: scenario.selectedHospitalId ?? null,
+    censusVersion: scenario.censusVersion ?? null,
+    activityDate: scenario.activityDate ?? null,
+    serviceProfile: scenario.serviceProfile ?? null,
+    selectedWardId: scenario.selectedWardId ?? null,
+    selectedView: 'board',
+    selectedPatientId: scenario.selectedPatientId,
+    scenarioDescription: scenario.description,
+    currentWardName: scenario.currentWardName,
+    hospitalName: scenario.hospitalName,
+    wardSummary: clone(scenario.wardSummary),
+    patients,
+    escalations,
+    signalSnapshots: {},
+    intelligence: {
+      suggestionActions: []
+    },
+    auditEvents,
+    settings: { ...defaultSettings }
+  };
+}
+
+function switchWorkspace(state, next, selectedView) {
+  const { workspaces, drafts, settings, ...currentSnapshot } = state;
+  const { workspaces: _nested, drafts: _drafts, settings: _settings, ...nextSnapshot } = next;
+  return {
+    ...nextSnapshot, selectedView,
+    settings: { ...settings }, drafts: drafts ?? {},
+    workspaces: { ...workspaces, [state.selectedScenarioId]: currentSnapshot }
+  };
 }

@@ -34,7 +34,7 @@ const readyPatient = clone(simulatedPatients[4]);
 
 const documentationGapPatient = {
   id: 'DCU-060',
-  name: 'Patient 060',
+  name: 'Gwendolyn Ibbotson',
   age: 68,
   risk: 'Low',
   riskFlags: [],
@@ -67,7 +67,7 @@ const documentationGapPatient = {
 
 const incompleteHandoverPatient = {
   id: 'DCU-061',
-  name: 'Patient 061',
+  name: 'Trevor Lightowler',
   age: 73,
   risk: 'Medium',
   riskFlags: ['Falls Risk'],
@@ -102,7 +102,7 @@ const incompleteHandoverPatient = {
 
 const escalationCuePatient = {
   id: 'DCU-062',
-  name: 'Patient 062',
+  name: 'Sheila Micklethwaite',
   age: 59,
   risk: 'Medium',
   riskFlags: ['Observation review'],
@@ -135,7 +135,7 @@ const escalationCuePatient = {
 
 const dischargeBlockerPatient = {
   id: 'DCU-063',
-  name: 'Patient 063',
+  name: 'Norman Oglethorpe',
   age: 64,
   risk: 'Low',
   riskFlags: [],
@@ -168,7 +168,7 @@ const dischargeBlockerPatient = {
 
 const multipleGapPatient = {
   id: 'DCU-064',
-  name: 'Patient 064',
+  name: 'Beryl Ramsbottom',
   age: 57,
   risk: 'High',
   riskFlags: ['Sepsis Concern'],
@@ -204,7 +204,7 @@ const multipleGapPatient = {
 
 const partialSafePatient = {
   id: 'DCU-065',
-  name: 'Patient 065',
+  name: 'Cyril Thistlethwaite',
   handoverComplete: 0,
   dischargeReady: false,
   dischargeBlockers: null,

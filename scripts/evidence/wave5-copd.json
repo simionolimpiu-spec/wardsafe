@@ -1,0 +1,62 @@
+[
+  {
+    "pmid": "41813030",
+    "doi": "10.1136/bmjresp-2025-003178",
+    "title": "Barriers to implementing a pharmacist-led COPD CARE bundle in rural settings: a qualitative evaluation.",
+    "journal": "BMJ open respiratory research",
+    "journalAbbrev": "BMJ Open Respir Res",
+    "year": 2026,
+    "authors": ["Portillo", "Maurer", "Do", "Jacobson", "Ku", "Parham", "Erdelt", "Vande Hey"],
+    "meshTerms": ["Humans", "Pulmonary Disease, Chronic Obstructive", "Pharmacists", "United States", "Rural Health Services", "Patient Care Bundles", "Qualitative Research", "Rural Population", "United States Department of Veterans Affairs"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41390271",
+    "doi": "10.1016/j.jcjq.2025.11.004",
+    "title": "Rapid Implementation of Guideline-Based Care for Acute Exacerbations of COPD in a Low-Resource Setting: An Improvement Brief.",
+    "journal": "Joint Commission journal on quality and patient safety",
+    "journalAbbrev": "Jt Comm J Qual Patient Saf",
+    "year": 2025,
+    "authors": ["Saqib"],
+    "meshTerms": ["Humans", "Pulmonary Disease, Chronic Obstructive", "Quality Improvement", "Guideline Adherence", "Pakistan", "Practice Guidelines as Topic", "Electronic Health Records", "Male", "Female", "Middle Aged", "Aged", "Developing Countries", "Patient Discharge", "Tertiary Care Centers", "Patient Education as Topic", "Anti-Bacterial Agents"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "32072800",
+    "doi": "10.4081/monaldi.2020.1176",
+    "title": "Use of inhaled devices during a hospital exacerbation of COPD: a summary of an interdisciplinary audit held at ICS Maugeri Pavia, Italy (March-June 2019).",
+    "journal": "Monaldi archives for chest disease = Archivio Monaldi per le malattie del torace",
+    "journalAbbrev": "Monaldi Arch Chest Dis",
+    "year": 2020,
+    "authors": ["Vitacca", "Lastoria", "Delmastro", "Fiorenza", "De Cata", "Fusar Poli", "Gilè", "Prometti"],
+    "meshTerms": ["Administration, Inhalation", "Adrenergic beta-Agonists", "Aged, 80 and over", "Bronchodilator Agents", "Clinical Audit", "Disease Progression", "Drug Therapy, Combination", "Hospitalization", "Humans", "Italy", "Muscarinic Antagonists", "Nebulizers and Vaporizers", "Patient Care Team", "Pulmonary Disease, Chronic Obstructive"],
+    "articleTypes": ["Journal Article", "Systematic Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "30774326",
+    "doi": "10.2147/COPD.S178147",
+    "title": "Efficacy of a home discharge care bundle after acute exacerbation of COPD.",
+    "journal": "International journal of chronic obstructive pulmonary disease",
+    "journalAbbrev": "Int J Chron Obstruct Pulmon Dis",
+    "year": 2019,
+    "authors": ["Cousse", "Gillibert", "Salaün", "Thiberville", "Cuvelier", "Patout"],
+    "meshTerms": ["Aged", "Delivery of Health Care, Integrated", "Disease Progression", "Female", "France", "Home Care Services", "Humans", "Length of Stay", "Male", "Middle Aged", "Patient Care Bundles", "Patient Discharge", "Patient Readmission", "Program Evaluation", "Pulmonary Disease, Chronic Obstructive", "Retrospective Studies", "Severity of Illness Index", "Time Factors", "Treatment Outcome"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "26625651",
+    "doi": null,
+    "title": "Patients Hospitalised with an Acute Exacerbation of COPD: Is There a Need for a Discharge Bundle of Care?",
+    "journal": "Irish medical journal",
+    "journalAbbrev": "Ir Med J",
+    "year": 2015,
+    "authors": ["Migone", "O'Connor", "Kelly", "McDonnell T J"],
+    "meshTerms": ["Aged", "Female", "Guideline Adherence", "Hospitalization", "Humans", "Ireland", "Male", "Patient Discharge", "Patient Readmission", "Practice Guidelines as Topic", "Pulmonary Disease, Chronic Obstructive"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]

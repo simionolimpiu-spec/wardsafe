@@ -4,14 +4,14 @@
   "simulationOnly": true,
   "approved": true,
   "approvedBy": "SafeFlow build steward",
-  "approvalReason": "Simulation-only database bootstrap approved for local review. This does not authorise live patient data or clinical deployment.",
+  "approvalReason": "Simulation-only database bootstrap approved for local review. This does not authorise live patient data or clinical deployment. Re-approved 17 Jul 2026 to add the journey_episodes/longitudinal_observations tables (SF-253, L3) - additive schema change only, still simulation-only, still no live deployment authorisation.",
   "migrations": [
     {
       "path": "database/schema.sql",
       "phase": "schema",
       "simulationOnly": true,
-      "bytes": 15838,
-      "sha256": "b14e960e01ddf5e3ba8e104d8f3f673cc58b905765450bc4a722d5c3b4e74da1"
+      "bytes": 18337,
+      "sha256": "cd085c00afdefeaa90f8830a6a384e044ac8d45c00186212f89ca076cf82e5d1"
     },
     {
       "path": "database/seed.sql",

@@ -1,0 +1,118 @@
+{
+  "id": "pfd-2026-0294",
+  "source": {
+    "type": "pfd",
+    "ref": "2026-0294",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/mary-forlin-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2026/08/Mary-Forlin-Prevention-of-future-deaths-report-2026-0294_Published.pdf",
+    "report_date": "2026-06-05",
+    "published_date": "2026-08-13",
+    "category": "Hospital Death (Clinical Procedures and medical management) related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Mary (also known as Moira) Forlin",
+    "age": null,
+    "date_of_death": "2024-07-28",
+    "cause_of_death": "Multiorgan failure arising from infection of unknown source and respiratory failure"
+  },
+
+  "authority": {
+    "coroner_name": "Joseph Turner",
+    "coroner_area": "West Sussex, Brighton and Hove",
+    "recipients": ["University Hospitals Sussex NHS Foundation Trust"],
+    "primary_organisation": "University Hospitals Sussex NHS Foundation Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "admission",
+      "date": "2024-07-21",
+      "end_date": "2024-07-28",
+      "setting": "Royal Sussex County Hospital, Brighton",
+      "presentation": "Emergency admission following a fall at home with a long lie; respiratory failure likely driven by infection",
+      "outcome": "died",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": null,
+      "evidence": "Mrs Forlin was admitted to hospital as an emergency on 21st July 2024 following a fall at home with a long lie. She was suffering from respiratory failure, likely driven by an infection. The source was never identified and antibiotic treatment did not resolve this over an extended period. Microbiological analysis was not undertaken."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": false,
+    "prior_specialist_advice_not_followed": false,
+    "test_ordered_not_chased": true,
+    "test_not_ordered": true,
+    "risk_assessment_not_updated_after_event": false,
+    "patient_concern_not_escalated": false,
+    "family_concern_not_escalated": false,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": true,
+    "specialist_input_not_sought": false,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": false,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": true
+  },
+
+  "what_was_missed": "Guidance recommending review of antibiotic therapy at 48–72 hours was not actively followed despite blood tests showing continuing signs of infection, and microbiology was never ordered — an unresolved working diagnosis carried through a seven-day admission without systemic prompt to revisit it.",
+
+  "coroner_concerns": [
+    {
+      "quote": "my concern is that there is no proactive, or an insufficiently rigorous, system or process – potentially driven by the electronic patient record – by which tests, including microbiology, for patients with serious infections are ordered, assessed and/or chased, so as to enable a more rapid and targeted approach when broad spectrum antibiotics have failed to improve a patient's condition.",
+      "box": "6",
+      "theme": "record_system"
+    },
+    {
+      "quote": "current policies, systems and processes – including electronic records – do not proactively flag, up, drive or require active consideration of tests, including whether and when results have been obtained, or whether further specialist tests should then be required",
+      "box": "10",
+      "theme": "record_system"
+    },
+    {
+      "quote": "there appear to be no obvious systemic checks and failsafes in patient care as regards infection testing, treatment and then review – especially where treatment is not working.",
+      "box": "10",
+      "theme": "record_system"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": false,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": false,
+        "evidence": "Single continuous emergency admission from 21st July 2024 until death on 28th July 2024. No earlier attendance, discharge, or separately-closed escalation event is recorded in the report."
+      },
+      {
+        "criterion": "C2",
+        "met": false,
+        "evidence": "No contact closed as appropriate; the patient remained an inpatient throughout. 'She remained at high risk throughout admission.'"
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "Notwithstanding the existence of guidance, recommending review at 48-72 hours, and noting that this remains a live discussion topic at the Trust's training sessions, it was apparent from the evidence heard, that clinicians did not actively consider or appear to follow the guidance, despite blood tests showing continuing signs of infection which broad spectrum antibiotics had not reduced."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "current policies, systems and processes – including electronic records – do not proactively flag, up, drive or require active consideration of tests, including whether and when results have been obtained, or whether further specialist tests should then be required, enabling more timely consideration as to whether targeted antibiotics should be administered"
+      }
+    ],
+    "exclusion_reason": "E1_single_episode",
+    "adjacent_theme": true,
+    "adjudication_note": "Excluded on C1 and C2: a single uninterrupted admission with no earlier closed contact. Retained in the excluded register and flagged adjacent_theme because the coroner's identified mechanism is precisely the one this corpus is assembled to evidence — that no system proactively drives reconsideration when a working diagnosis is not resolving. Cite as supporting material for the generality of the mechanism. Do NOT count toward the 100. This case is the clearest illustration of why C1 and C2 are needed: without them the corpus would silently expand into 'any case where a coroner criticised an EPR', which is a much larger and much less specific claim."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published report text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.0"
+  }
+}

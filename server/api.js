@@ -1,6 +1,10 @@
 import { simulatedPatients } from '../src/data/simulatedPatients.js';
+import { createServerDebrief, debriefProviderStatus } from './debriefProvider.js';
+import { getDebriefContext } from '../src/domain/aiDebrief.js';
 import { deterministicDraftProvider } from '../src/domain/draftProvider.js';
+import { buildEpisodes, compareDays, getPatientDay } from '../src/domain/longitudinalJourney.js';
 import { evaluatePotassiumSafetyGap } from '../src/domain/safetyRules.js';
+import { buildWardLongitudinalRollup, compareWardDays } from '../src/domain/wardLongitudinalRollup.js';
 import {
   assertSimulationAuditPayloadIsSafe,
   createConfiguredAuditEventProvider
@@ -8,6 +12,7 @@ import {
 import { createCorsHeaders } from './corsConfig.js';
 import { createSimulationReadinessReport } from './readinessReport.js';
 import { createSimulationRiskSupportReadOnlyReport } from './simulationRiskSupportReport.js';
+import { buildSimulationOutputEnvelope } from './simulationOutputMetadata.js';
 import { createConfiguredSignalProvider } from './signalProvider.js';
 import { createConfiguredSuggestionProvider } from './suggestionProvider.js';
 import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
@@ -15,14 +20,21 @@ import { createConfiguredWorkspaceProvider } from './workspaceProvider.js';
 export function createApiHandler({
   provider = deterministicDraftProvider,
   env = process.env,
+  debriefProvider,
   workspaceProvider = createConfiguredWorkspaceProvider({ env }),
   auditEventProvider = createConfiguredAuditEventProvider({ env }),
   signalProvider = createConfiguredSignalProvider({ env }),
   suggestionProvider = createConfiguredSuggestionProvider({ env })
 } = {}) {
   return async function apiHandler(req, res) {
+    try {
     const { pathname, searchParams } = new URL(req.url ?? '/', 'http://localhost');
     const suggestionActionMatch = pathname.match(/^\/api\/simulation\/risk-suggestions\/([^/]+)\/actions$/);
+    const longitudinalDayMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/days\/(-?\d+)$/);
+    const longitudinalEpisodesMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/episodes$/);
+    const longitudinalCompareMatch = pathname.match(/^\/api\/simulation\/longitudinal\/patients\/([^/]+)\/compare$/);
+    const wardLongitudinalRollupMatch = pathname.match(/^\/api\/simulation\/longitudinal\/wards\/([^/]+)\/rollup$/);
+    const wardLongitudinalCompareMatch = pathname.match(/^\/api\/simulation\/longitudinal\/wards\/([^/]+)\/compare$/);
     setCorsHeaders(res, env);
 
     if (req.method === 'OPTIONS') {
@@ -33,6 +45,20 @@ export function createApiHandler({
 
     if (req.method === 'GET' && pathname === '/api/health') {
       writeJson(res, 200, { status: 'ok' });
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/simulation/debrief/status') {
+      writeJson(res, 200, debriefProviderStatus({ env, liveProvider: debriefProvider }));
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/simulation/debrief') {
+      const input = await readJson(req);
+      try { getDebriefContext(input); }
+      catch { writeJson(res, 400, { error: 'Provide only a known scenario id and up to 2,000 characters of fictional notes.' }); return; }
+      try { writeJson(res, 200, await createServerDebrief(input, { env, liveProvider: debriefProvider })); }
+      catch { writeJson(res, 503, { error: 'Debrief provider response rejected or unavailable. No live draft was shown.' }); }
       return;
     }
 
@@ -88,7 +114,36 @@ export function createApiHandler({
       return;
     }
 
+    if (req.method === 'GET' && longitudinalDayMatch) {
+      handleLongitudinalDay(res, decodeURIComponent(longitudinalDayMatch[1]), longitudinalDayMatch[2]);
+      return;
+    }
+
+    if (req.method === 'GET' && longitudinalEpisodesMatch) {
+      handleLongitudinalEpisodes(res, decodeURIComponent(longitudinalEpisodesMatch[1]), searchParams);
+      return;
+    }
+
+    if (req.method === 'GET' && longitudinalCompareMatch) {
+      handleLongitudinalCompare(res, decodeURIComponent(longitudinalCompareMatch[1]), searchParams);
+      return;
+    }
+
+    if (req.method === 'GET' && wardLongitudinalRollupMatch) {
+      handleWardLongitudinalRollup(res, decodeURIComponent(wardLongitudinalRollupMatch[1]), searchParams);
+      return;
+    }
+
+    if (req.method === 'GET' && wardLongitudinalCompareMatch) {
+      handleWardLongitudinalCompare(res, decodeURIComponent(wardLongitudinalCompareMatch[1]), searchParams);
+      return;
+    }
+
     writeJson(res, 404, { error: 'Not found' });
+    } catch (error) {
+      const status = error.statusCode === 413 ? 413 : error instanceof SyntaxError || error instanceof URIError ? 400 : 503;
+      writeJson(res, status, { error: status === 413 ? 'Request body too large' : status === 400 ? 'Invalid request' : 'Simulation service unavailable' });
+    }
   };
 }
 
@@ -103,13 +158,15 @@ function simulationSafetyBoundary() {
 async function handleSimulationSignals(res, signalProvider, searchParams) {
   try {
     const signals = await signalProvider.listPatientSignals({ patientId: searchParams.get('patientId') || null });
-    writeJson(res, 200, {
+    writeJson(res, 200, buildSimulationOutputEnvelope({
+      source: signalProvider.id ?? 'simulation-signals',
+      payload: {
       product: 'SafeFlow',
       simulationOnly: true,
-      source: signalProvider.id ?? 'simulation-signals',
       safetyBoundary: simulationSafetyBoundary(),
       signals
-    });
+      }
+    }));
   } catch {
     writeJson(res, 503, { error: 'Simulation signals unavailable' });
   }
@@ -127,13 +184,15 @@ async function handleSimulationRiskSupportReport(res, searchParams) {
 async function handleSimulationRiskSuggestions(res, suggestionProvider, searchParams) {
   try {
     const suggestions = await suggestionProvider.listRiskSuggestions({ patientId: searchParams.get('patientId') || null });
-    writeJson(res, 200, {
+    writeJson(res, 200, buildSimulationOutputEnvelope({
+      source: suggestionProvider.id ?? 'simulation-risk-suggestions',
+      payload: {
       product: 'SafeFlow',
       simulationOnly: true,
-      source: suggestionProvider.id ?? 'simulation-risk-suggestions',
       safetyBoundary: simulationSafetyBoundary(),
       suggestions
-    });
+      }
+    }));
   } catch {
     writeJson(res, 503, { error: 'Simulation risk suggestions unavailable' });
   }
@@ -215,6 +274,93 @@ async function handleSbarDraft(req, res, provider) {
   }
 }
 
+function handleLongitudinalDay(res, patientId, rawDay) {
+  const day = Number(rawDay);
+  if (!Number.isInteger(day) || day < 1) {
+    writeJson(res, 400, { error: 'Day must be a positive integer' });
+    return;
+  }
+
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'longitudinal-journey-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      day: getPatientDay(patientId, day)
+    }
+  }));
+}
+
+function handleLongitudinalEpisodes(res, patientId, searchParams) {
+  const throughDay = normaliseThroughDay(searchParams.get('throughDay'));
+  if (throughDay === null) {
+    writeJson(res, 400, { error: 'throughDay must be a positive integer' });
+    return;
+  }
+
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'longitudinal-journey-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      throughDay,
+      episodes: buildEpisodes(patientId, throughDay)
+    }
+  }));
+}
+
+function handleLongitudinalCompare(res, patientId, searchParams) {
+  const dayA = Number(searchParams.get('from'));
+  const dayB = Number(searchParams.get('to'));
+  if (!Number.isInteger(dayA) || dayA < 1 || !Number.isInteger(dayB) || dayB < 1) {
+    writeJson(res, 400, { error: 'from and to must be positive integers' });
+    return;
+  }
+
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'longitudinal-journey-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      comparison: compareDays(patientId, dayA, dayB)
+    }
+  }));
+}
+
+function handleWardLongitudinalRollup(res, wardId, searchParams) {
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'ward-longitudinal-rollup-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      rollup: buildWardLongitudinalRollup(wardId, searchParams.get('day'))
+    }
+  }));
+}
+
+function handleWardLongitudinalCompare(res, wardId, searchParams) {
+  writeJson(res, 200, buildSimulationOutputEnvelope({
+    source: 'ward-longitudinal-rollup-engine',
+    payload: {
+      product: 'SafeFlow',
+      simulationOnly: true,
+      safetyBoundary: simulationSafetyBoundary(),
+      comparison: compareWardDays(wardId, searchParams.get('from'), searchParams.get('to'))
+    }
+  }));
+}
+
+function normaliseThroughDay(value) {
+  if (value == null || value === '') return 1;
+  const day = Number(value);
+  if (!Number.isInteger(day) || day < 1) return null;
+  return day;
+}
+
 function normaliseAuditLimit(value) {
   if (value == null || value === '') return 25;
   const limit = Number(value);
@@ -224,15 +370,28 @@ function normaliseAuditLimit(value) {
 
 async function readJson(req) {
   if (typeof req.json === 'function') {
-    return req.json();
+    const value = await req.json();
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new SyntaxError('Expected an object');
+    return value;
   }
 
   const chunks = [];
-  for await (const chunk of req) {
+  let size = 0;
+  const stream = typeof req.iterator === 'function' ? req.iterator({ destroyOnReturn: false }) : req;
+  for await (const chunk of stream) {
+    size += Buffer.byteLength(chunk);
+    if (size > 64 * 1024) {
+      const error = new Error('Request body too large');
+      error.statusCode = 413;
+      req.resume?.();
+      throw error;
+    }
     chunks.push(chunk);
   }
   const rawBody = Buffer.concat(chunks).toString('utf8');
-  return rawBody ? JSON.parse(rawBody) : {};
+  const value = rawBody ? JSON.parse(rawBody) : {};
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new SyntaxError('Expected an object');
+  return value;
 }
 
 function writeJson(res, statusCode, payload) {

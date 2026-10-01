@@ -24,9 +24,11 @@ describe('createInitialSimulationState', () => {
     const state = createInitialSimulationState();
 
     expect(state).toMatchObject({
-      version: 1,
+      version: 2,
       selectedView: 'board',
       selectedPatientId: simulatedPatients[0].id,
+      selectedScenarioId: 'day-care-treatment-pathway',
+      currentWardName: 'Day Care Unit',
       signalSnapshots: {},
       settings: {
         compactMode: false,
@@ -73,6 +75,31 @@ describe('simulationReducer', () => {
 
     expect(selected.selectedView).toBe('handover');
     expect(selected.selectedPatientId).toBe('DCU-017');
+  });
+
+  it('switches demo scenarios without losing the active workspace view', () => {
+    const navigated = reduce({ type: 'navigation/changed', payload: { view: 'handover' } });
+    const selected = reduce(
+      { type: 'scenario/selected', payload: { scenarioId: 'amu-discharge-readiness-review' } },
+      navigated
+    );
+
+    expect(selected.selectedView).toBe('handover');
+    expect(selected.selectedScenarioId).toBe('amu-discharge-readiness-review');
+    expect(selected.selectedPatientId).toBe('DCU-044');
+    expect(selectPatient(selected).id).toBe('DCU-044');
+  });
+
+  it('loads a new ward scenario with the expected ward name and selected patient', () => {
+    const selected = reduce({
+      type: 'scenario/selected',
+      payload: { scenarioId: 'paediatric-sepsis-screen-review' }
+    });
+
+    expect(selected.selectedScenarioId).toBe('paediatric-sepsis-screen-review');
+    expect(selected.currentWardName).toBe('Paediatric Ward');
+    expect(selected.selectedPatientId).toBe('DCU-031');
+    expect(selectPatient(selected).id).toBe('DCU-031');
   });
 
   it('adds and completes a task with audit labels', () => {
@@ -282,6 +309,22 @@ describe('simulationReducer', () => {
             state: 'current',
             label: 'Latest simulated signal feed'
           },
+          signalSourceMetadata: {
+            source: 'private-lambda-signals-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+          },
+          suggestionSourceMetadata: {
+            source: 'private-lambda-risk-suggestions-placeholder',
+            provider: 'placeholder',
+            mode: 'simulation',
+            clinicalUse: false,
+            validationStatus: 'not-clinically-validated',
+            explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+          },
           missingDataNotes: ['Magnesium result not visible.'],
           receivedAt: '09:10'
         }
@@ -304,6 +347,22 @@ describe('simulationReducer', () => {
           riskTier: 'watch'
         }
       ],
+      signalSourceMetadata: {
+        source: 'private-lambda-signals-placeholder',
+        provider: 'placeholder',
+        mode: 'simulation',
+        clinicalUse: false,
+        validationStatus: 'not-clinically-validated',
+        explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+      },
+      suggestionSourceMetadata: {
+        source: 'private-lambda-risk-suggestions-placeholder',
+        provider: 'placeholder',
+        mode: 'simulation',
+        clinicalUse: false,
+        validationStatus: 'not-clinically-validated',
+        explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.'
+      },
       sourceFreshness: {
         state: 'current',
         label: 'Latest simulated signal feed'
@@ -468,6 +527,8 @@ describe('simulationReducer', () => {
         }
       ],
       riskSuggestions: [],
+      signalSourceMetadata: null,
+      suggestionSourceMetadata: null,
       sourceFreshness: {
         state: 'unavailable',
         label: 'No signal freshness available.'
@@ -485,6 +546,8 @@ describe('simulationReducer', () => {
         snapshot: {
           signalTimeline: [],
           riskSuggestions: [],
+          signalSourceMetadata: null,
+          suggestionSourceMetadata: null,
           sourceFreshness: {
             state: 'unavailable',
             label: 'No signal freshness available.'

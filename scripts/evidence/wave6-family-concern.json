@@ -1,0 +1,62 @@
+[
+  {
+    "pmid": "36473743",
+    "doi": "10.1016/j.iccn.2022.103363",
+    "title": "Paediatric family activated rapid response interventions; qualitative systematic review.",
+    "journal": "Intensive & critical care nursing",
+    "journalAbbrev": "Intensive Crit Care Nurs",
+    "year": 2022,
+    "authors": ["Cresham Fox", "Taylor", "Marufu", "Hendron", "Manning"],
+    "meshTerms": ["Humans", "Child", "Health Personnel", "Delivery of Health Care", "Family"],
+    "articleTypes": ["Journal Article", "Systematic Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "34888450",
+    "doi": "10.7861/fhj.2021-0134",
+    "title": "When patients (and families) raise the alarm: Patient and family activated rapid response as a safety strategy for hospitals.",
+    "journal": "Future healthcare journal",
+    "journalAbbrev": "Future Healthc J",
+    "year": 2021,
+    "authors": ["Bucknall", "Quinney", "Booth", "McKinney", "Subbe", "Odell"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "28272591",
+    "doi": "10.12788/jhm.2697",
+    "title": "Condition Help: A Patient- and Family-Initiated Rapid Response System.",
+    "journal": "Journal of hospital medicine",
+    "journalAbbrev": "J Hosp Med",
+    "year": 2017,
+    "authors": ["Eden", "Rack", "Chen", "Bump"],
+    "meshTerms": ["Adult", "Aged", "Family", "Female", "Hospital Rapid Response Team", "Humans", "Male", "Medical Errors", "Middle Aged", "Patient Safety", "Professional-Patient Relations"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "35238154",
+    "doi": "10.1111/ans.17584",
+    "title": "Can you hear me? Analysis of a Queensland patient-initiated escalation process and the importance of communication in surgical care.",
+    "journal": "ANZ journal of surgery",
+    "journalAbbrev": "ANZ J Surg",
+    "year": 2022,
+    "authors": ["Flynn", "Flynn", "Gifford", "Smith"],
+    "meshTerms": ["Communication", "Humans", "Queensland", "Retrospective Studies"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "30928243",
+    "doi": "10.1016/j.aucc.2019.01.002",
+    "title": "Evaluation of a patient and family activated escalation system: Ryan's Rule.",
+    "journal": "Australian critical care : official journal of the Confederation of Australian Critical Care Nurses",
+    "journalAbbrev": "Aust Crit Care",
+    "year": 2019,
+    "authors": ["Dwyer", "Flenady", "Kahl", "Quinney"],
+    "meshTerms": ["Adolescent", "Adult", "Aged", "Aged, 80 and over", "Child", "Child, Preschool", "Clinical Deterioration", "Female", "Hospital Rapid Response Team", "Humans", "Infant", "Infant, Newborn", "Male", "Middle Aged", "Patient Safety", "Quality Assurance, Health Care", "Queensland", "Retrospective Studies"],
+    "articleTypes": ["Evaluation Study", "Journal Article"],
+    "language": "eng"
+  }
+]

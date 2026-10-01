@@ -1,6 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { buildMigrationManifest } from '../database/migrationManifest.js';
+import {
+  SIMULATION_OUTPUT_EXPLANATION,
+  SIMULATION_OUTPUT_VALIDATION_STATUS,
+  createSimulationProviderMetadata
+} from './simulationOutputMetadata.js';
 
 function readMigrationApproval() {
   try {
@@ -55,7 +60,11 @@ export function createSimulationReadinessReport({
     schemaVersion: 1,
     product: 'SafeFlow',
     environment: env.SAFEFLOW_ENVIRONMENT ?? 'local',
+    mode: 'simulation',
     simulationOnly: true,
+    clinicalUse: false,
+    validationStatus: SIMULATION_OUTPUT_VALIDATION_STATUS,
+    explanation: SIMULATION_OUTPUT_EXPLANATION,
     safetyBoundary: {
       noLivePatientData: true,
       directCareIdentifiers: false,
@@ -67,6 +76,14 @@ export function createSimulationReadinessReport({
       audit: providerId(auditEventProvider, 'local-audit-fixture'),
       signals: providerId(signalProvider, 'local-simulation-signals'),
       suggestions: providerId(suggestionProvider, 'local-simulation-risk-suggestions')
+    },
+    providerMetadata: {
+      signals: createSimulationProviderMetadata({
+        id: providerId(signalProvider, 'local-simulation-signals')
+      }),
+      suggestions: createSimulationProviderMetadata({
+        id: providerId(suggestionProvider, 'local-simulation-risk-suggestions')
+      })
     },
     database: {
       configured: Boolean(env.DATABASE_URL || env.DATABASE_SECRET_ARN),

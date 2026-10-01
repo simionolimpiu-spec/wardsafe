@@ -1,13 +1,75 @@
 import { expect, test } from '@playwright/test';
+import { navigateTo, signIn } from './shell.js';
+
+test('Ward board reflows with readable states, keyboard access and a stacked patient panel', async ({ page }, testInfo) => {
+  await signIn(page);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const board = page.getByRole('region', { name: 'Ward Safety Board', exact: true });
+  await expect(board).toBeVisible();
+  await expect(page.locator('.patient-panel .potassium-view .evidence-grid > article')).toHaveCount(3);
+  for (const width of [320, 860, 1366, 1600]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const measurements = await page.evaluate(() => {
+      const grid = document.querySelector('.board-summary-cards');
+      const table = document.querySelector('.table-scroll');
+      const articles = [...document.querySelectorAll('.patient-panel .potassium-view .evidence-grid > article')];
+      return {
+        pageOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        cardsFit: [...grid.children].every((card) => card.getBoundingClientRect().right <= grid.getBoundingClientRect().right + 1 && card.scrollWidth <= card.clientWidth + 1),
+        tableContained: table.getBoundingClientRect().right <= document.documentElement.clientWidth + 1,
+        panelStacked: articles.every((article, i) => i === 0 || article.getBoundingClientRect().top >= articles[i - 1].getBoundingClientRect().bottom),
+        targetHeight: document.querySelector('.sf-ward-patient-cell__button').getBoundingClientRect().height,
+        progressAnimation: getComputedStyle(document.querySelector('.handover-progress')).animationName
+      };
+    });
+    expect(measurements.pageOverflow, `page width ${width}`).toBeLessThanOrEqual(1);
+    expect(measurements.cardsFit, `summary width ${width}`).toBe(true);
+    expect(measurements.tableContained, `table width ${width}`).toBe(true);
+    expect(measurements.panelStacked, `panel width ${width}`).toBe(true);
+    expect(measurements.targetHeight).toBeGreaterThanOrEqual(44);
+    expect(measurements.progressAnimation).toBe('none');
+    // Priority columns always come first. SF-306 compact mode hides the last
+    // three on narrow boards, with a Show all columns control.
+    const headers = await board.getByRole('columnheader').allInnerTexts();
+    expect(headers.slice(0, 5).map((h) => h.trim())).toEqual(['Fictional label', 'Risk', 'Escalation status', 'Next action', 'NEWS2']);
+    if (headers.length < 8) await expect(board.getByRole('button', { name: 'Show all columns' })).toBeVisible();
+    await board.screenshot({ path: testInfo.outputPath(`ward-board-${width}.png`) });
+  }
+  await expect(board.getByRole('columnheader')).toHaveText([
+    'Fictional label', 'Risk', 'Escalation status', 'Next action',
+    'NEWS2', 'Responsible fictional nurse', 'Handover %', 'Discharge-ready'
+  ]);
+  const current = board.getByRole('button', { name: 'Open Margaret Ainsworth (DCU-031)' });
+  await current.focus();
+  await expect(current).toBeFocused();
+  await expect(current).toHaveAttribute('aria-current', 'true');
+  const next = board.getByRole('button', { name: 'Open Harold Fothergill (DCU-028)' });
+  await page.keyboard.press('Tab');
+  await expect(next).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(next).toHaveAttribute('aria-current', 'true');
+  await expect(current).not.toHaveAttribute('aria-current', 'true');
+});
 
 test('SafeFlow prototype journey stays within simulation safety boundaries', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.getByLabel('Work email').fill('review@example.test');
+  await page.getByLabel('Password', { exact: true }).fill('fictional-review');
+  await page.getByRole('button', { name: 'Enter simulation workspace' }).click();
+  await page.getByRole('button', { name: 'Open current ward workflow' }).click();
 
   await expect(page.getByRole('heading', { name: 'SafeFlow', exact: true })).toBeVisible();
   await expect(page.getByText(/Simulation only/i)).toBeVisible();
   await expect(page.getByText(/^NHS$/)).toHaveCount(0);
+  expect(await page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('Inter');
 
-  const overflowingMetrics = await page.locator('.metric-grid').evaluate((grid) => {
+  const pageWidth = await page.locator('html').evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth
+  }));
+  expect(pageWidth.scrollWidth).toBeLessThanOrEqual(pageWidth.clientWidth + 1);
+
+  const overflowingMetrics = await page.locator('.board-summary-cards').evaluate((grid) => {
     const gridRect = grid.getBoundingClientRect();
     return Array.from(grid.children)
       .filter((card) => card.getBoundingClientRect().right > gridRect.right + 1)
@@ -15,10 +77,17 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   });
   expect(overflowingMetrics).toEqual([]);
 
-  await page.getByRole('tab', { name: /Handover/i }).click();
+  await navigateTo(page, 'Handover');
   await expect(page.getByRole('region', { name: /Handover and discharge readiness/i })).toBeVisible();
 
-  await page.getByRole('tab', { name: /Potassium flag/i }).click();
+  await expect(page.getByRole('navigation', { name: /Prototype journey/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /Potassium flag/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /^Scenarios$/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /Competency Passport/i })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /Learning Hub/i })).toHaveCount(0);
+  await navigateTo(page, 'Ward Safety Board');
+  await expect(page.getByRole('row', { name: /DCU-031.*Electrolyte \/ AKI safety gap/i })).toBeVisible();
+  await expect(page.getByRole('region', { name: /Potassium electrolyte safety gap/i })).toBeVisible();
   await expect(page.getByText(/does not prescribe/i)).toBeVisible();
   await expect(page.getByText(/Potassium has fallen from 3.8 to 3.2 mmol\/L/i).first()).toBeVisible();
 
@@ -26,9 +95,29 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await page.getByRole('button', { name: /Save SBAR draft/i }).click();
   await expect(page.getByText(/SBAR draft edited and saved/i)).toBeVisible();
 
-  await page.getByRole('tab', { name: /Scenarios/i }).click();
+  await navigateTo(page, 'Scenarios');
   await expect(page.getByRole('region', { name: /Discovery scenario library/i })).toBeVisible();
   await expect(page.getByText(/Initial hazard controls/i)).toBeVisible();
+
+  await navigateTo(page, 'Trust Network');
+  const trustNetworkView = page.getByRole('region', { name: /England Trust Network/i });
+  await expect(trustNetworkView).toBeVisible();
+  await expect(trustNetworkView.getByRole('heading', { name: /England Trust Network \(simulation\)/i })).toBeVisible();
+  await expect(page.getByRole('region', { name: /Simulation safety boundary/i })).toBeVisible();
+  await expect(page.getByText(/Simulation only/i)).toBeVisible();
+
+  const wardTrendPanel = trustNetworkView.getByRole('article', { name: /Ward trend \(simulation\) for/i }).first();
+  await expect(wardTrendPanel).toBeVisible();
+  await expect(wardTrendPanel.getByRole('table', { name: /Average observations for/i })).toBeVisible();
+  await expect(wardTrendPanel.getByText(/Fictional cohort: \d+ patients/i)).toBeVisible();
+
+  const respiratoryRateRow = wardTrendPanel.getByRole('row', { name: /Respiratory rate/i });
+  const defaultRespiratoryRate = await respiratoryRateRow.innerText();
+  const dayRangePicker = wardTrendPanel.getByRole('combobox', { name: /Compare fictional ward days/i });
+  await expect(wardTrendPanel.getByText('1 -> 90')).toBeVisible();
+  await dayRangePicker.selectOption('1-180');
+  await expect(wardTrendPanel.getByText('1 -> 180')).toBeVisible();
+  await expect(wardTrendPanel.getByRole('row', { name: /Respiratory rate/i })).not.toHaveText(defaultRespiratoryRate);
 
   const destinations = [
     ['Ward Safety Board', 'Ward Safety Board'],
@@ -36,15 +125,20 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
     ['Observations', 'Observations'],
     [/^Tasks/, 'Tasks'],
     [/^Escalations/, 'Escalations'],
+    ['Hospital insights', 'Hospital insights'],
+    ['Communication', 'Communication'],
     ['Handover', 'Handover and Discharge Readiness'],
     ['Discharges', 'Discharges'],
     ['Reports', 'Reports'],
+    ['Competency Passport', 'Portable Competency Passport'],
+    ['Learning Hub', 'Learning Hub'],
+    ['Patient Journey Twin', 'Patient Journey Twin'],
     ['Audit Trail', 'Audit and Learning'],
     ['Settings', 'Settings']
   ];
 
   for (const [button, heading] of destinations) {
-    await page.getByRole('button', { name: button, exact: typeof button === 'string' }).click();
+    await navigateTo(page, button);
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   }
 
@@ -67,7 +161,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
   await expect(page.getByRole('dialog', { name: 'Record simulated team contact' })).toBeVisible();
   await expect(page.getByRole('link', { name: /call/i })).toHaveCount(0);
   await page.getByRole('button', { name: 'Record contact' }).click();
-  await expect(page.getByRole('status')).toContainText('Simulated team contact recorded');
+  await expect(page.getByText(/Simulated team contact recorded/i)).toBeVisible();
 
   const bodyText = await page.locator('body').innerText();
   expect(bodyText).not.toMatch(/administer potassium|give potassium|replace potassium|prescribe potassium|diagnose this patient/i);

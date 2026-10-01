@@ -9,7 +9,11 @@ export function createAuditEvent({ label, actor = 'Leanne Mitchell', detail }) {
 }
 
 export function initialAuditEvents(patient) {
-  return patient.responseHistory.map((item, index) => ({
+  const responseHistory = Array.isArray(patient?.responseHistory)
+    ? patient.responseHistory
+    : [];
+
+  return responseHistory.map((item, index) => ({
     id: `${patient.id}-${index}`,
     time: item.slice(0, 5),
     actor: patient.responsibleNurse,

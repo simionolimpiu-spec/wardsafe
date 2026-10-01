@@ -1,0 +1,263 @@
+[
+  {
+    "pmid": "27224683",
+    "doi": "10.1097/JNN.0000000000000200",
+    "title": "Nursing Interventions for Identifying and Managing Acute Dysphagia are Effective for Improving Patient Outcomes: A Systematic Review Update.",
+    "journal": "The Journal of neuroscience nursing",
+    "journalAbbrev": "J Neurosci Nurs",
+    "year": 2016,
+    "authors": [
+      "Hines",
+      "Kynoch",
+      "Munday"
+    ],
+    "meshTerms": [
+      "Acute Disease",
+      "Deglutition Disorders",
+      "Humans",
+      "Malnutrition",
+      "Mass Screening",
+      "Nurse's Role",
+      "Pneumonia, Aspiration",
+      "Stroke"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "26895569",
+    "doi": "10.1097/JNN.0000000000000189",
+    "title": "Nursing Bedside Dysphagia Screen: Is it Valid?",
+    "journal": "The Journal of neuroscience nursing",
+    "journalAbbrev": "J Neurosci Nurs",
+    "year": 2016,
+    "authors": [
+      "Campbell",
+      "Carter",
+      "Kring",
+      "Martinez"
+    ],
+    "meshTerms": [
+      "Deglutition Disorders",
+      "Female",
+      "Humans",
+      "Male",
+      "Nursing Diagnosis",
+      "Nursing Staff, Hospital",
+      "Pneumonia, Aspiration",
+      "Stroke"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "35854358",
+    "doi": "10.1186/s13063-022-06448-w",
+    "title": "Decreasing delirium through music listening (DDM) in critically ill, mechanically ventilated older adults in the intensive care unit: a two-arm, parallel-group, randomized clinical trial.",
+    "journal": "Trials",
+    "journalAbbrev": "Trials",
+    "year": 2022,
+    "authors": [
+      "Seyffert",
+      "Moiz",
+      "Coghlan",
+      "Balozian",
+      "Khan"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Critical Illness",
+      "Delirium",
+      "Humans",
+      "Intensive Care Units",
+      "Music",
+      "Respiration, Artificial"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "37128953",
+    "doi": "10.1111/wvn.12649",
+    "title": "Incidence of postoperative delirium in older adults undergoing surgical procedures: A systematic literature review and meta-analysis.",
+    "journal": "Worldviews on evidence-based nursing",
+    "journalAbbrev": "Worldviews Evid Based Nurs",
+    "year": 2023,
+    "authors": [
+      "Igwe",
+      "Nealon",
+      "O'Shaughnessy",
+      "Bowden",
+      "Chang"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Emergence Delirium",
+      "Delirium",
+      "Postoperative Complications",
+      "Incidence",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Systematic Review",
+      "Meta-Analysis",
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "34302312",
+    "doi": "10.1111/jocn.15973",
+    "title": "Evaluation of the effectiveness of delirium prevention care protocol for the patients with hip fracture: A randomised controlled study.",
+    "journal": "Journal of clinical nursing",
+    "journalAbbrev": "J Clin Nurs",
+    "year": 2021,
+    "authors": [
+      "Unal",
+      "Guvenc",
+      "Naharci"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Delirium",
+      "Female",
+      "Hip Fractures",
+      "Humans",
+      "Incidence",
+      "Intensive Care Units",
+      "Male",
+      "Sleep"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40198074",
+    "doi": "10.1001/jamanetworkopen.2025.3443",
+    "title": "Post-Intensive Care Syndrome and Caregiver Burden: A Post Hoc Analysis of a Randomized Clinical Trial.",
+    "journal": "JAMA network open",
+    "journalAbbrev": "JAMA Netw Open",
+    "year": 2025,
+    "authors": [
+      "Ahn",
+      "LaNoue",
+      "Su",
+      "Moale",
+      "Scheunemann"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Caregivers",
+      "Critical Illness",
+      "Aged",
+      "Intensive Care Units",
+      "Delirium",
+      "Caregiver Burden",
+      "Stress Disorders, Post-Traumatic"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Randomized Controlled Trial",
+      "Multicenter Study"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "36584541",
+    "doi": "10.1016/j.ajp.2022.103374",
+    "title": "Diagnostic accuracy of the 4AT for delirium: A systematic review and meta-analysis.",
+    "journal": "Asian journal of psychiatry",
+    "journalAbbrev": "Asian J Psychiatr",
+    "year": 2022,
+    "authors": [
+      "Hou",
+      "Zhang",
+      "Cao",
+      "Chen",
+      "Wang"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Sensitivity and Specificity",
+      "Delirium"
+    ],
+    "articleTypes": [
+      "Meta-Analysis",
+      "Systematic Review",
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "34663229",
+    "doi": "10.1186/s12877-021-02493-3",
+    "title": "Diagnostic accuracy and clinical applicability of the Swedish version of the 4AT assessment test for delirium detection, in a mixed patient population and setting.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2021,
+    "authors": [
+      "Johansson",
+      "Tsevis",
+      "Nasic",
+      "Gillsjo",
+      "Bogdanovic"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Delirium",
+      "Geriatric Assessment",
+      "Humans",
+      "Reproducibility of Results",
+      "Sensitivity and Specificity",
+      "Sweden"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "38757369",
+    "doi": "10.1111/acem.14935",
+    "title": "Delirium detection in the emergency department: A diagnostic accuracy meta-analysis of history, physical examination, laboratory tests, and screening instruments.",
+    "journal": "Academic emergency medicine",
+    "journalAbbrev": "Acad Emerg Med",
+    "year": 2024,
+    "authors": [
+      "Carpenter",
+      "Lee",
+      "Kennedy",
+      "Arendts",
+      "Schnitker"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Humans",
+      "Delirium",
+      "Emergency Service, Hospital",
+      "Geriatric Assessment",
+      "Medical History Taking",
+      "Physical Examination",
+      "Sensitivity and Specificity"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "generatedLabel": "Longitudinal materialisation - simulation-only - 2026-07-17T18:04:33.854Z",
+  "boundaryNote": "Fictional patients only. Simulation-only; not a live clinical or cross-trust record. Human review required.",
+  "throughDay": 60,
+  "patientCount": 293,
+  "patientDayCount": 17580,
+  "episodeCount": 2934,
+  "observationCount": 105480,
+  "elapsedMs": 1357,
+  "rowsPerSecond": 79879,
+  "tables": [
+    "journey_episodes",
+    "longitudinal_observations"
+  ],
+  "note": "Timing measures deterministic generation + CSV serialisation only (no live Postgres instance available in this environment). The schema is designed for indexed (patient_id, day_number) range queries; live query-latency proof is deferred to a provisioned database under the existing deployment-approval gate (SAFEFLOW_DEPLOYMENT_APPROVED / R-003)."
+}

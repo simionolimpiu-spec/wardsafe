@@ -1,6 +1,10 @@
+import { useState } from 'react';
+
 export function MyPatientsView({ patients, simulationUser, onSelectPatient }) {
+  const [reviewer, setReviewer] = useState(simulationUser);
+  const nurses = [...new Set([simulationUser, ...patients.map((patient) => patient.responsibleNurse).filter(Boolean)])];
   const assignedPatients = patients.filter(
-    (patient) => patient.responsibleNurse === simulationUser
+    (patient) => patient.responsibleNurse === reviewer
   );
 
   return (
@@ -12,7 +16,13 @@ export function MyPatientsView({ patients, simulationUser, onSelectPatient }) {
         </div>
         <strong>{assignedPatients.length} assigned</strong>
       </header>
-      <p>Fictional patients assigned to {simulationUser}.</p>
+      <div className="toolbar">
+        <label htmlFor="workload-reviewer">Review nurse workload</label>
+        <select id="workload-reviewer" value={reviewer} onChange={(event) => setReviewer(event.target.value)}>
+          {nurses.map((nurse) => <option key={nurse}>{nurse}</option>)}
+        </select>
+      </div>
+      <p>Fictional patients assigned to {reviewer}.</p>
       <div className="record-list">
         {assignedPatients.map((patient) => (
           <article key={patient.id}>

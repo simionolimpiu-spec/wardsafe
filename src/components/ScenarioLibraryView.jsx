@@ -1,7 +1,28 @@
+import { useState } from 'react';
 import { ClipboardCheck, FileSearch, ShieldCheck } from 'lucide-react';
-import { discoveryScenarios, initialHazardControls } from '../data/scenarioLibrary.js';
+import { AiDebriefPanel } from './AiDebriefPanel.jsx';
+import {
+  biasAwarenessCues,
+  discoveryScenarios,
+  facilitatorSessionNote,
+  initialHazardControls,
+  paceAssertivenessLadder,
+  pearlsDebriefPrompts,
+  newToServiceContextNote,
+  safetyTwoReflectionPrompts,
+  staffingContextNote
+} from '../data/scenarioLibrary.js';
+import {
+  SCORE_COMPARISON_PARAMETERS,
+  SCORE_COMPARISON_SNAPSHOTS,
+  compareScoringSystems
+} from '../domain/scoreComparison.js';
 
 export function ScenarioLibraryView() {
+  const [selectedSnapshotId, setSelectedSnapshotId] = useState(SCORE_COMPARISON_SNAPSHOTS[0].id);
+  const selectedSnapshot = SCORE_COMPARISON_SNAPSHOTS.find(({ id }) => id === selectedSnapshotId) ?? SCORE_COMPARISON_SNAPSHOTS[0];
+  const comparison = compareScoringSystems(selectedSnapshot.observations);
+
   return (
     <section className="scenario-library" aria-label="Discovery scenario library">
       <div className="section-heading">
@@ -11,6 +32,8 @@ export function ScenarioLibraryView() {
           <h2>Discovery Scenario Library</h2>
         </div>
       </div>
+
+      <AiDebriefPanel />
 
       <div className="scenario-grid">
         {discoveryScenarios.map((scenario) => (
@@ -22,27 +45,223 @@ export function ScenarioLibraryView() {
               <span>{scenario.reviewPrompt}</span>
             </div>
             <div className="scenario-columns">
-              <ScenarioList icon={ClipboardCheck} items={scenario.successSignals} title="Success signals" />
-              <ScenarioList icon={ShieldCheck} items={scenario.hazards} title="Hazards to watch" />
+              <ScenarioList icon={ClipboardCheck} items={scenario.successSignals} title="Success signals" tone="success" />
+              <ScenarioList icon={ShieldCheck} items={scenario.hazards} title="Hazards to watch" tone="hazard" />
             </div>
             <p className="evidence-line"><strong>Evidence expected:</strong> {scenario.evidenceExpected.join(', ')}</p>
           </article>
         ))}
       </div>
 
+      <aside className="scenario-facilitator-session" aria-label="Running a training session?">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{facilitatorSessionNote.title}</h3>
+          </summary>
+          <ul>
+            {facilitatorSessionNote.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {facilitatorSessionNote.evidence}</small></p>
+          <p className="scenario-facilitator-session-boundary">
+            Facilitator notes are a training and onboarding convenience only: they confer no permissions, no accounts, and no authority inside SafeFlow, and every reviewer's structured observation carries equal weight.
+          </p>
+        </details>
+      </aside>
+
+      <section className="score-comparison-panel" aria-label="Scoring systems comparison (simulation)">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>Scoring systems comparison</h3>
+          </summary>
+          <div className="score-comparison-content">
+            <div className="score-comparison-heading">
+              <div>
+                <p className="eyebrow">Simulation teaching mode</p>
+                <p>Compare the same fictional observations under two scoring conventions.</p>
+              </div>
+              <label className="score-comparison-select">
+                <span>Fictional observation snapshot</span>
+                <select
+                  aria-label="Fictional observation snapshot"
+                  value={selectedSnapshot.id}
+                  onChange={(event) => setSelectedSnapshotId(event.target.value)}
+                >
+                  {SCORE_COMPARISON_SNAPSHOTS.map((snapshot) => (
+                    <option key={snapshot.id} value={snapshot.id}>{snapshot.label}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            <p className="score-comparison-snapshot-note"><strong>{selectedSnapshot.label}:</strong> {selectedSnapshot.description}</p>
+
+            <dl className="score-comparison-observations" aria-label="Selected fictional observations">
+              {SCORE_COMPARISON_PARAMETERS.map(({ key, label, unit }) => (
+                <div key={key}>
+                  <dt>{label}</dt>
+                  <dd>{formatObservation(selectedSnapshot.observations[key], key)} <small>{unit}</small></dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="score-comparison-grid">
+              <ScoreComparisonCard title="NEWS2 - England convention" result={comparison.news2} />
+              <ScoreComparisonCard title="MEWS-style variant (as used in several international systems)" result={comparison.mewsStyle} />
+            </div>
+
+            <p className="score-comparison-note"><strong>Comparison note:</strong> {comparison.comparisonNote}</p>
+            <p className="score-comparison-boundary">Simulation only - fictional observations - human review required</p>
+          </div>
+        </details>
+      </section>
+
       <aside className="hazard-controls" aria-label="Initial hazard controls">
-        <h3>Initial hazard controls</h3>
-        <ul>
-          {initialHazardControls.map((control) => <li key={control}>{control}</li>)}
-        </ul>
+        <details className="scenario-panel-details" name="scenario-library-panels" open>
+          <summary className="scenario-panel-summary">
+            <h3>Initial hazard controls</h3>
+          </summary>
+          <ul>
+            {initialHazardControls.map((control) => <li key={control}>{control}</li>)}
+          </ul>
+        </details>
+      </aside>
+
+      <aside className="scenario-staffing-context" aria-label="Staffing and skill-mix context">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{staffingContextNote.title}</h3>
+          </summary>
+          <ul>
+            {staffingContextNote.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {staffingContextNote.evidence}</small></p>
+        </details>
+      </aside>
+
+      <aside className="scenario-new-to-service-context" aria-label="Inclusive practice: new to this ward?">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{newToServiceContextNote.title}</h3>
+          </summary>
+          <p className="scenario-new-to-service-intro">Optional simulation-only informational context about review-prompt legibility.</p>
+          <ul>
+            {newToServiceContextNote.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {newToServiceContextNote.evidence}</small></p>
+          <p className="scenario-new-to-service-boundary">
+            This panel is about review-prompt legibility, not HR, immigration, pastoral-care, or welfare support; human review and clinical judgement remain central.
+          </p>
+        </details>
+      </aside>
+
+      <aside className="scenario-bias-awareness" aria-label="Notice your thinking">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{biasAwarenessCues.title}</h3>
+          </summary>
+          <p className="scenario-bias-awareness-intro">Optional reflective teaching prompt for simulation review.</p>
+          <ul>
+            {biasAwarenessCues.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {biasAwarenessCues.evidence}</small></p>
+          <p className="scenario-bias-awareness-boundary">
+            This prompt does not score the scenario or change or validate a clinical decision; human review and clinical judgement remain central.
+          </p>
+        </details>
+      </aside>
+
+      <aside className="scenario-pearls-debrief" aria-label="Structured debrief (PEARLS)">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{pearlsDebriefPrompts.title}</h3>
+          </summary>
+          <p className="scenario-pearls-debrief-intro">Optional reflective teaching prompt for a facilitated simulation debrief.</p>
+          <ul>
+            {pearlsDebriefPrompts.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {pearlsDebriefPrompts.evidence}</small></p>
+          <p className="scenario-pearls-debrief-boundary">
+            Simulation-only reflective teaching prompt. It is not a data-capture form, scoring mechanism, or clinical tool; nothing is entered, stored, or transmitted here. Human review and clinical judgement remain central.
+          </p>
+        </details>
+      </aside>
+
+      <aside className="scenario-pace-ladder" aria-label="Speaking up: the PACE ladder">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{paceAssertivenessLadder.title}</h3>
+          </summary>
+          <p className="scenario-pace-ladder-intro">Optional communication reference for reviewing the graded-assertiveness / speak-up scenario.</p>
+          <ul>
+            {paceAssertivenessLadder.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {paceAssertivenessLadder.evidence}</small></p>
+          <p className="scenario-pace-ladder-boundary">
+            Simulation-only reference material. The PACE ladder is not a clinical checklist, scoring mechanism, or instruction to act; it does not change or validate a clinical decision. Human review and clinical judgement remain central.
+          </p>
+        </details>
+      </aside>
+
+      <aside className="scenario-safety-two" aria-label="What went well (Safety-II)">
+        <details className="scenario-panel-details" name="scenario-library-panels">
+          <summary className="scenario-panel-summary">
+            <h3>{safetyTwoReflectionPrompts.title}</h3>
+          </summary>
+          <p className="scenario-safety-two-intro">Optional reflective teaching prompt for noticing adaptive and resilient practice in simulation review.</p>
+          <ul>
+            {safetyTwoReflectionPrompts.points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+          <p><small><strong>Evidence:</strong> {safetyTwoReflectionPrompts.evidence}</small></p>
+          <p className="scenario-safety-two-boundary">
+            Simulation-only reflective teaching prompt. It complements the existing hazard review; it does not replace attention to hazards or what went wrong. It is not a data-capture form, scoring mechanism, or clinical tool; nothing is entered, stored, or transmitted here. Human review and clinical judgement remain central.
+          </p>
+        </details>
       </aside>
     </section>
   );
 }
 
-function ScenarioList({ icon: Icon, items, title }) {
+function ScoreComparisonCard({ title, result }) {
   return (
-    <div>
+    <article className="score-comparison-card">
+      <div className="score-comparison-card-heading">
+        <h4>{title}</h4>
+        <span aria-label={`${result.total} total points`}>{result.total}</span>
+      </div>
+      <p className="score-comparison-total-label">Total points</p>
+      <ul className="score-comparison-points">
+        {SCORE_COMPARISON_PARAMETERS.map(({ key, label }) => (
+          <li key={key}>
+            <span>{label}</span>
+            <strong>{formatPoints(result.perParameter[key])}</strong>
+          </li>
+        ))}
+      </ul>
+      <p className="score-comparison-convention"><strong>Review convention:</strong> {result.escalationConvention}</p>
+    </article>
+  );
+}
+
+function formatObservation(value, key) {
+  if (key === 'consciousness') return formatConsciousness(value);
+  return value;
+}
+
+function formatConsciousness(value) {
+  if (value === 'voice') return 'Voice';
+  if (value === 'pain') return 'Pain';
+  if (value === 'unresponsive') return 'Unresponsive';
+  return 'Alert';
+}
+
+function formatPoints(points) {
+  if (points == null) return 'Not scored in this variant';
+  return `${points} point${points === 1 ? '' : 's'}`;
+}
+
+function ScenarioList({ icon: Icon, items, title, tone = 'success' }) {
+  return (
+    <div className={`scenario-list ${tone}`}>
       <h4><Icon aria-hidden="true" size={17} /> {title}</h4>
       <ul>
         {items.map((item) => <li key={item}>{item}</li>)}

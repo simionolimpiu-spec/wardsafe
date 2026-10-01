@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
-import { wardSummary } from './data/simulatedPatients.js';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { getHospitalInsightsSnapshot } from './services/hospitalInsightsService.js';
+import { getSimulationReviewReportSnapshot } from './services/simulationReviewReportService.js';
+import { getWardQualitySafetyReviewSnapshot } from './services/wardQualitySafetyReviewService.js';
 import { createSbarDraft } from './domain/draftProvider.js';
+import { buildHeuristicCues } from './domain/heuristicCueEngine.js';
 import { evaluatePotassiumSafetyGap } from './domain/safetyRules.js';
 import { createSimulationRiskSupport } from './domain/simulationRiskSupport.js';
-import { createAuditEvent, initialAuditEvents } from './domain/workflowEvents.js';
 import { requestReadinessReport } from './services/readinessClient.js';
 import { requestSbarDraft } from './services/draftClient.js';
 import { requestRiskSuggestions, requestSignalTimeline } from './services/signalClient.js';
@@ -13,22 +15,32 @@ import {
   requestSimulationAuditEvents
 } from './services/auditClient.js';
 import { AuditLearningView } from './components/AuditLearningView.jsx';
+import { AppShell } from './components/AppShell.jsx';
 import { ArchitectureStrip } from './components/ArchitectureStrip.jsx';
+import { HospitalInsightsButton, HospitalInsightsDrawer } from './components/HospitalInsightsDrawer.jsx';
+import { HospitalInsightsView } from './components/HospitalInsightsView.jsx';
+import { TrustNetworkView } from './components/TrustNetworkView.jsx';
 import { HandoverDischargeView } from './components/HandoverDischargeView.jsx';
 import { PatientSafetyPanel } from './components/PatientSafetyPanel.jsx';
-import { PotassiumSafetyGapView } from './components/PotassiumSafetyGapView.jsx';
-import { SafetyBanner } from './components/SafetyBanner.jsx';
+import { SimulationReviewReportButton, SimulationReviewReportDrawer } from './components/SimulationReviewReportDrawer.jsx';
+import { WardQualitySafetyReviewButton, WardQualitySafetyReviewDrawer } from './components/WardQualitySafetyReviewDrawer.jsx';
 import { ScenarioLibraryView } from './components/ScenarioLibraryView.jsx';
 import { WardSafetyBoard } from './components/WardSafetyBoard.jsx';
-import { WorkspaceNav } from './components/WorkspaceNav.jsx';
 import { MyPatientsView } from './components/MyPatientsView.jsx';
+import { DaySurgeryBoard } from './components/DaySurgeryBoard.jsx';
+import { HospitalsView } from './components/hospitals/HospitalsView.jsx';
 import { ObservationsView } from './components/ObservationsView.jsx';
+import { ConnectView } from './components/connect/ConnectView.jsx';
 import { TasksView } from './components/TasksView.jsx';
 import { EscalationsView } from './components/EscalationsView.jsx';
 import { DischargesView } from './components/DischargesView.jsx';
 import { ReportsView } from './components/ReportsView.jsx';
 import { SettingsView } from './components/SettingsView.jsx';
+import { PatientJourneyTwin } from './components/PatientJourneyTwin.jsx';
 import { SimulationDialog } from './components/SimulationDialog.jsx';
+import { CompetencyPassportView } from './CompetencyPassportView.jsx';
+import { LearningHubView } from './LearningHubView.jsx';
+import { getDemoScenarioSelectionOptions } from './data/demoScenarios.js';
 import {
   selectActiveEscalationCount,
   selectAllTasks,
@@ -38,13 +50,22 @@ import {
 import { useSimulationWorkspace } from './state/useSimulationWorkspace.js';
 import { buildWardReportRows, downloadSimulationCsv } from './domain/simulationExport.js';
 
-const tabs = [
-  { id: 'board', label: 'Ward board' },
-  { id: 'handover', label: 'Handover' },
-  { id: 'potassium', label: 'Potassium flag' },
-  { id: 'scenarios', label: 'Scenarios' },
-  { id: 'audit', label: 'Audit' }
+const PREVIEW_BOUNDARY_COPY = 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.';
+const PRESENTATION_STEPS = [
+  { id: 'board', label: 'Review cues', description: 'Ward Safety Board' },
+  { id: 'reports', label: 'Ward Quality & Safety Review export', description: 'Reports' },
+  { id: 'competency-passport', label: 'Competency Passport', description: 'Portable Competency Passport' },
+  { id: 'hospital-insights', label: 'Hospital Insights', description: 'Hospital insights' }
 ];
+const PRESENTATION_ROADMAP_NOTE =
+  'Guided path: review cues → Ward Quality & Safety Review export → Competency Passport → Hospital Insights.';
+const PRESENTATION_BOUNDARY_NOTE =
+  'Simulation-only. Human review required. Designed for NHS leadership, ward managers, clinical educators, and digital safety leads.';
+
+function getPresentationStepIndex(view) {
+  const stepIndex = PRESENTATION_STEPS.findIndex((step) => step.id === view);
+  return stepIndex >= 0 ? stepIndex : 0;
+}
 
 function formatDraftSections(draft) {
   return Object.entries(draft.sections)
@@ -54,6 +75,14 @@ function formatDraftSections(draft) {
 
 function cloneSnapshotEntry(entry) {
   return entry && typeof entry === 'object' && !Array.isArray(entry) ? { ...entry } : null;
+}
+
+function isSignalEnvelope(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value) && Array.isArray(value.signals);
+}
+
+function isSuggestionEnvelope(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value) && Array.isArray(value.suggestions);
 }
 
 function coerceFreshness(value, hasData) {
@@ -145,9 +174,41 @@ function receivedAtFromEntries(signalTimeline, riskSuggestions) {
   return null;
 }
 
+function extractSignalSourceMetadata(envelope) {
+  if (!isSignalEnvelope(envelope) && !isSuggestionEnvelope(envelope)) {
+    return null;
+  }
+
+  return {
+    source: typeof envelope.source === 'string' ? envelope.source : 'unknown-simulation-provider',
+    provider: typeof envelope.provider === 'string' ? envelope.provider : 'simulation-provider',
+    mode: typeof envelope.mode === 'string' ? envelope.mode : 'simulation',
+    clinicalUse: envelope.clinicalUse === false ? false : null,
+    validationStatus: typeof envelope.validationStatus === 'string'
+      ? envelope.validationStatus
+      : 'not-clinically-validated',
+    explanation: typeof envelope.explanation === 'string'
+      ? envelope.explanation
+      : PREVIEW_BOUNDARY_COPY
+  };
+}
+
+function formatProviderLabel(providerId, providerType) {
+  const labels = {
+    placeholder: 'placeholder preview provider',
+    'database-read-model': 'database read model',
+    fixture: 'fictional fixture provider',
+    'simulation-provider': 'simulation provider'
+  };
+
+  return `${providerId} (${labels[providerType] ?? 'simulation provider'})`;
+}
+
 function buildSignalSnapshot({ signals, suggestions } = {}) {
-  const signalTimeline = Array.isArray(signals) ? signals.map(cloneSnapshotEntry).filter(Boolean) : [];
-  const riskSuggestions = Array.isArray(suggestions) ? suggestions.map(cloneSnapshotEntry).filter(Boolean) : [];
+  const signalTimelineSource = isSignalEnvelope(signals) ? signals.signals : signals;
+  const riskSuggestionSource = isSuggestionEnvelope(suggestions) ? suggestions.suggestions : suggestions;
+  const signalTimeline = Array.isArray(signalTimelineSource) ? signalTimelineSource.map(cloneSnapshotEntry).filter(Boolean) : [];
+  const riskSuggestions = Array.isArray(riskSuggestionSource) ? riskSuggestionSource.map(cloneSnapshotEntry).filter(Boolean) : [];
   const hasData = signalTimeline.length > 0 || riskSuggestions.length > 0;
   const sourceFreshnessCandidate =
     signalTimeline.find((signal) => signal && signal.sourceFreshness != null)?.sourceFreshness ??
@@ -156,42 +217,112 @@ function buildSignalSnapshot({ signals, suggestions } = {}) {
   return {
     signalTimeline,
     riskSuggestions,
+    signalSourceMetadata: extractSignalSourceMetadata(signals),
+    suggestionSourceMetadata: extractSignalSourceMetadata(suggestions),
     sourceFreshness: coerceFreshness(sourceFreshnessCandidate, hasData),
     missingDataNotes: collectMissingDataNotes(signalTimeline, riskSuggestions, hasData),
     receivedAt: receivedAtFromEntries(signalTimeline, riskSuggestions)
   };
 }
 
-export default function App() {
-  const { state, dispatch, reset } = useSimulationWorkspace();
+export default function App({ onPathwayChange, onSignOut, initialView } = {}) {
+  const { state, dispatch, reset, commit, persistenceError } = useSimulationWorkspace(initialView);
   const selectedPatient = selectPatientFromState(state) ?? state.patients[0];
+  const demoScenarioOptions = useMemo(() => getDemoScenarioSelectionOptions(), []);
+  const selectedScenario = useMemo(
+    () => demoScenarioOptions.find((option) => option.id === state.selectedScenarioId)
+      ?? (state.selectedHospitalId ? { id: state.selectedScenarioId, label: state.currentWardName, description: state.scenarioDescription } : demoScenarioOptions[0]) ?? null,
+    [demoScenarioOptions, state.selectedScenarioId, state.selectedHospitalId, state.currentWardName, state.scenarioDescription]
+  );
   const reviewSignals = useMemo(
     () => selectPatientSimulationSignals(state, selectedPatient?.id),
     [selectedPatient?.id, state]
   );
+  const potassiumFlag = useMemo(() => evaluatePotassiumSafetyGap(selectedPatient), [selectedPatient]);
+  const heuristicCues = useMemo(
+    () => buildHeuristicCues({ signals: reviewSignals, flag: potassiumFlag }),
+    [reviewSignals, potassiumFlag]
+  );
   const allTasks = selectAllTasks(state);
   const openTaskCount = allTasks.filter((task) => task.status !== 'Done').length;
-  const showPatientPanel = ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges', 'potassium'].includes(state.selectedView);
-  const potassiumFlag = useMemo(() => evaluatePotassiumSafetyGap(selectedPatient), [selectedPatient]);
+  const isDaySurgeryBoard = state.selectedView === 'board' && state.serviceProfile?.mode === 'day-surgery';
+  const showPatientPanel = !isDaySurgeryBoard && ['board', 'patients', 'observations', 'tasks', 'escalations', 'handover', 'discharges'].includes(state.selectedView);
   const riskSupport = useMemo(() => {
+    if (selectedPatient.observationScale && selectedPatient.observationScale !== 'NEWS2') return null;
     return createSimulationRiskSupport({ patient: selectedPatient, safetyFlag: potassiumFlag });
   }, [selectedPatient, potassiumFlag]);
+  const hospitalInsights = useMemo(
+    () => getHospitalInsightsSnapshot({
+      currentWardName: state.currentWardName,
+      hospitalName: state.hospitalName
+    }),
+    [state.currentWardName, state.hospitalName]
+  );
+  const selectedSignalSnapshot = state.signalSnapshots?.[selectedPatient?.id] ?? null;
+  const simulationReviewReport = useMemo(
+    () =>
+      getSimulationReviewReportSnapshot({
+        patient: selectedPatient,
+        reviewSignals,
+        hospitalInsights,
+        signalSnapshot: selectedSignalSnapshot,
+        selectedScenario
+      }),
+    [hospitalInsights, reviewSignals, selectedPatient, selectedSignalSnapshot, selectedScenario]
+  );
+  const wardQualitySafetyReview = useMemo(
+    () =>
+      getWardQualitySafetyReviewSnapshot({
+        patient: selectedPatient,
+        reviewSignals,
+        heuristicCues,
+        safetyFlag: potassiumFlag,
+        hospitalInsights,
+        selectedScenario
+      }),
+    [hospitalInsights, heuristicCues, potassiumFlag, reviewSignals, selectedPatient, selectedScenario]
+  );
   const initialDraft = useMemo(() => {
     return formatDraftSections(createSbarDraft({ patient: selectedPatient, flag: potassiumFlag }));
   }, [selectedPatient, potassiumFlag]);
-  const [draftText, setDraftText] = useState(initialDraft);
-  const [auditEvents, setAuditEvents] = useState(() => initialAuditEvents(selectedPatient));
+  const draftKey = `${state.selectedScenarioId}:${selectedPatient.id}`;
+  const [draftEdits, setDraftEdits] = useState({});
+  const draftText = draftEdits[draftKey] ?? state.drafts?.[draftKey]?.text ?? initialDraft;
+  const activeDraftKey = useRef(draftKey);
+  activeDraftKey.current = draftKey;
+  const draftRequest = useRef(null);
+  function setDraftText(text) {
+    draftRequest.current?.abort();
+    draftRequest.current = null;
+    setIsGeneratingDraft(false);
+    setDraftEdits((edits) => ({ ...edits, [draftKey]: text }));
+    setDraftStatus('Draft changes are not saved yet.');
+  }
   const [draftStatus, setDraftStatus] = useState('');
   const [isGeneratingDraft, setIsGeneratingDraft] = useState(false);
   const [isCheckingBackend, setIsCheckingBackend] = useState(false);
   const [isCheckingReadiness, setIsCheckingReadiness] = useState(false);
+  const [isPresentationMode, setIsPresentationMode] = useState(false);
+  const presentationStepIndex = getPresentationStepIndex(state.selectedView);
   const [backendWorkspace, setBackendWorkspace] = useState(null);
   const [readinessReport, setReadinessReport] = useState(null);
   const [serverAuditStatus, setServerAuditStatus] = useState('');
   const [backendAuditEvents, setBackendAuditEvents] = useState([]);
   const [backendAuditStatus, setBackendAuditStatus] = useState('');
   const [isRefreshingBackendAudit, setIsRefreshingBackendAudit] = useState(false);
+  const [isHospitalInsightsOpen, setIsHospitalInsightsOpen] = useState(false);
+  const [isReviewReportOpen, setIsReviewReportOpen] = useState(false);
+  const [isWardQualitySafetyReviewOpen, setIsWardQualitySafetyReviewOpen] = useState(false);
   const [dialog, setDialog] = useState(null);
+
+  useEffect(() => {
+    draftRequest.current?.abort();
+    draftRequest.current = null;
+    setIsGeneratingDraft(false);
+    setDraftStatus('');
+    setServerAuditStatus('');
+    return () => draftRequest.current?.abort();
+  }, [draftKey]);
 
   useEffect(() => {
     let cancelled = false;
@@ -204,8 +335,8 @@ export default function App() {
       let suggestions = null;
       try {
         [signals, suggestions] = await Promise.all([
-          requestSignalTimeline({ patientId }),
-          requestRiskSuggestions({ patientId })
+          requestSignalTimeline({ patientId, includeMetadata: true }),
+          requestRiskSuggestions({ patientId, includeMetadata: true })
         ]);
       } catch {
         signals = null;
@@ -232,37 +363,50 @@ export default function App() {
 
   function selectPatient(patientId) {
     const nextPatient = selectPatientFromState(state, patientId) ?? state.patients[0];
-    const nextFlag = evaluatePotassiumSafetyGap(nextPatient);
-    const nextDraft = createSbarDraft({ patient: nextPatient, flag: nextFlag });
     dispatch({ type: 'patient/selected', payload: { patientId: nextPatient.id } });
-    setDraftText(formatDraftSections(nextDraft));
-    setAuditEvents(initialAuditEvents(nextPatient));
     setDraftStatus('');
     setServerAuditStatus('');
   }
 
   async function generateProviderDraft() {
+    draftRequest.current?.abort();
+    const controller = new AbortController();
+    draftRequest.current = controller;
+    const requestKey = draftKey;
     setIsGeneratingDraft(true);
     setDraftStatus('');
-    const draft = await requestSbarDraft({ patient: selectedPatient, flag: potassiumFlag });
-    setDraftText(formatDraftSections(draft));
-    setDraftStatus(draft.provider === 'openai' ? 'OpenAI provider draft ready' : 'Deterministic fallback draft ready');
-    setIsGeneratingDraft(false);
+    try {
+      const draft = await requestSbarDraft({ patient: selectedPatient, flag: potassiumFlag, signal: controller.signal,
+        ...(state.settings.draftProvider === 'deterministic' || selectedPatient.source === 'hospital-census' ? { fetchImpl: null } : {}) });
+      if (controller.signal.aborted || activeDraftKey.current !== requestKey || draftRequest.current !== controller) return;
+      setDraftEdits((edits) => ({ ...edits, [requestKey]: formatDraftSections(draft) }));
+      setDraftStatus(`${draft.provider === 'openai' ? 'OpenAI provider draft ready' : 'Deterministic fallback draft ready'}. Human review required. Save to keep it on this device.`);
+    } catch {
+      if (!controller.signal.aborted && activeDraftKey.current === requestKey) setDraftStatus('Draft could not be generated. Your existing text is unchanged.');
+    } finally {
+      if (draftRequest.current === controller) {
+        draftRequest.current = null;
+        setIsGeneratingDraft(false);
+      }
+    }
   }
 
   function saveDraft() {
+    draftRequest.current?.abort();
+    draftRequest.current = null;
+    setIsGeneratingDraft(false);
     const label = 'SBAR draft edited and saved';
-    setAuditEvents((events) => [
-      createAuditEvent({ label, detail: draftText }),
-      ...events
-    ]);
-    setDraftStatus(label);
+    if (!commit({ type: 'draft/saved', payload: { patientId: selectedPatient.id, text: draftText, savedAt: new Date().toISOString() } })) {
+      setDraftStatus('SBAR draft not saved. Your text is still available in this page.');
+      return;
+    }
+    setDraftStatus(`${label} on this device only.`);
     mirrorServerAuditEvent({
       patientId: selectedPatient.id,
       eventType: 'draft.saved',
       eventSummary: 'Fictional SBAR draft saved',
       sourceTable: 'drafts',
-      metadata: { screen: 'potassium' }
+      metadata: { screen: 'patient_panel' }
     });
   }
 
@@ -270,6 +414,43 @@ export default function App() {
     dispatch({ type: 'navigation/changed', payload: { view } });
     setDraftStatus('');
     setServerAuditStatus('');
+    setIsWardQualitySafetyReviewOpen(false);
+  }
+
+  function openPresentationStep(index) {
+    const step = PRESENTATION_STEPS[index];
+    if (!step) return;
+
+    navigate(step.id);
+    setIsHospitalInsightsOpen(false);
+    setIsReviewReportOpen(false);
+    setIsWardQualitySafetyReviewOpen(step.id === 'reports');
+  }
+
+  function movePresentationStep(offset) {
+    const nextIndex = Math.min(
+      PRESENTATION_STEPS.length - 1,
+      Math.max(0, presentationStepIndex + offset)
+    );
+    openPresentationStep(nextIndex);
+  }
+
+  function changeDemoScenario(scenarioId) {
+    draftRequest.current?.abort();
+    dispatch({ type: 'scenario/selected', payload: { scenarioId } });
+    setIsHospitalInsightsOpen(false);
+    setIsReviewReportOpen(false);
+    setIsWardQualitySafetyReviewOpen(false);
+    setDialog(null);
+    setDraftStatus('');
+    setServerAuditStatus('');
+  }
+
+  function togglePresentationMode() {
+    if (!isPresentationMode && !PRESENTATION_STEPS.some((step) => step.id === state.selectedView)) {
+      openPresentationStep(0);
+    }
+    setIsPresentationMode((current) => !current);
   }
 
   function mirrorServerAuditEvent({ patientId, eventType, eventSummary, sourceTable, metadata = {} }) {
@@ -413,7 +594,16 @@ export default function App() {
         draftProvider: report.providers?.draft ?? 'Unknown',
         workspaceProvider: report.providers?.workspace ?? 'Unknown',
         auditProvider: report.providers?.audit ?? 'Unknown',
-        databaseLabel: report.database?.configured ? 'Simulation database configured' : 'Fixture mode'
+        signalProvider: formatProviderLabel(
+          report.providerMetadata?.signals?.providerId ?? report.providers?.signals ?? 'unknown-signal-provider',
+          report.providerMetadata?.signals?.provider ?? 'simulation-provider'
+        ),
+        suggestionProvider: formatProviderLabel(
+          report.providerMetadata?.suggestions?.providerId ?? report.providers?.suggestions ?? 'unknown-suggestion-provider',
+          report.providerMetadata?.suggestions?.provider ?? 'simulation-provider'
+        ),
+        databaseLabel: report.database?.configured ? 'Simulation database configured' : 'Fixture mode',
+        boundaryNote: report.explanation ?? PREVIEW_BOUNDARY_COPY
       });
       setDraftStatus('Build readiness check complete');
     } else {
@@ -441,6 +631,8 @@ export default function App() {
   }
 
   function confirmReset() {
+    draftRequest.current?.abort();
+    setDraftEdits({});
     reset();
     setDialog(null);
     setDraftStatus('Simulation reset to fictional defaults');
@@ -472,41 +664,136 @@ export default function App() {
   }
 
   return (
-    <main className={`app-shell ${state.settings.compactMode ? 'compact-mode' : ''}`}>
-      <WorkspaceNav
-        activeView={state.selectedView}
-        escalationCount={selectActiveEscalationCount(state)}
-        onNavigate={navigate}
-        taskCount={openTaskCount}
-      />
-      <div className="workspace-main">
-        <header className="topbar">
-          <div>
-            <p className="eyebrow">Simulation prototype</p>
-            <h1>SafeFlow</h1>
-          </div>
-          <span className="product-note">SafeFlow Nursing concept</span>
-        </header>
-        <SafetyBanner />
-        <nav className="tab-list" aria-label="Prototype journey">
-          {tabs.map((tab) => (
+    <AppShell
+      activeView={state.selectedView}
+      carePathway="ward-care"
+      hospitalContext={state.selectedHospitalId ? { hospitalName: state.hospitalName, wardName: state.currentWardName } : null}
+      simulationUser={state.settings.simulationUser}
+      compactMode={state.settings.compactMode}
+      currentLocationName={state.hospitalName}
+      currentWardName={state.currentWardName}
+      dateLabel={state.wardSummary.dateLabel}
+      escalationCount={selectActiveEscalationCount(state)}
+      isPresentationMode={isPresentationMode}
+      onNavigate={navigate}
+      onCarePathwayChange={onPathwayChange}
+      onSignOut={onSignOut}
+      onScenarioChange={changeDemoScenario}
+      scenarioDescription={state.scenarioDescription}
+      scenarioOptions={demoScenarioOptions}
+      selectedScenarioId={state.selectedScenarioId}
+      taskCount={openTaskCount}
+      topbarActions={<>
             <button
-              aria-selected={state.selectedView === tab.id}
-              className={state.selectedView === tab.id ? 'active' : ''}
-              key={tab.id}
-              onClick={() => navigate(tab.id)}
-              role="tab"
+              aria-pressed={isPresentationMode}
+              className="secondary-action presentation-mode-trigger"
+              onClick={togglePresentationMode}
               type="button"
             >
-              {tab.label}
+              {isPresentationMode ? 'Exit presentation mode' : 'Presentation mode'}
             </button>
-          ))}
-        </nav>
+            <SimulationReviewReportButton
+              isOpen={isReviewReportOpen}
+              onClick={() => {
+                setIsReviewReportOpen((current) => !current);
+                setIsHospitalInsightsOpen(false);
+                setIsWardQualitySafetyReviewOpen(false);
+              }}
+            />
+            <WardQualitySafetyReviewButton
+              isOpen={isWardQualitySafetyReviewOpen}
+              onClick={() => {
+                setIsWardQualitySafetyReviewOpen((current) => !current);
+                setIsReviewReportOpen(false);
+                setIsHospitalInsightsOpen(false);
+              }}
+            />
+            <HospitalInsightsButton
+              isOpen={isHospitalInsightsOpen}
+              onClick={() => {
+                setIsHospitalInsightsOpen((current) => !current);
+                setIsReviewReportOpen(false);
+                setIsWardQualitySafetyReviewOpen(false);
+              }}
+            />
+      </>}
+    >
+        {isPresentationMode && (
+          <section className="presentation-banner" aria-label="Presentation mode">
+            <div className="presentation-banner-copy">
+              <p className="eyebrow">Presentation mode</p>
+              <h2>Simulation-only SafeFlow demo</h2>
+              <p className="presentation-banner-boundary">{PRESENTATION_BOUNDARY_NOTE}</p>
+              <p className="presentation-banner-scenario">
+                Selected scenario: <strong>{selectedScenario?.label ?? 'Demo scenario'}</strong>
+              </p>
+              <p className="presentation-banner-description">
+                {selectedScenario?.description ?? 'Fictional patient and ward context for demonstration and human-led review only.'}
+              </p>
+            </div>
+            <div className="presentation-banner-actions">
+              <button className="secondary-action presentation-exit-trigger" onClick={togglePresentationMode} type="button">
+                Exit presentation mode
+              </button>
+            </div>
+            <ol className="presentation-flow" aria-label="Presentation flow">
+              {PRESENTATION_STEPS.map((step, index) => (
+                <li aria-current={index === presentationStepIndex ? 'step' : undefined} className={index === presentationStepIndex ? 'is-active' : ''} key={step.id}>
+                  <span>Step {index + 1}</span>
+                  <strong>{step.label}</strong>
+                  <small>{step.description}</small>
+                </li>
+              ))}
+            </ol>
+            <div className="presentation-step-controls" aria-label="Presentation step controls">
+              <button
+                className="secondary-action"
+                disabled={presentationStepIndex === 0}
+                onClick={() => movePresentationStep(-1)}
+                type="button"
+              >
+                Previous
+              </button>
+              <span className="presentation-step-position" aria-live="polite">
+                Step {presentationStepIndex + 1} of {PRESENTATION_STEPS.length}
+              </span>
+              <button
+                className="secondary-action"
+                disabled={presentationStepIndex === PRESENTATION_STEPS.length - 1}
+                onClick={() => movePresentationStep(1)}
+                type="button"
+              >
+                Next
+              </button>
+            </div>
+            <p className="presentation-banner-note">{PRESENTATION_ROADMAP_NOTE}</p>
+          </section>
+        )}
+        {showPatientPanel && <section className="patient-action-bar" aria-label="Selected patient actions">
+          <label htmlFor="active-patient">Selected patient<select id="active-patient" value={selectedPatient.id} onChange={(event) => selectPatient(event.target.value)}>
+            {state.patients.map((patient) => <option key={patient.id} value={patient.id}>{patient.name} · {patient.bed ?? patient.id}</option>)}
+          </select></label>
+          <span className="patient-context-id">{selectedPatient.id}</span>
+          <div className="patient-shortcuts">
+            <button type="button" className="secondary-action" onClick={() => navigate('observations')}>Record observations</button>
+            <button type="button" className="secondary-action" onClick={() => navigate('tasks')}>Review tasks</button>
+            <button type="button" className="secondary-action" onClick={() => navigate('handover')}>Prepare handover</button>
+          </div>
+        </section>}
         <div className={`dashboard-layout ${showPatientPanel ? '' : 'full-width'}`}>
           <div>
-            {state.selectedView === 'board' && (
+            {state.selectedView === 'hospitals' && <HospitalsView currentWardName={state.selectedHospitalId ? state.currentWardName : `Training example: ${state.currentWardName}`} workspace={state}
+              onOpenWorkflow={() => navigate('board')}
+              onOpenWard={(hospitalId, wardId, patientId) => {
+                draftRequest.current?.abort();
+                dispatch({ type: 'workspace/wardOpened', payload: { hospitalId, wardId, patientId } });
+              }} />}
+            {isDaySurgeryBoard && <DaySurgeryBoard patients={state.patients} date={state.activityDate} selectedPatientId={selectedPatient.id}
+              onDateChange={(date) => dispatch({ type: 'workspace/wardOpened', payload: { hospitalId: state.selectedHospitalId, wardId: state.selectedWardId, date } })}
+              onReviewPatient={(patientId) => { selectPatient(patientId); navigate('handover'); }} />}
+            {state.selectedView === 'board' && !isDaySurgeryBoard && (
               <WardSafetyBoard
-                summary={wardSummary}
+                summary={state.wardSummary}
                 patients={state.patients}
                 selectedPatientId={selectedPatient.id}
                 onSelectPatient={selectPatient}
@@ -523,6 +810,8 @@ export default function App() {
             {state.selectedView === 'observations' && (
               <ObservationsView patient={selectedPatient} onRecord={recordObservation} />
             )}
+            {state.selectedView === 'trust-network' && <TrustNetworkView defaultTheme={isPresentationMode ? 'night' : 'standard'} />}
+            {state.selectedView === 'communication' && <ConnectView key={state.selectedScenarioId + ':' + (state.selectedHospitalId ?? '') + ':' + state.currentWardName} patients={state.patients} tasks={state.tasks} selectedPatientId={selectedPatient.id} />}
             {state.selectedView === 'tasks' && (
               <TasksView
                 onAddTask={addTask}
@@ -558,20 +847,36 @@ export default function App() {
               />
             )}
             {state.selectedView === 'reports' && (
-              <ReportsView auditEvents={state.auditEvents} onExportWard={exportWardBoard} patients={state.patients} />
+              <ReportsView
+                auditEvents={state.auditEvents}
+                onExportWard={exportWardBoard}
+                onOpenWardQualitySafetyReview={() => {
+                  setIsWardQualitySafetyReviewOpen((current) => !current);
+                  setIsReviewReportOpen(false);
+                  setIsHospitalInsightsOpen(false);
+                }}
+                patients={state.patients}
+              />
             )}
-            {state.selectedView === 'potassium' && (
-              <PotassiumSafetyGapView
+            {state.selectedView === 'hospital-insights' && (
+              <HospitalInsightsView
+                currentWardName={state.currentWardName}
+                defaultTheme={isPresentationMode ? 'night' : 'standard'}
+                hospitalName={state.hospitalName}
+                heuristicCues={heuristicCues}
                 patient={selectedPatient}
-                flag={potassiumFlag}
-                draftText={draftText}
-                onDraftChange={setDraftText}
-                onGenerateDraft={generateProviderDraft}
-                onSaveDraft={saveDraft}
-                isGeneratingDraft={isGeneratingDraft}
+                reviewSignals={reviewSignals}
+                safetyFlag={potassiumFlag}
               />
             )}
             {state.selectedView === 'scenarios' && <ScenarioLibraryView />}
+            {state.selectedView === 'competency-passport' && (
+              <CompetencyPassportView />
+            )}
+            {state.selectedView === 'learning-hub' && <LearningHubView />}
+            {state.selectedView === 'twin' && (
+              <PatientJourneyTwin patient={selectedPatient} defaultTheme={isPresentationMode ? 'night' : 'standard'} />
+            )}
             {state.selectedView === 'audit' && (
               <AuditLearningView
                 backendAuditStatus={backendAuditStatus}
@@ -598,18 +903,44 @@ export default function App() {
           {showPatientPanel && (
             <PatientSafetyPanel
               flag={potassiumFlag}
+              draftText={draftText}
+              isGeneratingDraft={isGeneratingDraft}
               onAddTask={addTask}
+              onDraftChange={setDraftText}
+              draftSaveHint={state.drafts?.[draftKey]?.text === draftText
+                ? `Saved on this device · version ${state.drafts[draftKey].version}. Fictional data only.`
+                : 'Unsaved draft. Changes stay in this page until you save. Fictional data only.'}
+              onGenerateDraft={generateProviderDraft}
               onRequestContact={requestContact}
+              onSaveDraft={saveDraft}
               patient={selectedPatient}
+              heuristicCues={heuristicCues}
               reviewSignals={reviewSignals}
               signalSnapshot={state.signalSnapshots?.[selectedPatient.id] ?? null}
+              wardName={state.currentWardName}
+              hospitalName={state.hospitalName}
             />
           )}
         </div>
-        <ArchitectureStrip />
+        {!isPresentationMode && <ArchitectureStrip />}
+        <HospitalInsightsDrawer
+          isOpen={isHospitalInsightsOpen}
+          onClose={() => setIsHospitalInsightsOpen(false)}
+          snapshot={hospitalInsights}
+        />
+        <SimulationReviewReportDrawer
+          isOpen={isReviewReportOpen}
+          onClose={() => setIsReviewReportOpen(false)}
+          snapshot={simulationReviewReport}
+        />
+        <WardQualitySafetyReviewDrawer
+          isOpen={isWardQualitySafetyReviewOpen}
+          onClose={() => setIsWardQualitySafetyReviewOpen(false)}
+          snapshot={wardQualitySafetyReview}
+        />
+        {persistenceError && <p className="status-message" role="alert">{persistenceError}</p>}
         {draftStatus && <p className="status-message" role="status">{draftStatus}</p>}
-        {serverAuditStatus && <p className="backend-note">{serverAuditStatus}</p>}
-      </div>
+        {serverAuditStatus && <p className="backend-note" role="status">{serverAuditStatus}</p>}
       {dialog?.type === 'reset' && (
         <SimulationDialog confirmLabel="Confirm reset" onClose={() => setDialog(null)} onConfirm={confirmReset} title="Reset simulation">
           <p>This clears browser-local changes and restores the original fictional scenario.</p>
@@ -620,6 +951,6 @@ export default function App() {
           <p>No call will be placed. This records a fictional contact event for {dialog.patientId}.</p>
         </SimulationDialog>
       )}
-    </main>
+    </AppShell>
   );
 }

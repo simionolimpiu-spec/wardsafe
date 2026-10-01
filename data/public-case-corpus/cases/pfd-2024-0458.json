@@ -1,0 +1,159 @@
+{
+  "id": "pfd-2024-0458",
+  "source": {
+    "type": "pfd",
+    "ref": "2024-0458",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/alan-fallows-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2024/08/Alan-Fallows-Prevention-of-Future-Deaths-Report-2024-0458.pdf",
+    "report_date": "2024-08-19",
+    "published_date": "2024-08-19",
+    "category": "Hospital Death (Clinical Procedures and medical management) related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Alan Stanley Fallows",
+    "age": null,
+    "date_of_death": "2024-03-28",
+    "cause_of_death": "1a Aspiration pneumonia; 1b Frailty of old age; II Fracture right neck of femur (operated), Chronic obstructive pulmonary disease"
+  },
+
+  "authority": {
+    "coroner_name": "Adam Hodson",
+    "coroner_area": "Birmingham and Solihull",
+    "recipients": ["University Hospitals Birmingham"],
+    "primary_organisation": "University Hospitals Birmingham NHS Foundation Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "admission",
+      "date": "2024-02-08",
+      "end_date": "2024-02-08",
+      "setting": "Good Hope Hospital, Birmingham",
+      "presentation": "Fall at home; suspected broken elbow and postural hypotension",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "Mr Fallows was admitted into Good Hope Hospital in Birmingham on 08/02/2024 following a fall at home and was diagnosed as having sustained a suspected broken elbow as well as having postural hypotension. He was initially discharged but readmitted on 09/02/2024 due to a CT scan showing a chronic subdural haematoma."
+    },
+    {
+      "seq": 2,
+      "contact_type": "readmission",
+      "date": "2024-02-09",
+      "end_date": null,
+      "setting": "Good Hope Hospital, Birmingham",
+      "presentation": "CT scan showing chronic subdural haematoma",
+      "outcome": "admitted",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 1,
+      "evidence": "He was initially discharged but readmitted on 09/02/2024 due to a CT scan showing a chronic subdural haematoma. On 10/02/2024 a falls assessment was incorrectly completed but which still deemed him to be at high risk of falls, and on 12/02/2024 bed rails were put in place following an assessment."
+    },
+    {
+      "seq": 3,
+      "contact_type": "intra_admission",
+      "date": "2024-02-12",
+      "end_date": "2024-02-12",
+      "setting": "Good Hope Hospital, Birmingham",
+      "presentation": "Unwitnessed fall, no injuries sustained",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 3,
+      "evidence": "Later that day he had an unwitnessed fall but did not sustain injuries. His falls risk assessment was not updated following this fall, although his bed rails assessment was updated three days later on 15/02/2024."
+    },
+    {
+      "seq": 4,
+      "contact_type": "intra_admission",
+      "date": "2024-02-16",
+      "end_date": "2024-02-16",
+      "setting": "Good Hope Hospital, Birmingham",
+      "presentation": "Further unwitnessed fall; minor head injury and fracture to right neck of femur",
+      "outcome": "transferred",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 4,
+      "evidence": "On 16/02/2024, he had a further unwitnessed fall and suffered a minor head injury and a fracture to his right neck of femur. On 17/02/2024 he was transported to Birmingham Heartlands Hospital for surgery which was uneventful."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "prior_specialist_advice_not_followed": false,
+    "test_ordered_not_chased": false,
+    "test_not_ordered": false,
+    "risk_assessment_not_updated_after_event": true,
+    "patient_concern_not_escalated": false,
+    "family_concern_not_escalated": false,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": false,
+    "specialist_input_not_sought": false,
+    "discharge_reversed_by_later_result": true,
+    "incident_not_logged": true,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": true
+  },
+
+  "what_was_missed": "A first unwitnessed fall on 12/02 was information about escalating risk in a patient already assessed as high falls risk; the falls risk assessment was not updated and the incident report was not filed, so the signal never entered either the clinical record or the governance system before the second, injurious fall four days later.",
+
+  "coroner_concerns": [
+    {
+      "quote": "I have heard that the Datix report for Mr Fallows' first fall on 12 February was not completed at the time by staff, and the nurse in question is now retired and thus it was not possible to ascertain why it had not been completed. The report was only completed retrospectively two months later by staff once an inquest had been opened and a request for evidence was sent to the Trust.",
+      "box": "5",
+      "theme": "governance_reporting"
+    },
+    {
+      "quote": "It is not difficult to see that where incidents are not being logged and reviewed, patient safety could be compromised, and future deaths could occur as a consequence",
+      "box": "5",
+      "theme": "governance_reporting"
+    },
+    {
+      "quote": "I am concerned that if the Trust has any kind of automation process for the review and approval of Datix reports, there may be missed opportunities for humans to correctly identify any incident that compromises patient safety and which give rise to a risk of death",
+      "box": "5",
+      "theme": "governance_reporting"
+    },
+    {
+      "quote": "The use of templates, whilst time saving, can easily lead to incorrect or incomplete information being provided on incidents (as happened in Mr Fallows' care) and therefore there is a real risk that opportunities will be lost to correctly investigate incidents which affect patient safety and which may cause a risk of death.",
+      "box": "5",
+      "theme": "governance_reporting"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": true,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "He was initially discharged but readmitted on 09/02/2024 due to a CT scan showing a chronic subdural haematoma. […] Later that day he had an unwitnessed fall but did not sustain injuries. […] On 16/02/2024, he had a further unwitnessed fall and suffered a minor head injury and a fracture to his right neck of femur."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "He was initially discharged but readmitted on 09/02/2024 due to a CT scan showing a chronic subdural haematoma."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "On 10/02/2024 a falls assessment was incorrectly completed but which still deemed him to be at high risk of falls […] Later that day he had an unwitnessed fall but did not sustain injuries."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "His falls risk assessment was not updated following this fall, although his bed rails assessment was updated three days later on 15/02/2024."
+      }
+    ],
+    "exclusion_reason": null,
+    "adjacent_theme": false,
+    "adjudication_note": "Two distinct longitudinal failures in one trajectory. First: a discharge on 08/02 reversed within a day by a CT result — the decision to discharge preceded the information that contradicted it. Second: a no-injury fall on 12/02 closed without updating the falls risk assessment and without a Datix being filed, so the warning event was invisible both clinically and to governance before the injurious fall on 16/02. Note the coroner records that the falls assessment of 10/02 was 'incorrectly completed' yet still returned high risk — the assessment was right despite itself, and still did not drive action. Weaker than pfd-2026-0069 on C3, since the prior information is an in-episode event rather than pre-existing record content; retained because the failure-to-reassess-after-warning-event is squarely longitudinal and the coroner treats it as such."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published report text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.0"
+  }
+}

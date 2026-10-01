@@ -1,0 +1,38 @@
+[
+  {
+    "pmid": "26294709",
+    "doi": "10.1093/intqhc/mzv063",
+    "title": "Resilient health care: turning patient safety on its head.",
+    "journal": "International journal for quality in health care : journal of the International Society for Quality in Health Care",
+    "journalAbbrev": "Int J Qual Health Care",
+    "year": 2015,
+    "authors": ["Braithwaite", "Wears", "Hollnagel"],
+    "meshTerms": ["Humans", "Medical Errors", "Patient Safety", "Quality of Health Care", "Safety Management"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "31745509",
+    "doi": "10.1097/pq9.0000000000000206",
+    "title": "Impact of Positive Feedback on Antimicrobial Stewardship in a Pediatric Intensive Care Unit: A Quality Improvement Project.",
+    "journal": "Pediatric quality & safety",
+    "journalAbbrev": "Pediatr Qual Saf",
+    "year": 2019,
+    "authors": ["Jones", "Isaac", "Price", "Plunkett"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "40229754",
+    "doi": "10.1186/s12913-025-12680-2",
+    "title": "Strategies and tools to learn from work that goes well within healthcare patient safety practices: a mixed methods systematic review.",
+    "journal": "BMC health services research",
+    "journalAbbrev": "BMC Health Serv Res",
+    "year": 2025,
+    "authors": ["Birkeli", "Lindahl", "Hammersboen", "Deilkas", "Ballangrud"],
+    "meshTerms": ["Humans", "Patient Safety", "Health Personnel", "Learning", "Safety Management"],
+    "articleTypes": ["Journal Article", "Systematic Review"],
+    "language": "eng"
+  }
+]

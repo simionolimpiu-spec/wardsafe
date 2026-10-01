@@ -1,0 +1,124 @@
+.overview-risk-flags {
+  flex-flow: row wrap;
+  margin: var(--space-2) 0;
+  padding: 0;
+}
+
+.panel-tabs {
+  border-bottom: var(--sf-border-width) solid var(--sf-border);
+  display: flex;
+  gap: var(--space-1);
+  margin: var(--space-5) calc(var(--space-5) * -1) var(--space-5);
+  overflow-x: auto;
+  padding: 0 var(--space-4);
+}
+
+.panel-tabs button {
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  color: var(--sf-text-secondary);
+  cursor: pointer;
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  min-height: var(--sf-target-min);
+  padding: var(--sf-space-2);
+  transition: color var(--sf-duration-fast) var(--sf-ease-standard), border-color var(--sf-duration-fast) var(--sf-ease-standard);
+  white-space: nowrap;
+}
+
+.panel-tabs button:hover {
+  color: var(--sf-text-primary);
+}
+
+.panel-tabs button.active,
+.panel-tabs button[aria-selected="true"] {
+  border-bottom-color: var(--sf-action);
+  color: var(--sf-action);
+}
+
+.panel-tabs button:focus-visible {
+  outline: var(--sf-focus-width) solid var(--sf-focus);
+  outline-offset: calc(var(--sf-focus-width) * -1);
+}
+
+.sbar-list {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
+  margin: 0;
+}
+
+.sbar-list dt {
+  color: var(--sf-action);
+  font-weight: var(--font-weight-bold);
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-list li {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 18px 1fr auto;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.audit-preview {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: 20px;
+}
+
+.audit-preview li {
+  color: var(--sf-text-secondary);
+}
+
+/* SF-295 design-system patient panel layout */
+.sf-patient-panel-banner {
+  margin-bottom: var(--sf-space-4);
+}
+
+.sf-panel-section {
+  display: grid;
+  gap: var(--sf-space-2);
+  margin-bottom: var(--sf-space-4);
+}
+
+.sf-panel-section__title {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-lg);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-lg);
+  margin: 0;
+}
+
+.sf-panel-integrations {
+  margin-top: var(--sf-space-6);
+}
+
+/* The patient panel stays narrow even on a wide workstation. */
+.patient-panel .potassium-view .evidence-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sf-space-3);
+  margin: var(--sf-space-4) 0;
+}
+
+.patient-panel .potassium-view .evidence-grid > article {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* O18 patient detail panel */
+.app-shell-redesign .patient-panel { align-self: start; position: sticky; top: 108px; }
+.app-shell-redesign .panel-heading { border-bottom: 0; }
+.app-shell-redesign .panel-heading h2 { color: var(--sf-blue-ink); }
+.panel-footer-actions { border-top: var(--sf-border-width) solid var(--sf-border); display: grid; gap: 10px; grid-template-columns: 1fr 1fr; margin-top: 20px; padding-top: 16px; }
+.panel-footer-actions .primary-action,
+.panel-footer-actions .danger-action { align-items: center; display: inline-flex; justify-content: center; margin: 0; min-height: 44px; }
+.danger-action { align-items: center; background: var(--sf-critical-solid); border: var(--sf-border-width) solid var(--sf-critical-solid); border-radius: var(--sf-radius-sm); color: var(--sf-text-inverse); cursor: pointer; display: inline-flex; font-weight: var(--font-weight-bold); gap: var(--space-2); padding: var(--space-4) var(--space-6); }
+.danger-action:hover { background: var(--sf-critical-hover); }
+.danger-action:disabled { background: var(--sf-disabled-subtle); border-color: var(--sf-border); color: var(--sf-text-muted); cursor: not-allowed; }

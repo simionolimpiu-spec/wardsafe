@@ -1,5 +1,7 @@
 # SafeFlow Technology Stack
 
+> Readiness note: the AWS material below is a mock/readiness stack only. It is not wired into the app, does not require live AWS deployment, and is separate from any future implementation decision. See `CONTROL.md` SF-104 and `docs/public-demo-pack/build-readiness/architecture-options.md`.
+
 ## Recommended Stack For The Next Build
 
 ### Frontend
@@ -20,7 +22,8 @@ Recommended first backend:
 - REST APIs for app workflows.
 - OpenAPI schema for API contracts.
 - Server-side validation with Zod or similar.
-- Background worker for async tasks.
+- Token verification, RBAC enforcement and audit logging remain server-side.
+- Long-running workflow orchestration moves out of the browser; the AWS mock direction uses Step Functions for that role.
 
 Why: This keeps development fast while creating a clean boundary between UI, workflow logic, integrations and AI providers.
 
@@ -28,7 +31,7 @@ Why: This keeps development fast while creating a clean boundary between UI, wor
 
 Recommended pilot data layer:
 
-- PostgreSQL for relational workflow data.
+- PostgreSQL or Aurora PostgreSQL for relational workflow data.
 - Object storage for exports and attachments.
 - Append-only audit event table.
 - Migration tool such as Prisma Migrate, Drizzle Kit or Flyway.
@@ -47,13 +50,15 @@ Core tables:
 - draft_notes
 - audit_events
 
+The audit model should preserve role, subject and action metadata while avoiding raw token storage and direct patient identifiers.
+
 ### AI Layer
 
 Recommended first AI approach:
 
 - Keep deterministic rules for safety-gap detection.
-- Use OpenAI API only for draft text generation, summarisation or wording assistance.
 - Put all AI calls behind a server-side `DraftProvider` interface.
+- In the AWS mock/readiness direction, that provider can be backed by a Bedrock/LLM layer for draft text generation and wording assistance.
 - Keep a deterministic fallback provider.
 - Store prompt templates, model configuration and output metadata server-side.
 
@@ -63,6 +68,7 @@ Prototype status:
 - `npm run api` starts the local API on `127.0.0.1:8787`.
 - When `OPENAI_API_KEY` is present, the server uses the OpenAI Responses API through the official JavaScript SDK.
 - When the key is absent or the provider fails, the server and browser client use the deterministic fallback draft.
+- The local OpenAI path is separate from the AWS mock/readiness direction in SF-104.
 - The frontend never reads or stores an OpenAI API key.
 
 Required AI safeguards:
@@ -74,32 +80,18 @@ Required AI safeguards:
 - Human-editable output.
 - Audit record for draft creation, edit and save.
 
-### Cloud Option
+### AWS Mock / Readiness Architecture
 
-AWS-aligned pilot architecture:
+This is the SF-104 direction in documentation form only. It is a planning shape, not a deployment plan.
 
-- Amazon Cognito or approved identity provider for authentication.
-- API Gateway or Application Load Balancer for API ingress.
-- ECS Fargate or Lambda for app services.
-- EventBridge for workflow events.
-- Step Functions for orchestrated workflows when needed.
-- Aurora PostgreSQL or RDS PostgreSQL for relational data.
-- S3 for exports and attachments.
-- CloudWatch for logs, metrics and alarms.
-- KMS for encryption keys.
-- Secrets Manager for secrets.
-- WAF and VPC controls for production environments.
-
-Cloud-agnostic equivalents can be used if a partner has a different hosting standard.
-
-Prototype status:
-
-- The repo now includes a local AWS CDK v2 foundation stack in `infra/aws/`.
-- `npm run infra:synth` renders the CloudFormation template locally.
-- The current stack provisions a private encrypted PostgreSQL database, encrypted private S3 bucket, KMS key, Secrets Manager entries, CloudWatch log group, private Lambda compute scaffold and private VPC endpoints for Secrets Manager/S3 access.
-- `npm run db:manifest` prints deterministic checksums for the SQL schema and seed sources.
-- `npm run db:migrate:plan` validates the approved simulation-only migration plan without connecting to a database.
-- No AWS deployment has been run from this repository.
+- Amazon Cognito or another approved identity provider issues bearer tokens.
+- The backend verifies those tokens and maps claims to roles and permissions.
+- Step Functions orchestrates workflow transitions such as draft request, review, save and export.
+- Aurora PostgreSQL stores relational state, draft notes and append-only audit events.
+- A Bedrock/LLM layer sits behind the server-side `DraftProvider` interface.
+- S3 stores exports and attachments.
+- CloudWatch, KMS, Secrets Manager and WAF or VPC controls support operations and security.
+- No live deployment, no SDK wiring and no browser-side AWS access are included in the repo.
 
 ### Integrations
 
@@ -121,3 +113,4 @@ Integration should start read-only and simulation-backed. Writeback requires a s
 - Untraceable prompt chains.
 - Non-audited data changes.
 - Unapproved use of identifiable patient data.
+- Direct AWS SDK calls from the browser or any other path that bypasses the server-side provider boundary.

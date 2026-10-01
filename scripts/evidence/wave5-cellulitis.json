@@ -1,0 +1,50 @@
+[
+  {
+    "pmid": "39032563",
+    "doi": "10.1016/j.jhin.2024.06.016",
+    "title": "The quality of antimicrobial prescribing in skin and soft tissue management in Australian hospitals: an analysis of the National Antimicrobial Prescribing Survey data.",
+    "journal": "The Journal of hospital infection",
+    "journalAbbrev": "J Hosp Infect",
+    "year": 2024,
+    "authors": ["Park", "Thursky", "Zosky-Shiller", "James", "Cheah", "Hall", "Ierano"],
+    "meshTerms": ["Humans", "Australia", "Retrospective Studies", "Soft Tissue Infections", "Guideline Adherence", "Drug Prescriptions", "Hospitals", "Practice Patterns, Physicians'", "Anti-Bacterial Agents", "Male", "Female", "Anti-Infective Agents", "Surveys and Questionnaires", "Antimicrobial Stewardship", "Drug Utilization"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "31528278",
+    "doi": "10.1080/20009666.2019.1651482",
+    "title": "Acute bacterial skin and soft tissue infections: new drugs in ID armamentarium.",
+    "journal": "Journal of community hospital internal medicine perspectives",
+    "journalAbbrev": "J Community Hosp Intern Med Perspect",
+    "year": 2019,
+    "authors": ["Tirupathi", "Areti", "Salim", "Palabindala", "Jonnalagadda"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42102539",
+    "doi": "10.1016/j.jemermed.2026.03.023",
+    "title": "Comparing Cellulitis Diagnostic Accuracy Between Emergency Physicians and Dermatologists Under Teledermatology Conditions.",
+    "journal": "The Journal of emergency medicine",
+    "journalAbbrev": "J Emerg Med",
+    "year": 2026,
+    "authors": ["Gladhill", "Schwei", "Griffin", "Glinert", "Haleem", "Hess", "Keenan", "McBride"],
+    "meshTerms": ["Adult", "Aged", "Female", "Humans", "Male", "Middle Aged", "Cellulitis", "Dermatologists", "Dermatology", "Diagnostic Errors", "Emergency Medicine", "Emergency Room Visits", "Emergency Service, Hospital", "Physicians", "Telemedicine"],
+    "articleTypes": ["Journal Article", "Comparative Study"],
+    "language": "eng"
+  },
+  {
+    "pmid": "41938482",
+    "doi": "10.1016/j.jvscit.2026.102191",
+    "title": "Stewart Treves syndrome as a catastrophic sequela of chronic lymphedema: Clinical spectrum, management challenges, and outcomes.",
+    "journal": "Journal of vascular surgery cases and innovative techniques",
+    "journalAbbrev": "J Vasc Surg Cases Innov Tech",
+    "year": 2026,
+    "authors": ["Elkiran", "Elsaadany", "Elkiran", "Elghamrey", "Eldin", "Morshed", "Elshabrawy"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]

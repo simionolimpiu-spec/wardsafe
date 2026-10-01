@@ -1,0 +1,240 @@
+/*
+ * Mobile shell (SF-300, reconciled with the SF-306 primary care shell).
+ * Tokens only. At 860px and below a bottom tab bar holds the four most used
+ * screens for the care setting. More opens the existing "SafeFlow workspace"
+ * drawer (codex-way.css), so the top-left menu button is hidden there.
+ * Spec: docs/design/SAFeflow-DESIGN.md section 17.
+ */
+
+.sf-mobile-tabbar,
+.sf-mobile-context-toggle {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  /* Room for the fixed tab bar so it never covers content */
+  .app-shell-redesign .workspace-main {
+    padding-bottom: calc(var(--sf-mobile-tabbar-height) + var(--sf-space-4) + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Brand, context toggle and actions share one row without touching */
+  .app-shell-redesign .redesign-topbar {
+    column-gap: var(--sf-space-3);
+    grid-template-columns: auto minmax(var(--sf-target-min), 1fr) auto;
+  }
+
+  .app-shell-redesign .redesign-topbar > .shell-brand {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .app-shell-redesign .redesign-topbar > .sf-mobile-context-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: 100%;
+    min-width: var(--sf-target-min);
+  }
+
+  .app-shell-redesign .redesign-topbar > .topbar-actions {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  /* Simulation context folds behind the ward toggle so content comes first */
+  .app-shell-redesign .topbar-context {
+    display: none;
+  }
+
+  .app-shell-redesign .topbar-context.is-open {
+    display: grid;
+  }
+
+  .sf-mobile-context-toggle {
+    align-items: center;
+    background: transparent;
+    border: var(--sf-border-width) solid currentColor;
+    border-radius: var(--sf-radius-sm);
+    color: var(--sf-text-on-shell);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-size: var(--sf-font-size-sm);
+    font-weight: var(--sf-font-weight-semibold);
+    gap: var(--sf-space-2);
+    justify-self: end;
+    min-height: var(--sf-target-min);
+    padding: 0 var(--sf-space-3);
+  }
+
+  .sf-mobile-context-ward {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sf-mobile-context-toggle svg {
+    flex: none;
+    transition: transform var(--sf-duration-fast) var(--sf-ease-standard);
+  }
+
+  .sf-mobile-context-toggle[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+
+  /* Page-level action rows reuse .topbar-actions; let them wrap on phones */
+  .app-shell-redesign .view-heading .topbar-actions {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .app-shell-redesign .view-heading .topbar-actions > * {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  /* More in the tab bar opens the same drawer */
+  .app-shell-redesign .mobile-nav-trigger {
+    display: none;
+  }
+
+  /* Presentation mode is sized for a projector. On a phone it keeps its
+     content and wording but drops the oversized padding, which pushed the
+     page wider than the screen. */
+  .app-shell-redesign.presentation-mode .workspace-main {
+    padding: 0 0 calc(var(--sf-mobile-tabbar-height) + var(--sf-space-4) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .app-shell-redesign.presentation-mode .presentation-banner,
+  .app-shell-redesign.presentation-mode .operational-view {
+    padding: var(--sf-space-4);
+  }
+
+  .app-shell-redesign.presentation-mode .presentation-banner-copy h2 {
+    font-size: var(--sf-font-size-2xl);
+  }
+
+  .app-shell-redesign.presentation-mode .topbar h1 {
+    font-size: var(--sf-font-size-lg);
+  }
+
+  .app-shell-redesign.presentation-mode .safety-banner {
+    padding: var(--sf-space-3) var(--sf-space-4);
+  }
+
+    /* Bottom tab bar */
+  .sf-mobile-tabbar {
+    background: var(--sf-surface);
+    border-top: var(--sf-border-width) solid var(--sf-border-strong);
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    left: 0;
+    min-height: var(--sf-mobile-tabbar-height);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    position: fixed;
+    right: 0;
+    z-index: var(--sf-z-mobile-tabbar);
+  }
+
+  .sf-mobile-tab {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--sf-text-secondary);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font: inherit;
+    font-size: var(--sf-font-size-xs);
+    font-weight: var(--sf-font-weight-medium);
+    gap: var(--sf-space-1);
+    justify-content: center;
+    min-height: var(--sf-mobile-tabbar-height);
+    min-width: 0;
+    padding: var(--sf-space-2) var(--sf-space-1);
+    position: relative;
+    transition: color var(--sf-duration-fast) var(--sf-ease-standard);
+  }
+
+  .sf-mobile-tab:focus-visible {
+    outline: 2px solid var(--sf-focus);
+    outline-offset: -4px;
+  }
+
+  .sf-mobile-tab-icon {
+    display: inline-flex;
+  }
+
+  .sf-mobile-tab-icon svg {
+    height: var(--sf-icon-lg);
+    width: var(--sf-icon-lg);
+  }
+
+  .sf-mobile-tab-label {
+    line-height: var(--sf-line-height-xs);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Current tab: colour plus a bar and heavier label, never colour alone */
+  .sf-mobile-tab.is-current {
+    color: var(--sf-action);
+    font-weight: var(--sf-font-weight-bold);
+  }
+
+  .sf-mobile-tab.is-current::before {
+    background: var(--sf-action);
+    border-radius: 0 0 var(--sf-radius-pill) var(--sf-radius-pill);
+    content: '';
+    height: 3px;
+    left: 50%;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    width: 32px;
+  }
+
+  .sf-mobile-tab-count {
+    background: var(--sf-action);
+    border-radius: var(--sf-radius-pill);
+    color: var(--sf-text-inverse);
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    left: calc(50% + 6px);
+    line-height: 1;
+    min-width: 18px;
+    padding: 3px 5px;
+    position: absolute;
+    text-align: center;
+    top: var(--sf-space-1);
+  }
+}
+
+/* SF-302: phones get the width back from nested card padding. Twin
+   chapter strips and observation tables keep their own sideways scroll. */
+@media (max-width: 620px) {
+  .app-shell-redesign .workspace-content {
+    padding: var(--sf-space-3);
+  }
+
+  .app-shell-redesign .operational-view,
+  .app-shell-redesign .workflow-view {
+    padding: var(--sf-space-3);
+  }
+
+  .twin-patient-card,
+  .twin-day-scrubber,
+  .twin-trend-panel,
+  .twin-then-now-panel {
+    padding: var(--sf-space-3);
+  }
+}
+
+@media print {
+  .sf-mobile-tabbar {
+    display: none;
+  }
+}

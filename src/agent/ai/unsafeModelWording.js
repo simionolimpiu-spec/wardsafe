@@ -1,0 +1,2 @@
+// Rejection patterns only; keep this module independent of model/context data.
+export const UNSAFE_MODEL_WORDING_PATTERN = /diagnos|prescrib|administer|give\s+potassium|replace\s+potassium|potassium\s+replacement|patient\s+needs|patient\s+requires|treatment\s+recommendation|safe\s+to\s+discharge|AI\s+decision|autonomous|start\s+(\w+\s+)?(infusion|antibiotic)|increase\s+dose|decrease\s+dose|stop\s+(the\s+)?medication/i;

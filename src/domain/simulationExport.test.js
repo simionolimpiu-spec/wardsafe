@@ -17,7 +17,7 @@ describe('simulation report export', () => {
     const text = rows.flat().join(' ');
 
     expect(text).toContain('DCU-031');
-    expect(text).toContain('Patient 031');
+    expect(text).toContain('Margaret Ainsworth');
     expect(text).not.toMatch(/NHS number|administer|prescribe|diagnose/i);
   });
 });

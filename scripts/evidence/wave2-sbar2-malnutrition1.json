@@ -1,0 +1,198 @@
+[
+  {
+    "pmid": "40884900",
+    "doi": "10.1016/j.ienj.2025.101666",
+    "title": "Effectiveness of the Situation-Background-Assessment-Recommendation method in emergencies with simulation-based education for nursing and paramedic students.",
+    "journal": "International emergency nursing",
+    "journalAbbrev": "Int Emerg Nurs",
+    "year": 2025,
+    "authors": [
+      "Erbas",
+      "Keskin Kiziltepe",
+      "Kilic"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Simulation Training",
+      "Students, Nursing",
+      "Clinical Competence",
+      "Patient Handoff",
+      "Allied Health Personnel",
+      "Paramedics"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40917463",
+    "doi": "10.15766/mep_2374-8265.11544",
+    "title": "Simulation-Based Peer Feedback Module for Pediatric Rapid Response Team Handoffs.",
+    "journal": "MedEdPORTAL",
+    "journalAbbrev": "MedEdPORTAL",
+    "year": 2025,
+    "authors": [
+      "Herriman",
+      "Jani",
+      "Patel",
+      "Palama",
+      "Elangovan"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Handoff",
+      "Pediatrics",
+      "Internship and Residency",
+      "Simulation Training",
+      "Hospital Rapid Response Team",
+      "Clinical Competence"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41196019",
+    "doi": "10.1097/NNE.0000000000002047",
+    "title": "Perceptions of Effective Nursing Handover Education: A Mixed-Methods Study.",
+    "journal": "Nurse educator",
+    "journalAbbrev": "Nurse Educ",
+    "year": 2025,
+    "authors": [
+      "Lee"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Patient Handoff",
+      "Students, Nursing",
+      "Nursing Education Research",
+      "Qualitative Research",
+      "Curriculum",
+      "Clinical Competence",
+      "Communication"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "35215559",
+    "doi": "10.3390/nu14040910",
+    "title": "Malnutrition in Hospitalized Old Patients: Screening and Diagnosis, Clinical Outcomes, and Management.",
+    "journal": "Nutrients",
+    "journalAbbrev": "Nutrients",
+    "year": 2022,
+    "authors": [
+      "Bellanti",
+      "Lo Buglio",
+      "Quiete",
+      "Vendemiale"
+    ],
+    "meshTerms": [
+      "Hospitalization",
+      "Humans",
+      "Length of Stay",
+      "Malnutrition",
+      "Mass Screening",
+      "Nutrition Assessment",
+      "Nutritional Status",
+      "Prevalence"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "38582013",
+    "doi": "10.1016/j.clnu.2024.03.008",
+    "title": "Validity of nutrition screening tools for risk of malnutrition among hospitalized adult patients: A systematic review and meta-analysis.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2024,
+    "authors": [
+      "Cortes-Aguilar",
+      "Malih",
+      "Abbate",
+      "Fresneda",
+      "Yanez"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Malnutrition",
+      "Nutrition Assessment",
+      "Hospitalization",
+      "Mass Screening",
+      "Nutritional Status",
+      "Inpatients",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Systematic Review",
+      "Journal Article",
+      "Meta-Analysis"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "31021360",
+    "doi": "10.1007/s12603-019-1176-z",
+    "title": "Malnutrition Screening and Assessment in Hospitalised Older People: a Review.",
+    "journal": "The journal of nutrition, health & aging",
+    "journalAbbrev": "J Nutr Health Aging",
+    "year": 2019,
+    "authors": [
+      "Dent",
+      "Hoogendijk",
+      "Visvanathan",
+      "Wright"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Female",
+      "Geriatric Assessment",
+      "Hospitalization",
+      "Humans",
+      "Male",
+      "Malnutrition",
+      "Mass Screening",
+      "Nutrition Assessment"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "37478809",
+    "doi": "10.1016/j.clnu.2023.06.023",
+    "title": "ESPEN guideline on nutritional support for polymorbid medical inpatients.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2023,
+    "authors": [
+      "Wunderle",
+      "Gomes",
+      "Schuetz",
+      "Stumpf",
+      "Austin"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hospitalization",
+      "Inpatients",
+      "Malnutrition",
+      "Nutritional Support",
+      "Practice Guidelines as Topic"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  }
+]

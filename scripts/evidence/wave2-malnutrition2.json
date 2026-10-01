@@ -1,0 +1,120 @@
+[
+  {
+    "pmid": "38309229",
+    "doi": "10.1016/j.clnu.2024.01.008",
+    "title": "ESPEN practical guideline: Nutritional support for polymorbid medical inpatients.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2024,
+    "authors": [
+      "Wunderle",
+      "Gomes",
+      "Schuetz",
+      "Stumpf",
+      "Austin"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hospitalization",
+      "Hospitals",
+      "Inpatients",
+      "Malnutrition",
+      "Nutritional Support"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Practice Guideline"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "22122869",
+    "doi": "10.1016/j.clnu.2011.11.001",
+    "title": "Malnutrition and its impact on cost of hospitalization, length of stay, readmission and 3-year mortality.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2011,
+    "authors": [
+      "Lim",
+      "Ong",
+      "Chan",
+      "Loke",
+      "Ferguson"
+    ],
+    "meshTerms": [
+      "Case-Control Studies",
+      "Cohort Studies",
+      "Costs and Cost Analysis",
+      "Health Care Costs",
+      "Hospitalization",
+      "Humans",
+      "Length of Stay",
+      "Malnutrition",
+      "Mortality",
+      "Patient Readmission",
+      "Prevalence",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "31882232",
+    "doi": "10.1016/j.clnu.2019.11.041",
+    "title": "Nutritional risk screening (NRS 2002) is a strong and modifiable predictor risk score for short-term and long-term clinical outcomes: secondary analysis of a prospective randomised trial.",
+    "journal": "Clinical nutrition",
+    "journalAbbrev": "Clin Nutr",
+    "year": 2019,
+    "authors": [
+      "Hersberger",
+      "Bargetzi",
+      "Bargetzi",
+      "Tribolet",
+      "Fehr"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Length of Stay",
+      "Malnutrition",
+      "Mortality",
+      "Nutrition Assessment",
+      "Nutritional Support",
+      "Patient Readmission",
+      "Prognosis",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Randomized Controlled Trial"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "17472872",
+    "doi": "10.1016/j.gtc.2007.02.001",
+    "title": "Nutritional assessment.",
+    "journal": "Gastroenterology clinics of North America",
+    "journalAbbrev": "Gastroenterol Clin North Am",
+    "year": 2007,
+    "authors": [
+      "DeLegge",
+      "Drake"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Malnutrition",
+      "Mass Screening",
+      "Nutrition Assessment",
+      "Nutritional Status",
+      "Risk Factors"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  }
+]

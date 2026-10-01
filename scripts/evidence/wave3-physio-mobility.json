@@ -1,0 +1,547 @@
+[
+  {
+    "pmid": "41827168",
+    "doi": "10.3390/jcm15051749",
+    "title": "Fear of Falling, Balance Disturbances, and Health-Related Quality of Life in Post-Stroke Inpatients: A Preliminary Cross-Sectional Study.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": [
+      "Krysiak",
+      "Mi&#x15b;",
+      "Mi&#x15b;",
+      "Druszcz",
+      "Paprocka-Borowicz",
+      "Rosi&#x144;czuk",
+      "Dymarek"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40576643",
+    "doi": "10.1111/jgs.19613",
+    "title": "A Multimodal Fall Prevention Intervention in the Setting of the Emergency Department.",
+    "journal": "Journal of the American Geriatrics Society",
+    "journalAbbrev": "J Am Geriatr Soc",
+    "year": 2025,
+    "authors": [
+      "Niznik",
+      "Small",
+      "Kelley",
+      "McMullen",
+      "Anton",
+      "Roberts",
+      "Lourduraj",
+      "Casey"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Accidental Falls",
+      "Aged",
+      "Male",
+      "Female",
+      "Emergency Service, Hospital",
+      "Retrospective Studies",
+      "Aged, 80 and over",
+      "Quality Improvement",
+      "Risk Factors",
+      "Occupational Therapy",
+      "Physical Therapy Modalities"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "36355032",
+    "doi": "10.1002/14651858.CD005955.pub3",
+    "title": "Exercise for acutely hospitalised older medical patients.",
+    "journal": "The Cochrane database of systematic reviews",
+    "journalAbbrev": "Cochrane Database Syst Rev",
+    "year": 2022,
+    "authors": [
+      "Hartley",
+      "Keating",
+      "Jeffs",
+      "Raymond",
+      "Smith"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Humans",
+      "Male",
+      "Activities of Daily Living",
+      "Delirium",
+      "Exercise",
+      "Quality of Life"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "30612584",
+    "doi": "10.1186/s12984-018-0478-4",
+    "title": "Dynamic balance and instrumented gait variables are independent predictors of falls following stroke.",
+    "journal": "Journal of neuroengineering and rehabilitation",
+    "journalAbbrev": "J Neuroeng Rehabil",
+    "year": 2019,
+    "authors": [
+      "Bower",
+      "Thilarajah",
+      "Pua",
+      "Williams",
+      "Tan",
+      "Mentiplay",
+      "Denehy",
+      "Clark"
+    ],
+    "meshTerms": [
+      "Accidental Falls",
+      "Aged",
+      "Australia",
+      "Female",
+      "Gait",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Postural Balance",
+      "Prospective Studies",
+      "Stroke",
+      "Stroke Rehabilitation"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "28926152",
+    "doi": "10.1111/jocn.14075",
+    "title": "The patients' perspective of sustaining a fall in hospital: A qualitative study.",
+    "journal": "Journal of clinical nursing",
+    "journalAbbrev": "J Clin Nurs",
+    "year": 2017,
+    "authors": [
+      "Gettens",
+      "Fulbrook",
+      "Jessup",
+      "Low Choy"
+    ],
+    "meshTerms": [
+      "Accidental Falls",
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Health Knowledge, Attitudes, Practice",
+      "Humans",
+      "Inpatients",
+      "Male",
+      "Medical Staff, Hospital",
+      "Nursing Staff, Hospital",
+      "Qualitative Research"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "28729323",
+    "doi": "10.1136/bmjopen-2017-016628",
+    "title": "Gait outcomes of older adults receiving subacute hospital rehabilitation following orthopaedic trauma: a longitudinal cohort study.",
+    "journal": "BMJ open",
+    "journalAbbrev": "BMJ Open",
+    "year": 2017,
+    "authors": [
+      "Mathew",
+      "Varghese",
+      "Kuys",
+      "Heesch",
+      "McPhail"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Australia",
+      "Female",
+      "Fractures, Bone",
+      "Gait",
+      "Humans",
+      "Length of Stay",
+      "Linear Models",
+      "Longitudinal Studies",
+      "Male",
+      "Orthopedics",
+      "Patient Discharge",
+      "Sex Factors",
+      "Tertiary Care Centers"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "28647551",
+    "doi": "10.1016/j.apmr.2017.05.018",
+    "title": "Factors Predicting Falls and Mobility Outcomes in Patients With Stroke Returning Home After Rehabilitation Who Are at Risk of Falling.",
+    "journal": "Archives of physical medicine and rehabilitation",
+    "journalAbbrev": "Arch Phys Med Rehabil",
+    "year": 2017,
+    "authors": [
+      "Ng",
+      "Hill",
+      "Batchelor",
+      "Burton"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Accidental Falls",
+      "Disability Evaluation",
+      "Executive Function",
+      "Exercise",
+      "Muscle Strength",
+      "Patient Discharge",
+      "Physical Therapy Modalities",
+      "Postural Balance",
+      "Socioeconomic Factors",
+      "Stroke Rehabilitation",
+      "Walking Speed"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "26456639",
+    "doi": "10.1071/AH14168",
+    "title": "Point prevalence of suboptimal footwear features among ambulant older hospital patients: implications for fall prevention.",
+    "journal": "Australian health review : a publication of the Australian Hospital Association",
+    "journalAbbrev": "Aust Health Rev",
+    "year": 2016,
+    "authors": [
+      "Chari",
+      "McRae",
+      "Stewart",
+      "Webster",
+      "Fenn",
+      "Haines"
+    ],
+    "meshTerms": [
+      "Accident Prevention",
+      "Accidental Falls",
+      "Aged",
+      "Cross-Sectional Studies",
+      "Female",
+      "Geriatric Assessment",
+      "Humans",
+      "Male",
+      "Prevalence",
+      "Queensland",
+      "Risk Factors",
+      "Shoes",
+      "Walking"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "41232925",
+    "doi": "10.1016/j.jamda.2025.105973",
+    "title": "Deconditioning of Long-Term Care Residents After Acute Hospitalization for a Hip Fracture in Ontario: A Retrospective, Population-Based Cohort Study.",
+    "journal": "Journal of the American Medical Directors Association",
+    "journalAbbrev": "J Am Med Dir Assoc",
+    "year": 2025,
+    "authors": [
+      "Li",
+      "Engel",
+      "Fremont",
+      "Timite",
+      "Okamoto",
+      "Fisher",
+      "Kobewka",
+      "Papp"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Hip Fractures",
+      "Retrospective Studies",
+      "Female",
+      "Male",
+      "Ontario",
+      "Aged, 80 and over",
+      "Long-Term Care",
+      "Hospitalization",
+      "Aged",
+      "Length of Stay",
+      "Activities of Daily Living"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40847496",
+    "doi": "10.1080/09638288.2025.2549796",
+    "title": "Promoting functional independence and reducing the risk of hospital-associated deconditioning for acutely hospitalised older adults: a group concept mapping service evaluation.",
+    "journal": "Disability and rehabilitation",
+    "journalAbbrev": "Disabil Rehabil",
+    "year": 2025,
+    "authors": [
+      "Robinson",
+      "Wilson",
+      "Norris",
+      "Fallen-Bailey",
+      "Dick",
+      "Hackett"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Hospitalization",
+      "Female",
+      "Male",
+      "Activities of Daily Living",
+      "Aged, 80 and over",
+      "Independent Living"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39497271",
+    "doi": "10.1093/ageing/afae241",
+    "title": "New horizons in hospital-associated deconditioning: a global condition of body and mind.",
+    "journal": "Age and ageing",
+    "journalAbbrev": "Age Ageing",
+    "year": 2024,
+    "authors": [
+      "Welch",
+      "Chen",
+      "Hartley",
+      "Naughton",
+      "Martinez-Velilla",
+      "Stein",
+      "Romero-Ortuno"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Frailty",
+      "Aged",
+      "Hospitalization",
+      "Sarcopenia",
+      "Frail Elderly",
+      "Risk Factors",
+      "Geriatric Assessment",
+      "Cognition"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "36751897",
+    "doi": "10.7748/nop.2023.e1396",
+    "title": "Recognising, reducing and preventing deconditioning in hospitalised older people.",
+    "journal": "Nursing older people",
+    "journalAbbrev": "Nurs Older People",
+    "year": 2023,
+    "authors": [
+      "Swinnerton",
+      "Price"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "Hospitalization",
+      "Hospitals",
+      "Frailty",
+      "Sarcopenia"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "35142397",
+    "doi": "10.1002/gps.5687",
+    "title": "Hospital-associated deconditioning: Not only physical, but also cognitive.",
+    "journal": "International journal of geriatric psychiatry",
+    "journalAbbrev": "Int J Geriatr Psychiatry",
+    "year": 2022,
+    "authors": [
+      "Chen",
+      "Almirall-Sanchez",
+      "Mockler",
+      "Adrion",
+      "Dominguez-Vivero",
+      "Romero-Ortuno"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Hospitalization"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "33750320",
+    "doi": "10.1186/s12877-021-02111-2",
+    "title": "A qualitative study exploring the lived experiences of deconditioning in hospital in Ontario, Canada.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2021,
+    "authors": [
+      "Guilcher",
+      "Everall",
+      "Cadel",
+      "Li",
+      "Kuluski"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Caregivers",
+      "Hospitals",
+      "Humans",
+      "Ontario",
+      "Qualitative Research",
+      "Rural Population"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "32902637",
+    "doi": "10.1093/ageing/afaa103",
+    "title": "Changes in muscle strength and physical function in older patients during and after hospitalisation: a prospective repeated-measures cohort study.",
+    "journal": "Age and ageing",
+    "journalAbbrev": "Age Ageing",
+    "year": 2021,
+    "authors": [
+      "Hartley",
+      "Romero-Ortuno",
+      "Wellwood",
+      "Deaton"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Cohort Studies",
+      "Geriatric Assessment",
+      "Hospitalization",
+      "Humans",
+      "Mobility Limitation",
+      "Muscle Strength",
+      "Prospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Research Support, Non-U.S. Gov't"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "31389854",
+    "doi": "10.1519/JPT.0000000000000238",
+    "title": "Evaluating Effectiveness of an Acute Rehabilitation Program in Hospital-Associated Deconditioning.",
+    "journal": "Journal of geriatric physical therapy (2001)",
+    "journalAbbrev": "J Geriatr Phys Ther",
+    "year": 2020,
+    "authors": [
+      "Suriyaarachchi",
+      "Chu",
+      "Bishop",
+      "Thew",
+      "Matthews",
+      "Cowan",
+      "Gunawardene",
+      "Duque"
+    ],
+    "meshTerms": [
+      "Activities of Daily Living",
+      "Aged",
+      "Aged, 80 and over",
+      "Female",
+      "Hospitalization",
+      "Hospitals",
+      "Humans",
+      "Inpatients",
+      "Length of Stay",
+      "Male",
+      "Patient Discharge",
+      "Retrospective Studies",
+      "Treatment Outcome"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "28940784",
+    "doi": "10.1111/ggi.13164",
+    "title": "Cognitive impairment has no impact on hospital-associated dysphagia in aspiration pneumonia patients.",
+    "journal": "Geriatrics & gerontology international",
+    "journalAbbrev": "Geriatr Gerontol Int",
+    "year": 2017,
+    "authors": [
+      "Maeda",
+      "Wakabayashi",
+      "Shamoto",
+      "Akagi"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Aged, 80 and over",
+      "Cognitive Dysfunction",
+      "Deglutition Disorders",
+      "Female",
+      "Hospitalization",
+      "Humans",
+      "Male",
+      "Pneumonia, Aspiration",
+      "Retrospective Studies"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study"
+    ],
+    "language": "eng"
+  }
+]

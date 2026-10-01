@@ -3,7 +3,7 @@ import { evaluatePotassiumSafetyGap } from './safetyRules.js';
 
 const basePatient = {
   id: 'DCU-031',
-  name: 'Patient 031',
+  name: 'Margaret Ainsworth',
   medicines: ['Furosemide 40mg OD'],
   symptoms: ['Weakness', 'Poor oral intake'],
   labs: {
@@ -54,7 +54,7 @@ describe('evaluatePotassiumSafetyGap', () => {
   it('does not throw when lab arrays are missing', () => {
     const result = evaluatePotassiumSafetyGap({
       id: 'DCU-099',
-      name: 'Patient 099',
+      name: 'Joan Winterbottom',
       medicines: [],
       symptoms: [],
       labs: {},
@@ -63,5 +63,46 @@ describe('evaluatePotassiumSafetyGap', () => {
 
     expect(result.level).toBe('none');
     expect(result.reasons).toContain('No low falling potassium trend detected.');
+  });
+
+  it('treats a potassium value exactly at 3.4 mmol/L as a boundary, not an automatic gap', () => {
+    const result = evaluatePotassiumSafetyGap({
+      id: 'DCU-100',
+      medicines: [],
+      symptoms: [],
+      labs: {
+        potassium: [
+          { time: '2026-06-17T07:00:00Z', value: 3.5 },
+          { time: '2026-06-17T13:00:00Z', value: 3.4 }
+        ],
+        magnesium: [{ time: '2026-06-17T13:00:00Z', value: 0.82 }],
+        creatinine: [
+          { time: '2026-06-17T07:00:00Z', value: 82 },
+          { time: '2026-06-17T13:00:00Z', value: 82 }
+        ]
+      },
+      plan: 'Electrolytes reviewed and a current plan is visible.'
+    });
+
+    expect(result.level).toBe('none');
+    expect(result.reasons).toContain('Potassium has fallen from 3.5 to 3.4 mmol/L.');
+    expect(result.missingInformation).toEqual([]);
+  });
+
+  it('stays defensive when the patient record is sparse or partially undefined', () => {
+    const result = evaluatePotassiumSafetyGap({
+      id: 'DCU-101',
+      medicines: undefined,
+      symptoms: undefined,
+      labs: undefined,
+      plan: undefined
+    });
+
+    expect(result.level).toBe('none');
+    expect(result.reasons).toContain('No low falling potassium trend detected.');
+    expect(result.missingInformation).toEqual(expect.arrayContaining([
+      'Magnesium result not visible.',
+      'No clear electrolyte plan documented.'
+    ]));
   });
 });

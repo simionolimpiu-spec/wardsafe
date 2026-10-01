@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getAllowedOrigin, isOriginAllowed } from './corsConfig.js';
+import { createCorsHeaders, getAllowedOrigin, isOriginAllowed } from './corsConfig.js';
 
 describe('corsConfig', () => {
   it('defaults to the local Vite origin when no preview origin is configured', () => {
@@ -15,5 +15,9 @@ describe('corsConfig', () => {
     expect(isOriginAllowed('https://preview.example.com', env)).toBe(true);
     expect(isOriginAllowed('https://other.example.com', env)).toBe(false);
     expect(isOriginAllowed('*', env)).toBe(false);
+  });
+
+  it('allows the preview token header for browser API calls', () => {
+    expect(createCorsHeaders({})['Access-Control-Allow-Headers']).toContain('X-SafeFlow-Preview-Token');
   });
 });

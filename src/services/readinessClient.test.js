@@ -5,14 +5,22 @@ describe('requestReadinessReport', () => {
   it('returns readiness when the API response is simulation-safe', async () => {
     const report = {
       product: 'SafeFlow',
+      mode: 'simulation',
       simulationOnly: true,
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: 'Simulation output for preview only. Not clinically validated and not for clinical decision-making.',
       safetyBoundary: {
         noLivePatientData: true,
         directCareIdentifiers: false,
         humanReviewRequired: true
       },
       migrations: { approved: true },
-      providers: { draft: 'deterministic', workspace: 'local-fictional-fixture' }
+      providers: { draft: 'deterministic', workspace: 'local-fictional-fixture' },
+      providerMetadata: {
+        signals: { providerId: 'local-simulation-signals', provider: 'fixture' },
+        suggestions: { providerId: 'local-simulation-risk-suggestions', provider: 'fixture' }
+      }
     };
     const fetch = vi.fn().mockResolvedValue({
       ok: true,

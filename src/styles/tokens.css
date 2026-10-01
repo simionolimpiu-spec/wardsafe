@@ -1,0 +1,431 @@
+/* WardSafe design tokens.
+ *
+ * Palette follows the NHS design-system colours (NHS Blue #005EB8, Dark Blue
+ * #003087, Black #212B32, Red #D5281B, Green #007F3B, Warm Yellow #FFB81C) for
+ * a familiar clinical look. WardSafe is NOT an NHS system and carries no NHS
+ * logo or endorsement; the simulation boundary and "not affiliated with the
+ * NHS" notices remain in the UI. Colours are mapped onto the existing token
+ * names so every stylesheet that consumes them keeps working.
+ *
+ * Contrast is held to WCAG 2.2 AA; run `node scripts/a11y/contrast-check.mjs`
+ * after changing any value here. */
+:root {
+  color: #212b32;
+  background: #f0f4f5;
+  font-family: Arial, "Helvetica Neue", Helvetica, Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: var(--line-height-body);
+  --sf-blue: #005eb8;
+  --sf-blue-rgb: 0, 94, 184;
+  --sf-blue-deep: #003087;
+  --sf-blue-ink: #003087;
+  --sf-blue-mid: #0072ce;
+  --sf-blue-soft: #e6f1f8;
+  --sf-blue-border: #88c5e5;
+  --sf-blue-selected: #d0e3f2;
+  --sf-red: #d5281b;
+  --sf-red-soft: #fdf2f0;
+  --sf-amber: #765100;
+  --sf-amber-soft: #fff4c2;
+  --sf-green: #007f3b;
+  --sf-green-soft: #e5f4eb;
+  --sf-grey-0: #ffffff;
+  --sf-grey-25: #fbfcfc;
+  --sf-grey-50: #f0f4f5;
+  --sf-grey-100: #e8edee;
+  --sf-grey-200: #d8dde0;
+  --sf-grey-500: #4c6272;
+  --sf-grey-900: #212b32;
+  --sf-radius-sm: 8px;
+  --sf-radius-md: 12px;
+  --sf-radius-lg: 16px;
+  --sf-radius-xl: 20px;
+  --sf-shadow-1: 0 2px 8px rgba(33, 43, 50, 0.08);
+  --sf-shadow-2: 0 12px 28px rgba(33, 43, 50, 0.12);
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 28px;
+  --space-9: 32px;
+  --space-11: 40px;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.75rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 2.75rem;
+  --line-height-tight: 1.25;
+  --line-height-body: 1.55;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 5px rgba(33, 43, 50, 0.08);
+  --shadow-md: -18px 0 40px rgba(0, 48, 135, 0.16);
+  --shadow-lg: 0 20px 55px rgba(0, 48, 135, 0.22);
+  /* Focus ring is surface-aware: NHS Dark Blue on light surfaces (13:1 on
+   * white), white on dark surfaces such as the header (see the scoped rule
+   * below). A11Y-001. */
+  --color-focus-ring: var(--sf-blue-ink);
+  --color-focus-ring-halo: rgba(255, 255, 255, 0.96);
+  --color-focus-ring-on-dark: #ffffff;
+  --color-focus-ring-halo-on-dark: rgba(0, 48, 135, 0.85);
+  --color-on-dark-muted: #dbeaf7;
+  --color-badge-accent: var(--sf-red);
+  --color-success: var(--sf-green);
+  --color-success-bg: var(--sf-green-soft);
+  --color-warning: var(--sf-amber);
+  --color-warning-bg: var(--sf-amber-soft);
+  --color-danger: var(--sf-red);
+  --color-danger-bg: var(--sf-red-soft);
+  --color-info: var(--sf-blue);
+  --color-info-bg: var(--sf-blue-soft);
+  --color-brand: var(--sf-blue);
+  --color-brand-dark: var(--sf-blue-ink);
+
+  /*
+   * ---------------------------------------------------------------
+   * SafeFlow semantic layer (SF-295). Spec: docs/design/SAFeflow-DESIGN.md
+   * New and migrated components use these tokens only. They point at the
+   * palette above so existing screens keep their current appearance.
+   * ---------------------------------------------------------------
+   */
+
+  /* Surfaces and text */
+  --sf-background: #f5f8fc;
+  --sf-surface: var(--sf-grey-0);
+  --sf-surface-raised: var(--sf-grey-0);
+  --sf-surface-muted: var(--sf-grey-50);
+  --sf-surface-selected: var(--sf-blue-soft);
+  --sf-border: var(--sf-grey-200);
+  --sf-border-subtle: var(--sf-grey-100);
+  --sf-border-strong: #7a8795;
+  --sf-text-primary: var(--sf-grey-900);
+  --sf-text-secondary: #46525e;
+  --sf-text-muted: var(--sf-grey-500);
+  --sf-text-inverse: var(--sf-grey-0);
+
+  /* Action */
+  --sf-action: var(--sf-blue);
+  --sf-action-hover: var(--sf-blue-deep);
+  --sf-action-subtle: var(--sf-blue-soft);
+  --sf-action-border: var(--sf-blue-border);
+
+  /* Clinical states: text, subtle background, border, solid bar/icon */
+  --sf-information: #1e5a8c;
+  --sf-information-subtle: #e9f2f9;
+  --sf-information-border: #9cc1e0;
+  --sf-information-solid: #3e7cb1;
+
+  --sf-success: var(--sf-green);
+  --sf-success-subtle: var(--sf-green-soft);
+  --sf-success-border: #9fcdb2;
+  --sf-success-solid: #237a4b;
+
+  --sf-warning: var(--sf-amber);
+  --sf-warning-subtle: var(--sf-amber-soft);
+  --sf-warning-border: #e0a93b;
+  --sf-warning-solid: #b7791f;
+
+  --sf-review: var(--sf-amber);
+  --sf-review-subtle: #fffaf0;
+  --sf-review-border: #d9a441;
+  --sf-review-solid: #b7791f;
+
+  --sf-critical: var(--sf-red);
+  --sf-critical-subtle: var(--sf-red-soft);
+  --sf-critical-border: #efb7b2;
+  --sf-critical-solid: var(--sf-red);
+  --sf-critical-hover: #8f1d14;
+
+  --sf-neutral: #46525e;
+  --sf-neutral-subtle: var(--sf-grey-100);
+  --sf-neutral-border: #c3cbd3;
+  --sf-neutral-solid: #7a8795;
+
+  --sf-simulation: #55606b;
+  --sf-simulation-subtle: var(--sf-grey-50);
+  --sf-simulation-border: #7a8795;
+
+  --sf-disabled: #8a96a3;
+  --sf-disabled-subtle: var(--sf-grey-100);
+
+  --sf-focus: var(--color-focus-ring);
+  --sf-focus-halo: var(--color-focus-ring-halo);
+
+  /* Typography */
+  --sf-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sf-font-numeric: tabular-nums lining-nums;
+  --sf-font-size-xs: 0.75rem;
+  --sf-font-size-sm: 0.875rem;
+  --sf-font-size-md: 1rem;
+  --sf-font-size-lg: 1.125rem;
+  --sf-font-size-xl: 1.25rem;
+  --sf-font-size-2xl: 1.5rem;
+  --sf-font-size-value: 1.75rem;
+  --sf-line-height-xs: 1rem;
+  --sf-line-height-sm: 1.25rem;
+  --sf-line-height-md: 1.5rem;
+  --sf-line-height-lg: 1.625rem;
+  --sf-line-height-xl: 1.75rem;
+  --sf-line-height-2xl: 2rem;
+  --sf-line-height-tight: var(--line-height-tight);
+  --sf-font-weight-regular: 400;
+  --sf-font-weight-medium: 500;
+  --sf-font-weight-semibold: var(--font-weight-semibold);
+  --sf-font-weight-bold: var(--font-weight-bold);
+
+  /* Spacing (4px grid) and targets */
+  --sf-space-1: 4px;
+  --sf-space-2: 8px;
+  --sf-space-3: 12px;
+  --sf-space-4: 16px;
+  --sf-space-5: 20px;
+  --sf-space-6: 24px;
+  --sf-space-8: 32px;
+  --sf-space-10: 40px;
+  --sf-space-12: 48px;
+  --sf-target-min: 44px;
+  --sf-target-compact: 36px;
+
+  /* Shape and elevation */
+  --sf-radius-xs: 4px;
+  --sf-radius-pill: var(--radius-pill);
+  --sf-border-width: 1px;
+  --sf-status-bar-width: 4px;
+  --sf-elevation-0: none;
+  --sf-elevation-1: var(--sf-shadow-1);
+  --sf-elevation-2: var(--sf-shadow-2);
+
+  /* Icons */
+  --sf-icon-sm: 16px;
+  --sf-icon-md: 20px;
+  --sf-icon-lg: 24px;
+
+  /* Focus */
+  --sf-focus-width: 3px;
+  --sf-focus-offset: 3px;
+
+  /* Motion */
+  --sf-duration-fast: 120ms;
+  --sf-duration-base: 160ms;
+  --sf-duration-slow: 220ms;
+  --sf-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Breakpoints (reference values; media queries use literals) */
+  --sf-bp-sm: 620px;
+  --sf-bp-md: 860px;
+  --sf-bp-lg: 1050px;
+  --sf-bp-xl: 1180px;
+
+  /* App shell top bar (SF-303). Text on the deep teal bar. */
+  --sf-shell-bar: var(--sf-blue-deep);
+  --sf-text-on-shell: var(--sf-grey-0);
+  --sf-text-on-shell-secondary: #dbeaf7;
+
+  /* Mobile shell (SF-300). Spec: DESIGN.md section 17. */
+  --sf-mobile-tabbar-height: 4rem;
+  --sf-mobile-scrim: color-mix(in srgb, var(--sf-grey-900) 45%, transparent);
+  --sf-z-mobile-scrim: 30;
+  --sf-z-mobile-sheet: 40;
+  --sf-z-mobile-tabbar: 45;
+}
+
+/*
+ * ---------------------------------------------------------------
+ * Insights night zone (SF-297 prototype). Spec: DESIGN.md section 16.
+ * Applies ONLY inside non-clinical insight surfaces that opt in with the
+ * .sf-zone-night class. Clinical screens (ward board, patient panel,
+ * handover, escalation) never use it.
+ * Redefines the semantic layer and the legacy palette it points at, so
+ * both new and legacy rules inside the zone follow the night palette.
+ * ---------------------------------------------------------------
+ */
+.sf-zone-night {
+  color-scheme: dark;
+
+  /* Legacy palette used by existing insight styles */
+  --sf-blue: #5fd0d9;
+  --sf-blue-rgb: 95, 208, 217;
+  --sf-blue-deep: #86eef6;
+  --sf-blue-ink: #e7f0f3;
+  --sf-blue-mid: #5fd0d9;
+  --sf-blue-soft: #0f2a30;
+  --sf-blue-border: #23434a;
+  --sf-blue-selected: #133338;
+  --sf-red: #f4a39c;
+  --sf-red-soft: #3a1a18;
+  --sf-amber: #f2c76e;
+  --sf-amber-soft: #2a2210;
+  --sf-green: #7fd6a8;
+  --sf-green-soft: #10281c;
+  --sf-grey-0: #0f1c22;
+  --sf-grey-25: #0c171c;
+  --sf-grey-50: #0c171c;
+  --sf-grey-100: #14252c;
+  --sf-grey-200: #23343d;
+  --sf-grey-500: #8ea5ae;
+  --sf-grey-900: #e7f0f3;
+  --sf-shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 24px rgba(0, 0, 0, 0.35);
+  --sf-shadow-2: 0 18px 40px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --color-focus-ring: #86eef6;
+  --color-focus-ring-halo: rgba(10, 19, 24, 0.9);
+  --color-focus-ring-on-dark: #e7f0f3;
+  --color-on-dark-muted: #b6c8cf;
+  --color-focus-ring-halo-on-dark: rgba(10, 19, 24, 0.9);
+
+  /* Legacy --color-* aliases resolve at :root, so they are redefined here too */
+  --color-success: #7fd6a8;
+  --color-success-bg: #10281c;
+  --color-warning: #f2c76e;
+  --color-warning-bg: #2a2210;
+  --color-danger: #f4a39c;
+  --color-danger-bg: #3a1a18;
+  --color-info: #84bff0;
+  --color-info-bg: #11263a;
+  --color-brand: #5fd0d9;
+  --color-brand-dark: #e7f0f3;
+
+  /* Semantic layer */
+  --sf-background: #0a1318;
+  --sf-surface: #0f1c22;
+  --sf-surface-raised: #14252c;
+  --sf-surface-muted: #0c171c;
+  --sf-surface-selected: #133338;
+  --sf-border: #23343d;
+  --sf-border-subtle: #1a2a31;
+  --sf-border-strong: #5d7580;
+  --sf-text-primary: #e7f0f3;
+  --sf-text-secondary: #b6c8cf;
+  --sf-text-muted: #8ea5ae;
+  --sf-text-inverse: #0a1318;
+  --sf-shell-bar: #14252c;
+  --sf-text-on-shell: #e7f0f3;
+  --sf-text-on-shell-secondary: #b6c8cf;
+  --sf-action: #5fd0d9;
+  --sf-action-hover: #86eef6;
+  --sf-action-subtle: #0f2a30;
+  --sf-action-border: #2c5a61;
+  --sf-information: #84bff0;
+  --sf-information-subtle: #11263a;
+  --sf-information-border: #2b4d6b;
+  --sf-information-solid: #84bff0;
+  --sf-success: #7fd6a8;
+  --sf-success-subtle: #10281c;
+  --sf-success-border: #2d5a41;
+  --sf-success-solid: #7fd6a8;
+  --sf-warning: #f2c76e;
+  --sf-warning-subtle: #2a2210;
+  --sf-warning-border: #5e4a1c;
+  --sf-warning-solid: #f2c76e;
+  --sf-review: #f2c76e;
+  --sf-review-subtle: #241e10;
+  --sf-review-border: #5e4a1c;
+  --sf-review-solid: #f2c76e;
+  --sf-critical: #f4a39c;
+  --sf-critical-subtle: #3a1a18;
+  --sf-critical-border: #6b2f2a;
+  --sf-critical-solid: #f4a39c;
+  --sf-neutral: #b6c8cf;
+  --sf-neutral-subtle: #14252c;
+  --sf-neutral-border: #2f444d;
+  --sf-neutral-solid: #5d7580;
+  --sf-simulation: #b6c8cf;
+  --sf-simulation-subtle: #0c171c;
+  --sf-simulation-border: #5d7580;
+  --sf-disabled: #5d7580;
+  --sf-disabled-subtle: #14252c;
+  --sf-focus: #86eef6;
+
+  /* Night-only presentation accents (insight zone only) */
+  --sf-night-glow: rgba(95, 208, 217, 0.12);
+  --sf-night-glow-edge: rgba(95, 208, 217, 0);
+  --sf-night-highlight: rgba(255, 255, 255, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;   /* fallback */
+  min-height: 100dvh;  /* A11Y-005: mobile browser chrome */
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+/* A11Y-009: numeric data uses tabular figures so columns do not jog.
+ * font-variant-numeric inherits, so table covers all th/td. */
+table,
+time,
+output,
+.is-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+:where(
+  button,
+  a,
+  input,
+  textarea,
+  select,
+  summary,
+  [role="button"],
+  [role="link"],
+  [role="tab"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sf-duration-fast: 0ms;
+    --sf-duration-base: 0ms;
+    --sf-duration-slow: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* A11Y-001: the header (.redesign-topbar) is a dark NHS-blue surface, so
+ * keyboard focus there uses the white ring (>=6.7:1 on #005EB8 / #003087).
+ * !important because :where() contributes zero specificity and component
+ * rules would otherwise restore an invisible ring. */
+.redesign-topbar :where(
+  button, a, input, textarea, select, summary,
+  [role="button"], [role="link"], [role="tab"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible,
+.on-dark-surface :where(
+  button, a, input, textarea, select, summary,
+  [role="button"], [role="link"], [role="tab"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 3px solid var(--color-focus-ring-on-dark) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo-on-dark) !important;
+}

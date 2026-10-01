@@ -1,0 +1,481 @@
+.secondary-action {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(var(--sf-blue-rgb), 0.2);
+  border-radius: var(--radius-md);
+  color: var(--color-brand);
+  display: inline-flex;
+  font-weight: var(--font-weight-semibold);
+  gap: 6px;
+  min-height: 42px;
+  padding: 10px 14px;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.app-shell-redesign .operational-view,
+.app-shell-redesign .simulation-dialog {
+  border-color: var(--sf-grey-200);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-1);
+}
+
+.secondary-action:hover {
+  background: #fff;
+  border-color: rgba(var(--sf-blue-rgb), 0.28);
+  box-shadow: 0 8px 20px rgba(var(--sf-blue-rgb), 0.08);
+  transform: translateY(-1px);
+}
+
+.secondary-action:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+:where(.primary-action, .secondary-action, .icon-action, .segmented-control button, .patient-switcher button):focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
+textarea {
+  background: #fff;
+  border: 1px solid #b5cce8;
+  border-radius: var(--radius-md);
+  min-height: 180px;
+  padding: 12px 14px;
+  resize: vertical;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  width: 100%;
+}
+
+textarea:hover {
+  border-color: rgba(var(--sf-blue-rgb), 0.28);
+}
+
+:where(input, textarea, select):focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.primary-action {
+  background: linear-gradient(180deg, var(--color-brand) 0%, var(--color-brand-dark) 100%);
+  border: 1px solid var(--color-brand);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 22px rgba(var(--sf-blue-rgb), 0.18);
+  color: #fff;
+  cursor: pointer;
+  font-weight: var(--font-weight-bold);
+  margin-top: 10px;
+  min-height: 42px;
+  padding: 11px 16px;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.primary-action:hover {
+  box-shadow: 0 14px 26px rgba(var(--sf-blue-rgb), 0.22);
+  transform: translateY(-1px);
+}
+
+.primary-action:active {
+  box-shadow: 0 8px 18px rgba(var(--sf-blue-rgb), 0.16);
+  transform: translateY(0);
+}
+
+.status-message {
+  background: var(--color-success-bg);
+  border: 1px solid rgba(0, 107, 60, 0.18);
+  border-radius: var(--radius-md);
+  color: var(--color-success);
+  font-weight: var(--font-weight-bold);
+  margin: 18px 0 0;
+  padding: 12px 14px;
+}
+
+.backend-note {
+  color: #53657a;
+  font-size: var(--text-sm);
+  margin: 8px 0 0;
+}
+
+.operational-view {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: var(--radius-lg);
+  min-width: 0;
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.view-heading,
+.board-footer,
+.record-list article,
+.danger-zone,
+.dialog-actions,
+.row-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.view-heading {
+  border-bottom: 1px solid #e5edf6;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+}
+
+.view-heading h2 {
+  color: #08285b;
+  font-size: var(--text-2xl);
+  margin: 3px 0 0;
+}
+
+.record-list {
+  display: grid;
+  margin-top: 12px;
+}
+
+.record-list article {
+  border-bottom: 1px solid #e5edf6;
+  min-height: 60px;
+  padding: 10px 4px;
+}
+
+.record-list article > div:not(.row-actions) {
+  flex: 1;
+  min-width: 0;
+}
+
+.record-list article p,
+.danger-zone p {
+  color: #53657a;
+  margin: 3px 0 0;
+}
+
+.inline-form,
+.settings-form,
+.panel-task-form {
+  background: linear-gradient(180deg, #f8fbff 0%, #f4f8fd 100%);
+  border: 1px solid rgba(var(--sf-blue-rgb), 0.12);
+  border-left: 4px solid var(--color-brand);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: 12px;
+  margin: 14px 0;
+  padding: 14px;
+}
+
+.inline-form {
+  align-items: end;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+}
+
+.inline-form label,
+.settings-form label:not(.toggle-row),
+.panel-task-form label,
+.toolbar label {
+  display: grid;
+  font-weight: var(--font-weight-semibold);
+  gap: 5px;
+}
+
+.inline-form input,
+.inline-form select,
+.settings-form input,
+.settings-form select,
+.panel-task-form input,
+.toolbar input,
+.toolbar select {
+  background: #fff;
+  border: 1px solid #b5cce8;
+  border-radius: var(--radius-md);
+  color: #102033;
+  font: inherit;
+  min-height: 42px;
+  min-width: 0;
+  padding: 9px 12px;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.inline-form input:hover,
+.inline-form select:hover,
+.settings-form input:hover,
+.settings-form select:hover,
+.panel-task-form input:hover,
+.toolbar input:hover,
+.toolbar select:hover {
+  border-color: rgba(var(--sf-blue-rgb), 0.28);
+}
+
+.inline-form textarea {
+  min-height: 92px;
+}
+
+.toolbar,
+.segmented-control,
+.patient-switcher {
+  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.segmented-control button,
+.patient-switcher button {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #b5cce8;
+  border-radius: var(--radius-md);
+  color: #17436f;
+  cursor: pointer;
+  min-height: 40px;
+  padding: 8px 12px;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.segmented-control button:hover,
+.patient-switcher button:hover {
+  border-color: rgba(var(--sf-blue-rgb), 0.28);
+  transform: translateY(-1px);
+}
+
+.segmented-control button.active,
+.patient-switcher button.active {
+  background: rgba(var(--sf-blue-rgb), 0.1);
+  border-color: rgba(var(--sf-blue-rgb), 0.32);
+  box-shadow: inset 0 0 0 1px rgba(var(--sf-blue-rgb), 0.06);
+  color: var(--color-brand-dark);
+  font-weight: var(--font-weight-bold);
+}
+
+.observation-summary,
+.readiness-summary,
+.report-summary {
+  align-items: center;
+  background: var(--color-info-bg);
+  border-left: 4px solid var(--color-brand);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+  padding: 12px;
+}
+
+.report-summary span {
+  color: #53657a;
+}
+
+.blocker-list {
+  background: #fff;
+  border: 1px solid #d7e3f4;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+  padding: 14px;
+}
+
+.blocker-list label,
+.toggle-row {
+  align-items: center;
+  display: flex;
+  gap: 9px;
+}
+
+.task-state,
+.escalation-state {
+  background: var(--sf-amber-soft);
+  border: 1px solid currentColor;
+  border-radius: var(--sf-radius-xl);
+  color: var(--sf-amber);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+.task-state.complete,
+.state-closed {
+  background: var(--sf-green-soft);
+  color: var(--sf-green);
+}
+
+.state-active {
+  background: var(--sf-red-soft);
+  color: var(--sf-red);
+}
+
+.icon-action {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #b5cce8;
+  border-radius: var(--radius-md);
+  color: var(--color-brand);
+  cursor: pointer;
+  display: inline-flex;
+  height: 38px;
+  justify-content: center;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+  width: 38px;
+}
+
+.icon-action:hover {
+  background: rgba(var(--sf-blue-rgb), 0.06);
+  border-color: rgba(var(--sf-blue-rgb), 0.28);
+  box-shadow: 0 8px 20px rgba(var(--sf-blue-rgb), 0.08);
+  transform: translateY(-1px);
+}
+
+.empty-state {
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px dashed #aebdce;
+  border-radius: var(--radius-lg);
+  color: #53657a;
+  margin: 12px 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.settings-form {
+  max-width: 680px;
+}
+
+.danger-zone {
+  border-top: 1px solid rgba(176, 0, 32, 0.16);
+  margin-top: 24px;
+  padding-top: 18px;
+}
+
+.integration-check {
+  border-top: 1px solid rgba(var(--sf-blue-rgb), 0.14);
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 18px;
+}
+
+.source-summary {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  margin: 0;
+}
+
+.source-summary div {
+  background: #fff;
+  border: 1px solid #d8e0ea;
+  border-radius: var(--radius-md);
+  min-width: 0;
+  padding: 10px;
+}
+
+.source-summary dt {
+  color: #53657a;
+  font-size: 0.78rem;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+}
+
+.source-summary dd {
+  font-weight: var(--font-weight-semibold);
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.dialog-backdrop {
+  animation: dialog-backdrop-fade 160ms ease-out;
+  background: rgba(8, 26, 53, 0.56);
+  backdrop-filter: blur(3px);
+  inset: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.dialog-overlay {
+  align-items: center;
+  display: grid;
+  inset: 0;
+  justify-items: center;
+  padding: 18px;
+  position: fixed;
+  z-index: 30;
+}
+
+.simulation-dialog {
+  animation: dialog-pop 180ms ease-out;
+  background: #fff;
+  border: 1px solid rgba(var(--sf-blue-rgb), 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 20px;
+  position: relative;
+  transform-origin: center;
+  width: min(460px, 100%);
+  z-index: 1;
+}
+
+.simulation-dialog h2 {
+  color: #08285b;
+  margin-top: 0;
+  outline: none;
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.primary-action,
+.secondary-action {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.primary-action:focus-visible,
+.secondary-action:focus-visible,
+.icon-action:focus-visible,
+.segmented-control button:focus-visible,
+.patient-switcher button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-overlay,
+  .dialog-backdrop,
+  .simulation-dialog {
+    animation: none;
+  }
+}
+
+.compact-mode .operational-view,
+.compact-mode .ward-board,
+.compact-mode .patient-panel {
+  padding: 12px;
+}
+
+@keyframes dialog-backdrop-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

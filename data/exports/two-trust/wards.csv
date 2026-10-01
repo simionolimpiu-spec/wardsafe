@@ -1,0 +1,127 @@
+id,trustId,name,specialty,kind,wardGroup,simulatedBedCount,simulationOnly
+jpuh-ward-1,jpuh,Ward 1,Stroke Unit,inpatient-ward,medical,28,true
+jpuh-ward-2,jpuh,Ward 2,Cardiology / Medical,inpatient-ward,medical,28,true
+jpuh-acu,jpuh,Acute Cardiology Unit,Cardiology,assessment-unit,medical,12,true
+jpuh-ward-3,jpuh,Ward 3,Gastroenterology,inpatient-ward,medical,28,true
+jpuh-ward-4,jpuh,Ward 4,General Medicine,inpatient-ward,medical,30,true
+jpuh-ward-5,jpuh,Ward 5,Mixed Surgery,inpatient-ward,surgical,28,true
+jpuh-ward-6,jpuh,Ward 6,Orthopaedic — Trauma,inpatient-ward,surgical,28,true
+jpuh-ward-7,jpuh,Ward 7,General Medicine,inpatient-ward,medical,30,true
+jpuh-ward-9,jpuh,Ward 9,Mixed Surgery,inpatient-ward,surgical,28,true
+jpuh-windsor,jpuh,Windsor Suite,Ophthalmic Day Unit,day-unit,day-care,0,true
+jpuh-ward-10,jpuh,Ward 10,Paediatrics,paediatrics,specialty,20,true
+jpuh-neonatal,jpuh,Neonatal Unit,Neonatal,neonatal,specialty,12,true
+jpuh-ward-11,jpuh,Ward 11,Maternity,maternity,specialty,22,true
+jpuh-cds,jpuh,Central Delivery Suite,Maternity — Delivery,maternity,specialty,10,true
+jpuh-anc,jpuh,Antenatal Clinic,Maternity — Antenatal,clinic,specialty,0,true
+jpuh-ward-12,jpuh,Ward 12,Older People's Medicine,inpatient-ward,frailty,30,true
+jpuh-ward-15,jpuh,Ward 15,Respiratory,inpatient-ward,medical,28,true
+jpuh-ward-16,jpuh,Ward 16 (Short Stay),Short Stay Medical Unit,assessment-unit,medical,24,true
+jpuh-ward-17,jpuh,Ward 17,Haematology,inpatient-ward,medical,24,true
+jpuh-ward-18,jpuh,Ward 18 & Discharge Lounge,Respiratory,inpatient-ward,medical,28,true
+jpuh-sandra-chapman,jpuh,Sandra Chapman Centre,Haematology & Oncology Day Treatment,day-unit,day-care,0,true
+jpuh-ward-22,jpuh,Ward 22,Elective Orthopaedic,inpatient-ward,surgical,24,true
+jpuh-ed,jpuh,Emergency Department (A&E),Emergency,emergency,emergency,34,true
+jpuh-eadu,jpuh,EADU,Emergency Assessment & Discharge Unit,assessment-unit,emergency,22,true
+jpuh-icu-hdu,jpuh,ICU/HDU,Intensive Care / High Dependency,critical-care,critical-care,16,true
+jpuh-charnwood,jpuh,Charnwood,Private Patient Suite,inpatient-ward,other,12,true
+jpuh-cts,jpuh,Central Treatment Suite,Central Treatment,day-unit,day-care,0,true
+jpuh-day-care,jpuh,Day Care Unit,Day Care,day-unit,day-care,18,true
+jpuh-theatres,jpuh,Theatres & Recovery,Surgery / Recovery,theatre,theatre,0,true
+jpuh-endoscopy,jpuh,Endoscopy,Endoscopy,day-unit,day-care,0,true
+jpuh-renal,jpuh,Renal Unit,Renal Services,day-unit,specialty,0,true
+jpuh-hyperbaric,jpuh,Hyperbaric Unit,Hyperbaric Services,other,specialty,0,true
+jpuh-ambulatory,jpuh,Ambulatory,Ambulatory Care,assessment-unit,medical,0,true
+nnuh-cley,nnuh,Cley Ward,"Inpatient (West Block, L3)",inpatient-ward,medical,28,true
+nnuh-coltishall,nnuh,Coltishall Ward,"Inpatient (West Block, L2)",inpatient-ward,medical,28,true
+nnuh-denton,nnuh,Denton Ward,"Inpatient (Centre Block, L4)",inpatient-ward,surgical,28,true
+nnuh-dilham,nnuh,Dilham Ward,"Inpatient (Centre Block, L3)",inpatient-ward,surgical,28,true
+nnuh-docking,nnuh,Docking Ward,"Inpatient (Centre Block, L2)",inpatient-ward,medical,28,true
+nnuh-earsham,nnuh,Earsham Ward,"Inpatient (Centre Block, L4)",inpatient-ward,surgical,28,true
+nnuh-easton,nnuh,Easton Ward,"Emergency Surgical Assessment Unit (Centre Block, L3)",assessment-unit,surgical,24,true
+nnuh-gissing,nnuh,Gissing Ward,"Inpatient (Centre Block, L3)",inpatient-ward,medical,28,true
+nnuh-gunthorpe,nnuh,Gunthorpe Ward,Inpatient (East Block),inpatient-ward,medical,28,true
+nnuh-kimberley,nnuh,Kimberley Ward,"Inpatient (East Block, L2)",inpatient-ward,medical,28,true
+nnuh-langley,nnuh,Langley Ward,"Inpatient (East Block, L1)",inpatient-ward,medical,28,true
+nnuh-loddon,nnuh,Loddon Ward,"Inpatient (East Block, L2)",inpatient-ward,medical,28,true
+nnuh-mattishall,nnuh,Mattishall Ward,"Inpatient (East Block, L3)",inpatient-ward,medical,28,true
+nnuh-brundall,nnuh,Brundall Ward,Inpatient,inpatient-ward,medical,28,true
+nnuh-buxton,nnuh,Buxton Ward,Inpatient,inpatient-ward,medical,28,true
+nnuh-cringleford,nnuh,Cringleford Ward,Inpatient,inpatient-ward,medical,28,true
+nnuh-holt,nnuh,Holt Ward,Acute Medical Unit,assessment-unit,medical,32,true
+nnuh-weybourne,nnuh,Weybourne Day Unit,Oncology & Haematology Day Unit,day-unit,day-care,0,true
+nnuh-colney,nnuh,Colney Centre,Oncology Outpatients,clinic,specialty,0,true
+nnuh-critical-care,nnuh,Critical Care Complex (ITU/HDU),Intensive Therapy / High Dependency,critical-care,critical-care,28,true
+nnuh-nicu,nnuh,Neonatal Intensive Care Unit,Neonatal Intensive Care,neonatal,specialty,20,true
+cuh-a3,cuh,Ward A3,Regional Neurosciences Unit,inpatient-ward,neurosciences,26,true
+cuh-a4,cuh,Ward A4,Neuromedical / Neurosurgical,inpatient-ward,neurosciences,26,true
+cuh-a5,cuh,Ward A5,Neurosciences,inpatient-ward,neurosciences,26,true
+cuh-c4,cuh,Ward C4,Frail & Acute Medicine for the Elderly,inpatient-ward,frailty,28,true
+cuh-c5,cuh,Ward C5,General Medicine & Nephrology,inpatient-ward,medical,28,true
+cuh-c10,cuh,Ward C10,Haematology & Haematological Oncology,inpatient-ward,medical,24,true
+cuh-d7,cuh,Ward D7,Diabetes & Endocrinology,inpatient-ward,medical,28,true
+cuh-g2,cuh,Ward G2,General Medicine,inpatient-ward,medical,28,true
+cuh-g3,cuh,Ward G3,General Medicine,inpatient-ward,medical,28,true
+cuh-c10-haem2,cuh,Ward U3,Haematology & Oncology,inpatient-ward,medical,24,true
+cuh-k2,cuh,Ward K2,Cardiac Day Unit,day-unit,day-care,0,true
+cuh-k3,cuh,Ward K3,Cardiology / Coronary Care Unit,inpatient-ward,medical,28,true
+cuh-l2,cuh,Ward L2,Day Surgery Unit,day-unit,day-care,0,true
+cuh-u2,cuh,Ward U2,Gastroenterology,inpatient-ward,medical,28,true
+cuh-f5,cuh,Ward F5,Transplant High Dependency,critical-care,critical-care,6,true
+cuh-g5,cuh,Ward G5,Transplant,inpatient-ward,specialty,28,true
+cuh-ed,cuh,Emergency Department,Emergency / Major Trauma Centre,emergency,emergency,40,true
+cuh-critical-care,cuh,Neuro & General Critical Care,Intensive Care,critical-care,critical-care,30,true
+wsh-f7,wsh,Ward F7,Short Stay / General Medicine,assessment-unit,medical,24,true
+wsh-f9,wsh,Ward F9,Gastroenterology,inpatient-ward,medical,28,true
+wsh-f10,wsh,Ward F10,Respiratory,inpatient-ward,medical,28,true
+wsh-g3,wsh,Ward G3,Cardiology / General Medicine,inpatient-ward,medical,28,true
+wsh-g4,wsh,Ward G4,Older People's / General Medicine,inpatient-ward,frailty,30,true
+wsh-g8,wsh,Ward G8,Acute Stroke / Stroke Rehabilitation,inpatient-ward,medical,28,true
+wsh-e17,wsh,Ward E17,Renal / Kidney Services,day-unit,specialty,0,true
+wsh-ed,wsh,Emergency Department,Emergency,emergency,emergency,30,true
+wsh-amu,wsh,Acute Medical Unit,Acute Medicine,assessment-unit,medical,32,true
+wsh-icu,wsh,Critical Care Unit,Intensive Care / High Dependency,critical-care,critical-care,12,true
+esneft-brantham,esneft,Brantham Ward,Emergency Assessment Unit (Medicine),assessment-unit,medical,30,true
+esneft-brook,esneft,Brook Ward,Acute Medical Unit,assessment-unit,medical,32,true
+esneft-sproughton,esneft,Sproughton Ward,Surgical Assessment Unit,assessment-unit,surgical,24,true
+esneft-bergholt,esneft,Bergholt Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-boxford,esneft,Boxford Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-bramford,esneft,Bramford Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-capel,esneft,Capel Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-claydon,esneft,Claydon Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-debenham,esneft,Debenham Ward,Inpatient,inpatient-ward,surgical,28,true
+esneft-grundisburgh,esneft,Grundisburgh Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-haughley,esneft,Haughley Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-kesgrave,esneft,Kesgrave Ward,Inpatient,inpatient-ward,surgical,28,true
+esneft-kirton,esneft,Kirton Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-lavenham,esneft,Lavenham Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-levington,esneft,Levington Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-martlesham,esneft,Martlesham Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-needham,esneft,Needham Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-saxmundham,esneft,Saxmundham Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-shotley,esneft,Shotley Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-somersham,esneft,Somersham Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-stour,esneft,Stour Ward,Inpatient,inpatient-ward,surgical,28,true
+esneft-stowupland,esneft,Stowupland Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-stradbroke,esneft,Stradbroke Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-waveney,esneft,Waveney Ward,Inpatient,inpatient-ward,medical,28,true
+esneft-woodbridge,esneft,Woodbridge Ward,Older People's Medicine,inpatient-ward,frailty,30,true
+esneft-critical-care,esneft,Critical Care Unit,Intensive Care / High Dependency,critical-care,critical-care,16,true
+esneft-framlingham,esneft,Framlingham Ward,Neonatal Unit,neonatal,specialty,20,true
+qeh-windsor,qeh,Windsor Ward,Frailty Unit,inpatient-ward,frailty,28,true
+qeh-necton,qeh,Necton Ward,Respiratory,inpatient-ward,medical,32,true
+qeh-elm,qeh,Elm Ward,Non-elective Surgery,inpatient-ward,surgical,33,true
+qeh-tilney,qeh,Tilney Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-gayton,qeh,Gayton Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-west-newton,qeh,West Newton Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-denver,qeh,Denver Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-stanhoe,qeh,Stanhoe Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-pentney,qeh,Pentney Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-oxborough,qeh,Oxborough Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-feltwell,qeh,Feltwell Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-rudham,qeh,Rudham Ward,Inpatient,inpatient-ward,surgical,28,true
+qeh-wolferton,qeh,Wolferton Ward,Inpatient,inpatient-ward,medical,28,true
+qeh-castleacre,qeh,Castleacre Ward,Maternity (Antenatal & Postnatal),maternity,specialty,25,true
+qeh-ed,qeh,Emergency Department,Emergency,emergency,emergency,30,true
+qeh-amu,qeh,Acute Medical Unit,Acute Medicine,assessment-unit,medical,32,true
+qeh-icu,qeh,Critical Care Unit,Intensive Care / High Dependency,critical-care,critical-care,12,true

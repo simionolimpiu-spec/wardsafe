@@ -1,0 +1,62 @@
+[
+  {
+    "pmid": "42467253",
+    "doi": "10.1007/s00423-026-04151-x",
+    "title": "Leukoglycemic index and inflammatory markers in acute abdominal pain: Comparison of non-specific pain and acute appendicitis severity.",
+    "journal": "Langenbeck's archives of surgery",
+    "journalAbbrev": "Langenbecks Arch Surg",
+    "year": 2026,
+    "authors": ["Erinmez", "Güler", "Kurt"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "39890244",
+    "doi": "10.1016/S2589-7500(24)00250-4",
+    "title": "Diagnoses supported by a computerised diagnostic decision support system versus conventional diagnoses in emergency patients (DDX-BRO): a multicentre, multiple-period, double-blind, cluster-randomised, crossover superiority trial.",
+    "journal": "The Lancet. Digital health",
+    "journalAbbrev": "Lancet Digit Health",
+    "year": 2025,
+    "authors": ["Hautz", "Marcin", "Hautz", "Schauber", "Krummrey", "Müller", "Sauter", "Lambrigger"],
+    "meshTerms": ["Humans", "Male", "Female", "Double-Blind Method", "Middle Aged", "Emergency Service, Hospital", "Cross-Over Studies", "Adult", "Switzerland", "Decision Support Systems, Clinical", "Aged", "Diagnostic Errors"],
+    "articleTypes": ["Journal Article", "Multicenter Study", "Randomized Controlled Trial"],
+    "language": "eng"
+  },
+  {
+    "pmid": "35746992",
+    "doi": "10.7759/cureus.25145",
+    "title": "Quantitative Assessment of Secondary Healthcare Utilisation by Patients With Functional Abdominal Pain.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2022,
+    "authors": ["MacVicar", "Insch", "Summers", "Bruce", "Ramsay"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "31116760",
+    "doi": "10.1371/journal.pone.0216740",
+    "title": "The disease spectrum of adult patients at a tertiary care center emergency department in Lebanon.",
+    "journal": "PloS one",
+    "journalAbbrev": "PLoS One",
+    "year": 2019,
+    "authors": ["Hitti", "Geha", "Hadid", "Bachir"],
+    "meshTerms": ["Adult", "Aged", "Aged, 80 and over", "Cardiovascular Diseases", "Communicable Diseases", "Emergency Medical Services", "Emergency Service, Hospital", "Female", "Humans", "Infections", "Lebanon", "Male", "Middle Aged", "Retrospective Studies", "Tertiary Care Centers", "Wounds and Injuries", "Young Adult"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "28008467",
+    "doi": "10.1007/s00464-016-5380-1",
+    "title": "Readmissions after laparoscopic cholecystectomy in a UK District General Hospital.",
+    "journal": "Surgical endoscopy",
+    "journalAbbrev": "Surg Endosc",
+    "year": 2016,
+    "authors": ["Awolaran", "Gana", "Samuel", "Oaikhinan"],
+    "meshTerms": ["Adult", "Aged", "Cholecystectomy, Laparoscopic", "Female", "Follow-Up Studies", "Hospitals, District", "Hospitals, General", "Humans", "Male", "Middle Aged", "Patient Readmission", "Postoperative Complications", "Retrospective Studies", "United Kingdom"],
+    "articleTypes": ["Journal Article", "Observational Study"],
+    "language": "eng"
+  }
+]

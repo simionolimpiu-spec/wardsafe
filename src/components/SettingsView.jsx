@@ -27,7 +27,7 @@ export function SettingsView({
       </form>
       <div className="danger-zone">
         <div><strong>Reset simulation</strong><p>Restore the committed fictional patients, tasks, escalations and audit seed.</p></div>
-        <button className="secondary-action" onClick={onRequestReset} type="button"><RotateCcw aria-hidden="true" size={16} /> Reset simulation</button>
+        <button aria-haspopup="dialog" className="secondary-action" onClick={onRequestReset} type="button"><RotateCcw aria-hidden="true" size={16} /> Reset simulation</button>
       </div>
       <div className="integration-check">
         <div><strong>Backend workspace source</strong><p>Check the server-side simulation contract without replacing browser-local edits.</p></div>
@@ -42,16 +42,21 @@ export function SettingsView({
         )}
       </div>
       <div className="integration-check">
-        <div><strong>Build readiness</strong><p>Review the server-side safety boundary, providers and migration approval state.</p></div>
+        <div><strong>Build readiness</strong><p>Review the server-side safety boundary, providers and migration approval state. Simulation output for preview only. Not clinically validated and not for clinical decision-making.</p></div>
         <button className="secondary-action" disabled={isCheckingReadiness} onClick={onCheckReadiness} type="button"><ShieldCheck aria-hidden="true" size={16} /> {isCheckingReadiness ? 'Checking...' : 'Check build readiness'}</button>
         {readinessReport && (
-          <dl className="source-summary">
-            <div><dt>Migrations</dt><dd>{readinessReport.migrationLabel}</dd></div>
-            <div><dt>Draft</dt><dd>{readinessReport.draftProvider}</dd></div>
-            <div><dt>Workspace</dt><dd>{readinessReport.workspaceProvider}</dd></div>
-            <div><dt>Audit</dt><dd>{readinessReport.auditProvider}</dd></div>
-            <div><dt>Database</dt><dd>{readinessReport.databaseLabel}</dd></div>
-          </dl>
+          <>
+            <dl className="source-summary">
+              <div><dt>Migrations</dt><dd>{readinessReport.migrationLabel}</dd></div>
+              <div><dt>Draft</dt><dd>{readinessReport.draftProvider}</dd></div>
+              <div><dt>Workspace</dt><dd>{readinessReport.workspaceProvider}</dd></div>
+              <div><dt>Audit</dt><dd>{readinessReport.auditProvider}</dd></div>
+              <div><dt>Signals</dt><dd>{readinessReport.signalProvider}</dd></div>
+              <div><dt>Suggestions</dt><dd>{readinessReport.suggestionProvider}</dd></div>
+              <div><dt>Database</dt><dd>{readinessReport.databaseLabel}</dd></div>
+            </dl>
+            <p className="risk-support-boundary">{readinessReport.boundaryNote}</p>
+          </>
         )}
       </div>
     </section>

@@ -1,0 +1,38 @@
+[
+  {
+    "pmid": "12915363",
+    "doi": "10.1097/00001888-200308000-00003",
+    "title": "The importance of cognitive errors in diagnosis and strategies to minimize them.",
+    "journal": "Academic medicine : journal of the Association of American Medical Colleges",
+    "journalAbbrev": "Acad Med",
+    "year": 2003,
+    "authors": ["Croskerry"],
+    "meshTerms": ["Cognition", "Decision Support Techniques", "Diagnostic Errors", "Humans"],
+    "articleTypes": ["Journal Article", "Research Support, Non-U.S. Gov't", "Research Support, U.S. Gov't, P.H.S.", "Review"],
+    "language": "eng"
+  },
+  {
+    "pmid": "23802513",
+    "doi": "10.1056/NEJMp1303712",
+    "title": "From mindless to mindful practice--cognitive bias and clinical decision making.",
+    "journal": "The New England journal of medicine",
+    "journalAbbrev": "N Engl J Med",
+    "year": 2013,
+    "authors": ["Croskerry"],
+    "meshTerms": ["Cognition", "Decision Making", "Diagnosis, Differential", "Diagnostic Errors", "Humans", "Prejudice", "Thinking"],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "12414468",
+    "doi": "10.1111/j.1553-2712.2002.tb01574.x",
+    "title": "Achieving quality in clinical decision making: cognitive strategies and detection of bias.",
+    "journal": "Academic emergency medicine : official journal of the Society for Academic Emergency Medicine",
+    "journalAbbrev": "Acad Emerg Med",
+    "year": 2002,
+    "authors": ["Croskerry"],
+    "meshTerms": ["Decision Making", "Emergency Medical Services", "Emergency Service, Hospital", "Humans", "Judgment", "Pattern Recognition, Automated", "Quality of Health Care"],
+    "articleTypes": ["Journal Article", "Research Support, Non-U.S. Gov't"],
+    "language": "eng"
+  }
+]

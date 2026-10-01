@@ -1,6 +1,11 @@
 export const deterministicDraftProvider = {
   id: 'deterministic',
   createSbarDraft({ patient, flag }) {
+    if (patient.source === 'hospital-census') {
+      return { provider: 'deterministic', isEditable: true, evidenceLinks: [],
+        sections: { ...patient.sbar },
+        boundary: 'Fictional census only. Human review required. Missing clinical details must be checked.' };
+    }
     return {
       provider: 'deterministic',
       isEditable: true,

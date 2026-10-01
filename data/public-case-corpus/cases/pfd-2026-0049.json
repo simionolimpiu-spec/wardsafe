@@ -1,0 +1,148 @@
+{
+  "id": "pfd-2026-0049",
+  "source": {
+    "type": "pfd",
+    "ref": "2026-0049",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/pamela-george-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2026/02/Pamela-George-Prevention-of-future-deaths-report-2026-0049_Published.pdf",
+    "report_date": "2026-01-30",
+    "published_date": null,
+    "category": "Care Home Health related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Pamela George",
+    "age": 70,
+    "date_of_death": "2023-06-30",
+    "cause_of_death": "1a Acute Kidney injury and sepsis"
+  },
+
+  "authority": {
+    "coroner_name": "Deborah Archer",
+    "coroner_area": "Devon, Plymouth and Torbay",
+    "recipients": ["Cann House", "Premiere Health Ltd"],
+    "primary_organisation": "Premiere Health Ltd (Cann House)"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "admission",
+      "date": "2023-05-01",
+      "end_date": "2023-05-24",
+      "setting": "Derriford Hospital",
+      "presentation": "Bilateral leg swelling and general deterioration; acute kidney injury on chronic kidney injury, treated successfully; large haematoma right iliac fossa; breast wound described as cracked and open",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "she had been an in-patient at Derriford Hospital from 1st May – 24th May 2023 and then been discharged to Cann House where she was registered as a temporary resident because of concerns with her previous supported living accommodation."
+    },
+    {
+      "seq": 2,
+      "contact_type": "intra_admission",
+      "date": "2023-06-27",
+      "end_date": "2023-06-27",
+      "setting": "Cann House",
+      "presentation": "Fall recorded by the home; breasts described by the home as 'Red raw'; seen the same day by a clinician who noted no concerns about breast infection and to whom nothing was reported about the fall",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 34,
+      "evidence": "I was further concerned that although the home's note of 27th June 2023 suggests that Miss Geroge's fall had been brought to attention his note did not mention it. […] saw Miss George on 27/06/23. No concerns about infection to her breast were noted and nothing was reported about a fall. This was despite the fact that the home had described the breasts as \"Red raw\" on 27th June 2023."
+    },
+    {
+      "seq": 3,
+      "contact_type": "readmission",
+      "date": "2023-06-29",
+      "end_date": "2023-06-30",
+      "setting": "Derriford Hospital",
+      "presentation": "Sepsis suspected at the home's request; urgent admission",
+      "outcome": "died",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 2,
+      "evidence": "saw Miss George at the home's request on 29th June 2023 where sepsis was suspected. She was urgently admitted to Derriford Hospital where she died shortly afterwards from 1a Acute Kidney injury and sepsis."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "prior_specialist_advice_not_followed": true,
+    "test_ordered_not_chased": true,
+    "test_not_ordered": true,
+    "risk_assessment_not_updated_after_event": true,
+    "patient_concern_not_escalated": false,
+    "family_concern_not_escalated": false,
+    "patient_declined_treatment_not_explored": false,
+    "working_diagnosis_not_revisited": false,
+    "specialist_input_not_sought": true,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": true,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": true
+  },
+
+  "what_was_missed": "The hospital discharge summary of 24 May 2023 explicitly required post-discharge blood tests every 5–7 days because of acute kidney injury; no blood test was taken at any point between discharge and readmission 36 days later, and the home could produce no system or policy for ensuring discharge summaries are actioned.",
+
+  "coroner_concerns": [
+    {
+      "quote": "On discharge to Cann House the discharge summary from Hospital made it clear that because of her acute kidney injury she should have post discharge monitoring blood tests every 5-7 days. This was not done and it was accepted by the home that this meant no one was monitoring Pam 's bloods from the day she left hospital until she was readmitted to Hospital by on 29th June 2023",
+      "box": "4",
+      "theme": "record_system"
+    },
+    {
+      "quote": "Cann House missed an opportunity to carry out regular blood tests on Miss George between 23rd May and 29th June. These blood tests may have identified the need to continue to treat acute kidney injury which if left untreated may have affected her resilience to infection. The system for ensuring that discharge summaries are actioned was not available for me to see and I was not clear if any policy on this issue existed.",
+      "box": "5",
+      "theme": "record_system"
+    },
+    {
+      "quote": "I am not satisfied that the breast infection was adequately managed at Cann House it being noted that there was no record of how the breast infection was progressing between 25th May and 27th June 2023",
+      "box": "5",
+      "theme": "escalation"
+    },
+    {
+      "quote": "The documentation surrounding the fall, the symptoms seen and measures taken to seek medical input were not clear.",
+      "box": "5",
+      "theme": "governance_reporting"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": true,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "In-patient 1 May – 24 May 2023, discharged to Cann House; clinician review at the home 27 June 2023; readmitted to Derriford Hospital 29 June 2023."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "saw Miss George on 27/06/23. No concerns about infection to her breast were noted and nothing was reported about a fall."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "On discharge to Cann House the discharge summary from Hospital made it clear that because of her acute kidney injury she should have post discharge monitoring blood tests every 5-7 days."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "The system for ensuring that discharge summaries are actioned was not available for me to see and I was not clear if any policy on this issue existed."
+      }
+    ],
+    "exclusion_reason": null,
+    "adjacent_theme": false,
+    "sensitive_handling": false,
+    "adjudication_note": "The clearest cross-organisational instance in the corpus so far, and materially different from the hospital-internal cases. Here the information that would have changed the outcome was not merely present in a record — it was an explicit, actionable, time-bound instruction written into a discharge summary, and it simply evaporated at the boundary between hospital and care home. Thirty-six days of no monitoring. Note the compounding pattern on 27 June: the home documented 'Red raw' breasts and a fall on the same day a clinician attended and was told about neither. Two independent information channels — the discharge instruction and the day-of observations — both failed to reach the person who could have acted.\n\nCategory is 'Care Home Health related deaths', not the hospital category the harvester crawls. This matters for coverage: the discharge-boundary cases, which are arguably the most relevant to WardSafe's thesis, are systematically filed outside the category being screened. See VERIFICATION-LOG coverage note.\n\nRedactions ([REDACTED] rendered as blanks in the source PDF) obscure which clinician attended on 27 and 29 June. Preserved as-is; do not attempt to resolve."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published PDF text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.1"
+  }
+}

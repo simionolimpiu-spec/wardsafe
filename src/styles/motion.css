@@ -1,0 +1,94 @@
+/* WardSafe motion system
+ * -----------------------------------------------------------------------------
+ * One rhythm for the whole product. Every animated surface pulls duration and
+ * easing from these tokens so nothing drifts.
+ *
+ * Clinical rule that overrides everything below:
+ *   Safety state NEVER waits on an animation.
+ *   A deterioration cue, an escalation count, a risk-support signal or a
+ *   documentation gap must be present in the accessibility tree and readable
+ *   on screen at frame one. Motion may only decorate its arrival.
+ *   Anything that animates a safety value INTO existence is a defect.
+ */
+
+:root {
+  /* Duration — short for feedback, longer for spatial moves. */
+  --motion-instant: 90ms;   /* press / toggle feedback            */
+  --motion-fast: 160ms;     /* hover, focus, colour changes       */
+  --motion-base: 240ms;     /* enter: cards, popovers, tooltips   */
+  --motion-slow: 320ms;     /* enter: drawers, sheets, view swap  */
+
+  /* Exit runs at ~65% of enter so dismissal feels immediate. */
+  --motion-exit-fast: 110ms;
+  --motion-exit-base: 160ms;
+  --motion-exit-slow: 200ms;
+
+  /* Easing */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);     /* general purpose     */
+  --ease-decelerate: cubic-bezier(0, 0, 0, 1);     /* arriving on screen  */
+  --ease-accelerate: cubic-bezier(0.3, 0, 1, 1);   /* leaving the screen  */
+
+  /* List / grid entrance stagger, per item. */
+  --motion-stagger: 40ms;
+
+  /* Distance tokens keep translate values consistent. */
+  --motion-rise: 8px;
+  --motion-slide: 16px;
+}
+
+/* Honour the OS setting. Ward machines and personal devices both set this,
+ * and vestibular sensitivity is common enough in a nursing workforce that
+ * this is a clinical requirement, not a nicety.
+ *
+ * We do not set animation-duration: 0s — that can break animation-end
+ * listeners. We collapse to a near-zero duration and kill all movement. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-instant: 1ms;
+    --motion-fast: 1ms;
+    --motion-base: 1ms;
+    --motion-slow: 1ms;
+    --motion-exit-fast: 1ms;
+    --motion-exit-base: 1ms;
+    --motion-exit-slow: 1ms;
+    --motion-stagger: 0ms;
+    --motion-rise: 0px;
+    --motion-slide: 0px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Windows High Contrast / forced-colors. Used on NHS estate more than teams
+ * expect. Strip decorative shadow and gradient so system colours win, and
+ * make sure the focus ring survives — forced-colors ignores our custom
+ * outline colour, so we ask for the system Highlight colour explicitly. */
+@media (forced-colors: active) {
+  /* Targeted rather than universal: a `*` selector here costs real
+   * style-resolution time on our largest trees for no benefit, since only
+   * these surfaces draw borders with box-shadow. */
+  .app-shell [class*="card"],
+  .app-shell [class*="panel"],
+  .app-shell [class*="drawer"],
+  .app-shell [class*="banner"],
+  .workspace-nav button,
+  .notification-popover {
+    box-shadow: none !important;
+  }
+
+  :where(
+    button, a, input, textarea, select, summary,
+    [role="button"], [role="link"], [role="tab"],
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
+    outline: 3px solid Highlight !important;
+    outline-offset: 2px !important;
+  }
+}

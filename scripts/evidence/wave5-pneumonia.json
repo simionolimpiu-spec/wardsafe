@@ -1,0 +1,38 @@
+[
+  {
+    "pmid": "38276080",
+    "doi": "10.3390/jcm13020574",
+    "title": "Diagnosis and Therapy of Community-Acquired Pneumonia in the Emergency Department: A Retrospective Observational Study and Medical Audit.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2024,
+    "authors": ["Lüthi-Corridori", "Roth", "Boesing", "Jaun", "Tarr", "Leuppi-Taegtmeyer", "Leuppi"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42513578",
+    "doi": "10.3390/jcm15145664",
+    "title": "Predictive Value of SMART-COP for Adverse Outcomes in Older ICU Patients with Community-Acquired Pneumonia: A Comparison with CURB-65, SOFA, and APACHE II.",
+    "journal": "Journal of clinical medicine",
+    "journalAbbrev": "J Clin Med",
+    "year": 2026,
+    "authors": ["Karcioglu", "Atli", "Degdas"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  },
+  {
+    "pmid": "42502304",
+    "doi": "10.7759/cureus.112901",
+    "title": "An Audit Assessing Compliance With CURB-65 (Confusion, Urea, Respiratory Rate, Blood Pressure, and Age ≥65 Years) Documentation in Adult Patients Admitted With Community-Acquired Pneumonia at a Tertiary Institution in Trinidad and Tobago.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2026,
+    "authors": ["Ramlogan", "Basdeo", "Bhagaloo", "De Freitas"],
+    "meshTerms": [],
+    "articleTypes": ["Journal Article"],
+    "language": "eng"
+  }
+]

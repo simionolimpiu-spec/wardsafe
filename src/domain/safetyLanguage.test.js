@@ -14,6 +14,11 @@ import {
 } from './safetyLanguage.js';
 
 const DOCUMENTATION_FILES = [
+  'docs/architecture/safeflow-connect-voice-point-of-care-master.md',
+  'docs/architecture/point-of-care-hardware-profile.md',
+  'docs/architecture/fhir-observation-mapping.md',
+  'docs/architecture/agent-foundation.md',
+  'docs/architecture/decisions/001-agent-generated-content.md',
   'README.md',
   'AGENTS.md',
   'docs/codex-handoff.md',
@@ -21,7 +26,80 @@ const DOCUMENTATION_FILES = [
   'docs/demo-screenshot-checklist.md',
   'docs/ml-foundation-pr-summary.md',
   'docs/risk-support-technical-explainer.md',
-  '.github/pull_request_template.md'
+  'docs/design/SAFeflow-DESIGN.md',
+  'docs/public-demo-pack/master-narrative.md',
+  'docs/public-demo-pack/pack-index.md',
+  'docs/public-demo-pack/quality-intelligence-one-pager.md',
+  'docs/public-demo-pack/future-discovery-register.md',
+  'docs/public-demo-pack/safety-boundary.md',
+  'docs/public-demo-pack/stakeholder-demo-pack.md',
+  'docs/public-demo-pack/demo-script.md',
+  'docs/public-demo-pack/live-site-demo-walkthrough.md',
+  'docs/public-demo-pack/build-readiness/first-evaluation-session-plan.md',
+  'docs/public-demo-pack/build-readiness/nhs-realistic-v2-concept.md',
+  'docs/public-demo-pack/build-readiness/rbac-audit-logging-concept.md',
+  'docs/public-demo-pack/build-readiness/simulation-twin-learning-concept.md',
+  'docs/public-demo-pack/build-readiness/evaluation-readiness-summary.md',
+  'docs/public-demo-pack/build-readiness/portable-patient-journey-concept.md',
+  'docs/public-demo-pack/build-readiness/longitudinal-record-boundary.md',
+  '.github/pull_request_template.md',
+  // SF-275: extended to every stakeholder-facing doc in the pack. Previously only 23 of the
+  // repo's 72 tracked markdown files were gated, which left the "broader docs tree" RED gap in
+  // master-narrative.md open. All files below were verified clean before being added.
+  // Deliberately NOT gated: CONTROL.md (high-churn internal tracker) and docs/superpowers/**
+  // (historical plan/spec records) - both verified clean, but gating them would fail CI on
+  // routine bookkeeping rather than on a real wording regression.
+  'MODEL_CARD.md',
+  // SF-279: docs/product/README.md is a live document and is gated. The dated baselines beside it
+  // are deliberately NOT gated - they are immutable provenance records, and gating them would
+  // eventually force a choice between failing CI and rewriting history. Reasoning is in that
+  // README. The 1 July 2026 baseline was scanned at commit time and passed clean regardless.
+  'docs/product/README.md',
+  'docs/public-demo-pack/README.md',
+  'docs/public-demo-pack/clinical-safety-case-outline.md',
+  'docs/public-demo-pack/discovery-workshop-pack.md',
+  'docs/public-demo-pack/evaluation-framework.md',
+  'docs/public-demo-pack/facilitator-quick-start-guide.md',
+  'docs/public-demo-pack/review-checklist.md',
+  'docs/public-demo-pack/ui-target-spec.md',
+  'docs/public-demo-pack/build-readiness/README.md',
+  'docs/public-demo-pack/build-readiness/architecture-options.md',
+  'docs/public-demo-pack/build-readiness/aws-database-foundation.md',
+  'docs/public-demo-pack/build-readiness/aws-free-tier-setup.md',
+  'docs/public-demo-pack/build-readiness/backup-restore-runbook.md',
+  'docs/public-demo-pack/build-readiness/ci-quality-gates.md',
+  'docs/public-demo-pack/build-readiness/clinical-safety-ig-readiness.md',
+  'docs/public-demo-pack/build-readiness/data-integration-map.md',
+  'docs/public-demo-pack/build-readiness/delivery-roadmap.md',
+  'docs/public-demo-pack/build-readiness/dtac-v2-self-assessment.md',
+  'docs/public-demo-pack/build-readiness/environment-profiles.md',
+  'docs/public-demo-pack/build-readiness/evaluation-feedback-capture-sheet.md',
+  'docs/public-demo-pack/build-readiness/evaluation-session-facilitation-script.md',
+  'docs/public-demo-pack/build-readiness/evaluation-recruitment-checklist.md',
+  'docs/public-demo-pack/build-readiness/evidence-base-references.md',
+  'docs/evaluation-reports/README.md',
+  'docs/evaluation-reports/session-report-template.md',
+  'docs/public-demo-pack/build-readiness/evidence-horizon-scan.md',
+  'docs/public-demo-pack/build-readiness/hardware-software-requirements.md',
+  'docs/public-demo-pack/build-readiness/hssib-francis-berwick-findings-note.md',
+  'docs/public-demo-pack/build-readiness/ien-transition-findings-note.md',
+  'docs/public-demo-pack/build-readiness/ig-checklist.md',
+  'docs/public-demo-pack/build-readiness/implementation-blueprint.md',
+  'docs/public-demo-pack/build-readiness/international-comparative-search-protocol.md',
+  'docs/public-demo-pack/build-readiness/international-comparative-synthesis.md',
+  'docs/public-demo-pack/build-readiness/nhs-integration-readiness.md',
+  'docs/public-demo-pack/build-readiness/public-simulation-preview.md',
+  'docs/public-demo-pack/build-readiness/rcn-search-2026-07-27-findings.md',
+  'docs/public-demo-pack/build-readiness/security-and-assurance.md',
+  'docs/public-demo-pack/build-readiness/super-user-train-the-trainer-concept.md',
+  'docs/public-demo-pack/build-readiness/technology-stack.md',
+  'docs/public-demo-pack/templates/ai-provider-evaluation-template.md',
+  'docs/public-demo-pack/templates/clinical-scenario-template.md',
+  'docs/public-demo-pack/templates/discovery-feedback-backlog-template.md',
+  'docs/public-demo-pack/templates/integration-inventory-template.md',
+  'docs/public-demo-pack/templates/pilot-acceptance-criteria-template.md',
+  'docs/public-demo-pack/templates/safety-case-outline-template.md',
+  'docs/public-demo-pack/templates/workflow-discovery-template.md'
 ];
 
 function createJsonRequest({ method = 'GET', path }) {

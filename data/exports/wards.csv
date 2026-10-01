@@ -1,0 +1,12 @@
+id,name,ward_type,ward_group,bed_count,simulation_only
+ward-surgical-alpha,Surgical Ward Alpha,surgical,core adult,28,true
+ward-general-medical-alpha,General Medical Ward Alpha,general medical,core adult,30,true
+ward-acute-medical-alpha,Acute Medical Unit Alpha,acute medical,core adult,32,true
+ward-day-care-alpha,Day Care Unit Alpha,day care,core adult,18,true
+ward-community-frailty-alpha,Community Frailty Team Alpha,community frailty team,community/frailty,0,true
+ward-rehab-alpha,Rehab Ward Alpha,rehab,community/frailty,24,true
+ward-care-of-elderly-alpha,Care-of-the-Elderly Ward Alpha,care-of-the-elderly,community/frailty,26,true
+ward-paediatrics-alpha,Paediatrics Ward Alpha,paediatrics,specialty,20,true
+ward-maternity-alpha,Maternity Ward Alpha,maternity,specialty,22,true
+ward-icu-hdu-alpha,ICU/HDU Alpha,ICU/HDU,specialty,16,true
+ward-ed-alpha,ED Alpha,ED,specialty,34,true

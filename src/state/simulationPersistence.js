@@ -1,7 +1,8 @@
 export const STORAGE_KEY = 'safeflow.simulation.v1';
 
 function defaultStorage() {
-  return typeof window === 'undefined' ? null : window.localStorage;
+  try { return typeof window === 'undefined' ? null : window.localStorage; }
+  catch { return null; }
 }
 
 export function loadSimulationState(storage = defaultStorage()) {
@@ -12,7 +13,7 @@ export function loadSimulationState(storage = defaultStorage()) {
     if (!rawValue) return null;
 
     const value = JSON.parse(rawValue);
-    if (value?.version !== 1) return null;
+    if (value?.version !== 2) return null;
     if (!Array.isArray(value.patients) || value.patients.length === 0) return null;
     if (!Array.isArray(value.auditEvents) || !Array.isArray(value.escalations)) return null;
     if (!value.settings || typeof value.settings !== 'object') return null;
@@ -24,7 +25,7 @@ export function loadSimulationState(storage = defaultStorage()) {
 }
 
 export function saveSimulationState(state, storage = defaultStorage()) {
-  if (!storage) return;
+  if (!storage) throw new Error('Browser storage unavailable');
   storage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 

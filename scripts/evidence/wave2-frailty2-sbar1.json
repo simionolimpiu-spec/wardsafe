@@ -1,0 +1,223 @@
+[
+  {
+    "pmid": "38541274",
+    "doi": "10.3390/ijerph21030273",
+    "title": "Frailty in an Adult Acute Hospital Population: Predictors, Prevalence, and Outcomes.",
+    "journal": "International journal of environmental research and public health",
+    "journalAbbrev": "Int J Environ Res Public Health",
+    "year": 2024,
+    "authors": [
+      "O'Caoimh",
+      "Morrison",
+      "Costello",
+      "Flannery",
+      "Small"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Male",
+      "Aged",
+      "Frailty",
+      "Prevalence",
+      "Frail Elderly",
+      "Length of Stay",
+      "Geriatric Assessment"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "30076123",
+    "doi": "10.1016/j.jamda.2018.06.009",
+    "title": "Frailty and Clinical Outcomes in Heart Failure: A Systematic Review and Meta-analysis.",
+    "journal": "Journal of the American Medical Directors Association",
+    "journalAbbrev": "J Am Med Dir Assoc",
+    "year": 2018,
+    "authors": [
+      "Zhang",
+      "Yuan",
+      "Gong",
+      "Tse",
+      "Li"
+    ],
+    "meshTerms": [
+      "Frailty",
+      "Heart Failure",
+      "Heart-Assist Devices",
+      "Hospitalization",
+      "Humans"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "38493521",
+    "doi": "10.1016/j.injury.2024.111450",
+    "title": "The clinical frailty scale as a predictor of orthopaedic outcomes: a narrative review.",
+    "journal": "Injury",
+    "journalAbbrev": "Injury",
+    "year": 2024,
+    "authors": [
+      "Jones",
+      "Hathaway",
+      "Glossop",
+      "Bhachoo",
+      "Hoade"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Frail Elderly",
+      "Frailty",
+      "Geriatric Assessment",
+      "Length of Stay",
+      "Orthopedic Procedures",
+      "Prognosis"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "39299664",
+    "doi": "10.1016/j.jstrokecerebrovasdis.2024.108016",
+    "title": "Frailty among stroke patients and its effects on hospital outcomes.",
+    "journal": "Journal of stroke and cerebrovascular diseases",
+    "journalAbbrev": "J Stroke Cerebrovasc Dis",
+    "year": 2024,
+    "authors": [
+      "Baker",
+      "Rubens",
+      "Appunni",
+      "Saxena",
+      "Ramamoorthy"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Frailty",
+      "Retrospective Studies",
+      "Hospital Mortality",
+      "Stroke",
+      "Frail Elderly",
+      "Acute Kidney Injury"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "36593448",
+    "doi": "10.1186/s12877-022-03642-y",
+    "title": "Association between Clinical Frailty Scale (CFS) and clinical presentation and outcomes in older inpatients with COVID-19.",
+    "journal": "BMC geriatrics",
+    "journalAbbrev": "BMC Geriatr",
+    "year": 2023,
+    "authors": [
+      "Marti-Pastor",
+      "Moreno-Perez",
+      "Lobato-Martinez",
+      "Valero-Sempere",
+      "Amo-Lozano"
+    ],
+    "meshTerms": [
+      "Humans",
+      "Aged",
+      "COVID-19",
+      "Frailty",
+      "Retrospective Studies",
+      "Inpatients",
+      "Frail Elderly",
+      "Geriatric Assessment"
+    ],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40165150",
+    "doi": "10.1186/s12890-025-03595-z",
+    "title": "The impact of frailty on clinical outcomes among individuals with COPD: a systematic review and meta-analysis.",
+    "journal": "BMC pulmonary medicine",
+    "journalAbbrev": "BMC Pulm Med",
+    "year": 2025,
+    "authors": [
+      "Cherian",
+      "Masoudian",
+      "Thavorn",
+      "Sandoz",
+      "Shorr"
+    ],
+    "meshTerms": [
+      "Aged",
+      "Humans",
+      "Disease Progression",
+      "Dyspnea",
+      "Frailty",
+      "Hospitalization",
+      "Pulmonary Disease, Chronic Obstructive",
+      "Quality of Life"
+    ],
+    "articleTypes": [
+      "Comparative Study",
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40951245",
+    "doi": "10.7759/cureus.89957",
+    "title": "Effectiveness of Nursing Documentation Frameworks (SBAR, SOAP, and PIE) in Enhancing Clinical Handoffs and Patient Safety.",
+    "journal": "Cureus",
+    "journalAbbrev": "Cureus",
+    "year": 2025,
+    "authors": [
+      "Hidalgo Tapia",
+      "Leon Yosa",
+      "Olalla Garcia",
+      "Clavijo Morocho",
+      "Sanmartin Calle"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "42338059",
+    "doi": "10.1002/nop2.70655",
+    "title": "Shift Transition Communication Among Nurses: A Systematic Review of ISBAR and SBAR-Based Structured Handover Tools.",
+    "journal": "Nursing open",
+    "journalAbbrev": "Nurs Open",
+    "year": 2026,
+    "authors": [
+      "Rasiya",
+      "Raheem"
+    ],
+    "meshTerms": [
+      "Patient Handoff",
+      "Humans",
+      "Communication",
+      "Patient Safety",
+      "Patient Transfer"
+    ],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review",
+      "Review"
+    ],
+    "language": "eng"
+  }
+]

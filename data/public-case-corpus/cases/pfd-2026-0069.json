@@ -1,0 +1,147 @@
+{
+  "id": "pfd-2026-0069",
+  "source": {
+    "type": "pfd",
+    "ref": "2026-0069",
+    "url": "https://www.judiciary.uk/prevention-of-future-death-reports/roger-smith-prevention-of-future-deaths-report/",
+    "pdf_url": "https://www.judiciary.uk/wp-content/uploads/2026/02/Roger-Smith-Prevention-of-future-deaths-report-2026-0069_Published.pdf",
+    "report_date": "2026-02-06",
+    "published_date": "2026-02-12",
+    "category": "Hospital Death (Clinical Procedures and medical management) related deaths",
+    "response_published": true
+  },
+
+  "subject": {
+    "name": "Roger Knight Smith",
+    "age": 80,
+    "date_of_death": "2023-09-12",
+    "cause_of_death": "1a Bilateral Bronchopneumonia; 1b Immobility; 1c Recurring Intracranial Haemorrhages; 2 Cerebral Amyloid Angiopathy, Hypertension, Clostridium Difficile Infection and Coronary Arteries Atherosclerosis"
+  },
+
+  "authority": {
+    "coroner_name": "Darren Stewart OBE",
+    "coroner_area": "Suffolk",
+    "recipients": ["West Suffolk NHS Foundation Trust"],
+    "primary_organisation": "West Suffolk NHS Foundation Trust"
+  },
+
+  "contacts": [
+    {
+      "seq": 1,
+      "contact_type": "admission",
+      "date": "2023-04-14",
+      "end_date": "2023-08-21",
+      "setting": "West Suffolk Hospital",
+      "presentation": "Confusion, hallucinations and generalised weakness",
+      "outcome": "discharged",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": null,
+      "evidence": "Mr Smith was admitted to West Suffolk Hospital on 14th April 2023 with confusion, hallucinations and generalised weakness. […] Mr. SMITH was discharged on the 21st August 2023 having been assessed as medically fit for discharge."
+    },
+    {
+      "seq": 2,
+      "contact_type": "readmission",
+      "date": "2023-08-25",
+      "end_date": "2023-09-12",
+      "setting": "West Suffolk Hospital",
+      "presentation": "Increased bowel motion frequency and drowsiness; recurrent C. difficile infection",
+      "outcome": "died",
+      "closed_as_appropriate": null,
+      "interval_days_from_previous": 4,
+      "evidence": "Mr Smith was readmitted to West Suffolk Hospital on 25th August 2023 with increased bowel motion frequency and drowsiness. A diagnosis of recurrent C. Diff infection was made and treatment for this condition commenced. He was also commenced on low dose tinzaparin for venous thromboembolism (VTE) prophylaxis on the 26th August 2023."
+    },
+    {
+      "seq": 3,
+      "contact_type": "intra_admission",
+      "date": "2023-08-27",
+      "end_date": "2023-08-28",
+      "setting": "West Suffolk Hospital",
+      "presentation": "Patient declined tinzaparin administration on two consecutive days",
+      "outcome": "not_escalated",
+      "closed_as_appropriate": true,
+      "interval_days_from_previous": 2,
+      "evidence": "Mr. SMITH declined tinzaparin administration on the 27th and 28th August 2023. This did not prompt a discussion between clinicians and either Mr. SMITH or his family as to the reason why he had declined. Nor were alternative forms of management of the VTE risk discussed as had been the case during the 14th April to 21st August 2023 West Suffolk Hospital admission. Seven further doses of tinzaparin were administered to Mr. SMITH over the period 29th August to the 4th September 2023."
+    }
+  ],
+
+  "pattern_flags": {
+    "information_not_carried_forward": true,
+    "prior_specialist_advice_not_followed": true,
+    "test_ordered_not_chased": false,
+    "test_not_ordered": false,
+    "risk_assessment_not_updated_after_event": false,
+    "patient_concern_not_escalated": true,
+    "family_concern_not_escalated": true,
+    "patient_declined_treatment_not_explored": true,
+    "working_diagnosis_not_revisited": false,
+    "specialist_input_not_sought": true,
+    "discharge_reversed_by_later_result": false,
+    "incident_not_logged": false,
+    "record_system_did_not_surface": true,
+    "guidance_existed_not_followed": true
+  },
+
+  "what_was_missed": "Neurologist correspondence already held in the record advising against anti-coagulation therapy — correctly acted on during the first admission via alternative VTE management — was not surfaced to the reviewing consultant on readmission four days later, and tinzaparin was prescribed.",
+
+  "coroner_concerns": [
+    {
+      "quote": "Important information relating to advice concerning the prescription of anti-coagulation therapy (low weight molecular heparin - LWMH) for venous thromboembolism (VTE) prophylaxis and which was contained in Mr. Smith's medical records, was not flagged for clinican attention as part of the electronic records management system in use at West Suffolk Hospital. This meant that when Mr. Smith was readmitted on the 25th August 2023, this information did not form part of the reviewing consultants considerations around whether to precribe tinzaparin (LWMH) to Mr. Smith for VTE prophalaxis. He subsequently recived 8 doses of tinzaparin which contributed to him suffering a catastrophic stroke that led to his death.",
+      "box": "5",
+      "theme": "record_system"
+    },
+    {
+      "quote": "During both admissions to West Suffolk Hospital during the period April to August 2023, Mr. Smith and his Family fiercely advocated for considerations associated with his cerebral amyloid angiopathy (CAA) to be taken into account as part of his care and treatment. This occurred during Mr. Smith's first admission between 14th April and 21st August 2023 with alternative management used to address the VTE risk. This did not occur during Mr. Smith's second admission from 25th August 2023 and despite Mr. Smith declining tinzaparin on two occasions, the medication continued to be administered without adequate consideration as to why Mr. Smith had declined it or by engaging in consultation with either Mr. Smith or his Family.",
+      "box": "5",
+      "theme": "communication"
+    },
+    {
+      "quote": "I am concerned that the West Suffolk Hospital patient records management system is ineffective in accurately highlighting important information which should inform patient care and treatment.",
+      "box": "5",
+      "theme": "record_system"
+    },
+    {
+      "quote": "I am concerned that effective procedures are not in place at West Suffolk Hospital to deliver timely specialist stroke team input for the purposes of managing stroke risk as part of a multi-disciplinary team approach for patients admitted with conditions that expose them to higher risk of VTE (e.g. CAA).",
+      "box": "5",
+      "theme": "specialist_access"
+    }
+  ],
+
+  "inclusion": {
+    "meets_strict": true,
+    "criteria_met": [
+      {
+        "criterion": "C1",
+        "met": true,
+        "evidence": "Mr Smith was readmitted to West Suffolk Hospital on 25th August 2023 — four days after discharge on 21st August 2023 from an admission beginning 14th April 2023."
+      },
+      {
+        "criterion": "C2",
+        "met": true,
+        "evidence": "Mr. SMITH was discharged on the 21st August 2023 having been assessed as medically fit for discharge."
+      },
+      {
+        "criterion": "C3",
+        "met": true,
+        "evidence": "Correspondence from treating neurologists at another hospital that formed part of Mr. SMITH's medical records and which advised against the prescription of anti-coagulation therapy was not followed."
+      },
+      {
+        "criterion": "C4",
+        "met": true,
+        "evidence": "This meant that when Mr. Smith was readmitted on the 25th August 2023, this information did not form part of the reviewing consultants considerations around whether to precribe tinzaparin (LWMH) to Mr. Smith for VTE prophalaxis."
+      }
+    ],
+    "exclusion_reason": null,
+    "adjacent_theme": false,
+    "adjudication_note": "Canonical case for the corpus. The coroner names the exact mechanism: safety-critical information present in the record, correctly acted on at contact 1, not surfaced at contact 2 because the EPR did not flag it. Compounded by the patient's own refusal on two consecutive days functioning as an unheeded signal, and by family advocacy that succeeded in admission 1 and failed in admission 2. Every element of the longitudinal failure is present and independently evidenced."
+  },
+
+  "extraction": {
+    "method": "assisted",
+    "extracted_at": "2026-08-15",
+    "extracted_by": "Claude (Cowork), from full published PDF text",
+    "verified": false,
+    "verified_at": null,
+    "verified_by": null,
+    "protocol_version": "1.0"
+  }
+}

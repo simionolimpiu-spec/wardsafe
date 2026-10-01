@@ -1,6 +1,14 @@
 # SafeFlow Public Simulation Preview
 
-This note prepares SafeFlow for a shareable, password-protected, simulation-only preview on AWS. It is not a clinical deployment, not a live NHS system, and not intended for real patient data.
+This note describes the SafeFlow simulation previews. SafeFlow is a simulation-only prototype for structured review support. It uses fictional data only, does not connect to live NHS systems, and does not replace any live clinical or quality system.
+
+## Which URL do I share?
+
+**https://simionolimpiu-spec.github.io/wardsafe/**
+
+That is the live, publicly reachable, shareable simulation preview, and the one every other document in this pack points to. It needs no password and no token. Verified reachable (HTTP 200) on 27 July 2026.
+
+Do **not** share the AWS Amplify URL further down this page. It sits behind Amplify Basic Auth, returns `401 Unauthorized` without credentials, and is documented here as deployment infrastructure rather than as the demo link.
 
 ## Preview Goal
 
@@ -8,6 +16,67 @@ This note prepares SafeFlow for a shareable, password-protected, simulation-only
 - Keep frontend and API boundaries separate.
 - Keep all preview data fictional and simulation-only.
 - Keep human review explicit throughout the UI and API.
+
+## AWS Preview Deployment (credentialled infrastructure — not the shareable demo)
+
+This section documents the AWS-hosted preview stack, which is where the backend API lives. It is **not** the link to share: Amplify Basic Auth gates the frontend, so the URL below returns `401 Unauthorized` to anyone without credentials. The shareable demo is the static GitHub Pages site described in the next section.
+
+Retained here because the backend stack and Lambda Function URL are real, in use, and need documenting:
+
+- Frontend: `https://preview.d3etfd425b4rlk.amplifyapp.com/`
+- Backend API: `https://nlork7u5ziyhwbjmoplexuw4rq0tnwah.lambda-url.eu-west-2.on.aws/`
+- AWS region: `eu-west-2`
+- CloudFormation stack: `safeflow-simulation-foundation`
+- Amplify app id: `d3etfd425b4rlk`
+- Amplify branch: `preview`
+
+Amplify Basic Auth is enabled, and the API requires `X-SafeFlow-Preview-Token`. Do not commit or post the Basic Auth password or preview access token; share them only through a private channel with named reviewers.
+
+## Static GitHub Pages Simulation Preview — the shareable demo
+
+Current published location: https://simionolimpiu-spec.github.io/wardsafe/
+Simulation-only, fictional data, not for clinical use. Open to anyone with the link; no password, no token.
+
+This static site auto-deploys on every push to `codex/safeflow-prototype` via `.github/workflows/deploy-pages.yml`.
+The base branch now includes `.github/workflows/deploy-pages.yml`, which builds the static SPA with the `/wardsafe/` base path. This path is separate from the AWS preview:
+
+- it contains the frontend bundle and fictional simulation fixtures only
+- it does not deploy the backend `/api` routes
+- it must remain a simulation-only prototype with human review required
+
+The static path is the current active shareable simulation preview.
+
+## Hosted Preview API Smoke
+
+Use the repo smoke command after redeploys, token rotation or pre-review checks:
+
+- Set `SAFEFLOW_PREVIEW_API_URL` to the deployed `PublicApiUrl`.
+- Set `SAFEFLOW_PREVIEW_ACCESS_TOKEN` to the shared preview token.
+- Run `npm run api:smoke:preview`.
+
+The hosted smoke checks:
+
+- the preview token gate returns `401` when the token is missing
+- `Access-Control-Allow-Origin` is not wildcarded
+- the hosted health, workspace, readiness, signals, suggestions and audit routes stay simulation-only and available
+- readiness, signals and risk-suggestion responses keep their preview metadata stable
+- no direct patient identifiers or secret-like values appear in the returned payloads
+- simulation audit read/write remains reachable for the preview workflow
+
+The hosted smoke is a deployment-contract check. It does not validate clinical correctness, model quality, or real-world decision support behavior.
+
+If a temporary internal test preview is intentionally ungated, set `SAFEFLOW_EXPECT_PREVIEW_ACCESS_GATE=false` for that smoke run only.
+
+## Current Deployed Behavior
+
+The current AWS preview stack is intentionally safe but limited:
+
+- `/api/simulation/signals` currently serves a placeholder provider on the AWS preview stack
+- `/api/simulation/risk-suggestions` currently serves a placeholder provider on the AWS preview stack
+- those responses now need to stay explicit about `simulation` mode, `clinicalUse: false`, and their placeholder provider/source
+- this keeps the preview honest and usable for demos without implying validated clinical decision support
+
+Follow-up integration remains required before any preview should claim ML-backed signal or suggestion retrieval.
 
 ## Why Localhost Links Do Not Work For Other People
 
@@ -29,8 +98,9 @@ A shareable preview needs publicly reachable hosting for both the frontend and t
 
 ### API
 
-- Preferred preview route: API Gateway + Lambda using `infra/aws/lambda/safeflowApi/index.mjs`.
-- Acceptable lightweight alternative: Lambda Function URL if API Gateway is unnecessary for the first preview.
+- Current preview route: Lambda Function URL using `infra/aws/lambda/safeflowApi/index.mjs`.
+- The deployment branch exposes the public Lambda Function URL stack output `PublicApiUrl`; the hosted preview should use that as its backend base URL.
+- If a later follow-on ever adds API Gateway, it must keep the same simulation-only and origin-locked contract.
 - Keep `SAFEFLOW_SIMULATION_ONLY=true` for all preview API environments.
 - Keep deterministic fallback behavior when `OPENAI_API_KEY` is absent.
 - Keep fictional data only and no live integration claims.
@@ -40,44 +110,51 @@ A shareable preview needs publicly reachable hosting for both the frontend and t
 ### Frontend build
 
 - `VITE_SAFEFLOW_API_BASE_URL=https://preview-api.example.com`
+- `VITE_SAFEFLOW_PREVIEW_ACCESS_TOKEN=replace-with-shared-preview-token`
 
-This is a public, non-secret URL. Do not place `OPENAI_API_KEY` or any other secret in Vite client env.
+The API URL is public and non-secret. The preview access token is bundled into the browser app, so treat it as a shared preview gate rather than strong authentication. Keep Amplify password protection enabled before sharing the frontend URL. Do not place `OPENAI_API_KEY` or any other backend secret in Vite client env.
 
 ### API runtime
 
 - `SAFEFLOW_ENVIRONMENT=simulation`
 - `SAFEFLOW_SIMULATION_ONLY=true`
 - `SAFEFLOW_ALLOWED_ORIGIN=https://preview.example.com`
+- `SAFEFLOW_PREVIEW_ACCESS_TOKEN=replace-with-the-same-long-random-preview-token`
 
 Optional backend-only variables:
 
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL`
-- database configuration already approved for fictional simulation use
+- backend configuration already approved for fictional simulation use
 
 ## CORS Boundary
 
 - Set `SAFEFLOW_ALLOWED_ORIGIN` to the exact preview frontend origin.
 - Avoid `*` for the shared preview unless it is a temporary internal-only diagnostic step.
-- The current backend defaults to local development origin when no preview origin is configured.
+- Set `SAFEFLOW_PREVIEW_ACCESS_TOKEN` for the Lambda and `VITE_SAFEFLOW_PREVIEW_ACCESS_TOKEN` for the frontend to the same long random value.
+- The Lambda rejects public preview API calls that do not include `X-SafeFlow-Preview-Token`.
+- In dev-only runs, the current backend fallback still uses the local development origin when no preview origin is configured.
 
 ## Visible Safety Boundary
 
 The public preview must keep the following visible:
 
-- fictional patient data only
-- not clinical advice
-- not diagnosis
-- not prescribing
-- not live NHS deployment
-- human review required
+- fictional data only
+- simulation-only prototype for structured review support
+- risk-support signals and documentation cues require human review
+- clinical judgement remains central
+- no live NHS systems or real patient data
+- no automated clinical action
+- no replacement of any live clinical or quality system
 
 ## Password Protection Recommendation
 
 For the first external preview:
 
 - use Amplify Hosting preview protection or an equivalent managed access gate
+- use the preview access token gate for direct API calls
 - share only with named collaborators
+- do not share the URL with family members or other non-clinical viewers
 - avoid building custom authentication until the preview workflow itself is stable
 
 ## AWS Safety Prerequisites
@@ -107,7 +184,18 @@ See also:
 
 1. Choose the frontend origin and API origin.
 2. Set Amplify environment variables for the frontend build.
-3. Set Lambda or API Gateway environment variables for simulation-only backend mode.
+3. Set backend environment variables for simulation-only mode.
 4. Apply password protection before sharing the URL.
 5. Run manual reviewer checks against the hosted preview.
 6. Keep deployment approval as a human decision after synth and review.
+
+## Follow-up Integration Note
+
+The current hosted preview must not be described as clinically validated decision support.
+
+Before any stronger claim is made:
+
+- replace placeholder signal and risk-suggestion providers with ML-backed database read models
+- keep the API response source/provider explicit
+- keep the simulation disclaimer visible in the UI
+- prevent silent fallback to placeholder providers outside explicitly configured preview/simulation environments

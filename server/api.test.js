@@ -27,6 +27,26 @@ function createJsonResponse() {
 }
 
 describe('createApiHandler', () => {
+  it('returns controlled errors for malformed and non-object JSON', async () => {
+    const handler = createApiHandler({ env: {} });
+    for (const json of [async () => { throw new SyntaxError('bad JSON'); }, async () => null, async () => []]) {
+      const res = createJsonResponse();
+      await handler({ method: 'POST', url: '/api/drafts/sbar', json }, res);
+      expect(res.statusCode).toBe(400);
+      expect(JSON.parse(res.body)).toEqual({ error: 'Invalid request' });
+    }
+  });
+
+  it('rejects oversized streamed bodies before invoking a draft provider', async () => {
+    const provider = { createSbarDraft: vi.fn() };
+    const handler = createApiHandler({ env: {}, provider });
+    const res = createJsonResponse();
+    const req = { method: 'POST', url: '/api/drafts/sbar', async *[Symbol.asyncIterator]() { yield Buffer.alloc(65537); } };
+    await handler(req, res);
+    expect(res.statusCode).toBe(413);
+    expect(provider.createSbarDraft).not.toHaveBeenCalled();
+  });
+
   it('returns simulation readiness without exposing provider secrets', async () => {
     const provider = { id: 'deterministic', createSbarDraft: vi.fn() };
     const workspaceProvider = {
@@ -64,6 +84,22 @@ describe('createApiHandler', () => {
       signals: 'local-simulation-signals',
       suggestions: 'local-simulation-risk-suggestions'
     });
+    expect(payload).toMatchObject({
+      mode: 'simulation',
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: expect.stringContaining('Not clinically validated'),
+      providerMetadata: {
+        signals: {
+          providerId: 'local-simulation-signals',
+          provider: 'fixture'
+        },
+        suggestions: {
+          providerId: 'local-simulation-risk-suggestions',
+          provider: 'fixture'
+        }
+      }
+    });
     expect(payload.migrations.approved).toBe(true);
     expect(serializedPayload).not.toContain('postgres://');
     expect(serializedPayload).not.toContain('sk-secret');
@@ -82,7 +118,7 @@ describe('createApiHandler', () => {
 
     expect(res.headers['Access-Control-Allow-Origin']).toBe('https://preview.example.com');
     expect(res.headers['Access-Control-Allow-Methods']).toBe('GET,POST,OPTIONS');
-    expect(res.headers['Access-Control-Allow-Headers']).toBe('Content-Type');
+    expect(res.headers['Access-Control-Allow-Headers']).toBe('Content-Type,X-SafeFlow-Preview-Token');
   });
 
   it('uses configured database providers by default when simulation database mode is set', async () => {
@@ -107,6 +143,10 @@ describe('createApiHandler', () => {
       audit: 'postgresql-simulation-audit-events',
       signals: 'postgresql-simulation-signals',
       suggestions: 'postgresql-simulation-risk-suggestions'
+    });
+    expect(payload.providerMetadata).toMatchObject({
+      signals: { providerId: 'postgresql-simulation-signals', provider: 'database-read-model' },
+      suggestions: { providerId: 'postgresql-simulation-risk-suggestions', provider: 'database-read-model' }
     });
     expect(payload.database).toMatchObject({
       configured: true,
@@ -354,8 +394,13 @@ describe('createApiHandler', () => {
     expect(signalProvider.listPatientSignals).toHaveBeenCalledWith({ patientId: 'DCU-031' });
     expect(payload).toMatchObject({
       product: 'SafeFlow',
+      mode: 'simulation',
       simulationOnly: true,
       source: 'local-simulation-signals',
+      provider: 'fixture',
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: expect.stringContaining('Not clinically validated'),
       signals: [expect.objectContaining({ syntheticPatientRef: 'DCU-031', simulationOnly: true })]
     });
     expect(serializedPayload).not.toMatch(/\b(nhs_number|date_of_birth|postcode|address|phone|email)\b/i);
@@ -387,8 +432,13 @@ describe('createApiHandler', () => {
     expect(suggestionProvider.listRiskSuggestions).toHaveBeenCalledWith({ patientId: 'DCU-031' });
     expect(payload).toMatchObject({
       product: 'SafeFlow',
+      mode: 'simulation',
       simulationOnly: true,
       source: 'local-simulation-risk-suggestions',
+      provider: 'fixture',
+      clinicalUse: false,
+      validationStatus: 'not-clinically-validated',
+      explanation: expect.stringContaining('Not clinically validated'),
       suggestions: [expect.objectContaining({
         suggestionId: 'suggestion-dcu-031-electrolyte-review',
         requiresHumanReview: true
@@ -502,5 +552,140 @@ describe('createApiHandler', () => {
     expect(payload.fallbackUsed).toBe(true);
     expect(payload.draft.provider).toBe('deterministic');
     expect(payload.draft.sections.situation).toContain('DCU-031');
+  });
+
+  it('returns a fictional patient-day from the longitudinal journey engine', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/days/1300' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.simulationOnly).toBe(true);
+    expect(payload.day.patientId).toBe('JPUH-P-001');
+    expect(payload.day.dayNumber).toBe(1300);
+    expect(payload.day.simulationOnly).toBe(true);
+    expect(JSON.stringify(payload)).not.toMatch(/"(?:name|patientName|nhsNumber|dob)"\s*:/i);
+  });
+
+  it('rejects a non-positive-integer day for the longitudinal day route', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/days/0' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('returns the episode schedule for a fictional patient through a given day', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/episodes?throughDay=30' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.throughDay).toBe(30);
+    expect(Array.isArray(payload.episodes)).toBe(true);
+    expect(payload.episodes.length).toBeGreaterThan(0);
+  });
+
+  it('returns a then-vs-now comparison for a fictional patient', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/compare?from=1&to=1300' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.comparison.dayA).toBe(1);
+    expect(payload.comparison.dayB).toBe(1300);
+    expect(payload.comparison.trendNote).toMatch(/human review required/i);
+  });
+
+  it('rejects a longitudinal compare request missing from/to', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/patients/JPUH-P-001/compare' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('returns a ward cohort rollup from the longitudinal rollup engine', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/jpuh-ward-1/rollup?day=1300' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.source).toBe('ward-longitudinal-rollup-engine');
+    expect(payload.rollup).toMatchObject({
+      wardId: 'jpuh-ward-1',
+      dayNumber: 1300,
+      patientCount: 3
+    });
+  });
+
+  it('keeps unknown ward rollups empty and lets the engine default an invalid day', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/unknown%20ward/rollup?day=not-a-day' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.rollup).toMatchObject({
+      wardId: 'unknown ward',
+      dayNumber: 1,
+      patientCount: 0,
+      averages: { respRate: null, spo2: null, heartRate: null, systolicBp: null, tempC: null },
+      reviewFlagCount: 0
+    });
+  });
+
+  it('returns a then-vs-now comparison for a fictional ward cohort', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/jpuh-ward-1/compare?from=1&to=90' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.source).toBe('ward-longitudinal-rollup-engine');
+    expect(payload.comparison).toMatchObject({
+      wardId: 'jpuh-ward-1',
+      dayA: 1,
+      dayB: 90,
+      reviewFlagCount: { then: 3, now: 3 }
+    });
+    expect(payload.comparison.trendNote).toMatch(/human review required/i);
+  });
+
+  it('returns an empty comparison for an unknown ward using engine defaults', async () => {
+    const handler = createApiHandler();
+    const req = createJsonRequest({ method: 'GET', path: '/api/simulation/longitudinal/wards/unknown-ward/compare?from=&to=invalid' });
+    const res = createJsonResponse();
+
+    await handler(req, res);
+    const payload = JSON.parse(res.body);
+
+    expect(res.statusCode).toBe(200);
+    expect(payload.comparison).toMatchObject({
+      wardId: 'unknown-ward',
+      dayA: 1,
+      dayB: 1,
+      reviewFlagCount: { then: 0, now: 0 }
+    });
   });
 });

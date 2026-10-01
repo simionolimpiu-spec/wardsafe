@@ -34,7 +34,7 @@ export function AuditLearningView({
       <div className="audit-backend-panel">
         <div>
           <strong>Backend audit mirror</strong>
-          {backendAuditStatus && <p>{backendAuditStatus}</p>}
+          {backendAuditStatus && <p role="status">{backendAuditStatus}</p>}
           {!backendAuditStatus && <p>Read server-side simulation audit events on demand.</p>}
         </div>
         <button

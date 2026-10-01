@@ -1,0 +1,140 @@
+[
+  {
+    "pmid": "34605781",
+    "doi": "10.1097/CCM.0000000000005337",
+    "title": "Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021.",
+    "journal": "Critical care medicine",
+    "journalAbbrev": "Crit Care Med",
+    "year": 2021,
+    "authors": [
+      "Evans",
+      "Rhodes",
+      "Alhazzani",
+      "Antonelli",
+      "Coopersmith"
+    ],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "35776738",
+    "doi": "10.1371/journal.pone.0270711",
+    "title": "Sepsis assessment and management in critically Ill adults: A systematic review.",
+    "journal": "PloS one",
+    "journalAbbrev": "PLoS One",
+    "year": 2022,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "34379473",
+    "doi": "10.12968/bjon.2021.30.15.920",
+    "title": "Sepsis knowledge, skills and attitudes among ward-based nurses.",
+    "journal": "British journal of nursing",
+    "journalAbbrev": "Br J Nurs",
+    "year": 2021,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "28509730",
+    "doi": "10.1097/CCM.0000000000002425",
+    "title": "American College of Critical Care Medicine Clinical Practice Parameters for Hemodynamic Support of Pediatric and Neonatal Septic Shock.",
+    "journal": "Critical care medicine",
+    "journalAbbrev": "Crit Care Med",
+    "year": 2017,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "35045340",
+    "doi": "10.1016/j.jhin.2022.01.004",
+    "title": "Impact of sepsis education for healthcare professionals and students on learning and patient outcomes: a systematic review.",
+    "journal": "The Journal of hospital infection",
+    "journalAbbrev": "J Hosp Infect",
+    "year": 2022,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "33309843",
+    "doi": "10.1016/j.ajic.2020.12.002",
+    "title": "Evaluation of hospital nurse-to-patient staffing ratios and sepsis bundles on patient outcomes.",
+    "journal": "American journal of infection control",
+    "journalAbbrev": "Am J Infect Control",
+    "year": 2020,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "33736927",
+    "doi": "10.1016/j.soncn.2021.151135",
+    "title": "Disseminated Intravascular Coagulation.",
+    "journal": "Seminars in oncology nursing",
+    "journalAbbrev": "Semin Oncol Nurs",
+    "year": 2021,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Review"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "32986957",
+    "doi": "10.1161/CIRCHEARTFAILURE.119.006798",
+    "title": "Multidisciplinary Cardiac Rehabilitation and Long-Term Prognosis in Patients With Heart Failure.",
+    "journal": "Circulation. Heart failure",
+    "journalAbbrev": "Circ Heart Fail",
+    "year": 2020,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Multicenter Study",
+      "Observational Study"
+    ],
+    "language": "eng"
+  },
+  {
+    "pmid": "40425395",
+    "doi": "10.1016/j.bja.2025.04.026",
+    "title": "Postoperative outcomes in older patients living with frailty and multimorbidity in the UK: SNAP-3, a snapshot observational study.",
+    "journal": "British journal of anaesthesia",
+    "journalAbbrev": "Br J Anaesth",
+    "year": 2025,
+    "authors": [],
+    "meshTerms": [],
+    "articleTypes": [
+      "Journal Article",
+      "Observational Study"
+    ],
+    "language": "eng"
+  }
+]
