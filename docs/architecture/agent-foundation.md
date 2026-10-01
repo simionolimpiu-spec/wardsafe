@@ -2,6 +2,8 @@
 
 This simulation-only prototype uses fictional patient data for structured review support. Human review is required. It is not clinically validated and is not for clinical decision-making or live deployment. It does not diagnose, prescribe, recommend treatment, or initiate clinical actions.
 
+Control board ID: SF-305. Code: `src/agent/`. This is the single description of the agent foundation. The earlier short note in `docs/ai/` has been merged into it.
+
 ## Architecture and implemented scope
 
 The existing deterministic safety rules remain authoritative for reproducible simulation cues. The new flow adds an auditable, bounded review of one example without replacing those rules or the existing SBAR path.
@@ -26,15 +28,17 @@ The UI calls the in-memory orchestrator directly. There is no new agent HTTP end
 
 ## Trust boundaries
 
-| Layer | Representation | Permitted use |
-| --- | --- | --- |
-| Source facts | Recorded fictional lab values with source record, observed time and import time | Evidence; never instructions |
-| Deterministic derivations | Reproducible lab trend and existing simulation-rule cues | Review context; never established source values |
-| AI interpretation | `trusted: false`, `origin: model-generated`, `trustTier: ai-interpretation` | Proposed draft only |
-| Human decision | Separate event, actor reference, timestamp and optional edited text | Record of a simulated human review; never retroactively changes source facts |
-| Reference knowledge | `reference-knowledge`, wrapped as untrusted data | General cue-related context, not patient-specific truth |
+| Layer | Representation | Can instruct the model | Can be stored as a fact | Permitted use |
+| --- | --- | --- | --- | --- |
+| Source facts | `source-fact`: recorded fictional lab values with source record, observed time and import time | No | Yes | Evidence; never instructions |
+| Deterministic derivations | `deterministic-derivation`: reproducible lab trend and existing simulation-rule cues | No | No, it is derived | Review context; never established source values |
+| AI interpretation | `trusted: false`, `origin: model-generated`, `trustTier: ai-interpretation` | No | No, never | Proposed draft only |
+| Human decision | `human-decision`: separate event, actor reference, timestamp and optional edited text | No | Recorded as an event | Record of a simulated human review; never retroactively changes source facts |
+| Reference knowledge | `reference-knowledge`, wrapped as untrusted data | No | No | General cue-related context, not patient-specific truth |
 
-Only `createSystemInstruction` produces instruction-eligible objects, using private factory identity. Copies, look-alikes, retrieved text, clinical notes, and generated summaries do not obtain instruction authority. JSON context escapes angle brackets and ampersands; free text and reference material use escaped `untrusted_data` blocks. These defences reduce injection risk; text filtering is not a complete semantic safety proof.
+Only `createSystemInstruction` produces instruction-eligible objects, using private factory identity held in a WeakSet. Copies, look-alikes, retrieved text, clinical notes, and generated summaries do not obtain instruction authority. JSON context escapes angle brackets and ampersands; free text and reference material use escaped `untrusted_data` blocks. These defences reduce injection risk; text filtering is not a complete semantic safety proof.
+
+Tools are read-only. A tool name must be `get` followed by a capitalised name, every permission must start with `read:`, and input and output schemas are closed. Names such as `executeSQL`, `runShell`, `eval`, `query` and `fetch` are refused. Human review and recorded-action events need a human actor with a reference.
 
 The public case corpus is excluded. Tools omit patient names, nurse names, task owners and audit-trail text. Tool output and event data are immutable copies. This is data minimisation for fictional fixtures, not an anonymisation service for real records.
 
@@ -83,6 +87,10 @@ Generated summaries can be represented and audited, but this bounded run does no
 Future server orchestration can sit behind an authenticated API without changing the four trust domains. An append-only event-store adapter could persist events using the existing approved AWS architecture (including the current eu-west-2 direction), with least-privilege IAM, encryption, retention and auditable access. Long-running work would need durable cancellation, idempotency and concurrency control. No infrastructure is provisioned by this feature.
 
 Future NHS/FHIR work may map facts and provenance to appropriate FHIR R4/UK Core resources through validated adapters. Mapping, clinical validation, governance and deployment approval remain future work. No live EPR/NHS connection is present. ECG interpretation and the deferred ECG documentation tool are outside this milestone.
+
+## Related work
+
+The Go 6 PEARLS simulation debrief (SF-325, see `docs/ai/go6-codex-handover.md`) reuses the session, generated-content, system-instruction and untrusted-content primitives. It is rule-based and makes no model call. The existing server SBAR provider reuses the unsafe-wording pattern and the schema validation. A real model provider for the review orchestrator is not built and stays off.
 
 ## Validation
 
