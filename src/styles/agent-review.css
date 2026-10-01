@@ -1,0 +1,26 @@
+.agent-review {
+  background: var(--sf-grey-25);
+  border: 1px solid var(--sf-grey-200);
+  border-radius: var(--sf-radius-md);
+  color: var(--sf-grey-900);
+  margin-block: var(--space-5);
+  padding: var(--space-5);
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.agent-review h3 { margin-top: 0; }
+.agent-review h4 { margin: var(--space-5) 0 var(--space-3); }
+.agent-review p, .agent-review li { line-height: var(--line-height-body); }
+.agent-review ul, .agent-review ol { padding-left: var(--space-6); }
+.agent-review li { margin-block: var(--space-3); }
+.agent-review small { display: block; }
+.agent-review details { margin-block: var(--space-4); }
+.agent-review summary { cursor: pointer; min-height: 44px; padding-block: var(--space-4); }
+.agent-review-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.agent-review-actions button { min-height: 44px; white-space: normal; }
+.agent-review label { display: block; font-weight: var(--font-weight-semibold); margin-block: var(--space-4); }
+.agent-review textarea { width: 100%; max-width: 100%; resize: vertical; padding: var(--space-4); }
+.agent-review :is(button, textarea, summary, h4[tabindex]):focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
