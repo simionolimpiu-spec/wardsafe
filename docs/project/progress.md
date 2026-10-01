@@ -20,3 +20,16 @@ Implementation history, Codex dispatches, review rounds and verification. Newest
 - Claude verification outside the sandbox: focused 32 files / 145 tests passed; npm test 126 files / 859 tests passed (infra bundling passes outside the sandbox); npm run build passed with the existing chunk-size warning; git diff --cached --check clean for each commit; boundary grep for local paths, secrets, scoring, escalation and origin fields found only negative tests and boundary statements.
 - Commits (Claude, Codex co-author): 47dcbfa docs, 835bd46 shared, a813e70 connect, e7ad12b voice, 924a3b3 point of care, aff387b boundary tests, then control board and this log.
 - Phase 1 gates A to J passed. STOP: awaiting Oli approval. No PR opened, no merge, no Phase 2 work.
+
+## 2026-09-20 / 21 Phase 2 Connect simulation UI (SF-315)
+
+- Oli approved Phase 1 merge and Phase 2. PR #101 merged (f36bb32) after CI passed. Branch feature/connect-ui-phase2 created from f36bb32.
+- Dispatch: docs/project/dispatches/2026-09-20-phase2-connect-ui.md. While Claude was unavailable, Oli ran it through the Codex desktop app, which is not sandboxed in the same way. Codex wrote the full implementation (23 files, +1542) and reported: focused 21 files / 117 tests, full 142 files / 1118 tests, build passed, npm audit clean. Its Playwright rerun on a separate port and its handover to Claude did not finish. Nothing was committed.
+- Claude re-verified outside Codex before review: full suite 142 files / 1118 tests passed, build passed.
+- Review round 1 (Claude, full diff read): scope, boundary copy, MESSAGE != TASK != REVIEW CUE != ESCALATION, AI draft gate, existing-task linking, privacy preview, focus handling and the boundary scan pass. Five findings sent as docs/project/dispatches/2026-09-21-phase2-correction-1.md:
+  1. Refused actions throw inside the React reducer and would blank the screen; must fail safe with an announcement.
+  2. A test-only `send-unapproved-draft` action lives in production code.
+  3. Only one role resolves in the demo; add a fictional pharmacist assignment.
+  4. Notification preview category set on every request transition instead of by event type.
+  5. Tidy the surface-scan test import and trailing newline.
+- Codex left a scratch Playwright config (.phase2-playwright.config.mjs, separate port) in the repo root. Claude moved it to the orchestration folder so it is not committed.

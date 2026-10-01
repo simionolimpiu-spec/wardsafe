@@ -15,6 +15,7 @@ import { WardSafetyBoard } from './WardSafetyBoard.jsx';
 import { WardQualitySafetyReviewDrawer } from './WardQualitySafetyReviewDrawer.jsx';
 import { AppShell } from './AppShell.jsx';
 import { ScenarioLibraryView } from './ScenarioLibraryView.jsx';
+import { ConnectView } from './connect/ConnectView.jsx';
 import { getDemoScenarioOptions } from '../data/demoScenarios.js';
 
 const chartMocks = vi.hoisted(() => {
@@ -456,3 +457,8 @@ function buildReviewSignals() {
     }
   ];
 }
+
+it('keeps the Connect simulation view boundary-safe', () => {
+  const { container } = render(<ConnectView patients={simulatedPatients} tasks={[]} />);
+  expect(scanBoundaryAwareSafetyLanguage(container.textContent, { checkedLabel: 'Connect view' })).toMatchObject({ passed: true, violations: [] });
+});
