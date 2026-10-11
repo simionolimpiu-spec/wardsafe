@@ -16,6 +16,8 @@ import { WardQualitySafetyReviewDrawer } from './WardQualitySafetyReviewDrawer.j
 import { AppShell } from './AppShell.jsx';
 import { ScenarioLibraryView } from './ScenarioLibraryView.jsx';
 import { ConnectView } from './connect/ConnectView.jsx';
+import { VoiceView } from './voice/VoiceView.jsx';
+import userEvent from '@testing-library/user-event';
 import { getDemoScenarioOptions } from '../data/demoScenarios.js';
 
 const chartMocks = vi.hoisted(() => {
@@ -462,3 +464,38 @@ it('keeps the Connect simulation view boundary-safe', () => {
   const { container } = render(<ConnectView patients={simulatedPatients} tasks={[]} />);
   expect(scanBoundaryAwareSafetyLanguage(container.textContent, { checkedLabel: 'Connect view' })).toMatchObject({ passed: true, violations: [] });
 });
+
+it.each(['initial', 'transcript', 'unreliable failure', 'numeric confirmation', 'saved', 'speech refusal'])(
+  'keeps the Voice %s rendered surface boundary-safe after interaction', async (surface) => {
+    const user = userEvent.setup();
+    const { container } = render(<VoiceView />);
+    const button = (name) => screen.getByRole('button', { name });
+    if (['transcript', 'unreliable failure', 'numeric confirmation', 'saved'].includes(surface)) {
+      const fixture = surface === 'unreliable failure' ? 'uncertain' : surface === 'numeric confirmation' ? 'numeric' : 'clear';
+      await user.selectOptions(screen.getByLabelText('Dictation script'), fixture);
+      await user.click(button('Start listening (simulation)'));
+      await user.click(button('Stop listening'));
+      expect(screen.getByRole('heading', { name: 'Transcript review' })).toBeInTheDocument();
+    }
+    if (surface === 'unreliable failure') expect(button('Approve and save review (simulation)')).toBeDisabled();
+    if (surface === 'numeric confirmation') {
+      await user.type(screen.getByLabelText('Your edit'), 'Fictional thirteen and thirty');
+      for (const [label, value] of [['Value label', 'Fictional value'], ['Numeric value', '13'], ['Unit', '/min'], ['Source span', 'thirteen']]) {
+        await user.type(screen.getByLabelText(label), value);
+      }
+      await user.click(button('Confirm value'));
+      expect(screen.getByText('1 confirmed numbers.')).toBeInTheDocument();
+    }
+    if (surface === 'saved') {
+      await user.click(button('Approve and save review (simulation)'));
+      expect(screen.getByRole('region', { name: 'Saved review metadata' })).toBeInTheDocument();
+    }
+    if (surface === 'speech refusal') {
+      await user.selectOptions(screen.getByLabelText('Output mode'), 'device');
+      await user.selectOptions(screen.getByLabelText('Output content'), 'patient');
+      await user.click(button('Preview speech output'));
+      expect(screen.getByRole('status')).toHaveTextContent('Action refused: Patient information cannot use device output');
+    }
+    expect(scanBoundaryAwareSafetyLanguage(container.textContent, { checkedLabel: `Voice ${surface}` })).toMatchObject({ passed: true, violations: [] });
+  }
+);
