@@ -1,21 +1,22 @@
 # SafeFlow Control Board
 
-**Status date:** 5 July 2026
+**Status date:** 11 October 2026 (GitHub state last verified 1 October 2026, local PC refs last checked 4 October 2026)
 **Project boundary:** Simulation, education and stakeholder demonstration only. No real patient data. No live NHS deployment. No automated prescribing or escalation.
 
 ## Current status
 
 | Field | Current position |
 |---|---|
-| Overall status | Strong external-facing simulation preview package; live repo status re-confirmed 5 July 2026. |
+| Overall status | Simulation-only preview package with the Connect, Voice and Point of Care programme under way. Phase 1 foundations (SF-309 to SF-314), Phase 2 Connect simulation UI (SF-315) and the agent foundation follow-up (SF-305, PR #104) are merged. Phases 3 to 10 (SF-316 to SF-323) have no code yet. Phase 3 was approved on 11 October 2026 and its brief for Codex is written. Live repo status last verified 1 October 2026. |
 | Current product boundary | Simulation-only education/demo prototype; human-review support language only. |
-| Current branch | codex/safeflow-prototype |
-| Open PR | None open as of 5 July 2026 (post-merge check). |
+| Current branch | codex/safeflow-prototype (default branch). `main` was brought level with it on 1 October 2026 (merge commit 3d82115, same files). `main` does not follow the base automatically. |
+| Open PR | None open as of 1 October 2026. A local branch `feature/safeflow-account-access` was created from `main` (3d82115) on 4 October 2026 with nothing committed or pushed at that time. Owner and scope are not recorded here yet. |
 | Closed PR | #7 "Add minimal role-aware GUI foundation", branch feature/minimal-role-aware-gui. State: CLOSED as superseded on 1 July 2026. |
+| Merged PR | #103 "Connect simulation UI, Phase 2" (SF-315, merge `a51680c`), #104 "SF-305 follow-up: agent foundation D2 to G" (merge `e2787e6`), #105 control board update (merge `359313c`) and #106 agent foundation docs merged into one (merge `1217a5a`), all merged 1 October 2026. SafeFlow CI passed on the base at `1217a5a` and on `main` at `3d82115`. Each of #103 and #104 carries one keyboard focus fix from review. |
 | Merged PR | #29 "test(safety): add regression scans for demo surfaces" (squash merge `c0bbb8a`), #30 "docs: align public demo pack master narrative" (squash merge `29c1974`), and #31 "feat: add ward quality and safety review export" (squash merge `8e1dcbb`, SF-217), all merged 5 July 2026. Post-merge verification: `npm test` 70 files/400 tests passed, `npm run build` passed. |
 | Merged PR | #13 "Content views refresh", branch ui/content-views-refresh. Rebased onto latest base, `npm test` (56 files, 338 tests) and `npm run build` passed, safety-wording scan clean, merged 1 July 2026. |
 | Deployment guard | SAFEFLOW_DEPLOYMENT_APPROVED now fails closed unless the exact string `true` is present; unset or other values are logged as not approved, and local dev-server providers also refuse placeholder fallback outside allowed preview environments. |
-| Primary unfinished control task | Keep this file updated after every commit, doc change, or PR event; keep the app-copy naming cleanup queued as a Mia task. |
+| Primary unfinished control task | Dispatch Phase 3 (SF-316) to Codex with `docs/project/dispatches/2026-10-11-phase3-voice-dictation.md`, then review it before merge. Keep this file updated after every commit, doc change, or PR event; keep the app-copy naming cleanup queued as a Mia task. |
 
 ## Completed / Done
 
@@ -84,7 +85,7 @@
 
 | ID | Status | Area | Work item | Next action |
 |---|---|---|---|---|
-| SF-308 | In progress | Architecture | Parent: SafeFlow Connect + Voice + Point of Care programme (10 phases). Phase 1 (architecture, domain and provider foundations) passed Claude review gates A to J on 20 September 2026. Phase 2 (SF-315) done 22 September 2026 and merged 1 October 2026 via PR #103. Oli has assigned Phases 3 to 10 to Codex on branch `codex/safeflow-simulation-phases-3-10`; Claude reviews each phase before merge. Simulation only; no live integrations. | Branch `feature/connect-voice-poc-foundation` from `codex/safeflow-prototype` at be30246; commits 47dcbfa to aff387b plus this control update. Verified outside the Codex sandbox: focused 32 files / 145 tests passed; `npm test` 126 files / 859 tests passed; `npm run build` passed (existing chunk-size warning); `git diff --cached --check` clean per commit. Review record in `docs/project/progress.md`. Awaiting Oli approval before PR and before Phase 2. |
+| SF-308 | In progress | Architecture | Parent: SafeFlow Connect + Voice + Point of Care programme (10 phases). Phase 1 (architecture, domain and provider foundations) passed Claude review gates A to J on 20 September 2026. Phase 2 (SF-315) done 22 September 2026 and merged 1 October 2026 via PR #103. Oli has assigned Phases 3 to 10 to Codex; Claude reviews each phase before merge. The branch `codex/safeflow-simulation-phases-3-10` named earlier does not exist locally or on GitHub (checked 4 October 2026). Phase 3 will use `feature/voice-ui-phase3`. Simulation only; no live integrations. | Branch `feature/connect-voice-poc-foundation` from `codex/safeflow-prototype` at be30246; commits 47dcbfa to aff387b plus this control update. Verified outside the Codex sandbox: focused 32 files / 145 tests passed; `npm test` 126 files / 859 tests passed; `npm run build` passed (existing chunk-size warning); `git diff --cached --check` clean per commit. Review record in `docs/project/progress.md`. Awaiting Oli approval before PR and before Phase 2. |
 | SF-309 | Done | Architecture docs | Canonical master spec `docs/architecture/safeflow-connect-voice-point-of-care-master.md`, `point-of-care-hardware-profile.md` (research classes, not endorsements) and `fhir-observation-mapping.md` (proposed mapping only, no live NHS APIs). All three added to the safety-language scan. | Commit 47dcbfa. |
 | SF-310 | Done | Connect | Role recipients, threads, communication events (message, structured-request, acknowledgement, task-link, system-event; no escalation or task kind), structured request lifecycle with human-only decisions, privacy-safe notifications, CommunicationProvider contract and in-memory simulation provider. AI drafts need a different human approver before sending; only the safeflow channel is enabled. | Commit a813e70. |
 | SF-311 | Done | Voice | SpeechProfile (rejects origin and scoring fields), SpeechCandidate (raw text kept, 0.85 threshold, exact safe-failure message), numeric speech safety (teen/ty confusables, units, separate confirmation), capture lifecycle (Saved needs an approved reliable candidate and confirmed numbers; ambient only single room with policy and no sensitive context; no audio retained), translation drafts with interpreter flag, layered lexicon, five provider contracts and simulation providers. No microphone, audio or network. | Commit e7ad12b. |
@@ -111,7 +112,7 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 | ID | Status | Area | Work item | Notes |
 |---|---|---|---|---|
 | SF-315 | Done | Phase 2 | Connect simulation UI: Communication view in the ward workspace built only on the Phase 1 connect and shared modules. Patient, team and MDT threads; role addressing that never guesses a person (senior nurse and a fictional pharmacist resolve, on-call stays unresolved); structured request lifecycle with human-only decisions and "Acknowledged does not mean accepted"; AI draft template that needs a different human approver; links to existing tasks only; privacy-safe lock-screen preview; reference-only activity log; refused actions fail safe with an announcement. No persistence, network, external channels or LLM. | Branch `feature/connect-ui-phase2` from f36bb32. Implemented by Codex, one Claude review round with five fixes. Claude verification 22 Sep 2026: `npm test` 142 files / 1124 tests passed, `npm run build` passed, Playwright 24/24 passed (desktop and mobile, overflow checked at 320, 860 and 1366px). Handoff: `docs/implementation/2026-09-21-connect-phase2-codex-handoff.md`. Merged 1 October 2026 via PR [#103](https://github.com/simionolimpiu-spec/wardsafe/pull/103), merge commit a51680c. Second Claude review 30 September 2026 found that focus was lost after 12 of 13 Connect actions (WCAG 2.2 AA 2.4.3); fixed in 4dfa675 with 5 new unit tests and 2 browser assertions. Verified on the PR branch: `npm test` 145 files / 1,185 tests passed, `npm run build` passed, production `npm audit` 0 vulnerabilities, Playwright 28/28. Open follow-ups: the safety-language surface test scans only the first render, not text that appears after an action; `create-request` assumes a string summary; `link-task` writes no activity entry. |
-| SF-316 | Planned | Phase 3 | Voice dictation + TTS | Not started - requires human approval. |
+| SF-316 | Approved, not started | Phase 3 | Voice dictation + speech output | Approved by Oli on 11 October 2026. Brief for Codex: `docs/project/dispatches/2026-10-11-phase3-voice-dictation.md`. Branch `feature/voice-ui-phase3` to be created from `codex/safeflow-prototype` before dispatch. Phases 4 to 10 each still need a separate approval. |
 | SF-317 | Planned | Phase 4 | Point-of-Care bedside session | Not started - requires human approval. |
 | SF-318 | Planned | Phase 5 | Voice/device observation capture | Not started - requires human approval. |
 | SF-319 | Planned | Phase 6 | Nursing forms/documentation | Not started - requires human approval. |
@@ -158,15 +159,18 @@ Senior-nurse feedback (Band 6/7 quality reports, deteriorating-patient review, R
 
 | Priority | Action |
 |---|---|
-| 1 | Record PR #7 as closed as superseded and keep the tracker aligned with GitHub. (Done) |
-| 2 | Draft a clinical safety case outline and hazard log skeleton. (Done â€” see SF-109) |
-| 3 | Keep the public docs aligned with the master narrative and raise the remaining app-copy naming cleanup as a Mia task. |
-| 4 | Decide the next build focus: Patient Journey Twin UI, AWS mock architecture, or full-screen presentation polish. |
-| 5 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified. |
-| 6 | Keep this file updated after every commit, document, or design decision. |
+| 1 | Create the Phase 3 worktree and branch, then dispatch `docs/project/dispatches/2026-10-11-phase3-voice-dictation.md` to Codex (SF-316). |
+| 2 | Review Phase 3 when Codex hands it over: read the diff, run full tests, build, audit and Playwright, then commit in the three groups and open a PR. |
+| 3 | Approve Phases 4 to 10 one phase at a time, after each review. |
+| 4 | Decide who owns `feature/safeflow-account-access` and record its scope and an SF ID. |
+| 5 | Bump `aws-cdk-lib` when a release bundles brace-expansion 5.0.12 or later (SF-275b). |
+| 6 | Keep the public docs aligned with the master narrative and raise the remaining app-copy naming cleanup as a Mia task. |
+| 7 | Get the clinical safety case outline (SF-109) independently reviewed once a clinical safety lead is identified. |
+| 8 | Keep this file updated after every commit, document, or design decision. |
 
 ## Changelog
 
+- 11 October 2026: Control board header and next actions refreshed from verified facts (GitHub state of 1 October 2026, PC refs of 4 October 2026). SF-316 Phase 3 approved by Oli and its Codex brief written at `docs/project/dispatches/2026-10-11-phase3-voice-dictation.md`. SF-308 corrected: the branch `codex/safeflow-simulation-phases-3-10` does not exist. New local branch `feature/safeflow-account-access` noted, scope not recorded.
 - 1 October 2026: dependency advisory recheck (three new brace-expansion advisories inside the aws-cdk-lib bundle). No upstream fix exists yet, so there was no change to code or CI. Recorded under SF-275b.
 - 1 October 2026: `docs/ai/agent-foundation.md` merged into `docs/architecture/agent-foundation.md` and removed, so the agent foundation has one document. The trust tier columns, tool rules, WeakSet note and a related-work section moved across; the old note's other points were already covered.
 - 1 October 2026: PR [#104](https://github.com/simionolimpiu-spec/wardsafe/pull/104) (SF-305 follow-up, agent foundation steps D2 to G) and PR [#103](https://github.com/simionolimpiu-spec/wardsafe/pull/103) (SF-315 Connect simulation UI) merged into `codex/safeflow-prototype` with merge commits e2787e6 and a51680c. PR #104 was rebased onto 6f36ece first. Claude review found the same keyboard focus bug in both (WCAG 2.2 AA 2.4.3, focus fell to the top of the page when the control used was removed or disabled) and fixed it in each PR: c996c60 in the agent review panel and 4dfa675 in the Connect view. No change to the simulation-only boundary. Merged result verified: SafeFlow CI passed on a51680c; local run 149 files / 1,281 tests passed, build passed, production `npm audit` 0 vulnerabilities. Status header and Current status table above still show 5 July 2026 and were not refreshed in this entry.
