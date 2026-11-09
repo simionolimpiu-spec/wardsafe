@@ -5,7 +5,7 @@ import {
   CheckCircle2,
   ClipboardList,
   PlusCircle,
-  Sparkles,
+  Lightbulb,
   UserRound
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -130,7 +130,7 @@ export function CompetencyPassportView() {
           <p>Entries are for learning visibility and human review. They are not formal competency sign-off.</p>
         </div>
         <span className="passport-disclosure-pill">
-          <Sparkles aria-hidden="true" size={16} />
+          <Lightbulb aria-hidden="true" size={16} />
           Fictional data only
         </span>
       </div>
@@ -364,7 +364,7 @@ function PassportEntry({ entry }) {
 function ActivityGlyph() {
   return (
     <span className="passport-activity-icon" aria-hidden="true">
-      <Sparkles size={18} />
+      <Lightbulb size={18} />
     </span>
   );
 }

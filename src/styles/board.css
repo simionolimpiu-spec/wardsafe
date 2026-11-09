@@ -4,7 +4,7 @@
   padding: var(--sf-space-4);
 }
 
-.app-shell-redesign .ward-board {
+.sf-shell .ward-board {
   background: var(--sf-surface);
   border: var(--sf-border-width) solid var(--sf-border);
   border-radius: var(--sf-radius-md);
@@ -214,8 +214,8 @@
   gap: var(--sf-space-2);
 }
 
-.app-shell-redesign .patient-panel,
-.app-shell-redesign .operational-view {
+.sf-shell .patient-panel,
+.sf-shell .operational-view {
   background: var(--sf-surface);
   border: var(--sf-border-width) solid var(--sf-border);
   border-radius: var(--sf-radius-md);

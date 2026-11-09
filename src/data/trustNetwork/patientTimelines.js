@@ -1,7 +1,7 @@
 // Deterministic fictional observation timelines for trust-network patients.
 // SIMULATION-ONLY. Fictional values derived deterministically from the patient id.
 // No real patient data. Not clinically validated. Human review required. The trend
-// note is review-support framing only — it is not a clinical score or an instruction.
+// note is review-support framing only - it is not a clinical score or an instruction.
 
 const OBS_POINTS = 4; // sequential fictional observation sets per patient
 const CONSCIOUSNESS = ['Alert', 'Alert', 'Alert', 'New confusion (review)'];
@@ -55,7 +55,7 @@ export function buildPatientTimeline(patient) {
   const last = points[points.length - 1];
   const first = points[0];
   const trendNote = drift
-    ? `Fictional observations drift over the sequence (resp ${first.respRate}→${last.respRate}, SpO2 ${first.spo2}→${last.spo2}). Explainable review cue only — human review required.`
+    ? `Fictional observations drift over the sequence (resp ${first.respRate}→${last.respRate}, SpO2 ${first.spo2}→${last.spo2}). Explainable review cue only - human review required.`
     : 'Fictional observations stay stable across the sequence. Simulation-only; human review required.';
 
   return Object.freeze({

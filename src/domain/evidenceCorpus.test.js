@@ -27,14 +27,14 @@ const FORBIDDEN_LINKAGE_IDENTIFIERS = [
 
 const FORBIDDEN_RECORD_FIELDS = ['abstract', 'abstractText', 'fullText', 'body', 'summaryText'];
 
-describe('evidence corpus boundary — cue-level, never patient-level', () => {
+describe('evidence corpus boundary - cue-level, never patient-level', () => {
   it('never mentions a patient/scenario/flag identifier anywhere in the module source', () => {
     for (const identifier of FORBIDDEN_LINKAGE_IDENTIFIERS) {
       expect(MODULE_SOURCE).not.toContain(identifier);
     }
   });
 
-  it('exposes only cue-type-keyed lookups — no function accepts more than one identifier-shaped argument', () => {
+  it('exposes only cue-type-keyed lookups - no function accepts more than one identifier-shaped argument', () => {
     // getEvidenceForCue and isValidCueType each take exactly one string parameter.
     // A regression that widens either signature to accept a second (id-shaped)
     // argument would need to change this arity, which this test pins.
@@ -50,7 +50,7 @@ describe('evidence corpus boundary — cue-level, never patient-level', () => {
   });
 });
 
-describe('evidence corpus content — licence safety', () => {
+describe('evidence corpus content - licence safety', () => {
   it('carries at least one record and matches the pipeline output size', () => {
     expect(getCorpusSize()).toBeGreaterThan(0);
     expect(getCorpusSize()).toBe(evidenceCorpus.length);
@@ -66,7 +66,7 @@ describe('evidence corpus content — licence safety', () => {
 
   it('the published corpus file contains no occurrence of the literal string "abstract" in any value, aside from the "abstract-read" verification-level label', () => {
     // "abstract-read" is a legitimate, schema-defined verification-level value
-    // (alongside "metadata-only" and "full-text-read") — it records that a
+    // (alongside "metadata-only" and "full-text-read") - it records that a
     // human read the PubMed abstract in-conversation to write an original
     // safeflowSummary, never that abstract text was pasted into the corpus.
     // Stripping just that enum label before the scan keeps the real safety
@@ -91,7 +91,7 @@ describe('evidence corpus content — licence safety', () => {
   });
 });
 
-describe('evidence corpus content — curation integrity', () => {
+describe('evidence corpus content - curation integrity', () => {
   it('every cueTypes entry on every record is a recognised CUE_TYPES id', () => {
     const validIds = new Set(CUE_TYPES.map((c) => c.id));
     for (const record of evidenceCorpus) {

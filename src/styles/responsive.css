@@ -16,7 +16,7 @@
   }
 
   .workspace-nav {
-    border-bottom: 1px solid #d7e3f4;
+    border-bottom: 1px solid var(--sf-border);
     border-right: 0;
     grid-template-rows: auto auto;
     min-height: auto;
@@ -143,9 +143,9 @@
 }
 
 @media (max-width: 1400px) {
-  .redesign-topbar { grid-template-columns: minmax(220px, 1fr) minmax(0, auto); }
+  .sf-topbar { grid-template-columns: minmax(220px, 1fr) minmax(0, auto); }
   .topbar-context { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
-  .app-shell-redesign .topbar-actions { grid-column: 2; grid-row: 1; }
+  .sf-shell .topbar-actions { grid-column: 2; grid-row: 1; }
 }
 
 @media (max-width: 1180px) {
@@ -153,10 +153,10 @@
 }
 
 @media (max-width: 860px) {
-  .app-shell-redesign .workspace-content { padding: 16px; }
-  .redesign-topbar { display: flex; flex-wrap: wrap; padding: 14px 16px; }
+  .sf-shell .workspace-content { padding: 16px; }
+  .sf-topbar { display: flex; flex-wrap: wrap; padding: 14px 16px; }
   .shell-brand { flex: 1 1 220px; }
-  .app-shell-redesign .topbar-actions { flex: 1 1 100%; justify-content: flex-start; }
+  .sf-shell .topbar-actions { flex: 1 1 100%; justify-content: flex-start; }
   .topbar-context { flex: 1 1 100%; justify-content: flex-start; }
   .ward-context-selector { flex: 1 1 180px; }
   .date-stepper { flex: 0 1 auto; }
@@ -165,24 +165,24 @@
   .ward-board .board-header { gap: var(--sf-space-2); }
   .ward-board .patient-table th,
   .ward-board .patient-table td { padding: var(--sf-space-2); }
-  .app-shell-redesign .patient-panel { position: static; }
+  .sf-shell .patient-panel { position: static; }
 }
 
 @media (max-width: 520px) {
-  .app-shell-redesign .workspace-main {
+  .sf-shell .workspace-main {
     display: flex;
     flex-direction: column;
   }
 
-  .app-shell-redesign .safety-banner {
+  .sf-shell .safety-banner {
     order: -1;
   }
 
-  .app-shell-redesign .workspace-nav {
+  .sf-shell .workspace-nav {
     padding: var(--space-5);
   }
 
-  .app-shell-redesign .workspace-nav nav {
+  .sf-shell .workspace-nav nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-height: 188px;
@@ -194,14 +194,14 @@
     mask-image: none;
   }
 
-  .app-shell-redesign .workspace-nav nav button {
+  .sf-shell .workspace-nav nav button {
     min-height: 48px;
     min-width: 0;
     scroll-snap-align: none;
     white-space: normal;
   }
 
-  .redesign-topbar {
+  .sf-topbar {
     align-content: flex-start;
     align-items: flex-start;
     gap: var(--space-5);
@@ -210,7 +210,7 @@
 
   .shell-brand,
   .topbar-context,
-  .app-shell-redesign .topbar-actions {
+  .sf-shell .topbar-actions {
     flex: none;
     width: 100%;
   }
@@ -230,13 +230,13 @@
     justify-content: space-between;
   }
 
-  .app-shell-redesign .topbar-actions {
+  .sf-shell .topbar-actions {
     display: grid;
     gap: var(--space-3);
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .app-shell-redesign .topbar-actions > * {
+  .sf-shell .topbar-actions > * {
     min-height: 44px;
     min-width: 0;
     width: 100%;

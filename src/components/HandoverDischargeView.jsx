@@ -1,4 +1,4 @@
-import { ClipboardCheck, FileCheck2, Home, ListChecks, Sparkles } from 'lucide-react';
+import { ClipboardCheck, FileCheck2, Home, ListChecks, ClipboardList } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function HandoverDischargeView({ patient, riskSupport = null, onSaveHandover = () => {} }) {
@@ -63,7 +63,7 @@ export function HandoverDischargeView({ patient, riskSupport = null, onSaveHando
       {riskSupport && (
         <section className="risk-support-panel" aria-labelledby="risk-support-title">
           <div className="section-heading">
-            <Sparkles aria-hidden="true" size={18} />
+            <ClipboardList aria-hidden="true" size={18} />
             <div>
               <p className="eyebrow">Simulation-only review</p>
               <h3 id="risk-support-title">Simulation risk support</h3>

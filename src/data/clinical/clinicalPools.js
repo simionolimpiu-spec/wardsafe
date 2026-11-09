@@ -29,17 +29,17 @@ export const DIAGNOSIS_POOLS = Object.freeze({
   ],
   elderly: [
     'Hyperactive delirium', 'Recurrent falls', 'Frailty with deconditioning',
-    'Aspiration pneumonia', 'Urinary tract infection with delirium', 'Fragility fracture — for rehab',
+    'Aspiration pneumonia', 'Urinary tract infection with delirium', 'Fragility fracture - for rehab',
     'Dehydration and acute kidney injury', 'End-of-life care planning'
   ],
   generalSurgery: [
     'Acute appendicitis', 'Small bowel obstruction', 'Acute cholecystitis',
     'Diverticulitis', 'Post-op emergency laparotomy', 'Incarcerated inguinal hernia',
-    'Perforated peptic ulcer', 'Anastomotic leak — for review'
+    'Perforated peptic ulcer', 'Anastomotic leak - for review'
   ],
   orthopaedicsTrauma: [
     'Fractured neck of femur', 'Post-op hemiarthroplasty', 'Ankle fracture (post-ORIF)',
-    'Distal radius fracture', 'Periprosthetic fracture', 'Pubic rami fracture — for mobilisation'
+    'Distal radius fracture', 'Periprosthetic fracture', 'Pubic rami fracture - for mobilisation'
   ],
   orthopaedicsElective: [
     'Elective total hip replacement', 'Elective total knee replacement',
@@ -54,12 +54,12 @@ export const DIAGNOSIS_POOLS = Object.freeze({
     'Guillain-Barre syndrome', 'Traumatic brain injury', 'Bacterial meningitis'
   ],
   criticalCare: [
-    'Septic shock — multi-organ support', 'Post-operative ventilation', 'ARDS',
-    'Type 1 respiratory failure', 'Post-cardiac-arrest care', 'Diabetic ketoacidosis — level 2'
+    'Septic shock - multi-organ support', 'Post-operative ventilation', 'ARDS',
+    'Type 1 respiratory failure', 'Post-cardiac-arrest care', 'Diabetic ketoacidosis - level 2'
   ],
   renal: [
     'Acute kidney injury on CKD', 'Fluid overload for dialysis', 'Hyperkalaemia',
-    'Peritoneal dialysis peritonitis', 'CKD stage 5 — access planning'
+    'Peritoneal dialysis peritonitis', 'CKD stage 5 - access planning'
   ],
   diabetesEndocrine: [
     'Diabetic ketoacidosis', 'Hyperosmolar hyperglycaemic state', 'Severe hypoglycaemia',
@@ -67,11 +67,11 @@ export const DIAGNOSIS_POOLS = Object.freeze({
   ],
   maternity: [
     'Postnatal recovery', 'Pre-eclampsia monitoring', 'Postpartum haemorrhage (stabilised)',
-    'Antenatal admission — reduced fetal movements', 'Post-caesarean recovery'
+    'Antenatal admission - reduced fetal movements', 'Post-caesarean recovery'
   ],
   neonatal: [
-    'Prematurity — respiratory support', 'Neonatal jaundice', 'Suspected early-onset sepsis',
-    'Low birth weight — feeding support', 'Transient tachypnoea of the newborn'
+    'Prematurity - respiratory support', 'Neonatal jaundice', 'Suspected early-onset sepsis',
+    'Low birth weight - feeding support', 'Transient tachypnoea of the newborn'
   ],
   paediatrics: [
     'Bronchiolitis', 'Acute asthma', 'Gastroenteritis with dehydration',

@@ -1,8 +1,8 @@
-// SafeFlow England trust network — source of truth.
+// SafeFlow England trust network - source of truth.
 //
 // SIMULATION-ONLY. Real trust/ward NAMES (see trusts.js) with entirely FICTIONAL
 // patients and journeys. No real patient data. Not for live clinical deployment.
-// Human review required. Models — for review-support, learning and TEACHING only —
+// Human review required. Models - for review-support, learning and TEACHING only -
 // a PORTABLE patient journey that travels with a fictional patient across England
 // trusts (relocation, temporary visit, found away from home, specialist transfer),
 // how the health plan continues, and how a LEARNING COPY of the journey returns to
@@ -60,10 +60,10 @@ function buildPatients() {
 }
 
 // Journeys. `journeyType`:
-//   inter-trust-handover  — local handover / repatriation between two trusts.
-//   specialist-transfer   — transfer to a tertiary centre and back.
-//   relocation            — patient relocates region; care + history continue at the new trust.
-//   temporary-visitor     — taken ill / found away from home; treated, then returns home.
+//   inter-trust-handover  - local handover / repatriation between two trusts.
+//   specialist-transfer   - transfer to a tertiary centre and back.
+//   relocation            - patient relocates region; care + history continue at the new trust.
+//   temporary-visitor     - taken ill / found away from home; treated, then returns home.
 // Each journey carries a `learningRecord` returned to the originating (home) trust for teaching.
 const JOURNEY_DEFINITIONS = [
   {
@@ -97,7 +97,7 @@ const JOURNEY_DEFINITIONS = [
   },
   {
     id: 'journey-relocation-continues', journeyType: 'relocation', homeTrustId: 'jpuh',
-    title: 'Patient relocates to Cambridgeshire — care and history continue at Addenbrooke’s',
+    title: 'Patient relocates to Cambridgeshire - care and history continue at Addenbrooke’s',
     summary: "Fictional patient whose home trust is James Paget relocates; a later episode is managed at Addenbrooke's with the journey/history available, and a learning copy returns to James Paget.",
     outcome: 'continues-at-new-trust',
     segments: [
@@ -109,7 +109,7 @@ const JOURNEY_DEFINITIONS = [
   },
   {
     id: 'journey-temporary-visitor-returns', journeyType: 'temporary-visitor', homeTrustId: 'nnuh',
-    title: 'Taken ill while away from home — treated at West Suffolk, returns to Norfolk & Norwich',
+    title: 'Taken ill while away from home - treated at West Suffolk, returns to Norfolk & Norwich',
     summary: 'Fictional patient whose home trust is Norfolk & Norwich is taken ill while temporarily in West Suffolk, is treated there, then returns home; both trusts hold the record and the originating trust receives a learning copy.',
     outcome: 'returned-home-with-learning-copy',
     segments: [

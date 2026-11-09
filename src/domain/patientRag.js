@@ -25,10 +25,10 @@ export const RAG_COLOURS = Object.freeze({
 });
 
 export const RAG_LABELS = Object.freeze({
-  red: 'Red — needs urgent attention',
-  amber: 'Amber — review needed',
-  green: 'Green — on track',
-  unknown: 'Unknown — not assessed'
+  red: 'Red - needs urgent attention',
+  amber: 'Amber - review needed',
+  green: 'Green - on track',
+  unknown: 'Unknown - not assessed'
 });
 
 export function ragWord(rag) {

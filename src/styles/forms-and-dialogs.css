@@ -12,8 +12,8 @@
   transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
-.app-shell-redesign .operational-view,
-.app-shell-redesign .simulation-dialog {
+.sf-shell .operational-view,
+.sf-shell .simulation-dialog {
   border-color: var(--sf-grey-200);
   border-radius: var(--sf-radius-lg);
   box-shadow: var(--sf-shadow-1);
@@ -22,8 +22,6 @@
 .secondary-action:hover {
   background: #fff;
   border-color: rgba(var(--sf-blue-rgb), 0.28);
-  box-shadow: 0 8px 20px rgba(var(--sf-blue-rgb), 0.08);
-  transform: translateY(-1px);
 }
 
 .secondary-action:active {
@@ -39,7 +37,7 @@
 
 textarea {
   background: #fff;
-  border: 1px solid #b5cce8;
+  border: 1px solid var(--sf-neutral-border);
   border-radius: var(--radius-md);
   min-height: 180px;
   padding: 12px 14px;
@@ -58,10 +56,9 @@ textarea:hover {
 }
 
 .primary-action {
-  background: linear-gradient(180deg, var(--color-brand) 0%, var(--color-brand-dark) 100%);
+  background: var(--sf-surface);
   border: 1px solid var(--color-brand);
   border-radius: var(--radius-md);
-  box-shadow: 0 12px 22px rgba(var(--sf-blue-rgb), 0.18);
   color: #fff;
   cursor: pointer;
   font-weight: var(--font-weight-bold);
@@ -71,13 +68,7 @@ textarea:hover {
   transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
-.primary-action:hover {
-  box-shadow: 0 14px 26px rgba(var(--sf-blue-rgb), 0.22);
-  transform: translateY(-1px);
-}
-
 .primary-action:active {
-  box-shadow: 0 8px 18px rgba(var(--sf-blue-rgb), 0.16);
   transform: translateY(0);
 }
 
@@ -92,14 +83,14 @@ textarea:hover {
 }
 
 .backend-note {
-  color: #53657a;
+  color: var(--sf-text-muted);
   font-size: var(--text-sm);
   margin: 8px 0 0;
 }
 
 .operational-view {
   background: #fff;
-  border: 1px solid #d7e3f4;
+  border: 1px solid var(--sf-border);
   border-radius: var(--radius-lg);
   min-width: 0;
   padding: 18px;
@@ -119,13 +110,13 @@ textarea:hover {
 }
 
 .view-heading {
-  border-bottom: 1px solid #e5edf6;
+  border-bottom: 1px solid var(--sf-border-subtle);
   margin-bottom: 16px;
   padding-bottom: 14px;
 }
 
 .view-heading h2 {
-  color: #08285b;
+  color: var(--sf-text-primary);
   font-size: var(--text-2xl);
   margin: 3px 0 0;
 }
@@ -136,7 +127,7 @@ textarea:hover {
 }
 
 .record-list article {
-  border-bottom: 1px solid #e5edf6;
+  border-bottom: 1px solid var(--sf-border-subtle);
   min-height: 60px;
   padding: 10px 4px;
 }
@@ -148,16 +139,15 @@ textarea:hover {
 
 .record-list article p,
 .danger-zone p {
-  color: #53657a;
+  color: var(--sf-text-muted);
   margin: 3px 0 0;
 }
 
 .inline-form,
 .settings-form,
 .panel-task-form {
-  background: linear-gradient(180deg, #f8fbff 0%, #f4f8fd 100%);
+  background: var(--sf-surface);
   border: 1px solid rgba(var(--sf-blue-rgb), 0.12);
-  border-left: 4px solid var(--color-brand);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   display: grid;
@@ -188,9 +178,9 @@ textarea:hover {
 .toolbar input,
 .toolbar select {
   background: #fff;
-  border: 1px solid #b5cce8;
+  border: 1px solid var(--sf-neutral-border);
   border-radius: var(--radius-md);
-  color: #102033;
+  color: var(--sf-text-primary);
   font: inherit;
   min-height: 42px;
   min-width: 0;
@@ -225,9 +215,9 @@ textarea:hover {
 .segmented-control button,
 .patient-switcher button {
   background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #b5cce8;
+  border: 1px solid var(--sf-neutral-border);
   border-radius: var(--radius-md);
-  color: #17436f;
+  color: var(--sf-text-primary);
   cursor: pointer;
   min-height: 40px;
   padding: 8px 12px;
@@ -237,7 +227,6 @@ textarea:hover {
 .segmented-control button:hover,
 .patient-switcher button:hover {
   border-color: rgba(var(--sf-blue-rgb), 0.28);
-  transform: translateY(-1px);
 }
 
 .segmented-control button.active,
@@ -254,7 +243,6 @@ textarea:hover {
 .report-summary {
   align-items: center;
   background: var(--color-info-bg);
-  border-left: 4px solid var(--color-brand);
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -263,12 +251,12 @@ textarea:hover {
 }
 
 .report-summary span {
-  color: #53657a;
+  color: var(--sf-text-muted);
 }
 
 .blocker-list {
   background: #fff;
-  border: 1px solid #d7e3f4;
+  border: 1px solid var(--sf-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   display: grid;
@@ -311,7 +299,7 @@ textarea:hover {
 .icon-action {
   align-items: center;
   background: #fff;
-  border: 1px solid #b5cce8;
+  border: 1px solid var(--sf-neutral-border);
   border-radius: var(--radius-md);
   color: var(--color-brand);
   cursor: pointer;
@@ -325,15 +313,13 @@ textarea:hover {
 .icon-action:hover {
   background: rgba(var(--sf-blue-rgb), 0.06);
   border-color: rgba(var(--sf-blue-rgb), 0.28);
-  box-shadow: 0 8px 20px rgba(var(--sf-blue-rgb), 0.08);
-  transform: translateY(-1px);
 }
 
 .empty-state {
   background: rgba(255, 255, 255, 0.74);
-  border: 1px dashed #aebdce;
+  border: 1px dashed var(--sf-neutral-border);
   border-radius: var(--radius-lg);
-  color: #53657a;
+  color: var(--sf-text-muted);
   margin: 12px 0;
   padding: 20px;
   text-align: center;
@@ -373,10 +359,9 @@ textarea:hover {
 }
 
 .source-summary dt {
-  color: #53657a;
+  color: var(--sf-text-muted);
   font-size: 0.78rem;
   font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
 }
 
 .source-summary dd {
@@ -418,7 +403,7 @@ textarea:hover {
 }
 
 .simulation-dialog h2 {
-  color: #08285b;
+  color: var(--sf-text-primary);
   margin-top: 0;
   outline: none;
 }

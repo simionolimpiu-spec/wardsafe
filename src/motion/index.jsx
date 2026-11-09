@@ -6,7 +6,7 @@
  *   2. prefers-reduced-motion is handled once, here, not per component,
  *   3. no safety-bearing value can be animated into existence.
  *
- * Import from './motion' — do not import framer-motion directly in views.
+ * Import from './motion' - do not import framer-motion directly in views.
  */
 import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'framer-motion';
 
@@ -34,7 +34,7 @@ export const STAGGER = 0.04;
 
 /* Wrap the app once. Sets the shared transition and, when the user asks for
  * reduced motion, tells framer-motion to drop transform/layout animation and
- * keep only opacity — the documented "reducedMotion: user" behaviour. */
+ * keep only opacity - the documented "reducedMotion: user" behaviour. */
 export function MotionProvider({ children }) {
   return (
     <MotionConfig
@@ -50,14 +50,14 @@ export function MotionProvider({ children }) {
  * Variants
  * ------------------------------------------------------------------------- */
 
-/* Content arriving in place — cards, panels, popovers. */
+/* Content arriving in place - cards, panels, popovers. */
 export const rise = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0, transition: { duration: DURATION.base, ease: EASE.decelerate } },
   exit: { opacity: 0, y: 4, transition: { duration: DURATION.exitBase, ease: EASE.accelerate } }
 };
 
-/* Replacing content inside the same container — view switches. Crossfade only,
+/* Replacing content inside the same container - view switches. Crossfade only,
  * no directional slide: nurses switch views laterally and a directional wipe
  * implies a hierarchy that is not there. */
 export const crossfade = {
@@ -103,7 +103,7 @@ export const press = {
  * The value is rendered immediately and is never animated. Only the
  * surrounding surface is allowed a fade, and only to draw the eye to a change
  * the nurse has already been told about in text. There is no count-up, no
- * number roll, and no delayed reveal — a number that is mid-animation is a
+ * number roll, and no delayed reveal - a number that is mid-animation is a
  * number that can be misread, and a screen reader would announce a value the
  * eye cannot yet confirm.
  */
@@ -115,7 +115,7 @@ export function SafetyValue({ children, className, changed = false }) {
   return (
     <motion.span
       className={className}
-      /* Opacity floor of 0.55 — the value stays legible throughout. */
+      /* Opacity floor of 0.55 - the value stays legible throughout. */
       initial={{ opacity: 0.55 }}
       animate={{ opacity: 1 }}
       transition={{ duration: DURATION.fast, ease: EASE.standard }}

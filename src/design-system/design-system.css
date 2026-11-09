@@ -467,10 +467,8 @@
   display: block;
   font-size: var(--sf-font-size-xs);
   font-weight: var(--sf-font-weight-semibold);
-  letter-spacing: 0.04em;
   line-height: var(--sf-line-height-xs);
   margin: 0 0 2px;
-  text-transform: uppercase;
 }
 
 .sf-review-cue__list {

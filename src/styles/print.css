@@ -26,7 +26,7 @@
   }
 
   .workspace-nav,
-  .redesign-topbar,
+  .sf-topbar,
   .safety-banner,
   .workspace-content > :not(.review-report-overlay) {
     display: none !important;
@@ -49,7 +49,7 @@
     display: none !important;
   }
 
-  .app-shell-redesign .review-report-drawer {
+  .sf-shell .review-report-drawer {
     background: #fff;
     border: 0;
     box-shadow: none;

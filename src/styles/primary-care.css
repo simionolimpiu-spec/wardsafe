@@ -65,7 +65,7 @@
   margin-top: 3px;
 }
 
-.app-shell-redesign .topbar-context {
+.sf-shell .topbar-context {
   grid-template-columns: minmax(150px, 0.34fr) minmax(480px, 1fr) auto;
 }
 
@@ -78,8 +78,6 @@
   color: var(--sf-grey-500);
   font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .care-pathway-control select {
@@ -120,9 +118,7 @@
   color: var(--sf-blue);
   font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
   margin: 0 0 5px;
-  text-transform: uppercase;
 }
 
 .traffic-legend {
@@ -213,8 +209,6 @@
   background: var(--sf-grey-50);
   color: var(--sf-grey-500);
   font-size: 0.72rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 .primary-care-table tr:last-child td {
@@ -273,7 +267,6 @@
 
 .primary-care-boundary {
   background: var(--sf-blue-soft);
-  border-left: 4px solid var(--sf-blue);
   color: var(--sf-blue-ink);
   font-size: var(--text-sm);
   line-height: 1.45;
@@ -302,7 +295,6 @@
   color: var(--sf-grey-500);
   font-size: var(--text-xs);
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 .primary-care-record-summary dd,
@@ -447,7 +439,6 @@
 }
 
 .primary-care-audit-list li {
-  border-left: 3px solid var(--sf-blue);
   display: grid;
   gap: 3px;
   padding: 5px 0 5px 13px;
@@ -457,25 +448,6 @@
 .primary-care-audit-list span {
   color: var(--sf-grey-500);
   font-size: var(--text-sm);
-}
-
-html[data-visual-direction='soft-ui'] .pathway-choice label,
-html[data-visual-direction='soft-ui'] .traffic-legend,
-html[data-visual-direction='soft-ui'] .primary-care-report-grid article {
-  background: linear-gradient(145deg, #ffffff, #e8edee);
-  border-color: rgba(255, 255, 255, 0.88);
-  box-shadow: var(--soft-raised-small);
-}
-
-html[data-visual-direction='soft-ui'] .pathway-choice label.is-selected {
-  border-color: #005eb8;
-  box-shadow: var(--soft-inset);
-}
-
-html[data-visual-direction='soft-ui'] .care-pathway-control select,
-html[data-visual-direction='soft-ui'] .primary-care-note textarea {
-  background: var(--soft-canvas);
-  box-shadow: var(--soft-inset);
 }
 
 @media (max-width: 1180px) {
@@ -489,7 +461,7 @@ html[data-visual-direction='soft-ui'] .primary-care-note textarea {
 }
 
 @media (max-width: 900px) {
-  .app-shell-redesign .topbar-context {
+  .sf-shell .topbar-context {
     grid-template-columns: 1fr;
   }
 
