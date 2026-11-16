@@ -127,6 +127,7 @@ test('SafeFlow prototype journey stays within simulation safety boundaries', asy
     [/^Escalations/, 'Escalations'],
     ['Hospital insights', 'Hospital insights'],
     ['Communication', 'Communication'],
+    ['Voice dictation', 'Voice dictation'],
     ['Handover', 'Handover and Discharge Readiness'],
     ['Discharges', 'Discharges'],
     ['Reports', 'Reports'],

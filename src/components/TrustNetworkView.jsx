@@ -63,11 +63,11 @@ const WARD_OBSERVATION_LABELS = Object.freeze({
 });
 
 function formatAverage(value) {
-  return typeof value === 'number' ? value.toFixed(1) : '—';
+  return typeof value === 'number' ? value.toFixed(1) : '-';
 }
 
 function formatDelta(value) {
-  if (typeof value !== 'number') return '—';
+  if (typeof value !== 'number') return '-';
   if (value === 0) return '0.0';
   return `${value > 0 ? '+' : ''}${value.toFixed(1)}`;
 }
@@ -200,8 +200,8 @@ export function TrustNetworkView({ defaultTheme = 'standard' } = {}) {
 
       <h3>Portable patient journeys across trusts</h3>
       <p className="trust-network-note">
-        Fictional journeys showing how a patient's history travels with them across trusts — on relocation, a
-        temporary visit, being found away from home, or a specialist transfer — how the health plan continues,
+        Fictional journeys showing how a patient's history travels with them across trusts - on relocation, a
+        temporary visit, being found away from home, or a specialist transfer - how the health plan continues,
         and how a <strong>learning copy returns to the originating trust for teaching</strong>. Simulation-only.
         Human review required. Not a live cross-trust record.
       </p>

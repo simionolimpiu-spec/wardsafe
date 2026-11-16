@@ -1,5 +1,6 @@
 import {
   MessagesSquare,
+  Mic,
   AlertTriangle,
   Building2,
   BarChart3,
@@ -11,7 +12,7 @@ import {
   ListChecks,
   Award,
   Settings,
-  Sparkles,
+  Route,
   Stethoscope,
   UserRound,
   Waypoints,
@@ -36,6 +37,7 @@ const wardNavGroups = [
     items: [
       { id: 'hospital-insights', label: 'Hospital insights', icon: BarChart3 },
       { id: 'communication', label: 'Communication', icon: MessagesSquare },
+      { id: 'voice', label: 'Voice dictation', icon: Mic },
       { id: 'handover', label: 'Handover', icon: Waypoints },
       { id: 'discharges', label: 'Discharges', icon: ClipboardPlus },
       { id: 'reports', label: 'Reports', icon: FileText }
@@ -47,7 +49,7 @@ const wardNavGroups = [
       { id: 'scenarios', label: 'Scenarios', icon: ClipboardList },
       { id: 'competency-passport', label: 'Competency Passport', icon: Award },
       { id: 'learning-hub', label: 'Learning Hub', icon: BookOpenCheck },
-      { id: 'twin', label: 'Patient Journey Twin', icon: Sparkles },
+      { id: 'twin', label: 'Patient Journey Twin', icon: Route },
       { id: 'trust-network', label: 'Trust Network', icon: Waypoints },
       { id: 'audit', label: 'Audit Trail', icon: ListChecks },
       { id: 'settings', label: 'Settings', icon: Settings }

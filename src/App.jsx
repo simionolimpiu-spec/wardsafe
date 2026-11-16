@@ -31,6 +31,7 @@ import { DaySurgeryBoard } from './components/DaySurgeryBoard.jsx';
 import { HospitalsView } from './components/hospitals/HospitalsView.jsx';
 import { ObservationsView } from './components/ObservationsView.jsx';
 import { ConnectView } from './components/connect/ConnectView.jsx';
+import { VoiceView } from './components/voice/VoiceView.jsx';
 import { TasksView } from './components/TasksView.jsx';
 import { EscalationsView } from './components/EscalationsView.jsx';
 import { DischargesView } from './components/DischargesView.jsx';
@@ -812,6 +813,7 @@ export default function App({ onPathwayChange, onSignOut, initialView } = {}) {
             )}
             {state.selectedView === 'trust-network' && <TrustNetworkView defaultTheme={isPresentationMode ? 'night' : 'standard'} />}
             {state.selectedView === 'communication' && <ConnectView key={state.selectedScenarioId + ':' + (state.selectedHospitalId ?? '') + ':' + state.currentWardName} patients={state.patients} tasks={state.tasks} selectedPatientId={selectedPatient.id} />}
+            {state.selectedView === 'voice' && <VoiceView />}
             {state.selectedView === 'tasks' && (
               <TasksView
                 onAddTask={addTask}

@@ -15,10 +15,14 @@
 @import './insights-night.css';
 @import './print.css';
 @import './responsive.css';
-@import './codex-way.css';
+@import './shell-layout.css';
 @import './primary-care.css';
 @import './clinical-workspace.css';
 @import './day-surgery.css';
 @import './mobile-shell.css';
 
 @import './connect.css';
+@import './voice.css';
+
+/* SF-326: house style. Loaded last so it sets the shared visual grammar. */
+@import './house-style.css';

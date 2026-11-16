@@ -354,11 +354,11 @@ describe('deterioration learning scenario copy', () => {
     expect(biasAwarenessCues.title).toBe('Notice your thinking');
     expect(Array.isArray(biasAwarenessCues.points)).toBe(true);
     expect(biasAwarenessCues.points).toEqual([
-      'Anchoring — am I fixed on the first read of this fictional scenario?',
-      'Premature closure — have I stopped looking too soon?',
-      'Confirmation bias — am I only noticing details that fit my first impression?',
-      'Availability bias — am I over-weighting a recent or memorable case?',
-      'Framing effect — is the way this scenario is presented shaping what I notice?'
+      'Anchoring - am I fixed on the first read of this fictional scenario?',
+      'Premature closure - have I stopped looking too soon?',
+      'Confirmation bias - am I only noticing details that fit my first impression?',
+      'Availability bias - am I over-weighting a recent or memorable case?',
+      'Framing effect - is the way this scenario is presented shaping what I notice?'
     ]);
     expect(biasAwarenessCues.evidence).toMatch(/Croskerry/i);
     expect(biasAwarenessCues.evidence).toMatch(/evidence-horizon-scan\.md/i);

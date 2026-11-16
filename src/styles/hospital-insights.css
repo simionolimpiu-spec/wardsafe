@@ -3,8 +3,8 @@
   gap: var(--space-6);
 }
 
-.app-shell-redesign .hospital-insights-view,
-.app-shell-redesign .hospital-insights-chart-card {
+.sf-shell .hospital-insights-view,
+.sf-shell .hospital-insights-chart-card {
   border-color: var(--sf-grey-200);
   border-radius: var(--sf-radius-lg);
   box-shadow: var(--sf-shadow-1);
@@ -16,7 +16,7 @@
 
 .hospital-insights-copy,
 .hospital-insights-entity {
-  color: #53657a;
+  color: var(--sf-text-muted);
   line-height: 1.5;
   margin: 0;
 }
@@ -32,8 +32,8 @@
 }
 
 .hospital-insights-chart-card {
-  background: linear-gradient(180deg, #f8fbfe 0%, #ffffff 58%);
-  border: 1px solid #dbe7f5;
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   display: grid;
@@ -79,7 +79,7 @@
 }
 
 .hospital-insights-chart-fallback {
-  color: #53657a;
+  color: var(--sf-text-muted);
   font-size: var(--text-sm);
   line-height: 1.5;
   margin: 0;

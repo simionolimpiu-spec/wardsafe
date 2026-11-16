@@ -1,0 +1,147 @@
+import { StrictMode } from 'react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { expect, it } from 'vitest';
+import { SPEECH_SAFE_FAILURE_MESSAGE } from '../../voice/index.js';
+import { VoiceView } from './VoiceView.jsx';
+
+const button = (name) => screen.getByRole('button', { name });
+const approve = () => button('Approve and save review (simulation)');
+function setup() { render(<StrictMode><button type="button">Outside view</button><VoiceView /></StrictMode>); return userEvent.setup(); }
+async function ready(user, fixture = 'clear') {
+  await user.selectOptions(screen.getByLabelText('Dictation script'), fixture);
+  await user.click(button('Start listening (simulation)'));
+  await user.click(button('Stop listening'));
+}
+it('states the boundaries and runs the clear flow by keyboard with focus at every transition', async () => {
+  const user = setup();
+  expect(screen.getByText('Simulation only. No microphone is used and no audio is recorded, stored or sent. Dictation uses fixed fictional scripts. Human review required.')).toBeInTheDocument();
+  expect(screen.getByText(/Ambient capture is not available/)).toBeInTheDocument();
+  expect(screen.getAllByRole('status')).toHaveLength(1);
+  expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite');
+  screen.getByLabelText('Dictation script').focus();
+  await user.tab();
+  expect(button('Start listening (simulation)')).toHaveFocus();
+  await user.keyboard('{Enter}');
+  expect(button('Stop listening')).toHaveFocus();
+  expect(screen.getByRole('status')).toHaveTextContent('Listening started');
+  expect(screen.getByText('Simulated listening. No microphone is in use.')).toBeInTheDocument();
+  await user.keyboard('{Enter}');
+  expect(screen.getByRole('heading', { name: 'Transcript review' })).toHaveFocus();
+  expect(screen.getByRole('status')).toHaveTextContent('Transcript ready for review');
+  expect(screen.getByText('Confidence 96 percent. Reviewable.')).toBeInTheDocument();
+  expect(within(screen.getByRole('list', { name: 'State trail' })).getAllByRole('listitem').map((item) => item.textContent)).toEqual(['idle', 'listening', 'processing', 'transcript', 'draft-ready', 'review-required']);
+  await user.tab();
+  expect(screen.getByLabelText('Your edit')).toHaveFocus();
+  await user.keyboard('Fictional separately edited text.');
+  expect(screen.getByText('Fictional handover draft for review.')).toBeInTheDocument();
+  await user.tab();
+  expect(approve()).toHaveFocus();
+  await user.keyboard('{Enter}');
+  expect(button('Start new dictation')).toHaveFocus();
+  expect(screen.getByRole('region', { name: 'Saved review metadata' })).toHaveTextContent(/Saved\. Reviewed by Alex Morgan at .*0 confirmed numbers\. Transcript text is not stored\./);
+  expect(screen.queryByText('Fictional handover draft for review.')).not.toBeInTheDocument();
+  expect(screen.queryByLabelText('Your edit')).not.toBeInTheDocument();
+  await user.keyboard('{Enter}');
+  expect(button('Start listening (simulation)')).toHaveFocus();
+});
+it('shows exact uncertain-input failure, disables approval, and repeats safely', async () => {
+  const user = setup(); await ready(user, 'uncertain');
+  expect(screen.getByRole('status')).toHaveTextContent(SPEECH_SAFE_FAILURE_MESSAGE);
+  expect(screen.getByText('Confidence 40 percent. Not reliable enough to approve.')).toBeInTheDocument();
+  expect(approve()).toBeDisabled();
+  await user.type(screen.getByLabelText('Your edit'), 'Fictional manual edit.');
+  expect(approve()).toBeDisabled();
+  await user.click(button('Repeat dictation'));
+  expect(button('Stop listening')).toHaveFocus();
+  expect(screen.queryByText('Unclear fictional input.')).not.toBeInTheDocument();
+  await user.click(button('Cancel'));
+  expect(button('Start new dictation')).toHaveFocus();
+  expect(screen.getByRole('status')).toHaveTextContent('Dictation cancelled. Nothing saved.');
+});
+it('confirms numeric content by keyboard, shows detection details, and hands focus to approval', async () => {
+  const user = setup(); await ready(user, 'numeric');
+  expect(approve()).toBeDisabled();
+  expect(screen.getByText('Transcript review does not confirm numbers')).toBeInTheDocument();
+  expect(screen.getByText('Teen/ty confusables: thirteen')).toBeInTheDocument();
+  await user.type(screen.getByLabelText('Your edit'), 'Fictional thirteen and thirty');
+  expect(screen.getByText('Teen/ty confusables: thirteen, thirty')).toBeInTheDocument();
+  expect(screen.getByText('Missing units: detected')).toBeInTheDocument();
+  await user.tab();
+  expect(screen.getByLabelText('Value label')).toHaveFocus();
+  await user.keyboard('Fictional value{Tab}13{Tab}/min{Tab}thirteen{Tab}');
+  expect(button('Confirm value')).toHaveFocus();
+  await user.keyboard('{Enter}');
+  expect(approve()).toHaveFocus();
+  expect(screen.getByRole('status')).toHaveTextContent('Value confirmed separately');
+  await user.keyboard('{Enter}');
+  expect(button('Start new dictation')).toHaveFocus();
+  expect(screen.getByRole('region', { name: 'Saved review metadata' })).toHaveTextContent('1 confirmed numbers. Transcript text is not stored.');
+  expect(screen.queryByLabelText('Source span')).not.toBeInTheDocument();
+});
+it('keeps an unconfirmed value editable after refusal and returns to a field if approval remains unavailable', async () => {
+  const user = setup(); await ready(user, 'uncertain');
+  await user.type(screen.getByLabelText('Your edit'), 'Fictional thirteen');
+  await user.type(screen.getByLabelText('Value label'), 'Fictional value');
+  await user.type(screen.getByLabelText('Numeric value'), '13');
+  await user.type(screen.getByLabelText('Source span'), 'thirteen');
+  await user.click(button('Confirm value'));
+  expect(screen.getByRole('status')).toHaveTextContent('Action refused: unit required');
+  expect(button('Confirm value')).toHaveFocus();
+  await user.type(screen.getByLabelText('Unit'), '/min');
+  await user.click(button('Confirm value'));
+  expect(screen.getByLabelText('Value label')).toHaveFocus();
+  expect(approve()).toBeDisabled();
+});
+it.each(['idle', 'listening', 'review-required'])('returns focus after cancellation from %s', async (status) => {
+  const user = setup();
+  if (status !== 'idle') await user.click(button('Start listening (simulation)'));
+  if (status === 'review-required') await user.click(button('Stop listening'));
+  await user.click(button('Cancel'));
+  expect(button('Start new dictation')).toHaveFocus();
+  expect(screen.getByRole('status')).toHaveTextContent('Dictation cancelled. Nothing saved.');
+});
+it('refuses device output via the provider, moves focus to mode, and reports disabled output', async () => {
+  const user = setup();
+  await user.selectOptions(screen.getByLabelText('Output mode'), 'device');
+  await user.selectOptions(screen.getByLabelText('Output content'), 'patient');
+  await user.click(button('Preview speech output'));
+  expect(screen.getByRole('status')).toHaveTextContent('Action refused: Patient information cannot use device output');
+  expect(screen.getByLabelText('Output mode')).toHaveFocus();
+  await user.selectOptions(screen.getByLabelText('Output mode'), 'disabled');
+  await user.click(button('Preview speech output'));
+  expect(screen.getByRole('status')).toHaveTextContent('Speech output is disabled');
+  expect(screen.getByText('No audio is produced. Mode: disabled. Simulation only.')).toBeInTheDocument();
+});
+it('does not take focus from outside the view when a control unmounts or preview is refused', async () => {
+  const user = setup();
+  const outside = button('Outside view');
+  outside.focus();
+  await act(async () => button('Start listening (simulation)').click());
+  expect(outside).toHaveFocus();
+  await act(async () => button('Stop listening').click());
+  expect(outside).toHaveFocus();
+  await act(async () => approve().click());
+  expect(outside).toHaveFocus();
+  await user.selectOptions(screen.getByLabelText('Output mode'), 'device');
+  await user.selectOptions(screen.getByLabelText('Output content'), 'patient');
+  outside.focus();
+  await act(async () => button('Preview speech output').click());
+  expect(outside).toHaveFocus();
+  expect(screen.getByRole('status')).toHaveTextContent('Action refused:');
+});
+it('announces an empty edit refusal and renders markup-shaped edits as text only', async () => {
+  const user = setup(); await ready(user);
+  await user.type(screen.getByLabelText('Your edit'), '<img src=x>');
+  fireEvent.change(screen.getByLabelText('Your edit'), { target: { value: '' } });
+  expect(screen.getByRole('status')).toHaveTextContent('Action refused: Edit must be non-empty text');
+  expect(screen.getByLabelText('Your edit')).toHaveValue('<img src=x>');
+  expect(screen.queryByRole('img')).not.toBeInTheDocument();
+});
+it('starts fresh after unmount/reload without retaining activity or transcript', async () => {
+  const user = userEvent.setup(); const first = render(<VoiceView />);
+  await ready(user); first.unmount(); render(<VoiceView />);
+  expect(screen.getByText('No activity yet.')).toBeInTheDocument();
+  expect(button('Start listening (simulation)')).toBeInTheDocument();
+  expect(screen.queryByText('Fictional handover draft for review.')).not.toBeInTheDocument();
+});

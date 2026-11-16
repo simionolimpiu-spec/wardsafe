@@ -1,4 +1,4 @@
-import { BookOpenCheck, CheckCircle2, GraduationCap, Layers3, Medal, Sparkles } from 'lucide-react';
+import { BookOpenCheck, CheckCircle2, GraduationCap, Layers3, Medal, Lightbulb } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { scoreMicroLearningModule, summariseMicroLearningModule } from './domain/microLearning.js';
 import { microLearningFixtures } from './data/microLearningFixtures.js';
@@ -78,7 +78,7 @@ export function LearningHubView() {
           <p>Questions are fictional and are meant for practice, discussion, and human review.</p>
         </div>
         <span className="learning-hub-disclosure-pill">
-          <Sparkles aria-hidden="true" size={16} />
+          <Lightbulb aria-hidden="true" size={16} />
           Fictional data only
         </span>
       </div>

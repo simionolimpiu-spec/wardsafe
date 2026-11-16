@@ -60,7 +60,7 @@ export function WardDetail({ ward, hospital, onBack, onOpenWorkflow }) {
         </div>
         <div className="ward-detail-metrics">
           <div><strong>{ward.patientCount}</strong><span>{['inpatient', 'assessment'].includes(ward.profile?.mode) ? 'current fictional patients' : 'fictional session attendances'}</span></div>
-          <div><strong>{ward.bedCount ?? '—'}</strong><span>{ward.profile?.capacityLabel}</span></div>
+          <div><strong>{ward.bedCount ?? '-'}</strong><span>{ward.profile?.capacityLabel}</span></div>
           <div><strong>{ward.profile?.observationScale === 'NEWS2' ? ward.ragSummary.highNews2 : 'Not applicable'}</strong><span>{ward.profile?.observationScale === 'NEWS2' ? 'NEWS2 ≥ 5' : 'Adult NEWS2'}</span></div>
         </div>
       </header>
@@ -118,7 +118,7 @@ export function WardDetail({ ward, hospital, onBack, onOpenWorkflow }) {
                   <td><PatientNameWithChart patient={patient} /></td>
                   <td>{patient.ageLabel ?? patient.age}</td>
                   <td className="cell-dx">{patient.diagnosis}{patient.simulatedCareLevel != null && <p>Fictional care level {patient.simulatedCareLevel}</p>}</td>
-                  <td className={`cell-news2 news2-${patient.rag}`}>{patient.news2 ?? `${patient.observationScale} — no score recorded`}</td>
+                  <td className={`cell-news2 news2-${patient.rag}`}>{patient.news2 ?? `${patient.observationScale} - no score recorded`}</td>
                   <td className="cell-nurse">{patient.responsibleNurse}</td>
                   <td><span className={`rag-pill rag-${patient.rag}`}>{ragWord(patient.rag)}</span></td>
                   {onOpenWorkflow && <td><button className="secondary-action" type="button" onClick={() => onOpenWorkflow(patient.id)} aria-label={`Review ${patient.name} in ward workspace`}>Review patient</button></td>}

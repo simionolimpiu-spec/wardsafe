@@ -4,7 +4,7 @@
   font-size: 0.9rem;
 }
 
-.app-shell-redesign .trust-network-view {
+.sf-shell .trust-network-view {
   border-color: var(--sf-border);
   border-radius: var(--sf-radius-md);
   box-shadow: var(--sf-elevation-1);
@@ -111,8 +111,6 @@
   display: inline-block;
   font-size: 0.68rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--sf-success);
   margin-bottom: 2px;
 }
@@ -214,8 +212,6 @@
   display: block;
   color: var(--sf-success);
   font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .trust-network-ward-trend-head h4 {
@@ -283,7 +279,6 @@
   color: var(--sf-text-secondary);
   font-size: 0.64rem;
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 .trust-network-ward-trend-table th:first-child,
@@ -365,7 +360,6 @@
 
 .trust-network-view .trust-network-ward-trend-range span {
   font-weight: var(--sf-font-weight-semibold);
-  letter-spacing: normal;
   text-transform: none;
 }
 

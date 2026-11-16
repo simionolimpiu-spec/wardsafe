@@ -1,4 +1,4 @@
-/* Codex Way: accessible, data-dense clinical simulation shell. */
+/* Shell layout: sign-in page, sidebar, top bar, context row and narrow-screen behaviour. */
 
 html {
   scroll-padding-top: 88px;
@@ -97,14 +97,11 @@ body {
   font-size: var(--text-sm);
   font-weight: 700;
   gap: 8px;
-  letter-spacing: 0.06em;
   margin: 0 0 18px;
-  text-transform: uppercase;
 }
 
 .access-copy h1 {
   font-size: clamp(2.45rem, 5vw, 4.6rem);
-  letter-spacing: -0.045em;
   line-height: 0.98;
   margin: 0;
   max-width: 13ch;
@@ -182,15 +179,12 @@ body {
   color: var(--sf-blue);
   font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
   margin: 0 0 3px;
-  text-transform: uppercase;
 }
 
 .access-card h2 {
   color: var(--sf-blue-ink);
   font-size: clamp(1.65rem, 3vw, 2rem);
-  letter-spacing: -0.03em;
   line-height: 1.1;
   margin: 0;
 }
@@ -306,7 +300,6 @@ body {
 .access-submit:hover {
   background: var(--sf-blue-ink);
   border-color: var(--sf-blue-ink);
-  transform: translateY(-1px);
 }
 
 .access-human-review {
@@ -321,11 +314,11 @@ body {
 }
 
 /* Compact product shell */
-.app-shell-redesign {
+.sf-shell {
   grid-template-columns: 232px minmax(0, 1fr);
 }
 
-.app-shell-redesign .workspace-nav {
+.sf-shell .workspace-nav {
   height: 100vh;
   overflow: hidden;
   padding: 16px 12px 14px;
@@ -333,21 +326,21 @@ body {
   top: 0;
 }
 
-.app-shell-redesign .nav-brand {
+.sf-shell .nav-brand {
   min-height: 56px;
   padding: 0 6px 14px;
 }
 
-.app-shell-redesign .nav-brand .brand-mark {
+.sf-shell .nav-brand .brand-mark {
   height: 36px;
   width: 36px;
 }
 
-.app-shell-redesign .nav-brand strong {
+.sf-shell .nav-brand strong {
   font-size: var(--text-base);
 }
 
-.app-shell-redesign .workspace-nav > nav {
+.sf-shell .workspace-nav > nav {
   align-content: start;
   display: grid;
   gap: 12px;
@@ -367,45 +360,43 @@ body {
   display: block;
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.09em;
   margin: 0;
   padding: 5px 10px;
-  text-transform: uppercase;
 }
 
 .workspace-content:focus {
   outline: none;
 }
 
-.app-shell-redesign .workspace-nav nav button {
+.sf-shell .workspace-nav nav button {
   font-size: var(--text-sm);
   gap: 10px;
   min-height: 40px;
   padding: 8px 10px;
 }
 
-.app-shell-redesign .workspace-nav nav button > span {
+.sf-shell .workspace-nav nav button > span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.app-shell-redesign .workspace-nav .nav-close,
+.sf-shell .workspace-nav .nav-close,
 .mobile-nav-trigger,
 .nav-scrim {
   display: none;
 }
 
-.app-shell-redesign .nav-safety-card {
+.sf-shell .nav-safety-card {
   margin: 8px 3px 10px;
   padding: 12px;
 }
 
-.app-shell-redesign .nav-context {
+.sf-shell .nav-context {
   padding: 12px 6px 0;
 }
 
-.redesign-topbar {
+.sf-topbar {
   gap: 16px;
   grid-template-columns: minmax(190px, 1fr) auto;
   min-height: 68px;
@@ -414,7 +405,7 @@ body {
   z-index: 12;
 }
 
-.redesign-topbar .shell-brand .brand-mark {
+.sf-topbar .shell-brand .brand-mark {
   display: none;
 }
 
@@ -504,7 +495,7 @@ body {
   width: 100%;
 }
 
-.app-shell-redesign .review-tools-popover > .secondary-action {
+.sf-shell .review-tools-popover > .secondary-action {
   background: #fff;
   border-color: var(--sf-grey-200);
   color: var(--sf-blue-ink);
@@ -543,7 +534,7 @@ body {
   min-height: 42px;
 }
 
-.app-shell-redesign .topbar-context {
+.sf-shell .topbar-context {
   align-items: end;
   background: #fff;
   border-bottom: 1px solid var(--sf-grey-200);
@@ -555,13 +546,13 @@ body {
   padding: 9px 22px;
 }
 
-.app-shell-redesign .workspace-main,
-.app-shell-redesign .workspace-content {
+.sf-shell .workspace-main,
+.sf-shell .workspace-content {
   min-width: 0;
   overflow-x: hidden;
 }
 
-.app-shell-redesign .demo-scenario-control {
+.sf-shell .demo-scenario-control {
   align-items: end;
   display: grid;
   gap: 4px 8px;
@@ -569,22 +560,21 @@ body {
   min-width: 0;
 }
 
-.app-shell-redesign .demo-scenario-control label {
+.sf-shell .demo-scenario-control label {
   align-self: center;
   margin: 0;
 }
 
-.app-shell-redesign .demo-scenario-control label span {
+.sf-shell .demo-scenario-control label span {
   color: var(--sf-grey-500);
   font-size: 0.7rem;
-  letter-spacing: 0.08em;
 }
 
-.app-shell-redesign .demo-scenario-control select {
+.sf-shell .demo-scenario-control select {
   min-height: 40px;
 }
 
-.app-shell-redesign .demo-scenario-control small {
+.sf-shell .demo-scenario-control small {
   align-self: center;
   grid-column: 1 / -1;
   line-height: 1.25;
@@ -594,21 +584,21 @@ body {
   white-space: nowrap;
 }
 
-.app-shell-redesign .date-stepper {
+.sf-shell .date-stepper {
   background: var(--sf-grey-50);
   border-color: var(--sf-grey-200);
   color: var(--sf-blue-ink);
 }
 
-.app-shell-redesign .date-stepper button {
+.sf-shell .date-stepper button {
   color: var(--sf-blue-deep);
 }
 
-.app-shell-redesign .date-stepper button:hover {
+.sf-shell .date-stepper button:hover {
   background: var(--sf-blue-soft);
 }
 
-.app-shell-redesign .safety-banner {
+.sf-shell .safety-banner {
   align-items: center;
   background: #edf7f7;
   border-bottom: 1px solid var(--sf-blue-border);
@@ -619,84 +609,84 @@ body {
   padding: 8px 22px;
 }
 
-.app-shell-redesign .safety-banner div {
+.sf-shell .safety-banner div {
   align-items: baseline;
   display: flex;
   gap: 9px;
 }
 
-.app-shell-redesign .safety-banner strong {
+.sf-shell .safety-banner strong {
   font-size: var(--text-sm);
   white-space: nowrap;
 }
 
-.app-shell-redesign .safety-banner span {
+.sf-shell .safety-banner span {
   font-size: var(--text-sm);
   line-height: 1.35;
 }
 
-.app-shell-redesign .workspace-content {
+.sf-shell .workspace-content {
   padding: 18px 22px 28px;
 }
 
-.app-shell-redesign .dashboard-layout {
+.sf-shell .dashboard-layout {
   gap: 16px;
   grid-template-columns: minmax(0, 1fr) minmax(330px, 380px);
 }
 
-.app-shell-redesign .ward-board,
-.app-shell-redesign .patient-panel,
-.app-shell-redesign .operational-view {
+.sf-shell .ward-board,
+.sf-shell .patient-panel,
+.sf-shell .operational-view {
   border-radius: 12px;
 }
 
-.app-shell-redesign .ward-board,
-.app-shell-redesign .patient-panel {
+.sf-shell .ward-board,
+.sf-shell .patient-panel {
   padding: 16px;
 }
 
-.app-shell-redesign .board-header {
+.sf-shell .board-header {
   gap: 12px;
 }
 
-.app-shell-redesign .board-header h2 {
+.sf-shell .board-header h2 {
   font-size: var(--text-xl);
 }
 
-.app-shell-redesign .date-chip {
+.sf-shell .date-chip {
   font-size: var(--text-xs);
   padding: 6px 9px;
 }
 
-.app-shell-redesign .board-summary-cards {
+.sf-shell .board-summary-cards {
   gap: 8px;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   margin: 12px 0 14px;
 }
 
-.app-shell-redesign .summary-card {
+.sf-shell .summary-card {
   gap: 9px;
   min-height: 68px;
   padding: 10px;
 }
 
-.app-shell-redesign .summary-card-icon {
+.sf-shell .summary-card-icon {
   border-radius: 8px;
   height: 32px;
   width: 32px;
 }
 
-.app-shell-redesign .summary-card strong {
+.sf-shell .summary-card strong {
   font-size: var(--text-xl);
 }
 
-.app-shell-redesign .patient-table:not(.hospital-patient-table) {
+.sf-shell .patient-table:not(.hospital-patient-table) {
   font-size: 0.82rem;
   min-width: 1060px;
 }
 
-.app-shell-redesign .patient-table th,
-.app-shell-redesign .patient-table td {
+.sf-shell .patient-table th,
+.sf-shell .patient-table td {
   padding: 10px;
 }
 
@@ -724,32 +714,32 @@ body {
 }
 
 @media (max-width: 1380px) {
-  .redesign-topbar {
+  .sf-topbar {
     display: grid;
     grid-template-columns: minmax(190px, 1fr) auto;
   }
 
-  .app-shell-redesign .topbar-actions {
+  .sf-shell .topbar-actions {
     grid-column: 2;
     grid-row: 1;
   }
 
-  .app-shell-redesign .topbar-context {
+  .sf-shell .topbar-context {
     grid-column: auto;
     grid-row: auto;
   }
 
-  .app-shell-redesign .board-summary-cards {
+  .sf-shell .board-summary-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 1120px) {
-  .app-shell-redesign {
+  .sf-shell {
     grid-template-columns: 1fr;
   }
 
-  .app-shell-redesign .workspace-nav {
+  .sf-shell .workspace-nav {
     box-shadow: 18px 0 50px rgba(7, 37, 43, 0.25);
     display: grid;
     grid-template-rows: auto minmax(0, 1fr) auto auto;
@@ -765,12 +755,12 @@ body {
     z-index: 60;
   }
 
-  .app-shell-redesign .workspace-nav.is-open {
+  .sf-shell .workspace-nav.is-open {
     transform: translateX(0);
     visibility: visible;
   }
 
-  .app-shell-redesign .workspace-nav > nav {
+  .sf-shell .workspace-nav > nav {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     max-height: none;
@@ -780,12 +770,12 @@ body {
     scroll-snap-type: none;
   }
 
-  .app-shell-redesign .workspace-nav .nav-group {
+  .sf-shell .workspace-nav .nav-group {
     min-width: 0;
     width: 100%;
   }
 
-  .app-shell-redesign .workspace-nav .nav-close {
+  .sf-shell .workspace-nav .nav-close {
     align-items: center;
     background: #fff;
     border: 1px solid var(--sf-grey-200);
@@ -818,11 +808,11 @@ body {
     z-index: 55;
   }
 
-  .redesign-topbar {
+  .sf-topbar {
     grid-template-columns: auto minmax(150px, 1fr) auto;
   }
 
-  .app-shell-redesign .topbar-actions {
+  .sf-shell .topbar-actions {
     grid-column: 3;
   }
 }
@@ -849,22 +839,22 @@ body {
     min-height: 0;
   }
 
-  .app-shell-redesign .topbar-context {
+  .sf-shell .topbar-context {
     align-items: stretch;
     grid-template-columns: 1fr;
   }
 
-  .app-shell-redesign .dashboard-layout {
+  .sf-shell .dashboard-layout {
     grid-template-columns: 1fr;
   }
 
-  .app-shell-redesign .patient-panel {
+  .sf-shell .patient-panel {
     position: static;
   }
 }
 
 @media (max-width: 680px) {
-  .redesign-topbar {
+  .sf-topbar {
     align-items: center;
     display: grid;
     gap: 10px;
@@ -872,7 +862,7 @@ body {
     padding: 10px 14px;
   }
 
-  .app-shell-redesign .topbar-actions {
+  .sf-shell .topbar-actions {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -881,7 +871,7 @@ body {
     width: auto;
   }
 
-  .app-shell-redesign .topbar-actions > * {
+  .sf-shell .topbar-actions > * {
     flex: 0 0 auto;
     min-height: 42px;
     min-width: 42px;
@@ -910,51 +900,51 @@ body {
     display: none;
   }
 
-  .app-shell-redesign .topbar-context {
+  .sf-shell .topbar-context {
     display: grid;
     gap: 10px;
     padding: 10px 14px;
   }
 
-  .app-shell-redesign .demo-scenario-control {
+  .sf-shell .demo-scenario-control {
     grid-template-columns: 1fr;
   }
 
-  .app-shell-redesign .demo-scenario-control label {
+  .sf-shell .demo-scenario-control label {
     margin-top: 3px;
   }
 
-  .app-shell-redesign .demo-scenario-control small {
+  .sf-shell .demo-scenario-control small {
     white-space: normal;
   }
 
-  .app-shell-redesign .safety-banner {
+  .sf-shell .safety-banner {
     align-items: flex-start;
     order: 0;
     padding: 10px 14px;
   }
 
-  .app-shell-redesign .safety-banner div {
+  .sf-shell .safety-banner div {
     align-items: flex-start;
     display: grid;
     gap: 2px;
   }
 
-  .app-shell-redesign .workspace-content {
+  .sf-shell .workspace-content {
     padding: 12px 10px 20px;
   }
 
-  .app-shell-redesign .board-summary-cards {
+  .sf-shell .board-summary-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .app-shell-redesign .summary-card {
+  .sf-shell .summary-card {
     min-width: 0;
   }
 
-  .app-shell-redesign .ward-board,
-  .app-shell-redesign .patient-panel,
-  .app-shell-redesign .operational-view {
+  .sf-shell .ward-board,
+  .sf-shell .patient-panel,
+  .sf-shell .operational-view {
     border-radius: 10px;
     padding: 12px;
   }
@@ -977,7 +967,7 @@ body {
     display: none;
   }
 
-  .app-shell-redesign .board-summary-cards {
+  .sf-shell .board-summary-cards {
     grid-template-columns: 1fr;
   }
 }
