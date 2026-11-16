@@ -9,7 +9,7 @@
   color: var(--sf-text-primary);
 }
 
-.app-shell-redesign .sf-zone-night.operational-view,
+.sf-shell .sf-zone-night.operational-view,
 .sf-zone-night.operational-view {
   background:
     radial-gradient(120% 60% at 0% 0%, var(--sf-night-glow) 0%, var(--sf-night-glow-edge) 60%),
@@ -110,7 +110,7 @@
 }
 
 /* Chart cards */
-.app-shell-redesign .sf-zone-night .hospital-insights-chart-card,
+.sf-shell .sf-zone-night .hospital-insights-chart-card,
 .sf-zone-night .hospital-insights-chart-card {
   background: var(--sf-surface);
   border-color: var(--sf-border);
@@ -189,7 +189,7 @@
 }
 
 /* SF-298: Trust Network stays a non-clinical, static insight surface. */
-.app-shell-redesign .sf-zone-night.trust-network-view,
+.sf-shell .sf-zone-night.trust-network-view,
 .sf-zone-night.trust-network-view {
   --sf-border: var(--sf-border-strong);
   background: var(--sf-background);

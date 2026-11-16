@@ -12,7 +12,7 @@ import {
   ListChecks,
   Award,
   Settings,
-  Sparkles,
+  Route,
   Stethoscope,
   UserRound,
   Waypoints,
@@ -49,7 +49,7 @@ const wardNavGroups = [
       { id: 'scenarios', label: 'Scenarios', icon: ClipboardList },
       { id: 'competency-passport', label: 'Competency Passport', icon: Award },
       { id: 'learning-hub', label: 'Learning Hub', icon: BookOpenCheck },
-      { id: 'twin', label: 'Patient Journey Twin', icon: Sparkles },
+      { id: 'twin', label: 'Patient Journey Twin', icon: Route },
       { id: 'trust-network', label: 'Trust Network', icon: Waypoints },
       { id: 'audit', label: 'Audit Trail', icon: ListChecks },
       { id: 'settings', label: 'Settings', icon: Settings }

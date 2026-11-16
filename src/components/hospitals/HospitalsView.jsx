@@ -15,7 +15,7 @@ function WardCard({ ward, onOpen, buttonRef }) {
       <p className="ward-card-specialty">{ward.specialty}</p>
       <div className="ward-card-metrics">
         <span>{!ward.profile.canPopulate || ward.profile.mode === 'procedure-area' ? 'Separate patient mix not modelled' : ward.profile.mode === 'inpatient' ? `${ward.patientCount} current inpatients` : ward.profile.mode === 'assessment' ? `${ward.patientCount} current assessments` : `${ward.patientCount} booked attendances`}</span>
-        <span>{ward.bedCount ?? '—'} {ward.profile.capacityLabel}</span>
+        <span>{ward.bedCount ?? '-'} {ward.profile.capacityLabel}</span>
       </div>
       <p className="ward-profile-focus">{ward.profile.focus}</p>
       <p>{ward.profile.evidence}</p>

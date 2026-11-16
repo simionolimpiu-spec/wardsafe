@@ -1,0 +1,1093 @@
+/* SafeFlow house style (SF-326). Spec: docs/design/SAFeflow-DESIGN.md section 18.
+ *
+ * One layer that sets the product's visual grammar on top of the older
+ * partials: a single blue bar, a plain white sidebar, flat bordered panels,
+ * ink headings, sentence-case labels and one button style per job.
+ * Tokens only. This file is in the raw-colour guard in tokens.test.js.
+ * It changes presentation only: no wording, no data and no clinical logic. */
+
+/* ---------- 1. Base ---------- */
+body {
+  background: var(--sf-background);
+  color: var(--sf-text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.sf-shell {
+  --sf-shell-height: 56px;
+  --sf-shell-gutter: var(--sf-space-6);
+  /* Older partials use the navy ink token for plain text. Inside the shell it is ink. */
+  --sf-blue-ink: var(--sf-text-primary);
+  --nhs-dark-blue: var(--sf-text-primary);
+  background: var(--sf-background);
+  color: var(--sf-text-primary);
+  font-family: var(--sf-font-sans);
+  grid-template-columns: 256px minmax(0, 1fr);
+}
+
+.sf-shell .workspace-main { background: var(--sf-background); }
+
+/* Headings are ink. Blue is kept for things you can press. */
+.sf-shell .workspace-content :is(h1, h2, h3, h4, h5) {
+  color: var(--sf-text-primary);
+  font-weight: var(--sf-font-weight-semibold);
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.sf-shell .workspace-content :is(h1, h2) { letter-spacing: -0.012em; }
+
+/* The small line above a title is a quiet caption, not a coloured label. */
+.sf-shell .eyebrow,
+.sf-shell .ward-board .eyebrow {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-medium);
+  line-height: var(--sf-line-height-xs);
+}
+
+/* Heading rows: title on the left edge, no lead icon pushing it in. */
+.sf-shell .workspace-content .section-heading > svg,
+.sf-shell .workspace-content .view-heading > svg { display: none; }
+
+/* ---------- 2. Sidebar ---------- */
+.sf-shell .workspace-nav {
+  background: var(--sf-surface);
+  border-right: var(--sf-border-width) solid var(--sf-border);
+  padding: 0;
+}
+
+.sf-shell .nav-brand {
+  background: var(--sf-shell-bar);
+  border-bottom: 0;
+  gap: var(--sf-space-3);
+  min-height: var(--sf-shell-height);
+  padding: 0 var(--sf-space-4);
+}
+
+.sf-shell .nav-brand .brand-mark,
+.access-brand .access-brand-mark {
+  align-items: center;
+  background: var(--sf-surface);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-action);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-bold);
+  height: 28px;
+  justify-content: center;
+  line-height: 1;
+  width: 28px;
+}
+
+.sf-shell .nav-brand strong {
+  color: var(--sf-text-on-shell);
+  font-size: 0.9375rem;
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-sm);
+}
+
+.sf-shell .nav-brand div { min-width: 0; }
+
+.sf-shell .nav-brand div > span {
+  color: var(--sf-text-on-shell-secondary);
+  font-size: var(--sf-font-size-xs);
+  line-height: var(--sf-line-height-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sf-shell .nav-brand :focus-visible {
+  outline: var(--sf-focus-width) solid var(--color-focus-ring-on-dark) !important;
+  box-shadow: 0 0 0 2px var(--color-focus-ring-halo-on-dark) !important;
+}
+
+.sf-shell .workspace-nav > nav {
+  gap: var(--sf-space-4);
+  padding: var(--sf-space-4) var(--sf-space-2) var(--sf-space-3);
+}
+
+.sf-shell .nav-group { gap: 1px; }
+
+.sf-shell .nav-group-title {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-semibold);
+  padding: 0 var(--sf-space-3) var(--sf-space-1);
+}
+
+.sf-shell .workspace-nav nav button {
+  border: 0;
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+  gap: var(--sf-space-3);
+  min-height: 40px;
+  padding: var(--sf-space-2) var(--sf-space-3);
+  transition: background-color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-shell .workspace-nav nav button > svg { color: var(--sf-text-muted); }
+
+.sf-shell .workspace-nav nav button:hover {
+  background: var(--sf-surface-muted);
+  border: 0;
+}
+
+.sf-shell .workspace-nav nav button.active,
+.sf-shell .workspace-nav nav button[aria-current='page'] {
+  background: var(--sf-action-subtle);
+  border: 0;
+  box-shadow: none;
+  color: var(--sf-action-hover);
+  font-weight: var(--sf-font-weight-semibold);
+}
+
+.sf-shell .workspace-nav nav button[aria-current='page'] > svg { color: var(--sf-action); }
+
+.sf-shell .workspace-nav nav button::before {
+  border-radius: 0;
+  height: 100%;
+  top: 0;
+  width: 3px;
+}
+
+/* Counts are counts. Red stays for critical clinical states (section 3.2). */
+.sf-shell .nav-count,
+.sf-shell .workspace-nav button[aria-current='page'] .nav-count {
+  background: var(--sf-neutral-subtle);
+  border: var(--sf-border-width) solid var(--sf-neutral-border);
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-xs);
+  font-variant-numeric: var(--sf-font-numeric);
+  font-weight: var(--sf-font-weight-semibold);
+  height: 20px;
+  min-width: 24px;
+}
+
+.sf-shell .nav-safety-card {
+  background: transparent;
+  border: 0;
+  border-top: var(--sf-border-width) solid var(--sf-border);
+  border-radius: 0;
+  gap: var(--sf-space-2);
+  margin: 0;
+  padding: var(--sf-space-3) var(--sf-space-4);
+}
+
+.sf-shell .nav-safety-card > svg { color: var(--sf-text-muted); }
+.sf-shell .nav-safety-card strong { color: var(--sf-text-primary); font-weight: var(--sf-font-weight-semibold); }
+.sf-shell .nav-safety-card p { color: var(--sf-text-muted); margin: 2px 0 var(--sf-space-1); }
+
+.sf-shell .nav-safety-card button {
+  color: var(--sf-action);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+  min-height: 24px;
+}
+
+.sf-shell .nav-context {
+  border-top: var(--sf-border-width) solid var(--sf-border);
+  gap: var(--sf-space-2);
+  padding: var(--sf-space-3) var(--sf-space-4) var(--sf-space-4);
+}
+
+.sf-shell .nav-context strong {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-medium);
+}
+
+.sf-shell .nav-context span {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-sm);
+}
+
+.sf-shell .nav-context small { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); }
+
+/* ---------- 3. Top bar ---------- */
+.sf-topbar {
+  background: var(--sf-shell-bar);
+  min-height: var(--sf-shell-height);
+  padding: var(--sf-space-2) var(--sf-shell-gutter);
+}
+
+.shell-brand h1 {
+  color: var(--sf-text-on-shell);
+  font-size: var(--sf-font-size-md);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-sm);
+}
+
+.shell-brand > div > span {
+  color: var(--sf-text-on-shell-secondary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-regular);
+  line-height: var(--sf-line-height-sm);
+  margin-top: 0;
+}
+
+.sf-topbar .notification-button,
+.sf-topbar .review-tools-menu > summary,
+.sf-topbar .user-chip,
+.sf-topbar .mobile-nav-trigger {
+  background: transparent;
+  border: var(--sf-border-width) solid transparent;
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-on-shell);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+  min-height: 40px;
+  transition: background-color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-topbar .notification-button { height: 40px; width: 40px; }
+
+.sf-topbar .notification-button:hover,
+.sf-topbar .review-tools-menu > summary:hover,
+.sf-topbar .review-tools-menu[open] > summary,
+.sf-topbar .user-chip:hover,
+.sf-topbar .user-menu[open] > .user-chip,
+.sf-topbar .mobile-nav-trigger:hover {
+  background: color-mix(in srgb, var(--sf-text-on-shell) 16%, transparent);
+}
+
+.sf-topbar .user-chip small {
+  color: var(--sf-text-on-shell-secondary);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-regular);
+}
+
+.review-tools-popover,
+.user-menu-popover,
+.notification-popover {
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-md);
+  box-shadow: var(--sf-elevation-2);
+  color: var(--sf-text-primary);
+  gap: var(--sf-space-1);
+  padding: var(--sf-space-2);
+}
+
+.notification-popover,
+.user-menu-popover { padding: var(--sf-space-3) var(--sf-space-4); }
+.notification-popover strong,
+.user-menu-popover strong { color: var(--sf-text-primary); font-weight: var(--sf-font-weight-semibold); }
+
+.sf-shell .review-tools-popover > .secondary-action,
+.sf-shell .review-tools-popover > button {
+  border-color: transparent;
+  color: var(--sf-text-primary);
+  font-weight: var(--sf-font-weight-medium);
+}
+
+.sf-shell .review-tools-popover > .secondary-action:hover { background: var(--sf-surface-muted); border-color: transparent; }
+
+/* ---------- 4. Simulation context row ---------- */
+.sf-shell .topbar-context {
+  background: var(--sf-surface);
+  border-bottom: var(--sf-border-width) solid var(--sf-border);
+  padding: var(--sf-space-3) var(--sf-shell-gutter);
+}
+
+.sf-shell .care-pathway-control > span,
+.sf-shell .demo-scenario-control label span,
+.sf-shell .ward-context-selector > span {
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-medium);
+  line-height: var(--sf-line-height-xs);
+}
+
+.sf-shell .topbar-context select {
+  background-color: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+  min-height: 40px;
+  padding: var(--sf-space-2) var(--sf-space-3);
+  width: 100%;
+}
+
+.sf-shell .demo-scenario-control small,
+.sf-shell .simulation-date-note {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-xs);
+  line-height: var(--sf-line-height-xs);
+}
+
+.sf-shell .date-stepper {
+  background: transparent;
+  border: 0;
+  color: var(--sf-text-primary);
+  min-height: 40px;
+  padding: 0;
+}
+
+.sf-shell .date-stepper time {
+  font-size: var(--sf-font-size-sm);
+  font-variant-numeric: var(--sf-font-numeric);
+  font-weight: var(--sf-font-weight-semibold);
+  padding: 0;
+}
+
+.sf-shell .connected-ward-context span { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); }
+.sf-shell .connected-ward-context strong { font-size: var(--sf-font-size-md); font-weight: var(--sf-font-weight-semibold); }
+
+/* Workstation: labels over controls on one line, date at the right edge. */
+@media (min-width: 1101px) {
+  .sf-shell .topbar-context {
+    align-items: end;
+    column-gap: var(--sf-space-4);
+    display: grid;
+    grid-template-columns: 168px 208px 240px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto;
+    min-height: 0;
+    row-gap: var(--sf-space-1);
+  }
+
+  .sf-shell .care-pathway-control,
+  .sf-shell .demo-scenario-control { display: contents; }
+
+  .sf-shell .care-pathway-control > span,
+  .sf-shell .demo-scenario-control > label { align-self: end; display: block; margin: 0; }
+  .sf-shell .demo-scenario-control > label span { display: block; }
+
+  .sf-shell .care-pathway-control > span { grid-column: 1; grid-row: 1; }
+  .sf-shell .care-pathway-control > select { grid-column: 1; grid-row: 2; }
+  .sf-shell .demo-scenario-control > label:nth-of-type(1) { grid-column: 2; grid-row: 1; }
+  .sf-shell .demo-scenario-control > select:nth-of-type(1) { grid-column: 2; grid-row: 2; }
+  .sf-shell .demo-scenario-control > label:nth-of-type(2) { grid-column: 3; grid-row: 1; }
+  .sf-shell .demo-scenario-control > select:nth-of-type(2) { grid-column: 3; grid-row: 2; }
+
+  .sf-shell .demo-scenario-control > small {
+    grid-column: 1 / 5;
+    grid-row: 3;
+    margin-top: var(--sf-space-1);
+  }
+
+  .sf-shell .connected-ward-context { grid-column: 2 / 5; grid-row: 1 / 3; justify-content: start; }
+  .sf-shell .date-stepper { grid-column: 5; grid-row: 2; justify-self: end; }
+
+  .sf-shell .simulation-date-note {
+    grid-column: 5;
+    grid-row: 3;
+    justify-self: end;
+    margin-top: var(--sf-space-1);
+    text-align: right;
+  }
+
+  .sf-shell .connected-ward-context ~ .simulation-date-note { grid-column: 1 / 6; justify-self: start; text-align: left; }
+
+  /* The sidebar already names the product, so the bar names the screen. */
+  .sf-shell .shell-brand h1 {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .sf-shell .shell-brand > div > span {
+    color: var(--sf-text-on-shell);
+    font-size: var(--sf-font-size-md);
+    font-weight: var(--sf-font-weight-semibold);
+  }
+}
+
+/* ---------- 5. Simulation boundary strip ---------- */
+.sf-shell .safety-banner {
+  align-items: start;
+  background: var(--sf-surface);
+  border: 0;
+  border-bottom: var(--sf-border-width) solid var(--sf-border);
+  color: var(--sf-text-secondary);
+  gap: var(--sf-space-2);
+  min-height: 0;
+  padding: var(--sf-space-2) var(--sf-shell-gutter);
+}
+
+.sf-shell .safety-banner svg {
+  color: var(--sf-simulation);
+  height: var(--sf-icon-sm);
+  margin-top: 5px;
+  width: var(--sf-icon-sm);
+}
+
+.sf-shell .safety-banner div { align-items: baseline; gap: var(--sf-space-3); }
+
+.sf-shell .safety-banner strong {
+  border: var(--sf-border-width) dashed var(--sf-simulation-border);
+  border-radius: var(--sf-radius-xs);
+  color: var(--sf-simulation);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-xs);
+  margin: 0;
+  padding: 2px var(--sf-space-2);
+}
+
+.sf-shell .safety-banner span {
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-sm);
+  line-height: var(--sf-line-height-sm);
+}
+
+/* ---------- 6. Page and panels ---------- */
+.sf-shell .workspace-content {
+  padding: var(--sf-space-5) var(--sf-shell-gutter) var(--sf-space-8);
+}
+
+.sf-shell .ward-board,
+.sf-shell .patient-panel,
+.sf-shell .operational-view,
+.sf-shell .workflow-view,
+.sf-shell .scenario-library-view,
+.sf-shell .audit-learning-view,
+.sf-shell .simulation-dialog {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-md);
+  box-shadow: none;
+}
+
+.sf-shell .workspace-content .view-heading h2,
+.sf-shell .workspace-content .section-heading h2,
+.sf-shell .workspace-content .board-header h2 {
+  font-size: var(--sf-font-size-xl);
+  line-height: var(--sf-line-height-xl);
+}
+
+.sf-shell .workspace-content h3 {
+  font-size: var(--sf-font-size-md);
+  line-height: var(--sf-line-height-md);
+}
+
+/* ---------- 7. Buttons ---------- */
+.sf-shell .primary-action,
+.access-submit {
+  background: var(--sf-action);
+  border: var(--sf-border-width) solid var(--sf-action);
+  border-radius: var(--sf-radius-sm);
+  box-shadow: none;
+  color: var(--sf-text-inverse);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  transition: background-color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-shell .primary-action:hover,
+.access-submit:hover {
+  background: var(--sf-action-hover);
+  border-color: var(--sf-action-hover);
+  box-shadow: none;
+}
+
+.sf-shell .secondary-action {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+  box-shadow: none;
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+  transition: background-color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-shell .secondary-action:hover {
+  background: var(--sf-surface-muted);
+  border-color: var(--sf-border-strong);
+  box-shadow: none;
+}
+
+.sf-shell .secondary-action:disabled,
+.sf-shell .primary-action:disabled {
+  background: var(--sf-disabled-subtle);
+  border-color: var(--sf-border);
+  color: var(--sf-disabled);
+  cursor: not-allowed;
+}
+
+/* ---------- 8. Form controls ---------- */
+.sf-shell .workspace-content :is(select, textarea, input:not([type='checkbox'], [type='radio'], [type='range'])) {
+  background-color: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-primary);
+}
+
+.sf-shell .workspace-content label { color: var(--sf-text-primary); }
+
+/* ---------- 9. Patient action bar ---------- */
+.sf-shell .patient-action-bar {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-md);
+  margin-bottom: var(--sf-space-4);
+  padding: var(--sf-space-3) var(--sf-space-4);
+}
+
+.sf-shell .patient-action-bar label {
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-medium);
+  gap: var(--sf-space-1);
+}
+
+.sf-shell .patient-action-bar select {
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-semibold);
+  min-height: 40px;
+}
+
+.sf-shell .patient-context-id {
+  align-self: end;
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-sm);
+  font-variant-numeric: var(--sf-font-numeric);
+  padding-bottom: var(--sf-space-2);
+}
+
+/* ---------- 10. Ward summary: one ruled strip, not five boxes ---------- */
+.sf-shell .board-summary-cards {
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  gap: 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.sf-shell .summary-card {
+  background: var(--sf-surface);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  min-height: 0;
+  padding: var(--sf-space-3) var(--sf-space-4);
+}
+
+.sf-shell .summary-card .sf-clinical-value {
+  align-content: space-between;
+  gap: var(--sf-space-1);
+  height: 100%;
+}
+
+.sf-shell .summary-card + .summary-card { border-left: var(--sf-border-width) solid var(--sf-border); }
+.sf-shell .summary-card-icon { display: none; }
+
+.sf-shell .summary-card .sf-clinical-value__label {
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-regular);
+}
+
+.sf-shell .summary-card .sf-clinical-value__value {
+  font-size: var(--sf-font-size-2xl);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-2xl);
+}
+
+@media (max-width: 1380px) {
+  .sf-shell .board-summary-cards { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .sf-shell .board-summary-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sf-shell .summary-card { border-left: 0; border-top: var(--sf-border-width) solid var(--sf-border); margin-top: -1px; }
+  .sf-shell .summary-card:nth-child(even) { border-left: var(--sf-border-width) solid var(--sf-border); }
+}
+
+@media (max-width: 520px) {
+  .sf-shell .board-summary-cards { grid-template-columns: minmax(0, 1fr); }
+  .sf-shell .summary-card:nth-child(even) { border-left: 0; }
+}
+
+/* ---------- 11. Tables ---------- */
+.sf-shell .workspace-content table th {
+  background: transparent;
+  border-bottom: var(--sf-border-width) solid var(--sf-border-strong);
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-semibold);
+}
+
+/* ---------- 12. Sign in ---------- */
+.access-shell {
+  align-items: center;
+  background: var(--sf-background);
+  color: var(--sf-text-primary);
+  font-family: var(--sf-font-sans);
+  gap: var(--sf-space-12);
+  grid-template-columns: minmax(0, 440px) minmax(320px, 420px);
+  justify-content: center;
+  padding: var(--sf-space-12) var(--sf-space-6);
+}
+
+.access-introduction { gap: var(--sf-space-6); max-width: 440px; }
+.access-brand { gap: var(--sf-space-3); }
+.access-brand .access-brand-mark { background: var(--sf-action); color: var(--sf-text-inverse); height: 32px; width: 32px; }
+.access-brand strong { color: var(--sf-text-primary); font-size: var(--sf-font-size-md); font-weight: var(--sf-font-weight-semibold); }
+.access-brand span:not(.access-brand-mark) { color: var(--sf-text-muted); font-size: var(--sf-font-size-sm); margin-top: 0; }
+
+.access-kicker {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+  margin: 0 0 var(--sf-space-2);
+}
+
+.access-kicker svg { display: none; }
+
+.access-copy h1 {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-value);
+  font-weight: var(--sf-font-weight-semibold);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.access-copy > p:last-child {
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-md);
+  line-height: var(--sf-line-height-md);
+  margin-top: var(--sf-space-3);
+}
+
+.access-benefits {
+  border-top: var(--sf-border-width) solid var(--sf-border);
+  gap: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.access-benefits > div {
+  background: transparent;
+  border: 0;
+  border-bottom: var(--sf-border-width) solid var(--sf-border);
+  border-radius: 0;
+  column-gap: var(--sf-space-4);
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  min-height: 0;
+  padding: var(--sf-space-3) 0;
+}
+
+.access-benefits dt { color: var(--sf-text-primary); font-size: var(--sf-font-size-sm); font-weight: var(--sf-font-weight-semibold); }
+.access-benefits dd { color: var(--sf-text-secondary); font-size: var(--sf-font-size-sm); line-height: var(--sf-line-height-sm); margin: 0; }
+
+.access-boundary {
+  border-left: 0;
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-sm);
+  line-height: var(--sf-line-height-sm);
+  padding-left: 0;
+}
+
+.access-card {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-md);
+  box-shadow: none;
+  color: var(--sf-text-primary);
+  padding: var(--sf-space-8);
+  width: min(100%, 420px);
+}
+
+.access-lock { display: none; }
+
+.access-card-heading p {
+  color: var(--sf-text-muted);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-medium);
+  margin: 0 0 2px;
+}
+
+.access-card h2 {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-xl);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-xl);
+}
+
+.access-card-intro { margin: var(--sf-space-2) 0 var(--sf-space-5); }
+.access-card form { gap: var(--sf-space-4); }
+
+.access-card .pathway-choice legend,
+.access-field label {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+}
+
+.access-field input {
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+  min-height: var(--sf-target-min);
+}
+
+.access-submit { min-height: var(--sf-target-min); }
+.access-submit:hover { transform: none; }
+
+.access-human-review {
+  color: var(--sf-text-muted);
+  font-weight: var(--sf-font-weight-regular);
+  justify-content: flex-start;
+  margin-top: var(--sf-space-5);
+  padding-top: var(--sf-space-4);
+}
+
+.access-human-review svg { display: none; }
+
+@media (max-width: 900px) {
+  .access-shell { gap: var(--sf-space-8); grid-template-columns: minmax(0, 440px); padding: var(--sf-space-8) var(--sf-space-5); }
+  .access-copy h1 { font-size: var(--sf-font-size-2xl); line-height: var(--sf-line-height-2xl); }
+  .access-benefits > div { min-height: 0; }
+  .access-card { justify-self: start; }
+}
+
+@media (max-width: 430px) {
+  .access-benefits > div { grid-template-columns: minmax(0, 1fr); }
+  .access-card { padding: var(--sf-space-5); }
+}
+
+/* ---------- 13. Narrow shell ---------- */
+@media (max-width: 1120px) {
+  .sf-shell { grid-template-columns: minmax(0, 1fr); }
+  .sf-shell .workspace-nav { box-shadow: var(--sf-elevation-2); }
+
+  .sf-shell .workspace-nav .nav-close {
+    border: 0;
+    border-radius: var(--sf-radius-sm);
+    color: var(--sf-action);
+  }
+}
+
+@media (max-width: 680px) {
+  .sf-shell { --sf-shell-gutter: var(--sf-space-3); }
+}
+
+/* ---------- 14. Sign-in pathway choice ---------- */
+.access-card .pathway-choice { gap: var(--sf-space-2); }
+.access-card .pathway-choice legend { margin-bottom: var(--sf-space-1); }
+
+.access-card .pathway-choice label {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-primary);
+  grid-template-columns: auto minmax(0, 1fr);
+  min-height: 0;
+  padding: var(--sf-space-3);
+}
+
+.access-card .pathway-choice label.is-selected {
+  background: var(--sf-action-subtle);
+  border-color: var(--sf-action);
+  box-shadow: inset 0 0 0 1px var(--sf-action);
+}
+
+.access-card .pathway-choice svg { display: none; }
+.access-card .pathway-choice strong { font-size: var(--sf-font-size-sm); font-weight: var(--sf-font-weight-semibold); }
+.access-card .pathway-choice small { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); line-height: var(--sf-line-height-xs); }
+
+/* ---------- 15. Hospitals and wards ---------- */
+.sf-shell .hospitals-view {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--sf-text-primary);
+  font-family: inherit;
+}
+
+.sf-shell .hospitals-head h1 {
+  font-size: var(--sf-font-size-2xl);
+  line-height: var(--sf-line-height-2xl);
+  margin: 2px 0 var(--sf-space-1);
+}
+
+.sf-shell .hospitals-head .eyebrow { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); font-weight: var(--sf-font-weight-medium); }
+.sf-shell .hospitals-boundary { color: var(--sf-text-muted); font-size: var(--sf-font-size-sm); }
+
+.sf-shell .hospital-tabs { gap: var(--sf-space-2); margin: var(--sf-space-4) 0 var(--sf-space-3); }
+
+.sf-shell .hospital-tab {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  min-height: var(--sf-target-min);
+  padding: var(--sf-space-3) var(--sf-space-4);
+  transition: background-color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-shell .hospital-tab strong { color: var(--sf-text-primary); font-size: var(--sf-font-size-md); font-weight: var(--sf-font-weight-semibold); }
+.sf-shell .hospital-tab span { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); }
+.sf-shell .hospital-tab:hover { background: var(--sf-surface-muted); border-color: var(--sf-border-strong); }
+
+.sf-shell .hospital-tab.is-active {
+  border-color: var(--sf-action);
+  box-shadow: inset 0 -3px 0 var(--sf-action);
+}
+
+.sf-shell .hospital-tab.is-active strong { color: var(--sf-action-hover); }
+
+.sf-shell .hospital-summary {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-text-primary);
+  gap: var(--sf-space-8);
+  margin-bottom: var(--sf-space-4);
+  padding: var(--sf-space-3) var(--sf-space-4);
+}
+
+.sf-shell .hospital-summary strong {
+  font-size: var(--sf-font-size-xl);
+  font-variant-numeric: var(--sf-font-numeric);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-xl);
+}
+
+.sf-shell .hospital-summary span { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); opacity: 1; }
+
+.sf-shell .hospital-summary .chip,
+.sf-shell .rag-pill {
+  border-radius: var(--sf-radius-xs);
+  font-size: var(--sf-font-size-xs);
+  font-variant-numeric: var(--sf-font-numeric);
+  font-weight: var(--sf-font-weight-semibold);
+  padding: 2px var(--sf-space-2);
+}
+
+.sf-shell .hospital-summary .chip:not(.rag-amber) { color: var(--sf-text-inverse); }
+
+.sf-shell .service-evidence {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  padding: 0 var(--sf-space-4);
+}
+
+.sf-shell .service-evidence summary { font-size: var(--sf-font-size-sm); font-weight: var(--sf-font-weight-semibold); }
+
+.sf-shell .ward-grid { gap: var(--sf-space-3); }
+
+.sf-shell .ward-card {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  padding: var(--sf-space-3) var(--sf-space-4);
+  transition: background-color var(--sf-duration-fast) var(--sf-ease-standard);
+}
+
+.sf-shell .ward-card:hover { background: var(--sf-surface-muted); border-color: var(--sf-border-strong); }
+.sf-shell .ward-card-head strong { color: var(--sf-action); font-size: var(--sf-font-size-md); font-weight: var(--sf-font-weight-semibold); }
+.sf-shell .ward-card-specialty { color: var(--sf-text-primary); font-size: var(--sf-font-size-sm); }
+.sf-shell .ward-card-metrics,
+.sf-shell .ward-card-staff { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); }
+
+.sf-shell .ward-group-tag {
+  border: var(--sf-border-width) solid var(--sf-neutral-border);
+  border-radius: var(--sf-radius-xs);
+  color: var(--sf-neutral);
+  font-size: var(--sf-font-size-xs);
+  padding: 0 var(--sf-space-1);
+}
+
+.sf-shell .rag-bar { border-radius: 2px; height: 6px; }
+
+.sf-shell .ward-detail-head { border-bottom: var(--sf-border-width) solid var(--sf-border); }
+.sf-shell .ward-detail-metrics strong { color: var(--sf-text-primary); font-weight: var(--sf-font-weight-semibold); }
+.sf-shell .ward-detail-metrics span,
+.sf-shell .staff-role,
+.sf-shell .staffing-note,
+.sf-shell .ward-patients-head .hint { color: var(--sf-text-muted); font-size: var(--sf-font-size-xs); }
+
+.sf-shell .ward-staffing {
+  background: var(--sf-surface);
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+}
+
+.sf-shell .staff-list { gap: 0; }
+.sf-shell .staff-list li { border-bottom: var(--sf-border-width) solid var(--sf-border-subtle); border-radius: 0; padding: var(--sf-space-2) 0; }
+.sf-shell .staff-band { color: var(--sf-text-secondary); font-size: var(--sf-font-size-xs); font-weight: var(--sf-font-weight-medium); }
+.sf-shell .back-link { color: var(--sf-action); font-size: var(--sf-font-size-sm); font-weight: var(--sf-font-weight-medium); min-height: var(--sf-target-compact); }
+
+/* ---------- 16. Plain text stays ink ---------- */
+.sf-shell .big-number,
+.sf-shell .risk-support-card-heading > span,
+.sf-shell .score-comparison-card-heading > span,
+.sf-shell .passport-placement-points,
+.sf-shell .passport-proactivity-score > strong {
+  color: var(--sf-text-primary);
+  font-variant-numeric: var(--sf-font-numeric);
+  font-weight: var(--sf-font-weight-semibold);
+}
+
+.sf-shell .sbar-list dt { color: var(--sf-text-secondary); font-weight: var(--sf-font-weight-semibold); }
+
+.sf-shell .learning-hub-disclosure-pill,
+.sf-shell .passport-disclosure-pill,
+.sf-shell .passport-entry-tag,
+.sf-shell .insights-source-pill {
+  background: var(--sf-neutral-subtle);
+  border: var(--sf-border-width) solid var(--sf-neutral-border);
+  color: var(--sf-neutral);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-medium);
+}
+
+/* A left bar means a clinical state or a notice (section 6). These blocks
+ * are neither, so they take the ordinary border. */
+.sf-shell .risk-support-panel,
+.sf-shell .audit-view > .learning-card,
+.sf-shell .scenario-new-to-service-context,
+.sf-shell .scenario-staffing-context,
+.sf-shell .scenario-card > .scenario-review,
+.sf-shell .score-comparison-note {
+  border-left: var(--sf-border-width) solid var(--sf-border);
+}
+
+/* Nothing on a clinical or insight screen drops below 12px. */
+.sf-shell .trust-network-view :is(
+  .trust-network-ward-trend-range label,
+  .trust-network-ward-trend-range span,
+  .trust-network-type,
+  .trust-network-obs,
+  .trust-network-obs em,
+  .trust-network-ward-trend-flags,
+  .trust-network-ward-trend-meta,
+  .trust-network-ward-trend-note,
+  .trust-network-chip,
+  td
+),
+.sf-shell .twin-chapter .trust-network-chip {
+  font-size: var(--sf-font-size-xs);
+}
+
+/* ---------- 17. Chips, switches and insight cards ---------- */
+.sf-shell .sf-theme-switch,
+.sf-shell .task-state,
+.sf-shell .date-chip,
+.sf-shell .product-note {
+  border-radius: var(--sf-radius-xs);
+}
+
+.sf-shell .sf-theme-switch {
+  border: var(--sf-border-width) solid var(--sf-border-strong);
+  font-size: var(--sf-font-size-sm);
+  font-weight: var(--sf-font-weight-medium);
+  min-height: 40px;
+}
+
+.sf-shell .date-chip,
+.sf-shell .product-note {
+  background: var(--sf-surface-muted);
+  border: var(--sf-border-width) solid var(--sf-border);
+  color: var(--sf-text-secondary);
+  font-size: var(--sf-font-size-xs);
+  font-weight: var(--sf-font-weight-medium);
+}
+
+.sf-shell .insights-source-pill { justify-self: start; padding: 2px var(--sf-space-2); width: fit-content; }
+
+.sf-shell .insights-summary-card {
+  border: var(--sf-border-width) solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  box-shadow: none;
+}
+
+.sf-shell .insights-summary-card-icon { display: none; }
+.sf-shell .insights-summary-card { grid-template-columns: minmax(0, 1fr); }
+
+/* Selects that were left at the browser default size. */
+.sf-shell .workspace-content select {
+  font-size: var(--sf-font-size-sm);
+  min-height: 40px;
+  padding: var(--sf-space-2) var(--sf-space-3);
+}
+
+/* Night view roots keep the stronger night border (3:1 on the dark surface). */
+.sf-shell .sf-zone-night:is(.workflow-view, .operational-view, .scenario-library-view, .audit-learning-view) {
+  border-color: var(--sf-border-strong);
+}
+
+.sf-shell .review-tools-popover > * { text-align: left; }
+
+@media (max-width: 680px) {
+  .sf-shell .safety-banner strong { justify-self: start; width: fit-content; }
+}
+
+/* Primary care summary uses plain label and value elements. */
+.sf-shell .summary-card > div:not(.sf-clinical-value) {
+  align-content: space-between;
+  display: grid;
+  gap: var(--sf-space-1);
+}
+
+.sf-shell .summary-card > div:not(.sf-clinical-value) > span { color: var(--sf-text-secondary); font-size: var(--sf-font-size-sm); }
+
+.sf-shell .summary-card > div:not(.sf-clinical-value) > strong {
+  color: var(--sf-text-primary);
+  font-size: var(--sf-font-size-2xl);
+  font-variant-numeric: var(--sf-font-numeric);
+  font-weight: var(--sf-font-weight-semibold);
+  line-height: var(--sf-line-height-2xl);
+}
+
+/* Long names never widen the sidebar. */
+.sf-shell .workspace-nav { grid-template-columns: minmax(0, 1fr); }
+.sf-shell .nav-brand { min-width: 0; overflow: hidden; }
+
+/* ---------- 18. One level of boxes ---------- */
+/* A view is one bordered panel. Groups inside it are sections split by a
+ * rule, so only the items themselves are boxed. */
+.sf-shell .workflow-view > .twin-patient-card,
+.sf-shell .workflow-view > .risk-support-panel,
+.sf-shell .operational-view .passport-panel,
+.sf-shell .operational-view .passport-placement-card,
+.sf-shell .operational-view .learning-hub-module-card,
+.sf-shell .operational-view .learning-hub-quiz,
+.sf-shell .scenario-library > .score-comparison-panel,
+.sf-shell .patient-panel .potassium-view,
+.sf-shell .patient-panel .sf-review-cue-group {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  border-top: var(--sf-border-width) solid var(--sf-border);
+  box-shadow: none;
+  padding: var(--sf-space-5) 0 0;
+}
+
+.sf-shell .sf-voice__panel fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Trend lines are one colour. Colour is kept for clinical state. */
+.sf-shell .twin-sparkline-line {
+  stroke: var(--sf-text-secondary);
+  stroke-width: 2;
+}
+
+.sf-shell .sf-zone-night.workflow-view > .twin-patient-card { border-top-color: var(--sf-border-strong); }
+
+.sf-shell .twin-summary-chip,
+.sf-shell .twin-simulation-badge,
+.sf-shell .ward-group-tag { border-radius: var(--sf-radius-xs); }

@@ -97,7 +97,7 @@ export function dayCaseSnapshot(booking, asOf = DAY_SNAPSHOT_MINUTES) {
     operationMinutes: completed ? booking.procedureEnd - booking.theatre : null,
     outcome: cancelled ? 'Cancelled before procedure; rebooking review recorded.' : !completed ? 'Outcome not yet recorded.'
       : transfer ? 'Procedure completed; overnight admission documented.' : 'Procedure completed; recovery review documented.',
-    destination: departed ? (transfer ? booking.destinationType : cancelled ? 'Home — cancelled' : 'Home') : transfer ? booking.destinationType : 'Not yet recorded',
+    destination: departed ? (transfer ? booking.destinationType : cancelled ? 'Home - cancelled' : 'Home') : transfer ? booking.destinationType : 'Not yet recorded',
     transfer: transfer ? { destination: booking.destinationType, wardId: booking.destinationWardId,
       evidence: booking.destinationEvidence, humanReviewRequired: true,
       reason: booking.admissionReason, status: departed ? 'Completed' : 'Accepted; awaiting movement', time: departed ? booking.departure : null } : null,

@@ -124,7 +124,7 @@ export function AppShell({
   }
 
   return (
-    <div className={`app-shell app-shell-redesign ${compactMode ? 'compact-mode' : ''} ${isPresentationMode ? 'presentation-mode' : ''}`}>
+    <div className={`app-shell sf-shell ${compactMode ? 'compact-mode' : ''} ${isPresentationMode ? 'presentation-mode' : ''}`}>
       <a className="skip-link" href="#workspace-content">Skip to workspace content</a>
       <WorkspaceNav
         activeView={activeView}
@@ -143,7 +143,7 @@ export function AppShell({
         <div aria-hidden="true" className="nav-scrim" onClick={() => closeMobileNav({ restoreFocus: true })} />
       )}
       <main className="workspace-main" inert={isMobileNavOpen ? true : undefined}>
-        <header className="topbar redesign-topbar">
+        <header className="topbar sf-topbar">
           <button
             aria-controls="workspace-navigation"
             aria-expanded={isMobileNavOpen}

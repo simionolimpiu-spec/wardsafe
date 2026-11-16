@@ -112,10 +112,10 @@
   overflow-wrap: anywhere;
 }
 
-/* O18 patient detail panel */
-.app-shell-redesign .patient-panel { align-self: start; position: sticky; top: 108px; }
-.app-shell-redesign .panel-heading { border-bottom: 0; }
-.app-shell-redesign .panel-heading h2 { color: var(--sf-blue-ink); }
+/* Patient detail panel */
+.sf-shell .patient-panel { align-self: start; position: sticky; top: 108px; }
+.sf-shell .panel-heading { border-bottom: 0; }
+.sf-shell .panel-heading h2 { color: var(--sf-blue-ink); }
 .panel-footer-actions { border-top: var(--sf-border-width) solid var(--sf-border); display: grid; gap: 10px; grid-template-columns: 1fr 1fr; margin-top: 20px; padding-top: 16px; }
 .panel-footer-actions .primary-action,
 .panel-footer-actions .danger-action { align-items: center; display: inline-flex; justify-content: center; margin: 0; min-height: 44px; }

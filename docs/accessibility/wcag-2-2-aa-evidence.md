@@ -37,7 +37,7 @@ and an independent third-party audit.
 **SC 1.4.11 Non-text Contrast (AA) · 2.4.11 Focus Not Obscured (Minimum) (AA) · Severity: High**
 
 The global focus ring is `--color-focus-ring: var(--sf-blue-ink)` = `#0b3640`.
-The redesigned topbar (`.redesign-topbar`) has background `--sf-blue-deep` = `#124c56`.
+The redesigned topbar (`.sf-topbar`) has background `--sf-blue-deep` = `#124c56`.
 
 Measured contrast: **1.36:1**. Required: **3:1**.
 
@@ -227,7 +227,7 @@ a symptom. A component that expensive to render is worth profiling on its own �
 ward machine will feel it.
 
 **The on-dark focus ring needs `!important`, and this is why.** The first fix used
-`.redesign-topbar :where(…):focus-visible`. `:where()` contributes zero specificity,
+`.sf-topbar :where(…):focus-visible`. `:where()` contributes zero specificity,
 so that rule scores 0,1,0 — and live browser testing showed component rules beating
 it: `.demo-scenario-control select:focus-visible` (0,2,1) silently restored the
 1.36:1 ring, and four `.secondary-action` buttons in the topbar

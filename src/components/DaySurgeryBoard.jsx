@@ -52,7 +52,7 @@ export function DaySurgeryBoard({ patients, date, onDateChange, onReviewPatient,
     <details className="service-evidence"><summary>Service evidence and procedure catalogue</summary>
       <p>Published DCU specialty areas: {DCU_SPECIALTIES.join(', ')}. General-surgery examples are also present in the DCU leaflets.</p>
       <p><a href={DCU_SOURCE} target="_blank" rel="noreferrer">Trust service description</a> · <a href={DCU_LEAFLETS} target="_blank" rel="noreferrer">Public procedure leaflets</a> · checked 9 September 2026</p>
-      <ul>{DAY_SURGERY_PROCEDURES.map((procedure) => <li key={procedure.id}>{procedure.label} — {procedure.specialty}</li>)}</ul>
+      <ul>{DAY_SURGERY_PROCEDURES.map((procedure) => <li key={procedure.id}>{procedure.label} - {procedure.specialty}</li>)}</ul>
       <ul>{DCU_CATALOGUE_REVIEW_NOTES.map((note) => <li key={note}>{note}</li>)}</ul>
     </details>
   </section>;

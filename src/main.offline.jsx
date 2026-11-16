@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// WardSafe / SafeFlow — OFFLINE SINGLE-FILE ENTRY POINT
+// WardSafe / SafeFlow - OFFLINE SINGLE-FILE ENTRY POINT
 //
 // Identical to main.jsx except for two things:
 //   1. Imports the latin-only Inter subsets, so the inlined font payload stays
@@ -24,7 +24,7 @@ import './styles/index.css';
 // --- Offline API shim -------------------------------------------------------
 // The signal/audit/draft clients optionally enrich the simulation from a local
 // API server. In the offline build there is no server, and on a static origin
-// the browser blocks the request anyway — which works (every client already
+// the browser blocks the request anyway - which works (every client already
 // treats a failure as "return null" and falls back to local computation) but
 // fills the console with CORS errors and adds a visible delay on first paint.
 //
@@ -35,7 +35,7 @@ globalThis.fetch = (input, init) => {
   const url = typeof input === 'string' ? input : input?.url ?? '';
   if (/(^|\/)api\/(simulation|audit|drafts?|readiness|workspace)/.test(url)) {
     return Promise.resolve(
-      new Response(null, { status: 503, statusText: 'Offline build — no API' })
+      new Response(null, { status: 503, statusText: 'Offline build - no API' })
     );
   }
   return realFetch ? realFetch(input, init) : Promise.reject(new Error('fetch unavailable'));

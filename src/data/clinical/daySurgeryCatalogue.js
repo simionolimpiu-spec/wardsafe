@@ -12,7 +12,7 @@ export const DAY_SURGERY_PROCEDURES = [
   { id: 'knee', label: 'Knee arthroscopy', specialty: 'Orthopaedics' },
   { id: 'holep', label: 'HoLEP', specialty: 'Urology', anatomy: 'prostate' },
   { id: 'cystoscopy', label: 'Cystoscopy', specialty: 'Urology' },
-  { id: 'biopsy', label: 'Prostate template biopsy — ward pathway', specialty: 'Urology', anatomy: 'prostate' },
+  { id: 'biopsy', label: 'Prostate template biopsy - ward pathway', specialty: 'Urology', anatomy: 'prostate' },
   { id: 'circumcision', label: 'Circumcision', specialty: 'Urology', anatomy: 'male' },
   { id: 'testicular', label: 'Testicular surgery', specialty: 'Urology', anatomy: 'male' },
   { id: 'lletz', label: 'LLETZ', specialty: 'Gynaecology', anatomy: 'cervix' },

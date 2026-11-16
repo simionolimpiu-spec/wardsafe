@@ -12,7 +12,7 @@ function valueLabel(value) {
 }
 function EvidenceItem({ label, evidence }) {
   return <li><strong>{label}</strong>: {['conflicting', 'source-pending'].includes(evidence.status) ? 'Value withheld pending source review' : valueLabel(evidence.value)}
-    {' — '}{evidence.status.replaceAll('-', ' ')}{evidenceNeedsReview(evidence) ? '; human review required' : ''}.
+    {' - '}{evidence.status.replaceAll('-', ' ')}{evidenceNeedsReview(evidence) ? '; human review required' : ''}.
     {evidence.note && <p>{evidence.note}</p>}
     {evidence.source && <a href={evidence.source} target="_blank" rel="noreferrer">Source for {label.toLowerCase()}</a>}
     {evidence.checkedOn && <span> · Checked {evidence.checkedOn}</span>}

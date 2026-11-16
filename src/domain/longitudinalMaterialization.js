@@ -1,7 +1,7 @@
 // Maps deterministic longitudinal-journey engine output (getPatientDay,
 // buildEpisodes) onto flat rows matching database/schema.sql's
-// journey_episodes / longitudinal_observations tables. Pure functions only —
-// no I/O, no database access — so they can be reused by both the CLI
+// journey_episodes / longitudinal_observations tables. Pure functions only -
+// no I/O, no database access - so they can be reused by both the CLI
 // materialisation script (scripts/build-longitudinal-db.mjs) and, in future,
 // a database-backed read model. SIMULATION-ONLY: every row stays
 // non-identifying (fictional patient_id only, no name/DOB/NHS number).

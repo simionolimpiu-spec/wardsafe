@@ -1,6 +1,6 @@
 # SafeFlow Design System
 
-Version 1.6 (SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension, SF-300 mobile shell, SF-301 to SF-303 phone screens, SF-306 primary care merge and NHS-style palette). This is the canonical UI specification for SafeFlow.
+Version 1.7 (SF-326 house style, SF-295 foundation, SF-296 ward board, SF-297 insights night zone prototype, SF-298 insight extension, SF-300 mobile shell, SF-301 to SF-303 phone screens, SF-306 primary care merge and NHS-style palette). Where an older section and section 18 differ on shape, type scale or shell layout, section 18 is current. This is the canonical UI specification for SafeFlow.
 
 Every screen, component and coding agent working on SafeFlow follows this document. If a component and this document disagree, fix the component or change this document in a reviewed commit. Do not create local rules.
 
@@ -100,7 +100,7 @@ Rules:
 
 ## 4. Typography
 
-- Family: Inter (bundled locally via `@fontsource/inter`, weights 400 to 700), then the system UI stack. No remote font requests.
+- Family: Inter (bundled locally via `@fontsource/inter`, weights 400 to 700), then Arial and the system UI stack. Inter is first in the root stack as well as in `--sf-font-sans`, so every machine renders the same face. No remote font requests.
 - Numerals: use `--sf-font-numeric` (tabular figures) for values, times, counts and identifiers.
 
 | Token | Size / line height | Use |
@@ -130,16 +130,16 @@ The legacy `--space-*` scale (4, 6, 8, 12, 16, 20...) stays for existing styles.
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--sf-radius-xs` | 4px | Badges, chips, inputs |
-| `--sf-radius-sm` | 8px | Buttons, cue cards, notices |
-| `--sf-radius-md` | 12px | Panels and drawers |
-| `--sf-radius-pill` | 999px | Count badges only |
+| `--sf-radius-xs` | 3px | Badges, chips, tags |
+| `--sf-radius-sm` | 4px | Buttons, inputs, cue cards, notices |
+| `--sf-radius-md` | 6px | Panels and drawers |
+| `--sf-radius-pill` | 999px | Round count badges in design-system components only |
 | `--sf-status-bar-width` | 4px | Left status bar on cues and notices |
 | `--sf-elevation-0` | none | Default: flat with a border |
 | `--sf-elevation-1` | subtle | Sticky panels |
 | `--sf-elevation-2` | medium | Dialogs, drawers |
 
-Depth comes from borders and background steps first. `--sf-radius-lg` (16px) and `--sf-radius-xl` (20px) are legacy and are not used by new components.
+Depth comes from borders and background steps first. `--sf-radius-lg` (6px) and `--sf-radius-xl` (8px) are legacy and are not used by new components. The legacy `--radius-pill` is 3px, so older chips render square.
 
 ## 7. Iconography
 
@@ -337,3 +337,43 @@ Rules:
 - At 860px and below, Trust Network text is at least 12px (`--sf-font-size-xs`) and the ward day pickers are 44px tall.
 - At 620px and below, operational and workflow views and the Twin panels use `--sf-space-3` padding, so content gets the width. Wide tables and chapter strips keep their own sideways scroll inside the card. The page itself never scrolls sideways.
 - Text on the deep teal top bar uses `--sf-text-on-shell` or `--sf-text-on-shell-secondary` on `--sf-shell-bar`. Both pairs are in the token contrast tests. Light-surface greys are never used on the bar.
+
+## 18. House style (SF-326)
+
+One visual grammar for every screen. It lives in `src/styles/house-style.css`, which loads last, uses tokens only and is in the raw-colour guard. It changes presentation only. It never changes wording, data or clinical logic.
+
+### 18.1 Rules
+
+1. Blue is for things you can press: buttons, links, the selected navigation item and the shell bar. Headings, values and emphasis are ink (`--sf-text-primary`).
+2. Surfaces are flat. A panel is white with a 1px border and a 6px radius. No shadows on the page. Only menus, drawers and dialogs use `--sf-elevation-2`.
+3. No washes or gradients on surfaces. The progress ring, progress bars and the table scroll mask are the only gradients.
+4. Sentence case everywhere. No uppercase labels and no letter-spacing. The line above a title is a 12px grey caption.
+5. A left bar means a clinical state or a notice (section 6). It is never decoration.
+6. Chips and tags are square (3px). Counts in the navigation are neutral. Red stays for critical clinical states (section 3.2).
+7. One primary button (solid `--sf-action`) and one secondary button (white, `--sf-border-strong` border, ink text). Hover changes the background. Nothing lifts or moves.
+8. Heading rows start at the left edge. No lead icon, no icon in a tinted tile beside a number.
+9. No sparkle icons. Use a plain lucide icon that names the thing.
+10. Nothing on screen is below 12px. Clinical text stays at 14px or more (section 4).
+11. One level of boxes. A view is one bordered panel. Groups inside it are sections split by a rule, and only the items themselves are boxed.
+12. Trend lines are one neutral colour. Colour is kept for clinical state.
+13. Interface copy uses a plain hyphen, not a long dash.
+
+### 18.2 Type scale in use
+
+Page title 24px. View and panel title 20px. Section heading 16px semibold. Body 16px. Dense text and controls 14px. Captions 12px. The legacy `--text-*` scale is compressed to match: `--text-lg` 16px, `--text-xl` 18px, `--text-2xl` 20px, `--text-3xl` 22px, `--text-4xl` 24px, `--text-5xl` 28px.
+
+### 18.3 Shell
+
+- Sidebar: 256px, white, right border. The brand block at the top is `--sf-shell-bar`, the same height as the top bar, so the two read as one bar. Navigation rows are 40px, ink text, grey icons. The current row has `--sf-action-subtle` fill, a 3px left bar and `aria-current="page"`.
+- Top bar: 56px, `--sf-shell-bar` (NHS Blue #005EB8). Above 1120px the `h1` "SafeFlow" stays in the DOM for assistive technology and the bar shows the screen name. Bar controls are plain: no border, a light fill on hover and when open.
+- Simulation context: one row above 1100px. Labels sit over their controls, the fictional date is at the right edge, and both helper notes share the line below. At 1100px and below the existing stacked layout is unchanged.
+- Simulation boundary: a slim white strip under the context row on every screen. The wording is unchanged. "Simulation only" uses the dashed simulation marker from section 3.2.
+- Ward and practice summaries: one ruled strip of five figures. No icons, no separate cards. Two columns at 860px and one at 520px.
+
+### 18.4 Sign in
+
+Plain page on `--sf-background`. Left column: brand, a 28px heading, three ruled lines of supporting text and the boundary note. Right column: a bordered white card with the form. No gradient, no glass panels, no lock tile. All wording and form behaviour are unchanged.
+
+### 18.5 What was removed from the older partials
+
+The shell classes are now `sf-shell` and `sf-topbar`, and the shell partial is `src/styles/shell-layout.css`. An unused experimental theme block was deleted from `primary-care.css`. Hard-coded blue-tinted text, borders and fills now point at semantic tokens. Top-to-bottom washes became `--sf-surface`. `text-transform: uppercase`, `letter-spacing`, hover lifts, glow shadows and decorative brand-coloured left bars were deleted. `--shadow-sm` is `none`. `--color-brand-dark` is ink.

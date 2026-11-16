@@ -1,5 +1,5 @@
 /**
- * SafeFlow evidence corpus — cue-to-evidence query layer (SF-284).
+ * SafeFlow evidence corpus - cue-to-evidence query layer (SF-284).
  *
  * THE BOUNDARY (see docs/public-demo-pack/build-readiness/evidence-corpus-concept.md):
  * evidence links to a CUE TYPE - a category of teaching prompt - and never to a

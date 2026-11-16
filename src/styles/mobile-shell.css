@@ -2,7 +2,7 @@
  * Mobile shell (SF-300, reconciled with the SF-306 primary care shell).
  * Tokens only. At 860px and below a bottom tab bar holds the four most used
  * screens for the care setting. More opens the existing "SafeFlow workspace"
- * drawer (codex-way.css), so the top-left menu button is hidden there.
+ * drawer (shell-layout.css), so the top-left menu button is hidden there.
  * Spec: docs/design/SAFeflow-DESIGN.md section 17.
  */
 
@@ -13,40 +13,40 @@
 
 @media (max-width: 860px) {
   /* Room for the fixed tab bar so it never covers content */
-  .app-shell-redesign .workspace-main {
+  .sf-shell .workspace-main {
     padding-bottom: calc(var(--sf-mobile-tabbar-height) + var(--sf-space-4) + env(safe-area-inset-bottom, 0px));
   }
 
   /* Brand, context toggle and actions share one row without touching */
-  .app-shell-redesign .redesign-topbar {
+  .sf-shell .sf-topbar {
     column-gap: var(--sf-space-3);
     grid-template-columns: auto minmax(var(--sf-target-min), 1fr) auto;
   }
 
-  .app-shell-redesign .redesign-topbar > .shell-brand {
+  .sf-shell .sf-topbar > .shell-brand {
     grid-column: 1;
     grid-row: 1;
     min-width: 0;
   }
 
-  .app-shell-redesign .redesign-topbar > .sf-mobile-context-toggle {
+  .sf-shell .sf-topbar > .sf-mobile-context-toggle {
     grid-column: 2;
     grid-row: 1;
     max-width: 100%;
     min-width: var(--sf-target-min);
   }
 
-  .app-shell-redesign .redesign-topbar > .topbar-actions {
+  .sf-shell .sf-topbar > .topbar-actions {
     grid-column: 3;
     grid-row: 1;
   }
 
   /* Simulation context folds behind the ward toggle so content comes first */
-  .app-shell-redesign .topbar-context {
+  .sf-shell .topbar-context {
     display: none;
   }
 
-  .app-shell-redesign .topbar-context.is-open {
+  .sf-shell .topbar-context.is-open {
     display: grid;
   }
 
@@ -83,42 +83,42 @@
   }
 
   /* Page-level action rows reuse .topbar-actions; let them wrap on phones */
-  .app-shell-redesign .view-heading .topbar-actions {
+  .sf-shell .view-heading .topbar-actions {
     flex-wrap: wrap;
     max-width: 100%;
   }
 
-  .app-shell-redesign .view-heading .topbar-actions > * {
+  .sf-shell .view-heading .topbar-actions > * {
     max-width: 100%;
     white-space: normal;
   }
 
   /* More in the tab bar opens the same drawer */
-  .app-shell-redesign .mobile-nav-trigger {
+  .sf-shell .mobile-nav-trigger {
     display: none;
   }
 
   /* Presentation mode is sized for a projector. On a phone it keeps its
      content and wording but drops the oversized padding, which pushed the
      page wider than the screen. */
-  .app-shell-redesign.presentation-mode .workspace-main {
+  .sf-shell.presentation-mode .workspace-main {
     padding: 0 0 calc(var(--sf-mobile-tabbar-height) + var(--sf-space-4) + env(safe-area-inset-bottom, 0px));
   }
 
-  .app-shell-redesign.presentation-mode .presentation-banner,
-  .app-shell-redesign.presentation-mode .operational-view {
+  .sf-shell.presentation-mode .presentation-banner,
+  .sf-shell.presentation-mode .operational-view {
     padding: var(--sf-space-4);
   }
 
-  .app-shell-redesign.presentation-mode .presentation-banner-copy h2 {
+  .sf-shell.presentation-mode .presentation-banner-copy h2 {
     font-size: var(--sf-font-size-2xl);
   }
 
-  .app-shell-redesign.presentation-mode .topbar h1 {
+  .sf-shell.presentation-mode .topbar h1 {
     font-size: var(--sf-font-size-lg);
   }
 
-  .app-shell-redesign.presentation-mode .safety-banner {
+  .sf-shell.presentation-mode .safety-banner {
     padding: var(--sf-space-3) var(--sf-space-4);
   }
 
@@ -216,12 +216,12 @@
 /* SF-302: phones get the width back from nested card padding. Twin
    chapter strips and observation tables keep their own sideways scroll. */
 @media (max-width: 620px) {
-  .app-shell-redesign .workspace-content {
+  .sf-shell .workspace-content {
     padding: var(--sf-space-3);
   }
 
-  .app-shell-redesign .operational-view,
-  .app-shell-redesign .workflow-view {
+  .sf-shell .operational-view,
+  .sf-shell .workflow-view {
     padding: var(--sf-space-3);
   }
 

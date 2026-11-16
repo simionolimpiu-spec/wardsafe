@@ -1,4 +1,4 @@
-/* Hospitals & Wards surface — NHS-styled, traffic-light RAG. Simulation only. */
+/* Hospitals & Wards surface - NHS-styled, traffic-light RAG. Simulation only. */
 :root {
   --nhs-blue: #005EB8;
   --nhs-dark-blue: #003087;
@@ -28,8 +28,6 @@
   font-size: 1.9rem;
 }
 .hospitals-head .eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   font-size: 0.72rem;
   color: var(--nhs-blue);
   font-weight: 700;
@@ -118,7 +116,6 @@
 .ward-card {
   text-align: left;
   border: 1px solid #e2e6e8;
-  border-left: 4px solid var(--nhs-blue);
   border-radius: 10px;
   background: #fff;
   padding: 0.8rem 0.9rem;
@@ -128,13 +125,10 @@
   gap: 0.35rem;
   transition: box-shadow 0.15s, transform 0.1s;
 }
-.ward-card:hover { box-shadow: 0 4px 14px rgba(0, 48, 135, 0.12); transform: translateY(-1px); }
 .ward-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.4rem; }
 .ward-card-head strong { color: var(--nhs-dark-blue); font-size: 0.98rem; }
 .ward-group-tag {
   font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--nhs-mid-grey);
   border: 1px solid #dfe4e6;
   border-radius: 999px;
@@ -220,8 +214,6 @@
 .hospitals-view .patient-table thead th {
   text-align: left;
   font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--nhs-mid-grey);
   border-bottom: 2px solid var(--nhs-pale);
   padding: 0.4rem 0.5rem;
@@ -291,7 +283,7 @@
 /* Donut */
 .rag-donut svg { display: block; }
 .rag-donut-score { font-size: 34px; font-weight: 800; }
-.rag-donut-caption { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+.rag-donut-caption { font-size: 9px; }
 .rag-donut-overall { font-size: 11px; font-weight: 800; }
 
 .rag-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.22rem; flex: 1; }
@@ -330,7 +322,7 @@
 .patient-chart-dialog h2 { margin: 0; }
 .patient-chart-dialog .rag-legend li { font-size: .9rem; grid-template-columns: 12px 1fr auto; }
 .patient-chart-dialog .patient-chart-footnote { font-size: .875rem; color: #4C6272; }
-.patient-chart-dialog .rag-donut-caption { font-size: 12px; letter-spacing: 0; }
+.patient-chart-dialog .rag-donut-caption { font-size: 12px; }
 .patient-chart-dialog .rag-donut-overall { font-size: 12px; }
 .rag-unknown { background: #4C6272; color: white; }
 .hospitals-view :focus-visible, .patient-chart-dialog :focus-visible { outline: 3px solid #005EB8; outline-offset: 3px; }

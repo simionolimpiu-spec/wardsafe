@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Moon, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Moon, Route } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ALL_WARDS, TRUSTS } from '../data/trustNetwork/trusts.js';
 import {
@@ -73,7 +73,7 @@ export function PatientJourneyTwin({ patient = null, defaultTheme = 'standard' }
       aria-labelledby="patient-journey-twin-title"
     >
       <div className="section-heading twin-header">
-        <Sparkles aria-hidden="true" size={22} />
+        <Route aria-hidden="true" size={22} />
         <div>
           <p className="eyebrow">Simulation longitudinal review</p>
           <h2 id="patient-journey-twin-title">Patient Journey Twin</h2>
